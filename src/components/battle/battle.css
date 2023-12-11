@@ -1,0 +1,46 @@
+.battle-bg{ 
+	
+	background-color:black;
+	height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index:99919;
+	opacity: 1;
+    position: fixed;
+}
+.battle-lens-container{
+    pointer-events: none;
+    /* display:block; */
+    position: fixed;
+    z-index: 12;
+    height:100%;
+    width:100%;
+    top:0%;
+    left:0%;
+    display: flex;
+    justify-content: center;
+    
+}
+.battle-river-container{
+    pointer-events: none;
+    /* display:block; */
+    position: fixed;
+    z-index: 12;
+    height:100%;
+    width:100%;
+    top:0%;
+    left:0%;
+    display: flex;
+    justify-content: center;
+    /* border: 33px solid gainsboro; */
+}
+#river3{
+    border: 1px solid black;
+    transform: scaleX(-1);
+}
+.battleLens{
+
+    /* width: 100%; */
+    height: 100%;
+}

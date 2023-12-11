@@ -1,0 +1,62 @@
+if (whereAbouts === localStorage.getItem('')){
+	$.getJSON('whereAbouts.json', function (whereAbouts) {
+
+		$.each(whereAbouts, function (key, val) {
+
+			// if ($('#loc').html() === val.whereAbouts) {
+
+
+				console.log("val " + val.co)
+				// console.log("val.county      // alert(whereAbouts);
+if whereAbouts === localStoragem.getItem('')
+$.getJSON('whereAbouts.json', function (whereAbouts) {
+
+	$.each(whereAbouts, function (key, val) {
+
+		// if ($('#loc').html() === val.whereAbouts) {
+
+
+			console.log("val " + val.co)
+			// console.log("val.county " + val.county)
+			$('.countyMap').css('background-image', val.background)
+			// map = val.map;
+			map =
+				[
+					["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+					["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
+				];
+			refresh();
+
+		// }
+	});
+
+
+})" + val.county)
+				$('.countyMap').css('background-image', val.background)
+				// map = val.map;
+				map =
+					[
+						["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", 0, 0, 0, 0, 0, 0, 0, 0, "*"],
+						["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
+					];
+				refresh();
+
+			// }
+		});
+

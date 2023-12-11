@@ -1,0 +1,232 @@
+.encounter-ring-0{
+	top:0;
+	position:fixed;
+	left: 0;
+	height: 100%;
+width: 100%;
+display: flex;
+padding:0;
+margin:0;
+justify-content: left;
+z-index: 9999;
+}
+#encounter-challenge-bg{
+	display: none;
+}
+#encounter-ring-lens{
+padding:0;
+margin:0;
+height:100%;
+width: 100%;
+	/* border:4px solid orange; */
+} 
+.encounter-e{
+    font-family: 'anaphora';
+    margin-left: 20%;
+    margin-top: 4%;
+    z-index: 999999;
+    /* border: 4px solid green; */
+    top: 55%;
+    left: 23%;
+    width: 55%;
+    z-index: 99;
+    position: fixed;
+    font-size: 1.5em;
+
+}
+#toggle-glass-btn-history{
+	height: 50px;
+    width: 50px;
+    /* border: 5px solid orange; */
+    position: fixed;
+    z-index: 9000;
+	bottom: 0%;
+    right: 5%;
+	background-color: rgba(0,0,0,0);
+	border-radius: 50%;
+}
+.history-i{
+  width:90%;
+  top:42%;
+left:8%;
+font-size: 2em;
+pointer-events: none;
+
+}
+.ring-text-container-encounter{
+
+	pointer-events: none;
+    top: 5%;
+    left: 39%;
+    height: 100%;
+    width: 59%;
+    z-index: 9000;
+    position: fixed;
+}
+.ring-encounter-dial-container, #bg-container-encounter{
+
+	z-index: 19;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+    top: 5%;
+    left: 0%;
+	  justify-content:left;
+	  display: flex;
+	  align-items: left;
+	  /* border: 14px solid orange; */
+  }
+  #bg-container-encounter{
+	opacity: 0;
+  pointer-events: none;
+  }
+  .ring-encounter-dial-container{
+z-index: -1;
+
+  }
+  .dial-encounter{
+	animation: fade-in-dial 3s forwards;
+    z-index: 800;
+    height: 266px;
+    width: 266px;
+    position: fixed;
+    pointer-events: all;
+  bottom:7%;
+  left:4%;
+  }
+
+  .tut-ring-g-container{
+	position:fixed;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+  justify-content: left;
+  align-items: center;
+  display:flex;
+  z-index: 998;
+  pointer-events: none;
+  
+  
+  }
+
+  #tut-g{
+	/* animation: spin 60s steps(128) infinite; */
+display: none;
+  }
+  .slide1{
+    /* padding-top: 1%; */
+  border-radius: 50%;
+  /* transform: scaleX(-1); */
+  box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+border: 4px solid #514a19;
+   
+  }
+  .slide1b{
+    transform: scale(0.3);
+    position:relative;
+    /* border: 5px solid blue; */
+    top:15%;
+     animation: bobbing 4s steps(6) infinite alternate-reverse;
+     overflow: hidden;
+  }
+
+    @keyframes bobbing{
+
+      0%{margin-top: 2%;}
+  
+      100%{margin-top:-2%}
+    }
+.slide-amergin{
+  opacity: 0.7;
+  border-radius: 50%;
+}
+    .sea-wave{
+      /* border: 10px solid orange; */
+    z-index: 1;
+    position: fixed;
+      pointer-events: none;
+      height: 100%;
+ width: 100%;
+ opacity: 0.5;
+      /* border-left: 120px solid #2e292f; */
+      /* border-right: 120px solid #2e292f; */
+    
+    
+    }
+    .encounter-bg {z-index: -1;
+      animation: fade-in 1s linear forwards;
+    }
+    .button-mash-container-encounter{
+      z-index: 800;
+      height: 266px;
+      width: 266px;
+      position: fixed;
+      bottom: 7%;
+      left: 4%;
+      pointer-events: none;
+      padding-bottom: 2px;
+  }
+        
+      .mash-img{
+border-radius: 50%;
+/* transform:scale(0.8); */
+opacity:0.8;
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+border: 4px solid #514a19;
+
+}
+      .mash{
+        width: 266px;
+        background-color: rgba(0,0,0,0);
+        /* border: 3px solid orange; */
+        border-radius: 50%;
+      pointer-events: all;
+
+      }
+      .button-mash-encounter{
+        
+        /* border: 4px solid orange; */
+      position: fixed;
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+      opacity: 1;
+      background-color: rgba(0,0,0,0.0);
+      pointer-events: all;
+      /* justify-content: center; */
+      /* top: 57%; */
+    }
+
+    .druids{
+      pointer-events: none;
+      height: 50%;
+      bottom: 0%;
+      position: fixed;
+      left: -6%;
+      animation: fade-in
+      2s forwards;
+
+    }
+    
+.song{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  /* padding-top: 1%; */
+  transform: translate(5%, -30%);
+  /* border-radius: 50%; */
+}
+
+
+.long-style{
+        position:fixed;
+        left: 0%;
+      top: 48%;
+      
+      }

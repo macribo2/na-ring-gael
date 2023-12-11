@@ -1,0 +1,91 @@
+.title{
+	position: fixed;
+	padding: 5%;
+	color: darkgrey;
+}
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: none;
+	justify-content: center;
+		align-items: center;
+	transition: opacity 0.5s;
+  }
+  
+  .overlay.visible {
+	display: flex;
+	opacity: 1;
+  }
+  
+  .overlay-content {
+	text-align: center;
+	color: white;
+  }
+  
+.drift-down-animation {
+/* border:14px solid orange; */
+animation: driftDown 60s linear forwards ;
+/* pointer-events: none; */
+
+}
+  
+
+  
+
+@keyframes driftDown {
+	0% {
+	  transform:  translate(-4%, -30%) rotate(0deg) ;
+	  
+	}
+
+	1%{
+		transform:  translate(-4%, -30%) rotate(45deg)
+	}
+	100% {
+	  transform:   translate(-4%, 50%) rotate(45deg); /* Adjust the distance as needed */
+	}
+  }
+
+  /* Define a CSS class to pause the animation */
+.pause-animation {
+	animation-play-state: paused;
+  }
+  
+  /* Define a CSS class to resume the animation */
+  .resume-animation {
+	animation-play-state: running;
+  }
+  
+
+  /* Global styles for all devices */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+	color: #333;
+  }
+  
+  .container {
+	max-width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	margin: 0 auto;
+  }
+  
+  /* Styles for mobile devices in portrait mode (up to 767px width) */
+  @media (max-width: 767px) and (orientation: portrait) {
+	.top-mask,.bottom-mask, .left-mask,.right-mask{top:-500%;
+	}
+	
+  }
+  
+  
+  #square-10-11.rotate-horse-45,
+#square-8-11.rotate-horse-45 {
+  transform: rotate(45deg) translate(5px,-10px);
+
+  /* background-color:  orange; */
+}

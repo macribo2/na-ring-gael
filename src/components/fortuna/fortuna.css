@@ -1,0 +1,80 @@
+
+
+.team-icon {
+    pointer-events: all;
+    display: none;
+    position: relative;
+    z-index: 100;
+   
+    border-radius: 50%;
+    transform: scale(0.75);
+    border: 5px solid gold;
+
+}
+
+.team-icon-container{
+    pointer-events: none;
+    position:fixed;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    left:0%;
+    top:0;
+    justify-content: center;
+    display: flex;
+}
+/*for fortuna */
+#btn-a2{ 
+
+    color: gainsboro;
+    font-size: 1em;
+    width: 63px;
+    height: 63px;
+    /* border: 2px solid rgba(170, 176, 177,0.5); */
+    background-color: rgb(83, 60, 90);
+    border-radius: 50%;
+	margin-top: 0%;
+    transform: scale(0.8);
+	display:none;
+}
+#button-container{
+    z-index: 9199 !important;
+    position: fixed;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    top: 43%;
+    left: 8%;
+}
+
+  .fortuna {
+	top: 0%;
+	pointer-events: none;
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	height:100%;
+	width:100%;
+	left: 0;
+	position: fixed;
+  
+z-index: -1;
+}
+  
+#fortuna-vid{
+	pointer-events: all;
+	border-radius: 50%;
+    position: relative;
+    z-index: -1;
+    transform: scale(0.75);
+    opacity: 0;
+	animation: fade-in 1s linear forwards;
+
+
+}
+
+@keyframes fade-in{
+	0%{opacity: 0;}
+	100%{opacity: 0.6;}
+}

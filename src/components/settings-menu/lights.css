@@ -1,0 +1,303 @@
+
+#light-holder{
+	height:100%;
+	top:0;
+	left:0;
+	width:100%;
+	position:fixed;
+	z-index: 6050;
+	pointer-events: none;
+	/* display: grid; */
+}
+      @keyframes drift-around-1{
+
+		0%{left: 18%}
+		5%{left: 22%}
+		9%{left: 22%}
+	   20%{left: 25%}
+	   32%{left: 29%}
+	   38%{left: 30%}
+	   45%{left: 33%}
+	   46%{left: 39%   }
+	   72%{left: 45%    }
+	   80%{left: 45%   }
+	  
+	   90%{left: 49%    }
+	   95%{left: 47%   }
+	   100%{left: 47%    }
+	   }
+	 
+	   @keyframes drift-around-2{
+
+		 0%{left: 50%}
+		 5%{left: 42%}
+		 9%{left: 52%}
+		20%{left: 59%}
+		32%{left: 54%}
+		38%{left: 50%}
+		45%{left: 53%}
+		46%{left: 53%   }
+		72%{left: 55%    }
+		80%{left: 53%   }
+		84%{left: 55%    }
+		90%{left: 49%    }
+		95%{left: 47%   }
+		100%{left: 47%    }
+		}
+	  
+
+	   @keyframes drift-around-3{
+
+		 0%{left: 43%}
+		 5%{left: 42%}
+		 9%{left: 40%}
+		20%{left: 38%}
+		32%{left: 37%}
+		38%{left: 36%}
+		45%{left: 36%}
+		46%{left: 35%   }
+		72%{left: 35%    }
+		80%{left: 36%   }
+		84%{left: 35%    }
+		90%{left: 29%    }
+		100%{left: 27%    }
+		}
+	  
+
+	   @keyframes drift-around-4{
+
+		 0%{left: 5%}
+		 5%{left: 2%}
+		 9%{left: 2%}
+		20%{left: 9%}
+		32%{left: 4%}
+		38%{left: 5%}
+		45%{left: 3%}
+		46%{left: 3%   }
+		72%{left: 5%    }
+		80%{left: 3%   }
+		84%{left: 5%    }
+		90%{left: 9%    }
+		95%{left: 4%   }
+		100%{left: 7%    }
+		}
+	  
+
+	   @keyframes drift-around-5{
+
+		 0%{left: 50%}
+		 5%{left: 42%}
+		 9%{left: 2%}
+		20%{left: 5%}
+		32%{left: 4%}
+		38%{left: 5%}
+		45%{left: 8%}
+		46%{left: 9%   }
+		72%{left: 10%    }
+		84%{left: 15%    }
+		90%{left: 19%    }
+		95%{left: 16%   }
+		100%{left: 17%    }
+		}
+	  
+
+	   @keyframes drift-around-6{
+
+		 0%{left: 70%}
+		 5%{left: 68%}
+		 9%{left: 72%}
+		20%{left: 74%}
+		32%{left: 75%}
+		38%{left: 75%}
+		46%{left: 73%   }
+		71%{left: 70%    }
+		80%{left: 75%   }
+		87%{left: 75%    }
+		92%{left: 79%    }
+		94%{left: 78%   }
+		100%{left: 77%    }
+		}
+
+	   @keyframes drift-around-7{
+
+		 0%{left: 30%}
+		 5%{left: 32%}
+		 9%{left: 32%}
+		20%{left: 39%}
+		32%{left: 34%}
+		38%{left: 34%}
+		45%{left: 34%}
+		46%{left: 33%   }
+		72%{left: 35%    }
+		80%{left: 33%   }
+		84%{left: 35%    }
+		90%{left: 39%    }
+		95%{left: 37%   }
+		100%{left: 36%    }
+		}
+	  
+
+	   @keyframes drift-around-8{
+
+		 0%{left: 50%}
+		 5%{left: 49%}
+		 9%{left: 45%}
+		20%{left: 49%}
+		32%{left: 52%}
+		38%{left: 50%}
+		45%{left: 52%}
+		46%{left: 53%   }
+		72%{left: 55%    }
+		80%{left: 52%   }
+		84%{left: 55%    }
+		90%{left: 69%    }
+		95%{left: 67%   }
+		100%{left: 67%    }
+		}
+	 
+
+
+	 .light {
+	   opacity:0;
+	   height: 4px;
+	   width: 4px;
+	   background-color: rgb(255, 242, 170);
+	   margin: 2px;
+	   /* border-radius: 50%; */
+	   z-index: 501;
+	   float: left;
+	   position:fixed;
+	   /* border:1px solid rgba(255, 217, 0, 0.875); */
+	   bottom:5%;
+	   /* border: 10px solid rgba(218, 165, 32, 0.164); */
+	 }
+
+	  .light2, .light3, .light4, .light5, .light6 {
+
+	   background-color: rgba(241, 225, 137, 0.8);
+
+	   animation: drift-around-1 46s alternate-reverse infinite steps(10), 
+
+fade-in-out 20s alternate-reverse 2s infinite;
+
+bottom:4%;
+	
+}
+
+
+
+.light3, .light4, .light5, .light6 {
+ animation: drift-around-1 346s alternate-reverse infinite ease-in-out,fade-in-out 48s alternate-reverse 27s infinite;
+ 
+ bottom:3%;
+	  
+ }
+
+ .light3 {
+   animation: drift-around-3 346s alternate-reverse infinite ease-in-out,fade-in-out 8s alternate-reverse infinite;
+   
+   bottom:3%;
+		
+   }
+ 
+
+ .light4, .light5, .light6 {
+   animation: drift-around-1 346s alternate-reverse infinite ease-in-out, fade-in-out 28s alternate-reverse 33s infinite;
+
+   bottom:5%;
+		
+   }
+
+	.light5, .light6 {
+	 animation: drift-around-2 348s alternate-reverse infinite ease-in-out,fade-in-out 5s alternate-reverse 42s infinite;
+
+	 bottom:6%;
+		  
+	 }
+
+	 .light5, {
+	   animation: drift-around-7 308s alternate-reverse infinite ease-in-out,fade-in-out 17s alternate-reverse  infinite;
+ 
+	   bottom:6%;
+			
+	   }
+ 
+
+	 .light4 {
+
+	   animation: drift-around-8 296s alternate-reverse infinite ease-in-out,fade-in-out 13s alternate-reverse 2s infinite;
+
+	   bottom:6%,;
+			
+	   }
+
+
+	  .light1, .light7, .light8, .light9, .light10 {
+	   animation: drift-around-2 324s alternate-reverse infinite ease-in-out  
+	   ,fade-in-out 14s alternate-reverse 21s infinite;
+bottom:3%;
+	   
+	 
+	 }
+
+					 .light7, .light8, .light9, .light10 {
+	   animation: drift-around-3 351s alternate-reverse infinite ease-in-out
+	   
+	   ,fade-in-out 15s alternate-reverse 22s infinite;
+bottom:5%;
+	   
+	 
+	 }
+
+
+.light8, .light9, .light10 {
+	   
+bottom:2%;
+	   background-color: rgba(240, 236, 116, 0.8);
+ 
+ animation: drift-around-4 454s alternate-reverse infinite ease-in-out
+ ,fade-in-out 16s alternate-reverse  infinite;
+
+					  }
+.light9, .light10 {
+bottom:1%;
+  
+ animation: drift-around-5 354s alternate-reverse infinite ease-in-out,fade-in-out 18s alternate-reverse  infinite;
+
+			   }
+
+.light10 {
+animation: drift-around-6 314s alternate-reverse infinite ease-in-out,fade-in-out 17s alternate-reverse  infinite;
+
+
+bottom:5%;
+
+}
+
+.light6 {
+ animation: drift-around-9 346s alternate-reverse infinite ease-in-out,fade-in-out 18s alternate-reverse infinite;
+ 
+ bottom:2%;
+	  
+ }
+
+
+
+ 
+ @keyframes fade-in-out{
+
+	0%{opacity: 0.0}
+	5%{opacity: 0.0}
+   14%{opacity: 0.0}
+	32%{opacity: 0.4   }
+	38%{opacity: 1    }
+
+	45%{opacity: 1}
+	70%{opacity: 0.3    }
+	72%{opacity: 1    }
+	80%{opacity: 0.5   }
+  
+	81%{opacity: 0.0    }
+	100%{opacity: 0.0    }
+	}
+  

@@ -1,0 +1,143 @@
+
+
+
+body{
+
+	/* background-image: url('../../images/bgAnim2-min.gif'); */
+	background-color: black;
+}
+
+
+/* src/components/CountyGameBoards/Dublin/DublinGameBoard.css */
+.county-game-board {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+	/* Add any styling for the county game board container here */
+  }
+  
+  .game-board-container {
+
+    width: 100%;
+    display: grid;
+    grid-gap: 2px;
+    transform: translate(-4%, -30%);
+    position: fixed;
+    border: 6px solid green;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    height: 100%;
+    justify-content: center;
+  }
+  
+  #square-15-3,#square-16-4{
+background-color:rgba(245, 245, 220, 0);
+
+  width: 64px;
+  height: 64px;
+  padding-bottom: 10%;
+  /* border: 1px solid #aaa; */
+  box-sizing: border-box;
+}
+  /* Add styling for the game board cells here, if needed */
+  #square-10-11{
+	/* border:5px solid black; */
+background-image: url('../../images/ritterA.png');
+background-size: contain;
+background-repeat: no-repeat;
+}
+
+  #square-8-11{
+	/* border:5px solid whitesmoke; */
+background-image: url('../../images/ritterB.png');
+background-size: contain;
+background-repeat: no-repeat;
+  }
+
+
+
+
+    #square-5-15,#square-3-15
+    
+    {
+      /* border:5px solid whitesmoke; */
+    /* animation: threatened 4s linear infinite; */
+    background-size: contain;
+    background-repeat: no-repeat;
+      }
+      #square-3-15{
+    /* animation: threatened2 4s linear infinite; */
+
+      }
+
+  .invisible{
+	display:none !important;
+  }
+
+  .white-knight-bg {
+    background-image: url('../../images/ritter2.png');
+  }
+  
+  .black-knight-bg {
+    background-image: url('../../images/ritter2.png');
+  }
+
+
+  
+
+@keyframes threatened{
+  0%{background-color:rgba(255, 0, 0, 0.5)}
+  50%{background-color:rgba(0,0,0,0)}
+  100%{background-color:rgba(255, 0 , 0, 0.5)}
+
+}
+@keyframes threatened2{
+  0%{background-color:rgba(0,0,0,0)}
+  50%{background-color:rgba(255, 0, 0, 0.5)}
+  100%{background-color:rgba(0,0,0,0)}
+
+}
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(20, 30px);
+  grid-template-rows: repeat(18, 30px);
+  gap: 1px;
+}
+
+.row {
+  display: flex;
+}
+
+.chess-like-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  /* font-weight: bold; */
+  /* border: 1px solid #ccc; */
+  /* background-color: #fff; */
+}
+
+.black-square {
+  background-color: #000;
+  color: #fff;
+}
+
+.green-knight {
+  background-color: green;
+  color: #fff;
+}
+
+.highlighted {
+  background-color: yellow;
+  color: #000;
+}
+
+.number {
+  font-size: 10px;
+}

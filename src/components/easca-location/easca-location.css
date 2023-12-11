@@ -1,0 +1,1350 @@
+.hidden{
+	display:none;
+}
+
+@font-face {
+	font-family: urchlo;
+	src: url('../../fonts/urchlo.ttf');
+  }
+  
+  @font-face {
+	font-family: computer;
+	src: url('../../fonts/INFO56_0.ttf');
+  }
+  
+  
+  #team-icon {
+	position: fixed;
+	height: 300px;
+	transform: scale(0.3);
+	width: 300px;
+	top: -87px;
+	left: -35px;
+	pointer-events: none;
+	/* background-image: url(../../images/apothecary.png); */
+	/* border: 14px solid black; */
+	/* transform: scale(0.3); */
+	background-size: cover;
+	/* display: none; */
+	z-index: 66700;
+  }
+  
+  #fortuna-glass {
+	pointer-events: none;
+	/* border: 4px solid blue; */
+	height: 119px;
+	top: 4px;
+	background-image: url(../../images/fortuna-glass.png);
+	z-index: 6766;
+  
+	background-size: contain;
+	position: fixed;
+	width: 206px;
+	left: 13px;
+  }
+  
+  #ciorcal-glass,
+  #ciorcal-glass-bg {
+	pointer-events: none;
+	/* border: 4px solid blue; */
+	height: 119px;
+	top: 245px;
+	background-image: url(../../images/ciorcal-glass.png);
+	z-index: 15001;
+	background-size: contain;
+	position: fixed;
+	width: 117px;
+	left: 64px;
+	transform: scale(1.1);
+	display: none;
+  }
+  
+  #ciorcal-glass-bg {
+	background-image: url(../../images/ciorcal-glass-bg.png);
+	z-index: 12000;
+	left: 594px;
+	top: 226px;
+  
+  }
+  
+  
+  
+  #main-text,
+  #next-text {
+	z-index: 500;
+	position: fixed;
+  
+	font-size: 1em;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	display: none;
+	width: 100%;
+	color: black;
+	transform: scale(0.8em);
+  
+	-webkit-transition: color 0.4s ease;
+	-moz-transition: color 0.4s ease;
+	-o-transition: color 0.4s ease;
+	transition: color 0.4s ease;
+  
+  
+  }
+  
+  #next-text {
+	top: 151px;
+	left: 31%;
+	color: orange;
+  }
+  
+  #main-text {
+	font-size: 1em;
+	left: -11px;
+	top: 48px;
+	animation: color-shift 2s infinite alternate-reverse;
+  
+  
+  }
+  
+  #fortuna2 {
+	top: -256px;
+	left: -832px;
+	z-index: 600;
+	position: fixed;
+	transform: scale(0.1);
+	/* border: 20px solid #cd95ff; */
+  
+  }
+  
+  
+  @media only screen and (orientation:landscape) {
+  
+	.sea-bg {
+  
+	  top: -5px;
+	  left: 0px;
+	  height: 102%;
+	  width: 102%;
+	  position: fixed;
+	  z-index: 5;
+	  background-image: url(../../images/sea.png);
+	  background-repeat: no-repeat;
+	  background-size: cover;
+	}
+  
+  
+	#fortuna2 {
+	  /* border: 20px solid #198b3f; */
+	  /* border: 20px solid #198b3f; */
+	  position: fixed;
+	  transform: scale(0.4);
+	  top: -18%;
+	  left: -112px;
+	  z-index: 66464;
+	  display: none;
+	}
+  
+	#fortuna-glass {
+	  pointer-events: none;
+	  /* border: 4px solid blue; */
+	  height: 113px;
+	  background-image: url(../../images/fortuna-glass.png);
+	  z-index: 68684;
+	  background-size: contain;
+	  position: fixed;
+	  width: 192px;
+	  top: 4px;
+	  left: 13px;
+	  border-radius: 5px;
+	  display: none;
+	  opacity: 1;
+	}
+  .eascaCell{
+	border: 1px solid rgba(255, 255, 255, 0.0);
+	height: 64px;
+	width: 64px;
+  }
+	#eascaStage {
+	  position: fixed;
+	  top: 165px;
+	  left: -1500px;
+	  z-index: 997;
+	  /* border:4px solid orange; */
+	  height: 150px;
+	  width: 1877px;
+	  display:inline-block;
+	  /* /* transform: scale(0.75); */
+	  animation: slide-eascaStage 80s forwards;
+	  overflow: hidden;
+	}
+
+  
+  
+	@keyframes fade-pulse {
+	  0% {
+		opacity: 0
+	  }
+  
+	  50% {
+		opacity: 1;
+	  }
+  
+	  100% {
+		opacity: 0;
+	  }
+	}
+  
+  
+  
+  
+  
+	@keyframes example {
+	  from {
+		left: -1200px;
+	  }
+  
+	  to {
+		left: 1200px
+	  }
+	}
+  
+  
+	@keyframes example2 {
+	  from {
+		left: 400px;
+	  }
+  
+	  to {
+		left: -1200px
+	  }
+	}
+  
+  
+	#team-icon {
+	  position: fixed;
+	  /* background-image: url(../../images/apothecary.png); */
+	  /* transform: scale(0.3); */
+	  background-size: cover;
+	  /* display: none; */
+	  height: 300px;
+  
+	  transform: scale(0.3);
+	  width: 300px;
+	  top: -27px;
+	  left: 422px;
+	  opacity: 1;
+	  z-index: 6700;
+	}
+  
+	#next-text {
+	  text-align: left;
+	  height: 83px;
+	  width: 409px;
+	  top: -1%;
+	  left: 56%;
+	  font-size: 0.8em;
+	}
+  
+	#fortuna-bg {
+	  height: 212px;
+	  top: -46px;
+	  background-image: url(../../images/fortuna-bg.png);
+	  z-index: 15029;
+	  background-size: cover;
+	  position: fixed;
+	  width: 378px;
+	  left: -79px;
+	  transform: scale(0.5);
+	  background-repeat: no-repeat;
+	  display: none;
+	  pointer-events: none;
+	}
+  
+	#main-text {
+	  width: 315px;
+	  text-align: left;
+	  font-family: urchlo;
+	}
+  
+  
+  }
+  
+  
+  #player-icon {
+	top: 228px;
+	left: 588px;
+	height: 110px;
+	width: 110px;
+	z-index: 13500;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: fixed;
+	display: none;
+  }
+  
+  #ciorcal-glass {
+	pointer-events: none;
+	height: 119px;
+	top: 226px;
+	background-image: url(../../images/ciorcal-glass.png);
+	z-index: 1501;
+	background-size: contain;
+	position: fixed;
+	width: 117px;
+	left: 594px;
+	transform: scale(1.1);
+	opacity: 0.8;
+	display: none;
+  }
+  
+  
+  #go-left,
+  #go-right {
+	font-size: 3em;
+	z-index: 190000;
+	position: fixed;
+  }
+  
+  #go-left {
+	left: 9%;
+	top: 55%;
+  }
+  
+  #go-right {
+	top: 55%;
+	left: 81%;
+  }
+  
+  #output {
+	pointer-events: none;
+  }
+  
+  #dialogue0 {
+	width: 100%;
+	color: rgb(29, 247, 0);
+	top: 10%;
+	z-index: 90000;
+	position: fixed;
+  }
+  
+  #locations-maps-frame {
+	position: fixed;
+	top: 43%;
+	left: 5%;
+	height: 200px;
+	width: 400px;
+	background-size: contain;
+	background-image: url(../../images/mapFrame4.png);
+	z-index: 99999;
+  }
+  
+  #next-text {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  
+  
+  }
+  
+  #locations-maps {
+	position: fixed;
+	top: 4%;
+	left: 23%;
+	height: 200px;
+	width: 400px;
+	background-size: contain;
+	/* background-image: url(../../images/countyMaps/donegal.png); */
+	z-index: 99998;
+  
+  }
+  
+  #map-icon-0 {
+	background-color: floralwhite;
+	height: 10px;
+	width: 10px;
+	top: 150px;
+	left: 150px;
+	z-index: 199999;
+	position: fixed;
+  }
+  
+  #linucs-gifs {
+	position: fixed;
+	top: 0;
+	z-index: 89999;
+  }
+  
+  
+  
+  .output-gif {
+	/* background-repeat:no-repeat; */
+	transform: scale(0.5);
+	position: fixed;
+	left: -108px;
+	z-index: 600;
+	top: -23px;
+  }
+  
+  
+  
+  .screen-fader {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+	/* background-image: url(../../images/bg0.gif); */
+	background-color: black;
+	z-index: 900;
+	display: none;
+  
+  }
+  
+  #wrenfield {
+	height: 100%;
+	justify-content: center;
+	transform: scale(0.07);
+	z-index: 90003;
+	position: relative;
+	left: 258px;
+	top: 2px;
+  
+  }
+  
+  li {
+	margin: -9px 0;
+  }
+  
+  .wren-text,.quote-marks, .quote-marks-close {
+  
+	height: 100%;
+	top: 50px;
+	left: 32%;
+	z-index: 995000;
+	position: fixed;
+	/* display: none; */
+	pointer-events: none;
+	font-family: 'computer';
+	color: rgba(77, 61, 121, 0.7);
+	color:rgb(132, 39, 219);
+	font-size: 0.8em;
+  }
+  .quote-marks{
+	z-index: 995001;
+  color:whitesmoke;
+  }
+  .quote-marks-close{
+	z-index: 995002;
+  color:whitesmoke;
+  }
+  
+  #wren-holder {
+	height: 100%;
+	animation: wren-zoom 6s forwards ease-out;
+	position: relative;
+	display: none;
+  
+  
+  }
+  
+  #overlay-2,
+  #to-go {
+	position: fixed;
+	z-index: 99999;
+	top: 1px;
+	left: 9px;
+  }
+  
+  #overlay-wren-hint {
+	background-image: url('../../images/wren-code0.png');
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	display: none;
+  }
+  
+  /* where do these styles go? */
+  .console-text {
+	width: 100%;
+	color: rosybrown;
+	position: fixed;
+	top: 17%;
+	left: 5%;
+	font-family: 'computer';
+	font-size: 1.5em;
+	pointer-events: none;
+  
+  }
+  
+  #wren-bg0 {
+  
+	z-index: 90001;
+	background-image: url(../../images/wren2b.png);
+	width: 129px;
+	left: 554px;
+	top: 100px;
+	position: fixed;
+	transform: scale(1.1);
+	height: 211px;
+	background-size: contain;
+  }
+  
+  #togo {
+	transform: scale(2);
+  }
+  
+  #color-square {
+	background-image: url(../../images/color-square.gif);
+	border-radius: 50%;
+	height: 200px;
+	width: 203px;
+	z-index: 90000;
+	position: fixed;
+	/* top: 137%; */
+	left: 31%;
+	background-size: contain;
+	display: block;
+	transform: scale(1.5);
+	animation: bob 3s infinite alternate-reverse;
+  
+  
+  }
+  
+  #wren-hood {
+	height: 56px;
+	width: 88px;
+	z-index: 90900;
+	position: relative;
+	top: -244px;
+	left: 78%;
+	background-size: contain;
+	transform: scale(1.5);
+	/* animation:hood-bob 9s infinite alternate-reverse; */
+	;
+	background-image: url('../../images/wren-hood.png');
+  }
+  
+  
+  .waves {
+	background-image: url('../../images/tonnta1.jpg');
+	height: 150px;
+	width: 150px;
+	z-index: 6;
+	/* position: fixed; */
+	top: 5%;
+	left: 0%;
+	background-size: cover;
+	transform: scale(0.5)
+  }
+  
+  #wave-container {
+	animation: sea-scroll 30s infinite alternate-reverse;
+	position: fixed;
+	display: flex;
+	height: 100%;
+	width: 200%;
+	top: 5%;
+	z-index: 9 !important;
+  
+  }
+  
+  #sea1 {
+	left: 20%;
+	background-image: url('../../images/tonnta1.jpg')
+  }.gif
+  
+  #sea2 {
+	left: 40%;
+  }
+  
+  #sea3 {
+	left: 60%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #sea4 {
+	left: 80%;
+  }
+  
+  #sea5 {
+	left: 100%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #sea6 {
+	left: 120%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #sea7 {
+	left: 140%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #sea8 {
+	left: 160%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #sea9 {
+	left: 180%;
+	background-image: url('../../images/tonnta1.jpg')
+  }
+  
+  #stat-text {
+  
+	position: fixed;
+	right: 32%;
+	top: 52%;
+	color: rgb(108, 255, 23);
+	display: none;
+	font-family: urchlo;
+	z-index: 61011;
+  }
+  
+  /* .full-screen-fortune-glass{border:20px solid red;}
+  .full-screen-main-text{border:20px solid red;}
+  .full-screen-next-text{border:20px solid red;}
+  .full-screen-team-icon{border:20px solid red;}
+  .full-screen-glass{border:20px solid red;} */
+  
+  @media only screen and (orientation:portrait) {
+  
+  
+	.eascaStage-bg {
+	  top: 0px;
+	  left: 0px;
+	  height: 100%;
+	  width: 100%;
+	  position: fixed;
+	  z-index: 0;
+	  background-image: url('../../images/fairy-ring-east-vert.png');
+	  background-repeat: no-repeat;
+	  background-size: cover;
+	}
+  
+  
+	#fortuna2 {
+  
+	  z-index: 600;
+	  position: fixed;
+	  transform: scale(0.75);
+	  display: none;
+	  top: 13%;
+	  left: -43px;
+  
+	}
+  
+	#fortuna-glass {
+	  height: 199px;
+	  top: 118px;
+	  background-image: url(../../images/fortuna-glass.png);
+	  z-index: 6766;
+	  background-size: cover;
+	  position: fixed;
+	  width: 343px;
+	  left: 9px;
+	}
+  
+	#next-text {
+	  top: 1%;
+	  pointer-events: none;
+	}
+  
+	#main-text {
+	  pointer-events: none;
+  
+	}
+  
+	#ciorcal-glass {
+	  pointer-events: none;
+	  /* border: 4px solid blue; */
+	  height: 172px;
+	  top: 512px;
+	  background-image: url(../../images/ciorcal-glass.png);
+	  z-index: 15001;
+	  background-size: contain;
+	  position: fixed;
+	  width: 174px;
+	  left: 93px;
+	  transform: scale(1.1);
+	  display: none;
+	}
+  
+	#player-icon {
+	  pointer-events: none;
+	  top: 229px;
+	  left: 11px;
+	  height: 110px;
+	  width: 110px;
+	  z-index: 1350;
+	  background-repeat: no-repeat;
+	  background-size: cover;
+	  position: fixed;
+	  transform: scale(1.5);
+	  display: none;
+	}
+  }
+/*   
+  #avatar {
+	position: fixed;
+	z-index: 9898;
+	top: 1%;
+	left: 73%;
+	width: 90px;
+	height: 106px;
+	background-size: contain;
+	padding: 10px 88px;
+	display: none;
+	border: 7px solid black;
+	border-radius: 0;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: rgba(255, 255, 255, 0.7);
+  } */
+  
+  
+  /* mode2 */
+  
+  #ls,
+  #mode2,
+  #mode3 {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	border-top: 142px solid black;
+	opacity: 0.9;
+  
+	z-index: 50000;
+	top: 0%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: none;
+  
+  }
+  
+  #left-eye,
+  #right-eye,
+  #right-eye-frame,
+  #left-eye-frame {
+	position: fixed;
+	height: 100%;
+	width: 95%;
+	top: -19%;
+	left: -21%;
+	z-index: 99999;
+	transform: scale(0.5);
+	background-repeat: no-repeat;
+  
+  }
+  
+  #right-eye,
+  #right-eye-frame {
+	left: -40%;
+  
+  }
+  
+  #right-eye-frame,
+  #left-eye-frame {
+	background-image: url(../../images/ciorcal-glass.png);
+	top: -72%;
+	transform: scale(0.8);
+	opacity: 0.8;
+  
+  
+  }
+  
+  #left-eye,
+  #right-eye {
+  
+	background-size: cover;
+	background-image: url(../../images/suile0.gif);
+	z-index: 50;
+	width: 350px;
+	left: 46%;
+	top: -74%;
+	opacity: 0.6;
+	/* border:2px solid orange; */
+  
+  }
+  
+  #left-eye {
+	left: -7%;
+	background-image: url(../../images/suile3.gif);
+	/* border:2px solid orange; */
+  
+  }
+  
+  #right-eye-frame {
+	left: 40%
+  }
+  
+  #left-eye-frame {
+	left: -12%;
+  
+  }
+  
+  #splash-b,
+  #splash-a {
+	background-color: black;
+	border: 4px solid black;
+	/* display:none; */
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	background-image: url('../../images/mapFrame2.png');
+	background-size: cover;
+	/* background-image: url('../../images/mapFrame.png'); */
+	z-index: 90000;
+	opacity: 1;
+	display: none;
+  
+  
+  }
+  
+  #splash-a {
+	display: block;
+	z-index: 90001;
+	background-image: none;
+	top: 0 !important;
+	opacity: 1 !important;
+	background-color: black;
+  }
+  
+  #storyteller-1,
+  #storyteller-0 {
+	position: fixed;
+	z-index: 79797;
+	display: none;
+	font-family: urchlo;
+	top: 57%;
+	left: 3%;
+  }
+  
+  #storyteller-1 {
+	top: 66%;
+	color: rgb(136, 255, 0);
+  }
+  
+  #video1 {
+	top: 0%;
+	left: 0%;
+	position: fixed;
+	z-index: 90800;
+	height: 100%;
+	width: 100%;
+	transform: scale(1.5);
+	opacity: 0.8;
+  }
+  
+  
+  #splash-a {
+	position: fixed;
+	/* background-image: url(../../images/bgAnim5.gif); */
+	height: 100%;
+	width: 100%;
+	z-index: 99999;
+	top: 8%;
+	left: 0%;
+	background-size: cover;
+	/* opacity: 0.8; */
+  }
+  
+  #ls {
+	z-index: 50000;
+	top: 2%;
+	left: -2%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	outline: 23px solid black;
+  }
+  
+  .full-screen-eascaStage {
+	top: 50% !important;
+  }
+  
+  .full-screen-fortuna-bg {
+	top: 370px !important;
+	left: -51px !important;
+  }
+  
+  .full-screen-fortuna-glass {
+	top: 420px !important;
+	left: 42px !important;
+  }
+  
+  .full-screen-fortuna-lit {
+	top: 370px !important;
+	left: -51px !important;
+  
+  }
+  
+  .o-fortuna-full-screen {
+	top: 56% !important;
+	left: -6% !important;
+  }
+  
+  .team-icon-full-screen {
+	top: 327px !important;
+	left: -6px !important;
+  }
+  
+  .player-icon-full-screen {
+	left: 1151px !important;
+	top: 486px !important;
+  
+  }
+  
+  .ciorcal-glass-full-screen {
+	top: 466px !important;
+	left: 1154px !important;
+	z-index: 20000 !important;
+  }
+  
+  .ciorcal-glass-bg-full-screen {
+	top: 465px !important;
+	left: 1154px !important;
+  
+  }
+  
+  
+  .mode3-stats {
+	top: 2px;
+	position: fixed;
+	left: 10px;
+  
+	font-size: 0.5em;
+	color: rgb(60, 255, 0);
+  }
+  
+  #mode3-name {
+	top: 0%;
+	position: fixed;
+	font-size: 0.8em
+  }
+  
+  
+  ul {
+	list-style-type: none;
+	/* border: 1px solid orange; */
+  }
+  
+  @keyframes hood-bob {
+	0% {
+	  top: -244px
+	}
+  
+	100% {
+	  top: -248px
+	}
+  }
+  
+  @keyframes bob {
+	0% {
+	  /* border:4px solid rgba(255, 253, 253, 0.801); */
+	  top: 132%;
+	  opacity: 0.1;
+	}
+  
+	100% {
+	  /* border:4px solid rgba(74, 216, 74, 0.534); */
+	  top: 164%;
+	  opacity: 1;
+  
+  
+	}
+  }
+  
+  @keyframes wren-zoom {
+  
+  
+	0% {
+	  left: -3290px;
+	  top: 256px;
+  
+	  transform: scale(13);
+	}
+  
+	96% {
+	  left: -3289px;
+	  top: 256px;
+	  transform: scale(13);
+	}
+  
+	100% {
+	  transform: scale(1.07);
+	  left: 5%;
+	  top: -32%;
+	}
+  
+  
+  }
+  
+  @keyframes color-shift {
+	0% {
+	  color: white
+	}
+  
+	100% {
+	  color: rgb(122, 253, 0)
+	}
+  
+  }
+  
+  @keyframes color-shift-fade {
+	0% {
+	  color: white
+	}
+  
+	75% {
+	  color: rgb(102, 255, 0)
+	}
+  
+	85% {
+	  color: rgba(69, 143, 0, 0.473)
+	}
+  
+	100% {
+	  color: rgba(94, 255, 0, 0.753)
+	}
+  
+  }
+  
+  @keyframes color-shift2 {
+	0% {
+	  color: rgb(81, 255, 0)
+	}
+  
+	100% {
+	  color: white
+	}
+  
+  }
+  
+  @keyframes sea-scroll {
+	0% {
+	  left: 50%
+	}
+  
+	100% {
+	  left: 0%
+	}
+  
+  }
+  #paralax-fields{
+
+    position: fixed;
+    z-index: 90;
+    right: 0%;
+    top: -10%;
+	animation: fields-down 7s forwards linear;
+  
+  }
+
+  .sky-bg{
+	position: fixed;
+    z-index: 5;
+    top: -39%;
+    left: 0;
+  }
+  .loopscroll {
+	height: 554px;
+	width: 2288px;
+	overflow: hidden;
+	/* background-repeat: repeat-x; */
+	background-position: 0 0;
+
+  animation: backgroundloop 17s forwards ease-out;
+  
+	top: -16%;
+	left: -115px;
+	position: fixed;
+	z-index: 4;
+	background-image: url(../../images/field.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	transform: scale(0.9)
+  }
+  
+  p{
+   /* line-height: 8px; */
+   position:fixed;
+   z-index: 90000;
+  }
+  #p1{top: 231px;
+	left: 15px;}
+  
+  #p2{        
+	top: 231px;
+	left: 15px}
+  
+  #p3{top: 231px;
+	left: 15px;}
+  
+  #p4{
+	top: 231px;
+	left: 15px;}
+  
+  #p5{    top: 231px;
+	left: 15px;}
+  
+	
+	#p6{top: 255px;
+	  left: 15px;}
+	
+	#p7{top: 231px;
+	  left: 15px;}
+	#p8{    top: 255px;
+	  left: 15px;}
+  
+  #gamepad{
+	position: fixed;
+	top: 219px;
+	/* display:none;  */
+	z-index: 100000;
+	height: 100px;
+	width: 100px;
+	left: 768px;
+	grid-template-columns: auto auto auto;
+	/* background-color: #2196F3; */
+  }
+  .grid-container{
+	display: grid;
+  }
+  
+  
+  .grid-item2,.grid-item4,.grid-item6,.grid-item5,.grid-item8{
+	border: 4px solid chartreuse;
+	background-color: chartreuse;
+  
+  }
+  
+  
+  
+  
+  
+  @keyframes upwards {
+  
+	  0% {
+	  top: 0px;
+	}
+  
+	50% {
+	  top: 0px;
+	}
+	100% {
+	  top: -165px;
+	}
+  
+  }
+  @keyframes fields-down{
+	0% {
+		top:  -21%;
+	  }
+	
+	  100% {
+		top:  10%;
+	  }
+	}
+
+  
+  @keyframes backgroundloop {
+	0% {
+	  background-position: -271px 0;
+	}
+  
+	100% {
+	  background-position: -1425px 0;
+	}
+  }
+  
+  @keyframes slide-eascaStage {
+	0% {
+	  background-position: 0px 0;
+	}
+  
+	100% {
+	  background-position: -1425px 0;
+	}
+  }
+  
+  
+  #nameInEng {
+	left: 262px;
+	top: 35px;
+	text-align: left;
+	height: 83px;
+	width: 634px;
+	font-family: urchlo;
+	z-index: 881500;
+	pointer-events: none;
+	position: fixed;
+	font-size: 1em;
+	color: rgb(0, 255, 106)
+  }
+  
+  #nameInIre {
+	left: 2%;
+	top: 10%;
+	height: 83px;
+	width: 192px;
+	font-family: urchlo;
+	z-index: 110042;
+	position: fixed;
+	justify-content: center;
+	text-align: center;
+	font-size: 1em;
+	animation: color-shift 5s infinite alternate-reverse;
+  
+  }
+  
+  
+  #fortuna-lit {
+  
+	height: 212px;
+	top: -47px;
+	background-image: url(../../images/fortuna-glass-lit.png);
+	z-index: 59999;
+	background-size: cover;
+	position: fixed;
+	width: 378px;
+	left: -81px;
+	transform: scale(0.5);
+	background-repeat: no-repeat;
+	display: none;
+	pointer-events: none;
+  }
+  
+  #bright-light,
+  #bright-light-county {
+	position: fixed;
+	top: 0;
+	z-index: 99997;
+	display: none;
+	height: 110%;
+	width: 110%;
+	/* border:100px solid white; */
+	left: -10px;
+  }
+  
+  #minimap-holder {
+	z-index: 990000;
+	position: fixed;
+  
+  }
+  
+  #minimap {
+	left: 22%;
+	position: fixed;
+	top: -39%;
+	height: 600px;
+	width: 600px;
+	transform: scale(0.5);
+	background-size: contain;
+	background-repeat: no-repeat;
+  }
+  
+  
+  
+  .minimap-icon {
+	background-image: url(../../images/lamp.png);
+	/* border: 3px solid rgba(255, 255, 255, 0.7); */
+	height: 32px;
+	width: 32px;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	background-repeat: no-repeat;
+	background-size: contain;
+	display: none;
+	animation: fade-pulse 5s infinite reverse ease-in-out;
+  }
+  
+  #minimap-icon1 {
+	z-index: 990100;
+  
+	top: 69px;
+	left: 216px;
+  }
+  
+  #minimap-icon2 {
+  
+	top: 70px;
+	left: 374px;
+	z-index: 990101;
+  }
+  
+  #minimap-icon3 {
+	z-index: 990102;
+	top: 125px;
+	left: 164px;
+  }
+  
+  #minimap-icon4 {
+	z-index: 990103;
+	top: 185px;
+	left: 155px;
+  }
+  
+  #minimap-icon5 {
+	  z-index: 990104;
+	  
+	top: 293px;
+	left: 329px;
+  }
+  
+  
+  #minimap-icon6 {
+	left: 360px;
+  
+	top: 293px;
+  
+	z-index: 990105;
+  }
+  
+  .prompt-box {
+	/* border:4px solid red; */
+	z-index: 790000;
+	position: fixed;
+	/* display: none; */
+  }
+  
+  #first-choice {
+	  display: none;
+	  
+  }
+  
+  #second-choice {
+	display: none;
+  
+  }
+  
+  #third-choice {
+	display: none;
+  
+  }
+  
+  #fourth-choice {
+	  display: none;
+	  
+  }
+  
+  #fifth-choice {
+	display: none;
+  
+  }
+
+  .eascaStage-container{
+	/* border:9px solid red; */
+	z-index: 6;
+	position:fixed;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	display: none;
+}
+

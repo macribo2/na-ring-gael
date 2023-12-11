@@ -1,0 +1,278 @@
+#history {
+
+  z-index: 5000;
+  position: fixed;
+  top: 10%;
+  width: 100%;
+  height: 80%;
+}
+
+
+#fwdBtn {
+  border: 4px solid orange;
+  height: 50px;
+  width: 50px;
+}
+
+.btn-middle-history {
+
+
+  /* background-image: url('../../imageeeeee/middle.png'); */
+  border: solid 3px rgba(83, 60, 90);
+  background-size: contain;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  z-index: 45;
+  outline: solid 2px rgba(83, 60, 90) !important;
+    opacity:0.5;
+}
+
+@font-face {
+  font-family: urchlo;
+  src: url('../../fonts/urchlo.ttf');
+}
+@font-face {
+  font-family: aonchlo;
+  src: url('../../fonts/aonchlo.ttf');
+}
+
+@font-face {
+  font-family: Ubuntu;
+  src: url('../../fonts/INFO56_0.ttf');
+}
+
+#story {
+
+}
+#rebel{
+  transform:scale(1.2)
+}
+
+#story-hoss{
+/* border: 4px solid orange; */
+position: fixed;
+z-index: 5000;
+top: 45%;
+
+}
+#storyTexts {
+  /* background-color:rgba(0, 0, 0,0.6); */
+
+
+  /* color: #9c9494; */
+  font-family: Ubuntu;
+}
+
+
+#history-vid, #prompt-vid {
+  transform: scale(2);
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  opacity: 0.5;
+
+}
+#hidden{display:none;}
+
+.about5, .about, .about0,
+.about4 .about9{
+  /* pointer-events: none; */
+  display: grid;
+  justify-content: center;
+  top: 10%;
+  left: 0;
+  z-index: 6;
+  position: absolute;
+  height: auto;
+  padding-left: 4%;
+  width: 100%;
+  text-align: center;
+  /* border: 4px solid blue; */
+  transform: scale(1);
+  opacity: 0.8;
+}
+
+
+.about0{
+  top:-10%;
+}
+.aboutWeb{
+  transform:scale(2);
+  margin-top:5%;
+}
+.about9{
+  margin-top:-10%;
+opacity: 1 !important;
+  transform:scale(1);
+  z-index: 5000;
+  position:fixed;
+}
+
+.about5{
+ background-size: contain; 
+}
+
+.about13 {
+  margin-top: 13%;
+}
+
+.about14 {
+  position: relative;
+  margin-top:-82%;
+  transform: scale(0.7);
+  animation: zoom-aoife 135s infinite linear;
+
+}
+
+.about14 {
+  position: relative;
+  margin-top:-82%;
+  transform: scale(0.7);
+  animation: zoom-rebel 135s infinite linear;
+
+}
+.about-soc{
+  /* margin-top: 13%; */
+
+}
+
+.directional-pad-hist {
+  padding-top: 0%;
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  transform: scale(0.8);
+  left: 80%;
+/* border:4px solid orange; */
+/* background-image: url('../../img/About1/mouse-icons/cursor-icon-free-53.png'); */
+background-repeat: no-repeat;
+background-size: contain;
+  z-index: 9000;
+  opacity: 0.6;
+
+}
+
+@keyframes zoom-aoife {
+  0% {
+    transform: scale(0.17);
+  }
+  
+  70% {
+    transform: scale(1);
+  }
+
+  73% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.17);
+  }
+  
+
+
+}
+
+
+@keyframes zoom-rebel {
+  0% {
+    transform: scale(1);
+  }
+  
+  100% {
+    transform: scale(0.17);
+  }
+  
+
+
+}
+.select-and-start-btns-history{
+  /* border: 4px solid blue; */
+  position: fixed;
+  top:90%;
+  justify-content: space-evenly;
+  width: 100%;
+  z-index: 9000;
+   display: none; 
+
+  /* display: flex; */
+  opacity:0.6
+}
+
+.from-options-button{
+border:4px solid pink;
+width:100px;
+height:100px;
+margin:10px;
+background-color:rgba(120,60,60,0.5);
+border-radius: 10%;;
+}
+
+.fromLang{
+  display: flex;
+  justify-content: space-between;
+
+  
+ 
+  position:fixed;
+  z-index: 15001;
+  /* height:100em; */
+  width:50%;top:30%;
+}
+.about-hist{
+  z-index: 5000;
+  position: fixed;
+  /* border:4px solid blue; */
+  width:50%;
+  height:100%;
+  transform: scale(0.8);
+  display: grid;
+  justify-content: center;
+  text-align: center;
+    
+}
+.history-bg{
+  top:0;
+  left:0;
+  height: 100%;
+  width:100%;
+  position: fixed;
+  background-size: cover;
+  /* display:none; */
+}
+.story-texts, #story{
+  font-size: 1.4em;
+  width:100%;
+  position:fixed;
+  left:0%;
+  top:4%;
+  color:rgb(195, 195, 195);
+  /* color: #9c9494; */
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  
+  /* font-size: x-large; */
+  /* background-color:rgba(0, 0, 0,0.6); */
+
+  }
+.story-texts{
+  top:12%;
+}
+  #choices-0{
+    /* border: 4px solid blue; */
+    position: absolute;
+    top: -44%;
+    left: -30%;
+    z-index:88888 !important;
+  }
+  #choices-1{
+  position:absolute;
+  z-index:88888 !important;
+  /* border: 4px solid blue; */
+  position: absolute;
+  top: 5%;
+  left: -30%;
+  }

@@ -1,0 +1,94 @@
+
+				
+				
+					let Ring3AnsEng = [
+`The desktop is a useful metaphor`, 
+`Imagine a metaphor more versatile`, 
+`A half-step between a desktop,`,
+ `and an island.`,		
+`Iron-key.online is structured for Gaelic self-expression.`,
+`All are welcome.`,
+`In the Otherworld, a princess is disturbed by a vision`, 
+`Behind a door, no sun`
+`An iron key, wielded by a knight.`, 
+`She summons a champion...`,
+	
+	
+		` And where are you yourself? (pwd)`,`in a little field called home.`,`What's in the field? (ls)`,
+`The UNIX code Kernel was written in 1969, in the USA.),`
+, `
+Unix is protected by copyright, similarly Windows or Apple`, `In 1991 Linus Torvaled, a person, released a kernel of UNIX-like code into the public domain.`, 
+
+
+
+`
+`Iron key is a software for imagining in Irish.`, 
+`The sourcecode is maintained by the community.`,
+	
+As distinct from Windows and Apple Software; Linux operating systems are a free public resource.`, 
+`
+select a character and then rotate the phone to input a message`, ``, `Backup! If there is anything at all on the computer to be kept, save it now.`, `All data and software will be irretrievably lost when you replace Windows or Apple with Linux.`, `Everything should be backed up x3 on storage devices/cloud before proceeding.`,'',
+		'Hup!',
+		'God be with you',
+		'Who are you yourself?',
+		'Where am I?',
+		'What is this?',
+		'En garde!',
+		'How is it going?',
+		'Which way are you?',
+		'Goodbye'
+	]
+
+	let RingAnsEng4 = [
+		
+		
+	]
+	let Ring2AnsEng = [
+
+		`In the Otherworld, a princess is disturbed by a vision`, `Behind a door, no sun.`
+			`An iron key, wielded by a knight.`, `She summons her champion.`,
+		 ``, ``,
+	]
+
+
+	let Ring4Ans = [
+		`Meafar usáideach is éa, desktop.`,
+		`Shamhlaigh meafar nios ilfheidhmeach`,
+		`leath-chéim idir desktop,`,
+`agus oileán.`, 
+		]
+	let Ring2Ans = [
+	`I dTír na nÓg, tá tromluí ar ban prionsa...`,
+'Taobh cúl an doras, ní beidh griann.',	
+ 	'Eochair íarann, á beartú ag ridire',
+		'',
+
+	
+			// `T .`
+
+
+		`\Seo JSON:`,
+
+`scéalaí an gréasán`,
+`{	
+	"JSON": "Nodaireacht Oibiachtaí JavaScript"
+}`,
+
+`
+{"userName":"Pádraiġ"}
+`,
+`Seo sampla eile:`,
+`   {
+	"youSay":"foighne",
+	"ISay":"fáinne"
+}`,
+
+
+
+		`Scríobhadh eithne UNIX i saotharlann Bell 1969, sna SAM.`,
+		`
+		I 1991, scaoíl Linus Torvalds cód eithne  ar an dearadh UNIX.`,
+		`Murab ionann UNIX, Windows nó Apple, is foinse oscailte poiblí is ea Linux.`,
+'Hup',
+		`goirtín an baile.`,
+	]

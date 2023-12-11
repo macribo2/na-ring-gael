@@ -1,0 +1,138 @@
+.rings0, .rings1{
+
+
+	pointer-events: none;
+		top: auto;
+		/* left: 3%; */
+
+		position: fixed;
+		/* color: rgb(74, 165, 196); */
+		margin-bottom: 12px;
+		z-index: 5658;
+		padding: 10px;
+		text-shadow: -4px -4px 4px #000, 4px -4px 4px #000, -4px 4px 4px #000, 4px 4px 4px #000;
+	  
+	  width:100%;
+	  font-family: "aonchlo";
+      font-size:2em;
+
+			
+}
+
+.hidden{
+	display:none;
+}
+#ring-glass-btn{
+
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+	color: rgb(136, 132, 13);
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0);
+	
+
+	left: 83%;
+    top: 80%;	
+	z-index: 999;
+	width: 25px;
+	height: 25px;
+	margin-bottom: 0% !important;
+	border: none;
+	opacity:0.5;
+  
+}
+.button-mash-ring-0{position: absolute;
+height: 130px;
+width: 130px;
+z-index: 902;
+border-radius: 50%;
+opacity: 1;
+
+
+margin:0;
+}
+.rings0Eng{
+ 
+  pointer-events: none;
+  font-size: 1.5em;
+  position: fixed;
+  bottom: 5%;
+  left: 5%;
+  color: floralwhite;
+  z-index: 2000;
+  padding: 10px;
+  width: 9	0%;
+  text-shadow: -4px -4px 4px #000, 4px -4px 4px #000, -4px 4px 4px #000, 4px 4px 4px #000;
+
+
+  font-family: 'anaphora'
+
+
+}
+.bright{
+	animation: fade-in-bright 2s steps(4) forwards ;
+}
+.banba{
+	/* border: 4px solid orange; */
+/* display:none; */
+/* animation: fade-in 1s forwards ; */
+transform: scale(0.5);
+border-radius: 50%;
+} 
+.ripple{
+	width: 250px;
+	height: 250px;
+	border-radius: 50%;
+animation: fade-in-ripple 2s steps(5) forwards ;
+
+}
+.banba2{
+	/* border: 4px solid orange; */
+/* display:none; */
+transform:scale(1)} 
+.input-elements-container3 ,.input-elements-container4{
+	pointer-events: none;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+	animation: fade-in 1s forwards ;
+
+}
+.bright-out{
+	animation: fade-out-bright 2s steps(4) forwards ;
+
+}
+@keyframes fade-in-bright {
+	0% {
+	  opacity: 0
+	}
+  
+	
+	100% {
+	  opacity: 1
+	}
+  }
+
+  @keyframes fade-in-ripple {
+	0% {
+	  opacity: 0
+	}
+  
+	
+	100% {
+	  opacity: 0.5
+	}
+  }
+  @keyframes fade-out-bright {
+	0% {
+	  opacity: 1
+	}
+  
+	
+	100% {
+	  opacity: 0
+	}
+  }
+  
