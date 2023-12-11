@@ -1,0 +1,332 @@
+/* src/components/GameBoard.css */
+
+/* Center the game board */
+.game-board {
+	caret-color: transparent;
+
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+    position: fixed;
+    /* border: 5px solid orange; */
+    left: 0;
+	height: 100%;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+
+  }
+  
+  /* Define cell styles */
+  .cell {
+	width: 64px;
+	height: 64px;
+	padding-bottom: 10%;
+	background-color: #cccccc00;
+	border: 1px solid #aaa;
+	box-sizing: border-box;
+	transform: rotate(90deg);
+  }
+  
+  /* Define styles for highlighted cells */
+  .highlighted-kn {
+	/* background-color: rgba(164, 51, 149, 0.556) !important; */
+  }
+  /* Define grid styles */
+  .grid {
+	/* padding-left: 50%; */
+	margin: 0 auto;
+	gap: 2px;
+	background-color: white;
+	color:rgba(255, 255, 255, 0);
+	transform: rotate(-90deg) ;
+	background-image: url('../../images/bg2.jpg');
+  top:0%;
+  position: relative;
+height:100%;
+width: 100%;
+border: 6px solid purple;
+z-index: 9999;
+display: grid;
+
+
+/* position:fixed; */
+}
+
+
+.grid::before {
+	content: "";
+	background-image: url('../../images/bgb.jpg');
+	opacity: 0; /* Set initial opacity to 0 */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1; /* Place it behind other content */
+  
+	animation: fadeInBackground 2s ease-in forwards; /* Animation properties */
+  }
+  
+  @keyframes fadeInBackground {
+	from {
+	  opacity: 0; /* Start with no opacity (fully transparent) */
+	}
+	to {
+	  opacity: 1; /* End with full opacity (fully visible) */
+	}
+  }
+  .black-square{
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  /* Define styles for buttons */
+  button {
+	margin: 10px;
+  }
+  
+  /* Define animation for the green knight's movement */
+  @keyframes moveKnight {
+	0% {
+	  transform: translate(0, 0);
+	}
+	100% {
+	  transform: translate(var(--dx), var(--dy));
+	}
+  }
+  .visible {
+	display: block;
+  }
+  
+  .hidden {
+	display: none;
+  }
+  
+/* ... (Previous styles) */
+
+/* Apply animation and styles to the green knight */
+.green-knight {
+	animation: moveKnight 0.5s linear forwards;
+	background-color: green;
+	background-image: url('../../images/knight2.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	transition: grid-row 0.5s ease, grid-column 0.5s ease;
+  }
+  
+  /* Make the original green knight visible and apply animation */
+  .original-green-knight {
+	animation: moveKnight 0.5s linear forwards;
+	background-color: green;
+	background-image: url('../../images/knight2.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: block; /* Make it visible when it moves */
+  }
+  /* Styling for knight choice squares */
+.knight-choice {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px; /* Adjust the margin as needed */
+  }
+  
+  /* Styling for individual knight icons */
+  .knight-icon {
+	font-size: 40px; /* Adjust the font size to fit your design */
+	cursor: pointer;
+	margin: 10px; /* Adjust the margin as needed */
+	border: 4px solid blueviolet;
+  }
+  
+  /* Styles for the target square */
+  .target-square {
+	animation: moveKnight 0.5s linear forwards; /* Apply the same animation */
+	background-color: green;
+	background-image: url('../../images/knight2.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+  }
+.white-mask{
+	height:100%;
+	width: 100%;
+	top:0;
+	left:0;
+	background-color: white;
+	position: fixed;
+	z-index: 5;
+}
+  
+  /* ... (Rest of your CSS) */
+  
+  .highlighted {
+	background-color: rgba(62, 62, 27, 0);
+	/* background-image: url('../../images/97.png'); */
+	background-size: contain;
+	background-repeat: no-repeat;
+  }
+  
+  /* Styles for the green square */
+  .green-square {
+	/* background-color: green; */
+}
+  
+  /* Styles for highlighted purple */
+  .highlighted-purple {
+	/* background-color: purple; */
+	opacity: 0.7;
+  }
+  
+  /* Styles for the target square */
+  .target-square {
+	animation: moveKnight 0.5s linear forwards;
+	background-color: green;
+	background-image: url('../../images/knight2.png');
+	background-size: contain;
+	background-repeat: no-repeat;	
+}
+  
+  /* Position the green knight within the grid */
+  .green-knight-container {
+	position: relative;
+	grid-row: 1;
+	grid-column: 1;
+  }
+
+
+
+  
+/* Create a top mask layer to hide the top area */
+.top-mask {
+	width: 100%;
+	height: 50%; /* Adjust the height to hide the top part */
+	position: absolute;
+	top: -45%;
+	left: 0;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+  }
+  
+  /* Create a bottom mask layer to hide the bottom area */
+  .bottom-mask {
+	width: 100%;
+	height: 50%; /* Adjust the height to hide the bottom part */
+	position: absolute;
+	bottom: -42%;
+	left: 0;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+  }
+  
+  /* Create a left mask layer to hide the left area */
+  .left-mask {
+	width: 50%; /* Adjust the width to hide the left part */
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: -18%;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+opacity: 0.5	;  
+}
+  
+  /* Create a right mask layer to hide the right area */
+  .right-mask {
+	width: 50%; /* Adjust the width to hide the right part */
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: -14%;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+	opacity: 0.5	;  
+
+}
+  
+  .toggle-modal{
+	position: fixed;
+    top: 74%;
+    left: 35%;
+	z-index: 9000;
+}
+#square-4-16{
+    /* border:5px solid whitesmoke; */
+}
+
+.pawn {
+	background-image: url('../../images/pawn.png');
+	
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+	/* For rotating both white and black horses */
+.rotate-horse-45 {
+	transform: rotate(45deg);
+	transition: transform 0.5s ease-in-out;
+	border:4px solid green;
+  }
+
+  .bg0{
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-image: url('../../images/newbg2.png');
+  }
+
+
+  .bg1{
+	pointer-events: none;
+	position: fixed;
+	top: 8%;
+	left: 25%;
+	background-size: contain;
+	height: 552px;
+	width: 552px;
+	background-image: url('../../images/bg3.jpg');
+  /* transform:scale(0.55); */
+	background-repeat: no-repeat;
+}
+
+
+  
+
+  .drift-down-animation {
+	animation: driftDown 60s linear forwards ;
+	/* pointer-events: none; */
+	
+	}
+	  
+	
+	  
+	
+	@keyframes driftDown {
+		0% {
+		  transform:  translate(-4%, -30%) rotate(0deg) ;
+		  
+		}
+	
+		1%{
+			transform:  translate(-4%, -30%) rotate(45deg)
+		}
+		100% {
+		  transform:   translate(-4%, 50%) rotate(45deg); /* Adjust the distance as needed */
+		}
+	  }
+	
+	.chess-like-gameboard-container{
+	  height: 100%;
+	  width:100%;
+	  top:0;
+	  left:0;
+	  position: fixed;
+	  border: 5px solid khaki;
+	
+	}

@@ -1,0 +1,110 @@
+#btn-start,#btn-select{
+	width:40px;
+	height:15px;
+	border:2px solid  rgba(170, 176, 177,0.5);
+	background-color: rgb(83, 60, 90);
+	margin-left: 15px;
+	margin-right:15px;
+	border-radius: 25%;
+	pointer-events: all;
+}
+/* 
+ #btn-b{
+	color:gainsboro;
+font-size: 1em;
+	font-family: aonchlo;
+	width:70px;
+	height:70px;
+	border:2px solid  rgba(170, 176, 177,0.5);
+	background-color: rgb(83, 60, 90);
+    margin-left: 674%;
+    border-radius: 50%;
+    margin-top: 382%;
+	z-index: 5001;
+	top:0;
+} */
+#btn-text{
+	pointer-events:none
+}
+#btn-down{
+	background-color: rgb(83, 60, 90);
+	border-top: 0px solid rgba(83, 60, 90,1);
+	border-right: 3px solid rgba(170, 176, 177,0.5);
+	border-left: 3px solid rgba(170, 176, 177,0.5);
+	border-bottom: 3px solid rgba(170, 176, 177,0.5);
+	top:-9px;
+	height:50px;
+	width:50px;
+	position:relative;
+	z-index: 40;
+	
+}
+#btn-left{
+	border:5px solid blueviolet;
+	background-color: blueviolet;
+
+	height:50px;
+	width:50px;
+	position:relative;
+	z-index: 50;
+
+	background-color: rgb(83, 60, 90);
+	border-top: 3px solid rgba(170, 176, 177,0.5);
+	
+	border-right: 0px solid rgba(83, 60, 90,1);
+	border-left: 3px solid rgba(170, 176, 177,0.5);
+	border-bottom: 3px solid rgba(170, 176, 177,0.5);
+	left:3px;
+}
+
+
+#btn-middle{
+	background-image:url('../../images/middle.png');
+	outline:solid 1px rgba(83, 60, 90);
+	border:solid 3px rgba(83, 60, 90);
+	background-size:contain;
+	height:50px;
+	width:50px;
+	position:relative;
+	z-index: 45;
+}
+
+#btn-right{
+	background-color: rgb(83, 60, 90);
+	border-top: 3px solid rgba(170, 176, 177,0.5);
+	border-bottom: 3px solid rgba(170, 176, 177,0.5);
+	
+	border-right: 3px solid rgba(170, 176, 177,0.5);
+	border-left: 0px solid rgba(83, 60, 90,1);
+
+	height:50px;
+	width:50px;
+	position:relative;
+	z-index: 50;
+	right:3px;
+}
+
+#btn-up{
+	background-color: rgb(83, 60, 90);
+	border-top: 3px solid rgba(170, 176, 177,0.5);
+	
+	border-right: 3px solid rgba(170, 176, 177,0.5);
+	border-left: 3px solid rgba(170, 176, 177,0.5);
+	border-bottom: 0px solid rgba(83, 60, 90,1);
+	height:50px;
+	width:50px;
+	position:relative;
+	z-index: 50;
+	top:14px;
+
+	
+}
+
+#btn-txt{
+	
+	pointer-events: none;
+	justify-content: center;
+	text-align: center;
+	font-size: 1em;
+	margin-bottom:4px;
+font-family:aonchlo;}

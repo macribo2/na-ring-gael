@@ -1,0 +1,5 @@
+.county-container{
+	position:fixed;
+	left: 6%;
+	z-index: 99999;
+}

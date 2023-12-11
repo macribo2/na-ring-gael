@@ -1,0 +1,84 @@
+.geaga-holder,{
+height:100%;
+width: 100%;
+position: fixed;
+top: -4%;
+left: 33%;
+
+}
+
+.geaga-shadow{
+	z-index: 30;
+    position: fixed;
+    top: 0%;
+    left: -3%;
+    opacity: 0.5;
+	animation: fade-out 4s forwards;
+}
+
+#face{
+
+	z-index: 29;
+    position: fixed;
+    top: 0%;
+    left: -3%;
+}
+.hill{
+	z-index: 4;
+	position:fixed;
+	left:-1%;
+}
+.shadow-hill{
+	position:fixed;
+	z-index:5;
+	left:-1%;
+	animation: fade-out 4s forwards
+shadow-hill
+}
+.fields{
+	left: 2%;
+    position: fixed;
+    top: 43%;
+    z-index: 0;
+	animation: fade-in 2s forwards;
+}
+.eyes-holder{
+
+	top: 38%;
+    transform: scale(1.1);
+    left: 21%;
+    opacity: 0.5;
+    position: fixed;
+	z-index: 33;
+	animation: fade-in 4s forwards;
+}
+
+@media only screen and (min-width: 1601px) {
+	.geaga-holder  {
+		transform:scale(1.7);
+		top:45%;
+		left:68%;
+	
+	}
+
+	.eyes-holder{
+
+		top: 9%;
+		left: 9%;
+	}
+  }
+
+
+  @keyframes fade-out{
+
+0%{opacity: 1;}
+20%{opacity: 1;}
+100%{opacity: 0;}
+}
+
+@keyframes fade-in{
+
+	0%{opacity: 0;}
+	20%{opacity: 0;}
+	100%{opacity: 0.6;}
+	}

@@ -1,0 +1,22 @@
+#hero{
+	
+/* display:none;	 */
+}
+
+
+.one-ring,.one-ring-fade{
+	position: fixed;
+z-index: 5;
+display: flex;
+justify-content: center;
+/* display: none; */
+/* border: 11px solid orange; */
+}
+
+.one-ring-fade{
+	border:10px solid orange;
+	/* display:none !important; */
+}
+/* champion-portrait{} */
+
+

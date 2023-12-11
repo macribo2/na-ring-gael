@@ -1,0 +1,41 @@
+.tullynally-ring{
+	display:none;
+}
+
+
+.tully-portrait {
+    position: fixed;
+    z-index: 9000;
+    top: 67%;
+left:8%;
+	opacity:1
+}
+
+.tullyP1{
+
+    top: 20%;
+
+}
+
+.tullyP2{
+
+    left: 50%;
+
+}
+.ring-5-button-mash-container{
+	z-index: 90000;
+	pointer-events: all;
+	
+  }
+  .challenge-container{
+	pointer-events:none;
+	height:100%;
+	width:100%;
+	position:fixed;
+	display: flex;
+	justify-content:center;
+	align-items:center;
+  }
+  #tully-challenge-bg{
+	display:none
+  }

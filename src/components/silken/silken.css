@@ -1,0 +1,20 @@
+#silken{
+
+    transform: scale(0.5);  
+}
+.silken-holder{
+    pointer-events: none;
+	z-index: 930;
+    position: fixed;
+    top: -25%;
+    left:-10%;
+}
+
+.enter-silken{
+    
+	z-index: 3;
+    position:fixed;
+    top:27%;
+    /* animation:drop-down 1s forwards; */
+  }
+#hidden{display: none;}

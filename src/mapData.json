@@ -1,0 +1,852 @@
+[
+  {
+    "co": "offaly",
+    "emblem": "offaly",
+    "county": "Co. Uíḃ Ḟailí",
+    "mapData": "[[3, 3, 3, 2, 2, 2, 2, 2, 9, 9],[3, 3, 30, 0, 0, 0, 0, 0, 0, 8],[3, 0, 0, 0, 0, 0, 0, 0, 31, 8],[4, 0, 0, 0, 0, 0, 0, 0, 0, 8],[4, 0, 0, 0, 0, 0, 0, 34, 0, 8],[4, 0, 32, 0, 0, 0, 0, 7, 7, 7],[4, 0, 0, 0, 0, 0, 7, 7, 7, 7],[5, 0, 0, 0, 33, 7, 7, 7, 7, 7], [5, 0, 35, 6, 6, 7, 7, 7, 7, 7],[5, 6, 6, 6, 6, 7, 7, 7, 7, 7]]",
+    "countyBG": "url('./countyMaps/offaly.png')",
+    "top": "60px",
+    "left": "16px",
+    "zoom": "scale(1.7)",
+    "locations": [
+      "Cluain Ṁic Nóis",
+      "Éadan Doire",
+      "Biorra",
+      "Cionn Eitigh",
+      "Ráth Iomġáin",
+      "Suí an Róin"
+    ],
+    "locationsEng": [
+      "Clonmacnoise  - Meadow of the Sons of Nós ",
+      "Edenderry - Hill-brow of the oak wood ",
+      " Birr - plain of water ",
+      "The head of Princess Eitigh ( Kinnitty )",
+      "Iomgháin's ring-fort ( Rathangan )",
+      "Seat of the seal ( Shinrone )"
+    ]
+  },
+  {
+    "emblem": "louth",
+    "co": "louth",
+    "locations": [
+      "Dún Dealgan",
+      "An Grianfort",
+      "Ceann Ċloċair",
+      "Baile Átha Ḟirdia",
+      "Poll an Phúca",
+      "Baile an Ġearlánaigh"
+    ],
+    "locationsEng": [
+      "Dundalk - fort of Dealgan, Fir Bolg Chieftain",
+      "Greenore - the sun fort",
+      "Clogherhead - rocky headland",
+      "Ardee - the ford of Ferdia",
+      "Puckstown - hole of the Pooka",
+      "Castlebellingham - Gernon’s Town"
+    ],
+    "county": "Co. An Lú",
+    "mapData": "[[3,3,3,2,2,2,2,1,1,1],[3,3,0,0,0,0,0,0,32,1],[3,3,0,0,0,0,0,0,0,1],[4,4,0,0,0,30,0,31,0,1],[4,4,0,0,0,0,1,1,1,1],[4,0,0,0,0,0,1,1,1,1],[4,0,0,0,34,0,35,1,1,1],[5,5,33,0,0,0,0,1,1,1],[5,5,0,0,0,0,0,1,1,1],[5,5,5,6,6,6,6,1,1,1]]",
+    "countyBG": "url('./countyMaps/louth.png')",
+    "top": "60px",
+    "left": "16px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "wexford",
+    "co": "wexford",
+    "locations": [
+      "Coill an Iarainn",
+      "Inis Córṫaidh",
+      "Poll an Phúca",
+      "Maolán na nGaḃar",
+      "An Abhainn Dubh",
+      "Dún Ċormaic"
+    ],
+    "locationsEng": [
+      "Killinierin - Forest of Iron",
+      "Island of Rocks",
+      "Pollaphuca - Hole of the Pooka",
+      "Mullinagore - The Grazing of Goats",
+      "Owenduff  - The Black River",
+      "Duncormick - Cormac's fort"
+    ],
+    "county": "Co. Loch Garman",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,1],[3,3,3,3,3,0,30,0,0,1],[3,3,3,3,0,0,0,0,0,1],[3,3,3,0,0,0,0,0,0,1],[4,4,0,0,32,0,31,0,1,1],[4,4,0,0,0,33,0,0,1,1],[4,4,0,0,0,0,0,0,1,1],[5,5,5,34,0,0,0,0,1,1],[5,5,1,0,0,0,35,0,1,1],[5,5,5,6,1,1,1,1,1,1]]",
+    "countyBG": "url('./countyMaps/wexford.png')",
+    "top": "62px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "limerick",
+    "co": "limerick",
+    "locations": [
+      "Pailis Ċaonraí",
+      "Poll an Phúca",
+      "Caisleán Uí Ċonaill",
+      "Áth na bḞuinseog",
+      "An Ḟeoṫanaċ",
+      "Brú Rí"
+    ],
+    "locationsEng": [
+      "Pallaskenry - the palisaded Castle of Kenry",
+      "Poulaphouca - the Pooka's hole",
+      "Castleconnell - O Connell's Castle",
+      "Ford of the Ash",
+      "Place of thistles",
+      "Bruree - Abode of kings"
+    ],
+    "county": "Co. Luimnach",
+    "mapData": "[[1,1,1,1,1,1,2,2,9,9],[1,1,1,1,1,1,0,0,0,9],[1,1,1,30,0,31,0,0,0,9],[4,0,0,0,0,0,0,0,32,8],[4,0,0,0,0,0,0,0,0,8],[4,0,0,0,0,0,35,0,8,8],[4,0,33,0,34,0,0,0,0,8],[5,0,0,0,6,0,0,0,0,7],[5,5,5,6,6,6,6,7,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/limerick.png')",
+    "top": "55px",
+    "left": "-4px",
+    "zoom": "scale(1.3)"
+  },
+  {
+    "emblem": "dublin",
+    "co": "dublin",
+    "locations": [
+      "Fionnġlas",
+      "Cluain Dolcáin",
+      "Cluain Tarbh",
+      "Binn Éadair",
+      "Dún Laoiġaire",
+      "Deilginis"
+    ],
+    "locationsEng": [
+      "Finglas - Clear streamlet",
+      "Clondalkin - Dolcan's meadow",
+      "Clontarf - Meadow of Bulls ",
+      "Howth - Éadar's peak",
+      "Dun Laoghaire - Fort of High King Laoghaire Mac Néill",
+      "Dalkey - Thorn Island"
+    ],
+    "county": "Co. Baile Átha Ċliath",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,1],[3,3,0,0,0,0,0,0,1,1],[3,3,0,0,0,0,0,0,1,1],[4,4,0,0,30,0,0,0,1,1],[4,0,0,0,0,0,33,1,1,1],[4,0,0,0,31,32,0,1,1,1],[4,0,0,0,0,0,0,1,1,1],[5,5,0,0,0,0,34,1,1,1],[5,5,5,0,0,0,0,35,1,1],[5,5,5,6,6,6,7,1,1,1]]",
+    "countyBG": "url('./countyMaps/dublin.png')",
+    "top": "61px",
+    "left": "0px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "leitrim",
+    "co": "leitrim",
+    "locations": [
+      "Gleann Éada",
+      "Garḃach",
+      "Droim Seanḃó",
+      "Aċaḋ na Síleann",
+      "Fíonach",
+      "Dromad"
+    ],
+    "locationsEng": [
+      "Glenade - lake of the glen of jealousy",
+      "Garvagh - rough land",
+      "Drumshanbo  - ridge of the huts",
+      "Aughnasheelan - Field of the fairy",
+      "Feenagh - wooded place",
+      "Dromod - long ridge"
+    ],
+    "county": "Co. na Liatroma",
+    "mapData": "[[1,3,0,0,2,2,2,2,9,9],[1,3,30,0,0,0,9,9,9,9],[1,3,0,0,0,0,9,9,9,9],[4,4,0,31,0,0,9,9,9,9],[4,4,0,0,0,0,9,9,9,9],[4,4,5,32,1,0,33,8,8,8],[4,4,5,5,0,0,0,0,8,8],[5,5,5,5,0,0,34,0,0,7],[5,5,5,5,35,0,0,0,0,7],[5,5,5,5,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/leitrim.png')",
+    "top": "61px",
+    "left": "0px",
+    "zoom": "scale(1.5)"
+  },
+  {
+    "emblem": "antrim",
+    "co": "antrim",
+    "locations": [
+      "Reaċlainn",
+      "Dearḃóg",
+      "Aċaḋ Eoċaille",
+      "Carn Ṁéaḃla",
+      "Carraig Ḟearġais",
+      "Béal Feiriste"
+    ],
+    "locationsEng": [
+      "Rathlin - the rugged island",
+      "Dervock - oak plantation",
+      "Ahoghill - field of the yew forest",
+      "Cairn of Queen Maeve",
+      "Carrickfergus - Fergus' rock",
+      "Belfast - mouth of river Farset"
+    ],
+    "county": "Co. Aontroma",
+    "mapData": "[[1,1,1,1,1,30,1,1,1,1],[1,1,3,0,31,0,1,1,1,1],[1,3,3,0,0,0,0,1,1,1],[4,4,4,0,0,0,0,1,1,1],[4,4,4,0,32,0,0,0,1,1],[4,4,4,0,0,0,0,0,1,1],[4,4,4,0,0,33,0,0,1,1],[5,5,1,1,1,0,0,34,1,1],[5,5,1,1,1,35,0,1,1,1],[5,5,1,1,6,6,6,1,1,1]]",
+    "countyBG": "url('./countyMaps/antrim.png')",
+    "top": "88px",
+    "left": "0px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "donegal",
+    "co": "donegal",
+    "locations": [
+      "Cionn Dhún Damh",
+      "Baile idir Dhá Abhainn",
+      "Sléiḃte Ḋoire Ḃeatha",
+      "Leitir Ceanainn",
+      "Bealach Féich",
+      "Na Cruacha Gorma"
+    ],
+    "locationsEng": [
+      "Dunaff Head - Headland of the Stag (or Ox)",
+      "Ballyederowen - town between two rivers",
+      " Derryveagh  - Mountain of the living oaks",
+      "Letterkenny - hillside of the O'Cannons",
+      "Ballybofey - Fiach's pass",
+      "Croaghgorm - the blue stack mountains"
+    ],
+    "county": "Co. Ḋún na nGall",
+    "mapData": "[[1,1,1,1,1,1,30,0,0,0],[1,1,1,1,0,0,0,0,0,0],[1,1,0,31,0,0,0,0,0,1],[1,0,0,32,0,0,0,0,8,8],[1,1,0,0,0,33,0,0,8,8],[1,0,0,0,0,0,0,0,8,8],[0,0,35,0,34,0,0,7,8,8],[0,0,0,0,0,0,6,7,7,7],[1,1,1,0,0,0,6,7,7,7],[1,1,1,5,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/donegal.png')",
+    "top": "60px",
+    "left": "0px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "fermanagh",
+    "co": "fermanagh",
+    "locations": [
+      "An Garastún",
+      "Paiteagó",
+      "Eadarnaiḋ",
+      "Lios na Daróg",
+      "Scriobaċ",
+      "Inis Ceiṫleann"
+    ],
+    "locationsEng": [
+      "Garrison",
+      "Picts: they spoke a language like the Welsh. The great test-word in place-names is Pet. Same as Gaelic 'Baile' which in-fact replaces it. - logainm.ie",
+      "Ederney - middle place/place between",
+      "Ringfort of the Oak",
+      "Scraping | Scribing",
+      "Isle of Cethleann the Prophet, wife of Balor the Smiter."
+    ],
+    "county": "Co. Ḟear Manaċ",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,31,1,1,0,32,2,9,9,9],[3,0,0,1,0,0,0,0,9,9],[4,0,0,0,0,0,0,0,0,8],[4,30,0,0,0,0,33,0,0,8],[4,4,0,0,0,0,1,0,0,8],[4,4,4,34,0,0,1,0,0,8],[5,5,5,6,0,0,0,0,0,7],[5,5,5,6,0,0,35,0,0,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/fermanagh.png')",
+    "top": "44px",
+    "left": "0px",
+    "zoom": "scale(1.5)"
+  },
+  {
+    "emblem": "cork",
+    "co": "cork",
+    "locations": [
+      "Cill na Mallaċ",
+      "Sliabh an Nóglaigh",
+      "Gleann an Ṗreaċáin",
+      "Beal na mḂláth",
+      "Cionn tSáile",
+      "An Sciobairín"
+    ],
+    "locationsEng": [
+      "Church of the Summits (Buttevant)",
+      "Nagles mountains - volunteers mountain",
+      "Glenville - glen of the crows",
+      "Bealnablath - Mouth of the ford of the buttermilk ",
+      "Kinsale - head of the brine",
+      "Skibbereen - little boat harbour"
+    ],
+    "county": "Co. Ċorcaí",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,30,0,0,0,0,8],[3,3,3,0,0,0,31,0,0,8],[3,3,3,0,0,0,32,0,0,8],[4,4,4,0,0,0,0,0,0,8],[4,4,0,0,0,33,0,0,1,1],[4,0,0,0,0,0,34,1,1,1],[1,0,35,0,0,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1]]",
+    "countyBG": "url('./countyMaps/cork.png')",
+    "top": "42px",
+    "left": "0px",
+    "zoom": "scale(1.5)"
+  },
+  {
+    "emblem": "wicklow",
+    "co": "wicklow",
+    "locations": [
+      "Poll an Ṗúca",
+      "Na Cloċa Liaṫa",
+      "Siol Éalaiġ",
+      "Dún Ard",
+      "An tInḃear Mór",
+      "Aḃóca"
+    ],
+    "locationsEng": [
+      "Hole of the Pooka",
+      "The grey stones",
+      "Shillelagh - thonged willow",
+      "Donard - high fortress",
+      "Arklow - meadow of Arnkell. The Great Estuary",
+      "From Oboka, a river in Ptolemy's Geography"
+    ],
+    "county": "Co. Ċill Ṁantáin",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,1],[3,3,0,30,0,0,0,31,0,1],[3,3,0,0,0,0,0,0,0,1],[4,0,32,0,0,0,0,0,0,1],[4,0,0,0,0,0,0,0,1,1],[4,33,0,0,0,0,0,0,0,1],[4,4,0,0,0,0,0,0,0,1],[5,5,0,0,0,0,34,35,1,1],[5,5,0,0,0,0,0,0,1,1],[5,5,5,6,6,6,6,7,1,1]]",
+    "countyBG": "url('./countyMaps/wicklow.png')",
+    "top": "60px",
+    "left": "-30px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "roscommon",
+    "co": "roscommon",
+    "locations": [
+      "Cluain Fada",
+      "Baile an Tobair",
+      "Loch Bó Finne",
+      "Scramóg",
+      "Loch Bó Dearge",
+      "Corr na Fola"
+    ],
+    "locationsEng": [
+      "Cloodfad - long meadow",
+      "Town of the well",
+      "Lough Bofin - lake of the blonde cow",
+      "Scramóg",
+      "Lough Boderg - lake of the red cow",
+      "Cornafulla - hill of the blood"
+    ],
+    "county": "Co. Ros Comáin",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,3,0,0,0,9,9,9],[3,3,0,0,0,0,0,9,9,9],[4,4,0,0,0,0,32,9,8,8],[4,4,0,31,0,0,0,0,8,8],[4,30,0,0,0,33,0,34,8,8],[4,4,4,4,0,0,0,8,8,8],[5,5,5,5,5,0,0,7,7,7],[5,5,5,5,5,35,0,7,7,7],[5,5,5,5,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/roscommon.png')",
+    "top": "88px",
+    "left": "0px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "derry",
+    "co": "derry",
+    "locations": [
+      "Doire",
+      "Léim an Ṁadaiḋ",
+      "Droichead Fíolta",
+      "Maċaire Ráṫa",
+      "An Seanṁullach",
+      "Muine Mór"
+    ],
+    "locationsEng": [
+      "Derry - oak grove",
+      "Limavady - leap of the dog",
+      "Bridge overgrown",
+      "Maghera - plain of the ringfort",
+      "Shanmullagh - the old summit",
+      "Moneymor - great thicket"
+    ],
+    "county": "Co. Ḋoire",
+    "mapData": "[[3,1,1,0,0,0,0,0,9,9],[3,1,1,1,31,0,0,0,9,9],[3,30,0,0,0,0,0,0,9,9],[4,0,0,0,32,0,0,0,8,8],[4,0,0,0,0,0,0,0,0,8],[4,0,0,0,0,0,0,0,33,8],[4,0,0,0,0,0,0,34,0,8],[5,5,5,6,0,0,0,0,0,7],[5,5,5,6,0,0,0,35,0,7],[5,5,5,6,6,6,6,6,6,7]]",
+    "countyBG": "url('./countyMaps/derry.png')",
+    "top": "57px",
+    "left": "0px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "sligo",
+    "co": "sligo",
+    "locations": [
+      "Béal Átha na gCarraigíní",
+      "An Mullach Mór",
+      "Uaimheanna na Céise",
+      "Machaire Eabha",
+      "Baile Uí Ḋálaigh",
+      "Tobar an Ċoire"
+    ],
+    "locationsEng": [
+      "Bellanagarrigeeny - Ford of the flagstone",
+      "Mullaghmore - the great summit",
+      "Caves of Corann, Harper of Dain Céacht, God of healing.",
+      "Maugherow - the plain of Eabha",
+      "Ballydawley - home of the O Dalys",
+      "Tobercurry - well of the cauldron"
+    ],
+    "county": "Co. Ṡligiġ",
+    "mapData": "[[1,1,1,1,1,1,2,9,9,9],[1,1,1,1,1,33,0,0,9,9],[4,0,0,1,1,0,30,0,9,9],[4,0,0,34,0,0,0,0,8,8],[4,0,0,0,0,31,0,0,0,8],[4,0,0,0,0,0,0,0,0,8],[5,0,0,0,0,0,0,0,0,8],[5,0,0,35,0,0,0,32,0,7],[5,1,0,0,6,0,0,0,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/sligo.png')",
+    "top": "92px",
+    "left": "29px",
+    "zoom": "scale(1.8)"
+  },
+  {
+    "emblem": "tipperary",
+    "co": "tipperary",
+    "locations": [
+      "Ros Cré",
+      "Durlas",
+      "Faiċe Ró",
+      "Sliabh na mBan",
+      "Cluain Meala",
+      "Tigh na Naoi Míle"
+    ],
+    "locationsEng": [
+      "Roscrea - Crea's wood",
+      "Thurles - Durlas Éile - strong fort of the Eli people",
+      "Faiche Ro - Rosegreen",
+      "Slievenamo - The Women's mountain",
+      "Clonmel - honey meadow",
+      "Ninemilehouse - nine miles from Glenbower"
+    ],
+    "county": "Co. Tiobraid Árann",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,0,0,2,9,9,9],[3,3,3,0,0,0,0,9,9,9],[4,4,4,0,0,0,30,9,8,8],[4,4,4,0,0,0,0,0,8,8],[4,4,4,4,0,0,0,0,8,8],[4,4,4,4,33,0,31,0,8,8],[5,5,5,0,0,0,0,32,0,7],[5,5,5,6,34,0,35,7,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/tipperary.png')",
+    "top": "76px",
+    "left": "16px",
+    "zoom": "scale(1.8)"
+  },
+  {
+    "emblem": "laois",
+    "co": "laois",
+    "locations": [
+      "Eiréil ",
+      "Darú",
+      "An Baile Fionn",
+      "Droichead Crom Abú",
+      "Cúil an tSúdaire",
+      "Buiríos Mór Osraí"
+    ],
+    "locationsEng": [
+      "Errill - bed or tomb",
+      "Durrow - the oak plain",
+      "Ballyfin - the town of finn",
+      "Crom-a-Boo Bridge - Castle Crom forever bridge",
+      "Portarlington - nook of the tanner'",
+      "Borris-in-Ossory - Borrough of the ancient Kingdom of Osraige"
+    ],
+    "county": "Co. Laoise",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,0,0,0,0,0,0,0,0,9],[3,3,0,0,0,0,32,0,0,9],[4,30,0,31,0,0,0,0,0,8],[4,0,0,0,0,0,0,0,0,8],[4,0,0,0,0,0,0,0,0,8],[4,0,33,0,0,0,35,0,0,8],[5,0,0,0,0,0,0,0,0,7],[5,0,0,0,34,0,6,0,0,7],[5,5,5,6,6,6,6,6,7,7]]",
+    "countyBG": "url('./countyMaps/laois.png')",
+    "top": "88px",
+    "left": "-16px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "waterford",
+    "co": "waterford",
+    "locations": [
+      "Sléiḃte an Ċomaraigh",
+      "An Baile Dubh",
+      "Tullach an Iarainn",
+      "Cluain Ḟia",
+      "Dún Garḃán",
+      "Cill Ṁíodáin"
+    ],
+    "locationsEng": [
+      "The shepherd's mountains",
+      "the black town",
+      "The Hillock of Iron",
+      "Cluain Ḟia",
+      "Dungarvan - Garbhann's Fort",
+      "Cill Ṁíodáin"
+    ],
+    "county": "Co. Ṗort Láirge",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,0,0,2,9,9,9],[3,3,3,0,30,0,0,0,9,1],[4,0,31,0,0,0,0,0,35,0],[4,0,0,0,0,0,0,0,0,0],[4,0,0,0,0,0,1,1,1,1],[4,32,0,0,34,1,1,1,1,1],[5,5,0,0,33,1,1,1,1,1],[5,1,0,1,1,1,1,1,1,1],[5,1,1,1,1,1,1,1,1,1]]",
+    "countyBG": "url('./countyMaps/waterford.png')",
+    "top": "60px",
+    "left": "-14px",
+    "zoom": "scale(1.4)"
+  },
+  {
+    "emblem": "kilkenny",
+    "co": "kilkenny",
+    "locations": [
+      "Ġráinseaċ Ċuffe",
+      "Baile Ṁic Andáin",
+      "Bearna na Gaoiṫe",
+      "Dún Garḃáin",
+      "Baile an Ṗoill",
+      "Sliaḃ Rua"
+    ],
+    "locationsEng": [
+      "Cuffe's Grange",
+      "Fortress town of Anglo-Norman Mercenary Thomas FitzAnthony",
+      "windy gap",
+      "Fortress of the Rough people",
+      "Ballinphull - town of the hole",
+      "The red mountain"
+    ],
+    "county": "Co. Ċill Ċainniġ",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,0,0,0,0,0,0,9,9],[3,3,0,0,0,0,0,0,9,9],[4,4,4,30,0,0,0,0,8,8],[4,4,4,0,0,0,31,0,8,8],[4,4,4,0,0,32,0,0,8,8],[4,4,4,0,33,0,0,0,8,8],[5,5,5,34,0,0,0,0,7,7],[5,5,5,0,0,35,0,0,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/kilkenny.png')",
+    "top": "66px",
+    "left": "16px",
+    "zoom": "scale(1.4)"
+  },
+  {
+    "emblem": "meath",
+    "co": "meath",
+    "locations": [
+      "An Uaimh",
+      "Ráth Ċairn",
+      "Cill Ḃríde",
+      "Teamhair",
+      "Buaile na Bréachṁaí",
+      "Tigh na Sióg"
+    ],
+    "locationsEng": [
+      "Navan - the cave",
+      "Rathcairn -  ring-fort pile of rocks",
+      "Kilbride - Church of St Bridget",
+      "sacred space, elevated place",
+      "Ballinabrackey - Summer pasture of the wolf-plain",
+      "Fairyhouse"
+    ],
+    "county": "Co. Na Mí",
+    "mapData": "[[2,2,2,2,2,2,2,9,9,9],[2,3,3,0,0,0,0,9,9,9],[3,0,0,0,0,0,0,0,9,9],[4,0,0,0,30,0,0,0,0,8],[4,0,31,0,0,33,0,0,0,8],[4,4,0,32,0,0,0,0,0,8],[4,4,0,0,0,0,0,0,0,8],[5,5,0,0,0,0,35,0,0,7],[5,0,34,0,0,0,0,0,0,7],[5,5,5,5,6,6,7,7,7,7]]",
+    "countyBG": "url('./countyMaps/meath.png')",
+    "top": "60px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "kerry",
+    "co": "kerry",
+    "locations": [
+      "Cathair Saiḋḃín",
+      "An Daingean",
+      "Gleann na bPúcaí",
+      "Sliabh Mis",
+      "Na Cruaċa Duḃa",
+      "An tSnaidhm"
+    ],
+    "locationsEng": [
+      "Saidhbh city",
+      "The Stronghold",
+      "Valley of the Pookas",
+      "The Mountain of Mis",
+      "The Black Stacks",
+      "The Knot"
+    ],
+    "county": "Co. Ċiarraí",
+    "mapData": "[[1,1,1,1,1,1,0,0,9,9],[1,1,1,1,0,0,0,0,0,9],[1,0,0,0,33,0,0,0,0,9],[30,0,0,0,0,0,0,0,0,8],[31,1,32,1,0,0,0,0,0,8],[1,1,1,0,0,0,0,0,0,8],[4,0,0,0,0,34,0,0,0,8],[1,0,0,0,0,0,0,0,0,7],[1,0,35,0,1,0,0,0,0,7],[1,1,1,1,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/kerry.png')",
+    "top": "56px",
+    "left": "13px",
+    "zoom": "scale(1.3)"
+  },
+  {
+    "emblem": "longford",
+    "co": "longford",
+    "locations": [
+      "An Lios Breac",
+      "Meathais Troim",
+      "Gránard",
+      "Cluain Dá Ráth",
+      "Maiġ Duṁa",
+      "An Ċarraig Ḃuí"
+    ],
+    "locationsEng": [
+      "Lisbrack - the speckled ringfort",
+      "Mostrim - frontier of the elder tree",
+      "Granard - possibly meaning sun height or hill of the sun.",
+      "Cloondara - the meadow of two ringforts",
+      "Moydow - plain of the mound",
+      "Carrigboy - the yellow stone"
+    ],
+    "county": "Co. An Longfoirt",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,0,0,0,0,0,9],[3,3,3,0,0,0,0,0,0,9],[4,4,4,0,31,0,0,32,0,8],[4,4,30,0,0,0,0,0,0,8],[4,4,0,0,0,0,0,0,0,7],[4,4,33,0,34,0,35,0,7,7],[5,5,0,0,0,0,0,7,7,7],[5,5,0,0,0,0,0,7,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/longford.png')",
+    "top": "76px",
+    "left": "0px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "mayo",
+    "co": "mayo",
+    "locations": [
+      "Cill Ala",
+      "Caisleán an Ḃarraiġ",
+      "Baile Ui Ḟiacáin",
+      "An Caoláire Rua",
+      "Lios an tSaṁaiḋ",
+      "An Éill"
+    ],
+    "locationsEng": [
+      "Cill Ala",
+      "Caisleán an Ḃarraiġ",
+      "Baile Ui Ḟiacáin",
+      "An Caoláire Rua",
+      "Lios an tSaṁaiḋ",
+      "An Éill"
+    ],
+    "county": "Co. Ṁaigh Eo",
+    "mapData": "[[1,1,0,0,0,0,0,9,9,9],[1,1,1,0,0,0,0,9,9,9],[1,1,0,0,0,0,0,30,0,9],[1,0,0,0,31,0,0,0,0,8],[1,1,32,0,0,0,0,0,0,8],[1,1,1,0,0,0,0,0,0,8],[1,1,1,0,0,0,0,0,0,8],[1,1,1,0,34,0,0,0,0,7],[1,5,5,33,0,0,0,35,7,7],[5,5,5,5,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/mayo.png')",
+    "top": "60px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "westmeath",
+    "co": "westmeath",
+    "locations": [
+      "Baile na gCailleach",
+      "Loch Dairbhreach",
+      "Tulaigh an Eallaigh",
+      "Na Colúir",
+      "Cill Ḃeagáin",
+      "An Muileann gCearr"
+    ],
+    "locationsEng": [
+      "Collinstown - town of the veiled women or town of the hags",
+      "Lough Derravaragh - lake of the oaks",
+      "Tullynally - hillock of the swans",
+      "Corlis - the pidgeons",
+      "Kilbeggan - church of Bécán, distinguished Irish Saint",
+      "Mullingar - the crooked mill"
+    ],
+    "county": "Co. Na hIarṁí",
+    "mapData": "[[3, 3, 3, 3, 3, 2, 2, 9, 9, 9],[3,3,3,0,0,0,30,9,9,9],[3,3,3,0,0,0,0,0,0,9],[4,4,0,0,0,0,0,0,0,8],[4,0,0,0,0,0,31,0,0,8],[4,0,33,0,0,0,0,0,0,8],[4,0,0,0,32,0,0,0,0,8],[5,0,0,0,0,0,35,0,7,7],[6,6,6,6,34,0,7,7,7,7],[6,6,6,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/westmeath.png')",
+    "top": "60px",
+    "left": "1px",
+    "zoom": "scale(1.3)"
+  },
+  {
+    "emblem": "down",
+    "co": "down",
+    "locations": [
+      "An Lorgain",
+      "Lios na gCearrḃach",
+      "An Caisleán Riaḃach",
+      "An Ṁainistir Liath",
+      "Dún Pádraig",
+      "Cill Ċaoil"
+    ],
+    "locationsEng": [
+      "An Lorgain",
+      "Lios na gCearrḃach",
+      "An Caisleán Riaḃach",
+      "An Ṁainistir Liath",
+      "Dún Pádraig",
+      "Cill Ċaoil"
+    ],
+    "county": "Co. An Dúin",
+    "mapData": "[[3,3,3,2,2,2,2,2,1,1],[3,3,3,0,0,0,0,0,0,1],[3,3,3,0,32,0,0,0,33,1],[4,4,31,0,0,0,0,0,0,0],[4,4,0,0,0,0,0,0,0,0],[4,30,0,0,0,0,0,34,0,1],[4,4,0,0,0,0,0,0,1,1],[5,5,0,0,0,0,0,0,1,1],[5,5,0,0,35,0,1,1,1,1],[5,5,1,0,0,0,1,1,1,1]]",
+    "countyBG": "url('./countyMaps/down.png')",
+    "top": "58px",
+    "left": "15px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "armagh",
+    "co": "armagh",
+    "locations": [
+      "Sráid na nAlbanach",
+      "Craigavon",
+      "Port An Dúnáin",
+      "Baile Úr",
+      "Baile an Ṁuilinn",
+      "Lios Liath"
+    ],
+    "locationsEng": [
+      "Sráid na nAlbanach",
+      "Craigavon",
+      "Port An Dúnáin",
+      "Baile Úr",
+      "Baile an Ṁuilinn",
+      "The grey fortress"
+    ],
+    "county": "Co. Ard Ṁaċa",
+    "mapData": "[[3,3,3,30,0,32,2,2,2,9],[3,3,3,0,31,0,0,0,9,9],[3,3,0,0,0,0,0,0,9,9],[4,0,0,0,0,0,0,0,8,8],[4,0,0,0,34,0,0,0,8,8],[4,0,0,0,0,0,0,0,8,8],[4,5,0,33,0,0,0,0,8,8],[5,5,5,0,0,0,35,0,8,8],[5,5,5,5,0,0,0,0,8,8],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/armagh.png')",
+    "top": "65px",
+    "left": "20px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "carlow",
+    "co": "carlow",
+    "locations": [
+      "Cill Deirge",
+      "Baile Uí Ṁurċú",
+      "Baile Haicéid",
+      "An Ḃuiríos",
+      "Miseal",
+      "Cill Daṁáin"
+    ],
+    "locationsEng": [
+      "Cill Deirge",
+      "Baile Uí Ṁurċú",
+      "Baile Haicéid",
+      "An Ḃuiríos",
+      "Miseal",
+      "Cill Daṁáin"
+    ],
+    "county": "Co. Ċeaṫarlaċ",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,3,0,0,31,0,0,9],[3,3,0,30,0,0,8,0,0,9],[4,4,0,0,0,0,8,8,8,8],[4,4,0,0,0,32,0,8,8,8],[4,4,4,33,0,0,0,34,8,8],[4,4,5,0,0,0,35,8,8,8],[5,5,5,0,0,0,7,7,7,7],[5,5,5,0,0,0,7,7,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/carlow.png')",
+    "top": "58px",
+    "left": "0px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "monaghan",
+    "co": "monaghan",
+    "locations": [
+      "Scairbh na gCaorach",
+      "Cluain Eois",
+      "Mainistir Ḃuithe",
+      "Teach an Scotaigh",
+      "Crícheán Rua",
+      "Carraig Ṁaċaire Rois"
+    ],
+    "locationsEng": [
+      "Scairbh na gCaorach",
+      "Cluain Eois",
+      "Monastary of Saint Buíte",
+      "Teach an Scotaigh",
+      "Crícheán Rua",
+      "Carraig Ṁaċaire Rois"
+    ],
+    "county": "Co. Ṁuineaċáin",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,30,0,0,9,9,9,9],[3,3,0,0,0,0,0,9,9,9],[4,4,31,0,0,0,0,0,8,8],[4,0,0,0,32,0,0,0,0,8],[4,0,0,0,0,0,0,0,34,8],[4,33,0,0,0,0,0,0,0,8],[5,5,0,0,0,0,0,0,0,7],[5,5,5,5,0,0,0,35,0,7],[5,5,5,5,5,6,7,7,7,7]]",
+    "countyBG": "url('./countyMaps/monaghan.png')",
+    "top": "60px",
+    "left": "16px",
+    "zoom": "scale(1.7)"
+  },
+  {
+    "emblem": "galway",
+    "co": "galway",
+    "locations": [
+      "Poll an Phúca",
+      "Cill Cais",
+      "An Spidéal ",
+      "An Teach Dóite",
+      "An Ċeaṫrú Rua",
+      "Inis Meáin "
+    ],
+    "locationsEng": [
+      "Hole of the Pooka (Galway)",
+      "Cill Cais",
+      "An Spidéal ",
+      "An Teach Dóite",
+      "An Ċeaṫrú Rua",
+      "Inis Meáin "
+    ],
+    "county": "Co. na Gailliṁe",
+    "mapData": "[[1,3,3,2,2,2,2,9,9,9],[1,3,3,3,2,2,0,0,0,9],[0,0,0,0,0,0,30,0,0,9],[0,0,0,0,0,0,0,0,0,9],[1,0,34,0,32,0,0,0,0,9],[1,1,0,0,31,0,33,0,0,8],[1,35,0,1,1,0,0,0,0,8],[1,1,1,6,0,0,0,0,0,7],[1,1,1,6,6,6,6,7,7,7],[1,1,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/galway.png')",
+    "top": "61px",
+    "left": "14px",
+    "zoom": "scale(1.5)"
+  },
+  {
+    "emblem": "kildare",
+    "co": "kildare",
+    "locations": [
+      "Cairbre",
+      "Na Solláin",
+      "Fioḋ Alúine",
+      "Maigh Nuad",
+      "An Currach",
+      "Léim an Ḃradáin"
+    ],
+    "locationsEng": [
+      "Land of Lord Carbury, descendant of Niall of the Nine Hostages, King of Ireland.  (in Pagan times known as the Fairy-hill of Nechtain, King of Leinster, celebrated poet)",
+      "The Springs",
+      "Alun's Wood",
+      "Plain of Nuada",
+      "The flat open plain",
+      "Salmon Leap"
+    ],
+    "county": "Co. Ċill Dara",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,0,0,0,0,0,8],[3,3,3,0,0,0,0,31,0,8],[4,4,4,0,30,0,0,0,0,8],[4,4,4,0,0,0,0,0,0,8],[5,5,5,0,0,32,0,33,8,8],[5,5,5,0,0,0,0,8,8,8],[5,5,5,0,0,34,7,7,7,7],[5,5,5,0,0,0,35,7,7,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/kildare.png')",
+    "top": "46px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "clare",
+    "co": "clare",
+    "locations": [
+      "Ceann Boirne",
+      "Fíoch Rua",
+      "An Tulach",
+      "Cill Rois",
+      "Leaba Ṡíoda",
+      "Bun Raite"
+    ],
+    "locationsEng": [
+      "Ceann Boirne",
+      "Red Feud",
+      "The Hill",
+      "Church of Rois",
+      "Labasheeda - Silken bed",
+      "end of the Raite"
+    ],
+    "county": "Co. An Ċláir",
+    "mapData": "[[1,1,1,1,2,2,2,2,9,9],[1,1,1,0,0,0,0,0,9,9],[1,1,0,30,0,0,0,0,0,8],[1,1,0,0,0,0,0,0,0,8],[1,1,0,0,0,0,0,32,0,8],[1,1,0,31,0,0,0,0,0,8],[1,1,0,0,0,0,0,0,0,7],[0,0,0,34,0,1,35,0,0,7],[1,1,33,0,0,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1]]",
+    "countyBG": "url('./countyMaps/clare.png')",
+    "top": "61px",
+    "left": "23px",
+    "zoom": "scale(1.3)"
+  },
+  {
+    "emblem": "cavan",
+    "co": "cavan",
+    "locations": [
+      "Doire na Criaḋ",
+      "An Cnoc Rua",
+      "Béal Tairbirt",
+      "An Dromainn",
+      "Dún an Rí",
+      "Lios Cré"
+    ],
+    "locationsEng": [
+      "Derrynacreeve - Oakwood of the clay",
+      "Redhills - the red hill",
+      "Belturbet - mouth of the isthmus",
+      "The ridge",
+      "Dunaree - fort of the king",
+      "Lisgrea - ringfort of earth"
+    ],
+    "county": "Co. An Caḃáin",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[4,0,30,2,2,9,9,9,9,9],[4,0,0,0,2,9,9,9,9,9],[4,0,0,0,31,0,0,0,8,8],[4,4,0,0,0,0,32,0,0,8],[4,4,0,0,0,0,0,0,0,8],[4,4,5,0,0,0,0,0,34,8],[5,5,5,5,0,0,33,0,0,7],[5,5,5,5,0,0,0,0,35,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/cavan.png')",
+    "top": "80px",
+    "left": "0px",
+    "zoom": "scale(1.4)"
+  },
+  {
+    "emblem": "tyrone",
+    "co": "tyrone",
+    "locations": [
+      "Caisleán na Deirge",
+      "Baile Mhic Gofraidh",
+      "An Ómaigh",
+      "Seisceann Siúil",
+      "An Ċorr Ċríochach",
+      "Dún Geanainn"
+    ],
+    "locationsEng": [
+      "Castlederg - Castle on the red river",
+      "Ballymagorry - MacGorry's townland Norse",
+      "Omagh - the virgin plain",
+      "Sheskinshule - the moving bog",
+      "Cookstown - The hollow hill/boundry ",
+      "Dungannon - Gannon's stronghold (Makers of glass since ancient times)"
+    ],
+    "county": "Co. Ṫír Eoghain",
+    "mapData": "[[3,3,3,2,2,2,2,9,9,9],[3,3,3,0,0,2,2,9,9,9],[3,3,0,0,31,0,0,9,9,9],[4,0,30,0,0,0,0,0,8,8],[4,0,0,0,32,0,33,0,0,8],[4,0,0,0,0,0,0,0,0,8],[4,0,0,0,0,0,0,0,34,8],[5,5,0,0,0,0,35,0,0,7],[5,5,5,6,0,0,0,0,0,7],[5,5,5,6,6,6,6,7,7,7]]",
+    "countyBG": "url('./countyMaps/tyrone.png')",
+    "top": "76px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  },
+  {
+    "emblem": "geaga",
+    "co": "geaga",
+    "locations": [
+      "Caisleán na Deirge",
+      "Baile Mhic Gofraidh",
+      "An Ómaigh",
+      "Seisceann Siúil",
+      "An Ċorr Ċríochach",
+      "Dún Geanainn"
+    ],
+    "county": "ó náid go haon",
+    "mapData": "[[3,3,3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3,3,3],[3,0,0,0,0,0,0,0,0,3],[3,0,0,0,0,0,0,0,0,3],[3,0,0,0,0,0,0,0,0,3],[3,0,0,0,0,0,0,0,0,3],[3,0,0,0,0,0,0,0,0,3],[3,0,0,0,0,0,0,0,0,3],[3,3,3,3,3,3,3,3,3,3]]",
+    "countyBG": "url('./countyMaps/geaga-2.png')",
+    "top": "76px",
+    "left": "16px",
+    "zoom": "scale(1.6)"
+  }
+]

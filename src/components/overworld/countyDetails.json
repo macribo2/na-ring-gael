@@ -1,0 +1,626 @@
+{
+
+  "naContae": [{
+      "contae": "Co. Aontroma",
+      "county": "Co. Antrim",
+      "emblem":"antrim",
+      "details": {
+        "ceantracha": ["ceantarReaċlainn", "Dearḃóg", "Aċaḋ Eoċaille",
+          "Carn Ṁéaḃla",
+          "Carraig Ḟearġais",
+          "Béal Feiriste"
+        ],
+        "ceantarx": [234, 218, 237, 275, 353, 314],
+        "ceantary": [5, 47, 201, 299, 273, 353]
+
+      }
+    },
+
+
+    {
+      "contae": "Co. Ard Ṁaċa",
+      "county": "Co. Armagh",
+      "emblem":"armagh",
+      
+      "details": {
+        "ceantracha": [
+          "Sráid na nAlbanach",
+          "Craigavon",
+          "Port An Dúnáin",
+          "Baile Úr",
+          "Baile an Ṁuilinn",
+          "Lios Liath"
+        ],
+        "ceantarx": [233, 291, 313, 217, 243, 308],
+        "ceantary": [14, 25, 9, 290, 166, 333]
+
+      }
+    },
+
+    {
+      "contae": "Co. Ċeaṫarlaċ",
+      "county": "Co. Carlow",
+      "emblem":"carlow",
+      "details": {
+        "ceantracha": [
+          "Cill Deirge",
+          "Baile Uí Ṁurċú",
+          "Baile Haicéid",
+          "An Ḃuiríos",
+          "Miseal",
+          "Cill Daṁáin"
+        ],
+        "ceantarx": [225, 328, 274, 198, 342, 330],
+        "ceantary": [64, 21, 172, 215, 200, 250]
+
+      }
+	}
+	,
+
+    {
+      "contae":     "Co. An Caḃáin",
+"emblem":"cavan",
+      "county": "Co. Cavan",
+      "details": {
+        "ceantracha":  [
+			"Doire na Criaḋ",
+			"An Cnoc Rua",
+			"Béal Tairbirt",
+			"An Dromainn",
+			"Dún an Rí",
+			"Lios Cré"
+		  ],
+        "ceantarx": [138, 278, 340, 380, 463, 428],
+        "ceantary":  [58, 108, 149, 300, 275, 340]
+
+      }
+    },
+
+    {
+    "emblem":"clare",
+      "contae": "Co. Clare",
+      "county": "Co. An Ċláir",
+      "details": {
+      
+        "ceantracha":  [
+			"Ceann Boirne",
+			"Fíoch Rua",
+			"An Tulach",
+			"Cill Rois",
+			"Leaba Ṡíoda",
+			"Bun Raite"
+		  ], 
+        "ceantarx":   [125, 159, 344, 110, 163, 321],
+        "ceantary":   [21, 195, 193, 371, 341, 270]
+
+      }
+	},
+	
+    {
+    "emblem":"cork",
+		"contae":  "Co. Ċorcaí ",
+		"county": "Co. Cork",
+		"details": {
+		  "ceantracha": [
+			"Cill na Mallaċ",
+			"Sliabh an Nóglaigh",
+			"Gleann an Ṗreaċáin",
+			"Beal na mḂláth",
+			"Cionn tSáile",
+			"An Sciobairín"
+		  ],
+		  "ceantarx":  [346, 405, 404, 362, 378, 191],
+		  "ceantary": [90, 123, 156, 246, 286, 345]
+  		}
+	  },
+	  {
+	  "emblem":"derry",
+		"contae": "Co. Ḋoire",
+		"county":   "Co. Derry",
+		"details": {
+		  "ceantracha":  [
+			"Doire",
+			"Léim an Ṁadaiḋ",
+			"Droichead Fíolta",
+			"Maċaire Ráṫa",
+			"An Seanṁullach",
+			"Muine Mór"
+		  ],
+		  "ceantarx":  [80, 234, 267, 411, 370, 389],
+		  "ceantary":  [139, 112, 155, 247, 294, 368]
+  
+		}
+	  },
+  
+	  {
+	  "emblem":"donegal",
+		"contae": "Co. Ḋún na nGall",
+		"county": "Co. Donegal",
+		"details": {
+		  "ceantracha":   [
+			"Cionn Dhún Damh",
+			"Bun na hAḃann",
+			"Sléiḃte Ḋoire Ḃeatha",
+			"Leitir Ceanainn",
+			"Bealach Féich",
+			"Na Cruaċa"
+		  ],
+		  "ceantarx":     [382, 234, 214, 305, 270, 189],
+		  "ceantary":     [18, 81, 127, 191, 247, 268]
+  
+		}
+	  },
+	  
+	  {
+	  "emblem":"down",
+		  "contae": "Co. An Dúin",		  "county": "Co. Down",
+		  "details": {
+			"ceantracha":   [
+				"An Lorgain",
+				"Lios na gCearrḃach",
+				"An Caisleán Riaḃach",
+				"An Ṁainistir Liath",
+				"Dún Pádraig",
+				"Cill Ċaoil"
+			  ],
+			"ceantarx":     [123, 230, 281, 412, 393, 222],
+			"ceantary": [177, 114, 103, 117, 242, 401]			}
+		}
+		,
+
+    {
+    "emblem":"dublin",
+      "contae":  "Co. Ḃaile Átha Ċliath",
+	  
+      "county": "Co. Dublin",
+      "details": {
+        "ceantracha": [
+			"Fionnġlas",
+			"Cluain Dolcáin",
+			"Cluain Tarbh",
+			"Binn Éadair",
+			"Dún Laoiġaire",
+			"Deilginis"],
+        "ceantarx": [254, 240, 281, 303, 271, 303],
+        "ceantary": [190, 256, 254, 250, 297, 319]
+
+      }
+    },
+
+    {
+    "emblem":"fermanagh",
+      "contae":  "Co. Ḟear Manaċ",
+      "county": "Co. Fermanagh",
+      "details": {
+        "ceantracha": [
+			"An Garastún ",
+			"Paiteagó",
+			"Eadarnaiḋ",
+			"Lios na Daróg",
+			"Scriobaċ",
+			"Inis Ceiṫleann"
+		  ],
+        "ceantarx":  [19, 148, 258, 257, 132, 273],
+        "ceantary": [84, 35, 20, 106, 196, 213]
+
+      }
+	},
+	
+    {
+    "emblem":"galway",
+		"contae":  "Co. na Gailliṁe",
+		"county": "Co. Galway",
+		"details": {
+		  "ceantracha": [
+			"Poll an Phúca",
+			"Cill Cais",
+			"An Spidéal ",
+			"An Teach Dóite",
+			"An Ċeaṫrú Rua",
+			"Inis Meáin "
+		  ],
+		  "ceantarx":  [341, 215, 246, 338, 122, 111],
+		  "ceantary":   [146, 233, 217, 280, 236, 299]
+  		}
+	  },
+	  {
+	  "emblem":"kerry",
+		"contae":  "Co. Ċiarraí",
+		"county": "Co. Kerry",
+		"details": {
+		  "ceantracha":  [
+			"Cathair Saiḋḃín",
+			"An Daingean",
+			"Gleann na bPúcaí",
+			"Sliabh Mis",
+			"Na Cruaċa Duḃa",
+			"An tSnaidhm"
+		  ],
+		  "ceantarx": 
+		  [9, 17, 111, 234, 235, 123],
+		  "ceantary": [118, 159, 159, 110, 268, 374]
+  
+		}
+	  },
+  
+	  {
+	  "emblem":"kildare",
+		"contae":  "Co. Ċill Dara",
+		"county": "Co. Kildare",
+		"details": {
+		  "ceantracha": 
+		  [
+			"Cairbre",
+			"Na Solláin",
+			"Fioḋ Alúine",
+			"Maigh Nuad",
+			"An Currach",
+			"Léim an Ḃradáin"
+		  ],
+		  "ceantarx": [239, 372, 254, 368, 329, 334],
+		  "ceantary":     [118, 110, 159, 159, 268, 374]
+  
+		}
+	  },
+	  
+	  
+	  {
+	  "emblem":"kilkenny",
+		  "contae":    "Co. Ċill Ċainniġ",
+		  "county": "Co. Kilkenny",
+		  "details": {
+			"ceantracha": [
+				"Ġráinseaċ Ċuffe",
+				"Baile Ṁic Andáin",
+				"Bearna na Gaoiṫe",
+				"Dún Garḃáin",
+				"Baile an Ṗoill",
+				"Sliaḃ Rua"
+			  ],
+			"ceantarx":[157, 272, 207, 274, 215, 274],
+			"ceantary":  [228, 295, 300, 334, 361, 397]
+			}
+		}
+		,
+
+    {
+    "emblem":"laois",
+      "contae": "Co. Laoise",
+      "county": "Co. Laois",
+      "details": {
+        "ceantracha": [
+			"Eiréil ",
+			"Darú",
+			"An Baile Fionn",
+			"Baile Átha Í",
+			"Cúil an tSúdaire",
+			"Buiríos Mór Osraí"
+		  ],
+        "ceantarx":  [161, 265, 298, 109, 249, 275],
+        "ceantary": [119, 121, 84, 285, 316, 255]
+
+      }
+    },
+
+    {
+    "emblem":"leitrim",
+      "contae": "Co. Liatroma",
+      "county": "Co. Leitrim",
+      "details": {
+        "ceantracha":   [
+			"Gleann Éada",
+			"Garḃach",
+			"Droim Seanḃó",
+			"Aċaḋ na Síleann",
+			"Fíonach",
+			"Dromad"
+		  ],
+        "ceantarx":    [182, 202, 222, 302, 310, 272],
+        "ceantary": [47, 126, 208, 215, 278, 347]
+	
+
+      }
+	},
+	
+    {
+    "emblem":"limerick",
+		"contae":     "Co. Luimnigh",
+		"county": "Co. Limerick",
+		"details": {
+		  "ceantracha":[
+			"Pailis Ċaonraí",
+			"Poll an Phúca",
+			"Caisleán Uí Ċonaill",
+			"Áth na bḞuinseog",
+			"An Ḟeoṫanaċ",
+			"Brú Rí"
+		  ],
+		  "ceantarx": [198, 284, 376, 98, 151, 220],
+		  "ceantary":[64, 46, 19, 247, 268, 178]
+  		}
+	  },
+	  {
+	  "emblem":"longford",
+		"contae":  "Co. An LongFoirt",
+		"county": "Co. Longford",
+		"details": {
+		  "ceantracha": [ "An Lios Breac",
+			"Meathais Troim",
+			"Gránard",
+			"Cluain Dá Ráth",
+			"Maiġ Duṁa",
+			"An Ċarraig Ḃuí"],
+		  "ceantarx":     [197, 300, 393, 166, 232, 306],
+		  "ceantary":  [154, 171, 154, 245, 231, 232]
+  
+		}
+	  },
+  
+	  {
+	  "emblem":"louth",
+		"contae":   "Co.Lú",
+		"county": "Co. Louth",
+		"details": {
+		  "ceantracha": 
+		  [
+			"Dún Dealgan",
+			"An Grianfort",
+			"Ceann Ċloċair",
+			"Baile Átha Ḟirdia",
+			"Poll an Phúca",
+			"Baile an Ġearlánaigh",
+			"Oileán Ciara"
+
+		  ],
+		  "ceantarx":    [287, 370, 450, 187, 254, 323,363],
+		  "ceantary":     [87, 137, 53, 286, 254, 236,333]
+  
+		}
+	  },
+	  
+	  {
+	  "emblem":"mayo",
+		  "contae":   "Co. Mhaigh Eo",
+		  "county": "Co. Mayo",
+		  "details": {
+			"ceantracha": [
+				"Cill Ala",
+				"Caisleán an Ḃarraiġ",
+				"Baile Ui Ḟiacáin",
+				"An Caoláire Rua",
+				"Lios an tSaṁaiḋ",
+				"An Éill"
+			  ],
+			"ceantarx":    [380, 235, 155, 196, 366, 251],
+			"ceantary":    [108, 172, 196, 341, 350, 335]
+			}
+		}
+		,
+
+    {
+    "emblem":"meath",
+      "contae": "Co. Na Mí",
+      "county": "Co. Meath",
+      "details": {
+        "ceantracha":     [
+			"An Uaimh",
+			"Ráth Ċairn",
+			"Cill Ḃríde",
+			"Teamhair",
+			"Buaile na Bréachṁaí ",
+			"Tigh na Sióg"
+		  ],
+        "ceantarx":  [274, 206, 240, 298, 122, 349],
+        "ceantary":   [187, 203, 240, 224, 387, 356]
+
+      }
+    },
+
+    {
+    "emblem":"monaghan",
+      "contae":  "Co. Ṁuineaċáin",
+      "county": "Co. Monaghan",
+      "details": {
+        "ceantracha":  [
+			"Scairbh na gCaorach",
+			"Cluain Eois",
+			"Einistir Ḃuithe",
+			"Teach an Scotaigh",
+			"Crícheán Rua",
+			"Carraig Ṁaċaire Rois"
+		  ],
+        "ceantarx": 
+		[249, 191, 234, 132, 380, 383],
+        "ceantary":  [17, 73, 148, 281, 200, 402]
+
+      }
+	},
+	
+    {
+    "emblem":"offaly",
+		"contae":     "Co. Uíḃ Ḟailí",
+		"county": "Co. Offaly",
+		"details": {
+		  "ceantracha":
+		  [
+			"Cluain Ṁic Nóis",
+			"Éadan Doire",
+			"Biorra",
+			"Cionn Eitigh",
+			"Ráth Iomġáin",
+			"Suí an Róin"
+		  ],		  "ceantarx":  [133, 442, 143, 222, 432, 141],
+		  "ceantary":     [88, 76, 215, 253, 154, 284]
+  		}
+	  },
+	  {
+	  "emblem":"roscommon",
+		"contae": "Co. Ros Comáin",
+		"county": "Co. Roscommon",
+		"details": {
+		  "ceantracha":
+		  [
+			"Cluain Fada",
+			"Baile an Tobair",
+			"Loch Bó Finne",
+			"Scramóg",
+			"Loch Bó Dearge",
+			"Corr na Fola"
+		  ],
+		  "ceantarx": 
+		  [164, 240, 357, 316, 353, 328],
+		  "ceantary": [215, 191, 124, 211, 212, 354]
+  
+		}
+	  },
+  
+	  {
+	  "emblem":"sligo",
+		"contae":  "Co. Shligigh",
+		"county": "Co. Sligo",
+		"details": {
+		  "ceantracha":     [
+			"Béal Átha na gCarraigíní",
+			"An Mullach Mór",
+			"An Ċéis",
+			"Gob Reaċla",
+			"Baile Uí Ḋálaigh",
+			"Tobar an Ċoire"
+		  ],
+		  "ceantarx":[306, 295, 375, 261, 204, 195],
+		  "ceantary":     [110, 190, 315, 98, 166, 324]
+  
+		}
+	  },
+	  
+	  {
+	  "emblem":"tipperary",
+		  "contae":     "Co. Ṫiobraid Árann",
+		  "county": "Co. Tipperary",
+		  "details": {
+			"ceantracha":[
+				"Ros Cré",
+				"Durlas",
+				"Faiċe Ró",
+				"Sliabh na mBan",
+				"Cluain Meala",
+				"Tigh na Naoi Míle"
+			  ],
+			"ceantarx":  
+			[293, 332, 358, 282, 259, 363],
+			"ceantary":[102, 263, 285, 307, 342, 309]
+			}
+		}
+		,
+
+    {
+    "emblem":"tyrone",
+      "contae": "Co. Ṫír Eoghain",
+      "county": "Co. Tyrone",
+      "details": {
+        "ceantracha": 
+		[
+		  "Caisleán na Deirge",
+		  "Baile Mhic Gofraidh",
+		  "An Ómaigh",
+		  "An Caisleán Glas",
+		  "An Ċorr Ċríochach",
+		  "Dún Geanainn"
+		],
+        "ceantarx": [157, 268, 211, 302, 426, 386],
+        "ceantary": [113, 103, 161, 175, 221, 306]
+
+      }
+    },
+
+    {
+    "emblem":"waterford",
+      "contae": "Co. Ṗort Láirge",
+      "county": "Co. Waterford",
+      "details": {
+        "ceantracha":     [
+			"Sléiḃte an Ċomaraigh",
+			"An Baile Dubh",
+			"Tullach an Iarainn",
+			"Cluain Ḟia",
+			"Dún Garḃán",
+			"Cill Ṁíodáin"
+		  ],
+        "ceantarx":     [261, 103, 85, 185, 251, 406],
+        "ceantary":     [138, 188, 266, 357, 257, 169]
+
+      }
+	},
+	
+    {
+    "emblem":"westmeath",
+		"contae":     "Co. Na hIarṁí",
+		"county": "Co. Westmeath",
+		"details": {
+		  "ceantracha": [
+			"Baile na gCailleach",
+			"Ráth Ḟearna",
+			"An Teanga",
+			"Na Colúir",
+			"Cill Ḃeagáin",
+			"An Muileann gCearr"
+		  ],
+		  "ceantarx": [393, 467, 14, 74, 223, 374],
+		  "ceantary": [48, 166, 178, 221, 314, 252]
+  		}
+	  },
+	  {
+	  "emblem":"wexford",
+		"contae": "Co. Loch Garman",
+		"county": "Wexford",
+		"details": {
+		  "ceantracha": 
+		  [
+			"Coill an Iarainn",
+			"Inis Córṫaidh",
+			"Poll an Phúca",
+			"Maolán na nGaḃar",
+			"An Abhainn Dubh",
+			"Dún Ċormaic"
+		  ],
+		  "ceantarx": 
+		  [393, 345, 236, 288, 118, 301],
+		  "ceantary":     [17, 123, 152, 181, 308, 352]
+  
+		}
+	  },
+  
+	  {
+	  "emblem":"wicklow",
+		"contae":     "Co. Ċill Ṁantáin",
+		"county": "Co. Wicklow",
+		"details": {
+		  "ceantracha":     [
+			"Poll an Ṗúca",
+			"Na Cloċa Liaṫa",
+			"Siol Éalaiġ",
+			"Dún Ard",
+			"An tInḃear Mór",
+			"Aḃóca"
+		  ],
+		  "ceantarx":[216, 374, 164, 155, 329, 360],
+		  "ceantary":     [69, 70, 125, 185, 293, 293]
+  
+		}
+	  },
+	  
+	  {
+	  "emblem":"other",
+		  "contae": "Tír Tuatha",
+		  "county": "Otherside",
+		  "details": {
+			"ceantracha": [],
+			"ceantarx": [],
+			"ceantary": []
+			}
+		}
+	
+
+	  
+  ]
+}

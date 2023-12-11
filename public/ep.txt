@@ -1,0 +1,38 @@
+
+//first draft content. Deeper arrays of user generated content go here, as users start to write and scp json arrays to dialogue content json files for the locals.  
+
+{"TITLE":"San-Jay, an Scéalaí is fearr in Éireann",
+
+"Chapter1":"Cá bhfuil ár dtríal?,
+
+"Iarr ar..." : "Péist as Pol an Púca ag muíomh gurb ea, an scéalaí is fearr in Éireann é.",
+"Chapter2":"Cad is ainm dó?","Brostímís go Pol an Púca!","Fillfaidh mé le bun an scéal!"
+"Chapter3":"
+	['JSON is ainm dó. San-Jay JSON, Scéalaí an gréasán, a déir sé.  Curfar béasaí ar sílim!','Glaoghann sé San-Jay ar féin. San-Jay Json - Scéalaí an gréasán - Dúthlán curtha aige roimh scéalí na tíre árd agus íseal. Tá na ríthe bailthe theanna féín. Na draoithe chomh maith, deirtear. Feicfaidh mé dom féin...'
+				'
+','','']",
+"Chapter4":"and so everyone's rushing to Pol an Púca. But aren't they all tricked.
+I know where the Devil he is. He's down there. You are... awaited.",
+"Chapter5":"a short aside into how to count in Binary, and how that translates to user input, typing numbers. This is won by choosing the non-lethal path out of the fairy ring.",
+"Chapter6":"So now the user can choose a value for 3 or 4 keys in a character attributes values such as motto; message; ",
+"Chapter7":"{"Motto":"Let's be remembered for our code."}",
+"Chapter8":"intro to linux command line as Gaeilge in the style of MIT's Terminus. But also sometimes, a Rogue-along. Rógaire. Among the side-quests, Eventually user will have learned how to create a directory navigate to it; create a json document; add character data to it and send it to a remote database from the command-line, where a node.js module adds it to the dialogue arrays of various creatures and locations",
+"Chapter9":"And that's San-Jay, the story-teller of the internet.
+Part II: Node.js."
+}
+
+
+
+Cé éile a mbaidh sa buíonn?
+
+
+lorg capal
+
+lorg airgead
+
+diúltaigh
+
+brostaigh
+
+
+Amen

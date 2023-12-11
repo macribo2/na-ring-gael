@@ -1,0 +1,85 @@
+@font-face {
+	font-family: aonchlo;
+	src: url('../../fonts/aonchlo.ttf');
+  }
+.storyteller{
+	font-family:'aonchlo' ,Arial, Helvetica, sans-serif
+}
+
+.player-stats-table{
+	font-family:'aonchlo' ,Arial, Helvetica, sans-serif;
+
+	margin-top: 31%;
+    margin-left: 11%;
+}
+.score-container,.score-text-container, .score-bg-container, .ring-shine-container{
+	pointer-events: none;
+	height: 100%;
+	width:100%;
+	top:0;
+	left:0;
+	justify-content: center;
+	justify-items: center;
+	text-align: center;
+	position: fixed;
+transform:scale(1);
+
+	/* border: 4px solid blue; */
+}
+.ring-shine-container{
+	display:flex;
+	transform: scale(0.5);
+	z-index: 9000;
+	/* animation: ring-shine-1 6s forwards linear; */
+}
+.ring-shine{
+	transform: scale(0.5);
+
+
+}
+	.score-container{
+	/* background-color: black; */
+	z-index: 1899;
+	display:none;
+} 
+.score-text-container{
+	z-index:2002;
+	pointer-events:none;
+	transform:scale(1);
+} 
+.arcadia{
+	
+	transform:scale(1.2);
+
+}
+.score-bg-container{
+	z-index:1900 ;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+	justify-content: center;
+	display:flex;
+	/* border:4px solid blue; */
+
+}
+
+.ring-found-bg{
+	transform:scale(1.2);
+
+}
+.round-btn{
+	pointer-events:all;
+
+	z-index: 1996;
+    background-color: rgba(0,0,0,0);
+    height: 200px;
+    width: 200px;
+}
+
+@keyframes ring-shine-1 {
+	0%{ }
+
+	100%{}
+	
+}

@@ -1,0 +1,2 @@
+#canvas{align-items:center;display:flex;justify-content:center}#canvas,.Icon{height:512px;width:512px}.Icon{transition:all .1s ease-out 0s}circle,path,text{transition:all .2s ease}text::selection{background:transparent}text{cursor:move}@keyframes highlight{0%{opacity:1;fill:transparent}25%{opacity:.5;fill:#fbf694}50%{opacity:1;fill:transparent}75%{opacity:.5;fill:#fbf694}to{opacity:1;fill:transparent}}path.selected{animation-name:highlight;animation-duration:.5s;animation-timing-function:ease-in-out}
+/*# sourceMappingURL=8.05257f3c.chunk.css.map */
