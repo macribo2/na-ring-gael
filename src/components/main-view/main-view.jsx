@@ -186,13 +186,13 @@ export default function App() {
 				
 			],
 			
-		},		{
+		}, {
 			questionText: '',
 			answerOptions: [
 				
 			],
 			
-		},		{
+		}, {
 			questionText: '',
 			answerOptions: [
 				
@@ -200,11 +200,11 @@ export default function App() {
 			
 		},
 		{
-			questionText: 'Roghnaigh fichillín, ' + heroNames[localStorage.getItem('portrait')]+'. ',
+			questionText: 'Roghnaigh fichillín, ' + heroNames[localStorage.getItem('portrait')] + '. ',
 			answerOptions: [
 				
 			],
-			quesionTextEng:'//?, '+ heroNames[localStorage.getItem('portrait')]+'.'
+			quesionTextEng: 'Black Molly invites your gambit,'  + heroNames[localStorage.getItem('portrait')]+'.' 
 		},
 	
 		{
@@ -455,7 +455,15 @@ if (score === 1){
 
 		const nextQuestion = currentQuestion + 1;
 		setCurrentQuestion(nextQuestion);
+
 	} 
+
+	if (currentQuestion === 7) {
+		let boards = document.getElementsByClassName('county-game-board');
+		if (boards.length > 0) {
+		  boards[0].style.display = 'block';
+		}
+	  }
 	const handleAnswerButtonClick = (isCorrect, storyPath) => {
 		setIsFadedOut(false)
 		// alert('handleAnswer')
@@ -518,6 +526,7 @@ if(value*10 !== 0 ){
 	}
 
 	const buttonMash2Click= (isCorrect, someVal) => { 
+		
 		setIsFadedOut(false)
 		setIsFadedOut(true)
 
@@ -532,6 +541,9 @@ if(value*10 !== 0 ){
 		} else { setShowScore(true)}
 		console.log("currentQuestion" + currentQuestion)
 		console.log("value:" + value)
+
+			
+		
 	
 	}
 
@@ -636,6 +648,26 @@ let thePucaOf = localStorage.getItem('pucaEng')
 	window.mobileAndTabletCheck();
 
 	return (<>
+
+		
+{isOn ? (<div id="glass">
+
+< img  src={glass} className="question-img" rel="preload" id="glass-img" alt="glass bg for translucent overlay effect." />	
+
+				<p id="hints" className={isFadedOut ? 'fadedIn' : ' fadedOut'} >{hints[currentQuestion] }</p>
+				<p className={isFadedOut ? 'fadedIn hints' : ' fadedOut hints'}  id="hintsA">{hintsAnswersA[currentQuestion] }</p>
+				<p className={isFadedOut ? 'fadedIn hints' : ' fadedOut hints'}id="hintsB" >{hintsAnswersB[currentQuestion] }</p>
+				{/* <p className="hints" id="hintsC">{hintsAnswersC[currentQuestion]}</p>
+				 */}
+				{/* <p className="hints" id="hintsD">{hintsAnswersD[currentQuestion] }</p> */}
+				{/* <h2 id="pOf"> {thePucaOf}</h2>  */}
+
+
+				<p className={currentQuestion === 1 ? "choice-ring-0-hint" : "hidden"}>{choiceRingEng[value * 10]}</p>
+
+		
+				</div>) : null}
+			
 		{ checkFerna}
 		
 		<img src={bgDark} className="black-bg" alt="black"/>
@@ -644,17 +676,15 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		
 
 		<img id="portrait" rel="preload" src={ portrait}></img>
-		<button id={currentQuestion === 7 || currentQuestion === 0 ? "hidden" : "toggle-glass-btn"} onClick={toggleIsOn} ><img src={ isOn ?pearl:emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
-
+	
 
 			{currentQuestion === 1 ? <>
 				
 				<div className="input-elements-bg-container">
 				
-					<img rel="preload"src={lens} id="lens" alt="a glass 	" />
+					<img rel="preload"src={lens} id="lens" alt="a glass" />
 				</div>
-
-				
+		
 				<div className="input-elements-container">
 
 				<CircularInput className="dial" value={value} onChange={v => setValue(stepValue(v))} >{ }
@@ -698,16 +728,19 @@ let thePucaOf = localStorage.getItem('pucaEng')
 					</div>
 					
 				</div>
+
+				
 				<div className="input-elements-container">
 {/* 					show wheel of fortune when puca selected
 				{value * 10 === 8 ? <Fortuna currentQuestion={ currentQuestion} handleAnswerButtonClick={handleAnswerButtonClick} /> : null}
 				 */}
 				</div>
 			</> : null}
+
+			
 			<div className='stars-container'>
 			<img id="stars" rel="preload" src={stars} className="question-img" alt="wheeling starfield" />		
 			</div>
-				
 			{showSettings ? <SettingsMenu 
 				incrementScore={incrementScore} tallyX={0} avatar={localStorage.getItem('portrait')} whereAmI="geaga" isOn={isOn} heroName={heroNames[localStorage.getItem('portrait')]} heroNameEng={ heroNamesEng[localStorage.getItem('portrait')]}
 				toggleIsOn={toggleIsOn}  showSettings={showSettings} handleInputSelect={handleInputSelect} />
@@ -822,30 +855,13 @@ let thePucaOf = localStorage.getItem('pucaEng')
 			
 
 			{currentQuestion === 6 ? < Rings0 toggleIsOn={toggleIsOn} isOn={ isOn} isFadedOut={ isFadedOut}  buttonMashClick={buttonMash2Click} /> : null}
+				
+			<button id={currentQuestion === 7 || currentQuestion === 0 ? "hidden" : "toggle-glass-btn"} onClick={toggleIsOn} ><img src={ isOn ?pearl:emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 
 			
 			<img id="fields-lens" rel="preload" src={darkGreenFields} className="question-img" alt="dark green fields lens" />		
 
-			
 			 
-				{isOn ? (<div id="glass">
-
-				<p id="hints" className={isFadedOut ? 'fadedIn' : ' fadedOut'} >{hints[currentQuestion] }</p>
-				<p className={isFadedOut ? 'fadedIn hints' : ' fadedOut hints'}  id="hintsA">{hintsAnswersA[currentQuestion] }</p>
-				<p className={isFadedOut ? 'fadedIn hints' : ' fadedOut hints'}id="hintsB" >{hintsAnswersB[currentQuestion] }</p>
-				{/* <p className="hints" id="hintsC">{hintsAnswersC[currentQuestion]}</p>
-				 */}
-				{/* <p className="hints" id="hintsD">{hintsAnswersD[currentQuestion] }</p> */}
-				{/* <h2 id="pOf"> {thePucaOf}</h2>  */}
-
-
-< img  src={glass} className="question-img" rel="preload" id="glass-img" alt="glass bg for translucent overlay effect." />	
-
-				<p className={currentQuestion === 1 ? "choice-ring-0-hint" : "hidden"}>{choiceRingEng[value * 10]}</p>
-
-		
-				</div>) : null}
-			
 				<div id="holder" className="avatar-holder" >
 								<div className='fader'>
 			<img rel="preload" src={tutorial0} className={value*10 === 0 ? 'avatar':'hidden' } id="tutorial0" alt="a spinning arrow circle inviing user input" />

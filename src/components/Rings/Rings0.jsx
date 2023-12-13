@@ -114,9 +114,6 @@ export default function Rings0(props) {
 			{props.isOn ? <p className="rings0Eng">{Ring2AnsEng[value * 10]}</p> : null}
 			{ localStorage.setItem('freagra1', value * 10)
 }
-			<button id="ring-glass-btn" onClick={props.toggleIsOn
-			}	><img src={props.isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
-			
 
 
 			<button className="button-mash-ring-0" onClick={props.buttonMashClick}></button>
@@ -130,6 +127,9 @@ export default function Rings0(props) {
 			<ReactAudioPlayer src={value*10 === 8 ? spark0: null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 9 ? spark0: null} autoPlay />
 			 */}
+			<button id="ring-glass-btn" onClick={props.toggleIsOn
+			}	><img src={props.isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
+			
 			
 		</>)
 };

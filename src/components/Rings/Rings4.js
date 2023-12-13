@@ -1,6 +1,5 @@
 
 // import * as React from "react";
-
 import { render } from "react-dom";
 import React, { useState, useEffect } from 'react'
 import lens from '../../images/ciorcal-glass-light.png';
@@ -209,9 +208,8 @@ let champPortrait = document.getElementsByClassName('champion-portrait')
 		
 	// }
 	// console.log("<<<<<>>>>>");
-		function buttonMashClick() { 
-			
-		}
+	function buttonMashClick() {
+	}
 
   const updateValue = v => {
     diff.current = v - prevValue.current;
@@ -1227,6 +1225,7 @@ if (rng === 2) {
 return (
 	
 	<>
+			<img src={tree} alt="a tree" className='tree' />
 			<div className="input-elements-container-7b">
 <img src={betweenFields} className="between-fields" alt="a wheeling space between worlds" />
 				
@@ -1261,8 +1260,16 @@ return (
 
 		
 		{props.isOn ? <>
+						<p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
+					{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+				</p>
+
+                {/* <h2 id="output2"> Black Molly invites your gambit</h2> */}
 			
-			<img src={tree} alt="a tree" className='tree' />
+			</>
+			:null }
+
+			
 			<img src={opponent1} className="og-opponent" alt="opponent portrait" />
 			
 			<img src={ogHero === "2" ? avatar2 :empty} className="og-hero"  alt="hero portrait"/>
@@ -1273,54 +1280,54 @@ return (
 			<img src={ogHero === "7" ? avatar7 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "8" ? avatar8 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "9" ? avatar9 :empty} className="og-hero"  alt="hero portrait"/>
-			<p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
-					{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-				</p>
-
-                <h2 id="output2"> Maebh invites you to choose a pawn.</h2>
+	
 			
-			</>
-			:null }
-
-				
+		
+		{showDiv && props.isOn ? <>  <p className="names-e">
+		{ namesInEnglish[ Math.floor(value * 100) + round.current * 100]}	
+		</p></> : null}
 			
-		  		
-			<div className="input-elements-container-8"  >
-				
-					<CircularInput  value={value} className="dial4" onChange={tryValue}  >
-					<CircularTrack
-					stroke="rgba(171,144,0,0)"
-							strokeWidth={'3px'}
-					/>
+	
 
-						<CircularThumb fill="rgba(135,5,2)"
-							stroke="rgba(180,180,180,1)"
-							strokeWidth={'3px'} />
-				</CircularInput>
-				
-
-
-				</div>
+			<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
+						{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+		</p>		
+		
+	
+	
 		<div className="input-elements-container-5">
 					
 			<button className="button-mash-ring-4" onTouchStart={() => {
-				setShowDiv(false);}}
+				setShowDiv(false);
+			}
+	
+			}
 						onClick={props.fadeOutNoOne} onTouchEnd={props.proceedThroughQuiz}>
 						
-						<img src={champIcon} className="champion-portrait " alt="champion portrait" />
-								
+						<img src={champIcon} className="champion-portrait" alt="champion portrait" />
 				
 					</button>
 			
 		  </div>
-		
-		  <p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
-						{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-					</p>	
-		{showDiv && props.isOn ? <>  <p className="names-e">
-		{ namesInEnglish[ Math.floor(value * 100) + round.current * 100]}	
-		</p></> : null}
-			</>
+	  		
+
+		<div className="input-elements-container-8"  >
+				
+				<CircularInput value={value} className="dial4" onChange={tryValue}  >
+				<CircularTrack
+				stroke="rgba(171,144,0,0)"
+						strokeWidth={'3px'}
+				/>
+
+					<CircularThumb fill="rgba(135,5,2)"
+						stroke="rgba(180,180,180,1)"
+						strokeWidth={'3px'} />
+			</CircularInput>
+			
+
+			</div>	
+	
+	</>
 			);
 		}
 	    

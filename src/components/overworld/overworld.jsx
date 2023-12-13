@@ -1,3 +1,6 @@
+
+import ChessLike from "../ChessLike/chessLike";
+
 import React from 'react';
 import './overworld.css';
 import NumberOne from '../numberOne/numberOne'
@@ -761,7 +764,7 @@ export default class Overworld extends React.Component {
             mapChanges++;
 
             if (mapChanges === 1) {
-                $('eng-question-text').html('Select a lieutenant, ')
+                $('eng-question-text').html('Black Molly offers gambit ')
             }
             if (mapChanges > 1) {
                 $('.daff-container').fadeOut();
@@ -3668,7 +3671,7 @@ export default class Overworld extends React.Component {
                                 showHint3 = true;
                                 $('#north').removeClass('circle')
 
-                                $('.eng-question-text').html('');
+                                $('.eng-question-text').html('test2');
                                 $('.eng-question-text').css('border', '6px solid green');
                                 narrativeCode = 30; break;
                             case "wexford": narrativeCode = 31; break;
@@ -5475,6 +5478,27 @@ export default class Overworld extends React.Component {
 
             <div>
                 <div className="bg"></div>
+                
+                {this.state.isOn ? (<div id="glass">
+
+< img src={glass} rel="preload" className="question-img" id="glass-img" alt="glass bg for translucent overlay effect." />
+<div id="event-report"></div>
+
+<p className='eng-question-text'>Black Molly's gambit</p>
+<div className="location-graphic-container">
+    {/* <div className="ui-container_b-btn">
+<BtnB  ></BtnB>
+</div> */}
+    <img src={locationGraphic} className="location-graphic" alt="graphic of location" />
+
+
+    {locationGraphic !== place0 ? <div id="buttonmash" onClick={(value) => runEvent(locationGraphic)} className="buttonmash-loc-graphic" >
+
+        <div className="circle"></div>
+    </div> : null}
+</div>
+</div>) : null}
+                
                 <div id="toolbar"></div>
                 <div className="ui"></div>
                 <div id="screen-blocker">
@@ -5542,25 +5566,7 @@ export default class Overworld extends React.Component {
                     <img rel="preload" className="map-lens" src={lens} alt="" />
 
                 </div>
-                {this.state.isOn ? (<div id="glass">
-
-                    < img src={glass} rel="preload" className="question-img" id="glass-img" alt="glass bg for translucent overlay effect." />
-                    <div id="event-report"></div>
-
-                    <p className='eng-question-text'></p>
-                    <div className="location-graphic-container">
-                        {/* <div className="ui-container_b-btn">
-                    <BtnB  ></BtnB>
- </div> */}
-                        <img src={locationGraphic} className="location-graphic" alt="graphic of location" />
-
-
-                        {locationGraphic !== place0 ? <div id="buttonmash" onClick={(value) => runEvent(locationGraphic)} className="buttonmash-loc-graphic" >
-
-                            <div className="circle"></div>
-                        </div> : null}
-                    </div>
-                </div>) : null}
+              
                 <Silken id="silken"></Silken>
                 {/* <Rings1/> */}
 
@@ -5652,14 +5658,6 @@ export default class Overworld extends React.Component {
                     <img rel="preload" src={this.state.inventoryVisible ? invIcon : null} alt="" className="invIcon" />
 
 
-                    {/* {this.state.isOn ? (<div id="glass">
-
-
-                        < img src={glassPortait} rel="preload" className="question-img" id="glass-img" alt="glass bg for translucent overlay effect." />
-
-                        <p id="eng-notes" > {engNotes[narrativeCode]}</p>
-
-                    </div>) : null} */}
 
                     <div className='ui-container_directional-pad'>
                         <div className="directional-pad dir-pad-portrait-mode" id="dir-pad" onTouchStart={this.props.incrementScore} onTouchEnd={localStorage.setItem('whereAmI', 'westmeath')
@@ -5819,6 +5817,8 @@ export default class Overworld extends React.Component {
 
                     </div>
                 </div>
+
+
                 <>
                     {this.state.isEncounterComponentVisible && <div className="encounter">
 
@@ -5830,7 +5830,6 @@ export default class Overworld extends React.Component {
                 <div className="rotate-phone-container">
                     <img className="rotate-phone-img" src={rotatePhone} alt="rotate phone icon" />
                 </div>
-
             </div>
 
 

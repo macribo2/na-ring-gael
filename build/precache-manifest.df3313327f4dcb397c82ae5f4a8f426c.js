@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "4058cc33a41f6faf4098",
-    "url": "/static/css/main.2e330c7a.chunk.css"
+    "revision": "8824b257391f9ea9609e",
+    "url": "/static/css/main.ff899ddf.chunk.css"
   },
   {
-    "revision": "4058cc33a41f6faf4098",
-    "url": "/static/js/main.6230acba.chunk.js"
+    "revision": "8824b257391f9ea9609e",
+    "url": "/static/js/main.fd41e098.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "de77af72fc77a2e1b103",
-    "url": "/static/css/2.bb1d6663.chunk.css"
+    "revision": "a69ac6fbc1afb032df29",
+    "url": "/static/css/2.09baa411.chunk.css"
   },
   {
-    "revision": "de77af72fc77a2e1b103",
-    "url": "/static/js/2.f7b3bd3d.chunk.js"
+    "revision": "a69ac6fbc1afb032df29",
+    "url": "/static/js/2.c2f20295.chunk.js"
   },
   {
     "revision": "f470d634cc8265f5376b00ad90fe2b2b",
@@ -52,24 +52,24 @@ self.__precacheManifest = [
     "url": "/static/media/linux2.355ab836.png"
   },
   {
-    "revision": "6421c055a35ef3a64aea4eef73558869",
-    "url": "/static/media/tutorial0.6421c055.png"
-  },
-  {
     "revision": "f0b2dbe94f318b5b426d26c1fd4105ff",
     "url": "/static/media/ding2.f0b2dbe9.wav"
+  },
+  {
+    "revision": "6421c055a35ef3a64aea4eef73558869",
+    "url": "/static/media/tutorial0.6421c055.png"
   },
   {
     "revision": "4c998e7444dd7492d1cab2fc0336adce",
     "url": "/static/media/ciorcal-glass.4c998e74.png"
   },
   {
-    "revision": "3428dddb09d227a25c9e44a066087a18",
-    "url": "/static/media/stone-0.3428dddb.png"
-  },
-  {
     "revision": "e4d8e24ed247511597a03e4058baa6ba",
     "url": "/static/media/fog3.e4d8e24e.png"
+  },
+  {
+    "revision": "3428dddb09d227a25c9e44a066087a18",
+    "url": "/static/media/stone-0.3428dddb.png"
   },
   {
     "revision": "8f8a8b98c655870f6b0502069cc630bc",
@@ -132,34 +132,6 @@ self.__precacheManifest = [
     "url": "/static/media/ciorcal-glass6.ad5ed074.png"
   },
   {
-    "revision": "7062aff4f2787bc90d4ee1a151125511",
-    "url": "/static/media/stone-1.7062aff4.png"
-  },
-  {
-    "revision": "c097e1ec440aee02d2b272706f32a13d",
-    "url": "/static/media/stone-2.c097e1ec.png"
-  },
-  {
-    "revision": "60f3d3bb08d276c64fac4f075e9ef311",
-    "url": "/static/media/stone-3.60f3d3bb.png"
-  },
-  {
-    "revision": "2b25e043a83512093986ca322a112a10",
-    "url": "/static/media/stone-4.2b25e043.png"
-  },
-  {
-    "revision": "b6945b42030fe8f5da703a5608ab3163",
-    "url": "/static/media/stone-5.b6945b42.png"
-  },
-  {
-    "revision": "ae5276cddabf05d42ebebe7c8d9d0ade",
-    "url": "/static/media/stone-6.ae5276cd.png"
-  },
-  {
-    "revision": "e1016d30185577e93c54a869c05d56ca",
-    "url": "/static/media/stone-7.e1016d30.png"
-  },
-  {
     "revision": "f9c00333ba0152d14c9cbaffb9815086",
     "url": "/static/media/shelter.f9c00333.png"
   },
@@ -212,10 +184,6 @@ self.__precacheManifest = [
     "url": "/static/media/fearnasringfort.b277348d.png"
   },
   {
-    "revision": "794693fe2e6196c33acbc838996be168",
-    "url": "/static/media/witch0.794693fe.jpg"
-  },
-  {
     "revision": "c5bad409fe9c3b574a1d50689a0c7fec",
     "url": "/static/media/ciorcal-glass-light.c5bad409.png"
   },
@@ -236,6 +204,34 @@ self.__precacheManifest = [
     "url": "/static/media/blinding-light-county.47e968d2.jpg"
   },
   {
+    "revision": "7062aff4f2787bc90d4ee1a151125511",
+    "url": "/static/media/stone-1.7062aff4.png"
+  },
+  {
+    "revision": "c097e1ec440aee02d2b272706f32a13d",
+    "url": "/static/media/stone-2.c097e1ec.png"
+  },
+  {
+    "revision": "60f3d3bb08d276c64fac4f075e9ef311",
+    "url": "/static/media/stone-3.60f3d3bb.png"
+  },
+  {
+    "revision": "2b25e043a83512093986ca322a112a10",
+    "url": "/static/media/stone-4.2b25e043.png"
+  },
+  {
+    "revision": "b6945b42030fe8f5da703a5608ab3163",
+    "url": "/static/media/stone-5.b6945b42.png"
+  },
+  {
+    "revision": "ae5276cddabf05d42ebebe7c8d9d0ade",
+    "url": "/static/media/stone-6.ae5276cd.png"
+  },
+  {
+    "revision": "e1016d30185577e93c54a869c05d56ca",
+    "url": "/static/media/stone-7.e1016d30.png"
+  },
+  {
     "revision": "837ece981e981876d923234b852b5fc5",
     "url": "/static/media/blackripple.837ece98.gif"
   },
@@ -254,10 +250,6 @@ self.__precacheManifest = [
   {
     "revision": "9763a9e994da82d7eec10f65a3587d57",
     "url": "/static/media/slanco.9763a9e9.jpg"
-  },
-  {
-    "revision": "91eb92e011db5c21806aea9e10496976",
-    "url": "/static/media/mash.91eb92e0.gif"
   },
   {
     "revision": "a7ad170d123fdd579d77d9898f94c9e5",
@@ -304,8 +296,8 @@ self.__precacheManifest = [
     "url": "/static/media/ring2.e4c34b7d.png"
   },
   {
-    "revision": "c91f2998c662b9b309ff3f87a7cad520",
-    "url": "/static/media/tree.c91f2998.png"
+    "revision": "ae51e9b24cece9bf5efec2ca7c26681f",
+    "url": "/static/media/tree.ae51e9b2.png"
   },
   {
     "revision": "9f93ff907a54b4242000412ada165cee",
@@ -704,20 +696,8 @@ self.__precacheManifest = [
     "url": "/static/media/dunpad.e3e4d4e2.jpg"
   },
   {
-    "revision": "515bfc37aaf01510310e95147728cc33",
-    "url": "/static/media/24c.515bfc37.png"
-  },
-  {
     "revision": "1ab4bddb21afb7c45f7add10998d29ba",
     "url": "/static/media/derryn.1ab4bddb.jpg"
-  },
-  {
-    "revision": "186be3d21bd75b56d3f4b6d1a111b3af",
-    "url": "/static/media/bg0.186be3d2.png"
-  },
-  {
-    "revision": "ffd2e727fe962aadaf78bcc0eaef8e2b",
-    "url": "/static/media/bg1.ffd2e727.png"
   },
   {
     "revision": "90beabbfdbf81dcbf61af6a9fc5d0891",
@@ -788,16 +768,40 @@ self.__precacheManifest = [
     "url": "/static/media/Anaphora-Light-trial.b44fc35e.ttf"
   },
   {
+    "revision": "515bfc37aaf01510310e95147728cc33",
+    "url": "/static/media/24c.515bfc37.png"
+  },
+  {
+    "revision": "208d89248d8f25575e692569d01346d7",
+    "url": "/static/media/bg2.208d8924.jpg"
+  },
+  {
+    "revision": "e255471deaf70ac34cd2ba6f6ef77817",
+    "url": "/static/media/bg3.e255471d.jpg"
+  },
+  {
+    "revision": "ce42ad0e1857789bf11d2968d63d99a8",
+    "url": "/static/media/ritterA.ce42ad0e.png"
+  },
+  {
+    "revision": "7e9c21abade02ba12249bc8b23270095",
+    "url": "/static/media/ritterB.7e9c21ab.png"
+  },
+  {
+    "revision": "aacf62fcc37ec0c4f5a556bcb78f8818",
+    "url": "/static/media/ritter2.aacf62fc.png"
+  },
+  {
     "revision": "1bd9b1cf1f14870b3b786486b40ba0c1",
     "url": "/static/media/geaga0.1bd9b1cf.png"
   },
   {
-    "revision": "076f3bffba01a16904bf9ba264c71954",
-    "url": "/static/media/deetsFrame.076f3bff.png"
-  },
-  {
     "revision": "deb64aa64afcf77da2a7d7ff19e14b59",
     "url": "/static/media/passage.deb64aa6.png"
+  },
+  {
+    "revision": "076f3bffba01a16904bf9ba264c71954",
+    "url": "/static/media/deetsFrame.076f3bff.png"
   },
   {
     "revision": "462f5dbe091a0d69b1bd20fcc509fbbd",
@@ -884,6 +888,22 @@ self.__precacheManifest = [
     "url": "/static/media/dungea.cf9a2cb5.jpg"
   },
   {
+    "revision": "186be3d21bd75b56d3f4b6d1a111b3af",
+    "url": "/static/media/bg0.186be3d2.png"
+  },
+  {
+    "revision": "ffd2e727fe962aadaf78bcc0eaef8e2b",
+    "url": "/static/media/bg1.ffd2e727.png"
+  },
+  {
+    "revision": "794693fe2e6196c33acbc838996be168",
+    "url": "/static/media/witch0.794693fe.jpg"
+  },
+  {
+    "revision": "91eb92e011db5c21806aea9e10496976",
+    "url": "/static/media/mash.91eb92e0.gif"
+  },
+  {
     "revision": "89b94d7b5fbe24bc213b0097236b0266",
     "url": "/static/media/Gigakoops - Level 2 - High Clouds.89b94d7b.mp3"
   },
@@ -944,7 +964,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "60602fd4451502e3ae1032a6da836e0d",
+    "revision": "820383dae0f3357db839158d4010fe5c",
     "url": "/index.html"
   }
 ];

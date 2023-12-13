@@ -232,7 +232,7 @@ width: 740px;
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 4;
+  z-index: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -244,7 +244,8 @@ width: 740px;
 #glass-img{
   /* border:4px solid orange; */
   height: 100%;
-  width:100%
+  width:100%;
+  opacity:0.4
 }
 #settings-img {
   z-index: 1;
@@ -296,6 +297,8 @@ width: 740px;
   left: 5%;
   top: 79%;
   width: 75%;
+  position:fixed;
+  z-index: 9999;
   /* color: lightslategray; */
   color: floralwhite;
   /* background-color: rgba(0,0,0,0.8); */
@@ -308,7 +311,7 @@ width: 740px;
   position: fixed;
   height: 100%;
   width: 100%;
-  z-index: 994;
+  z-index:257;
   /* animation: fade-in 0.3s forwards; */
 }
 
