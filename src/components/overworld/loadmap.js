@@ -2848,7 +2848,7 @@ function loadMap(direction) {
                         showHint3 = true;
                         $('#north').removeClass('circle')
 
-                        $('.eng-question-text').html('');
+                        $('.eng-question-text').html('test');
                         $('.eng-question-text').css('border', '6px solid green');
                         narrativeCode = 30; break;
                     case "wexford": narrativeCode = 31; break;

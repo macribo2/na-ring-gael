@@ -3,7 +3,7 @@
 Ficheall
 
 
-Like Irish, JSON contains some of the genius of people.
+JSON frames the genius of people.
 
 Here's how it goes
 Seo JSON:
@@ -18,6 +18,8 @@ a usáidtear chun inchur téacs a ghlachadh ón úsádóir,
 mar shampla:
 
 {"userName":"Patrick"}
+
+Tosníonn Ríomh thusicint le náid.   
 
 Seo sampla eile:
 

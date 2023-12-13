@@ -74,7 +74,7 @@
 
   right: 1%;
     top: 80%;
-  z-index: 999;
+  z-index: 9999999;
   width: 25px;
   height: 25px;
   margin-bottom: 0% !important;
@@ -276,7 +276,7 @@ transform:scale(1.2)
   top:0;
   left:0;
   position: fixed;
-z-index: 101;
+z-index: 11;
 }
 
 #iron-key-linux{
@@ -375,7 +375,7 @@ z-index: 101;
   font-family: Anaphora;
   position: fixed;
  top:80%;
-  left: 2%;
+  left: 38  %;
                 
   padding: 5px;
   opacity: 1;
@@ -432,13 +432,13 @@ transform: scaleX(-1) scale(0.7);
 
       }
       .tree{
-        top: -15%;
-        top: -13%;
+        top: -21%;
         height: 512px;
         width: 512px;
-        left: -4%;
-        opacity: 0.2;
+        left: -11%;
+        opacity: 1;
         transform: scale(1.1);
+        z-index: 20;
 
       }
       
@@ -458,7 +458,8 @@ top:5%;
         /* opacity:0.5 !important; */
       }
       .dial4, .dial5{
-        transform:scale(1.2)
+        transform:scale(1.2);
+        z-index: 99999;
       }
       
       .input-elements-container-5, .input-elements-container-8{
@@ -468,7 +469,7 @@ top:5%;
         top:0;
         left:-23%;
         position:fixed;
-        z-index: 105;
+        z-index: 1050;
         display: flex;
         justify-content: center;
         align-items: center;

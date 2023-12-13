@@ -10,7 +10,7 @@ body{
 
 /* src/components/CountyGameBoards/Dublin/DublinGameBoard.css */
 .county-game-board {
-
+display:none;
   position: fixed;
   top: 0;
   left: 0;
@@ -123,10 +123,6 @@ background-repeat: no-repeat;
   /* background-color: #fff; */
 }
 
-.black-square {
-  background-color: #000;
-  color: #fff;
-}
 
 .green-knight {
   background-color: green;

@@ -146,7 +146,7 @@ export default function Rings3(props) {
 
 	return (
 		<>
-			
+	
 		<div className="linux-land-container">
 					<img className={value * 10 === 4 ? 'about-pics' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
 				</div>
@@ -258,7 +258,8 @@ export default function Rings3(props) {
 		<button className={value*10 ===99 ? 'easca-code_2':'hidden'}>cd</button> */}
 
 		</div>			 
-
+	
+{isOn ? <p className="rings0Eng">{Ring3AnsEng[value * 10]}</p> : null}
 <img src={lens} id="lens" alt="a glass lens" />
 
 		</div>
@@ -281,8 +282,7 @@ export default function Rings3(props) {
 
 				{/* <img className={value*10 === 4 ? 'ripple':'hidden'} src={blackripple} alt="a digital peninsula" /> */}
 </div>		
-{isOn ? <img className="bg-glass"src={ bigGlass} alt="tinted overlay to dim background"/>:null}
-{isOn ? <p className="rings0Eng">{Ring3AnsEng[value * 10]}</p> : null}
+
 <div className='dial-container'>
 
 <CircularInput className="dial" value={value}  onChange={v => setValue3(stepValue3(v))}>{}
@@ -303,9 +303,6 @@ export default function Rings3(props) {
 				
 			</CircularInput>
 			</div>	
-			
-			<button id="pearl"  onClick={props.toggleIsOn
-			} onTouchEnd={ endAnimation}	><img src={isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 			
 <div className="button-mash-container">
 				<button className={value * 10 === 9 ? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >
@@ -336,6 +333,9 @@ export default function Rings3(props) {
 
 			</div>
 <p className='rings1' >{Ring3Ans[value * 10]}</p>
+			
+			<button id="pearl"  onClick={props.toggleIsOn
+			} onTouchEnd={ endAnimation}	><img src={isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 			
 			</>)
 };

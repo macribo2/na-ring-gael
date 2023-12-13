@@ -604,7 +604,7 @@ function resumeAnimation() {
 
         <div className="grid">
         {currentMap.slice().reverse().map((row, rowIndex) => (
-          <div key={rowIndex} className="row">
+          <div key={rowIndex} className="chess-like-row">
             {row.map((cellData, cellIndex) => {
               const isGreenSquare = rowIndex === initialRow && cellIndex === initialCol;
               const isTargetSquare = targetSquare && targetSquare.rowIndex === rowIndex && targetSquare.cellIndex === cellIndex;
