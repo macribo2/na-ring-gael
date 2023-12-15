@@ -758,7 +758,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 						<div className='question-count'> 		
 							</div>
 							{/* <img src={ gradient} className="gradient"/> */}
-							<div dangerouslySetInnerHTML={{__html:questions[currentQuestion].questionText}} className='question-text'></div>
+							<div dangerouslySetInnerHTML={{__html:questions[currentQuestion].questionText}} id="qt"className='question-text'></div>
 
 						</div>
 						
