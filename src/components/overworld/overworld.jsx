@@ -2,6 +2,7 @@
 import ChessLike from "../ChessLike/chessLike";
 
 import React from 'react';
+
 import './overworld.css';
 import NumberOne from '../numberOne/numberOne'
 import ReactRain from 'react-rain-animation';
@@ -479,8 +480,8 @@ let engNotes = [
 
 ];
 let narrativeCode = 0;
+// Check if the element exists before accessing its properties
 
-/*block android long click menu*/
 window.oncontextmenu = function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -617,6 +618,7 @@ export default class Overworld extends React.Component {
     constructor() {
         super();
         this.state = {
+            qtVisible: false,
             registerMenu: false,
             mobile: false,
             mobileHor: true,
@@ -631,7 +633,8 @@ export default class Overworld extends React.Component {
             data: "",
             speakWithDM: true,
             isEncounterComponentVisible: true,
-            encounterID: 0
+            encounterID: 0,
+            questionText: null
         }
 
     }
@@ -645,7 +648,6 @@ export default class Overworld extends React.Component {
         this.setState({ mobileHor: window.innerWidth >= window.innerHeight });
     }
     jQueryCode = () => {
-        // alert(this.isOn);
         var anchors = document.getElementsByTagName('*');
         for (var i = 0; i < anchors.length; i++) {
             var anchor = anchors[i];
@@ -5372,10 +5374,21 @@ export default class Overworld extends React.Component {
     }
 
     componentDidMount() {
+    this.checkQtVisibility();
+
+    // Listen for changes in the layout or visibility of the "qt" element
+    this.observer = new MutationObserver(this.checkQtVisibility);
+    this.observer.observe(document.getElementById('qt'), { attributes: true, childList: true, subtree: true });
+
+
         const { isOn } = this.state;
         this.jQueryCode();
         window.addEventListener("resize", this.resize.bind(this));
         this.resize();
+        const questionTextElement = document.getElementById('qt');
+        const textContent = questionTextElement ? questionTextElement.innerText : null;
+        this.setState({ questionText: textContent });
+
 
         this.callBackendAPI()
             .then(res => this.setState({ data: res.express }))
@@ -5395,10 +5408,17 @@ export default class Overworld extends React.Component {
     };
 
 
-
     componentWillUnmount() {
         window.removeEventListener("resize", this.resize.bind(this));
+       // Cleanup the observer when the component is unmounted
+       this.observer.disconnect();
+   
     }
+
+     checkQtVisibility = () => {
+    const qtElement = document.getElementById('qt');
+    this.setState({ qtVisible: qtElement.offsetHeight > 0 });
+  };
     conceptHandler() {
         window.location.replace('http://167.172.184.73:3000/history')
     }
@@ -5408,6 +5428,8 @@ export default class Overworld extends React.Component {
         showHint3 = false;
     }
     render() {
+        const { questionText } = this.state;
+
         const { isVisible } = this.state;
         //just in case the player hasn't already dismissed the flashing purple light on btn #north.
         $('#north').removeClass('prompt-north')
@@ -5431,11 +5453,11 @@ export default class Overworld extends React.Component {
         avatar = this.props.avatar;
         let handleAnswerButtonClick = this.props.handleAnswerButtonClick
         whereAmIHolder = this.props.whereAmI;
-        console.log(whereAmIHolder + 'whereAmIHolder');
+        console.log(whereAmIHolder + 'whereAmI   Holder');
 
         storyTimer()
+        whereAmI = localStorage.getItem('whereAmI');
         console.log(whereAmI + 'whereAmI');
-        // whereAmI = localStorage.getItem('whereAmI');
 
         let runInventory = function () {
             alert('inv')
@@ -5457,6 +5479,7 @@ export default class Overworld extends React.Component {
             animation: 'fade-in 4s forwards',
         }
         let crossSwords = function () {
+
 
             // alert("Chun troid!" )
             $('#océ').css('visibility', 'visible');
@@ -5483,8 +5506,11 @@ export default class Overworld extends React.Component {
 
 < img src={glass} rel="preload" className="question-img" id="glass-img" alt="glass bg for translucent overlay effect." />
 <div id="event-report"></div>
-
-<p className='eng-question-text'>Black Molly's gambit</p>
+                   
+                   
+<div className="eng-question-text" style={{ display: this.state.qtVisible ? 'block' : 'none' }}>
+          Choose a pawn, says black Molly
+        </div>
 <div className="location-graphic-container">
     {/* <div className="ui-container_b-btn">
 <BtnB  ></BtnB>
@@ -5679,6 +5705,7 @@ export default class Overworld extends React.Component {
                                     else {
                                         (this.setState({ isOn: true }))
                                         console.log("hi from toggle glass portrait overworld")
+                                        
                                     }
                                     {/* setTimeout(()=> { this.setState({ isOn: false }) }, 3000) */ }
 

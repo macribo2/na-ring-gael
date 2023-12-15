@@ -382,16 +382,18 @@ z-index: 11;
 color:rgba(255, 255, 255, 0.718);
   font-size:1.5em;
 }
+.lens-cap{
+  animation: spin 60s steps(120) infinite;
 
+}
 .pawn-filter{
 
    border-radius: 50%;
   pointer-events: none;
   opacity: 0.5;
-  transform: scale(0.6) translate(-25%,-25%);
+  transform:  scale(0.6) translate(-25%,-25%);
   position: fixed;
   z-index: 130; 
-
 }
 
 .names-i, .numbers-i{
@@ -527,7 +529,8 @@ top:5%;
       }
 
 
-
+        
+        
 @keyframes fade-in {
   0% {
     opacity: 0;
