@@ -5547,8 +5547,12 @@ export default class Overworld extends React.Component {
                     < img src={glass} rel="preload" className="question-img" id="glass-img" alt="glass bg for translucent overlay effect." />
                     <div id="event-report"></div>
 
-                    <div className="eng-question-text" >
-          Choose a pawn, says black Molly
+                    <div >
+          
+                        <p className="eng-question-text">
+                        Choose a pawn, says Black Martina
+                        </p>
+                        <p className="eng-question-text" id="irish-inside" >Roghnaigh fichilín, arsa Mallaidh Dubh.</p>
         </div>
                             <div className="location-graphic-container">
                         {/* <div className="ui-container_b-btn">

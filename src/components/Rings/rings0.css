@@ -71,6 +71,12 @@ margin:0;
 
 
 }
+.eng-question-text{
+	color:darkorange;
+	opacity: 0.4;
+	z-index: ;
+
+}
 .bright{
 	animation: fade-in-bright 2s steps(4) forwards ;
 }

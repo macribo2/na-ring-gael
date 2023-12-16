@@ -204,7 +204,7 @@ export default function App() {
 			answerOptions: [
 				
 			],
-			quesionTextEng: 'Black Molly invites your gambit,'  + heroNames[localStorage.getItem('portrait')]+'.' 
+			questionTextEng: 'Black Molly invites your gambit,'  + heroNames[localStorage.getItem('portrait')]+'.' 
 		},
 	
 		{
@@ -664,7 +664,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 
 
 				<p className={currentQuestion === 1 ? "choice-ring-0-hint" : "hidden"}>{choiceRingEng[value * 10]}</p>
-
+				
 		
 				</div>) : null}
 			
@@ -682,7 +682,8 @@ let thePucaOf = localStorage.getItem('pucaEng')
 				
 				<div className="input-elements-bg-container">
 				
-					<img rel="preload"src={lens} id="lens" alt="a glass" />
+					<img rel="preload" src={lens} id="lens" alt="a glass" />
+								
 				</div>
 		
 				<div className="input-elements-container">
@@ -747,7 +748,8 @@ let thePucaOf = localStorage.getItem('pucaEng')
 						
 						: null}
 			{showOverworld === true ? <>
-				<Overworld handleInputSelect={handleInputSelect} toggleIsOn={toggleIsOn} storyTimer={storyTimer} incrementScore={incrementScore} choiceRingEng={ choiceRingEng[value * 10]} tallyX={0} avatar={localStorage.getItem('portrait')} whereAmI="geaga" isOn={isOn} heroName={heroNames[localStorage.getItem('portrait')]} heroNameEng={heroNamesEng[localStorage.getItem('portrait')]} proceedThroughQuiz={ proceedThroughQuiz} />
+				<Overworld handleInputSelect={handleInputSelect} toggleIsOn={toggleIsOn} storyTimer={storyTimer} incrementScore={incrementScore} choiceRingEng={choiceRingEng[value * 10]} tallyX={0} avatar={localStorage.getItem('portrait')} whereAmI="geaga" isOn={isOn} heroName={heroNames[localStorage.getItem('portrait')]} heroNameEng={heroNamesEng[localStorage.getItem('portrait')]} proceedThroughQuiz={proceedThroughQuiz}
+				/>
 			
 			{showScore ? (
 				<div className='score-section'>scór: { score } as {questions.length}</div>
