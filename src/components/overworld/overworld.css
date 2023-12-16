@@ -1,7 +1,11 @@
 .react-simple-keyboard {
   display: none;
 }
+#irish-inside{
+  font-family:aonchlo;
+top:20%;
 
+}
 #easca {
   display: none;
   /* border:5px solid orange; */
@@ -1323,8 +1327,7 @@ p {
 
 .eng-question-text {
 
-  color: floralwhite;
-  bottom: 10%;
+  top: 30%;
   left: 7%;
   font-size: 1.6em;
 
