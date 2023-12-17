@@ -3,6 +3,7 @@
 }
 #irish-inside{
   font-family:aonchlo;
+  color: rgb(255,152,0);
 top:20%;
 
 }
@@ -162,7 +163,8 @@ top:20%;
   height: 110%;
   max-width: 100%; 
   max-height: 100%; 
-
+  width:100%;
+  background-image: url('../../images/fog5.png');
 }
 
 .map-lens-adjust{
@@ -170,7 +172,9 @@ top:20%;
 
 }
 
-
+.has-window{
+	background-image: url('../../images/fog4.png');
+}
 #geagaSprite {
 
   z-index: 50000;
@@ -1350,7 +1354,7 @@ p {
   height: 100%;
   text-align: center;
   pointer-events: none;
-  z-index: 5;
+  z-index: 10;
   /* background-color: black; */
   align-content: center;
   justify-content: left;
@@ -1706,3 +1710,4 @@ p {
   left: 10px;
   /* border: 5px solid rgba(82, 82, 82, 0.61); */
 }
+

@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "daa84c008dcdb261a771",
-    "url": "/static/css/main.4cf44454.chunk.css"
+    "revision": "6508d0d0fdc8ac95f005",
+    "url": "/static/css/main.ac5b8914.chunk.css"
   },
   {
-    "revision": "daa84c008dcdb261a771",
-    "url": "/static/js/main.67cc7112.chunk.js"
+    "revision": "6508d0d0fdc8ac95f005",
+    "url": "/static/js/main.e5394975.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "9207dea59aead0b4d6d7",
+    "revision": "22b2c4eab828faa4fedf",
     "url": "/static/css/2.09baa411.chunk.css"
   },
   {
-    "revision": "9207dea59aead0b4d6d7",
-    "url": "/static/js/2.14bd1376.chunk.js"
+    "revision": "22b2c4eab828faa4fedf",
+    "url": "/static/js/2.61fabd80.chunk.js"
   },
   {
     "revision": "f470d634cc8265f5376b00ad90fe2b2b",
@@ -314,10 +314,6 @@ self.__precacheManifest = [
   {
     "revision": "aa7be55a3f489421a43dd20fbb983ce0",
     "url": "/static/media/found-ring.aa7be55a.png"
-  },
-  {
-    "revision": "91bd489fe2875ee1ee0d293d6cfebda2",
-    "url": "/static/media/fog5.91bd489f.png"
   },
   {
     "revision": "68e27c7af8c5b6afccc7577ac07e0019",
@@ -772,12 +768,20 @@ self.__precacheManifest = [
     "url": "/static/media/geaga0.1bd9b1cf.png"
   },
   {
+    "revision": "076f3bffba01a16904bf9ba264c71954",
+    "url": "/static/media/deetsFrame.076f3bff.png"
+  },
+  {
     "revision": "deb64aa64afcf77da2a7d7ff19e14b59",
     "url": "/static/media/passage.deb64aa6.png"
   },
   {
-    "revision": "076f3bffba01a16904bf9ba264c71954",
-    "url": "/static/media/deetsFrame.076f3bff.png"
+    "revision": "91bd489fe2875ee1ee0d293d6cfebda2",
+    "url": "/static/media/fog5.91bd489f.png"
+  },
+  {
+    "revision": "cea79e6f89e7879d09507b659aa3fd2c",
+    "url": "/static/media/fog4.cea79e6f.png"
   },
   {
     "revision": "462f5dbe091a0d69b1bd20fcc509fbbd",
@@ -800,12 +804,12 @@ self.__precacheManifest = [
     "url": "/static/media/ciorcal-glass-bg.f00de7d9.png"
   },
   {
-    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
-    "url": "/static/media/mapFrame4.0cdb344e.png"
-  },
-  {
     "revision": "ee5004be8978604da5e223282c5bbe51",
     "url": "/static/media/sea.ee5004be.png"
+  },
+  {
+    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
+    "url": "/static/media/mapFrame4.0cdb344e.png"
   },
   {
     "revision": "c84c06495852ac730bd653c3aa9bff25",
@@ -816,20 +820,12 @@ self.__precacheManifest = [
     "url": "/static/media/wren2b.4159e8fd.png"
   },
   {
-    "revision": "d0fa8e83c08e2f7d1ce2e1cbe8f2e8b6",
-    "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
+    "revision": "803e6e686778fd42d5b5ccb0059ef189",
+    "url": "/static/media/wren-hood.803e6e68.png"
   },
   {
     "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
     "url": "/static/media/mapFrame2.915b9892.png"
-  },
-  {
-    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
-    "url": "/static/media/suile0.b67d2f1b.gif"
-  },
-  {
-    "revision": "803e6e686778fd42d5b5ccb0059ef189",
-    "url": "/static/media/wren-hood.803e6e68.png"
   },
   {
     "revision": "fefaccef8a9d6893e3e1ed77e3170cff",
@@ -838,6 +834,14 @@ self.__precacheManifest = [
   {
     "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
     "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
+  },
+  {
+    "revision": "d0fa8e83c08e2f7d1ce2e1cbe8f2e8b6",
+    "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
+  },
+  {
+    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
+    "url": "/static/media/suile0.b67d2f1b.gif"
   },
   {
     "revision": "9bbe18cf6d054928f146dafcf058fcb1",
@@ -964,7 +968,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "dda9ea8d9aca3252d503096def9072bd",
+    "revision": "482540500c68598aa86cbf403dac9a9f",
     "url": "/index.html"
   }
 ];

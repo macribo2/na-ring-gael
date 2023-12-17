@@ -209,7 +209,8 @@ export default function App() {
 	
 		{
 			// tosníonn an scéal anseo. 
-			questionText:  '"Cad é Ridire?" a díarr '+ choiceRing[localStorage.getItem('portrait')]+' <br/><br/><div id="delay-in"></div>' ,
+			questionText: "",
+			// a díarr '+ choiceRing[localStorage.getItem('portrait')]+' <br/><br/><div id="delay-in"></div>' ,
 			answerOptions: [
 				
 			],
@@ -749,6 +750,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 						: null}
 			{showOverworld === true ? <>
 				<Overworld handleInputSelect={handleInputSelect} toggleIsOn={toggleIsOn} storyTimer={storyTimer} incrementScore={incrementScore} choiceRingEng={choiceRingEng[value * 10]} tallyX={0} avatar={localStorage.getItem('portrait')} whereAmI="geaga" isOn={isOn} heroName={heroNames[localStorage.getItem('portrait')]} heroNameEng={heroNamesEng[localStorage.getItem('portrait')]} proceedThroughQuiz={proceedThroughQuiz}
+					currentQuestion={ currentQuestion}
 				/>
 			
 			{showScore ? (
@@ -943,7 +945,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		</div>
 		{currentQuestion>=8?setIsFadedOut(true):null}
 	
-		<ChessLike/>
+		{/* <ChessLike/> */}
 
 	</>
 	

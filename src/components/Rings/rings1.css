@@ -374,13 +374,14 @@ z-index: 11;
 .names-e,.numbers-e{
   font-family: Anaphora;
   position: fixed;
- top:80%;
-  left: 38  %;
+  top: 40%;
+  left: 30%;
+
                 
   padding: 5px;
   opacity: 1;
-color:rgba(255, 255, 255, 0.718);
-  font-size:1.5em;
+color:rgba(255, 255, 255, 0.9);
+  font-size:1.8em;
 }
 .lens-cap{
   animation: spin 60s steps(120) infinite;
