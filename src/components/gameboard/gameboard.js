@@ -144,7 +144,7 @@ console.log(currentMap)
 
     // Check if yPercentage is greater than 90% and refresh the page if it is
     if (yPercentage > 105) {
-      window.location.reload();
+      // window.location.reload();
     }
 
   };
@@ -644,7 +644,6 @@ function resumeAnimation() {
             })}
           </div>
         ))}
-      </div>
   
       <div className="game-board" isPaused = {isModalOpen}>
 
@@ -652,6 +651,7 @@ function resumeAnimation() {
         {isOriginalGreenKnightSquare && (
           <EnemyKnight greenKnightPosition={greenKnightPosition} />
         )}
+      </div>
       </div>
 
 

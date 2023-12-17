@@ -12,7 +12,6 @@ import '../Rings/rings1.css';
 import emerald from '../../images/misc_crystal_new.png'
 import { Score } from '../score/score'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
-import lens from '../../images/fog5.png';
 import stats from '../../images/inv/stats.png';
 import disk from '../../images/inv/diskette.png';
 import chat from '../../images/inv/chat.png';
@@ -611,8 +610,8 @@ function setNPCIcon(npc) {
     return npc
 }
 export default class Overworld extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             registerMenu: false,
             mobile: false,
@@ -628,12 +627,14 @@ export default class Overworld extends React.Component {
             data: "",
             speakWithDM: true,
             isEncounterComponentVisible: true,
-            encounterID: 0
+            encounterID: 0,
+
         }
-
+        
+        
     }
-
-
+    
+    
     //     this.setState({ mobile: window.innerWidth >= 760 });
     //     this.setState({ mobileHor: window.innerWidth >= window.innerHeight });
     // }
@@ -642,6 +643,7 @@ export default class Overworld extends React.Component {
         this.setState({ mobileHor: window.innerWidth >= window.innerHeight });
     }
     jQueryCode = () => {
+        const currentQuestion = this.props.currentQuestion;
         // alert(this.isOn);
         var anchors = document.getElementsByTagName('*');
         for (var i = 0; i < anchors.length; i++) {
@@ -653,7 +655,10 @@ export default class Overworld extends React.Component {
         }
         //        For a simple timer or clock, keep track of the time difference explicitly:
 
+        if (currentQuestion === 6) { 
 
+            alert(currentQuestion);
+        }
         var start = Date.now();
         setInterval(function () {
             var delta = Date.now() - start; // milliseconds elapsed since start
@@ -839,7 +844,7 @@ export default class Overworld extends React.Component {
 
                         playerRow = 8;
                         playerColumn = 5;
-
+                      
                         refresh();
                         setTimeout(setMap(), 1000)
 
@@ -4583,9 +4588,10 @@ export default class Overworld extends React.Component {
 
             //making each square of a 10x10 grid of squares a button that moves the player there, on touch.
 
-
+            console.log('Type of elementClass:', typeof elementClass);
             if (elementClass.includes('cell')) {
-
+                // rest of your code
+            
 
                 for (let i = 0; i < 10; i++) {
 
@@ -5539,7 +5545,7 @@ export default class Overworld extends React.Component {
 
                     </div>
 
-                    <img rel="preload" className="map-lens" src={lens} alt="" />
+                    <div className="map-lens"  alt="" />
 
                 </div>
                 {this.state.isOn ? (<div id="glass">
@@ -5733,8 +5739,8 @@ export default class Overworld extends React.Component {
                 <NumberOne  proceedThroughQuiz={this.props.proceedThroughQuiz} toggleIsOn={this.props.toggleIsOn} isOn={this.state.isOn} heroNameEng={this.props.heroNameEng} heroName={this.props.heroName} />
 
 
-
-                <p id="hints-geaga" className={this.state.isOn && this.state.whereAmI === 'geaga' ? "hints" : "hidden"}>{'"What is a knight?", asked ' + this.props.choiceRingEng + '. "A pawn on a horse", said ' + localStorage.getItem('hname') + '.'}</p>
+{/* 
+                <p id="hints-geaga" className={this.state.isOn && this.state.whereAmI === 'geaga' ? "hints" : "hidden"}>{'"What is a knight?", asked ' + this.props.choiceRingEng + '. "A pawn on a horse", said ' + localStorage.getItem('hname') + '.'}</p> */}
 
                 <div className="ringOfFerna">
                     {/* <Rings7/> */}                </div>

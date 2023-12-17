@@ -4,7 +4,7 @@
 .game-board {
 	caret-color: transparent;
 
-	width: 100%;
+	/* width: 100%; */
 	margin: 0 auto;
 	text-align: center;
     position: fixed;
@@ -14,7 +14,8 @@
 	display: grid;
 	justify-content: center;
 	align-items: center;
-
+	width: 80%; /* Adjust as needed */
+	height: 80vh; /* Adjust as needed */
   }
   
   /* Define cell styles */

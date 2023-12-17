@@ -13,9 +13,7 @@ function Dublin({ setCurrentMap, gameData }) {
       {/* Add game content for Dublin here */}
       <p></p>
 
-        <div className="game-board-container">
         <GameBoard setCurrentMap={setCurrentMap} currentMap={gameData.map} />
-      </div>
 
       {/* Navigation to other counties */}
       <div className="county-navigation">

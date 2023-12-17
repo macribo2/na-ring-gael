@@ -68,6 +68,7 @@ import { Rings5 } from '../Rings/Rings5';
 
 
 
+
 export default class NumberOne extends React.Component  {
 	
 	constructor() {
@@ -111,8 +112,15 @@ export default class NumberOne extends React.Component  {
 		setTimeout(function () { 
 			$('.directional-pad').fadeIn();
 
+			$('.tree').fadeOut();
+			
+			setTimeout(function () { 
+				$('.tree').addClass('hidden');
+				$('.map-lens').addClass('has-window');
+			
+			}, 201)
 
-		},2000)
+		}, 2000)
 
 		
 	}
