@@ -103,8 +103,8 @@ background-repeat: no-repeat;
 }
 .game-board {
   display: grid;
-  grid-template-columns: repeat(20, 30px);
-  grid-template-rows: repeat(18, 30px);
+  /* grid-template-columns: repeat(20, 30px); */
+  /* grid-template-rows: repeat(18, 30px); */
   gap: 1px;
 }
 
