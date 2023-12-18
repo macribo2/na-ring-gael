@@ -945,7 +945,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		</div>
 		{currentQuestion>=8?setIsFadedOut(true):null}
 	
-		{/* <ChessLike/> */}
+		<ChessLike/>
 
 	</>
 	
