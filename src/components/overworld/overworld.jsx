@@ -3680,6 +3680,7 @@ export default class Overworld extends React.Component {
                             case "wicklow": narrativeCode = 32; break;
                             default: break
                         }
+                                console.log("🚀 ~ file: overworld.jsx:3683 ~ s:")
 
                     }
                     else {
@@ -4589,7 +4590,8 @@ export default class Overworld extends React.Component {
             //making each square of a 10x10 grid of squares a button that moves the player there, on touch.
 
             console.log('Type of elementClass:', typeof elementClass);
-            if (elementClass.includes('cell')) {
+          
+if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                 // rest of your code
             
 
