@@ -1,0 +1,48 @@
+.top-mask {
+	width: 100%;
+	height: 50%; /* Adjust the height to hide the top part */
+	position: absolute;
+	top: -45%;
+	left: 0;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+  }
+  
+  .bottom-mask {
+	width: 100%;
+	height: 50%; /* Adjust the height to hide the bottom part */
+	position: absolute;
+	bottom: -42%;
+	left: 0;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+  }
+  
+  .left-mask {
+	width: 50%; /* Adjust the width to hide the left part */
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: -18%;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+opacity: 0.5	;  
+}
+  
+  .right-mask {
+	width: 50%; /* Adjust the width to hide the right part */
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: -14%;
+	background-color: rgba(0, 0, 0, 1); /* Opaque black */
+	z-index: 99991;
+	pointer-events: none; /* Allows clicks to pass through to the game board */
+	opacity: 0.5	;  
+
+}
+  
