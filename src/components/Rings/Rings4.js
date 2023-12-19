@@ -790,7 +790,7 @@ const [rng, setRng] = useState(Math.floor(Math.random()*3))
 'strength',
 'chief, noble, best',
 'deer',
-'Pat Samurai',
+'servant of Patrick',
 'steed'
 	]
 }

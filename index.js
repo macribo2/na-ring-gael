@@ -1,11 +1,21 @@
 import express from 'express';
-const app = express(); //Line 2
-const port = process.env.PORT || 5000; //Line 3
+import path from 'path';
 
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
+const app = express();
+const port = process.env.PORT || 5000;
 
-// create  a GET route
-app.get('/express_backend', (req, res) => { //Line 9
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-}); //Line 11
+// Serve static files (e.g., your React frontend)
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Define an endpoint to serve the chess-like component
+app.get('/chesslike', (req, res) => {
+  res.send('Hello, World!');
+});
+
+// This displays a message that the server is running and listening to the specified port
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// Create a GET route
+app.get('/express_backend', (req, res) => {
+  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
+})

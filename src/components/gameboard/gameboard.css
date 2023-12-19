@@ -3,7 +3,7 @@
 /* Center the game board */
 .game-board {
 	caret-color: transparent;
-
+pointer-events: none;
 	/* width: 100%; */
 	margin: 0 auto;
 	text-align: center;
@@ -22,11 +22,12 @@
   .chess-like-cell {
 	width: 64px;
 	height: 64px;
-	padding-bottom: 10%;
 	background-color: #cccccc00;
 	border: 1px solid #aaa;
 	box-sizing: border-box;
 	transform: rotate(90deg);
+	margin: 0; /* Remove margin */
+	padding: 0; /* Remove padding */
   }
   
   /* Define styles for highlighted cells */
@@ -35,39 +36,62 @@
   }
   /* Define grid styles */
   .grid {
-	/* padding-left: 50%; */
-	margin: 0 auto;
+	margin: 0;
 	gap: 2px;
 	background-color: white;
-	color:rgba(255, 255, 255, 0);
-	transform: rotate(-90deg) ;
+	color: rgba(255, 255, 255, 0);
+	transform: rotate(-90deg);
 	background-image: url('../../images/bg2.jpg');
-  top:0%;
-  position: relative;
-height:100%;
-width: 100%;
-border: 6px solid purple;
-z-index: 9999;
-display: grid;
-
-
-/* position:fixed; */
-}
-
-
-.grid::before {
-	content: "";
-	background-image: url('../../images/bgb.jpg');
-	opacity: 0; /* Set initial opacity to 0 */
-	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: -1; /* Place it behind other content */
-  
-	animation: fadeInBackground 2s ease-in forwards; /* Animation properties */
+	width: 100vw;
+	height: 100vh;
+	border: 6px solid orange;
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
   }
+  .chess-like-row{
+	display: flex;
+
+  }
+  
+ 
+  .grid::before {
+	content: "";
+	background-image: url('../../images/bgb.jpg');
+	opacity: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw; /* Use viewport width for full screen */
+	height: 100vh; /* Use viewport height for full screen */
+	z-index: -1;
+  
+	animation: fadeInBackground 2s ease-in forwards;
+  }
+  
+  @keyframes fadeInBackground {
+	from {
+	  opacity: 0;
+	}
+	to {
+	  opacity: 1;
+	}
+  }
+  
+  
+  @keyframes fadeInBackground {
+	from {
+	  opacity: 0;
+	}
+	to {
+	  opacity: 1;
+	}
+  }
+  
   
   @keyframes fadeInBackground {
 	from {
@@ -197,57 +221,6 @@ display: grid;
 
   
 /* Create a top mask layer to hide the top area */
-.top-mask {
-	width: 100%;
-	height: 50%; /* Adjust the height to hide the top part */
-	position: absolute;
-	top: -45%;
-	left: 0;
-	background-color: rgba(0, 0, 0, 1); /* Opaque black */
-	z-index: 99991;
-	pointer-events: none; /* Allows clicks to pass through to the game board */
-  }
-  
-  /* Create a bottom mask layer to hide the bottom area */
-  .bottom-mask {
-	width: 100%;
-	height: 50%; /* Adjust the height to hide the bottom part */
-	position: absolute;
-	bottom: -42%;
-	left: 0;
-	background-color: rgba(0, 0, 0, 1); /* Opaque black */
-	z-index: 99991;
-	
-	pointer-events: none; /* Allows clicks to pass through to the game board */
-  }
-  
-  /* Create a left mask layer to hide the left area */
-  .left-mask {
-	width: 50%; /* Adjust the width to hide the left part */
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: -18%;
-	background-color: rgba(0, 0, 0, 1); /* Opaque black */
-	z-index: 99991;
-	pointer-events: none; /* Allows clicks to pass through to the game board */
-opacity: 0.5	;  
-}
-  
-  /* Create a right mask layer to hide the right area */
-  .right-mask {
-	width: 50%; /* Adjust the width to hide the right part */
-	height: 100%;
-	position: absolute;
-	top: 0;
-	right: -14%;
-	background-color: rgba(0, 0, 0, 1); /* Opaque black */
-	z-index: 99991;
-	pointer-events: none; /* Allows clicks to pass through to the game board */
-	opacity: 0.5	;  
-
-}
-  
   .toggle-modal{
 	position: fixed;
     top: 74%;
