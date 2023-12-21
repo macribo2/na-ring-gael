@@ -227,11 +227,11 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
   if (clickedSquare) {
     // The player has selected the white knight
     setPlayerChoice('white');
-    clickedSquare.style.backgroundImage = 'url("./knight2.png")'; // Load the white knight image
+    clickedSquare.style.backgroundImage = {whiteKnight}
   } else {
     // The player has not selected the white knight
     setPlayerChoice('black');
-    clickedSquare.style.backgroundImage = 'url("./knight.png")'; // Load the black knight image
+  clickedSquare.style.backgroundImage = {blackKnight}; // Load the black knight image
   }
 
 }
