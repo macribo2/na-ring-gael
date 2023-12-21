@@ -3,7 +3,7 @@
 /* Center the game board */
 .game-board {
 	caret-color: transparent;
-pointer-events: none;
+	pointer-events: none;
 	/* width: 100%; */
 	margin: 0 auto;
 	text-align: center;
@@ -23,7 +23,7 @@ pointer-events: none;
 	width: 64px;
 	height: 64px;
 	background-color: #cccccc00;
-	border: 1px solid #aaa;
+	/* border: 1px solid #aaa; */
 	box-sizing: border-box;
 	transform: rotate(90deg);
 	margin: 0; /* Remove margin */
@@ -35,18 +35,19 @@ pointer-events: none;
 	/* background-color: rgba(164, 51, 149, 0.556) !important; */
   }
   /* Define grid styles */
-  .grid {
+  .chess-like-grid {
 	margin: 0;
 	gap: 2px;
 	background-color: white;
 	color: rgba(255, 255, 255, 0);
 	transform: rotate(-90deg);
 	background-image: url('../../images/bg2.jpg');
+	background-repeat: repeat;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	border: 6px solid orange;
+	//border: 6px solid orange;
 	position: fixed;
 	display: flex;
 	flex-direction: column;
@@ -185,7 +186,7 @@ pointer-events: none;
   
   .highlighted {
 	background-color: rgba(62, 62, 27, 0);
-	/* background-image: url('../../images/97.png'); */
+	background-image: url('../../images/97.png');
 	background-size: contain;
 	background-repeat: no-repeat;
   }

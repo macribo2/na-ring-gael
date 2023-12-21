@@ -210,7 +210,7 @@ console.log(currentMap)
   // if (clickedSquareId === 'square-11-10' || clickedSquareId === 'square-11-8') {
     // Handle game logic for the allowed squares
     // For example, trigger animations or perform actions
-    console.log(`Clicked on square: ${clickedSquareId}`);
+  // alert(`Clicked on square: ${clickedSquareId}`);
 // Check if the clicked square is not the starting square of the chess piece
 if (rowIndex !== initialRow || cellIndex !== initialCol) {
   // Remove the background image from the previous square
@@ -224,7 +224,7 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
 
   // Display the knight image on the clicked square
   const clickedSquare = document.getElementById(`square-${cellIndex}-${rowIndex}`);
-  if (clickedSquare.id === 'square-8-11') {
+  if (clickedSquare) {
     // The player has selected the white knight
     setPlayerChoice('white');
     clickedSquare.style.backgroundImage = 'url("./knight2.png")'; // Load the white knight image
@@ -507,6 +507,8 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
   function handleKnightChoice(color) {
     setKnightType(color); // Set the chosen knight type (e.g., 'white' or 'black')
     startAnimation(color); // Start the animation
+    console.log(color)
+    
   }
   
  
@@ -602,7 +604,7 @@ function resumeAnimation() {
   return (
     <div className="chess-like-gameboard-container">
 
-        <div className="grid">
+        <div className="chess-like-grid">
         {currentMap.slice().reverse().map((row, rowIndex) => (
           <div key={rowIndex} className="chess-like-row">
             {row.map((cellData, cellIndex) => {
