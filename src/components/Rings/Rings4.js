@@ -1,6 +1,8 @@
 
 // import * as React from "react";
 import { render } from "react-dom";
+import { useHistory } from 'react-router-dom';
+
 import React, { useState, useEffect } from 'react'
 import lens from '../../images/ciorcal-glass-light.png';
 import lensCap from '../../images/About1/ring2.png';
@@ -132,6 +134,8 @@ import pawn from '../../images/pawn.png'
 
 
 export function Rings4(props) {
+	const history = useHistory();
+
 	const [showDiv, setShowDiv] = useState(false);
 
 	let hname;
@@ -1299,13 +1303,15 @@ return (
 					
 			<button className="button-mash-ring-4" onTouchStart={() => {
 				setShowDiv(false);
+				history.push('/chesslike');
+
 			}
 	
 			}
-						onClick={props.fadeOutNoOne} onTouchEnd={props.proceedThroughQuiz}>
+				onClick={props.fadeOutNoOne} onTouchEnd={props.proceedThroughQuiz
+				}>
 						
 						<img src={champIcon} className="champion-portrait" alt="champion portrait" />
-				
 					</button>
 			
 		  </div>
