@@ -1235,7 +1235,7 @@ return (
 				
 		</div>
 <div className="input-elements-container-7">
-		<img className="pawn-filter" src={pawn} alt="pawn-frame" />
+		
 				<img src={lensCap} className="lens-cap" alt="a fantasy landscape a ring of stones, a haunted tree" />
 				<div className='tutorial-container'>
 		
@@ -1325,12 +1325,12 @@ return (
 						strokeWidth={'3px'}
 				/>
 
+				<img className="pawn-filter" src={pawn} alt="pawn-frame" />
 					<CircularThumb fill="rgba(135,5,2)"
 						stroke="rgba(180,180,180,1)"
 						strokeWidth={'3px'} />
 			</CircularInput>
 			
-
 			</div>	
 	
 	</>
