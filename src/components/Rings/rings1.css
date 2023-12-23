@@ -118,7 +118,7 @@
 .linux-lens-container-fade,
 .linux-lens-container,
 .linux-land-container,
-.button-mash-container,
+.button-mash-container
 .about-overlay-container,
 .dial-container,
 .lens-container,
@@ -392,7 +392,7 @@ color:rgba(255, 255, 255, 0.9);
    border-radius: 50%;
   pointer-events: none;
   opacity: 0.5;
-  transform:  scale(0.6) translate(-25%,-25%);
+  transform:  scale(0.6);
   position: fixed;
   z-index: 130; 
 }

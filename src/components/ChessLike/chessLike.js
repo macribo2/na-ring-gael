@@ -2,7 +2,7 @@ import './chess-like.css';
 import React, { useEffect,useState  } from 'react';
 import horsespng from '../../images/24c.png'	
 import County from '../county/County'
-
+import greenRingFrame from '../../images/ciorcal-glass6.png'
 export default function ChessLike(props) {
 	
 const gameData = {
@@ -123,6 +123,8 @@ useEffect(() => {
               startingRow={startingRow}
         startingCol={startingCol}
             />
+
+    <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
 		</>	
 		
 
