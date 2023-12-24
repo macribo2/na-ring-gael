@@ -12,7 +12,7 @@ import gradient from '../../images/gradient2.png';
 import darkGreenFields from '../../images/ciorcal-glass4.png';
 import ChessLike from '../ChessLike/chessLike'
 import { Link } from 'react-router-dom'
-
+import style from './style.css'
 import tutorial0 from '../../images/tutorials/tutorial0.png';
 import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';

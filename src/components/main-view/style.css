@@ -1,0 +1,21 @@
+
+.hesitate{
+	/* display:none; */
+	  -webkit-animation: hesitate 2.5s forwards;
+			  animation: hesitate 2.5s forwards;
+	}
+	
+
+
+@-webkit-keyframes hesitate {
+	0% {
+	  opacity: 0
+	}
+	50% {
+	  opacity: 0
+	}
+	
+	100% {
+	  opacity: 1
+	}
+  }

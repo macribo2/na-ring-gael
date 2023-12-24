@@ -38,12 +38,12 @@ animation: driftDown 60s linear forwards ;
 
 @keyframes driftDown {
 	0% {
-	  transform:  translate(-4%, -30%) rotate(0deg) ;
+	  transform:  translate(-4%, -10%) rotate(0deg) ;
 	  
 	}
 
 	1%{
-		transform:  translate(-4%, -30%) rotate(45deg)
+		transform:  translate(-4%, -10%) rotate(45deg)
 	}
 	100% {
 	  transform:   translate(-4%, 70%) rotate(45deg); /* Adjust the distance as needed */
@@ -84,7 +84,7 @@ body {
   
   
   #square-10-11.rotate-horse-45,
-#square-8-11.rotate-horse-45 {
+#square-10-9.rotate-horse-45 {
   transform: rotate(45deg) translate(5px,-10px);
 
   /* background-color:  orange; */

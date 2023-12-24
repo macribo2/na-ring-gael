@@ -10,7 +10,7 @@ function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap }) 
   // Function to start the animation
   const startAnimation = (color) => {
     setAnimateBoard(true);
-    const element = document.getElementById('square-8-11');
+    const element = document.getElementById('square-10-9');
     const element2 = document.getElementById('square-10-11');
   if (element) {
     element.classList.add('rotate-horse-45');

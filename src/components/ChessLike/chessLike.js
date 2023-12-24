@@ -1,4 +1,5 @@
 import './chess-like.css';
+import molly from '../../images/draoi0.gif'
 import React, { useEffect,useState  } from 'react';
 import horsespng from '../../images/24c.png'	
 import County from '../county/County'
@@ -115,7 +116,7 @@ useEffect(() => {
 }, [currentMap, setCurrentMap]);
 
 	return <>
-	       <County
+	       <County className="hesitate"
               countyData={gameData.dublin}
               currentCounty={currentCounty}
               setCurrentCounty={setCurrentCounty}
@@ -125,6 +126,10 @@ useEffect(() => {
             />
 
     <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
+
+    <img src={molly} className="og-opponent molly" alt="black molly" />
+    
+    <div className='question-text'>cad a fheiceann an fichillín?</div>
 		</>	
 		
 

@@ -38,13 +38,12 @@
   .chess-like-grid {
 	margin: 0;
 	gap: 2px;
-	background-color: white;
+	/* background-color: white; */
 	color: rgba(255, 255, 255, 0);
 	transform: rotate(-90deg);
-	background-image: url('../../images/bg2.jpg');
-	background-repeat: repeat;
+	
 	top: 0;
-	left: 0;
+	left: -10%;
 	width: 100vw;
 	height: 100vh;
 	//border: 6px solid orange;
@@ -284,12 +283,12 @@
 	
 	@keyframes driftDown {
 		0% {
-		  transform:  translate(-4%, -30%) rotate(0deg) ;
+		  transform:  translate(-4%, -10%) rotate(0deg) ;
 		  
 		}
 	
 		1%{
-			transform:  translate(-4%, -30%) rotate(45deg)
+			transform:  translate(-4%, -10%) rotate(45deg)
 		}
 		100% {
 		  transform:   translate(-4%, 50%) rotate(45deg); /* Adjust the distance as needed */
@@ -302,6 +301,7 @@
 	  top:0;
 	  left:0;
 	  position: fixed;
-	  border: 5px solid khaki;
-	
+	  /* border: 5px solid khaki; */
+	  background-image: url('../../images/bg2.jpg');
+	  background-repeat: repeat;	
 	}
