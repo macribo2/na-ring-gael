@@ -11,6 +11,7 @@ align-items: center;
 text-align: center;
 }
 .chess-like-frame{
+	pointer-events: none;
 top:0;
 left:0;
 	position: fixed;
