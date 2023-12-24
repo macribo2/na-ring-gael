@@ -5558,7 +5558,7 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                     <div >
           
                         <p className="eng-question-text">
-                        Choose a pawn, says Black Martina
+                        Choose a pawn, says Black Molly
                         </p>
                         <p className="eng-question-text" id="irish-inside" >Roghnaigh fichilín, arsa Mallaidh Dubh.</p>
         </div>

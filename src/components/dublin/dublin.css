@@ -111,6 +111,7 @@ background-repeat: no-repeat;
 }
 
 .chess-like-cell {
+  color:rgba(0,0,0,0);
   flex: 1;
   display: flex;
   align-items: center;
@@ -129,7 +130,7 @@ background-repeat: no-repeat;
 
 .highlighted {
   /* background-color: rgba(255, 255, 0, 0.3); */
-  color: #000;
+  color: #0000;
 }
 
 .number {
