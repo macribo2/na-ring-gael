@@ -237,7 +237,7 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
 }
 
     //player captures knight?
-    if (rowIndex === 11 && cellIndex === 8) {
+    if (rowIndex === 9 && cellIndex === 10) {
       // Run your additional functions here
       // For example:
       handleKnightChoice('white')
