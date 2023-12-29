@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './rings1.css';
 import bigGlass from '../../images/big-glass.png'
 import lens from '../../images/ciorcal-glass.png';
-import lensBG from '../../images/ciorcal-glass3.png';
+import lensBG from '../../images/tNa0.png';
 import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ironkey from '../../images/stone-soup/lord-iron-key2.png';
