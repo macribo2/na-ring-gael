@@ -9,7 +9,7 @@ import ironkeyClicks from '../../audio/iron-key.wav';
 import lordIronkey from '../../images/stone-soup/lord-iron-key.png'
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
-import distantHills from '../../images/newbg4town.png';
+import distantHills from '../../images/newbg4twn.png';
 import blurryBG from '../../images/newbg2.png';
 import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
