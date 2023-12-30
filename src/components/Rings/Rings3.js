@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import leftImage from '../../images/98.png'; // Replace with the actual path to your left image
+import rightImage from '../../images/98.png'; // Replace with the actual path to your right image
+
 import './rings1.css';
 import bigGlass from '../../images/big-glass.png'
 import lens from '../../images/ciorcal-glass.png';
@@ -217,8 +220,9 @@ export default function Rings3(props) {
 	
 
 				<div className={value * 10 === 4 ? "linux-lens-container" : "hidden"}>
-					<img rel="preload" className={value * 10 === 4 ? "map-lens" : "hidden"} src={lensBG} alt="" />
-					
+				<img rel="preload" className="right-image"  src={rightImage} alt="blocker to mask screenspace on wider screens" />
+				<img rel="preload" className={value * 10 === 4 ? "map-lens" : "hidden"} src={lensBG} alt="" />
+				<img rel="preload" className= "left-image" src={leftImage} alt="blocker to mask screenspace on wider screens" />
 				</div>
 				
 				
