@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import leftImage from '../../images/98.png'; // Replace with the actual path to your left image
-import rightImage from '../../images/98.png'; // Replace with the actual path to your right image
+import leftImage from '../../images/maskLeft.png'; // Replace with the actual path to your left image
+import rightImage from '../../images/maskRight.png'; // Replace with the actual path to your right image
 
 import './rings1.css';
 import bigGlass from '../../images/big-glass.png'
@@ -88,11 +88,11 @@ export default function Rings3(props) {
 ``,
 `begin from zero`,
 		 		
-		 `to return to Ireland`,
-		 `to return to Ireland`,	
-		 `to return to Ireland`,
-		 `to return to Ireland`,
-		 `to return to Ireland`,
+		 `to return to Éire`,
+		 `to return to Éire`,	
+		 `to return to Éire`,
+		 `to return to Éire`,
+		 `to return to Éire`,
 		
 		``, ``, ``,
 	]
