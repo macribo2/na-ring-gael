@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react'
 import lens from '../../images/ciorcal-glass-light.png';
 import lensCap from '../../images/About1/ring2.png';
+import lensCap2 from '../../images/About1/ring2b.png';
 import emerald from '../../images/misc_crystal_new.png'
 import betweenFields from '../../images/realta.fdef7a42.gif'
 import tutorial0r from '../../images/tutorials/tutorial0r.png';
@@ -889,7 +890,7 @@ if (rng === 1) {
 		'fawn',
 		'fire',
 		'saint',
-		'Iar + Lug Celtic gods)',
+		'Iar + Lug Celtic gods',
 		'blossom, bloom',
 		'radiant blossom',
 		'hero, champion',
@@ -1234,17 +1235,12 @@ return (
 <img src={betweenFields} className="between-fields" alt="a wheeling space between worlds" />
 				
 		</div>
-<div className="input-elements-container-7">
-		
-				<img src={lensCap} className="lens-cap" alt="a fantasy landscape a ring of stones, a haunted tree" />
-				<div className='tutorial-container'>
-		
-		<div className="tutorial0-container"></div>
-		
-			
-			</div>
-			</div>
-	
+		<div className="input-elements-container-7">
+
+    <div className='tutorial-container'>
+      <div className="tutorial0-container"></div>
+    </div>
+  </div>
 
 		<p id="hints-ring-4" className={props.isOn ? "hints" : "hidden"}></p>
 		
@@ -1301,6 +1297,31 @@ return (
 	
 		<div className="input-elements-container-5">
 					
+		
+		  </div>
+	  		
+		  <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+    {/* lens-cap elements */}
+    <img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
+    <img className="lens-cap" src={lensCap} alt="Lens Cap" />
+
+    {/* CircularInput with CircularTrack */}
+    <CircularInput value={value} className="dial4" onChange={tryValue}>
+      <CircularTrack
+        stroke="gold" // Set the stroke color to gold
+        strokeWidth={'2px'} // Adjust the width of the track
+        strokeLinecap="round" // Ensure round line caps for a smoother appearance
+        style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%' }} // Ensure it overlays the lens-cap elements
+      />
+
+      <img className="pawn-filter" src={pawn} alt="pawn-frame" />
+
+      <CircularThumb
+        fill="rgba(135,5,2)"
+        stroke="rgba(180,180,180,1)"
+        strokeWidth={'3px'}
+      />
+			</CircularInput>
 			<button className="button-mash-ring-4" onTouchStart={() => {
 				setShowDiv(false);
 				history.push('/chesslike');
@@ -1314,25 +1335,10 @@ return (
 						<img src={champIcon} className="champion-portrait" alt="champion portrait" />
 					</button>
 			
-		  </div>
-	  		
+  </div>
 
-		<div className="input-elements-container-8"  >
-				
-				<CircularInput value={value} className="dial4" onChange={tryValue}  >
-				<CircularTrack
-				stroke="rgba(171,144,0,0)"
-						strokeWidth={'3px'}
-				/>
+);
 
-				<img className="pawn-filter" src={pawn} alt="pawn-frame" />
-					<CircularThumb fill="rgba(135,5,2)"
-						stroke="rgba(180,180,180,1)"
-						strokeWidth={'3px'} />
-			</CircularInput>
-			
-			</div>	
-	
 	</>
 			);
 		}
