@@ -705,9 +705,9 @@ function thumbStart() {
 				stroke="rgba(185,230,5,1)"
 						strokeWidth={'3px'}
 				/>
-				<CircularThumb  fill="rgba(204, 255, 153,1)"
-					stroke="rgba(255, 195, 0 ,1)" 	
-							strokeWidth={'3px'}/>
+				<CircularThumb      fill="rgba(135,5,2)"
+        stroke="rgba(180,180,180,1)"
+        strokeWidth={'3px'}/>
 			</CircularInput>
 			
 			

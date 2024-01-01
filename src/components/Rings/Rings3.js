@@ -149,16 +149,6 @@ export default function Rings3(props) {
 
 	return (
 		<>
-	
-		<div className="linux-land-container">
-					<img className={value * 10 === 4 ? 'about-pics' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
-				</div>
-
-					<div className="linux-land-container">
-
-					<img className={value*10 === 5 ? 'about-pics':'hidden'} src={linucsLand}  id="linux-land-down" alt="illustration placeholder" />
-				</div>
-
 
 
 			 <div className="input-elements-container0">
@@ -219,6 +209,14 @@ export default function Rings3(props) {
 		</div>
 	
 
+		<div className="linux-land-container">
+					<img className={value * 10 === 4 ? 'about-pics' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
+				</div>
+
+					<div className="linux-land-container">
+
+					<img className={value*10 === 5 ? 'about-pics':'hidden'} src={linucsLand}  id="linux-land-down" alt="illustration placeholder" />
+				</div>
 				<div className={value * 10 === 4 ? "linux-lens-container" : "hidden"}>
 				<img rel="preload" className="right-image"  src={rightImage} alt="blocker to mask screenspace on wider screens" />
 				<img rel="preload" className={value * 10 === 4 ? "map-lens" : "hidden"} src={lensBG} alt="" />
@@ -300,13 +298,14 @@ export default function Rings3(props) {
 						stroke="rgba(195,150,5,0.8)"
 						
 						strokeWidth={'3px'}/>
-					<CircularThumb  fill="rgba(255,255,255,1)"
-
-					stroke="rgba(180,180,180,1)" 	
-							strokeWidth={'3px'}/>
+					<CircularThumb      fill="rgba(135,5,2)"
+        stroke="rgba(180,180,180,1)"
+        strokeWidth={'3px'}/>
 				
 			</CircularInput>
 			</div>	
+	
+
 			
 <div className="button-mash-container">
 				<button className={value * 10 === 9 ? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >

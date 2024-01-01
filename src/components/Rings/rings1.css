@@ -104,7 +104,7 @@
   top: 47%; /* Center vertically */
   left: 47%; /* Center horizontally */
   transform: translate(-50%, -50%);
-  z-index: 999;
+  z-index: 2999;
   /* Add other styles for your button as needed */
 }
 .rings0Eng {
@@ -189,7 +189,7 @@ z-index: 888;
   }
   .left-image, .right-image{
 
-    border:4 px solid orange;
+    /* border:4 px solid orange; */
   }
   
 
@@ -197,7 +197,7 @@ z-index: 888;
 
 
 .linux-land-container{
-  z-index: 9;
+  z-index:99;
   transform: scale(0.5);
  }
 
@@ -414,7 +414,7 @@ z-index: 11;
   font-family: Anaphora;
   position: fixed;
   top: 40%;
-  left: 30%;
+  left: 41%;
 
                 
   padding: 5px;
@@ -494,6 +494,7 @@ top:5%;
   left: 37%;
   opacity: 0;
   transform: scale(2.5) translateX(8%);
+  
   /* display:none; */
   }
       .lens-ring4,.lens-ring5{
@@ -502,7 +503,8 @@ top:5%;
       }
       .dial4, .dial5{
         transform:scale(1.2);
-        z-index: 99999;
+        z-index: 1999;
+        pointer-events: auto; /* or other appropriate value */
       }
       
       .input-elements-container-5, .input-elements-container-8{
