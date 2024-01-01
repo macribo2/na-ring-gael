@@ -1,4 +1,5 @@
 import Overworld from '../../components/overworld/overworld';
+
 import shine from '../../images/a-btn.png'
 import React, { useState, Component } from 'react';
 import Sparkles from 'react-sparkle'
@@ -699,7 +700,9 @@ let thePucaOf = localStorage.getItem('pucaEng')
 							border="rgba(255,250,5,0)"
 							stroke="rgba(195,150,5,0.8)"
 						strokeWidth={'3px'}/>
-						<CircularThumb fill="rgba(167,174,158,0.99)"
+						<CircularThumb     fill="rgba(135,5,2)"
+        stroke="rgba(180,180,180,1)"
+        strokeWidth={'3px'}
 							
 						strokeWidth={'3px'}
 					stroke="rgba(180,180,180,1)" 
