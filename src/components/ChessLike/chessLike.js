@@ -124,12 +124,13 @@ useEffect(() => {
               startingRow={startingRow}
         startingCol={startingCol}
             />
-
+<div className="chess-like-frame-container">
     <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
 
     <img src={molly} className="og-opponent molly" alt="black molly" />
     
-    <div className='question-text'>cad a fheiceann an fichillín?</div>
+      <div className='question-text'>cad a fheiceann an fichillín?</div>
+      </div>
 		</>	
 		
 

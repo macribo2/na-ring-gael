@@ -186,7 +186,7 @@ export function Rings4(props) {
     else if (requestedValue < min) return minValue;
     else return v;
 };
-let champPortrait = document.getElementsByClassName('champion-portrait')
+
 
 	//when player turns dial to select champion:  show avatar in fairy ring; fade in eng and irish names, fade out question text.
 	
@@ -564,12 +564,20 @@ if (champID !== 25) {
 	
 	{ const [champName, setChampName] = useState('Anseo'); }
 	
-	
+	const buttonMashRing4 = document.querySelector(".button-mash-ring-4");
 
-	//thumbStart is a hack to prevent side effect of making question text fade out when player is at location 'geaga'.
+	
+//thumbStart is a hack to prevent side effect of making question text fade out when player is at location 'geaga'.
 	function thumbStart() {
 		setShowDiv(true);
 		document.querySelector(".champion-portrait").classList.add('fade-in-champ');
+		document.querySelector(".button-mash-ring-4").classList.add('fade-in-champ');
+			// Change the display property after a delay (0.5s for the animation duration)
+	setTimeout(() => {
+		buttonMashRing4.style.display = 'block';
+	  }, 50);
+  
+	  //thumbS
 		document.querySelector(".names-i").classList.add('fade-in-champ');
 		document.querySelector(".question-text").classList.add('fade-out-champ');
 		document.querySelector(".tutorial0-container").classList.add('fade-out-champ');
@@ -1331,8 +1339,8 @@ return (
 			}
 				onClick={props.fadeOutNoOne} onTouchEnd={props.proceedThroughQuiz
 				}>
-						
-						<img src={champIcon} className="champion-portrait" alt="champion portrait" />
+				<div className = "circle">
+						<img src={champIcon} className="champion-portrait" alt="champion portrait" /></div>
 					</button>
 			
   </div>

@@ -303,7 +303,7 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
       square.style.border = 'none'; // Remove the border from all squares
   });
 
-       // Determine if the clicked square is a white knight or black knight square
+       // Determine if the clicked square is a white knight or black   square
   const isWhiteKnightSquare = rowIndex === initialRow && cellIndex === initialCol;
   const isBlackKnightSquare = rowIndex === initialRow && cellIndex === initialCol + 1;
 

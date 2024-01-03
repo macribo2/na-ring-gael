@@ -105,6 +105,8 @@
   left: 47%; /* Center horizontally */
   transform: translate(-50%, -50%);
   z-index: 2999;
+  display:none;
+
   /* Add other styles for your button as needed */
 }
 .rings0Eng {
@@ -413,8 +415,8 @@ z-index: 11;
 .names-e,.numbers-e{
   font-family: Anaphora;
   position: fixed;
-  top: 40%;
-  left: 41%;
+  top: 33%;
+  left: 49%;
 
                 
   padding: 5px;
@@ -423,7 +425,7 @@ color:rgba(255, 255, 255, 0.9);
   font-size:1.8em;
 }
 .lens-cap{
-  animation: spin 60s ease-in-out infinite;
+  animation: spin 20s ease-in-out infinite;
 
 }
 
@@ -439,12 +441,12 @@ color:rgba(255, 255, 255, 0.9);
 
 .names-i, .numbers-i{
   opacity: 0;
-top:9%;
+top:20%;
   font-size: 2em;
   position: fixed;
   font-family: 'aonchlo';
   color:chartreuse;
-  /* left:3%; */
+  left:3%;
       }
 
 .in-g{
@@ -493,7 +495,7 @@ transform: scaleX(-1) scale(0.7);
 top:5%;
   left: 37%;
   opacity: 0;
-  transform: scale(2.5) translateX(8%);
+  transform: scale(2);
   
   /* display:none; */
   }
@@ -557,9 +559,6 @@ top:5%;
         border-radius:50%;
         border:3px solid black;
       }
-      .fade-in-champ{
-        animation:fade-in 0.5s forwards;
-      }
       .fade-out-champ{
         animation:fade-out 1s forwards;
       }
@@ -570,7 +569,7 @@ top:5%;
       .fade-out-slow{
         animation:fade-out 4s steps(8) forwards;
       }
-
+      
 
         
         
@@ -920,3 +919,7 @@ animation: spin 60s steps(128) infinite;
   /* Add styles for tutorial0-container as needed */
 }
 
+
+      .fade-in-champ{
+        animation:fade-in 0.5s forwards;
+      }
