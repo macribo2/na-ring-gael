@@ -87,8 +87,8 @@ const ComponentWithScreenOrientation = () => {
 		<p>Screen orientation is: {screenOrientation}</p>
 	)
 }
-let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'a ḋiabhaltán', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'file'];
-let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o devilry', 'o beloved devil','o Chieftain','Fionn','o friend','poet'];
+let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'a ḋiabhaltán', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
+let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o devilry', 'o beloved devil','o Chieftain','Fionn','o friend','o fount of muses'];
 
 export default function App() {
 	//for rotary dial values:
@@ -142,7 +142,7 @@ export default function App() {
 		`Abhartach`,
 		`Fionn Mac Cumhail`,
 		`Púca`,
-		`Fedelm an File`
+		`Fand`
 		
 		
 	]
@@ -594,9 +594,9 @@ if(value*10 !== 0 ){
 		`The Dark One`,
 		`The Pagan Champion of Valentia`,
 		`The Vampire Chieftain`,
-		`The Legendary warrior, seer, poet`,
-		`one of the Fair Folk `,
-		`Fedelm the poet`,
+		`Legendary warrior, seer, poet`,
+		`A mischievous supernatural shape-shifter`,
+		`Teardrop of beauty, muse of the sea`,
 		``
 	]
 
@@ -765,7 +765,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 					
 						<div className='question-count'> 		
 							</div>
-							{/* <img src={ gradient} className="gradient"/> */}
+						
 							<div dangerouslySetInnerHTML={{__html:questions[currentQuestion].questionText}} id="qt"className='question-text'></div>
 
 						</div>
@@ -789,7 +789,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 			<ReactAudioPlayer src={value*10 === 1 ? spark0: null} autoPlay />
 			{/* <ReactAudioPlayer src={value*10 === 2 ? spark1: null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 3 ? spark2: null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 4 ? spark3: null} autoPlay />
+			<ReactAudioPlayer src={value*10 === 4 ? spark3: ·null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 5 ? spark4: null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 6 ? spark1: null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 7 ? spark2: null} autoPlay />
