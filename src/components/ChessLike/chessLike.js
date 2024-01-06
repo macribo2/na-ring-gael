@@ -129,7 +129,7 @@ useEffect(() => {
 
     <img src={molly} className="og-opponent molly" alt="black molly" />
     
-      <div className='question-text'>cad a fheiceann an fichillín?</div>
+      <div className='question-text'>1</div>
       </div>
 		</>	
 		

@@ -19,3 +19,17 @@
 	  opacity: 1
 	}
   }
+
+
+
+  #meteor-shower-container {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+  z-index: 9999;
+  top:0;
+  left:0
+  }
+
+  
