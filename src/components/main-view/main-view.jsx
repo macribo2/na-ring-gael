@@ -1,7 +1,7 @@
 import Overworld from '../../components/overworld/overworld';
-
+import MeteorShower from '../meteor-shower/meteor-shower';
 import shine from '../../images/a-btn.png'
-import React, { useState, Component } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import Sparkles from 'react-sparkle'
 import ding3 from '../../audio/ding3.wav'
 import SettingsMenu from '../../components/settings-menu/settings-menu'
@@ -630,11 +630,9 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		
 	}
 
-
 	let dirpadHandler = () => {
 		toggleShowOverworld(true)
 	}
-	
 
 	let checkFerna = () => {
 		alert(localStorage.getItem('visitedFerna'))
@@ -652,7 +650,6 @@ let thePucaOf = localStorage.getItem('pucaEng')
 
 	return (<>
 
-		
 {isOn ? (<div id="glass">
 
 < img  src={glass} className="question-img" rel="preload" id="glass-img" alt="glass bg for translucent overlay effect." />	
@@ -747,6 +744,12 @@ let thePucaOf = localStorage.getItem('pucaEng')
 			<div className='stars-container'>
 			<img id="stars" rel="preload" src={stars} className="question-img" alt="wheeling starfield" />		
 			</div>
+			<div id="meteor-shower-container">
+			
+			<MeteorShower/>
+						
+			</div>
+			
 			{showSettings ? <SettingsMenu 
 				incrementScore={incrementScore} tallyX={0} avatar={localStorage.getItem('portrait')} whereAmI="geaga" isOn={isOn} heroName={heroNames[localStorage.getItem('portrait')]} heroNameEng={ heroNamesEng[localStorage.getItem('portrait')]}
 				toggleIsOn={toggleIsOn}  showSettings={showSettings} handleInputSelect={handleInputSelect} />
@@ -895,9 +898,6 @@ let thePucaOf = localStorage.getItem('pucaEng')
 { currentQuestion === 3 ? runOnName(1500):null}
 { currentQuestion === 4 ? runOnName(1000):null}
 { currentQuestion === 5 ? runOnName(1000):null}
-			
-
-			
 			
 			
 			

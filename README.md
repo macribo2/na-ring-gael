@@ -1,6 +1,18 @@
     
 
-Ficheall
+
+Teoric:
+
+0.D'oscal meafar an luch agus Fuinneog feidirachtaí próceisoir an ríomahaire i gcomahir an gnáth duinne.
+
+Ach, tá bealach eile an prócéisóir a dhíarú sé sin
+mearfar ríomhlitartha an "préamh".
+
+1. Deantar cumarsáid le cainnt. Tuigtar, le teanga.
+
+Is feidir buntús riomharacta neamhspleach ar Microsoft agus Apple a chuir faoi an pobal Gaelach, le bog earraí oscailte árd chaidán, Ubuntu.
+
+Meoin is ea an Gaelachas.
 
 
 JSON frames the genius of people.
@@ -20,9 +32,6 @@ mar shampla:
 {"userName":"Patrick"}
 
 Tosníonn Ríomh thusicint le náid.   
-
-Seo sampla eile:
-
 
 
  Len é a sheoladh go freastalí an gréasán.

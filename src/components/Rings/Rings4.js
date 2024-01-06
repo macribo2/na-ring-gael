@@ -131,10 +131,24 @@ import {
   CircularThumb,
 } from "react-circular-input";
 import pawn from '../../images/pawn.png'
+// import { usePlayerContext } from './PlayerContext';
 
 
-
+// const [playerDetails, setPlayerDetails] = useState({
+//     // Initialize with default values or whatever makes sense for your app
+//     playerName: 'DefaultPlayer',
+//     // Add other player details as needed
+// });
+  
+//     // Function to update player details based on user choices
+// 	const handlePlayerDetailsChange = (newDetails) => {
+// 		setPlayerDetails(newDetails);
+// 	  };
+	
 export function Rings4(props) {
+
+	// const { playerDetails, setPlayerDetails } = usePlayerContext();
+
 	const history = useHistory();
 
 	const [showDiv, setShowDiv] = useState(false);
@@ -1234,6 +1248,18 @@ if (rng === 2) {
 		'sallow',]
 }
 	
+// useEffect(() => {
+//     // Assuming hname is updated elsewhere in your component
+//     // For example, if it's part of the component state, you can do:
+//     // setPlayerDetails({ ...playerDetails, playerName: hname });
+
+//     // Assuming hname is directly updated in this component
+//     // If hname is a state variable, you might do something like:
+//     setPlayerDetails((prevDetails) => ({
+//       ...prevDetails,
+//       playerName: hname,
+//     }));
+//   }, [hname, setPlayerDetails]);
 
 return (
 	

@@ -425,7 +425,7 @@ color:rgba(255, 255, 255, 0.9);
   font-size:1.8em;
 }
 .lens-cap{
-  animation: spin 20s ease-in-out infinite;
+  animation: spin 10s ease-in-out infinite;
 
 }
 

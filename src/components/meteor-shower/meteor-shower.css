@@ -1,0 +1,37 @@
+
+#meteor-shower-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9;
+  overflow: hidden;
+
+top:0;
+left:0
+}
+
+.comet {
+  z-index: 9;
+
+  position: absolute;
+  width: 3px;
+  height: 50px; /* Adjust the length of the comet tail */
+  background-color: white;
+  clip-path: polygon(50% 0%, 45% 50%, 50% 100%, 55% 50%); /* Adjusted clip-path for elongation */
+  animation: shootingStarAnimation 2s linear infinite;
+}
+
+
+@keyframes shootingStarAnimation {
+  0% {
+    transform: translateY(0) translateX(0) rotate(-53deg); /* Adjust rotation for arrow-like appearance */
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100vw) rotate(-53deg); /* Adjust rotation for arrow-like appearance */
+    opacity: 1;
+  }
+}

@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "9d71685004b4aaa97171",
-    "url": "/static/css/main.7de5be8f.chunk.css"
+    "revision": "6c9a55d83e430fea0226",
+    "url": "/static/css/main.42b85b16.chunk.css"
   },
   {
-    "revision": "9d71685004b4aaa97171",
-    "url": "/static/js/main.151216c1.chunk.js"
+    "revision": "6c9a55d83e430fea0226",
+    "url": "/static/js/main.2b324858.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -824,6 +824,14 @@ self.__precacheManifest = [
     "url": "/static/media/fortuna-glass.4c08d21e.png"
   },
   {
+    "revision": "ee5004be8978604da5e223282c5bbe51",
+    "url": "/static/media/sea.ee5004be.png"
+  },
+  {
+    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
+    "url": "/static/media/mapFrame4.0cdb344e.png"
+  },
+  {
     "revision": "c84c06495852ac730bd653c3aa9bff25",
     "url": "/static/media/wren-code0.c84c0649.png"
   },
@@ -832,32 +840,24 @@ self.__precacheManifest = [
     "url": "/static/media/wren2b.4159e8fd.png"
   },
   {
-    "revision": "ee5004be8978604da5e223282c5bbe51",
-    "url": "/static/media/sea.ee5004be.png"
-  },
-  {
     "revision": "803e6e686778fd42d5b5ccb0059ef189",
     "url": "/static/media/wren-hood.803e6e68.png"
-  },
-  {
-    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
-    "url": "/static/media/mapFrame4.0cdb344e.png"
-  },
-  {
-    "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
-    "url": "/static/media/mapFrame2.915b9892.png"
   },
   {
     "revision": "d0fa8e83c08e2f7d1ce2e1cbe8f2e8b6",
     "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
   },
   {
-    "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
-    "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
-  },
-  {
     "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
     "url": "/static/media/suile0.b67d2f1b.gif"
+  },
+  {
+    "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
+    "url": "/static/media/mapFrame2.915b9892.png"
+  },
+  {
+    "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
+    "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
   },
   {
     "revision": "9bbe18cf6d054928f146dafcf058fcb1",
@@ -948,12 +948,12 @@ self.__precacheManifest = [
     "url": "/static/media/ritterB.7e9c21ab.png"
   },
   {
-    "revision": "ce42ad0e1857789bf11d2968d63d99a8",
-    "url": "/static/media/ritterA.ce42ad0e.png"
-  },
-  {
     "revision": "aacf62fcc37ec0c4f5a556bcb78f8818",
     "url": "/static/media/ritter2.aacf62fc.png"
+  },
+  {
+    "revision": "ce42ad0e1857789bf11d2968d63d99a8",
+    "url": "/static/media/ritterA.ce42ad0e.png"
   },
   {
     "revision": "a0f56fc4653b94ca7184673fb926b731",
@@ -980,7 +980,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "9b54a8f4733ad1bf12a6a0bd784aaae5",
+    "revision": "1f7b365e0befe0f17cffffecd8bd848c",
     "url": "/index.html"
   }
 ];
