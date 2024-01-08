@@ -4,7 +4,13 @@ import React, { useEffect,useState  } from 'react';
 import horsespng from '../../images/24c.png'	
 import County from '../county/County'
 import greenRingFrame from '../../images/ciorcal-glass6.png'
+
+import { usePlayerContext } from '../player-context/playerContext';
+
+
+
 export default function ChessLike(props) {
+  const { playerDetails } = usePlayerContext();
 	
 const gameData = {
   dublin: {
@@ -129,7 +135,7 @@ useEffect(() => {
 
     <img src={molly} className="og-opponent molly" alt="black molly" />
     
-      <div className='question-text'>1</div>
+      <div className='question-text'>    <pre>{JSON.stringify(playerDetails, null, 2)}</pre></div>
       </div>
 		</>	
 		

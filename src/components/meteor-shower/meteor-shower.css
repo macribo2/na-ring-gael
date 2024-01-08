@@ -1,17 +1,18 @@
 
 #meteor-shower-container {
+  pointer-events: none;
   position: fixed;
   width: 100vw;
   height: 100vh;
-  z-index: 9;
   overflow: hidden;
-
 top:0;
-left:0
+left:0%;
+transform:translateX(30%)
 }
 
 .comet {
-  z-index: 9;
+  z-index: 2;
+  pointer-events: none;
 
   position: absolute;
   width: 3px;
