@@ -14,6 +14,27 @@ import blurryBG from '../../images/newbg2.png';
 import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
 let lyricID = 0;
+
+
+
+
+const enterFullscreen = () => {
+	const element = document.documentElement;
+  
+	if (element.requestFullscreen) {
+	  element.requestFullscreen();
+	} else if (element.mozRequestFullScreen) {
+	  element.mozRequestFullScreen();
+	} else if (element.webkitRequestFullscreen) {
+	  element.webkitRequestFullscreen();
+	} else if (element.msRequestFullscreen) {
+	  element.msRequestFullscreen();
+	}
+  };
+  
+  
+
+
 export default function SettingsMenu(props) {
 	let lightStartX = [3, 10, 44, 99, 12, 18, 77, 89, 46, 54]
 	function setLightStartX() {
@@ -34,6 +55,36 @@ export default function SettingsMenu(props) {
 		}
 	});
 
+	
+	const FullScreenComponent = () => {
+		const enterFullscreen = () => {
+		  const element = document.documentElement;
+	  
+		  if (element.requestFullscreen) {
+			element.requestFullscreen();
+		  } else if (element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		  } else if (element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen();
+		  } else if (element.msRequestFullscreen) {
+			element.msRequestFullscreen();
+		  }
+		};
+	  
+	}
+	
+
+	const handleAboutClick = () => {
+		// Handle 'about' button click
+		setShowHist(true);
+		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
+	  };
+	
+	  const handleBeginClick = () => {
+		// Handle 'begin' button click
+		props.handleInputSelect('begin');
+		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
+	  };
 	
 	const [showHistory, setShowHist] = useState(0);
 	let toggleIsOn = props.toggleIsOn
@@ -122,12 +173,12 @@ let randLights = Math.floor(Math.random * 8)
 		</div>
 <div className='menu-container'>
 			<button className="menu"
-				onClick={() => setShowHist(true)}
-			>about</button>
+			onClick={handleAboutClick}
+			>about</button >
 			<button className="menu"
-			onClick={() => props.handleInputSelect('begin')}
+			onClick={handleBeginClick}
 			>begin</button>
-			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} handleInputSelect={ props.handleInputSelect} />:null}
+			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
 		</div>
 	
 

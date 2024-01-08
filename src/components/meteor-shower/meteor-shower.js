@@ -4,23 +4,29 @@ import './meteor-shower.css';
 const MeteorShower = () => {
   useEffect(() => {
     const startMeteorShower = () => {
-      const container = document.getElementById('meteor-shower-container');
-      container.innerHTML = ''; // Clear previous comets
+    setTimeout(function () {
+    
+  
 
-      const numComets = Math.floor(Math.random() * 6); // Adjust the maximum number of comets per shower
-
-      for (let i = 0; i < numComets; i++) {
-        const comet = document.createElement('div');
-        comet.className = 'comet';
-        comet.style.left = `${Math.random() * 100}vw`; // Random horizontal position
-        comet.style.top = `${-Math.random() * 50}vh`; // Random vertical position above the screen
-        comet.style.animationDelay = `${Math.random() * 5}s`; // Random delay for each comet
-
-        const initialBrightness = Math.random();
-        comet.style.setProperty('--initial-brightness', initialBrightness);
-
-        container.appendChild(comet);
-      }
+      
+        const container = document.getElementById('meteor-shower-container');
+        container.innerHTML = ''; // Clear previous comets
+  
+        const numComets = Math.floor(Math.random() * 6); // Adjust the maximum number of comets per shower
+  
+        for (let i = 0; i < numComets; i++) {
+          const comet = document.createElement('div');
+          comet.className = 'comet';
+          comet.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+          comet.style.top = `${-Math.random() * 50}vh`; // Random vertical position above the screen
+          comet.style.animationDelay = `${Math.random() * 1}s`; // Random delay for each comet
+  
+          const initialBrightness = Math.random();
+          comet.style.setProperty('--initial-brightness', initialBrightness);
+  
+          container.appendChild(comet)
+        }
+      },12000);
     };
 
     const runMeteorShower = () => {

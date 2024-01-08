@@ -93,6 +93,9 @@ let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o devilry', 'o beloved
 export default function App() {
 	//for rotary dial values:
 	
+
+
+	
 	const stepValue = v => Math.round(v * 10) / 10
 	const stepValue2 = v => Math.round(v * 10) / 10
 	
@@ -649,6 +652,11 @@ let thePucaOf = localStorage.getItem('pucaEng')
 	window.mobileAndTabletCheck();
 
 	return (<>
+			<div id="meteor-shower-container">
+			
+			<MeteorShower/>
+						
+			</div>
 
 {isOn ? (<div id="glass">
 
@@ -743,11 +751,6 @@ let thePucaOf = localStorage.getItem('pucaEng')
 			
 			<div className='stars-container'>
 			<img id="stars" rel="preload" src={stars} className="question-img" alt="wheeling starfield" />		
-			</div>
-			<div id="meteor-shower-container">
-			
-			<MeteorShower/>
-						
 			</div>
 			
 			{showSettings ? <SettingsMenu 

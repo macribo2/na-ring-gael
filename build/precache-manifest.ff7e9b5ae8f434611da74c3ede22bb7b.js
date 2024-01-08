@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6c9a55d83e430fea0226",
-    "url": "/static/css/main.42b85b16.chunk.css"
+    "revision": "6ca335328b2410a53e43",
+    "url": "/static/css/main.b2ca9da4.chunk.css"
   },
   {
-    "revision": "6c9a55d83e430fea0226",
-    "url": "/static/js/main.2b324858.chunk.js"
+    "revision": "6ca335328b2410a53e43",
+    "url": "/static/js/main.022c33d9.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -764,8 +764,8 @@ self.__precacheManifest = [
     "url": "/static/media/stones1.22451eb8.png"
   },
   {
-    "revision": "42fad12beee71f5642f83e02d95e2617",
-    "url": "/static/media/spr_stars01.42fad12b.png"
+    "revision": "dce827d46ee61b881075c0e6da2ede24",
+    "url": "/static/media/spr_stars01.dce827d4.png"
   },
   {
     "revision": "650488a9edfbb46d82773b8d8b5df5da",
@@ -848,10 +848,6 @@ self.__precacheManifest = [
     "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
   },
   {
-    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
-    "url": "/static/media/suile0.b67d2f1b.gif"
-  },
-  {
     "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
     "url": "/static/media/mapFrame2.915b9892.png"
   },
@@ -862,6 +858,10 @@ self.__precacheManifest = [
   {
     "revision": "9bbe18cf6d054928f146dafcf058fcb1",
     "url": "/static/media/suile3.9bbe18cf.gif"
+  },
+  {
+    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
+    "url": "/static/media/suile0.b67d2f1b.gif"
   },
   {
     "revision": "cfabbdb47b5376a44c3f8bd99fe2f968",
@@ -936,12 +936,16 @@ self.__precacheManifest = [
     "url": "/static/media/24c.515bfc37.png"
   },
   {
+    "revision": "208d89248d8f25575e692569d01346d7",
+    "url": "/static/media/bg2.208d8924.jpg"
+  },
+  {
     "revision": "e255471deaf70ac34cd2ba6f6ef77817",
     "url": "/static/media/bg3.e255471d.jpg"
   },
   {
-    "revision": "208d89248d8f25575e692569d01346d7",
-    "url": "/static/media/bg2.208d8924.jpg"
+    "revision": "ce42ad0e1857789bf11d2968d63d99a8",
+    "url": "/static/media/ritterA.ce42ad0e.png"
   },
   {
     "revision": "7e9c21abade02ba12249bc8b23270095",
@@ -950,10 +954,6 @@ self.__precacheManifest = [
   {
     "revision": "aacf62fcc37ec0c4f5a556bcb78f8818",
     "url": "/static/media/ritter2.aacf62fc.png"
-  },
-  {
-    "revision": "ce42ad0e1857789bf11d2968d63d99a8",
-    "url": "/static/media/ritterA.ce42ad0e.png"
   },
   {
     "revision": "a0f56fc4653b94ca7184673fb926b731",
@@ -980,7 +980,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "1f7b365e0befe0f17cffffecd8bd848c",
+    "revision": "e148d7e7b6a640789f79cf84cfb1bd83",
     "url": "/index.html"
   }
 ];
