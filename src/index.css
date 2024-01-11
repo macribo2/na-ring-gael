@@ -38,7 +38,7 @@
   position: fixed;
   z-index: 4;
 top: 0%;
-left: 0%;
+left: -1%;
 height: 140%;
 width: 150%;
 opacity:1;
@@ -346,7 +346,9 @@ width: 740px;
   /* -webkit-text-stroke: 1px #000000; */
  
 }
-
+.question-text {
+  top:6%;
+}
 
 .timer-text {
   background: rgb(230, 153, 12);
