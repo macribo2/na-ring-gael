@@ -238,6 +238,7 @@ export default function Rings3(props) {
 				<img rel="preload" className={value * 10 === 6 ? "map-lens" : "hidden"} src={lensBG} alt="" />
 				</div>
 					
+				
 			<ReactAudioPlayer src={value*10 === 1 ? spark0: null} autoPlay />
 			{/* <ReactAudioPlayer src={value*10 === 2 ? spark1: null} autoPlay />
 			<ReactAudioPlayer src={value*10 === 3 ? spark2: null} autoPlay />
@@ -324,7 +325,13 @@ export default function Rings3(props) {
 						{/* <img className={value * 10 === 7 ? 'wisp' : 'hidden'}srcn={wisp} alt="A dancing light that can lead people astray" /> */}
 	
 				</button>
-				<button className={value * 10 === 6 ? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >
+			
+				<button className={value * 10 === 5 ? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >
+				
+						{/* <img className={value * 10 === 6 ? 'wisp' : 'hidden'}src={wisp} alt="A dancing light that can lead people astray" /> */}
+	
+				</button>
+				<button className={value * 10 === 6 ? 'button-mash-ring-0 circle' : 'hidden'} onClick={() => props.handleInputSelect('gamepad')} >
 				
 						{/* <img className={value * 10 === 6 ? 'wisp' : 'hidden'}src={wisp} alt="A dancing light that can lead people astray" /> */}
 	
