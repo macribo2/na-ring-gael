@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6ca335328b2410a53e43",
-    "url": "/static/css/main.b2ca9da4.chunk.css"
+    "revision": "bf766f42c985f83053a2",
+    "url": "/static/css/main.257af5be.chunk.css"
   },
   {
-    "revision": "6ca335328b2410a53e43",
-    "url": "/static/js/main.022c33d9.chunk.js"
+    "revision": "bf766f42c985f83053a2",
+    "url": "/static/js/main.f2eea563.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -96,8 +96,8 @@ self.__precacheManifest = [
     "url": "/static/media/feicimthu.ed03f220.png"
   },
   {
-    "revision": "ad5ed074916ebd5c0aa5425d5eb895ad",
-    "url": "/static/media/ciorcal-glass6.ad5ed074.png"
+    "revision": "7614eade131833b9a7766f4e705ebb76",
+    "url": "/static/media/ciorcal-glass6.7614eade.png"
   },
   {
     "revision": "f86401116e22234bed1999521b37a26b",
@@ -300,8 +300,8 @@ self.__precacheManifest = [
     "url": "/static/media/river0.d836b973.mp4"
   },
   {
-    "revision": "748553711add1bd4f8ddf61c7bc7ca58",
-    "url": "/static/media/ring2.74855371.png"
+    "revision": "41078261726f37679b3ecbd34c482b8b",
+    "url": "/static/media/ring2.41078261.png"
   },
   {
     "revision": "c0d59ad4ff7626dad8cec9d135b43143",
@@ -764,8 +764,8 @@ self.__precacheManifest = [
     "url": "/static/media/stones1.22451eb8.png"
   },
   {
-    "revision": "dce827d46ee61b881075c0e6da2ede24",
-    "url": "/static/media/spr_stars01.dce827d4.png"
+    "revision": "20ba880d7a36981935937da6098f37b5",
+    "url": "/static/media/spr_stars01.20ba880d.png"
   },
   {
     "revision": "650488a9edfbb46d82773b8d8b5df5da",
@@ -788,12 +788,12 @@ self.__precacheManifest = [
     "url": "/static/media/passage.deb64aa6.png"
   },
   {
-    "revision": "c31dc2f2e0186dfd83013b309d6b0aa3",
-    "url": "/static/media/fog5.c31dc2f2.png"
-  },
-  {
     "revision": "cea79e6f89e7879d09507b659aa3fd2c",
     "url": "/static/media/fog4.cea79e6f.png"
+  },
+  {
+    "revision": "c31dc2f2e0186dfd83013b309d6b0aa3",
+    "url": "/static/media/fog5.c31dc2f2.png"
   },
   {
     "revision": "462f5dbe091a0d69b1bd20fcc509fbbd",
@@ -828,10 +828,6 @@ self.__precacheManifest = [
     "url": "/static/media/sea.ee5004be.png"
   },
   {
-    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
-    "url": "/static/media/mapFrame4.0cdb344e.png"
-  },
-  {
     "revision": "c84c06495852ac730bd653c3aa9bff25",
     "url": "/static/media/wren-code0.c84c0649.png"
   },
@@ -848,6 +844,10 @@ self.__precacheManifest = [
     "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
   },
   {
+    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
+    "url": "/static/media/mapFrame4.0cdb344e.png"
+  },
+  {
     "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
     "url": "/static/media/mapFrame2.915b9892.png"
   },
@@ -856,12 +856,12 @@ self.__precacheManifest = [
     "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
   },
   {
-    "revision": "9bbe18cf6d054928f146dafcf058fcb1",
-    "url": "/static/media/suile3.9bbe18cf.gif"
-  },
-  {
     "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
     "url": "/static/media/suile0.b67d2f1b.gif"
+  },
+  {
+    "revision": "9bbe18cf6d054928f146dafcf058fcb1",
+    "url": "/static/media/suile3.9bbe18cf.gif"
   },
   {
     "revision": "cfabbdb47b5376a44c3f8bd99fe2f968",
@@ -936,24 +936,24 @@ self.__precacheManifest = [
     "url": "/static/media/24c.515bfc37.png"
   },
   {
-    "revision": "208d89248d8f25575e692569d01346d7",
-    "url": "/static/media/bg2.208d8924.jpg"
-  },
-  {
     "revision": "e255471deaf70ac34cd2ba6f6ef77817",
     "url": "/static/media/bg3.e255471d.jpg"
+  },
+  {
+    "revision": "208d89248d8f25575e692569d01346d7",
+    "url": "/static/media/bg2.208d8924.jpg"
   },
   {
     "revision": "ce42ad0e1857789bf11d2968d63d99a8",
     "url": "/static/media/ritterA.ce42ad0e.png"
   },
   {
-    "revision": "7e9c21abade02ba12249bc8b23270095",
-    "url": "/static/media/ritterB.7e9c21ab.png"
-  },
-  {
     "revision": "aacf62fcc37ec0c4f5a556bcb78f8818",
     "url": "/static/media/ritter2.aacf62fc.png"
+  },
+  {
+    "revision": "7e9c21abade02ba12249bc8b23270095",
+    "url": "/static/media/ritterB.7e9c21ab.png"
   },
   {
     "revision": "a0f56fc4653b94ca7184673fb926b731",
@@ -980,7 +980,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "e148d7e7b6a640789f79cf84cfb1bd83",
+    "revision": "9c4e6ab88e42c27b08ce47d247e6bf6f",
     "url": "/index.html"
   }
 ];
