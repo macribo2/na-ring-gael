@@ -326,7 +326,7 @@ export default function Rings3(props) {
 	
 				</button>
 			
-				<button className={value * 10 === 5 ? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >
+				<button className={value * 10 === 5? 'button-mash-ring-0 circle' : 'hidden'}onClick={() => props.handleInputSelect('gamepad')} >
 				
 						{/* <img className={value * 10 === 6 ? 'wisp' : 'hidden'}src={wisp} alt="A dancing light that can lead people astray" /> */}
 	

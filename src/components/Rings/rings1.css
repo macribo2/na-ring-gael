@@ -425,7 +425,7 @@ color:rgba(255, 255, 255, 0.9);
   font-size:1.8em;
 }
 .lens-cap{
-  animation: spin 10s ease-in-out infinite;
+  animation: spin 7s linear infinite;
 
 }
 
@@ -472,7 +472,7 @@ transform: scaleX(-1) scale(0.7);
         /* border:4px solid blue; */
       }
       .og-hero{
-        right: -10%;
+        right: -3%;
 
 
       }
@@ -910,7 +910,7 @@ animation: spin 60s steps(128) infinite;
 
 .lens-cap2 {
   z-index: 1; /* Place lens-cap2 above lens-cap */
-  animation: spin-counter 60s ease-in-out infinite;
+  animation: spin-counter 60s linear infinite;
   opacity:0.5;
 }
 

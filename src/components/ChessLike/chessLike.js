@@ -5,13 +5,14 @@ import horsespng from '../../images/24c.png'
 import County from '../county/County'
 import greenRingFrame from '../../images/ciorcal-glass6.png'
 
-import { usePlayerContext } from '../player-context/playerContext';
+import { PlayerProvider, usePlayer } from '../player-context/playerContext';
 
 
 
 export default function ChessLike(props) {
-  const { playerDetails } = usePlayerContext();
-	
+  const { playerDetails } = usePlayer();
+  const playerName = playerDetails.playerName;
+
 const gameData = {
   dublin: {
     map: 
@@ -86,6 +87,20 @@ const gameData = {
   // Define data for other counties as needed
 };
 
+const [shouldRefresh, setShouldRefresh] = useState(false);
+ 
+useEffect(() => {
+  // This effect runs once when the component mounts
+  const timeoutId = setTimeout(() => {
+    // Set shouldRefresh to true after 2 seconds
+    setShouldRefresh(true);
+  }, 2000);
+
+  // Cleanup function to clear the timeout in case the component unmounts
+  return () => clearTimeout(timeoutId);
+}, []); // Empty dependency array ensures that this effect runs only once
+
+
 const [currentCounty, setCurrentCounty] = useState('dublin');
 const [currentMap, setCurrentMap] = useState(gameData.dublin.map);
 const [mapTransition, setMapTransition] = useState(null);
@@ -135,7 +150,7 @@ useEffect(() => {
 
     <img src={molly} className="og-opponent molly" alt="black molly" />
     
-      <div className='question-text'>    <pre>{JSON.stringify(playerDetails, null, 2)}</pre></div>
+      <div className='question-text'>Cad a feiceann {playerName}?</div>
       </div>
 		</>	
 		

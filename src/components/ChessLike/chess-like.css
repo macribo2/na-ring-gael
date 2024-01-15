@@ -54,5 +54,7 @@ left:0px;
   }
 
   .molly{
-	left:3%;
+	left: 0%;
+    transform: scale(2) scaleX(-1);
+    top: 81%;
   }

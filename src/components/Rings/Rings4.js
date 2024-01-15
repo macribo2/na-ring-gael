@@ -131,7 +131,7 @@ import {
   CircularThumb,
 } from "react-circular-input";
 import pawn from '../../images/pawn.png'
-// import { usePlayerContext } from './PlayerContext';
+import { usePlayer } from '../player-context/playerContext';
 
 
 // const [playerDetails, setPlayerDetails] = useState({
@@ -148,6 +148,32 @@ import pawn from '../../images/pawn.png'
 export function Rings4(props) {
 
 	// const { playerDetails, setPlayerDetails } = usePlayerContext();
+
+	const { updatePlayerDetails } = usePlayer();
+
+	const [champName, setChampName] = useState(''); // Assuming you initialize champname with an empty string initially
+	const [playerSheet, setPlayerSheet] = useState({
+	  champName: '',
+	  // Other properties of playerSheet
+	});
+
+	useEffect(() => {
+		// This effect runs whenever hname changes
+		setPlayerSheet((prevPlayerSheet) => ({
+		  ...prevPlayerSheet,
+		 champName: hname,
+		}));
+	
+		// If you want to update the player details globally using the context
+		updatePlayerDetails({
+		  playerName: hname,
+		  // Other player details
+		});
+	
+		// ... other logic you want to perform when hname changes
+	
+	  }, [hname, updatePlayerDetails]); // Dependency array includes hname and the updatePlayerDetails function
+	
 
 	const history = useHistory();
 

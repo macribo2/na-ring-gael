@@ -1,25 +1,28 @@
 
-import React from 'react';
-// playerContext.js
-import { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const PlayerContext = createContext();
 
-const PlayerProvider = ({ children }) => {
+export const PlayerProvider = ({ children }) => {
   const [playerDetails, setPlayerDetails] = useState({
-    playerName: 'DefaultPlayer',
+    playerName: 'an timreoir',
     // Add other player details as needed
   });
+  const updatePlayerDetails = (newDetails) => {
+    setPlayerDetails(newDetails);
+  };
 
   return (
-    <PlayerContext.Provider value={{ playerDetails, setPlayerDetails }}>
+    <PlayerContext.Provider value={{ playerDetails, updatePlayerDetails }}>
       {children}
     </PlayerContext.Provider>
   );
 };
 
-const usePlayerContext = () => {
-  return useContext(PlayerContext);
+export const usePlayer = () => {
+  const context = useContext(PlayerContext);
+  if (!context) {
+    throw new Error('usePlayer must be used within a PlayerProvider');
+  }
+  return context;
 };
-
-export { PlayerProvider, usePlayerContext };  // Only export PlayerProvider and usePlayerContext
