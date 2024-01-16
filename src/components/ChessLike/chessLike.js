@@ -126,31 +126,40 @@ const closeMapTransition = () => {
   setMapTransition(null);
 };
 
-// Define shared game data
+// Define shared game data old verson maybe delete?
+// useEffect(() => {
+//   // Listen for changes in currentMap and wicklowMap
+//   if (currentMap === gameData.wicklow.map) {
+//     alert('Cill Meantán')
+//     // Perform any necessary actions when switching to Wicklow
+//     // This could include updating player position or other logic
+//   }
+// }, [currentMap, setCurrentMap]);
 useEffect(() => {
   // Listen for changes in currentMap and wicklowMap
   if (currentMap === gameData.wicklow.map) {
-    alert('Cill Meantán')
+    alert('Cill Meantán');
     // Perform any necessary actions when switching to Wicklow
     // This could include updating player position or other logic
   }
-}, [currentMap, setCurrentMap]);
+}, [currentMap, gameData.wicklow.map]);
 
 	return <>
-	       <County className="hesitate"
-              countyData={gameData.dublin}
-              currentCounty={currentCounty}
-              setCurrentCounty={setCurrentCounty}
-              setCurrentMap={handleMapTransition}
-              startingRow={startingRow}
-        startingCol={startingCol}
+    <County className="hesitate"
+      countyData={gameData.dublin}
+      currentCounty={currentCounty}
+      setCurrentCounty={setCurrentCounty}
+      setCurrentMap={handleMapTransition}
+      startingRow={startingRow}
+      startingCol={startingCol}
+      playerName={playerName}
             />
 <div className="chess-like-frame-container">
     <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
 
     <img src={molly} className="og-opponent molly" alt="black molly" />
     
-      <div className='question-text'>Cad a feiceann {playerName}?</div>
+      {/* <div className='question-text'>Cad a feiceann {playerName}?</div> */}
       </div>
 		</>	
 		

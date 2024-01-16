@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "bf766f42c985f83053a2",
-    "url": "/static/css/main.257af5be.chunk.css"
+    "revision": "768ac3d1bfa878a42910",
+    "url": "/static/css/main.502e6c1d.chunk.css"
   },
   {
-    "revision": "bf766f42c985f83053a2",
-    "url": "/static/js/main.f2eea563.chunk.js"
+    "revision": "768ac3d1bfa878a42910",
+    "url": "/static/js/main.af3fcd5b.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
     "url": "/static/js/runtime~main.a8a9905a.js"
   },
   {
-    "revision": "67df57ff072c7b35cb03",
+    "revision": "c9f6fd52e661b406e445",
     "url": "/static/css/2.09baa411.chunk.css"
   },
   {
-    "revision": "67df57ff072c7b35cb03",
-    "url": "/static/js/2.1fc0d1e4.chunk.js"
+    "revision": "c9f6fd52e661b406e445",
+    "url": "/static/js/2.d57f7231.chunk.js"
   },
   {
     "revision": "f470d634cc8265f5376b00ad90fe2b2b",
@@ -180,8 +180,8 @@ self.__precacheManifest = [
     "url": "/static/media/phone-0.3e0965ed.png"
   },
   {
-    "revision": "f83a37fc507e495164eb0c9ed78c6654",
-    "url": "/static/media/newbg4town.f83a37fc.png"
+    "revision": "c04cfa6581fba5d66dfb053c16fdd357",
+    "url": "/static/media/newbg4town.c04cfa65.png"
   },
   {
     "revision": "b277348d8816b6093e164d652ec71e97",
@@ -788,12 +788,12 @@ self.__precacheManifest = [
     "url": "/static/media/passage.deb64aa6.png"
   },
   {
-    "revision": "cea79e6f89e7879d09507b659aa3fd2c",
-    "url": "/static/media/fog4.cea79e6f.png"
-  },
-  {
     "revision": "c31dc2f2e0186dfd83013b309d6b0aa3",
     "url": "/static/media/fog5.c31dc2f2.png"
+  },
+  {
+    "revision": "cea79e6f89e7879d09507b659aa3fd2c",
+    "url": "/static/media/fog4.cea79e6f.png"
   },
   {
     "revision": "462f5dbe091a0d69b1bd20fcc509fbbd",
@@ -828,6 +828,10 @@ self.__precacheManifest = [
     "url": "/static/media/sea.ee5004be.png"
   },
   {
+    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
+    "url": "/static/media/mapFrame4.0cdb344e.png"
+  },
+  {
     "revision": "c84c06495852ac730bd653c3aa9bff25",
     "url": "/static/media/wren-code0.c84c0649.png"
   },
@@ -844,8 +848,12 @@ self.__precacheManifest = [
     "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
   },
   {
-    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
-    "url": "/static/media/mapFrame4.0cdb344e.png"
+    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
+    "url": "/static/media/suile0.b67d2f1b.gif"
+  },
+  {
+    "revision": "9bbe18cf6d054928f146dafcf058fcb1",
+    "url": "/static/media/suile3.9bbe18cf.gif"
   },
   {
     "revision": "915b9892e08123110f3e6b4ab5a3fb6e",
@@ -854,14 +862,6 @@ self.__precacheManifest = [
   {
     "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
     "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
-  },
-  {
-    "revision": "b67d2f1bd5a2f4dad3e923b36f5038a0",
-    "url": "/static/media/suile0.b67d2f1b.gif"
-  },
-  {
-    "revision": "9bbe18cf6d054928f146dafcf058fcb1",
-    "url": "/static/media/suile3.9bbe18cf.gif"
   },
   {
     "revision": "cfabbdb47b5376a44c3f8bd99fe2f968",
@@ -980,7 +980,7 @@ self.__precacheManifest = [
     "url": "/static/media/dink.6651d091.wav"
   },
   {
-    "revision": "9c4e6ab88e42c27b08ce47d247e6bf6f",
+    "revision": "b71a7a95a0f6ccc20a2fe136669d618e",
     "url": "/index.html"
   }
 ];

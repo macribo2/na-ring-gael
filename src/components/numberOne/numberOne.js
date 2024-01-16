@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import $ from 'jquery';
 import empty from '../../images/champions/empty.png'
 import aa1 from '../../images/champions/1.png'
