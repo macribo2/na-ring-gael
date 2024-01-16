@@ -4,7 +4,7 @@ import GameBoard from '../gameboard/gameboard';
 import MapTransitionOverlay from '../overlay/MapTransitionOverlay'; // Import the overlay component
 import '../counties.css';
 
-function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap }) {
+function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap, playerName }) {
   
   const [animateBoard, setAnimateBoard] = useState(false);
   // Function to start the animation
@@ -81,6 +81,9 @@ function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap }) 
           onClose={closeMapTransition}
         />
       )}
+
+      <div className='question-text'>Tá { playerName } i Gleann na Púca</div>
+
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { render } from "react-dom";
 import { useHistory } from 'react-router-dom';
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import lens from '../../images/ciorcal-glass-light.png';
 import lensCap from '../../images/About1/ring2.png';
 import lensCap2 from '../../images/About1/ring2b.png';
@@ -156,20 +156,31 @@ export function Rings4(props) {
 	  champName: '',
 	  // Other properties of playerSheet
 	});
+	let hname;
+
+	const prevHnameRef = useRef();
 
 	useEffect(() => {
-		// This effect runs whenever hname changes
-		setPlayerSheet((prevPlayerSheet) => ({
-		  ...prevPlayerSheet,
-		 champName: hname,
-		}));
-	
-		// If you want to update the player details globally using the context
+	  console.log('Rings4 component is rendering');
+  
+	  // Update the player sheet with the new champName when hname changes
+	  setPlayerSheet((prevPlayerSheet) => ({
+		...prevPlayerSheet,
+		champName: hname,
+	  }));
+  
+	  // Check if hname has changed since the last render
+	  if (prevHnameRef.current !== hname) {
+		// If yes, update playerName globally using the context
 		updatePlayerDetails({
 		  playerName: hname,
 		  // Other player details
 		});
-	
+  
+		// Update the previous hname reference
+		prevHnameRef.current = hname;
+	  }
+  
 		// ... other logic you want to perform when hname changes
 	
 	  }, [hname, updatePlayerDetails]); // Dependency array includes hname and the updatePlayerDetails function
@@ -179,14 +190,8 @@ export function Rings4(props) {
 
 	const [showDiv, setShowDiv] = useState(false);
 
-	let hname;
 
-  // Similar to componentDidMount and componentDidUpdate:
-	useEffect(() => {
-
-	 })
-
-
+ 
 	function hideText() { 
 		// alert();
 	}
@@ -1274,18 +1279,6 @@ if (rng === 2) {
 		'sallow',]
 }
 	
-// useEffect(() => {
-//     // Assuming hname is updated elsewhere in your component
-//     // For example, if it's part of the component state, you can do:
-//     // setPlayerDetails({ ...playerDetails, playerName: hname });
-
-//     // Assuming hname is directly updated in this component
-//     // If hname is a state variable, you might do something like:
-//     setPlayerDetails((prevDetails) => ({
-//       ...prevDetails,
-//       playerName: hname,
-//     }));
-//   }, [hname, setPlayerDetails]);
 
 return (
 	
