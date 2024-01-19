@@ -988,6 +988,7 @@ animation: bounce 2s 15 steps(3);
      } */
       .linux-land-container{
         transform: scale(1);
+
       }
     .iron-key-portrait{
       margin-top:170%;
