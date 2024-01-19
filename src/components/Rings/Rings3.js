@@ -36,7 +36,7 @@ import about6 from './../../images/field.png'
 import fieldCircle from './../../images/ciorcal-field.png'
 import passage from './../../images/overworld/passage.png'
 import circleBG from './../../images/ciorcal-glass-bg.png'
-import linucsLand from './../../images/About1/backgrounds/background_image.png'
+import linucsLand from './../../images/About1/backgrounds/bg-linux-land.gif'
 import {
 	CircularInput,
 	CircularTrack,
@@ -170,7 +170,11 @@ export default function Rings3(props) {
 					
 					<div className="about-pics-container">
 
-				<img className={value*10 === 5 ? 'fade-in-slow':'hidden'} src={banba} alt="a digital peninsula" />
+					<div className="linux-land-container">
+					<img className={value * 10 === 5 ? 'fade-in-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
+					<img className={value * 10 === 6 ? 'fade-out-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
+				</div>
+
 				<img className={value*10 === 6 ? '':'hidden'} src={banba} alt="a digital peninsula" />
 				<img className={value*10 === 7 ? '':'hidden'} src={banba} alt="a digital peninsula" />
 				<img className={value*10 === 8 ? '':'hidden'} src={banba} alt="a digital peninsula" />
@@ -209,15 +213,11 @@ export default function Rings3(props) {
 		</div>
 	
 
-		<div className="linux-land-container">
-					<img className={value * 10 === 4 ? 'about-pics' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
-				</div>
-
-					<div className="linux-land-container">
-
-					<img className={value*10 === 5 ? 'about-pics':'hidden'} src={linucsLand}  id="linux-land-down" alt="illustration placeholder" />
-				</div>
+					
 				<div className={value * 10 === 4 ? "linux-lens-container" : "hidden"}>
+
+			
+
 				<img rel="preload" className="right-image"  src={rightImage} alt="blocker to mask screenspace on wider screens" />
 				<img rel="preload" className={value * 10 === 4 ? "map-lens" : "hidden"} src={lensBG} alt="" />
 				<img rel="preload" className= "left-image" src={leftImage} alt="blocker to mask screenspace on wider screens" />
@@ -274,6 +274,7 @@ export default function Rings3(props) {
 					<img className={value * 10 === 2 ? 'bright' : 'hidden'} src={lasta}
 					alt="a circle of bright light." />
 					<img className={value * 10 === 3 ? 'banba2' : 'hidden'} src={brightland} alt="a bright land." />
+					<img className={value * 10 === 4 ? 'banba2 fade-out-slow' : 'hidden'} src={brightland} alt="a bright land." />
 			</div>
 			<div className="input-elements-container4">
 			

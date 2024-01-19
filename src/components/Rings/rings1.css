@@ -199,8 +199,9 @@ z-index: 888;
 
 
 .linux-land-container{
-  z-index:99;
-  transform: scale(0.5);
+  z-index:16;
+  /* border:4px solid orange; */
+  
  }
 
 .button-mash-container{
@@ -235,10 +236,14 @@ animation: fade-in 1s forwards;
 }
 
 #linux-land{
-animation: linux-land 5s steps(15) forwards;
-  /* border:4px solid orange; */
+
+/* animation: linux-land 5s steps(15) forwards; */
+  border-radius:50%;
+transform: scale(1.1);
 }
 #linux-land-down{
+  border-radius:50%;
+
   animation: linux-land-down 5s steps(15) forwards;
 
 
@@ -564,7 +569,7 @@ top:5%;
       }
 
       .fade-in-slow{
-        animation:fade-in 4s steps(8) forwards;
+        animation:fade-in 2s linear forwards;
       }
       .fade-out-slow{
         animation:fade-out 4s steps(8) forwards;
