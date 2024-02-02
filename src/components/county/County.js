@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import GameBoard from '../gameboard/gameboard';
 import MapTransitionOverlay from '../overlay/MapTransitionOverlay'; // Import the overlay component
 import '../counties.css';
+import greenRingFrame from '../../images/ciorcal-glass6.png'
+import molly from '../../images/draoi0.gif'
 
-function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap, playerName }) {
+
+function County({ countyData, currentCounty,startingCol,startingRow, setCurrentCounty, setCurrentMap, playerName }) {
   
   const [animateBoard, setAnimateBoard] = useState(false);
   // Function to start the animation
@@ -30,7 +33,7 @@ function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap, pl
   };
 
   // Now you can access the currentCounty prop directly
-  console.log('Current County:', currentCounty);
+//  alert('Current County:'+currentCounty );
 
   const [mapTransition, setMapTransition] = useState(null);
 
@@ -81,8 +84,15 @@ function County({ countyData, currentCounty, setCurrentCounty, setCurrentMap, pl
           onClose={closeMapTransition}
         />
       )}
+      <div className="chess-like-frame-container">
+    <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
 
-      <div className='question-text'>Tá { playerName } i Gleann na Púca</div>
+    <img src={molly} className="og-opponent molly" alt="black molly" />
+    
+      {/* <div className='question-text'>Cad a feiceann {playerName}?</div> */}
+      </div>
+      {/* <div className='question-text county-text'>Tá { playerName } i Gleann na Púca</div> */}
+      <div className='question-text county-text'>Cad a feiceann fichilín?</div>
 
     </div>
   );

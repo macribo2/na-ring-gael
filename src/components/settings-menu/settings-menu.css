@@ -185,14 +185,26 @@ p {
   opacity: 0;
   width: 19%;
   margin: 3%;
-  animation: fade-in 3s linear 1s forwards;
+  animation: fade-in  linear 1s forwards;
   font-size: 2em;
   font-family: 'Ubuntu';
   border-radius: 0;
-
 }
 
+.quote-1{
+  animation: fade-in  linear 1s forwards;
+}
 
+.quote-2{
+  margin-left:-10%;
+  animation: fade-in 1s linear 1s forwards;
+}
+
+.quote-3{
+  margin-left:-22%;
+
+  animation: fade-in 1s linear 2.5s forwards;
+}
 .grid-container {
   display: grid;
   /* grid-template-columns: auto auto auto; */
@@ -694,7 +706,7 @@ color:rgb(13, 10, 8);
 
 @media screen and (orientation:portrait) {
 
-  #portrait {
+  #portrait{
     display: block;
     top: 0;
     left: 0;
@@ -705,6 +717,7 @@ color:rgb(13, 10, 8);
     background-size: contain;
 
   }
+
 }
 
 .disk-options{
@@ -799,9 +812,9 @@ transform: scale(2);
     }
    
 #iron-key-text{
-	animation: fade-in-ik 54s forwards;
+	animation: fade-in-ik 12s forwards;
     margin-top: 0%;
-    top: 10%;
+    top: 15%;
     position: fixed;
     z-index: 9000;
     margin-left: 1%;
@@ -852,13 +865,15 @@ transform: scale(2);
     position: fixed;
     z-index: 120;
 justify-content: center;  
-animation: bounce 2s 15 steps(3);  
+animation: bounce 2s 131 steps(3);  
   }
+
 	.iron-key-portrait{
+    height:253px;
     left: 28%;
-    margin-top:45%; 
+
     margin-top:47%;
-    animation: advance 30s forwards steps(15),
+    animation: advance 270s forwards steps(135),
     fade-in-ik 26s forwards ease-in;
 	  }
 @keyframes bounce {
@@ -868,6 +883,18 @@ animation: bounce 2s 15 steps(3);
   80%{margin-top:-6px}
   100%{margin-top:-6px} 
 }
+
+@keyframes eyes-in {
+ 
+  0%{transform:scale(0.5);  opacity:0;
+  }
+  20%{transform:scale(0.8) ;opacity:0.2; }
+    100%{transform:scale(1); opacity:0.7
+  
+ 
+}}
+
+
     .grey-bg{
       left:0;
  animation:fade-in-grey 14s forwards ;
@@ -960,8 +987,8 @@ animation: bounce 2s 15 steps(3);
 		100%{opacity: 0.3;}
 		}
 @keyframes advance{
-  0%{ transform: scale(1);}
-  100%{ transform: scale(1.6);}
+  0%{ transform: scale(1); margin-top:0; margin-right: 0;}
+  100%{ transform: scale(10); margin-top:1000px; margin-right:140px;}
 }
 		@keyframes fade-in-ik{
 

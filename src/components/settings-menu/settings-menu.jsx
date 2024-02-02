@@ -2,6 +2,8 @@ import './settings-menu.css';
 import './lights.css';
 import Easca from '../easca/easca2';
 import bg0 from '../../images/fog3.png';
+import eye1 from '../../images/gifs/suile0.gif';
+import eye2 from '../../images/gifs/suile3.gif';
 import React, { useEffect,useState  } from 'react';
 import ironkey from '../../images/iron-key.png';
 import greyBG from '../../images/cut-scenes/rectanglesbg0.jpg';
@@ -152,14 +154,21 @@ let randLights = Math.floor(Math.random * 8)
 			
 			<img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
 <div className="ironkeyportraitholder">
-			<img rel="preload" src={lordIronkey} className="iron-key-portrait" alt="lord iron key and his key." />
+				<img rel="preload" src={lordIronkey} className="iron-key-portrait" alt="lord iron key and his key." />
+
+
+				
 			</div>
-		<ReactAudioPlayer src={ironkeyClicks } autoPlay></ReactAudioPlayer>
+
+
 		
 			<img src={blurryBG} className = "blurry-bg" alt="hazy green grey" />
 			<img className="distant-hills" src={distantHills} alt="distant hills" />
-		<img rel="preload" id="iron-key-text" src={ ironkey} alt="ironkey calligraphy" />
 
+
+
+			<img rel="preload" id="iron-key-text" src={ironkey} alt="ironkey calligraphy" />
+	
 	</div>
 		 
 	
@@ -179,9 +188,12 @@ let randLights = Math.floor(Math.random * 8)
 			onClick={handleBeginClick}
 			>begin</button>
 			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
-		</div>
-	
 
+
+	 {/* <Easca />  */}
+
+
+		</div>
 		</>	
 		
 

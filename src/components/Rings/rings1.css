@@ -239,7 +239,7 @@ animation: fade-in 1s forwards;
 
 /* animation: linux-land 5s steps(15) forwards; */
   border-radius:50%;
-transform: scale(1.1);
+transform: scale(1.05);
 }
 #linux-land-down{
   border-radius:50%;
@@ -569,7 +569,7 @@ top:5%;
       }
 
       .fade-in-slow{
-        animation:fade-in 2s linear forwards;
+        animation:fade-in 1s linear forwards;
       }
       .fade-out-slow{
         animation:fade-out 4s steps(8) forwards;

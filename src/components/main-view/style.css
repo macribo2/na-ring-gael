@@ -1,11 +1,19 @@
-
+@font-face {
+	font-display: swap; 
+	font-family: anaphora;
+	src: url(../../fonts/Anaphora-Light-trial.ttf);
+  }
 .hesitate{
 	/* display:none; */
 	  -webkit-animation: hesitate 2.5s forwards;
 			  animation: hesitate 2.5s forwards;
 	}
 	
-
+	@font-face {
+		font-family: aonchlo;
+		font-display: swap; /* or fallback, optional, see explanation below */
+		src: url(../../fonts/aonchlo.ttf);
+	  }
 
 @-webkit-keyframes hesitate {
 	0% {
@@ -31,5 +39,55 @@
   top:0;
   left:0
   }
+  .portait-mode-text-container {
+pointer-events: none;
+	top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 9999;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width: 200%; /* Adjust the width to your preference */
+    height: 100%; /* Adjust the height to your preference */
+}
 
-  
+.portait-mode-text {
+	left: 8%;
+    top: 1%;
+    text-align: left;
+    color: darkgrey;
+    transform: rotate(90deg);
+    white-space: nowrap; /* Prevent text from wrapping */
+    width: 100%;
+	opacity: 0;
+	font-size: 1.4em;
+	font-family:'anaphora';
+    transform-origin: left bottom; 
+	animation: fade-in 6s linear 2s forwards;
+	  display: none;
+
+}
+
+.portrait-mode-txt {
+	  display: none;
+    
+	  left: -109%;
+	  background-color: rgba(0, 0, 0, 0);
+	  transform: rotate(90deg);
+	  font-family: anaphora;
+	  top: 10%;
+	  width: 200%;
+	  position: fixed;
+	  height: 100%;
+	  text-align: left;
+	  font-size: 1.7em;
+}
+
+@media screen and (orientation:portrait) {
+	.portait-mode-text,.portrait-mode-txt {
+		display: block;
+	  }
+
+}

@@ -2,7 +2,7 @@
 /* eslint-disable no-sparse-arrays */
 import React from 'react';
 import './easca.css'
-
+import consoleBg from '../../images/mapFrame2.png'
 import $ from 'jquery';
 import { Col, Row, Button ,BtnGroup } from 'react-bootstrap'
 
@@ -77,6 +77,10 @@ export default class Easca extends React.Component {
             
             
             <>
+
+            <div className="bg-container">
+              <img src={consoleBg} alt="stone frame" id="console-bg" />
+            </div>
             <textarea maxLength="162" className="easca-input"
           value={this.state.input}
           placeholder={""}
@@ -87,7 +91,8 @@ export default class Easca extends React.Component {
         onChange={this.onChange}
         onKeyPress={this.onKeyPress}
         
-          layoutName={this.state.layoutName}
+              layoutName={this.state.layoutName}
+              className="easca-2"
               layout={{
   
             easca: [
