@@ -5714,7 +5714,6 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                     </div>
 
                 </div>
-                <Easca id="easca" />
 
                 storyTimer={() => storyTimer}
                 <p id="loc" alt="holder for location names"></p>
@@ -5757,7 +5756,7 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
 
 
                 <div className='ui-container_directional-pad'>
-                    <div className="directional-pad" id="dir-pad" onTouchStart={this.props.incrementScore} onTouchEnd={localStorage.setItem('whereAmI', 'westmeath')
+                    <div className="directional-pad glowing-circle" id="dir-pad" onTouchStart={this.props.incrementScore} onTouchEnd={localStorage.setItem('whereAmI', 'westmeath')
                     }>
 
 

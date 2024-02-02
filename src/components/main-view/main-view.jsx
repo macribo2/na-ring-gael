@@ -13,7 +13,7 @@ import gradient from '../../images/gradient2.png';
 import darkGreenFields from '../../images/ciorcal-glass4.png';
 import ChessLike from '../ChessLike/chessLike'
 import { Link } from 'react-router-dom'
-import style from './style.css'
+import'./style.css'
 import tutorial0 from '../../images/tutorials/tutorial0.png';
 import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
@@ -684,7 +684,30 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		
 
 		<img id="portrait" rel="preload" src={ portrait}></img>
-	
+
+			<div>
+				<div className="portait-mode-text-container">
+
+
+		<p className="menu portrait-mode-txt quote-1">
+And what is the wages you’ll be looking for?
+
+	</p>
+	<p className="menu portrait-mode-txt quote-2">
+
+The place of a house and garden.
+	</p>
+<p className="menu portrait-mode-txt quote-3">
+
+You’ll get that if my journey succeeds with me.
+</p>
+					<p className='portait-mode-text'>
+						Beside the Fire:
+<br/>
+						A collection of Irish Gaelic folk stories
+			</p>
+				</div>
+			</div>
 
 			{currentQuestion === 1 ? <>
 				
@@ -917,8 +940,6 @@ let thePucaOf = localStorage.getItem('pucaEng')
 			<img rel="preload"src={avatar9} className={gotten === 9 ?
 			'avatar-land' : 'hidden'} alt="the selected character " />
 			</div>
-			
-			{/* {currentQuestion === 12 ?  <Easca className="faded-in"/>  : null} */}
 			
 			{/* <img rel="preload"id="mob-effect2" className="phonebg"src={phone2} alt="" /> */}
 

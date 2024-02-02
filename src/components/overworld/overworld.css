@@ -1,6 +1,4 @@
-.react-simple-keyboard {
-  display: none;
-}
+
 #irish-inside{
   font-family:aonchlo;
   color: rgb(255,152,0);
@@ -256,7 +254,7 @@ top:1%;
 }
 
 .directional-pad {
-  border: 4px dashed #0c06129c;
+  /* border: 4px dashed #0c06129c; */
   /* opacity: 1; */
   transform: scale(0.8);
   z-index: 60;
@@ -944,8 +942,22 @@ p {
 }
 
 #dir-pad {
-  background-color: #21131c82
+  /* background-color: #339edc82 */
 }
+.glowing-circle {
+  background-color: rgba(0, 0, 255, 0.1); /* Adjust the alpha channel for the haze effect */
+  box-shadow: 0 0 20px 10px rgba(0, 0, 255, 0.3); /* Adjust the color and spread for the glow effect */
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #111; /* Adjust the background color as needed */
+}
+
 
 .jq-grid-item {
   /* border: 3px solid rgba(0, 0, 0, 0.8); */
@@ -1623,24 +1635,11 @@ p {
 }
 
 .ui-container_directional-pad {
-  /* border:5px solid blue; */
-  /* z-index:121;
-  position:fixed;
-  top: 80%;
-  left: 75%;
-  width: 100%;
-  height:100%;
-  display: flex;
-  justify-content:start;
-  align-items: start;
-  pointer-events: none; */
-
-
-  /* border: 5px solid blue; */
+ 
   z-index: 9121;
   position: fixed;
   bottom: 0;
-  left: -4%;
+  left: -7%;
   width: 100%;
   height: 100%;
   display: grid;

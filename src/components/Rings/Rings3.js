@@ -18,7 +18,7 @@ import tutorial0 from '../../images/tutorials/tutorial0.png';
 import spark2 from '../../audio/ding2.wav';
 import spark3 from '../../audio/ding0.wav';
 import spark4 from '../../audio/ding2.wav';
-import banba from './../../images/About1/ceist2.png'
+import banba from './../../images/About1/banba_poster-0.png'
 import about0 from './../../images/About1/adaptive-icon.png'
 import brightland from './../../images/About1/ceist3.png'
 import gold from './../../images/gold.png'
@@ -37,6 +37,7 @@ import fieldCircle from './../../images/ciorcal-field.png'
 import passage from './../../images/overworld/passage.png'
 import circleBG from './../../images/ciorcal-glass-bg.png'
 import linucsLand from './../../images/About1/backgrounds/bg-linux-land.gif'
+import SampleHero from '../../images/About1/images/sample-hero.png'
 import {
 	CircularInput,
 	CircularTrack,
@@ -171,9 +172,11 @@ export default function Rings3(props) {
 					<div className="about-pics-container">
 
 					<div className="linux-land-container">
-					<img className={value * 10 === 5 ? 'fade-in-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
-					<img className={value * 10 === 6 ? 'fade-out-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
-				</div>
+							<img className={value * 10 === 5 ? 'fade-in-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
+
+					<img className={value * 10 === 6 ? 'fade-out-slow ' : 'hidden'} src={linucsLand}  id="linux-land" alt="a distant castle in green fields" />
+					<img className={value * 10 === 6 ? 'sample-hero  march-north'  : 'hidden'} src={SampleHero}  alt="little hero guy" />
+						</div>
 
 				<img className={value*10 === 6 ? '':'hidden'} src={banba} alt="a digital peninsula" />
 				<img className={value*10 === 7 ? '':'hidden'} src={banba} alt="a digital peninsula" />

@@ -17,6 +17,8 @@ text-align: center;
 	height: 100%;
 	display: flex;
 	justify-content: space-between; 
+	pointer-events: none;
+
 }
 .chess-like-frame{
 	pointer-events: none;

@@ -142,3 +142,20 @@ transform:scale(1)}
 	}
   }
   
+  .sample-hero{
+	position: fixed;
+}
+.adjust-hero-position{
+    bottom: 10%;
+
+}
+.march-north{
+	
+	animation: march-north 2s steps(6)forwards 
+}
+  @keyframes march-north {
+	0%{ bottom:-15%; opacity:1 }
+	100%{bottom:10%; opacity:0}
+
+	
+  }

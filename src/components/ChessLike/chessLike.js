@@ -1,9 +1,7 @@
 import './chess-like.css';
-import molly from '../../images/draoi0.gif'
 import React, { useEffect,useState  } from 'react';
 import horsespng from '../../images/24c.png'	
 import County from '../county/County'
-import greenRingFrame from '../../images/ciorcal-glass6.png'
 
 import { PlayerProvider, usePlayer } from '../player-context/playerContext';
 
@@ -94,6 +92,16 @@ useEffect(() => {
   const timeoutId = setTimeout(() => {
     // Set shouldRefresh to true after 2 seconds
     setShouldRefresh(true);
+    const squareElement = document.getElementById("square-9-10");
+    if (squareElement) {
+      // Apply your styles here
+      squareElement.style.backgroundColor = "yellow";
+      squareElement.style.border = "2px solid red";
+      // Add more styles as needed
+
+  // setStartingRow(10);
+  // setStartingCol(9);
+    }
   }, 2000);
 
   // Cleanup function to clear the timeout in case the component unmounts
@@ -115,8 +123,8 @@ const handleMapTransition = (newMap) => {
   const enteringCounty = newMap;
 // Update startingRow and startingCol based on the new map
   // You can fetch or calculate these values based on your game logic
-  setStartingRow(3);
-  setStartingCol(3);
+  // setStartingRow(10);
+  // setStartingCol(9);
   setMapTransition({ leavingCounty, enteringCounty }); // Instead of an object, pass them as strings
   setCurrentMap(newMap);
 };
@@ -142,6 +150,8 @@ useEffect(() => {
     // Perform any necessary actions when switching to Wicklow
     // This could include updating player position or other logic
   }
+
+
 }, [currentMap, gameData.wicklow.map]);
 
 	return <>
@@ -154,13 +164,7 @@ useEffect(() => {
       startingCol={startingCol}
       playerName={playerName}
             />
-<div className="chess-like-frame-container">
-    <img src={ greenRingFrame } className='chess-like-frame' alt="a round frame of green and purple" />
 
-    <img src={molly} className="og-opponent molly" alt="black molly" />
-    
-      {/* <div className='question-text'>Cad a feiceann {playerName}?</div> */}
-      </div>
 		</>	
 		
 
