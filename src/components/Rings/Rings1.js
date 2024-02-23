@@ -4,11 +4,11 @@ import lens from '../../images/ciorcal-glass.png';
 import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ReactAudioPlayer from 'react-audio-player';
-import spark0 from '../../audio/ding0.wav';
-import spark1 from '../../audio/ding1.wav';
-import spark2 from '../../audio/ding2.wav';
-import spark3 from '../../audio/ding0.wav';
-import spark4 from '../../audio/ding2.wav';
+import spark0 from '../../audio/radar3.ogg';
+import spark1 from '../../audio/radar2.ogg';
+import spark2 from '../../audio/radar1.ogg';
+import spark3 from '../../audio/radar2.ogg';
+import spark4 from '../../audio/radar3.ogg';
 
 import {
 	CircularInput,

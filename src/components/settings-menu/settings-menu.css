@@ -859,25 +859,25 @@ transform: scale(2);
 		/* border:4px solid red; */
 	}
 
-
   .ironkeyportraitholder{
     /* border: 4px solid orange; */
     position: fixed;
-    z-index: 120;
+    z-index: 1;
 justify-content: center;  
 animation: bounce 2s 131 steps(3);  
   }
 
 	.iron-key-portrait{
+    position:fixed;
     height:253px;
-    left: 28%;
-
+    left: 40%;
     margin-top:47%;
     animation: advance 270s forwards steps(135),
     fade-in-ik 26s forwards ease-in;
 	  }
+
 @keyframes bounce {
-  0%{margin-top:0 }
+  0%{margin-top:0 } 
   79%{margin-top:0 }
  
   80%{margin-top:-6px}

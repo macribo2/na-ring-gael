@@ -6,9 +6,9 @@ import eye1 from '../../images/gifs/suile0.gif';
 import eye2 from '../../images/gifs/suile3.gif';
 import React, { useEffect,useState  } from 'react';
 import ironkey from '../../images/iron-key.png';
+import keyface from '../../images/gifs/keyface.gif';
 import greyBG from '../../images/cut-scenes/rectanglesbg0.jpg';
-import ironkeyClicks from '../../audio/iron-key.wav';
-import lordIronkey from '../../images/stone-soup/lord-iron-key.png'
+import lordIronkey from '../../images/gifs/keyface.gif'
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
 import distantHills from '../../images/newbg4town.png';
@@ -28,12 +28,16 @@ const enterFullscreen = () => {
 	} else if (element.mozRequestFullScreen) {
 	  element.mozRequestFullScreen();
 	} else if (element.webkitRequestFullscreen) {
-	  element.webkitRequestFullscreen();
+	  if (element.webkitRequestFullscreen) {
+	    element.webkitRequestFullscreen(); // Try to request fullscreen directly
+	  } else if (element.webkitEnterFullscreen) {
+	    element.webkitEnterFullscreen(); // For older versions of iOS
+	  }
 	} else if (element.msRequestFullscreen) {
 	  element.msRequestFullscreen();
 	}
-  };
-  
+};
+
   
 
 
@@ -177,6 +181,7 @@ let randLights = Math.floor(Math.random * 8)
 			<div className="light light8"></div>
 			<div className="light light1"></div>
 			<div className="light light9"></div>
+			<div className="light light4"></div>
 			<div className="light light10"></div> 
 			
 		</div>
@@ -184,10 +189,10 @@ let randLights = Math.floor(Math.random * 8)
 			<button className="menu"
 			onClick={handleAboutClick}
 			>about</button >
+			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
 			<button className="menu"
 			onClick={handleBeginClick}
 			>begin</button>
-			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
 
 
 	 {/* <Easca />  */}

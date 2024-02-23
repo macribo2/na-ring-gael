@@ -10,15 +10,11 @@ import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ironkey from '../../images/stone-soup/lord-iron-key2.png';
 import ReactAudioPlayer from 'react-audio-player';
-import spark0 from '../../audio/ding0.wav';
-import spark1 from '../../audio/ding1.wav';
-import spark2 from '../../audio/ding2.wav';
-import spark3 from '../../audio/ding0.wav';
-import spark4 from '../../audio/ding2.wav';
+import spark0 from '../../audio/coin2.ogg';
+
 import banba from './../../images/About1/ceist2.png'
 import about0 from './../../images/About1/adaptive-icon.png'
 import about1 from './../../images/About1/fi.png'
-import about2 from './../../images/you-see.gif'
 import wisp from './../../images/color-square.gif'
 import about3 from './../../images/blinding-light.jpg'
 import about4 from './../../images/About1/ceist2.png'  //frog.gif'
