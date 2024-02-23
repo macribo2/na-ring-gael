@@ -13,7 +13,7 @@ const ChessLikeWrapper = () => {
     // This effect runs once when the component mounts
     const timeoutId = setTimeout(() => {
       // Set shouldRefresh to true after 2 seconds
-      setShouldRefresh(true);
+      // setShouldRefresh(true);
     }, 2000);
 
     // Cleanup function to clear the timeout in case the component unmounts

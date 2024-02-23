@@ -12,8 +12,6 @@ import { BtnM } from '../ui/btn-m';
 import { BtnB } from '../ui/btn-b';
 import mobile from '../../images/agnes.png';
 import promptVid from '../../images/stars.gif';
-import closer from '../../audio/closer.mp3';
-import slowBleeps from '../../audio/closer.mp3';
 import runLand from '../../images/stars.gif'
 
 import historyVid from '../../images/stars.gif';

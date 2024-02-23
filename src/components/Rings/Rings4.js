@@ -17,7 +17,7 @@ import './rings1.css'
 import avatar1 from '../../images/players/spéirbhean0.gif';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
-import avatar4 from '../../images/players/gotach0.png';
+import avatar4 from '../../images/players/alex.png';
 import avatar5 from '../../images/players/agnes_new.png'
 import avatar6 from '../../images/players/diamhraí0.gif';
 import avatar7 from '../../images/players/seanchaí0.png';
@@ -1375,19 +1375,30 @@ return (
         strokeWidth={'3px'}
       />
 			</CircularInput>
-			<button className="button-mash-ring-4" onTouchStart={() => {
-				setShowDiv(false);
-				history.push('/chesslike');
+			<button 
+  className="button-mash-ring-4" 
+  onClick={() => {
+    setShowDiv(false); // If needed, update local state
+	const championName = hname; // Assuming heroName is the prop containing the champion's name
 
-			}
-	
-			}
-				onClick={props.fadeOutNoOne} onTouchEnd={props.proceedThroughQuiz
-				}>
-				<div className = "circle">
-						<img src={champIcon} className="champion-portrait" alt="champion portrait" /></div>
-					</button>
-			
+
+
+	history.push({
+		pathname: '/chesslike',
+		state: { championName: championName } // Pass championName as state
+	  });
+  }}
+  onTouchStart={() => {
+    // setShowDiv(false);
+
+  }}
+  onTouchEnd={props.proceedThroughQuiz}
+>
+  <div className="circle">
+    <img src={champIcon} className="champion-portrait" alt="champion portrait" />
+  </div>
+</button>
+
   </div>
 
 );

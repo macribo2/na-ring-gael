@@ -233,8 +233,6 @@ import pollph4 from '../../images/ai-art/places/1.png'
 
 import derryn from '../../images/ai-art/places/derryn.jpg'
 import Encounter from '../encounter/encounter'
-import gigakoops from '../../audio/Gigakoops - Level 2 - High Clouds.mp3'
-import jam from '../../audio/ultima-tone-long.wav'
 import ReactAudioPlayer from 'react-audio-player';
 // import county emblems
 
@@ -258,7 +256,7 @@ import Silken from '../silken/silken'
 import avatar1 from '../../images/players/spéirbhean0.gif';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
-import avatar4 from '../../images/players/gotach0.png';
+import avatar4 from '../../images/players/alex.png';
 import avatar5 from '../../images/players/rógaire0.png'
 import avatar6 from '../../images/players/diamhraí0.gif';
 import avatar7 from '../../images/players/seanchaí0.png';

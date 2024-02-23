@@ -10,14 +10,10 @@ import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ironkey from '../../images/stone-soup/lord-iron-key2.png';
 import ReactAudioPlayer from 'react-audio-player';
-import spark0 from '../../audio/ding0.wav';
-import spark1 from '../../audio/ding1.wav';
+import spark0 from '../../audio/forceField_004.ogg';
 import blackripple from '../../images/blackripple.gif';
 import tutorial0 from '../../images/tutorials/tutorial0.png';
 
-import spark2 from '../../audio/ding2.wav';
-import spark3 from '../../audio/ding0.wav';
-import spark4 from '../../audio/ding2.wav';
 import banba from './../../images/About1/banba_poster-0.png'
 import about0 from './../../images/About1/adaptive-icon.png'
 import brightland from './../../images/About1/ceist3.png'

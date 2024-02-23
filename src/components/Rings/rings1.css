@@ -101,8 +101,8 @@
 .button-mash-ring-4 {
   /* border:4px solid rgba(229, 255, 0, 0.369); */
   position: absolute;
-  top: 47%; /* Center vertically */
-  left: 47%; /* Center horizontally */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
   transform: translate(-50%, -50%);
   z-index: 2999;
   display:none;

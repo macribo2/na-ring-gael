@@ -3,7 +3,7 @@ import MeteorShower from '../meteor-shower/meteor-shower';
 import shine from '../../images/a-btn.png'
 import React, { useState, Component, useEffect } from 'react';
 import Sparkles from 'react-sparkle'
-import ding3 from '../../audio/ding3.wav'
+import radar3 from '../../audio/radar3.ogg'
 import SettingsMenu from '../../components/settings-menu/settings-menu'
 import glass from '../../images/big-glass.png';
 import dirpad from '../../images/dirpad.png';
@@ -18,7 +18,7 @@ import tutorial0 from '../../images/tutorials/tutorial0.png';
 import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
-import avatar4 from '../../images/players/gotach0.png';
+import avatar4 from '../../images/players/alex.png';
 import avatar5 from '../../images/players/agnes_new.png'
 import avatar6 from '../../images/players/diamhraí0.gif';
 import avatar7 from '../../images/players/seanchaí0.png';
@@ -29,17 +29,10 @@ import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import Rings0 from '../../components/Rings/Rings0'
 import bgDark from '../../images/black.png';
 
-import jump from '../../audio/171697__nenadsimic__menu-selection-click.wav';
-import chat from '../../audio/171697__nenadsimic__menu-selection-click.wav';
-import chatShort from '../../audio/171697__nenadsimic__menu-selection-click.wav';
-import theme0 from '../../audio/171697__nenadsimic__menu-selection-click.wav';
-import spark0 from '../../audio/ding0.wav';
-import spark1 from '../../audio/sparkle-b.wav';
-import spark2 from '../../audio/sparkle-c.wav';
-import spark3 from '../../audio/sparkle-d.wav';
-import spark4 from '../../audio/sparkle-e.wav';
-import Select from '../../audio/171697__nenadsimic__menu-selection-click.wav';
-// import jam from '../../audio/51241__rutgermuller__8-bit-gabber-piece.wav'
+import chatShort from '../../audio/forceField_002.ogg';
+import theme0 from '../../audio/forceField_003.ogg';
+import spark0 from '../../audio//forceField_004.ogg';
+
 import useScreenOrientation from 'react-hook-screen-orientation';
 import hill from '../../images/rainy-hill1.png';
 import hills from '../../images/newbg4town.png';
@@ -54,8 +47,6 @@ import {
 } from 'react-circular-input'
 import phone1 from '../../images/phone-0.png';
 import black from '../../images/black.png'
-import tinkle from "../../audio/tinkle.wav"
-import tinkle1 from "../../audio/dink.wav"
 import stars from '../../images/cut-scenes/spr_stars01.png';
 import ReactAudioPlayer from 'react-audio-player';
 import '../../fonts/urchlo.ttf';
@@ -87,8 +78,8 @@ const ComponentWithScreenOrientation = () => {
 		<p>Screen orientation is: {screenOrientation}</p>
 	)
 }
-let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'a ḋiabhaltán', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
-let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o devilry', 'o beloved devil','o Chieftain','Fionn','o friend','o fount of muses'];
+let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'a ollaimh uasail', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
+let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o noble professor', 'o beloved devil','o Chieftain','Fionn','o friend','o fount of muses'];
 
 export default function App() {
 	//for rotary dial values:
@@ -114,7 +105,7 @@ export default function App() {
 	const [isOn, toggleIsOn] = useToggle();
 	const [showSettings, setSettings] = useState(1);
 	let hints = [``,
-		``, `It is you!`, ``, ``, `c`, `d`, `I am going to Doon-na-shee (the fortress of the fairies) to-night, to play music for the good people. If you come with me `
+		``, `It is you!`, ``, ``, ``, ``, `I am going to Doon-na-shee (the fortress of the fairies) to-night, to play music for the good people. If you come with me `
 		+ heroNamesEng[gotten] + `, you’ll see fine fun.`, `I am going to Doon-na-shee (the fortress of the fairies) to-night, to play music for the good people. If you come with me ` + heroNamesEng[localStorage.getItem('portrait')] + `, you’ll see fine fun.`, ``, ``, ``,]
 	let hintsAnswersA = [``,``,``,``,``,``,``,``];
 	let hintsAnswersB = [``,``,``,``,``,``,``,``,``];
@@ -140,7 +131,7 @@ export default function App() {
 		`Niamh Cinn-Óir`,
 		`An Craoibhín Aoibhinn`,
 		`Oisín`,
-		`Donn Fírinne`,
+		`An Sirriam`,
 		`Mug Ruith`,
 		`Abhartach`,
 		`Fionn Mac Cumhail`,
@@ -489,7 +480,7 @@ if (score === 1){
 		console.log("value:" + value)
 		return (
 
-			<ReactAudioPlayer src= {ding3}  autoPlay />
+			<ReactAudioPlayer src= {radar3}  autoPlay />
 			
 		)
 	}
@@ -591,10 +582,10 @@ if(value*10 !== 0 ){
 	let choiceRingEng = [
 	``,
 		`Golden-headed Niamh`,
-		`
+		`		
 		 The Pleasant Little Branch`,
 		`"Young Deer", greatest poet of Ireland, warrior of the Fianna`,
-		`The Dark One`,
+		`The Sheriff, Highland champion and scholar`,
 		`The Pagan Champion of Valentia`,
 		`The Vampire Chieftain`,
 		`Legendary warrior, seer, poet`,
