@@ -51,14 +51,14 @@ const PhaserGame = () => {
       initializedRef.current = true;
     }
 
+    let champID = localStorage.getItem('champID')
 
     function preload() {
       const scene = this;
       scene.load.image('background', './phaser-resources/images/bg0.png');
       scene.load.image('puca0', './phaser-resources/images/puca0.png');
       scene.load.image('puca1', './phaser-resources/images/puca1.png');
-      scene.load.image('player', './phaser-resources/images/champions/1.png');
-    }
+      scene.load.image('player', './phaser-resources/images/champions/'+champID+'.png');    }
 
     function centerCameraOnPlayer(scene, playerSprite) {
       // Get the position of the player sprite
