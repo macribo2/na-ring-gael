@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 
-const BallyGamboyGame = ({ playerGraphic })=> {
-  
-  //next up ballyfin the town of fin. Ballybofey, fiach's pass. ballymagorry macgorry's townland
+const BallyGamboyGame = () => {
   const gameRef = useRef(null);
  let player; // Define player object
-let hname= localStorage.getItem('hname')
-alert(hname);
+let champID = localStorage.getItem('champID')
+let hname = localStorage.getItem('hname')
   useEffect(() => {
     const initializeGame = () => {
       const config = {
@@ -39,7 +37,7 @@ alert(hname);
 
     // Define scene methods
     function preload() {
-      this.load.image('player', './phaser-resources/images/champions/11.png');
+      this.load.image('player', './phaser-resources/images/champions/'+champID+'.png');
       this.load.image('background', './phaser-resources/images/placeholders/gamboy.png');
       this.load.image('upButton', './phaser-resources/images/ui/pad-u.png');
       this.load.image('middleButton', './phaser-resources/images/ui/middle-b.png');
@@ -53,12 +51,9 @@ alert(hname);
       const background = this.add.sprite(0, 0, 'background').setOrigin(0);
       background.displayWidth = this.sys.game.config.width;
       background.displayHeight = this.sys.game.config.height;
-      player = this.physics.add.sprite(50, 225, playerGraphic);
-  
-    const originalPlayer = this.physics.add.sprite(50, 225, player);
     
       // Load player sprite
-      // const  = this.physics.add.sprite(50, 225, player);
+      const originalPlayer = this.physics.add.sprite(50, 225, 'player');
     
       // Apply the Light2D pipeline (includes grayscale effect)
       // originalPlayer.setPipeline('Light2D');
