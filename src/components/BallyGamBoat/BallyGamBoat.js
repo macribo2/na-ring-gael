@@ -8,17 +8,23 @@ const BallyGamboatGame = () => {
     const initializeGame = () => {
       const config = {
         type: Phaser.AUTO,
-        width: 800, // Adjust width as needed
-        height: 600, // Adjust height as needed
+        width: window.innerWidth, // Set width to match the window width
+    height: window.innerHeight, // Set height to match the window height
+    
         scene: {
           preload: preload,
           create: create,
           update: update,
         },
+        scale: {
+          mode: Phaser.Scale.RESIZE, // Resize the game to fill the entire screen
+          autoCenter: Phaser.Scale.CENTER_BOTH, // Center the game horizontally and vertically
+        },
       };
 
       gameRef.current = new Phaser.Game(config);
     };
+
 
     // Define scene methods
     function preload() {

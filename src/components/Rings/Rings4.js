@@ -1381,7 +1381,8 @@ return (
     setShowDiv(false); // If needed, update local state
 	const championName = hname; // Assuming heroName is the prop containing the champion's name
 
-
+	localStorage.setItem('champID', champID);
+	localStorage.setItem('champName',hname);
 
 	history.push({
 		pathname: '/chesslike',
