@@ -51,9 +51,35 @@ export function getValidKnightMoves(playerPosition) {
   return validMoves;
 }
 
-// Define the valid move logic for a pawn
-export function getValidPawnMoves(playerPosition) {
-  // Implement logic to calculate valid move-to squares for a pawn relative to the player position
+// Function to get valid moves for a pawn
+export function getValidPawnMoves(playerPosition, gameBoard, pieceColor) {
+  const validMoves = [];
+
+  const { row, col } = playerPosition;
+  const playerColor = gameBoard[row][col].pieceColor;
+
+  // Check for diagonal captures
+  const leftDiagonal = { row: row + 1, col: col - 1 };
+  const rightDiagonal = { row: row + 1, col: col + 1 };
+  // Check left diagonal
+  if (isSquareOnBoard(leftDiagonal) && isEnemyPiece(leftDiagonal, playerColor, gameBoard)) {
+    validMoves.push(leftDiagonal);
+  }
+
+  // Check right diagonal
+  if (isSquareOnBoard(rightDiagonal) && isEnemyPiece(rightDiagonal, playerColor, gameBoard)) {
+    validMoves.push(rightDiagonal);
+  }
+
+  return validMoves;
+}
+
+function isSquareOnBoard(square) {
+  return square.row >= 0 && square.row < BOARD_SIZE && square.col >= 0 && square.col < BOARD_SIZE;
+}
+
+function isEnemyPiece(square, playerColor, gameBoard) {
+  return gameBoard[square.row][square.col] && gameBoard[square.row][square.col].pieceColor !== playerColor;
 }
 
 // Define the valid move logic for a queen

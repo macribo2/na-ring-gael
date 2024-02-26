@@ -145,114 +145,28 @@ import slanco from '../../images/ai-art/places/slanco.jpg'
 import anbadu from '../../images/ai-art/places/anbadu.jpg'
 import dungar from '../../images/ai-art/places/dungar.jpg'
 import gracuf from '../../images/ai-art/places/gracuf.jpg'
-// import bamian from '../../images/ai-art/places/bamian.jpg'
-// import benaga from '../../images/ai-art/places/benaga.jpg'
-// import dgarbh from '../../images/ai-art/places/dgarbh.jpg'
-// import baanpo from '../../images/ai-art/places/baanpo.jpg'
-// import slirua from '../../images/ai-art/places/slirua.jpg'
-// import casaid from '../../images/ai-art/places/casaid.jpg'
-// import andain from '../../images/ai-art/places/andain.jpg'
 import glnapu from '../../images/ai-art/places/glnapu.jpg'
-// import slimis from '../../images/ai-art/places/slimis.jpg'
-// import nacrud from '../../images/ai-art/places/nacrud.jpg'
-// import antsna from '../../images/ai-art/places/antsna.jpg'
-// import anlibr from '../../images/ai-art/places/anlibr.jpg'
-// import mtroim from '../../images/ai-art/places/mtroim.jpg'
-// import granar from '../../images/ai-art/places/granar.jpg'
-// import cldara from '../../images/ai-art/places/cldara.jpg'
-// import maduma from '../../images/ai-art/places/maduma.jpg'
-// import ancabu from '../../images/ai-art/places/ancabu.jpg'
-// import cillal from '../../images/ai-art/places/cillal.jpg'
-// import caanba from '../../images/ai-art/places/caanba.jpg'
-// import bauifi from '../../images/ai-art/places/bauifi.jpg'
-// import ancaru from '../../images/ai-art/places/ancaru.jpg'
-// import liants from '../../images/ai-art/places/liants.jpg'
-// import aneill from '../../images/ai-art/places/aneill.jpg'
-// import anlorg from '../../images/ai-art/places/anlorg.jpg'
-// import linagc from '../../images/ai-art/places/linagc.jpg'
-// import ancari from '../../images/ai-art/places/ancari.jpg'
-// import anmali from '../../images/ai-art/places/anmali.jpg'
 import dunpad from '../../images/ai-art/places/dunpad.jpg'
-// import cillca from '../../images/ai-art/places/cillca.jpg'
-// import srnaha from '../../images/ai-art/places/srnaha.jpg'
-// import craiga from '../../images/ai-art/places/craiga.jpg'
-// import poandu from '../../images/ai-art/places/poandu.jpg'
-// import bailur from '../../images/ai-art/places/bailur.jpg'
-// import bailan from '../../images/ai-art/places/bailan.jpg'
-// import liosli from '../../images/ai-art/places/liosli.jpg'
-// import cillde from '../../images/ai-art/places/cillde.jpg'
-// import bauimu from '../../images/ai-art/places/bauimu.jpg'
-// import bahaic from '../../images/ai-art/places/bahaic.jpg'
-// import miseal from '../../images/ai-art/places/miseal.jpg'
-// import cillda from '../../images/ai-art/places/cillda.jpg'
-// import scairb from '../../images/ai-art/places/scairb.jpg'
-// import cluain from '../../images/ai-art/places/cluain.jpg'
-import mainbu from '../../images/ai-art/places/mainbu.jpg'
-// import teaans from '../../images/ai-art/places/teaans.jpg'
-// import crirua from '../../images/ai-art/places/crirua.jpg'
-// import carmac from '../../images/ai-art/places/carmac.jpg'
-import pollph5 from '../../images/ai-art/places/pollph5.jpg'
-// import cairbr from '../../images/ai-art/places/cairbr.jpg'
-// import nasolla from '../../images/ai-art/places/nasolla.jpg'
-// import fiodha from '../../images/ai-art/places/fiodha.jpg'
-// import maighn from '../../images/ai-art/places/maighn.jpg'
-// import ancurra from '../../images/ai-art/places/ancurra.jpg'
-// import leiman from '../../images/ai-art/places/leiman.jpg'
-// import ceannb from '../../images/ai-art/places/ceannb.jpg'
-import fiochr from '../../images/ai-art/places/fiochr.jpg'
-// import antula from '../../images/ai-art/places/antula.jpg'
-// import cillro from '../../images/ai-art/places/cillro.jpg'
-// import leabas from '../../images/ai-art/places/leabas.jpg'
-// import bunrai from '../../images/ai-art/places/bunrai.jpg'
-// import caisna from '../../images/ai-art/places/caisna.jpg'
-// import bamhgo from '../../images/ai-art/places/bamhgo.jpg'
-// import anomai from '../../images/ai-art/places/anomai.jpg'
-// import sesiui from '../../images/ai-art/places/sesiui.jpg'
-// import ancocr from '../../images/ai-art/places/ancocr.jpg'
-import dungea from '../../images/ai-art/places/dungea.jpg'
 
 
-// import cillca from '../../images/ai-art/places/1.png'
 import cuilant from '../../images/ai-art/places/1.png'
 import slnamb from '../../images/ai-art/places/1.png'
-import faiero from '../../images/ai-art/places/1.png'
 import clumea from '../../images/ai-art/places/1.png'
 import tignao from '../../images/ai-art/places/1.png'
 import tuanir from '../../images/ai-art/places/1.png'
 import clufia from '../../images/ai-art/places/1.png'
 import cilmio from '../../images/ai-art/places/1.png'
-import scramo from '../../images/ai-art/places/1.png'
-import amumor from '../../images/ai-art/places/1.png'
-import cnmall from '../../images/ai-art/places/1.png'
-import cfhear from '../../images/ai-art/places/1.png'
-import bfeiri from '../../images/ai-art/places/1.png'
 import pollph3 from '../../images/ai-art/places/1.png'
-import cuicon from '../../images/ai-art/places/1.png'
-import ceannc from '../../images/ai-art/places/1.png'
-import pollph4 from '../../images/ai-art/places/1.png'
-
 import derryn from '../../images/ai-art/places/derryn.jpg'
 import Encounter from '../encounter/encounter'
-import ReactAudioPlayer from 'react-audio-player';
-// import county emblems
-
-import Rings1 from '../Rings/Rings1'
-import ogHero from '../../images/agnes.png'
-
-// import { Register } from './../register/register'
 import $ from 'jquery';
 import empty from "../../images/empty.png"
-import shamrocks from "../../images/overworld/shamrock.png"
 import geaga from "../../images/empty.png"
-//empty image for geaga beceause they're just handlers for player triggering geaga event. Geaga image now in geagaSprite
 import ringIcon from '../../images/gold.png'
 import blocked from '../../images/empty.png'
 import sea0 from '../../images/tonnta1.jpg'
-
-import { Col, Row } from 'react-bootstrap'
 import town0 from '../../images/shields.png'
 import Silken from '../silken/silken'
-
 import avatar1 from '../../images/players/spéirbhean0.gif';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
@@ -267,7 +181,6 @@ import hint3 from '../../images/gifs/hint3.gif';
 import og from '../../images/a-btn.png'
 import ringItem from '../../images/stone-soup/expired_portal.png';
 import mobile from '../../images/players/rógaire0.png'
-
 import champion1 from '../../images/champions/1.png'
 import champion2 from '../../images/champions/2.png'
 import champion3 from '../../images/champions/3.png'
@@ -367,19 +280,15 @@ import champion96 from '../../images/champions/96.png'
 import champion97 from '../../images/champions/97.png'
 import champion98 from '../../images/champions/98.png'
 import champion99 from '../../images/champions/99.png'
-
 import rotatePhone from '../../images/gifs/hint-4-rotate.gif'
 let whereAmI = 'geaga';
-let secondLocationId = 3//localStorage.getItem('secondLocationId');
 let mapChanges = 0;
 let overworldPortrait;
 let whereAmIHolder = 'null';
-let avatar = "";
 let showHint3 = false;
 let locationGraphic = place0;
-
-
 let secondLocation = "Dún Laoghaire";
+let avatar = "";
 function setGeagaIcon(icon) {
     return icon
 }
@@ -633,9 +542,6 @@ export default class Overworld extends React.Component {
     }
     
     
-    //     this.setState({ mobile: window.innerWidth >= 760 });
-    //     this.setState({ mobileHor: window.innerWidth >= window.innerHeight });
-    // }
     resize() {
         this.setState({ mobile: window.innerWidth >= 1601 });
         this.setState({ mobileHor: window.innerWidth >= window.innerHeight });

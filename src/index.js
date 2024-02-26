@@ -5,6 +5,12 @@ import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ChessLike from './components/ChessLike/chessLike';
+import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
+import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
+import FairyLand from './components/FairyLand/FairyLand';
+import BallyTown from './components/BallyTown/BallyTown';
+import BallyNeo from './components/BallyNeo/BallyNeo';
+import BallyMurphius from './components/BallyMurphius/BallyMurphius';
 
 const ChessLikeWrapper = () => {
   const [shouldRefresh, setShouldRefresh] = useState(false);
@@ -29,8 +35,16 @@ const ChessLikeWrapper = () => {
               <ChessLike />
               {shouldRefresh && <ChessLike />}
             </>
-          )} />
-          <Route path="/" component={App} />
+
+          )}
+           />
+      <Route path="/ballygamboy" component={BallyGamBoy} />
+      <Route path="/ballygamboat" component={BallyGamBoat} />
+      <Route path="/fairyland" component={FairyLand} />
+      <Route path="/ballytown" component={BallyTown} />
+      <Route path="/ballyneo" component={BallyNeo} />
+      <Route path="/ballymurphius" component={BallyMurphius} />
+      <Route path="/" component={App} />
         </Switch>
       </PlayerProvider>
     </>

@@ -5,15 +5,21 @@ const BallyMurphius= () => {
   const gameRef = useRef(null);
 
   useEffect(() => {
+    try{
     const initializeGame = () => {
       const config = {
         type: Phaser.AUTO,
-        width: 800, // Adjust width as needed
-        height: 600, // Adjust height as needed
+        width: window.innerWidth, // Set width to match the window width
+    height: window.innerHeight, // Set height to match the window height
+    
         scene: {
           preload: preload,
           create: create,
           update: update,
+        },
+        scale: {
+          mode: Phaser.Scale.RESIZE, // Resize the game to fill the entire screen
+          autoCenter: Phaser.Scale.CENTER_BOTH, // Center the game horizontally and vertically
         },
       };
 
@@ -42,6 +48,41 @@ const BallyMurphius= () => {
       if (gameRef.current) {
         gameRef.current.destroy(true);
       }
+    };} catch (error) {
+      console.error('Error initializing game:', error);
+    }
+  }, []);
+
+  return <div id="bally-murphius-game-container"></div>;
+};
+
+export default BallyMurphius;
+
+/*
+const BallyMurphius = () => {
+  const gameRef = useRef(null);
+
+  useEffect(() => {
+    const initializeGame = () => {
+      try {
+        const config = {
+          // Your game configuration...
+        };
+  
+        gameRef.current = new Phaser.Game(config);
+      } catch (error) {
+        console.error('Error initializing game:', error);
+      }
+    };
+
+    // Preload, create, and update functions...
+
+    initializeGame();
+
+    return () => {
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+      }
     };
   }, []);
 
@@ -49,3 +90,5 @@ const BallyMurphius= () => {
 };
 
 export default BallyMurphius;
+
+*/
