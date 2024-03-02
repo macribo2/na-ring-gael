@@ -1385,8 +1385,7 @@ return (
 	localStorage.setItem('champName',hname);
 
 	history.push({
-		pathname: '/chesslike',
-		state: { championName: championName } // Pass championName as state
+		pathname: '/ballygamboy',
 	  });
   }}
   onTouchStart={() => {
