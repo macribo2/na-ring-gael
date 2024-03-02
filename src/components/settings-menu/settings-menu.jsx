@@ -16,6 +16,7 @@ import blurryBG from '../../images/newbg2.png';
 import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
 import deepBlue from '../../audio/Three Red Hearts - Deep Blue.ogg'
+
 let lyricID = 0;
 
 
@@ -50,17 +51,14 @@ export default function SettingsMenu(props) {
 		}
 	 }
 	useEffect(() => {
-		for (let i = 0; i < 9; i++) {
-			setTimeout(() => {
-		
-				lyricID++;
-		   
-				console.log(tollDubh[lyricID])
-			}, 1000)
 
-	
-		}
-	});
+		    // Play the audio when the component first loads
+			const audioPlayer = document.getElementById('deepBlue');
+			if (audioPlayer) {
+				audioPlayer.play();
+			}
+		}, []); 
+	;
 
 	
 	const FullScreenComponent = () => {
@@ -201,7 +199,7 @@ let randLights = Math.floor(Math.random * 8)
 			<button className="menu"
 			onClick={handleBeginClick}
 			>begin</button>
-<ReactAudioPlayer src={deepBlue} autoPlay={false} id='deepBlue' controls={false} />
+<ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
 
 	 {/* <Easca />  */}
 
