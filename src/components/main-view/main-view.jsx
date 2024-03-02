@@ -78,7 +78,7 @@ const ComponentWithScreenOrientation = () => {
 		<p>Screen orientation is: {screenOrientation}</p>
 	)
 }
-let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'a ollaimh uasail', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
+let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'Ollaimh', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
 let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o noble professor', 'o beloved devil','o Chieftain','Fionn','o friend','o fount of muses'];
 
 export default function App() {
