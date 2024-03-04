@@ -163,6 +163,7 @@ top:1%;
   max-height: 100%; 
   width:100%;
   background-image: url('../../images/fog5.png');
+  background-size: cover;
 }
 
 .map-lens-adjust{

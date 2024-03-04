@@ -10,7 +10,7 @@ import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ironkey from '../../images/stone-soup/lord-iron-key2.png';
 import ReactAudioPlayer from 'react-audio-player';
-import spark0 from '../../audio/forceField_004.ogg';
+import spark0 from '../../audio/coin3.ogg';
 import blackripple from '../../images/blackripple.gif';
 import tutorial0 from '../../images/tutorials/tutorial0.png';
 

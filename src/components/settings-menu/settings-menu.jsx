@@ -84,6 +84,7 @@ export default function SettingsMenu(props) {
     
     // Check if the audio player exists
     if (audioPlayer) {
+
         // Play the audio
         audioPlayer.play();
     }

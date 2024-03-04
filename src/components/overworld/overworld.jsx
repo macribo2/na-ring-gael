@@ -5382,6 +5382,7 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
             this.setState({ isEncounterComponentVisible: false });
             alert(this.state.isEncounterComponentVisible)
         }
+        let heroName1 = localStorage.getItem('heroNameEng');
 
         return (
 
@@ -5462,9 +5463,9 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                     <div >
           
                         <p className="eng-question-text">
-                        Choose a pawn, says Black Molly
+                        Choose a champion, {heroName1}
                         </p>
-                        <p className="eng-question-text" id="irish-inside" >Roghnaigh fichilín, arsa Mallaidh Dubh.</p>
+                        {/* <p className="eng-question-text" id="irish-inside" >Roghnaigh fichilín, arsa Mallaidh Dubh.</p> */}
         </div>
                             <div className="location-graphic-container">
                         {/* <div className="ui-container_b-btn">
