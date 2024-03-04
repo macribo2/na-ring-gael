@@ -1,20 +1,13 @@
 
 // import * as React from "react";
-import { render } from "react-dom";
 import { useHistory } from 'react-router-dom';
-
 import React, { useState, useEffect, useRef } from 'react'
-import lens from '../../images/ciorcal-glass-light.png';
 import lensCap from '../../images/About1/ring2.png';
 import lensCap2 from '../../images/About1/ring2b.png';
-import emerald from '../../images/misc_crystal_new.png'
-import betweenFields from '../../images/realta.fdef7a42.gif'
-import tutorial0r from '../../images/tutorials/tutorial0r.png';
-import pearl from '../../images/stone-soup/misc_crystal_old.png';
-import heroShadow from '../../images/empty.png'
 import empty from '../../images/empty.png';
+import ReactAudioPlayer from 'react-audio-player';
 import './rings1.css'
-import avatar1 from '../../images/players/spéirbhean0.gif';
+import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
 import avatar4 from '../../images/players/alex.png';
@@ -132,7 +125,7 @@ import {
 } from "react-circular-input";
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
-
+import coin0 from '../../audio/coin3.ogg'
 
 // const [playerDetails, setPlayerDetails] = useState({
 //     // Initialize with default values or whatever makes sense for your app
@@ -1283,9 +1276,7 @@ if (rng === 2) {
 return (
 	
 	<>
-			<img src={tree} alt="a tree" className='tree' />
 			<div className="input-elements-container-7b">
-<img src={betweenFields} className="between-fields" alt="a wheeling space between worlds" />
 				
 		</div>
 		<div className="input-elements-container-7">
@@ -1297,19 +1288,7 @@ return (
 
 		<p id="hints-ring-4" className={props.isOn ? "hints" : "hidden"}></p>
 		
-		{ props.isOn?<><img src={ogHero === "1" ?  avatar1  : empty} className="og-hero"  alt="hero portrait"/>
-			
-			<img src={ogHero === "2" ? avatar2 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "3" ? avatar3 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "4" ? avatar4 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "5" ? avatar5 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "6" ? avatar6 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "7" ? avatar7 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "8" ? avatar8 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "9" ? avatar9 :empty} className="og-hero"  alt="hero portrait"/>
-			</>
-			:null }
-
+	
 
 		
 		{props.isOn ? <>
@@ -1321,10 +1300,10 @@ return (
 			
 			</>
 			:null }
-
 			
 			<img src={opponent1} className="og-opponent" alt="opponent portrait" />
 			
+			<img src={ogHero === "1" ?  avatar1  : empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "2" ? avatar2 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "3" ? avatar3 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "4" ? avatar4 :empty} className="og-hero"  alt="hero portrait"/>
@@ -1383,11 +1362,17 @@ return (
 
 	localStorage.setItem('champID', champID);
 	localStorage.setItem('champName',hname);
-
+setTimeout(function(){
+	
 	history.push({
 		pathname: '/ballygamboy',
-	  });
-  }}
+	});
+	
+},500)
+
+return <ReactAudioPlayer src={ coin0} autoPlay />
+
+}}
   onTouchStart={() => {
     // setShowDiv(false);
 

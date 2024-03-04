@@ -482,13 +482,13 @@ transform: scaleX(-1) scale(0.7);
 
       }
       .tree{
-        top: -21%;
+        /* top: -21%;
         height: 512px;
         width: 512px;
         left: -11%;
         opacity: 1;
         transform: scale(1.1);
-        z-index: 20;
+        z-index: 20; */
 
       }
       

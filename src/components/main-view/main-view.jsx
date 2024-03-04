@@ -1,5 +1,6 @@
 import Overworld from '../../components/overworld/overworld';
 import MeteorShower from '../meteor-shower/meteor-shower';
+import coin1 from '../../audio/coin3.ogg'
 import shine from '../../images/a-btn.png'
 import React, { useState, Component, useEffect } from 'react';
 import Sparkles from 'react-sparkle'
@@ -31,7 +32,9 @@ import bgDark from '../../images/black.png';
 
 import chatShort from '../../audio/forceField_002.ogg';
 import theme0 from '../../audio/forceField_003.ogg';
-import spark0 from '../../audio//forceField_004.ogg';
+import spark0 from '../../audio/forceField_002.ogg';
+import spark1 from '../../audio/forceField_003.ogg';
+import spark2 from '../../audio/forceField_004.ogg';
 
 import useScreenOrientation from 'react-hook-screen-orientation';
 import hill from '../../images/rainy-hill1.png';
@@ -79,7 +82,7 @@ const ComponentWithScreenOrientation = () => {
 	)
 }
 let heroNames = ['', 'a Níamh', 'a Ḋubhghlas', 'a Oisín', 'Ollaimh', 'a craythur', 'a Thaoiseach', 'Fionn', 'a chara', 'a chúisle na héigse'];
-let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','o noble professor', 'o beloved devil','o Chieftain','Fionn','o friend','o fount of muses'];
+let heroNamesEng = ['','o Níamh', 'Douglas', 'o Oisín','professor', 'o beloved devil','o Chieftain','Fionn','o friend','o light of verse'];
 
 export default function App() {
 	//for rotary dial values:
@@ -196,7 +199,7 @@ export default function App() {
 			
 		},
 		{
-			questionText: 'Roghnaigh fichillín, ' + heroNames[localStorage.getItem('portrait')] + '. ',
+			questionText: 'Roghnaigh gaisce, ' + heroNames[localStorage.getItem('portrait')] + '. ',
 			answerOptions: [
 				
 			],
@@ -478,12 +481,11 @@ if (score === 1){
 		}, 50)
 		console.log("currentQuestion" + currentQuestion)
 		console.log("value:" + value)
-		return (
+		
 
-			<ReactAudioPlayer src= {radar3}  autoPlay />
-			
-		)
 	}
+
+	
 	const buttonMashClick = (isCorrect, someVal) => { 
 		
 		function myMove() {
@@ -505,13 +507,22 @@ if (score === 1){
 		  }
 		myMove();  
 if(value*10 !== 0 ){
-		setIsFadedOut(false)
+
+	const audioPlayer = document.getElementById('coin1');
+    
+    // Check if the audio player exists
+    if (audioPlayer) {
+
+        // Play the audio
+        audioPlayer.play();
+    }
+	setIsFadedOut(false)
 		setIsFadedOut(true)
 
 		
 		localStorage.setItem('portrait', value * 10);
 		gotten = localStorage.getItem('portrait');
-
+localStorage.setItem('heroNameEng', heroNamesEng[value*10])
 		const nextQuestion = currentQuestion + 1;
 		setCurrentQuestion(nextQuestion);
 		if (nextQuestion < questions.length) {
@@ -807,14 +818,14 @@ You’ll get that if my journey succeeds with me.
 			
 
 			<ReactAudioPlayer src={value*10 === 1 ? spark0: null} autoPlay />
-			{/* <ReactAudioPlayer src={value*10 === 2 ? spark1: null} autoPlay />
+			 {/* <ReactAudioPlayer src={value*10 === 2 ? spark1: null} autoPlay /> */}
 			<ReactAudioPlayer src={value*10 === 3 ? spark2: null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 4 ? spark3: ·null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 5 ? spark4: null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 6 ? spark1: null} autoPlay />
+			{/* <ReactAudioPlayer src={value*10 === 4 ? spark0: null} autoPlay /> */}
+			<ReactAudioPlayer src={value*10 === 5 ? spark1: null} autoPlay />
+			{/* <ReactAudioPlayer src={value*10 === 6 ? spark1: null} autoPlay /> */}
 			<ReactAudioPlayer src={value*10 === 7 ? spark2: null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 8 ? spark3: null} autoPlay />
-			<ReactAudioPlayer src={value*10 === 9 ? spark0: null} autoPlay /> */}
+			{/* <ReactAudioPlayer src={value*10 === 8 ? spark2: null} autoPlay /> */}
+			<ReactAudioPlayer src={value*10 === 9 ? spark0: null} autoPlay /> 
 			{/* <ReactAudioPlayer src={currentQuestion === 2 ? Select: null} autoPlay />
 			<ReactAudioPlayer src={currentQuestion === 4 ? jump : null} autoPlay />
 			<ReactAudioPlayer src={currentQuestion === 5 ? chat : null} autoPlay />
@@ -839,29 +850,9 @@ You’ll get that if my journey succeeds with me.
 			{currentQuestion === 9 ? () => {setTimeout(() => {
 				
 			runOnName(1000)}, 1000); }:null}
-			 {/* <img src={ShadowFields} className={currentQuestion < 1 ? "index-shadow-fields" : "index-shadow-fields slow-fade"} alt="distant fort on peninsula " /> */}
-			{/* <img src={ hill} className="hill"alt="rainy hill shadow-overlay " /> */}
-
-			{/* <img src={ Shadowhill}  className={currentQuestion < 1 ? "index-shadow-hill" : "index-shadow-hill slow-fade"}alt="rainy hill shadow-overlay " /> */}
-			{/* <img src={ geagaFace} className="geaga-face" alt="skull bedecked fairy tree" />
-			<img src={ geagaShadow} className={currentQuestion < 1 ? "index-geaga-shadow" : "geaga-face geaga-fade"}alt="rainy hill shadow-overlay " />
-			 */}
-			{/* a small fairy ring on a rainy night. An app menu and point of return. */}
 
 		<img id="question-img"  rel="preload" className = 	
 			{currentQuestion >= 101 ?  		"question-img":"hidden"  } src={hill} alt="A rainy hilltop loose circle of stones" />
-			{/* <img id="question-img" src={bg3} className={currentQuestion >= 8 ? "question-img" : "hidden"} alt="must have alt" /> */}
-		 
-			
-			{/* HINT: replace "false" with logic to display the
-      score when the user has answered all the questions */}
-			
-
-			{/* <div className= "field-ringfort-menu">
-			<button id={currentQuestion === 2 ? "field" : "hidden"}onClick={() => handleFieldButtonClick()} > <img src={field} alt="a small grassy field"/></button >
-			<button className={currentQuestion === 2 ? "ringfort" : "hidden" } onClick={() => handleRingfortButtonClick()} > <img src={hill} alt="image of a circle of stones on top of a hill." /></button >
-			</div> */}
-			{/* { currentQuestion >= 9 ? <Geaga/>:null} */}
 
 			{ currentQuestion === 4? randCostume():null}
 			{currentQuestion === 4 ? < EnterSilken /> : null}
@@ -967,6 +958,9 @@ You’ll get that if my journey succeeds with me.
 	
 
 		{/* <Link to="/chesslike">Go to Component 2</Link> */}
+		<ReactAudioPlayer src={coin1} id="coin1" />
+
+
 	</>
 	
 	);
