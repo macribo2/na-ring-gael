@@ -3,8 +3,12 @@ import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
 
 
+let glassTextA = [
+`Translations and comments go here. json soon. This is
+glassTextA[0]`,
+
+]    
 const BallyGamboyGame = () => {
-    
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
 
@@ -65,6 +69,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
         this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
+        this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
         this.load.image('bally0map', './phaser-resources/images/map0.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
         
@@ -77,79 +82,85 @@ class GameScene extends Phaser.Scene {
             // Add background sprite
             const background = this.add.sprite(0, 0, 'background').setOrigin(0);
             const glassbg0 = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
-
-// glassbg0.setTintFill(0xffffff); // Set the tint color to white with full opacity
-glassbg0.setAlpha(0.5); // Set the overall transparency of the sprite
+            glassbg0.setAlpha(0.5);
+        
             // Calculate scale to contain the background within the game dimensions
             const scaleX = this.sys.game.config.width / background.width;
             const scaleY = this.sys.game.config.height / background.height;
             const scale = Math.max(scaleX, scaleY);
+        
             // Set the scale of the background
             background.setScale(scale).setScrollFactor(0);
-
-
-        // Create the bally0map element
-        this.bally0map = this.add.sprite(0, 0, 'bally0map').setOrigin(0);
-        const bally0mapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.bally0map.width, this.bally0map.height) * 2;
-        this.bally0map.setScale(bally0mapScale);
-
-        // Set the starting position of the bally0map
-        this.bally0map.x = (this.sys.game.config.width - this.bally0map.displayWidth) / 2;
-        this.bally0map.y = (this.sys.game.config.height - this.bally0map.displayHeight) / 2;
+        
+            // Create the bally0map element
+            this.bally0map = this.add.sprite(0, 0, 'bally0map').setOrigin(0);
+            const bally0mapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.bally0map.width, this.bally0map.height) * 2;
+            this.bally0map.setScale(bally0mapScale);
+            this.bally0map.x = (this.sys.game.config.width - this.bally0map.displayWidth) / 2;
+            this.bally0map.y = (this.sys.game.config.height - this.bally0map.displayHeight) / 2;
+        
             // Add green frame image
             let greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0);
+        
             // Calculate scale to cover the entire screen without distortion
             const scaleXGreen = this.sys.game.config.width / greenFrame.width;
             const scaleYGreen = this.sys.game.config.height / greenFrame.height;
             const scaleGreen = Math.max(scaleXGreen, scaleYGreen);
+        
             // Set the scale of the green frame image to cover the entire screen
             greenFrame.setScale(scaleGreen).setScrollFactor(0);
+        
             // Position the green frame image at the top-left corner of the screen
             greenFrame.setPosition(0, 0);
+        
             // Add player sprite
-            this.player = this.add.sprite(250, 200, 'player');
+            const playerX = this.sys.game.config.width / 4;
+            const playerY = this.sys.game.config.height / 2;
+            this.player = this.add.sprite(playerX, playerY, 'player');
+        
             // Create a duplicate of the original player sprite
             this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
-            // Apply the tint to the duplicate sprite
             this.tintedPlayer.setTintFill(0xb98ae0, 0x9793c1, 0x9793c1, 0xd7bbf0); // Use the hexadecimal color codes here
             this.tintedPlayer.alpha = 0.65; // Set the transparency (alpha) level
-            // Define the position of the directional pad buttons
-            const buttonX = this.sys.game.config.width - 150; // Right side of the screen
-            const buttonY = this.sys.game.config.height / 2 + 50;
-            // Add directional pad buttons with fixed positions
-            this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive();
-            this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive();
-            this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive();
-            this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive();
-           
-           
-          
-            // Add middle button
-            this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive();
-            // Set up event listeners for button clicks
-          
-            this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
+        
             // Create the overlay container
             this.overlay = this.add.container(0, 0);
             this.overlay.setVisible(false); // Initially hide the overlay
+        
             // Add a transparent background to cover the entire screen
             const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
             glassbg.displayWidth = this.sys.game.config.width;
             glassbg.displayHeight = this.sys.game.config.height;
             this.overlay.add(glassbg);
+        
             // Add translations and text to the overlay
-            const text = this.add.text(100, 100, 'Concept', { color: '#ffffff' });
+            const text = this.add.text(100, 100, glassTextA[0], { color: '#ffffff' });
             this.overlay.add([glassbg0, text]);
         
+            // Define the position of the directional pad buttons
+            const buttonX = this.sys.game.config.width - 150; // Right side of the screen
+            const buttonY = this.sys.game.config.height / 2 + 50;
         
-        // Add event listeners for button clicks
-        this.buttonUp.on('pointerdown', () => this.moveElement('up'));
-        this.buttonDown.on('pointerdown', () => this.moveElement('down'));
-        this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
-        this.buttonRight.on('pointerdown', () => this.moveElement('right'));
-
-    }
-
+            // Add directional pad buttons with fixed positions
+            this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive();
+            this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive();
+            this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive();
+            this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive();
+        
+            // Add the button to the overlay and hide it initially
+            const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false);
+            this.buttonG = buttonG; // Store the button as a class member
+        
+            // Add middle button
+            this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive();
+        
+            // Set up event listeners for button clicks
+            this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
+            this.buttonUp.on('pointerdown', () => this.moveElement('up'));
+            this.buttonDown.on('pointerdown', () => this.moveElement('down'));
+            this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
+            this.buttonRight.on('pointerdown', () => this.moveElement('right'));
+        }
     moveElement(direction) {
         const speed = 500; // Adjust the speed as needed
     
@@ -158,16 +169,16 @@ glassbg0.setAlpha(0.5); // Set the overall transparency of the sprite
     
         switch (direction) {
             case 'up':
-                y -= 50;
+                y += 64;
                 break;
             case 'down':
-                y += 50;
+                y -= 64;
                 break;
             case 'left':
-                x -= 50;
+                x += 64;
                 break;
             case 'right':
-                x += 50;
+                x -= 64;
                 break;
         }
     
@@ -183,6 +194,8 @@ glassbg0.setAlpha(0.5); // Set the overall transparency of the sprite
     
         toggleOverlay() {
             this.overlay.setVisible(!this.overlay.visible);
+            this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
+
         }
         
       

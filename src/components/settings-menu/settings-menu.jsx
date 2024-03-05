@@ -195,7 +195,7 @@ let randLights = Math.floor(Math.random * 8)
 <div className='menu-container'>
 			<button className="menu"
 			onClick={handleAboutClick}
-			>about</button >
+			>intro</button >
 			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
 			<button className="menu"
 			onClick={handleBeginClick}
