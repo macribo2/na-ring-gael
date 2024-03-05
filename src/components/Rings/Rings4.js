@@ -126,7 +126,7 @@ import {
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
-
+import westmeath from '../../images/gifs/westmeath.gif'
 // const [playerDetails, setPlayerDetails] = useState({
 //     // Initialize with default values or whatever makes sense for your app
 //     playerName: 'DefaultPlayer',
@@ -1383,7 +1383,6 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
     <img src={champIcon} className="champion-portrait" alt="champion portrait" />
   </div>
 </button>
-
   </div>
 
 );
