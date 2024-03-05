@@ -157,4 +157,12 @@ transform:scale(1)}
 
 	
   }
-  
+  .westmeath-animation{
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	opacity:0.25;
+	position: fixed;
+	z-index: 50;
+  }

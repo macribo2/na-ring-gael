@@ -126,7 +126,9 @@ import {
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
-import westmeath from '../../images/gifs/westmeath.gif'
+import westmeath from '../../images/gifs/stones-bg.gif'
+
+import leonLishnerAndFriends from '../../audio/Leon Lishner and Friends edit.ogg';
 // const [playerDetails, setPlayerDetails] = useState({
 //     // Initialize with default values or whatever makes sense for your app
 //     playerName: 'DefaultPlayer',
@@ -1386,7 +1388,9 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
   </div>
 
 );
-
+<img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
+return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop />
+	
 	</>
 			);
 		}
