@@ -55,6 +55,16 @@ class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' });
         this.bally0map = null;
         this.bgOverlay = null;
+        this.playerMapLocationTracker = 1; // Start at location 1
+        this.mapLocations = {
+            0: { x: 0.19, y: 0.401 },
+            1: { x: 0.35, y: 0.401 },
+            2: { x: 0.5, y: 0.3 },
+            3: { x: 0.71, y: 0.3 },
+            4: { x: 0.71, y: 0.46 },
+            5: { x: 0.5, y: 0.75 },
+            6: { x: 0.77, y: 0.6 },
+            7: { x: 0.3, y: 0.5 }};
     }
     preload() {
         // Load assets
@@ -150,7 +160,7 @@ this.bgOverlay.setDepth(1);
     this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
     // Apply the tint to the duplicate sprite
     this.tintedPlayer.setTintFill(0xb98ae0, 0x9793c1, 0x9793c1, 0xd7bbf0); // Use the hexadecimal color codes here
-    this.tintedPlayer.setDepth(1);
+    this.tintedPlayer.setDepth(0);
     this.tintedPlayer.alpha = 0.65;
     this.tintedPlayer.setScale(1.5);
 
@@ -203,33 +213,80 @@ update() {
 moveElement(direction) {
     const speed = 500; // Adjust the speed as needed
 
-    let x = this.bally0map.x;
-    let y = this.bally0map.y;
-
     switch (direction) {
         case 'up':
-            y += 64;
+            if (this.playerMapLocationTracker < 7) {
+                this.playerMapLocationTracker++; // Increment tracker
+            }
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'down':
-            y -= 64;
+            if (this.playerMapLocationTracker > 0) {
+                this.playerMapLocationTracker--; // Decrement tracker
+            }
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'left':
-            x += 64;
+            if (this.playerMapLocationTracker % 3 !== 0) {
+                this.playerMapLocationTracker--; // Decrement tracker
+            }
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'right':
-            x -= 64;
+            if (this.playerMapLocationTracker % 3 !== 2) {
+                this.playerMapLocationTracker++; // Increment tracker
+            }
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
     }
 
-    // Tween both bally0map and bgOverlay to the new position
-    this.tweens.add({
-        targets: [this.bally0map, this.bgOverlay],
-        x: x,
-        y: y,
+
+        // Get the new map location coordinates
+        // const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+
+    // let x = this.bally0map.x;
+    // let y = this.bally0map.y;
+
+    // switch (direction) {
+    //     case 'up':
+    //         y += 64;
+    //         break;
+    //     case 'down':
+    //         y -= 64;
+    //         break;
+    //     case 'left':
+    //         x += 64;
+    //         break;
+    //     case 'right':
+    //         x -= 64;
+    //         break;
+    // }
+   // Get the new map location coordinates as percentages
+   const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+   const mapWidth = this.bally0map.width;
+   const mapHeight = this.bally0map.height;
+   
+   // Calculate the actual pixel coordinates based on percentages
+   const targetX = -x * mapWidth + this.sys.game.config.width / 2;
+   const targetY = -y * mapHeight + this.sys.game.config.height / 2;
+
+   // Tween the map to the new position
+   this.tweens.add({
+       targets: this.bally0map,
+       x: targetX,
+        y: targetY, // Negative y to move the map in the opposite direction
         duration: speed,
-        ease: 'Linear'
+        ease: 'Linear',
+        onComplete: () => {
+            console.log(`Background Map Origin: (${Math.floor(this.bally0map.x)}, ${Math.floor(this.bally0map.y)})`);
+        }
     });
 }
+
 
 
     toggleOverlay() {
