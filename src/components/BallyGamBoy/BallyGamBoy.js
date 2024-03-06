@@ -69,7 +69,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
-        this.load.image('bally0map', './phaser-resources/images/map0.png');
+        this.load.image('bally0map', './phaser-resources/images/map2.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
     }
 
