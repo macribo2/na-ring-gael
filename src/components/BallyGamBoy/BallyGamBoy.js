@@ -57,14 +57,15 @@ class GameScene extends Phaser.Scene {
         this.bgOverlay = null;
         this.playerMapLocationTracker = 1; // Start at location 1
         this.mapLocations = {
-            0: { x: 0.19, y: 0.401 },
-            1: { x: 0.35, y: 0.401 },
-            2: { x: 0.5, y: 0.3 },
-            3: { x: 0.71, y: 0.3 },
-            4: { x: 0.71, y: 0.46 },
-            5: { x: 0.5, y: 0.75 },
-            6: { x: 0.77, y: 0.6 },
-            7: { x: 0.3, y: 0.5 }};
+            0: { x: 0, y: 280 },
+            1: { x: 290, y: 280 },
+            2: { x: 780, y: 120 },
+            3: { x: 1200, y: 140 },
+            4: { x: 1205, y: 330 },
+            5: { x: 900, y: 580 },
+            6: { x: 230, y: 540 },
+            7: { x: 538, y: 280  }
+        };
     }
     preload() {
         // Load assets
@@ -101,9 +102,12 @@ class GameScene extends Phaser.Scene {
 
     // Set the scale of the background
     background.setScale(scale).setScrollFactor(0);
-
+/*
+x: 290, y: 280
+*/
     // Create the bally0map element
     this.bally0map = this.add.sprite(0, 0, 'bally0map').setOrigin(0);
+   // Set the initial position of the bally0map sprite
 
     const bally0mapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.bally0map.width, this.bally0map.height) * 2;
     this.bally0map.setScale(bally0mapScale);
@@ -202,6 +206,11 @@ this.bgOverlay.setDepth(1);
 
     this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
+
+    const initialX = -290; // Adjust the initial X position as needed
+    const initialY = -280; // Adjust the initial Y position as needed
+    this.bally0map.setPosition(initialX, initialY);
+
 }
 update() {
     // Continuously update the position of bgOverlay to match bally0map
@@ -215,38 +224,37 @@ moveElement(direction) {
 
     switch (direction) {
         case 'up':
-            if (this.playerMapLocationTracker < 7) {
-                this.playerMapLocationTracker++; // Increment tracker
+            this.playerMapLocationTracker++; // Increment tracker
+            if (this.playerMapLocationTracker > 7) {
+                this.playerMapLocationTracker = 0; // Loop back to 0 if greater than 7
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
-       
+            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
             break;
         case 'down':
-            if (this.playerMapLocationTracker > 0) {
-                this.playerMapLocationTracker--; // Decrement tracker
+            this.playerMapLocationTracker--; // Decrement tracker
+            if (this.playerMapLocationTracker < 0) {
+                this.playerMapLocationTracker = 7; // Loop back to 7 if less than 0
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
-       
+            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
             break;
         case 'left':
-            if (this.playerMapLocationTracker % 3 !== 0) {
-                this.playerMapLocationTracker--; // Decrement tracker
+            this.playerMapLocationTracker--; // Decrement tracker
+            if (this.playerMapLocationTracker < 0) {
+                this.playerMapLocationTracker = 7; // Loop back to 7 if less than 0
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
-       
+            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
             break;
         case 'right':
-            if (this.playerMapLocationTracker % 3 !== 2) {
-                this.playerMapLocationTracker++; // Increment tracker
+            this.playerMapLocationTracker++; // Increment tracker
+            if (this.playerMapLocationTracker > 7) {
+                this.playerMapLocationTracker = 0; // Loop back to 0 if greater than 7
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
-       
+            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
             break;
     }
-
-
+    
         // Get the new map location coordinates
-        // const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+        const { x, y } = this.mapLocations[this.playerMapLocationTracker];
 
     // let x = this.bally0map.x;
     // let y = this.bally0map.y;
@@ -265,20 +273,12 @@ moveElement(direction) {
     //         x -= 64;
     //         break;
     // }
-   // Get the new map location coordinates as percentages
-   const { x, y } = this.mapLocations[this.playerMapLocationTracker];
-   const mapWidth = this.bally0map.width;
-   const mapHeight = this.bally0map.height;
-   
-   // Calculate the actual pixel coordinates based on percentages
-   const targetX = -x * mapWidth + this.sys.game.config.width / 2;
-   const targetY = -y * mapHeight + this.sys.game.config.height / 2;
 
-   // Tween the map to the new position
-   this.tweens.add({
-       targets: this.bally0map,
-       x: targetX,
-        y: targetY, // Negative y to move the map in the opposite direction
+    // Tween both bally0map and bgOverlay to the new position
+    this.tweens.add({
+        targets: this.bally0map,
+        x: -x, // Negative x to move the map in the opposite direction
+        y: -y, // Negative y to move the map in the opposite direction
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
