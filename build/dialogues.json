@@ -1,0 +1,25 @@
+{
+  "dialogues": [
+      {
+        "id": "level1_start",
+        "text": {
+          "en": "You have entered Level 1.",
+          "ga": "Tá tú istigh sa Leibhéal 1."
+        }
+      },
+    {
+      "id": "concept",
+      "text": {
+        "en": "Concept:",
+        "ga": "Coincheap:"
+      }
+    },
+    {
+      "id": "level1_completed",
+      "text": {
+        "en": "Congratulations! You have completed Level 1.",
+        "ga": "Comhghairdeas! Tá tú tar éis Leibhéal 1 a chríochnú."
+      }
+    }
+  ]
+}

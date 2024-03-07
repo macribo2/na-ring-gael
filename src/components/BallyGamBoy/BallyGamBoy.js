@@ -8,9 +8,13 @@ let glassTextA = [
 ];
 const BallyGamboyGame = () => {
 
+
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
     const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
+
+
+
 
     useEffect(() => {
         const initializeGame = () => {
@@ -26,12 +30,13 @@ const BallyGamboyGame = () => {
         };
 
         initializeGame();
-
+        
         return () => {
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
         };
+
     }, []);
 
     const toggleOverlay = () => {
@@ -66,8 +71,12 @@ class GameScene extends Phaser.Scene {
             6: { x: 230, y: 540 },
             7: { x: 538, y: 280  }
         };
+        this.dialogues = []; // Initialize dialogues array
+  
     }
     preload() {
+        this.load.json('dialogues', 'dialogues.json');
+ 
         // Load assets
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
@@ -87,6 +96,7 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+  
     const music = this.sound.add('rabbitTown');
     music.play();
 
@@ -210,8 +220,28 @@ this.bgOverlay.setDepth(1);
     const initialX = -290; // Adjust the initial X position as needed
     const initialY = -280; // Adjust the initial Y position as needed
     this.bally0map.setPosition(initialX, initialY);
+// Load the JSON data into the cache
+this.load.json('dialogues', './dialogues.json');
+this.dialogues = this.cache.json.get('dialogues');
 
-}
+   // After the scene has loaded, get the dialogues data from the cache
+   this.load.once('complete', () => {
+    // Get the dialogues data from the cache
+    this.dialogues = this.cache.json.get('dialogues');
+
+    // Check if dialogues is populated
+    if (this.dialogues && this.dialogues.length > 0) {
+        // Access the id of the first dialogue in the array
+        const firstDialogueId = this.dialogues[0].id;
+        console.log(firstDialogueId);
+    } else {
+        console.error('Dialogues data is empty or not loaded correctly.');
+    }
+});
+
+
+
+    }
 update() {
     // Continuously update the position of bgOverlay to match bally0map
     if (this.bgOverlay && this.bally0map) {
@@ -256,24 +286,6 @@ moveElement(direction) {
         // Get the new map location coordinates
         const { x, y } = this.mapLocations[this.playerMapLocationTracker];
 
-    // let x = this.bally0map.x;
-    // let y = this.bally0map.y;
-
-    // switch (direction) {
-    //     case 'up':
-    //         y += 64;
-    //         break;
-    //     case 'down':
-    //         y -= 64;
-    //         break;
-    //     case 'left':
-    //         x += 64;
-    //         break;
-    //     case 'right':
-    //         x -= 64;
-    //         break;
-    // }
-
     // Tween both bally0map and bgOverlay to the new position
     this.tweens.add({
         targets: this.bally0map,
@@ -294,5 +306,6 @@ moveElement(direction) {
         this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
     }
 }
+
 
 export default BallyGamboyGame;
