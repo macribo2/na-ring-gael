@@ -3,6 +3,8 @@ import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
 import './bally.css';
+
+  
 let glassTextA = [
     `Translations and comments go here. json soon. This is glassTextA[0]`,
 ];
@@ -66,7 +68,7 @@ class GameScene extends Phaser.Scene {
     }
     preload() {
         // Load assets
-        this.load.json('dialogues', './dialogues.json');
+        this.load.json('dialogues', './phaser-resources/text/dialogues.json');
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
@@ -85,27 +87,21 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
- // After the scene has loaded, get the dialogues data from the cache
-        this.load.once('complete', () => {
-            // Get the dialogues data from the cache
-            alert();
-            this.dialogues = this.cache.json.get('dialogues');
-
-            // Check if dialogues is populated
-            if (this.dialogues && this.dialogues.length > 0) {
-                // Access the id of the first dialogue in the array
-                const firstDialogueId = this.dialogues[0].id;
-                console.log(firstDialogueId);
-                // Render the dialogue text on the screen
-                const text = this.add.text(100, 100, firstDialogueId, { color: '#ffffff' });
-            } else {
-                console.error('Dialogues data is empty or not loaded correctly.');
-            }
-        });
-
-
-    const music = this.sound.add('rabbitTown');
-    music.play();
+   // Get the dialogues data from the cache
+   const dialogues = this.cache.json.get('dialogues');
+   console.log(dialogues);
+   
+   // Check if dialogues data is available
+   const firstGaText = dialogues[0].text.ga;
+   console.log("First 'ga' text:", firstGaText);
+   if (dialogues) {
+       // Access and use the dialogues data here
+   } else {
+       console.error('Dialogues data is empty or not loaded correctly.');
+   }
+      const music = this.sound.add('rabbitTown');
+   
+      music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
@@ -232,6 +228,8 @@ greenFrame.setPosition(posX, posY);
 
     this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
+    console.log(this.dialogues[0]);
+
 }
 update() {
     // Continuously update the position of bgOverlay to match bally0map
