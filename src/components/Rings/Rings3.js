@@ -83,7 +83,7 @@ export default function Rings3(props) {
 		`The ring turns`, 
 		`The ring shines`,
 ``,
-`prepare memes`,
+`play`,
 		 		
 		 `to return to Éire`,
 		 `to return to Éire`,	
@@ -101,7 +101,7 @@ export default function Rings3(props) {
 		`casann an fáinne`,
 		`lasann an fáinne`,			
 		`	`,
-		`ulmhígí memes`,
+		`Imir`,
 		`le filleadh go hÉireann`,
 		`le filleadh go hÉireann`,	
 		`le filleadh go hÉireann`,	

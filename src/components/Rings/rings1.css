@@ -462,22 +462,22 @@ top:20%;
 
 
       .og-hero, .og-opponent, .tree{
-        transform: scale(3);
+        transform: scale(1);
         display: block !important;
         height: 200px;
         width: 200px; 
         position: fixed;
         right: 2%;
-        bottom: 1%;
-        z-index: 999;
+        bottom: -1%;
+        z-index: 99;
       }
       .og-opponent{
-transform: scaleX(-1) scale(3);
-        right:15%;
+transform: scaleX(-1) scale(1);
+        right:25%;
         /* border:4px solid blue; */
       }
       .og-hero{
-        right: -3%;
+        right: -5%;
 
 
       }

@@ -2,19 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
-
+import './bally.css';
 let glassTextA = [
     `Translations and comments go here. json soon. This is glassTextA[0]`,
 ];
 const BallyGamboyGame = () => {
 
-
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
     const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
-
-
-
 
     useEffect(() => {
         const initializeGame = () => {
@@ -30,13 +26,12 @@ const BallyGamboyGame = () => {
         };
 
         initializeGame();
-        
+
         return () => {
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
         };
-
     }, []);
 
     const toggleOverlay = () => {
@@ -62,21 +57,13 @@ class GameScene extends Phaser.Scene {
         this.bgOverlay = null;
         this.playerMapLocationTracker = 1; // Start at location 1
         this.mapLocations = {
-            0: { x: 0, y: 280 },
-            1: { x: 290, y: 280 },
-            2: { x: 780, y: 120 },
-            3: { x: 1200, y: 140 },
-            4: { x: 1205, y: 330 },
-            5: { x: 900, y: 580 },
-            6: { x: 230, y: 540 },
-            7: { x: 538, y: 280  }
+            0: { x: 0.35, y: 0.43 },
+            1: { x: 0.43, y: 0.56 },
+            2: { x: 0.60, y: 0.56 },
+            3: { x: 0.65, y: 0.40},
         };
-        this.dialogues = []; // Initialize dialogues array
-  
     }
     preload() {
-        this.load.json('dialogues', 'dialogues.json');
- 
         // Load assets
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
@@ -96,14 +83,13 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-  
     const music = this.sound.add('rabbitTown');
     music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
     const glassbg0 = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
-    glassbg0.setAlpha(0.5);
+    glassbg0.setAlpha(0.8);
 
     // Calculate scale to contain the background within the game dimensions
     const scaleX = this.sys.game.config.width / background.width;
@@ -112,12 +98,9 @@ class GameScene extends Phaser.Scene {
 
     // Set the scale of the background
     background.setScale(scale).setScrollFactor(0);
-/*
-x: 290, y: 280
-*/
+
     // Create the bally0map element
     this.bally0map = this.add.sprite(0, 0, 'bally0map').setOrigin(0);
-   // Set the initial position of the bally0map sprite
 
     const bally0mapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.bally0map.width, this.bally0map.height) * 2;
     this.bally0map.setScale(bally0mapScale);
@@ -216,32 +199,7 @@ this.bgOverlay.setDepth(1);
 
     this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
-
-    const initialX = -290; // Adjust the initial X position as needed
-    const initialY = -280; // Adjust the initial Y position as needed
-    this.bally0map.setPosition(initialX, initialY);
-// Load the JSON data into the cache
-this.load.json('dialogues', './dialogues.json');
-this.dialogues = this.cache.json.get('dialogues');
-
-   // After the scene has loaded, get the dialogues data from the cache
-   this.load.once('complete', () => {
-    // Get the dialogues data from the cache
-    this.dialogues = this.cache.json.get('dialogues');
-
-    // Check if dialogues is populated
-    if (this.dialogues && this.dialogues.length > 0) {
-        // Access the id of the first dialogue in the array
-        const firstDialogueId = this.dialogues[0].id;
-        console.log(firstDialogueId);
-    } else {
-        console.error('Dialogues data is empty or not loaded correctly.');
-    }
-});
-
-
-
-    }
+}
 update() {
     // Continuously update the position of bgOverlay to match bally0map
     if (this.bgOverlay && this.bally0map) {
@@ -255,42 +213,78 @@ moveElement(direction) {
     switch (direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker > 7) {
-                this.playerMapLocationTracker = 0; // Loop back to 0 if greater than 7
+            if (this.playerMapLocationTracker >3) {
+            this.playerMapLocationTracker=0; // Increment tracker
+
             }
-            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'down':
             this.playerMapLocationTracker--; // Decrement tracker
             if (this.playerMapLocationTracker < 0) {
-                this.playerMapLocationTracker = 7; // Loop back to 7 if less than 0
+            this.playerMapLocationTracker=3; // Increment tracker
+                
             }
-            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'left':
             this.playerMapLocationTracker--; // Decrement tracker
+
             if (this.playerMapLocationTracker < 0) {
-                this.playerMapLocationTracker = 7; // Loop back to 7 if less than 0
-            }
-            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
+                this.playerMapLocationTracker=3; // Increment tracker
+                    
+                }
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker > 7) {
-                this.playerMapLocationTracker = 0; // Loop back to 0 if greater than 7
+            if (this.playerMapLocationTracker >3) {
+            this.playerMapLocationTracker=0; // Increment tracker
+
             }
-            console.log(`Player Map Location Tracker: ${this.playerMapLocationTracker}`);
+            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+       
             break;
     }
-    
-        // Get the new map location coordinates
-        const { x, y } = this.mapLocations[this.playerMapLocationTracker];
 
-    // Tween both bally0map and bgOverlay to the new position
-    this.tweens.add({
-        targets: this.bally0map,
-        x: -x, // Negative x to move the map in the opposite direction
-        y: -y, // Negative y to move the map in the opposite direction
+
+        // Get the new map location coordinates
+        // const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+
+    // let x = this.bally0map.x;
+    // let y = this.bally0map.y;
+
+    // switch (direction) {
+    //     case 'up':
+    //         y += 64;
+    //         break;
+    //     case 'down':
+    //         y -= 64;
+    //         break;
+    //     case 'left':
+    //         x += 64;
+    //         break;
+    //     case 'right':
+    //         x -= 64;
+    //         break;
+    // }
+   // Get the new map location coordinates as percentages
+   const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+   const mapWidth = this.bally0map.width;
+   const mapHeight = this.bally0map.height;
+   
+   // Calculate the actual pixel coordinates based on percentages
+   const targetX = -x * mapWidth + this.sys.game.config.width / 2;
+   const targetY = -y * mapHeight + this.sys.game.config.height / 2;
+
+   // Tween the map to the new position
+   this.tweens.add({
+       targets: this.bally0map,
+       x: targetX,
+        y: targetY, // Negative y to move the map in the opposite direction
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
@@ -306,6 +300,5 @@ moveElement(direction) {
         this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
     }
 }
-
 
 export default BallyGamboyGame;
