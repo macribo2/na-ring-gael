@@ -62,9 +62,11 @@ class GameScene extends Phaser.Scene {
             2: { x: 0.60, y: 0.56 },
             3: { x: 0.65, y: 0.40},
         };
+        this.dialogues = [];
     }
     preload() {
         // Load assets
+        this.load.json('dialogues', './dialogues.json');
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
@@ -83,6 +85,25 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+ // After the scene has loaded, get the dialogues data from the cache
+        this.load.once('complete', () => {
+            // Get the dialogues data from the cache
+            alert();
+            this.dialogues = this.cache.json.get('dialogues');
+
+            // Check if dialogues is populated
+            if (this.dialogues && this.dialogues.length > 0) {
+                // Access the id of the first dialogue in the array
+                const firstDialogueId = this.dialogues[0].id;
+                console.log(firstDialogueId);
+                // Render the dialogue text on the screen
+                const text = this.add.text(100, 100, firstDialogueId, { color: '#ffffff' });
+            } else {
+                console.error('Dialogues data is empty or not loaded correctly.');
+            }
+        });
+
+
     const music = this.sound.add('rabbitTown');
     music.play();
 
@@ -133,21 +154,33 @@ this.bgOverlay.setDepth(1);
     // Ensure the bgOverlay renders above the player
     this.bgOverlay.setDepth(1);
 
-    // Add green frame image
-    let greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2);
+     // Add green frame image
+// Add green frame image
+// Add green frame image
+const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2);
 
-    // Calculate scale to cover the entire screen without distortion
-    const scaleXGreen = this.sys.game.config.width / greenFrame.width;
-    const scaleYGreen = this.sys.game.config.height / greenFrame.height;
-    const scaleGreen = Math.max(scaleXGreen, scaleYGreen);
+// Calculate scale to cover the entire screen without distortion
+const scaleXGreen = this.sys.game.config.width / greenFrame.width;
+const scaleYGreen = this.sys.game.config.height / greenFrame.height;
+const scaleGreen = Math.max(scaleXGreen, scaleYGreen);
 
-    // Set the scale of the green frame image to cover the entire screen
-    greenFrame.setScale(scaleGreen).setScrollFactor(0);
+// Set the scale of the green frame image to cover the entire screen
+greenFrame.setScale(scaleGreen).setScrollFactor(0);
 
-    // Position the green frame image at the top-left corner of the screen
-    greenFrame.setPosition(0, 0);
+// Calculate position to center the image on the screen
+// const posX = (this.sys.game.config.width - greenFrame.displayWidth) / 2;
+const posY = (this.sys.game.config.height - greenFrame.displayHeight) / 2;
 
-    // Add player sprite
+// Set the position of the green frame image, ensuring it doesn't overflow the edges
+greenFrame.setPosition(posX, posY);
+// Calculate position to align the left side of the image with the left side of the screen
+const posX = 0;
+
+// Calculate vertical position to center the image on the screen
+
+// Set the position of the green frame image
+greenFrame.setPosition(posX, posY);
+
     const playerX = this.sys.game.config.width / 4;
     const playerY = this.sys.game.config.height / 2;
     this.player = this.add.sprite(playerX, playerY, 'player');
