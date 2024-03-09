@@ -44,7 +44,7 @@ const BallyGamboyGame = () => {
         <>
             <div id="ballygamboy-game-container"></div>;
             <div className="chess-like-frame-container">
-                <img src={molly} className="og-opponent molly" alt="black molly" />
+                <img src={molly} className="og-opponent molly wait-and-fade" alt="black molly" />
                 {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
             </div>
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
@@ -128,12 +128,12 @@ class GameScene extends Phaser.Scene {
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
        console.log("First 'ga' text:", firstGaText);
-       this.textGa = this.add.text(500, 40, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
+       this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
-       this.textEn = this.add.text(350, 320, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
+       this.textEn = this.add.text(260, 320, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
 
        // Adjust text properties as needed
-       this.textGa.setFontSize(34);
+       this.textGa.setFontSize(30);
        this.textGa.setOrigin(0.5);
        this.textGa.setDepth(5);
        this.textGa.setFontFamily('aonchlo');
@@ -228,12 +228,13 @@ greenFrame.setPosition(posX, posY);
     const playerY = this.sys.game.config.height / 2;
     this.player = this.add.sprite(playerX, playerY, 'player');
     this.player.setScale(1.5);
+    this.player.setDepth(9);
 
     // Create a duplicate of the original player sprite
     this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
     // Apply the tint to the duplicate sprite
-    this.tintedPlayer.setTintFill(0xb98ae0, 0x9793c1, 0x9793c1, 0xd7bbf0); // Use the hexadecimal color codes here
-    this.tintedPlayer.setDepth(0);
+    this.tintedPlayer.setTintFill(0x91afc0, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
+    this.tintedPlayer.setDepth(10);
     this.tintedPlayer.alpha = 0.65;
     this.tintedPlayer.setScale(1.5);
 
@@ -297,7 +298,7 @@ moveElement(direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >3) {
-            this.playerMapLocationTracker=0; // Increment tracker
+            this.playerMapLocationTracker=3; // Increment tracker
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
@@ -307,7 +308,7 @@ moveElement(direction) {
         case 'down':
             this.playerMapLocationTracker--; // Decrement tracker
             if (this.playerMapLocationTracker < 0) {
-            this.playerMapLocationTracker=3; // Increment tracker
+            this.playerMapLocationTracker=0; // Increment tracker
                 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
@@ -318,7 +319,7 @@ moveElement(direction) {
             this.playerMapLocationTracker--; // Decrement tracker
 
             if (this.playerMapLocationTracker < 0) {
-                this.playerMapLocationTracker=3; // Increment tracker
+                this.playerMapLocationTracker=0; // Increment tracker
                     
                 }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
@@ -328,7 +329,7 @@ moveElement(direction) {
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >3) {
-            this.playerMapLocationTracker=0; // Increment tracker
+            this.playerMapLocationTracker=3; // Increment tracker
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
