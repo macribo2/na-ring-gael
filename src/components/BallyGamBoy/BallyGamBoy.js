@@ -9,6 +9,7 @@ let glassTextA = [
     `Translations and comments go here. json soon. This is glassTextA[0]`,
 ];
 const BallyGamboyGame = () => {
+   
 
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
@@ -35,7 +36,6 @@ const BallyGamboyGame = () => {
             }
         };
     }, []);
-
     const toggleOverlay = () => {
         setShowEasca(!showEasca); // Toggle the visibility state
     };
@@ -47,13 +47,16 @@ const BallyGamboyGame = () => {
                 <img src={molly} className="og-opponent molly" alt="black molly" />
                 {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
             </div>
+            <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
             {showEasca && <Easca />}
         </>
     );
 };
 
 class GameScene extends Phaser.Scene {
+    
     constructor() {
+    
         super({ key: 'GameScene' });
         this.bally0map = null;
         this.bgOverlay = null;
@@ -64,10 +67,28 @@ class GameScene extends Phaser.Scene {
             2: { x: 0.60, y: 0.56 },
             3: { x: 0.65, y: 0.40},
         };
+        this.textGa = null; // Initialize textGa and textEn as class properties
+        this.textEn = null;
         this.dialogues = [];
+    
     }
+
+    updateText(playerMapLocationTracker) {
+        // const currentDialogue = this.dialogues[playerMapLocationTracker];
+        alert(playerMapLocationTracker)
+
+        // if (currentDialogue) {
+        //     const newGaText = currentDialogue.text.ga;
+        //     const newEnText = currentDialogue.text.en;
+        //     this.textGa.setText(newGaText);
+        //     this.textEn.setText(newEnText);
+        // }
+    }
+
     preload() {
+
         // Load assets
+        // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
@@ -85,16 +106,36 @@ class GameScene extends Phaser.Scene {
         this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
     }
-
     create() {
-   // Get the dialogues data from the cache
-   const dialogues = this.cache.json.get('dialogues');
-   console.log(dialogues);
-   
-   // Check if dialogues data is available
-   const firstGaText = dialogues[0].text.ga;
-   console.log("First 'ga' text:", firstGaText);
+        this.add.text(128, 128, 'This is a test.', {
+            fontFamily: 'aonchlo'
+        });
+        let  firstGaText;
+        let  firstEnText;        
+        // Get the dialogues data from the cache
+        const dialogues = this.cache.json.get('dialogues');
+        let textGa, textEn;
    if (dialogues) {
+       console.log(dialogues);
+       
+       // Check if dialogues data is available
+       firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
+       firstEnText = dialogues[this.playerMapLocationTracker].text.en;
+       console.log("First 'ga' text:", firstGaText);
+       textGa = this.add.text(600, 100, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
+
+       textEn = this.add.text(450, 300, firstEnText, { color: '#ffffff' });
+
+       // Adjust text properties as needed
+       textGa.setFontSize(24);
+       textGa.setOrigin(0.5);
+       textGa.setDepth(5);
+       textGa.setFontFamily('aonchlo');
+
+
+       textEn.setFontSize(24);
+       textEn.setOrigin(0.5);
+       textEn.setDepth(6);
        // Access and use the dialogues data here
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
@@ -106,7 +147,7 @@ class GameScene extends Phaser.Scene {
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
     const glassbg0 = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
-    glassbg0.setAlpha(0.8);
+    glassbg0.setAlpha(0.1);
 
     // Calculate scale to contain the background within the game dimensions
     const scaleX = this.sys.game.config.width / background.width;
@@ -197,11 +238,11 @@ greenFrame.setPosition(posX, posY);
     const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
-    this.overlay.add(glassbg);
+    this.overlay.add(glassbg).setDepth(3);
 
     // Add translations and text to the overlay
-    const text = this.add.text(100, 100, glassTextA[0], { color: '#ffffff' });
-    this.overlay.add([glassbg0, text]);
+    // const text = this.add.text(100, 100, , { color: '#ffffff' });
+    this.overlay.add([glassbg0, textEn]);
 
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 150; // Right side of the screen
@@ -213,8 +254,8 @@ greenFrame.setPosition(posX, posY);
     this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(4);
     this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(4);
     // Add the button to the overlay and hide it initially
-    const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
-    this.buttonG = buttonG; // Store the button as a class member
+    // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
+    // this.buttonG = buttonG; // Store the button as a class member
 
     // Add middle button
     this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(4);
@@ -229,6 +270,11 @@ greenFrame.setPosition(posX, posY);
     this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
     console.log(this.dialogues[0]);
+// Define a function to update the text based on the player map location tracker value
+
+
+// Call the updateText function with the initial player map location tracker value
+this.updateText(this.playerMapLocationTracker);
 
 }
 update() {
@@ -249,6 +295,7 @@ moveElement(direction) {
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+            this.updateText(this.playerMapLocationTracker);
        
             break;
         case 'down':
@@ -258,6 +305,7 @@ moveElement(direction) {
                 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+            this.updateText(this.playerMapLocationTracker);
        
             break;
         case 'left':
@@ -268,6 +316,7 @@ moveElement(direction) {
                     
                 }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+            this.updateText(this.playerMapLocationTracker);
        
             break;
         case 'right':
@@ -277,31 +326,11 @@ moveElement(direction) {
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+            this.updateText(this.playerMapLocationTracker);
        
             break;
     }
 
-
-        // Get the new map location coordinates
-        // const { x, y } = this.mapLocations[this.playerMapLocationTracker];
-
-    // let x = this.bally0map.x;
-    // let y = this.bally0map.y;
-
-    // switch (direction) {
-    //     case 'up':
-    //         y += 64;
-    //         break;
-    //     case 'down':
-    //         y -= 64;
-    //         break;
-    //     case 'left':
-    //         x += 64;
-    //         break;
-    //     case 'right':
-    //         x -= 64;
-    //         break;
-    // }
    // Get the new map location coordinates as percentages
    const { x, y } = this.mapLocations[this.playerMapLocationTracker];
    const mapWidth = this.bally0map.width;
@@ -326,9 +355,10 @@ moveElement(direction) {
 
 
 
+
     toggleOverlay() {
         this.overlay.setVisible(!this.overlay.visible);
-        this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
+        // this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
     }
 }
 
