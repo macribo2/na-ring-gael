@@ -12,3 +12,9 @@ canvas{
     font-weight: 400;
     font-weight: normal;
 }
+@font-face {
+    font-family: 'anaphora';
+    src: url('../../fonts/Anaphora-Light-trial.ttf');
+    font-weight: 400;
+    font-weight: normal;
+}
