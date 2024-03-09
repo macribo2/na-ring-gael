@@ -18,3 +18,17 @@ canvas{
     font-weight: 400;
     font-weight: normal;
 }
+.wait-and-fade{
+    animation: wait-and-fade 5s steps(8) forwards;    
+}
+
+@keyframes wait-and-fade {
+    0% {
+        opacity: 1;
+    }
+    1%{opacity: 1;}
+    70%{opacity: 1;}
+    100% {
+        opacity: 0;
+    }
+}

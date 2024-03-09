@@ -1,31 +1,30 @@
 [
       {
-        "id": "concept",
+        "id": "l0",
         "text": {
-          "en": "Concept",
-          "ga": "Coinceap"
+          "en": "Soe that the speach being Irish",
+          "ga": "de bharr \ncainnte Gaelach"
         }
       },
     {
       "id": "l1",
       "text": {
-        "en": "",
-        "ga": ""
+        "en": "the hart must \n  needes be Irishe",
+        "ga": "Caithfaidh \ncroí \na bheith \nGaelach"
       }
     },
     {
       "id": "l2",
       "text": {
-        "en": "",
-        "ga": ""
-      }
+        "en": "for out of the aboundance of the hart",
+        "ga": "Toisc, \nó neart \nna croíthe"      }
     }
     ,
     {
       "id": "ballygamboy_exit",
       "text": {
-        "en": "",
-        "ga": ""
+        "en": "the tonge speaketh",
+        "ga": "Labhraíonn \nteanga"
       }
     }
   ]
