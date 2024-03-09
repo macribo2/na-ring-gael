@@ -1,23 +1,31 @@
 [
       {
-        "id": "level1_start",
+        "id": "concept",
         "text": {
-          "en": "You have entered Level 1.",
-          "ga": "Tá tú istigh sa Leibhéal 1."
+          "en": "Concept",
+          "ga": "Coinceap"
         }
       },
     {
-      "id": "concept",
+      "id": "l1",
       "text": {
-        "en": "Concept",
-        "ga": "Coincheap"
+        "en": "",
+        "ga": ""
       }
     },
     {
-      "id": "level1_completed",
+      "id": "l2",
       "text": {
-        "en": "Congratulations! You have completed Level 1.",
-        "ga": "Comhghairdeas! Tá tú tar éis Leibhéal 1 a chríochnú."
+        "en": "",
+        "ga": ""
+      }
+    }
+    ,
+    {
+      "id": "ballygamboy_exit",
+      "text": {
+        "en": "",
+        "ga": ""
       }
     }
   ]

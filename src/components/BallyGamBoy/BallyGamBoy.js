@@ -47,6 +47,8 @@ const BallyGamboyGame = () => {
                 <img src={molly} className="og-opponent molly" alt="black molly" />
                 {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
             </div>
+            <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
+
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
             {showEasca && <Easca />}
         </>
@@ -60,11 +62,11 @@ class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' });
         this.bally0map = null;
         this.bgOverlay = null;
-        this.playerMapLocationTracker = 1; // Start at location 1
+        this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
             0: { x: 0.35, y: 0.43 },
-            1: { x: 0.43, y: 0.56 },
-            2: { x: 0.60, y: 0.56 },
+            1: { x: 0.43, y: 0.54 },
+            2: { x: 0.60, y: 0.54 },
             3: { x: 0.65, y: 0.40},
         };
         this.textGa = null; // Initialize textGa and textEn as class properties
@@ -72,19 +74,6 @@ class GameScene extends Phaser.Scene {
         this.dialogues = [];
     
     }
-
-    updateText(playerMapLocationTracker) {
-        // const currentDialogue = this.dialogues[playerMapLocationTracker];
-        alert(playerMapLocationTracker)
-
-        // if (currentDialogue) {
-        //     const newGaText = currentDialogue.text.ga;
-        //     const newEnText = currentDialogue.text.en;
-        //     this.textGa.setText(newGaText);
-        //     this.textEn.setText(newEnText);
-        // }
-    }
-
     preload() {
 
         // Load assets
@@ -106,10 +95,27 @@ class GameScene extends Phaser.Scene {
         this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
     }
+
+    updateText(playerMapLocationTracker) {
+        // Retrieve the current dialogue based on the playerMapLocationTracker
+        const dialogues = this.cache.json.get('dialogues');
+        const currentDialogue = this.dialogues[playerMapLocationTracker];
+        
+        // Check if the currentDialogue is defined
+        if (dialogues) {
+        // alert(dialogues[0].text.ga)            // Get the text for the current dialogue
+            
+            // Update the textGa and textEn with the new dialogue text
+            this.textGa.setText(dialogues[this.playerMapLocationTracker].text.ga);
+            this.textEn.setText(dialogues[this.playerMapLocationTracker].text.en);
+        } else {
+            console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
+        }
+    }
+    
+    
     create() {
-        this.add.text(128, 128, 'This is a test.', {
-            fontFamily: 'aonchlo'
-        });
+    
         let  firstGaText;
         let  firstEnText;        
         // Get the dialogues data from the cache
@@ -122,20 +128,20 @@ class GameScene extends Phaser.Scene {
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
        console.log("First 'ga' text:", firstGaText);
-       textGa = this.add.text(600, 100, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
+       this.textGa = this.add.text(500, 40, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
-       textEn = this.add.text(450, 300, firstEnText, { color: '#ffffff' });
+       this.textEn = this.add.text(350, 320, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
 
        // Adjust text properties as needed
-       textGa.setFontSize(24);
-       textGa.setOrigin(0.5);
-       textGa.setDepth(5);
-       textGa.setFontFamily('aonchlo');
+       this.textGa.setFontSize(34);
+       this.textGa.setOrigin(0.5);
+       this.textGa.setDepth(5);
+       this.textGa.setFontFamily('aonchlo');
 
 
-       textEn.setFontSize(24);
-       textEn.setOrigin(0.5);
-       textEn.setDepth(6);
+       this.textEn.setFontSize(24);
+       this.textEn.setOrigin(0.5);
+       this.textEn.setDepth(6);
        // Access and use the dialogues data here
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
@@ -242,7 +248,7 @@ greenFrame.setPosition(posX, posY);
 
     // Add translations and text to the overlay
     // const text = this.add.text(100, 100, , { color: '#ffffff' });
-    this.overlay.add([glassbg0, textEn]);
+    this.overlay.add([glassbg0, this.textEn]);
 
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 150; // Right side of the screen
