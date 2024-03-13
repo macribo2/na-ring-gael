@@ -5,7 +5,6 @@ import EnemyKnight from '../enemies/EnemyKnight'
 import blackKnight from '../../images/knight.png'
 import whiteKnight from '../../images/knight2.png'
 import ReactAudioPlayer from 'react-audio-player';
-import giga from '../../audio/Gigakoops - Level 2 - High Clouds.mp3';
 import Modal from '../modal/Modal'; // Import the Modal component
 import '../dublin/dublin.css';
 
@@ -510,7 +509,6 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
 
   function playAudio() {
     // You can customize this URL based on the location of your MP3 file
-    const audioUrl = {giga};
     
     // Play audio logic
     // You might need to handle audio playback using the audio element or library of your choice
@@ -518,10 +516,8 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
     // and loop properties to set whether the audio should loop
     // Adjust the properties based on your requirements
     // Assign the ReactAudioPlayer component to a variable
-    const audioPlayer = <ReactAudioPlayer src={audioUrl} autoPlay controls loop />;
     
     // You can now use audioPlayer as needed (e.g., log or pass it around), or simply return it
-    return audioPlayer;
   }
   function handleKnightChoice(color) {
     setKnightType(color); // Set the chosen knight type (e.g., 'white' or 'black')

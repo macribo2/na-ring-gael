@@ -1,0 +1,6 @@
+[
+    { "posGa": "a h-aon", "negGa": "a náid", "posEn": "one", "negEn": "zero" },
+    { "posGa": "lán", "negGa": "folamh", "posEn": "full", "negEn": "empty" },
+    { "posGa": "súas", "negGa": "síos", "posEn": "up", "negEn": "down" },
+    { "posGa": "láidir", "negGa": "lag", "posEn": "strong", "negEn": "weak" }
+]

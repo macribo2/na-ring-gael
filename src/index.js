@@ -4,7 +4,7 @@ import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ChessLike from './components/ChessLike/chessLike';
+import ChessLike from './components/ChessLike/chessLike1';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
 import FairyLand from './components/FairyLand/FairyLand';

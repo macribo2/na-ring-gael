@@ -24,7 +24,7 @@ const PhaserGame = () => {
   const gridOffsetX = 0;
   const gridOffsetY = 0;
   
-  let playerMovesAs = "pawn"; // Default to knight moves
+  let playerMovesAs = "knight"; // Default to knight moves
 
   useEffect(() => {
 
