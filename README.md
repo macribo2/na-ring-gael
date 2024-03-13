@@ -13,13 +13,8 @@ To run the game locally on your machine, follow these steps:
 3. Install the necessary dependencies: `npm install`
 4. Start the development server: `npm start`
 5. Open your web browser and navigate to `http://localhost:3000` to play the game.
-
-## Gameplay Instructions
-
-1. Choose the appropriate English translation for each pair of Irish words presented.
-2. Receive immediate feedback on your selections.
-3. Track your progress as you complete each word pair.
-
+6. Be sure to view in mobile landscape mode.
+   
 ## Technologies Used
 
 - React: JavaScript library for building user interfaces.
