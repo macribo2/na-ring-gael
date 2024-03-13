@@ -1,27 +1,46 @@
-Na Ring Gael.
+
+# Na Ring Gael
+
+Na Ring Gael is a language learning game designed to help players improve their Irish (Gaelic) vocabulary through interactive gameplay. 
 
 
-This software is a game played in Irish.
-It uses React and Phaser 3.  "mobile first"; specifically mobile landscape mode has been the priority so far.
+## Getting Started
+online at www.na-ring-gael.com
+To run the game locally on your machine, follow these steps:
 
-Project is open-source. 
-Long term, I'd like this to form an introduction to open source computing. 
-I have ideas for actual playable game modules exploring 
-linux development, 
-interesting computer number patterns, 
-and even to introduce command-line coding, html/css, json. But these are just side quests. 
+1. Clone this repository to your local machine using `git clone https://github.com/macribo2/na-ring-gael.git`
+2. Navigate to the project directory: `cd na-ring-gael`
+3. Install the necessary dependencies: `npm install`
+4. Start the development server: `npm start`
+5. Open your web browser and navigate to `http://localhost:3000` to play the game.
 
-The player who likes to ride around Iron Age Ireland matching wits with mystical beings and doing classic rpg adventure stuff should be offered a challenging and exciting game.
-For many players, just walking around looking at plants, managing inventory, doing shop stuff quests, engaging with creatures and npcs, in Irish, is a cognative leap.
-We support this change of mind with the conventions of classic gaming. 
-The main thing this software does (will do) is let people quest in Irish, with built-in support for language learners.
-But, a subset of players will already be Irish speakers. The determined player should be able to complete increasingly challenging levels covering foundation topics in computer science.
-More on this comming soon to game tutorial0.
+## Gameplay Instructions
 
-To start
+1. Choose the appropriate English translation for each pair of Irish words presented.
+2. Receive immediate feedback on your selections.
+3. Track your progress as you complete each word pair.
 
-run npm i 
+## Technologies Used
 
-npm start
+- React: JavaScript library for building user interfaces.
+- Phaser: Framework for creating 2D games using HTML5 and JavaScript.
+- JavaScript: Programming language used for game logic.
+- CSS: Styling language used for design and layout.
 
-Want to help develop this project? Let's talk! 
+## Contributing
+
+Contributions to Na Ring Gael are welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix: `git checkout -b feature-name`
+3. Make your changes and commit them: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature-name`
+5. Submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+Feel free to customize this template further to fit the specifics of your project or add any additional sections you find relevant.
