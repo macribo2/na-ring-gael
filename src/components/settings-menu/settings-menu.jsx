@@ -16,7 +16,7 @@ import blurryBG from '../../images/newbg2.png';
 import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
 import deepBlue from '../../audio/Three Red Hearts - Deep Blue.ogg'
-
+import GDPR from '../gdpr/gdpr';
 let lyricID = 0;
 
 
@@ -204,7 +204,7 @@ let randLights = Math.floor(Math.random * 8)
 
 	 {/* <Easca />  */}
 
-
+<GDPR/>
 		</div>
 		</>	
 		

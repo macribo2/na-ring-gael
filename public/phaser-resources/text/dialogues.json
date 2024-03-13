@@ -3,28 +3,50 @@
         "id": "l0",
         "text": {
           "en": "Soe that the speach being Irish",
-          "ga": "de bharr \ncainnte Gaelach"
+          "ga": " De bharr \n cainnt \n i nGaeilge"
         }
       },
     {
       "id": "l1",
       "text": {
         "en": "the hart must \n  needes be Irishe",
-        "ga": "Caithfaidh \ncroí \na bheith \nGaelach"
+        "ga": " Caithfaidh \n an croí \n a bheith \n Gaelach"
       }
     },
     {
       "id": "l2",
       "text": {
         "en": "for out of the aboundance of the hart",
-        "ga": "Toisc, \nó neart \nna croíthe"      }
+        "ga": " Mar, \n ó neart \n na croíthe"      }
     }
     ,
     {
-      "id": "ballygamboy_exit",
+      "id": "l3",
       "text": {
-        "en": "the tonge speaketh",
-        "ga": "Labhraíonn \nteanga"
+        "en": "the tonge speaketh.",
+        "ga": "labhraíonn \n teanga."
       }
-    }
+    },
+     {
+        "id": "l4",
+        "text": {
+          "en": "",
+          "ga": ""
+        }
+      },
+      {
+        "id": "l5",
+        "text": {
+          "en": "Black Molly plays a pair of Pooka!",
+          "ga": "Imríonn \n Mallaidh Dubh \n péire Púca!"
+        }
+        },
+        {
+          "id": "l6",
+          "text": {
+            "en": "Choose!",
+            "ga": "Roghnaigh!"
+          }}
+        
+        
   ]

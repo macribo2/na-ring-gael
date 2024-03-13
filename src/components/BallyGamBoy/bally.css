@@ -1,8 +1,10 @@
 canvas{
-    border: 1px solid black;
-    top:0;
+       /* border: 1px solid black; */
+    top:-1%;
     position:fixed;
-    left:0; 
+    left:-1%;
+    width:102%;
+    height:102%;
 
 }
 

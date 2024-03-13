@@ -3,18 +3,20 @@ import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
 import './bally.css';
+import { useHistory } from 'react-router-dom';
+import chessLike from '../ChessLike/chessLike0'; // Adjust the path based on your actual file structure
 
-  
-let glassTextA = [
-    `Translations and comments go here. json soon. This is glassTextA[0]`,
-];
+
+// let glassTextA = [
+//     `Translations and comments go here. json soon. This is glassTextA[0]`,
+// ];
 const BallyGamboyGame = () => {
-   
-
+    
+    
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
     const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
-
+    
     useEffect(() => {
         const initializeGame = () => {
             const config = {
@@ -24,20 +26,21 @@ const BallyGamboyGame = () => {
                 scene: [GameScene],
                 parent: 'ballygamboy-game-container'
             };
-
+            
             gameRef.current = new Phaser.Game(config);
         };
-
+        
         initializeGame();
-
+        
         return () => {
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
         };
-    }, []);
+    }, []); 
     const toggleOverlay = () => {
         setShowEasca(!showEasca); // Toggle the visibility state
+        
     };
 
     return (
@@ -67,13 +70,26 @@ class GameScene extends Phaser.Scene {
             0: { x: 0.35, y: 0.43 },
             1: { x: 0.43, y: 0.54 },
             2: { x: 0.60, y: 0.54 },
-            3: { x: 0.65, y: 0.40},
+            3: { x: 0.64, y: 0.40},
+            4: { x: 0.67, y: 0.40},
+            5: { x: 0.67, y: 0.40},
         };
         this.textGa = null; // Initialize textGa and textEn as class properties
         this.textEn = null;
         this.dialogues = [];
     
     }
+  // Function to disable movement controls
+ disableMovementControls() {
+    this.movementControlsEnabled = false;
+}
+
+// Function to enable movement controls
+ enableMovementControls() {
+    this.movementControlsEnabled = true;
+}
+
+ 
     preload() {
 
         // Load assets
@@ -83,19 +99,23 @@ class GameScene extends Phaser.Scene {
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/placeholders/ultima-like.png');
-        this.load.image('glassbg0', './phaser-resources/images/glass0.png');
+        this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('greenRingLeft', './phaser-resources/images/ciorcal-glass8.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
         this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
         this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
         this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
+        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
         this.load.image('bally0map', './phaser-resources/images/map2.png');
         this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
+        this.load.image('yinCard', './phaser-resources/images/cards/puca0.png'); // Load overlay image
+        this.load.image('yanCard', './phaser-resources/images/cards/puca1.png'); // Load overlay image
     }
 
+   
     updateText(playerMapLocationTracker) {
         // Retrieve the current dialogue based on the playerMapLocationTracker
         const dialogues = this.cache.json.get('dialogues');
@@ -113,9 +133,132 @@ class GameScene extends Phaser.Scene {
         }
     }
     
+    introduceNewElements() {
+        const mollyElement = document.querySelector('.molly');
+        if (mollyElement) {
+            mollyElement.classList.add('wait-and-fade');
+        } else {
+            console.error('Element with className "molly" not found.');
+        }
+setTimeout(() => {
+
+    // Add sprites for the playing cards
+
+    this.yinCard = this.add.sprite(this.sys.game.config.width / 4 - 60, this.sys.game.config.height / 2,'yinCard').setDepth(7);
+    this.yanCard = this.add.sprite(this.sys.game.config.width / 4 + 120, this.sys.game.config.height / 2, 'yanCard').setDepth(7);
+// Inside the create() method or wherever you initialize your cards
+this.yinCard.setInteractive();
+this.yinCard.on('pointerdown', () => {
+    // Handle click on yinCard
+    console.log('Yin card clicked!');
+    handleCardClick(this.yinCard, this.yanCard);
+    localStorage.setItem('chosenPuca', '1');
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/ChessLike'; }, 2000);
+    
+});
+const handleCardClick = (chosenCard, otherCard) => {
+
+    this.tweens.add({
+        targets: chosenCard,
+        angle: 360,  // Rotate the card 360 degrees
+        scale:1,
+        x:this.sys.game.config.width / 2, 
+        duration: 500,  // Duration of the animation
+        onComplete: () => {
+            this.textGa.setText("Púca Roghnaithe!");
+            this.textEn.setText("Pooka Selected!");
+            this.yinCard.setScale(1);
+            this.yanCard.setScale(1);
+            // Set the chosen card to invisible after the animation completes
+            // chosenCard.setVisible(false);
+        }
+    });
+
+        // Fade out the other card
+        this.tweens.add({
+            targets: otherCard,
+            alpha: 0,  // Fade out the card
+            duration: 500,  // Duration of the animation
+            onComplete: () => {
+                // Set the other card to invisible after the animation completes
+                otherCard.setVisible(false);
+
+            }
+        });
+           }   
+this.yanCard.setInteractive();
+this.yanCard.on('pointerdown', () => {
+    // Handle click on yinCard
+    console.log('Yin card clicked!');
+    handleCardClick(this.yanCard, this.yinCard);
+    localStorage.setItem('chosenPuca', '0');
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/ChessLike'; }, 2000);
+    
+});
+
+    // Adjust the scale of the card sprites to make them smaller
+    const cardScale = 0.4; // Adjust this value as needed
+    this.yanCard.setScale(cardScale);
+    this.yinCard.setScale(cardScale);
+// Define the bobbing and scale in/out effect for the puca cards
+const bobTween1 = this.tweens.add({
+    targets: this.yinCard, // Replace this.yinCard with your first card sprite
+    y: '-=15', // Move the card up slightly
+    scaleX: 0.41, // Scale up horizontally
+    scaleY: 0.41, // Scale up vertically
+    duration: 1400, // Adjust the duration of the tween
+    yoyo: true, // Repeat the tween in reverse
+    repeat: -1 // Repeat indefinitely
+});
+
+// Define the bobbing and scale in/out effect for the second puca card with a slight delay
+const bobTween2 = this.tweens.add({
+    targets: this.yanCard, // Replace this.yanCard with your second card sprite
+    y: '-=20', // Move the card up slightly
+    scaleX: 0.41, // Scale up horizontally
+    scaleY: 0.41, // Scale up vertically
+    duration: 1400, // Adjust the duration of the tween
+    delay: 350, // Delay the start of the tween for the second card
+    yoyo: true, // Repeat the tween in reverse
+    repeat: -1, // Repeat indefinitely
+
+});
+
+}, 500);
+   
+
+        // Play the entrance animation for the 'yinCard' with a delay
+        this.time.delayedCall(600, () => {
+            // Spin and fade-in animation for the 'yanCard'
+            this.tweens.add({
+                targets: this.yanCard,
+                angle: 359,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Power2',
+            });
+            
+            // Spin and fade-in animation for the 'yinCard'
+            this.tweens.add({
+                targets: this.yinCard,
+                angle: 350,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Power2',
+            });
+        });
+    
+
+    }
+    
     
     create() {
-    
+
+        
+    // Define a boolean flag to track whether movement controls are enabled
+ this.movementControlsEnabled = true;
+
+
         let  firstGaText;
         let  firstEnText;        
         // Get the dialogues data from the cache
@@ -130,18 +273,18 @@ class GameScene extends Phaser.Scene {
        console.log("First 'ga' text:", firstGaText);
        this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
-       this.textEn = this.add.text(260, 320, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
+       this.textEn = this.add.text(380, 328, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
 
        // Adjust text properties as needed
        this.textGa.setFontSize(30);
        this.textGa.setOrigin(0.5);
-       this.textGa.setDepth(5);
+       this.textGa.setDepth(19);
        this.textGa.setFontFamily('aonchlo');
 
 
        this.textEn.setFontSize(24);
        this.textEn.setOrigin(0.5);
-       this.textEn.setDepth(6);
+       this.textEn.setDepth(19);
        // Access and use the dialogues data here
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
@@ -228,13 +371,13 @@ greenFrame.setPosition(posX, posY);
     const playerY = this.sys.game.config.height / 2;
     this.player = this.add.sprite(playerX, playerY, 'player');
     this.player.setScale(1.5);
-    this.player.setDepth(9);
+    this.player.setDepth(6);
 
     // Create a duplicate of the original player sprite
     this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
     // Apply the tint to the duplicate sprite
-    this.tintedPlayer.setTintFill(0x91afc0, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
-    this.tintedPlayer.setDepth(10);
+    this.tintedPlayer.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
+    this.tintedPlayer.setDepth(7);
     this.tintedPlayer.alpha = 0.65;
     this.tintedPlayer.setScale(1.5);
 
@@ -269,6 +412,28 @@ greenFrame.setPosition(posX, posY);
 
     // Set up event listeners for button clicks
     this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
+
+
+
+    // Define behavior for pointer events (e.g., hover, click)
+    this.buttonMiddle.on('pointerover', () => {
+        // Change the button texture to the lit state image when hovered
+        this.buttonMiddle.setTexture('button-middle-lit');
+        setTimeout(() => {
+            this.buttonMiddle.setTexture('button-middle');
+    },500);});
+
+
+    this.buttonMiddle.on('pointerout', () => {
+        // Change the button texture back to the normal state image when not hovered
+        setTimeout(() => {
+            this.buttonMiddle.setTexture('button-middle');
+    },500);});
+
+
+
+
+
     this.buttonUp.on('pointerdown', () => this.moveElement('up'));
     this.buttonDown.on('pointerdown', () => this.moveElement('down'));
     this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
@@ -282,7 +447,8 @@ greenFrame.setPosition(posX, posY);
 
 // Call the updateText function with the initial player map location tracker value
 this.updateText(this.playerMapLocationTracker);
-
+  
+   
 }
 update() {
     // Continuously update the position of bgOverlay to match bally0map
@@ -291,14 +457,44 @@ update() {
         this.bgOverlay.y = this.bally0map.y;
     }
 }
+
+
 moveElement(direction) {
+ 
+    // Check if movement controls are enabled
+    if (!this.movementControlsEnabled) {
+        return; // Exit the function if controls are disabled
+    }
+
+    if (this.playerMapLocationTracker === 3){
+        const mollyElement = document.querySelector('.molly');
+    if (mollyElement) {
+        mollyElement.classList.add('hidden');
+    } else {
+        console.error('Element with className "molly" not found.');
+    }
+}
+
+    if (this.playerMapLocationTracker === 4){
+        this.introduceNewElements();
+            const mollyElement = document.querySelector('.molly');
+        if (mollyElement) {
+            mollyElement.classList.remove('wait-and-fade');
+            mollyElement.classList.remove('hidden');
+        } else {
+            console.error('Element with className "molly" not found.');
+        }
+
+        this.   disableMovementControls();
+    }
+
     const speed = 500; // Adjust the speed as needed
 
     switch (direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >3) {
-            this.playerMapLocationTracker=3; // Increment tracker
+            if (this.playerMapLocationTracker >5) {
+            this.playerMapLocationTracker=5; // Increment tracker
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
@@ -328,8 +524,8 @@ moveElement(direction) {
             break;
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >3) {
-            this.playerMapLocationTracker=3; // Increment tracker
+            if (this.playerMapLocationTracker >5) {
+            this.playerMapLocationTracker=5; // Increment tracker
 
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
@@ -366,6 +562,8 @@ moveElement(direction) {
     toggleOverlay() {
         this.overlay.setVisible(!this.overlay.visible);
         // this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
+   
+   
     }
 }
 
