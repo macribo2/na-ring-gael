@@ -4,6 +4,7 @@ import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import GameOver from './components/game-over/GameOver';
 import ChessLike from './components/ChessLike/chessLike1';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
@@ -38,6 +39,7 @@ const ChessLikeWrapper = () => {
 
           )}
            />
+      <Route path="/gameOver" component={GameOver} />
       <Route path="/ballygamboy" component={BallyGamBoy} />
       <Route path="/ballygamboat" component={BallyGamBoat} />
       <Route path="/fairyland" component={FairyLand} />
