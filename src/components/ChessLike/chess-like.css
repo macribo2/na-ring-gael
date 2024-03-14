@@ -63,9 +63,9 @@ left:0px;
   }
 
   .chess-like-1{
-	height: 400px;
-	width:499px;
-	border:4px solid blue;
+	height: 100vh;
+	width:800px;
+	/* border:4px solid blue; */
   }
 
   .phaser-chess-like {
