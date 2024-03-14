@@ -33,6 +33,7 @@ const PhaserGame = () => {
     }
     function create() {
         const scene = this; // Store the scene object
+    
         const containerRect = phaserGameRef.current.getBoundingClientRect();
         const containerWidth = containerRect.width;
         const containerHeight = containerRect.height;
@@ -51,6 +52,19 @@ const PhaserGame = () => {
             }
         }
 
+    // Create UI layer group
+       // Create UI layer group
+       const uiLayerX = 0; // Adjust these values as needed
+       const uiLayerY = 0; // Adjust these values as needed
+       const uiLayerWidth = containerWidth / 3;
+       const uiLayerHeight = containerHeight;
+       const uiLayer = scene.add.group({
+           key: 'uiLayer',
+           x: uiLayerX,
+           y: uiLayerY,
+           maxSize: -1
+       });
+  
         // Create player graphic
         const playerSize = squareSize * 0.8; // Adjust player size relative to square size
         const playerX = (gridSize / 2 + 0.5) * squareSize;
@@ -66,10 +80,22 @@ const PhaserGame = () => {
             fontFamily: 'Arial',
             color: '#ffffff',
         };
-        // Create text objects and store references
-        scene.posGaText = scene.add.text(100, 100, wordPairs[0].posGa, textStyle);
-        scene.negGaText = scene.add.text(320, 100, wordPairs[0].negGa, textStyle);
-
+        const posX = 100;
+        const posY = 100;
+        const negX = 320;
+        const negY = 100;
+        const uiBackground = scene.add.rectangle(uiLayerX, uiLayerY, uiLayerWidth, uiLayerHeight, 0x0000ff);
+        uiBackground.setOrigin(0);
+        uiLayer.add(uiBackground);
+        scene.posGaText = scene.add.text(posX, posY, wordPairs[0].posGa, textStyle).setOrigin(0.5);
+        scene.negGaText = scene.add.text(negX, negY, wordPairs[0].negGa, textStyle).setOrigin(0.5);
+        uiLayer.add(scene.posGaText);
+        uiLayer.add(scene.negGaText);
+        uiLayer.add(uiBackground);
+                // Add a background rectangle to the UI layer
+    
+       
+        
         // Set up click handlers for text objects
         scene.posGaText.setInteractive();
         scene.negGaText.setInteractive();
@@ -108,6 +134,14 @@ const PhaserGame = () => {
         // scene.cameras.main.startFollow(player);
         // Rotate the camera by 45 degrees
         scene.cameras.main.setRotation(Math.PI / 4);
+           // Set rotation individually for each UI element to counteract camera rotation
+
+
+        // scene.cameras.main.setSize(2000,2000);
+        uiLayer.children.iterate(child => {
+            child.setScrollFactor(0);
+            child.setRotation(-scene.cameras.main.rotation);
+        });
     }
 
     function handleWrongAnswer(scene) {
@@ -153,6 +187,7 @@ useEffect(() => {
             create: create,
             update: update,
         },
+        
     };
 
     const game = new Phaser.Game(config);
