@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
-import './chess-like.css'
+import './chess-like.css';
+
 const PhaserGame = () => {
-  
+    let player; // Player sprite
+
     function moveOnToNextWordPair(scene) {
         // Logic to move to the next word pair
         currentWordPairIndex++;
@@ -20,8 +22,41 @@ const PhaserGame = () => {
         }
     }
 
+    function update() {
+        if (this && this.cameras && this.cameras.main) {
+            // Scroll the camera down slowly
+            this.cameras.main.scrollY += 0.5; // Adjust the scrolling speed as needed
+            this.cameras.main.scrollX += 0.5; // Adjust the scrolling speed as needed
+        
+        console.log('Update function called');
+        }
+    }
     function create() {
         const scene = this; // Store the scene object
+        const containerRect = phaserGameRef.current.getBoundingClientRect();
+        const containerWidth = containerRect.width;
+        const containerHeight = containerRect.height;
+
+        // Define grid dimensions
+        const gridSize = 100;
+        const squareSize = 64;
+
+        // Create gameboard
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                const x = (i + 0.5) * squareSize;
+                const y = (j + 0.5) * squareSize;
+                const square = scene.add.rectangle(x, y, squareSize, squareSize, 0x008000);
+                square.setStrokeStyle(1, 0xffffff);
+            }
+        }
+
+        // Create player graphic
+        const playerSize = squareSize * 0.8; // Adjust player size relative to square size
+        const playerX = (gridSize / 2 + 0.5) * squareSize;
+        const playerY = (gridSize / 2 + 0.5) * squareSize;
+        player = scene.add.rectangle(playerX, playerY, playerSize, playerSize, 0xff0000);
+
         let hearts = 3; // Initialize hearts
         scene.heartSprites = []; // Array to store heart sprites
     
@@ -31,58 +66,63 @@ const PhaserGame = () => {
             fontFamily: 'Arial',
             color: '#ffffff',
         };
-     // Create text objects and store references
-     scene.posGaText = scene.add.text(100, 100, wordPairs[0].posGa, textStyle);
-     scene.negGaText = scene.add.text(100, 150, wordPairs[0].negGa, textStyle);
-   
-     // Set up click handlers for text objects
-     scene.posGaText.setInteractive();
-     scene.negGaText.setInteractive();
-   
-     scene.posGaText.on('pointerdown', () => {
-         if (localStorage.getItem('chosenPuca') === '1') {
-             console.log('Correct answer!');
-         } else {
-             handleWrongAnswer(scene);
-         }
-         // Wait for 1 second before moving to the next word pair
-         setTimeout(() => {
-             moveOnToNextWordPair(scene);
-         }, 1000);
-     });
-   
-     scene.negGaText.on('pointerdown', () => {
-         if (localStorage.getItem('chosenPuca') !== '1') {
-             console.log('Correct answer!');
-         } else {
-             handleWrongAnswer(scene);
-         }
-         // Wait for 1 second before moving to the next word pair
-         setTimeout(() => {
-             moveOnToNextWordPair(scene);
-         }, 1000);
-     });
+        // Create text objects and store references
+        scene.posGaText = scene.add.text(100, 100, wordPairs[0].posGa, textStyle);
+        scene.negGaText = scene.add.text(320, 100, wordPairs[0].negGa, textStyle);
 
-     // Create heart sprites
-     for (let i = 0; i < hearts; i++) {
-         let heartSprite = scene.add.sprite(20 + i * 30, 20, 'heart').setScale(0.1); // Adjust position and scale as needed
-         scene.heartSprites.push(heartSprite);
-     }
- }
+        // Set up click handlers for text objects
+        scene.posGaText.setInteractive();
+        scene.negGaText.setInteractive();
 
- function handleWrongAnswer(scene) {
-    // Decrease hearts
-    scene.hearts--;
-    // Remove last heart sprite
-    let removedHeart = scene.heartSprites.pop();
-    removedHeart.destroy();
-    // Check if player is out of hearts
-    if (scene.hearts === 0) {
-        // Redirect to game over screen
-        // Replace '/gameOver' with your actual game over route
-        window.location.href = '/gameOver';
+        scene.posGaText.on('pointerdown', () => {
+            if (localStorage.getItem('chosenPuca') === '1') {
+                console.log('Correct answer!');
+            } else {
+                handleWrongAnswer(scene);
+            }
+            // Wait for 1 second before moving to the next word pair
+            setTimeout(() => {
+                moveOnToNextWordPair(scene);
+            }, 1000);
+        });
+
+        scene.negGaText.on('pointerdown', () => {
+            if (localStorage.getItem('chosenPuca') !== '1') {
+                console.log('Correct answer!');
+            } else {
+                handleWrongAnswer(scene);
+            }
+            // Wait for 1 second before moving to the next word pair
+            setTimeout(() => {
+                moveOnToNextWordPair(scene);
+            }, 1000);
+        });
+
+        // Create heart sprites
+        for (let i = 0; i < hearts; i++) {
+            let heartSprite = scene.add.sprite(20 + i * 30, 20, 'heart').setScale(0.1); // Adjust position and scale as needed
+            scene.heartSprites.push(heartSprite);
+        }
+
+        // Set camera to follow the player
+        // scene.cameras.main.startFollow(player);
+        // Rotate the camera by 45 degrees
+        scene.cameras.main.setRotation(Math.PI / 4);
     }
-}
+
+    function handleWrongAnswer(scene) {
+        // Decrease hearts
+        scene.hearts--;
+        // Remove last heart sprite
+        let removedHeart = scene.heartSprites.pop();
+        removedHeart.destroy();
+        // Check if player is out of hearts
+        if (scene.hearts === 0) {
+            // Redirect to game over screen
+            // Replace '/gameOver' with your actual game over route
+            window.location.href = '/gameOver';
+        }
+    }
 
     let currentWordPairIndex = 0;
     
@@ -92,32 +132,44 @@ const PhaserGame = () => {
         this.load.image('heart', './phaser-resources/images/heart.png');
     }
 
-    useEffect(() => {
-        const container = phaserGameRef.current;
-        const containerRect = container.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-        const containerHeight = containerRect.height;
+useEffect(() => {
+    // Define the update function
 
-        const config = {
-            type: Phaser.AUTO,
+    const container = phaserGameRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+
+    const config = {
+        type: Phaser.AUTO,
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
             width: containerWidth,
             height: containerHeight,
-            parent: phaserGameRef.current,
-            scene: {
-                preload: preload,
-                create: create,
-            },
-        };
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update,
+        },
+    };
 
-        const game = new Phaser.Game(config);
+    const game = new Phaser.Game(config);
 
+    // Automatically call the update function during the game loop
+    game.events.on(Phaser.Core.Events.POST_UPDATE, update);
 
-        
-        return () => {
-            // Cleanup code if needed
-            game.destroy(true);
-        };
-    }, []);
+    // Cleanup code
+    return () => {
+        // Stop calling the update function during the game loop
+        game.events.off(Phaser.Core.Events.POST_UPDATE, update);
+
+        // Cleanup Phaser game instance
+        game.destroy(true);
+    };
+}, []);
+
 
     return <div className='chess-like-1' ref={phaserGameRef}></div>;
 };
