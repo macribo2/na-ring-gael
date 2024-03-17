@@ -101,7 +101,7 @@ export default function Rings3(props) {
 		`casann an fáinne`,
 		`lasann an fáinne`,			
 		`	`,
-		`Imir`,
+		`imir`,
 		`le filleadh go hÉireann`,
 		`le filleadh go hÉireann`,	
 		`le filleadh go hÉireann`,	
