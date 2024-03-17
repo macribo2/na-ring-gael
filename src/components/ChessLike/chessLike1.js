@@ -25,8 +25,8 @@ const PhaserGame = () => {
     function update() {
         if (this && this.cameras && this.cameras.main) {
             // Scroll the camera down slowly
-            this.cameras.main.scrollY += 0.5; // Adjust the scrolling speed as needed
-            this.cameras.main.scrollX += 0.5; // Adjust the scrolling speed as needed
+            this.cameras.main.scrollY -= 0.5; // Adjust the scrolling speed as needed
+            this.cameras.main.scrollX -= 0.5; // Adjust the scrolling speed as needed
         
         console.log('Update function called');
         }
@@ -55,7 +55,7 @@ const PhaserGame = () => {
     // Create UI layer group
        // Create UI layer group
        const uiLayerX = 0; // Adjust these values as needed
-       const uiLayerY = 0; // Adjust these values as needed
+       const uiLayerY = 320; // Adjust these values as needed
        const uiLayerWidth = containerWidth / 3;
        const uiLayerHeight = containerHeight;
        const uiLayer = scene.add.group({
@@ -80,9 +80,9 @@ const PhaserGame = () => {
             fontFamily: 'Arial',
             color: '#ffffff',
         };
-        const posX = 100;
+        const posX =uiLayerX + uiLayerWidth + 20;;
         const posY = 100;
-        const negX = 320;
+        const negX = uiLayerX + uiLayerWidth + 20;
         const negY = 100;
         const uiBackground = scene.add.rectangle(uiLayerX, uiLayerY, uiLayerWidth, uiLayerHeight, 0x0000ff);
         uiBackground.setOrigin(0);
@@ -136,7 +136,9 @@ const PhaserGame = () => {
         scene.cameras.main.setRotation(Math.PI / 4);
            // Set rotation individually for each UI element to counteract camera rotation
 
-
+           uiBackground.setX(uiLayerX);
+           scene.posGaText.setX(posX + uiLayerX);
+           scene.negGaText.setX(negX + uiLayerX);
         // scene.cameras.main.setSize(2000,2000);
         uiLayer.children.iterate(child => {
             child.setScrollFactor(0);
