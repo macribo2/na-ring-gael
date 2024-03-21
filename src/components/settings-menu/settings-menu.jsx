@@ -17,7 +17,6 @@ import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
 import deepBlue from '../../audio/Three Red Hearts - Deep Blue.ogg'
 import GDPR from '../gdpr/gdpr';
-import Narrative0 from '../Narrative0/Narrative0';
 let lyricID = 0;
 
 
@@ -93,23 +92,14 @@ export default function SettingsMenu(props) {
 		setShowHist(true);
 		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
 	  };
-	
+
 	  const handleBeginClick = () => {
 		// Handle 'begin' button click
 		props.handleInputSelect('begin');
 		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
 	  };
 	  // Define props to pass to the Narrative0 component
-  const chosenHero = "Douglas_Hyde"; // Example chosen hero
-  const dialogueData = {
-    // Example dialogue data
-    "Douglas_Hyde": {
-      "eng0": "English dialogue for Douglas Hyde",
-      "gae0": "Irish dialogue for Douglas Hyde"
-      // Add more dialogue entries as needed
-    }
-    // Add dialogue data for other heroes
-  };
+
 
 	const [showHistory, setShowHist] = useState(0);
 	let toggleIsOn = props.toggleIsOn
@@ -214,7 +204,6 @@ let randLights = Math.floor(Math.random * 8)
 			>begin</button>
 <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
 
-	 <Narrative0 /> 
 
 <GDPR/>
 		</div>

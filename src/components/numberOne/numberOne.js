@@ -61,6 +61,7 @@ import aa57 from '../../images/champions/57.png'
 import aa58 from '../../images/champions/58.png'
 import aa59 from '../../images/champions/59.png'
 import { Rings4 } from '../Rings/Rings4'
+import  Narrative0 from '../Narrative0/Narrative0'
 import './no-one.css';
 import skybg from '../../images/blinding-light-county.jpg'
 import fields2 from '../../images/empty.png'
@@ -1507,8 +1508,9 @@ render()
 
 			</div>	
 				 </div>
+				 <Narrative0  /> 
 	
-				 <Rings4   heroName={this.props.heroName} heroNameEng={ this.props.heroNameEng} toggleIsOn={this.props.toggleIsOn} isOn={this.props.isOn} proceedThroughQuiz={this.props.proceedThroughQuiz } fadeOutNoOne={ this.fadeOutNoOne } />
+				 {/* <Rings4   heroName={this.props.heroName} heroNameEng={ this.props.heroNameEng} toggleIsOn={this.props.toggleIsOn} isOn={this.props.isOn} proceedThroughQuiz={this.props.proceedThroughQuiz } fadeOutNoOne={ this.fadeOutNoOne } /> */}
 				 
 			 </>
 

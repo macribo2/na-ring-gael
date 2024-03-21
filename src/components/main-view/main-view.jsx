@@ -503,6 +503,7 @@ if (score === 1){
 				elem.style.top = pos + 'px'; 
 				// elem.style.left = pos + 'px'; 
 			  }}
+			  localStorage.setItem('portrait', value * 10);
 			}
 		  }
 		myMove();  
