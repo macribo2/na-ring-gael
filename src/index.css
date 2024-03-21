@@ -1188,6 +1188,7 @@ width: 100%;
 
 
 .dial-text, #pO  {
+
   
   position: fixed;
   z-index: 995;
@@ -1253,6 +1254,8 @@ position: fixed;
 }
 .sparkles{
   z-index: 10;
+/*  */
+top:-50%;
 }
 #lens {
 position: relative;

@@ -26,7 +26,10 @@ const Narrative0 = () => {
     }, []); 
 
     return (
+        <>
+
         <div id="narrative-container"></div>
+        </>
     );
 };
 
@@ -36,6 +39,8 @@ class GameScene extends Phaser.Scene {
         this.textGa = null;
         this.textEn = null;
         this.narrativeTracker = 0; // Initial value for narrativeTracker
+        this.hero = localStorage.getItem('portrait')
+
     }
 
     preload() {
@@ -50,17 +55,31 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        this.hero = parseInt(this.hero); // Convert to a number
+
+        switch(this.hero){
+            case 0: this.hero= "Niamh"; break;
+            case 1: this.hero= "Niamh"; break;
+            case 2: this.hero= "Douglas_Hyde"; break;
+            case 3: this.hero= "Oisin"; break;
+            case 4: this.hero= "Sirriam"; break;
+            case 5: this.hero= "Mug_Ruith"; break;
+            case 6: this.hero= "Abhartach"; break;
+            case 7: this.hero= "Fionn"; break;
+            case 8: this.hero= "Pooka"; break;
+            case 9: this.hero= "Fand"; break;
+            default: this.hero= "Niamh"; break;
+        }
         const narrative0 = this.cache.json.get('narrative0');
         if (narrative0) {
-            const firstGaText = narrative0[0].Niamh.gae0;
-            const firstEnText = narrative0[0].Niamh.eng0;
-            this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff', fontFamily: 'aonchlo' });
-            this.textEn = this.add.text(380, 328, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
+            const firstGaText = narrative0[0][this.hero].gae0;
+            const firstEnText = narrative0[0][this.hero].eng0;
+            this.textGa = this.add.text(30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'aonchlo' });
+            this.textEn = this.add.text(30, 200, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
             this.textGa.setFontSize(30);
-            this.textGa.setOrigin(0.5);
+            // this.textGa.setOrigin(0);
             this.textGa.setDepth(19);
             this.textEn.setFontSize(24);
-            this.textEn.setOrigin(0.5);
             this.textEn.setDepth(19);
         } else {
             console.error('narrative data is empty or not loaded correctly.');
@@ -90,9 +109,22 @@ class GameScene extends Phaser.Scene {
             this.updateText(); // Call updateText() when buttonUp is clicked
         });
         
-        this.buttonDown.on('pointerdown', () => this.updateNarrativeTracker('decrement'));
-        this.buttonLeft.on('pointerdown', () => this.updateNarrativeTracker('decrement'));
-        this.buttonRight.on('pointerdown', () => this.updateNarrativeTracker('increment'));
+
+        this.buttonDown.on('pointerdown', () => {
+            this.updateNarrativeTracker('decrement');
+            this.updateText(); // Call updateText() when buttonUp is clicked
+        });
+        
+        this.buttonLeft.on('pointerdown', () => {
+            this.updateNarrativeTracker('decrement');
+            this.updateText(); // Call updateText() when buttonUp is clicked
+        });
+        
+        this.buttonRight.on('pointerdown', () => {
+            this.updateNarrativeTracker('increment');
+            this.updateText(); // Call updateText() when buttonUp is clicked
+        });
+        
     }
 
     toggleOverlay() {
@@ -108,8 +140,8 @@ class GameScene extends Phaser.Scene {
             console.log('Narrative0:', narrative0); // Check if the JSON data is loaded correctly
     
             // Check if narrativeTracker is within the expected range
-            if (this.narrativeTracker >= 0 && this.narrativeTracker <= 5) {
-                const currentNarrative = narrative0.Niamh; // Assuming Niamh is always present
+            if (this.narrativeTracker >= 0 && this.narrativeTracker < 7) {
+                const currentNarrative = narrative0[this.hero]; //
                 console.log('Current Narrative:', currentNarrative); // Check the current narrative data
     
                 // Construct the keys based on the narrativeTracker value
@@ -135,7 +167,7 @@ class GameScene extends Phaser.Scene {
     
 updateNarrativeTracker(direction) {
     if (direction === 'increment') {
-        this.narrativeTracker = Math.min(5, this.narrativeTracker + 1); // Ensure narrativeTracker does not exceed 5
+        this.narrativeTracker = Math.min(6, this.narrativeTracker + 1); // Ensure narrativeTracker does not exceed 5
     } else if (direction === 'decrement') {
         this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
     }
