@@ -84,8 +84,8 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('panel-niamh-0', './phaser-resources/spéirbhean0.png');
-        this.load.image('panel-molly-0', './phaser-resources/draoi.gif');
+        this.load.image('panel-niamh-0', './phaser-resources/images/players/spéirbhean0.png');
+        this.load.image('panel-molly-0', './phaser-resources/images/players/draoi0.gif');
         this.load.json('narrative0', './phaser-resources/text/narrative0.json');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -98,9 +98,9 @@ class GameScene extends Phaser.Scene {
     
     create() {
         
-        this.hero = parseInt(this.hero); // Convert to a number
-        this.graphics = this.add.image(50, 50, 'panel-molly-0').setOrigin(0, 0);
-        
+        this.hero = parseInt(this.hero); // Convert to a numbert
+        this.updateNarrativeTracker();
+
         switch(this.hero){
             case 0: this.hero= "Niamh"; break;
             case 1: this.hero= "Niamh"; break;
@@ -187,6 +187,16 @@ updateNarrativeTracker(direction) {
         this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
     }
     console.log('Narrative Tracker:', this.narrativeTracker);
+
+    if (this.narrativeTracker === 0) {
+        // Show the image
+        this.graphics = this.add.image(10, 150, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true);
+   
+    } else {
+        // Hide the image
+        this.graphics.setVisible(false);
+    }
+    
     // Now you can use this.narrativeTracker to update the text or any other functionality based on the current narrative index
 }
 
