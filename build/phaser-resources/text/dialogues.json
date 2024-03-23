@@ -1,52 +1,52 @@
 [
-      {
-        "id": "l0",
-        "text": {
-          "en": "Soe that the speach being Irish",
-          "ga": " De bharr \n cainnt \n i nGaeilge"
-        }
-      },
-    {
-      "id": "l1",
-      "text": {
-        "en": "the hart must \n  needes be Irishe",
-        "ga": " Caithfaidh \n an croí \n a bheith \n Gaelach"
-      }
-    },
-    {
-      "id": "l2",
-      "text": {
-        "en": "for out of the aboundance of the hart",
-        "ga": " Mar, \n ó neart \n na croíthe"      }
+  {
+    "id": "l0",
+    "text": {
+      "en": "Here I am,\ndreaming once more",
+      "ga": "Anseo atá mé,\nag taidhbhreadh \narís"
     }
-    ,
-    {
-      "id": "l3",
-      "text": {
-        "en": "the tonge speaketh.",
-        "ga": "labhraíonn \n teanga."
-      }
+  },
+{
+  "id": "l1",
+  "text": {
+    "en": "in the depths of my imagination",
+    "ga": "i lúbra \nmo shamhlaíocht"
+  }
+},
+{
+  "id": "l2",
+  "text": {
+    "en": "every street, every corner, familiar, distant",
+    "ga": " gach sráid, \ngach cúinne,\ncairdiúil, sia"      }
+}
+,
+{
+  "id": "l3",
+  "text": {
+    "en": "I walk the town \nin peace when",
+    "ga": "siúlaim an baile\n i suain núair"
+  }
+},
+ {
+    "id": "l4",
+    "text": {
+      "en": "I see the sparks\nas from flint \nof a horses hoofs on the road",
+      "ga": "teine chreasa!"
+    }
+  },
+  {
+    "id": "l5",
+    "text": {
+      "en": "Call the wind\nand saddle up!",
+      "ga": "Glaoigh ar an \nngaoth agus\nmarcaigh an púca!"
+    }
     },
-     {
-        "id": "l4",
-        "text": {
-          "en": "",
-          "ga": ""
-        }
-      },
-      {
-        "id": "l5",
-        "text": {
-          "en": "Black Molly plays a pair of Pooka!",
-          "ga": "Imríonn \n Mallaidh Dubh \n péire Púca!"
-        }
-        },
-        {
-          "id": "l6",
-          "text": {
-            "en": "Choose!",
-            "ga": "Roghnaigh!"
-          }}
-        
-        
-  ]
+    {
+      "id": "l6",
+      "text": {
+        "en": "...",
+        "ga": "..."
+      }}
+    
+    
+]

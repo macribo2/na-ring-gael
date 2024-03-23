@@ -13,6 +13,8 @@ import BallyTown from './components/BallyTown/BallyTown';
 import BallyNeo from './components/BallyNeo/BallyNeo';
 import BallyMurphius from './components/BallyMurphius/BallyMurphius';
 
+import {Rings4} from './components/Rings/Rings4';
+
 const ChessLikeWrapper = () => {
   const [shouldRefresh, setShouldRefresh] = useState(false);
 
@@ -39,6 +41,7 @@ const ChessLikeWrapper = () => {
 
           )}
            />
+      <Route path="/rings4" component={Rings4 } />
       <Route path="/gameOver" component={GameOver} />
       <Route path="/ballygamboy" component={BallyGamBoy} />
       <Route path="/ballygamboat" component={BallyGamBoat} />

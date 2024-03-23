@@ -1,49 +1,91 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import './narrative.css';
 
 const Narrative0 = () => {
     const gameRef = useRef(null);
-
     useEffect(() => {
         const initializeGame = () => {
-            const config = {
+            const gameConfig = {
                 type: Phaser.AUTO,
                 width: window.innerWidth,
                 height: window.innerHeight,
-                scene: [GameScene],
-                parent: 'narrative-container'
+                parent: 'narrative-container',
+                scene: [GameScene] // Add GameScene to the game's scenes
             };
-            gameRef.current = new Phaser.Game(config);
+            const gameInstance = new Phaser.Game(gameConfig);
+            gameRef.current = new Phaser.Game(gameConfig);
         };
         initializeGame();
-
-        return () => {
-            if (gameRef.current) {
-                gameRef.current.destroy(true);
-            }
-        };
-    }, []); 
-
+    
+        // Other code...
+    }, []);
+    
     return (
-        <>
-
-        <div id="narrative-container"></div>
-        </>
+        <div id="narrative-container">
+        </div>
     );
 };
 
 class GameScene extends Phaser.Scene {
-    constructor() {
+    constructor(props) {
         super({ key: 'GameScene' });
+        this.narrativeTracker = 0;
         this.textGa = null;
         this.textEn = null;
-        this.narrativeTracker = 0; // Initial value for narrativeTracker
-        this.hero = localStorage.getItem('portrait')
+        this.hero = localStorage.getItem('portrait');
+        this.graphics = null; // Store reference to graphics
+            // Bind updateText method to the current instance of GameScene
+    this.updateText = this.updateText.bind(this);
 
+    }
+    updateText = ()=> {
+        if (this.narrativeTracker === 6) {
+            window.location.href = "https://www.na-ring-gael.com/rings4";
+        
+            // Access the scene directly from the Phaser game instance
+            const narrative0 = this.gameRef.current.scene.getScene('Narrative0');
+            if (narrative0) {
+            } else {
+                console.error('GameScene not found.');
+            }
+        }
+
+        // Retrieve the current dialogue based on the narrativeTracker
+        const narrativeData = this.cache.json.get('narrative0');
+    
+        // Check if narrativeData is an array and not empty
+        if (Array.isArray(narrativeData) && narrativeData.length > 0) {
+            const narrative0 = narrativeData[0]; // Extract the first object from the array
+            console.log('Narrative0:', narrative0); // Check if the JSON data is loaded correctly
+    
+            // Check if narrativeTracker is within the expected range
+            if (this.narrativeTracker >= 0 && this.narrativeTracker < 7) {
+                const currentNarrative = narrative0[this.hero]; //
+                console.log('Current Narrative:', currentNarrative); // Check the current narrative data
+    
+                // Construct the keys based on the narrativeTracker value
+                const key = `gae${this.narrativeTracker}`;
+    
+                // Check if the currentNarrative and the key are defined
+                if (currentNarrative && currentNarrative[key]) {
+                    // Update the gaText and enText with the new dialogue text
+                    this.textGa.setText(currentNarrative[key]);
+                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]); // Replace 'gae' with 'eng'
+                } else {
+                    console.error(`No dialogue found for key: ${key}`);
+                }
+            } else {
+                console.error(`narrativeTracker value (${this.narrativeTracker}) is out of range.`);
+            }
+        } else {
+            console.error('narrativeData is empty or not loaded correctly.');
+        }
     }
 
     preload() {
+        this.load.image('panel-niamh-0', './phaser-resources/spéirbhean0.png');
+        this.load.image('panel-molly-0', './phaser-resources/draoi.gif');
         this.load.json('narrative0', './phaser-resources/text/narrative0.json');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -53,10 +95,12 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
     }
-
+    
     create() {
+        
         this.hero = parseInt(this.hero); // Convert to a number
-
+        this.graphics = this.add.image(50, 50, 'panel-molly-0').setOrigin(0, 0);
+        
         switch(this.hero){
             case 0: this.hero= "Niamh"; break;
             case 1: this.hero= "Niamh"; break;
@@ -125,43 +169,14 @@ class GameScene extends Phaser.Scene {
             this.updateText(); // Call updateText() when buttonUp is clicked
         });
         
-    }
 
+    }
+   
     toggleOverlay() {
         this.overlay.setVisible(!this.overlay.visible);
     }
-    updateText() {
-        // Retrieve the current dialogue based on the narrativeTracker
-        const narrativeData = this.cache.json.get('narrative0');
-    
-        // Check if narrativeData is an array and not empty
-        if (Array.isArray(narrativeData) && narrativeData.length > 0) {
-            const narrative0 = narrativeData[0]; // Extract the first object from the array
-            console.log('Narrative0:', narrative0); // Check if the JSON data is loaded correctly
-    
-            // Check if narrativeTracker is within the expected range
-            if (this.narrativeTracker >= 0 && this.narrativeTracker < 7) {
-                const currentNarrative = narrative0[this.hero]; //
-                console.log('Current Narrative:', currentNarrative); // Check the current narrative data
-    
-                // Construct the keys based on the narrativeTracker value
-                const key = `gae${this.narrativeTracker}`;
-    
-                // Check if the currentNarrative and the key are defined
-                if (currentNarrative && currentNarrative[key]) {
-                    // Update the gaText and enText with the new dialogue text
-                    this.textGa.setText(currentNarrative[key]);
-                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]); // Replace 'gae' with 'eng'
-                } else {
-                    console.error(`No dialogue found for key: ${key}`);
-                }
-            } else {
-                console.error(`narrativeTracker value (${this.narrativeTracker}) is out of range.`);
-            }
-        } else {
-            console.error('narrativeData is empty or not loaded correctly.');
-        }
-    }
+  
+
     
     
     
