@@ -7,6 +7,8 @@ import lensCap2 from '../../images/About1/ring2b.png';
 import empty from '../../images/empty.png';
 import ReactAudioPlayer from 'react-audio-player';
 import './rings1.css'
+import emerald from '../../images/misc_crystal_new.png'
+import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
@@ -128,7 +130,6 @@ import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
 import westmeath from '../../images/gifs/stones-bg.gif'
 
-import leonLishnerAndFriends from '../../audio/Leon Lishner and Friends edit.ogg';
 // const [playerDetails, setPlayerDetails] = useState({
 //     // Initialize with default values or whatever makes sense for your app
 //     playerName: 'DefaultPlayer',
@@ -152,7 +153,7 @@ export function Rings4(props) {
 	  // Other properties of playerSheet
 	});
 	let hname;
-
+	let isOn = props.isOn
 	const prevHnameRef = useRef();
 
 	useEffect(() => {
@@ -247,12 +248,7 @@ export function Rings4(props) {
 	}
   }
   
-  //   shuffle(namesInEnglish,namesInIrish);
-  // for (let i = 0; i < namesInIrish.length; i++) {
-	// 	console.log(namesInIrish[i]+ '    ' +namesInEnglish[i]);
-		
-	// }
-	// console.log("<<<<<>>>>>");
+
 	function buttonMashClick() {
 	}
 
@@ -1387,9 +1383,11 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
 </button>
   </div>
 
-);
+
 <img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
 {/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
+<button id="pearl"  onClick={props.toggleIsOn
+			}	><img src={isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 	
 	</>
 			);
