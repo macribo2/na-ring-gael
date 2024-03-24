@@ -189,7 +189,6 @@ export function Rings4(props) {
 
  
 	function hideText() { 
-		// alert();
 	}
 	let ogHero = localStorage.getItem('portrait') 
 
@@ -621,7 +620,6 @@ if (champID !== 25) {
 		document.querySelector(".names-i").style.display='block';
 
 		document.querySelector(".names-i").classList.add('fade-in-champ');
-		// alert();
 	} 
 	
 
@@ -1272,7 +1270,6 @@ if (rng === 2) {
 	
 function handlePearl() {
 	const namesE = document.querySelector(".names-e");
-    
     // Check if the element exists
     if (namesE) {
         // Toggle the display value between 'none' and 'block'
@@ -1307,9 +1304,15 @@ return (
 			</>
 			:null }
 			
-			<img src={opponent1} className="og-opponent" alt="opponent portrait" />
-			
-			<img src={ogHero === "1" ?  avatar1  : empty} className="og-hero"  alt="hero portrait"/>
+			<div className="image-container">
+  <img src={opponent1} className="og-opponent" alt="opponent portrait" />
+  <div className="button-container"onClick={handlePearl}>
+    <button id="pearl" className='bob'>
+      <img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
+    </button>
+  </div>
+	
+  <img src={ogHero === "1" ?  avatar1  : empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "2" ? avatar2 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "3" ? avatar3 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "4" ? avatar4 :empty} className="og-hero"  alt="hero portrait"/>
@@ -1319,23 +1322,18 @@ return (
 			<img src={ogHero === "8" ? avatar8 :empty} className="og-hero"  alt="hero portrait"/>
 			<img src={ogHero === "9" ? avatar9 :empty} className="og-hero"  alt="hero portrait"/>
 	
-			
-		  <p className="names-e">
-		{ namesInEnglish[ Math.floor(value * 100) + round.current * 100]}	
-		</p>
+</div>
+<p className="names-e">
+  {namesInEnglish[Math.floor(value * 100) + round.current * 100]}
+</p>
+<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
+  {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+</p>
+<div className="input-elements-container-5"></div>
+<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+  {/* Rest of your JSX */}
+</div>
 	
-
-			<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
-						{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-		</p>		
-		
-	
-	
-		<div className="input-elements-container-5">
-					
-		
-		  </div>
-	  		
 		  <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
     {/* lens-cap elements */}
     <img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
@@ -1389,11 +1387,10 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
 </button>
   </div>
 
-``
+
 <img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
 {/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
-<button id="pearl"  
-onClick={handlePearl} className='bob'	><img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
+
 	
 	</>
 			);
