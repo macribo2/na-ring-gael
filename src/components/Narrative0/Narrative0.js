@@ -41,7 +41,7 @@ class GameScene extends Phaser.Scene {
     }
     updateText = ()=> {
         if (this.narrativeTracker === 6) {
-            window.location.href = "https://www.na-ring-gael.com/rings4";
+            window.location.replace = "https://www.na-ring-gael.com/rings4";
         
             // Access the scene directly from the Phaser game instance
             const narrative0 = this.gameRef.current.scene.getScene('Narrative0');
@@ -202,27 +202,27 @@ updateNarrativeTracker(direction) {
     
     switch (this.narrativeTracker) {
         case 0:
-            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
-            break;
+            this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+            break; 
         case 1:
-            this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+            this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
             break;
 
         case 2:
-            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+            this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
             break;
 
             case 3:
-                this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+                this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
                 break;
                 case 4:
-                    this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                    this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
                     break;
                     case 5:
-                        this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+                        this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
                         break;
                         case 6:
-                            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                            this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setDepth(-1);
                             break;
                                         
 

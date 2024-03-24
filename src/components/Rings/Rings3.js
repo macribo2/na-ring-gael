@@ -140,7 +140,7 @@ export default function Rings3(props) {
 		setTimeout(function () {
 			
 		 },200)
-	document.getElementById('pearl').style.animation="none"
+	document.getElementById('settings-pearl').style.animation="none"
 	}
 
 
@@ -280,6 +280,9 @@ export default function Rings3(props) {
 					<img className={value * 10 === 3 ? 'bright-out' : 'hidden'} src={lasta} alt="a circle of bright light."/>
 			</div>
 			
+
+
+
 				
 				<div className="input-elements-container4">
 
@@ -344,7 +347,7 @@ export default function Rings3(props) {
 			</div>
 <p className='rings1' >{Ring3Ans[value * 10]}</p>
 			
-			<button id="pearl"  onClick={props.toggleIsOn
+			<button id="settings-pearl"  onClick={props.toggleIsOn
 			} onTouchEnd={ endAnimation}	><img src={isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 			
 			</>)

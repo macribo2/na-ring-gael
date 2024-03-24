@@ -47,7 +47,7 @@ const BallyGamboyGame = () => {
         <>
             <div id="ballygamboy-game-container"></div>;
             <div className="chess-like-frame-container">
-                <img src={molly} className="og-opponent molly wait-and-fade" alt="black molly" />
+                {/* <img src={molly} className="molly" alt="black molly" /> */}
                 {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
             </div>
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>

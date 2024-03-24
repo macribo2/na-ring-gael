@@ -1,17 +1,17 @@
 [{
    "Niamh":{
-      "gae0":"Mallaidh Dubh:\nA Níamh Cínn-Óir,\nbanphrionsa Tír na nÓg,\ntá droch-scéal agam",
-      "eng0":"Black Molly:\nNíamh Cínn-Óir,\nprincess of Tír na nÓg,\nI bear dire tidings",
+      "gae0":"Mallaidh Dubh:\nA Níamh Cínn-Óir,\nbanphrionsa Tír na nÓg,\na chara",
+      "eng0":"Black Molly:\nNíamh Cínn-Óir,\nprincess of Tír na nÓg,\n o friend",
       "gae1":"Níamh Cínn-Óir:\nMallaidh Dubh, abair liom, \n cad atá cearr?",
       "eng1":"Níamh Cínn-Óir: \nBlack Molly, tell me, \n what is wrong?",
-      "gae2":"Mallaidh Dubh:\nThuaras na draoithe",
-      "eng2":"Black Molly: \nAn omen of the druids",
-      "gae3":"Níamh Cínn-Óir:\n Drochrath? Éadóchas? Ainmnaigh áɼ naimhead.",
+      "gae2":"Mallaidh Dubh:\nDroch thuaras na draoithe",
+      "eng2":"Black Molly: \nA bad omen of the druids",
+      "gae3":"Níamh Cínn-Óir:\n Drochrath? Éadóchas?\nAinmnaigh áɼ naimhead.",
       "eng3":"Níamh Cínn-Óir:\n Doom? Despair? \nName our enemy.",
-      "gae4":"Mallaidh Dubh: \nIronkey a thugtar ar.\nSluaighte mheaisíní arrachach leis.\n",
-      "eng4":"Black Molly: \n'His name is Ironkey. \nLegions of monsterous machines, with him.",
-      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar. Ach ar dtús\n bailaigh na Fíanna.",
-      "eng5":"Níamh Cínn-Óir: \nI will face him myself.\nBut first, let us gather defenders."
+      "gae4":"Mallaidh Dubh: \nIronkey a thugan sé ar féin.\nLord, a glaonn slúite ar.\n",
+      "eng4":"Black Molly: \n'Ironkey, he calls himself. \nLegions call him Lord.",
+      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar. Ach ar dtús\n an cosaint.",
+      "eng5":"Níamh Cínn-Óir: \nI will face him myself.\nBut first, the defence."
       ,"gae6":"...",
       "eng6":"..."
   
@@ -109,7 +109,7 @@
         "eng3":"Fionn:We must.",
         "gae4":"Mallaidh Dubh:\n'b ea?",
         "eng4":"Black Molly:\nis it so?",
-        "gae5":"Fionn:\n's ea.'",
+        "gae5":"Fionn:\n's ea.",
         "eng5":"Fionn:\nit is so."
         ,"gae6":"...",
         "eng6":"..."

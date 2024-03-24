@@ -1,45 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import './gdpr.css';
+const CookiesConsent = () => {
+  const [consentGiven, setConsentGiven] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-const GDPR = () => {
-//   // State to track whether the popup should be displayed
-//   const [showPopup, setShowPopup] = useState(false);
+  // Check if user has previously given consent
+  useEffect(() => {
+    const userConsent = localStorage.getItem('cookiesConsent');
+    if (userConsent === 'true') {
+      setConsentGiven(true);
+    } else {
+      setShowModal(true);
+    }
+  }, []);
 
-//   // State to track user consent
-//   const [consentGiven, setConsentGiven] = useState(false);
-
-//   // Effect to check if user has given consent previously
-//   useEffect(() => {
-//     const userConsent = localStorage.getItem('cookieConsent');
-//     if (!userConsent) {
-//       // If no consent is found in localStorage, show the popup
-//       setShowPopup(true);
-//     }
-//   }, []);
-
-//   // Function to handle user consent
-//   const handleConsent = () => {
-//     // Set user consent in localStorage
-//     localStorage.setItem('cookieConsent', 'true');
-//     // Update state to hide the popup
-//     setConsentGiven(true);
-//     setShowPopup(false);
-  //};
+  // Function to handle user consent
+  const handleConsent = (consent) => {
+    setConsentGiven(consent);
+    setShowModal(false);
+    localStorage.setItem('cookiesConsent', consent.toString());
+  };
 
   return (
-    <>
-      {/* {showPopup && (
-        <div className="GDPR-popup">
-          <div className="GDPR-content">
-            <h2>Cookie Consent</h2>
-            <p>This website uses cookies to enhance the user experience. By clicking "Accept", you agree to our use of cookies.</p>
-            <div className="GDPR-buttons">
-              <button onClick={handleConsent}>Accept</button>
-            </div>
+    <div>
+      {showModal && (
+        <div className="cookies-modal">
+          <h2>Cookie Consent</h2>
+          <p>This website uses cookies to ensure you get the best experience.</p>
+          <div className="buttons">
+            <button className='gdpr-buttons menu' onClick={() => handleConsent(true)}>Accept</button>
+            <button className='gdpr-buttons'onClick={() => handleConsent(false)}>Decline</button>
           </div>
         </div>
-      )} */}
-    </>
+      )}
+      {/* Your app content goes here */}
+      {consentGiven && <p></p>}
+    </div>
   );
 };
 
-export default GDPR;
+export default CookiesConsent;

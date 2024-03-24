@@ -62,7 +62,7 @@
   display: none;
 }
 
-#ring-glass-btn, #pearl {
+#ring-glass-btn, #pearl, #settings-pearl {
 
   display: grid;
   justify-content: center;
@@ -81,7 +81,10 @@
   opacity: 0.5;
 
 }
-
+#settings-pearl{
+  position: fixed;
+  right: 10%;
+  bottom: 20%;}
 .button-mash-ring-0,.button-mash-ring-5, .button-mash-ring-4 {
   position: relative;
   height: 150px;
@@ -420,14 +423,15 @@ z-index: 11;
 .names-e,.numbers-e{
   font-family: Anaphora;
   position: fixed;
-  top: 33%;
-  left: 49%;
-
+  top: 44%;
+  left: 55%;
+display: none;
                 
   padding: 5px;
   opacity: 1;
 color:rgba(255, 255, 255, 0.9);
   font-size:1.8em;
+  
 }
 .lens-cap{
   animation: spin 7s linear infinite;
@@ -451,7 +455,7 @@ top:20%;
   position: fixed;
   font-family: 'aonchlo';
   color:chartreuse;
-  left:3%;
+  left:21%;
       }
 
 .in-g{
@@ -463,31 +467,20 @@ top:20%;
 
       .og-hero, .og-opponent{
         transform: scale(1);
-        /* display: block !important; */
         height: 200px;
         width: 200px; 
         position: relative;
-        /* right: 2%; */
-        /* bottom: -1%; */
+        pointer-events: none;
         z-index: 99;
+        margin-top:2%;
       }
       .og-opponent{
 transform: scaleX(-1) scale(1);
-        /* border:4px solid blue; */
       }
       .og-hero{
-        right: 20%;
+        margin-left: -8% !important;
+        ;
 
-
-      }
-      .tree{
-        /* top: -21%;
-        height: 512px;
-        width: 512px;
-        left: -11%;
-        opacity: 1;
-        transform: scale(1.1);
-        z-index: 20; */
 
       }
       
@@ -665,13 +658,11 @@ transform:scale(0.5)
   justify-content: center;
   display: flex;
   align-items: center;
-  /* border: 14px solid orange; */
 
 }
 
 .ring-text-container-5{
 
-  /* border:4px solid orange; */
   pointer-events: none;
   top:0;
   left:0;
@@ -931,14 +922,14 @@ animation: spin 60s steps(128) infinite;
 
       .image-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height:100vh;
-        width:100%;
+        /* align-items: center; */
+        height: 100vh;
+        /* width: -15%; */
         position: fixed;
- top: 0;
- left: 0;     
-z-index: 9000;
+        top: 10%;
+        left: 43%;
+        z-index: 63;
+z-index: 63;
 }
       
       .button-container {
@@ -953,11 +944,17 @@ z-index: 9000;
     left: 0;
     position: fixed;
     display: grid;
-    transform: translate(80%, 40%);
+    transform: translate(60%, 25%);
 pointer-events: all !important;
   }
       .og-hero,
       .og-opponent {
+        opacity: 0.2;
+        transform: scale(1.2);
         /* Style your images as needed */
       }
       
+      .input-elements-container-8 {
+        /* Add styles for input-elements-container-8 as needed */
+      
+      } 
