@@ -94,6 +94,7 @@ class GameScene extends Phaser.Scene {
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
+        
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
@@ -289,7 +290,7 @@ const bobTween2 = this.tweens.add({
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
    }
-      const music = this.sound.add('rabbitTown');
+      const music = this.sound.add('rabbitTown',{ loop: true });
    
       music.play();
 

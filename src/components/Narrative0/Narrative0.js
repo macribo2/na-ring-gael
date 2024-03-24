@@ -84,7 +84,16 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('panel-niamh-0', './phaser-resources/images/players/spéirbhean0.png');
+        this.load.image('Sirriam', './phaser-resources/images/players/alex.png');
+        this.load.image('Fand', './phaser-resources/images/players/poet.png');
+        this.load.image('Douglas_Hyde', './phaser-resources/images/players/douglas.png');
+        this.load.image('Pooka', './phaser-resources/images/players/pooka.png');
+        this.load.image('Fionn', './phaser-resources/images/players/fionn0.png');
+        this.load.image('Mug_Ruith', './phaser-resources/images/players/agnes_new.png');
+        this.load.image('Abhartach', './phaser-resources/images/players/diamhrai0.gif');
+        this.load.image('Oisin', './phaser-resources/images/players/fianna0.png');
+        this.load.image('Niamh', './phaser-resources/images/players/niamh0.png');
+        this.load.image('panel-molly-1', './phaser-resources/images/players/draoi.gif');
         this.load.image('panel-molly-0', './phaser-resources/images/players/draoi0.gif');
         this.load.json('narrative0', './phaser-resources/text/narrative0.json');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
@@ -187,17 +196,47 @@ updateNarrativeTracker(direction) {
         this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
     }
     console.log('Narrative Tracker:', this.narrativeTracker);
-
-    if (this.narrativeTracker === 0) {
-        // Show the image
-        this.graphics = this.add.image(10, 150, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true);
-   
-    } else {
-        // Hide the image
-        this.graphics.setVisible(false);
+    if (this.graphics) {
+        this.graphics.destroy(); // Clear previous image
     }
     
-    // Now you can use this.narrativeTracker to update the text or any other functionality based on the current narrative index
+    switch (this.narrativeTracker) {
+        case 0:
+            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+            break;
+        case 1:
+            this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+            break;
+
+        case 2:
+            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+            break;
+
+            case 3:
+                this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+                break;
+                case 4:
+                    this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                    break;
+                    case 5:
+                        this.graphics = this.add.image(100, 120, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+                        break;
+                        case 6:
+                            this.graphics = this.add.image(0, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                            break;
+                                        
+
+
+
+
+
+
+
+        default:
+            // Hide the image if narrativeTracker exceeds 6
+            this.graphics = this.add.image(10, 150, 'placeholder-image').setVisible(false); // Adjust 'placeholder-image' accordingly
+            break;
+    }    // Now you can use this.narrativeTracker to update the text or any other functionality based on the current narrative index
 }
 
 }

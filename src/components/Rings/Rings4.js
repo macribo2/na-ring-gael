@@ -9,7 +9,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import './rings1.css'
 import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
-import avatar1 from '../../images/players/spéirbhean0.png';
+import avatar1 from '../../images/players/niamh1.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
 import avatar4 from '../../images/players/alex.png';
