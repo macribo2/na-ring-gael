@@ -161,7 +161,7 @@ p {
   /* width: 400px; */
 }
 .menu-container{
-  justify-content: space-evenly;
+  justify-content: center;
   height: 50%;
   display: flex;
   align-items: center;

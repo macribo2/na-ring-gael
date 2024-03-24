@@ -1,17 +1,17 @@
 [{
    "Niamh":{
-      "gae0":"Mallaidh Dubh:\nA Níamh Cínn-Óir,\nbanphrionsa Tír na nÓg,\ntá droch-scéal agam",
-      "eng0":"Black Molly:\nNíamh Cínn-Óir,\nprincess of Tír na nÓg,\nI bear dire tidings",
+      "gae0":"Mallaidh Dubh:\nA Níamh Cínn-Óir,\nbanphrionsa Tír na nÓg,\na chara",
+      "eng0":"Black Molly:\nNíamh Cínn-Óir,\nprincess of Tír na nÓg,\n o friend",
       "gae1":"Níamh Cínn-Óir:\nMallaidh Dubh, abair liom, \n cad atá cearr?",
       "eng1":"Níamh Cínn-Óir: \nBlack Molly, tell me, \n what is wrong?",
-      "gae2":"Mallaidh Dubh:\nThuaras na draoithe",
-      "eng2":"Black Molly: \nAn omen of the druids",
+      "gae2":"Mallaidh Dubh:\nDroch thuaras na draoithe",
+      "eng2":"Black Molly: \nA bad omen of the druids",
       "gae3":"Níamh Cínn-Óir:\n Drochrath? Éadóchas?\nAinmnaigh áɼ naimhead.",
       "eng3":"Níamh Cínn-Óir:\n Doom? Despair? \nName our enemy.",
       "gae4":"Mallaidh Dubh: \nIronkey a thugan sé ar féin.\nLord, a glaonn slúite ar.\n",
       "eng4":"Black Molly: \n'Ironkey, he calls himself. \nLegions call him Lord.",
-      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar. Ach ar dtús\n an cosantóir.",
-      "eng5":"Níamh Cínn-Óir: \nI will face him myself.\nBut first, the defender."
+      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar. Ach ar dtús\n an cosaint.",
+      "eng5":"Níamh Cínn-Óir: \nI will face him myself.\nBut first, the defence."
       ,"gae6":"...",
       "eng6":"..."
   
@@ -40,7 +40,7 @@
       "gae2":"Mallaidh Dubh: \nTá dul chun cinn gan staonadh, \nag Tiarna Ironkey agus a meaisíní \nifrinniúla.",
       "eng2":"Black Molly: \nLord Ironkey advances relentlessly\n with his infernal machines.",
       "gae3":"Oisín:\n go deimhin",
-      "eng3":"Oisín: \nTroubling indeed",
+      "eng3":"Oisín: \n indeed",
       "gae4":"Mallaidh Dubh: \nAthnigh a chuspóir; \nConcas. Tiarnas.",
       "eng4":"Black Molly: \nRecognise his intent; \nConquest. Domination.",
       "gae5":"Oisín: \nCruinnímís \nlaochra na hÉireann \nchun ár thaobh.",

@@ -128,6 +128,7 @@ import {
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
+import deepBlue from '../../audio/Three Red Hearts - Three Red Hearts.ogg'
 import westmeath from '../../images/gifs/stones-bg.gif'
 
 // const [playerDetails, setPlayerDetails] = useState({
@@ -142,7 +143,14 @@ import westmeath from '../../images/gifs/stones-bg.gif'
 // 	  };
 	
 export function Rings4(props) {
+	const audioPlayer = document.getElementById('deepBlue');
+    
+    // Check if the audio player exists
+    if (audioPlayer) {
 
+        // Play the audio
+        audioPlayer.play();
+    }
 	// const { playerDetails, setPlayerDetails } = usePlayerContext();
 
 	const { updatePlayerDetails } = usePlayer();
@@ -1334,7 +1342,12 @@ return (
   {/* Rest of your JSX */}
 </div>
 	
-		  <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+
+<img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
+{/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
+
+
+<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
     {/* lens-cap elements */}
     <img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
     <img className="lens-cap" src={lensCap} alt="Lens Cap" />
@@ -1386,12 +1399,8 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
   </div>
 </button>
   </div>
-
-
-<img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
-{/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
-
-	
+<ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
+  	
 	</>
 			);
 		}
