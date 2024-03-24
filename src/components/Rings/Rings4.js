@@ -7,9 +7,9 @@ import lensCap2 from '../../images/About1/ring2b.png';
 import empty from '../../images/empty.png';
 import ReactAudioPlayer from 'react-audio-player';
 import './rings1.css'
-import emerald from '../../images/misc_crystal_new.png'
+import emerald from '../../images/stone-soup/misc_crystal_oldb.png';
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
-import avatar1 from '../../images/players/niamh1.png';
+import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
 import avatar4 from '../../images/players/alex.png';
@@ -615,7 +615,7 @@ if (champID !== 25) {
   
 	  //thumbS
 		document.querySelector(".names-i").classList.add('fade-in-champ');
-		document.querySelector(".question-text").classList.add('fade-out-champ');
+		// document.querySelector(".question-text").classList.add('fade-out-champ');
 		document.querySelector(".tutorial0-container").classList.add('fade-out-champ');
 		// document.querySelector(".button-mash-ring-4").classList.add('circle');	
 		document.querySelector(".names-i").style.display='block';
@@ -1270,7 +1270,15 @@ if (rng === 2) {
 		'sallow',]
 }
 	
-
+function handlePearl() {
+	const namesE = document.querySelector(".names-e");
+    
+    // Check if the element exists
+    if (namesE) {
+        // Toggle the display value between 'none' and 'block'
+        namesE.style.display = (namesE.style.display === 'none') ? 'block' : 'none';
+    }
+}
 return (
 	
 	<>
@@ -1312,11 +1320,9 @@ return (
 			<img src={ogHero === "9" ? avatar9 :empty} className="og-hero"  alt="hero portrait"/>
 	
 			
-		
-		{showDiv && props.isOn ? <>  <p className="names-e">
+		  <p className="names-e">
 		{ namesInEnglish[ Math.floor(value * 100) + round.current * 100]}	
-		</p></> : null}
-			
+		</p>
 	
 
 			<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
@@ -1383,11 +1389,11 @@ return <ReactAudioPlayer src={ coin0} autoPlay />
 </button>
   </div>
 
-
+``
 <img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
 {/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
-<button id="pearl"  onClick={props.toggleIsOn
-			}	><img src={isOn ? pearl : emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
+<button id="pearl"  
+onClick={handlePearl} className='bob'	><img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" /></button>
 	
 	</>
 			);
