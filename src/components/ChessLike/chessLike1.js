@@ -70,9 +70,6 @@ const PhaserGame = () => {
         const playerX = (gridSize / 2 + 0.5) * squareSize;
         const playerY = (gridSize / 2 + 0.5) * squareSize;
         player = scene.add.rectangle(playerX, playerY, playerSize, playerSize, 0xff0000);
-
-        let hearts = 3; // Initialize hearts
-        scene.heartSprites = []; // Array to store heart sprites
     
         const firstWordPair = wordPairs[0]; // Assuming wordPairs is an array of objects
         const textStyle = {
@@ -82,7 +79,7 @@ const PhaserGame = () => {
         };
         const posX =uiLayerX + uiLayerWidth + 20;;
         const posY = 100;
-        const negX = uiLayerX + uiLayerWidth + 20;
+        const negX = uiLayerX + uiLayerWidth + 320;
         const negY = 100;
         const uiBackground = scene.add.rectangle(uiLayerX, uiLayerY, uiLayerWidth, uiLayerHeight, 0x0000ff);
         uiBackground.setOrigin(0);
@@ -93,10 +90,35 @@ const PhaserGame = () => {
         uiLayer.add(scene.negGaText);
         uiLayer.add(uiBackground);
                 // Add a background rectangle to the UI layer
+     // Create heart sprites in the UI layer
+        // Create heart sprites in the UI layer
+        const hearts = 3; // Number of hearts
+        scene.heartSprites = []; // Array to store heart sprites
+        for (let i = 0; i < hearts; i++) {
+            const heartX = 20 + i * 30;
+            const heartY = 20;
+            const heartSprite = scene.add.sprite(heartX, heartY, 'heart').setScale(0.1); // Adjust position and scale as needed
+            scene.heartSprites.push(heartSprite);
+            uiLayer.add(heartSprite);
+        }
+        function handleWrongAnswer(scene) {
+            // Decrease hearts
+            scene.hearts--;
+            // Check if player is out of hearts
+            if (scene.hearts === 0) {
+                // Redirect to game over screen
+                // Replace '/gameOver' with your actual game over route
+                window.location.href = '/gameOver';
+            } else {
+                // Remove last heart sprite
+                let removedHeart = scene.heartSprites.pop();
+                if (removedHeart) {
+                    removedHeart.destroy();
+                }
+            }
+        }
     
-       
-        
-        // Set up click handlers for text objects
+            // Set up click handlers for text objects
         scene.posGaText.setInteractive();
         scene.negGaText.setInteractive();
 
@@ -124,16 +146,12 @@ const PhaserGame = () => {
             }, 1000);
         });
 
-        // Create heart sprites
-        for (let i = 0; i < hearts; i++) {
-            let heartSprite = scene.add.sprite(20 + i * 30, 20, 'heart').setScale(0.1); // Adjust position and scale as needed
-            scene.heartSprites.push(heartSprite);
-        }
+
 
         // Set camera to follow the player
         // scene.cameras.main.startFollow(player);
         // Rotate the camera by 45 degrees
-        scene.cameras.main.setRotation(Math.PI / 4);
+        // scene.cameras.main.setRotation(Math.PI / 4);
            // Set rotation individually for each UI element to counteract camera rotation
 
            uiBackground.setX(uiLayerX);
@@ -144,20 +162,10 @@ const PhaserGame = () => {
             child.setScrollFactor(0);
             child.setRotation(-scene.cameras.main.rotation);
         });
-    }
+    
 
-    function handleWrongAnswer(scene) {
-        // Decrease hearts
-        scene.hearts--;
-        // Remove last heart sprite
-        let removedHeart = scene.heartSprites.pop();
-        removedHeart.destroy();
-        // Check if player is out of hearts
-        if (scene.hearts === 0) {
-            // Redirect to game over screen
-            // Replace '/gameOver' with your actual game over route
-            window.location.href = '/gameOver';
-        }
+
+
     }
 
     let currentWordPairIndex = 0;

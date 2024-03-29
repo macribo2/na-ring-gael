@@ -196,7 +196,7 @@ export default function Rings3(props) {
 					{/* <img className={value*10 === 7 ? 'about-pics':'hidden'} src={about0} alt="illustration placeholder" /> */}
 				
 					<div className='fader'>
-			<img rel="preload" src={tutorial0} className={value*10 === 0 ? 'avatar':'hidden' } id="tutorial0" alt="a spinning arrow circle inviing user input" />
+			<img rel="preload" src={tutorial0} className={value*10 === 0 ? 'avatar':'hidden' } id="tutorial0b" alt="a spinning arrow circle inviing user input" />
 			</div>
 					</div>
 				<div className="about-overlay-container">

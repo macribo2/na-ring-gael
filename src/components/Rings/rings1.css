@@ -732,15 +732,20 @@ transform: scale(1.2);
 }
 
 
-#tutorial0{
+#tutorial0,#tutorial0b{
   height:246px;
   width:auto;
   animation: spin 60s steps(128) infinite;
   position: relative;
-  margin-top: 0%;
      
+  margin-top:15%;
 }
+#tutorial0b{
+  margin-top:0%;
 
+  
+
+}
 #tutorial0r{
   height:332px;
   width:auto;
@@ -785,8 +790,6 @@ transform: scale(1.2);
 
 .tutorial-container{
   position: relative;
-
-  top:0;
   left:0;
   height:100%;
   width:100%;

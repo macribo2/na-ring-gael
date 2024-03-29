@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
 import GameOver from './components/game-over/GameOver';
 import ChessLike from './components/ChessLike/chessLike1';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
