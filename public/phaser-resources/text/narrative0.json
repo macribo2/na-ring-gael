@@ -10,10 +10,10 @@
       "eng3":"Níamh Cínn-Óir:\n Doom? Despair? \nName our enemy.",
       "gae4":"Mallaidh Dubh: \nIronkey a thugan sé ar féin.\nLord, a glaonn slúite ar.\n",
       "eng4":"Black Molly: \n'Ironkey, he calls himself. \nLegions call him Lord.",
-      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar. Ach ar dtús\n an cosaint.",
-      "eng5":"Níamh Cínn-Óir: \nI will face him myself.\nBut first, the defence."
-      ,"gae6":"...",
-      "eng6":"..."
+      "gae5":"Níamh Cínn-Óir: \nChasfaidh mise ar.",
+      "eng5":"Níamh Cínn-Óir: \nI will face him .\n"
+      ,"gae6":"*...",
+      "eng6":"*..."
   
    },
    "Douglas_Hyde":{
@@ -53,14 +53,14 @@
       "eng0":"Black Molly:\nAlexander at last! \nI have returned from the battle below.",
       "gae1":"Alexander Nicolson: \nAgus cén scéal  atá agat, \nón gcogadh i gcoinne Ironkey?",
       "eng1":"Alexander Nicolson: \nAnd what news have you \nfrom the war against Ironkey?",
-      "gae2":"Mallaidh Dubh: \nDéanann a chuid meaisíní \nagus arrachtaigh \nna ríochtaí níos ísle a chreachadh.",
-      "eng2":"Black Molly: \nHis machines and monsters ravage the lower kingdoms.",
-      "gae3":"Alexander Nicolson: \nNíl neart go chuir le chéile.\nGlaofaidh muid \nar forsaí na Gael",
-      "eng3":"Alexander Nicolson: \nThere is no strength without unity. \nLet us muster the Gael. ",
-      "gae4":"Mallaidh Dubh: \nAch cé ina measc \na fhreagróidh ár nglaoch?",
-      "eng4":"Black Molly: \nBut who among them \nwill answer our call?",
-      "gae5":"Alexander Nicolson: \nTar.\nfeicfimid.",
-      "eng5":"Alexander Nicolson: \nCome.\nWe shall see."
+      "gae2":"Mallaidh Dubh: \nDéanann a chuid meaisíní \nagus arrachtaigh \nna ríochtaí-ísle a chreachadh.",
+      "eng2":"Black Molly: \nHis machines and monsters \nravage the low kingdoms.",
+      "gae3":"Alexander Nicolson: \nNíl neart go chuir le chéile.\nLogaimis cabhair.",
+      "eng3":"Alexander Nicolson: \nThere is no strength without unity. \nLet us send for aid. ",
+      "gae4":"Mallaidh Dubh: \nCabhair? Ón domhain so-mharbhtha?",
+      "eng4":"Black Molly: \nHelp from the mortal realm?",
+      "gae5":"Alexander Nicolson: \n.",
+      "eng5":"Alexander Nicolson: \n."
       ,"gae6":"...",
       "eng6":"..."
   
@@ -93,8 +93,8 @@
       "eng3":"Abhartach: \nIronkey! \nA formidable foe indeed!",
       "gae4":"Mallaidh Dubh:\nconas is féidir linn \na ionsaí a sheasamh?",
       "eng4":"Black Molly: \nHow we may withstand \nhis onslaught?",
-      "gae5":"Abhartach: \nLibh féin, ní féidir. \nCruinnigh laochra na hÉireann \nar shon na cúise.",
-      "eng5":"Abhartach: Alone, you cannot. \nCall upon the champions of Ireland \nto the cause."
+      "gae5":"Abhartach: \n i naoi núair, ní féidir. \n i ",
+      "eng5":"Abhartach: In nine times, it cannot be. \n champions of Ireland \nto our cause."
       ,"gae6":"...",
       "eng6":"..."
    },
@@ -134,14 +134,14 @@
    },
    "Fand":{
       "gae0":"Mallaidh Dubh:\nA Aigéan aidhbhseach impídmh ort!",
-      "eng0":"Black Molly: Oh vast, terrible ocean\n I entreet upon you!",
-      "gae1":"Seachain, Mallaidh Dubh,\nná glaoigh ar an farraige go baoth",
+      "eng0":"Black Molly:\nOh vast, terrible ocean\n I entreet upon you!",
+      "gae1":"Fand:\nSeachain, Mallaidh Dubh,\nná glaoigh ar an farraige go baoth",
       "eng1":"Beware, Black Molly,\nMac Lír's aid is not to be sought lightly",
-      "gae2":"Ach ná bí búrtha, a chroí.",
-      "eng2":" but fret not, dear heart.",
-      "gae3":"Fand:\nFiú nach ach duine mé, seasfaidh mé leat.",
-      "eng3":"Although I am but one,\n I shall stand with you.",
-      "gae4":"Tá dóchas ann! Lean ar aghaidh, Fand na dáimhe.",
+      "gae2":"...",
+      "eng2":"...",
+      "gae3":"Fand:\nach ná bí búrtha,\nseasfaidh mé leat.",
+      "eng3":"but don't fret, \nI shall stand with you.",
+      "gae4":"Mallaidh Dubh:Tá dóchas ann! \nLean ar aghaidh, Fand na dáimhe.",
       "eng4":"Black Molly:\nthen there is hope! Lead on, o muse.",
       "gae5":"Roghnímís ár laoch...",
       "eng5":"Fand:\nLet us choose our champion..."
