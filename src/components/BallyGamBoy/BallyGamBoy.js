@@ -64,7 +64,7 @@ class GameScene extends Phaser.Scene {
     
         super({ key: 'GameScene' });
         this.bally0map = null;
-        this.bgOverlay = null;
+        // this.bgOverlay = null;
         this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
             0: { x: 0.35, y: 0.43 },
@@ -96,7 +96,7 @@ class GameScene extends Phaser.Scene {
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
         
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
-        this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
+        // this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/placeholders/ultima-like.png');
@@ -109,8 +109,8 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
-        this.load.image('bally0map', './phaser-resources/images/map2.png');
-        this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
+        this.load.image('bally0map', './phaser-resources/images/ghostTown.png');
+        // this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
         this.load.image('yinCard', './phaser-resources/images/cards/puca0.png'); // Load overlay image
         this.load.image('yanCard', './phaser-resources/images/cards/puca1.png'); // Load overlay image
@@ -290,9 +290,9 @@ const bobTween2 = this.tweens.add({
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
    }
-      const music = this.sound.add('rabbitTown',{ loop: true });
+    //   const music = this.sound.add('rabbitTown',{ loop: true });
    
-      music.play();
+    //   music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
@@ -315,31 +315,31 @@ const bobTween2 = this.tweens.add({
     this.bally0map.x = (this.sys.game.config.width - this.bally0map.displayWidth) / 2;
     this.bally0map.y = (this.sys.game.config.height - this.bally0map.displayHeight) / 2;
    // Add the bgOverlay image
-this.bgOverlay = this.add.sprite(this.bally0map.x, this.bally0map.y, 'bgOverlay').setOrigin(0);
-this.bgOverlay.setScale(bally0mapScale);
+// this.bgOverlay = this.add.sprite(this.bally0map.x, this.bally0map.y, 'bgOverlay').setOrigin(0);
+// this.bgOverlay.setScale(bally0mapScale);
 
 // Ensure the bgOverlay moves with the background
 this.bally0map.on('changedata-x', () => {
-    this.bgOverlay.x = this.bally0map.x;
+    // this.bgOverlay.x = this.bally0map.x;
 });
 this.bally0map.on('changedata-y', () => {
-    this.bgOverlay.y = this.bally0map.y;
+    // this.bgOverlay.y = this.bally0map.y;
 });
 
 // Ensure the bgOverlay renders above the player
-this.bgOverlay.setDepth(1);
+// this.bgOverlay.setDepth(1);
 
 
     // Ensure the bgOverlay moves with the background
     this.bally0map.on('changedata-x', () => {
-        this.bgOverlay.x = this.bally0map.x;
+        // this.bgOverlay.x = this.bally0map.x;
     });
     this.bally0map.on('changedata-y', () => {
-        this.bgOverlay.y = this.bally0map.y;
+        // this.bgOverlay.y = this.bally0map.y;
     });
 
     // Ensure the bgOverlay renders above the player
-    this.bgOverlay.setDepth(1);
+    // this.bgOverlay.setDepth(1);
 
      // Add green frame image
 // Add green frame image
@@ -453,10 +453,10 @@ this.updateText(this.playerMapLocationTracker);
 }
 update() {
     // Continuously update the position of bgOverlay to match bally0map
-    if (this.bgOverlay && this.bally0map) {
-        this.bgOverlay.x = this.bally0map.x;
-        this.bgOverlay.y = this.bally0map.y;
-    }
+    // if (this.bgOverlay && this.bally0map) {
+        // this.bgOverlay.x = this.bally0map.x;
+        // this.bgOverlay.y = this.bally0map.y;
+    // }
 }
 
 
