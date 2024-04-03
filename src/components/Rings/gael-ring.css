@@ -1,0 +1,388 @@
+.gael-ring-0 {
+  top: 0;
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  justify-content: left;
+  align-items: left;
+
+}
+
+#gael-challenge-bg {
+  display: none;
+}
+
+#gael-ring-lens {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  /* border:4px solid orange; */
+}
+
+.history-e {
+  font-family: 'anaphora';
+  top: 64%;
+  left: 5%;
+  width: 85%;
+  z-index: 9999;
+  position: fixed;
+  color: aliceblue;
+  font-size: 1.4em;
+  padding: 20px;
+  background-color: #000000ad;
+}
+
+#toggle-glass-btn-history {
+  height: 50px;
+  width: 50px;
+  /* border: 5px solid orange; */
+  position: fixed;
+  z-index: 9000;
+  bottom: 0%;
+  right: 5%;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 50%;
+}
+
+.history-i {
+  width: 85%;
+  top: 5%;
+  font-size: 2em;
+  pointer-events: none;
+  color:aliceblue;
+  position: fixed;
+
+}
+
+.ring-text-container-gael {
+
+  pointer-events: none;
+  left: 39%;
+  height: 100%;
+  width: 59%;
+  z-index: 9000;
+  position: fixed;
+}
+
+.ring-gael-dial-container,
+#bg-container-gael,
+.about-hist {
+  z-index: 19;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: left; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  transform: scale(0.8);
+}
+
+.about-hist {
+  z-index: 10;
+
+
+}
+.about-hist{
+  position: fixed;
+  z-index: 10;
+  transform: scale(1);
+  padding: 10%
+
+} 
+
+
+#bg-container-gael {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ring-gael-dial-container {
+  /* z-index: -1; */
+
+}
+
+.dial-gael {
+  animation: fade-in-dial 3s forwards;
+  z-index: 800;
+  height: 266px;
+  width: 266px;
+  pointer-events: all;
+}
+
+.tut-ring-g-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  z-index: 998;
+  pointer-events: none;
+
+
+}
+
+#tut-g {
+  /* animation: spin 60s steps(128) infinite; */
+  display: none;
+}
+
+.slide1 {
+  /* padding-top: 1%; */
+  border-radius: 50%;
+  /* transform: scaleX(-1); */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 4px solid #514a19;
+
+}
+
+.slide1b {
+  transform: scale(0.3);
+  position: relative;
+  /* border: 5px solid blue; */
+  /* top: 5%; */
+  animation: bobbing 4s steps(6) infinite alternate-reverse;
+  overflow: hidden;
+}
+
+@keyframes bobbing {
+
+  0% {
+    margin-top: 2%;
+  }
+
+  100% {
+    margin-top: -2%
+  }
+}
+
+.slide-amergin {
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+.sea-wave {
+  /* border: 10px solid orange; */
+  z-index: 1;
+  position: fixed;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  top:0;
+  left:0
+  /* border-left: 120px solid #2e292f; */
+  /* border-right: 120px solid #2e292f; */
+
+
+}
+
+#Rain{
+  position: fixed;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  z-index: 88;
+  opacity:0.4;
+  transform:rotate(15deg) scale(1.2);
+
+}
+
+.amergin-wave {
+
+  background-image: url('../../images/tonnta1.jpg');
+
+  /* background-size: contain; */
+  /* left: 26%; */
+  background-repeat: repeat;
+  opacity: 0.6;
+  border-radius: 50%;
+  z-index: 800;
+  height: 266px;
+  width: 266px;
+  pointer-events: none;
+  padding-bottom: 2px;
+border: 5px solid rgba(125, 110, 24, 0.932);
+}
+.gael-bg {
+  z-index: -1;
+  animation: fade-in 1s linear forwards;
+}
+
+.button-mash-container-gael,
+.button-mash-container-encounter {
+  z-index: 800;
+  height: 266px;
+  width: 266px;
+  position: fixed;
+  bottom: 7%;
+  left: 4%;
+  pointer-events: none;
+  padding-bottom: 2px;
+}
+
+.mash-img {
+  border-radius: 50%;
+  /* transform:scale(0.8); */
+  opacity: 0.8;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 4px solid #514a19;
+
+}
+
+.mash {
+  width: 266px;
+  background-color: rgba(0, 0, 0, 0);
+  /* border: 3px solid orange; */
+  border-radius: 50%;
+  pointer-events: all;
+
+}
+
+.button-mash-gael {
+
+  /* border: 4px solid orange; */
+  position: fixed;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.0);
+  pointer-events: all;
+  /* justify-content: center; */
+  /* top: 57%; */
+}
+
+.druids {
+  pointer-events: none;
+  height: 50%;
+  bottom: 0%;
+  position: fixed;
+  left: -6%;
+  animation: fade-in 2s forwards;
+
+}
+
+.song {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  top:50%;
+  left:0;
+  /* padding-top: 1%; */
+  /* border-radius: 50%; */
+pointer-events: none;
+}
+
+
+.long-style {
+  position: fixed;
+  /* left: 0%; */
+  top: 48%;
+
+}
+
+
+ .sea-slide{
+   /* display: flex; */
+   /* align-items: center; */
+   /* justify-content: center; */
+   background-repeat: repeat;
+  }
+  
+  .seaTile {
+  width: 32px;
+   background-repeat: repeat;
+   height: 32px;
+  /* border: 4px solid gainsboro; */
+  /* max-width: 100%; */
+  /* max-height: 100%; */
+}
+
+
+.input-elements-container-7b,
+.input-elements-container-7,
+.image-container,
+.input-elements-container-5,
+.input-elements-container-8 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tutorial-container,
+.tutorial0-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  position: fixed;
+}
+
+.button-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.og-hero,
+.og-opponent {
+position: fixed;
+  margin: 10px; /* Adjust margin as needed */
+}
+
+.names-i,
+.names-e {
+  text-align: center;
+}
+
+.button-mash-ring-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.champion-portrait {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+}
+
+/* Add other styles as needed */
+#glass{
+      height: 100%;
+      width: 100%;
+      z-index: 257;
+      animation: fade-in 0.3s forwards;
+      display: grid;
+      justify-content: left;
+
+}
+.slide{
+  position: fixed;
+  top:5%;
+  left:5%;
+}
