@@ -15,7 +15,7 @@ import distantHills from '../../images/newbg4town.png';
 import blurryBG from '../../images/newbg2.png';
 import History from '../history/history'
 import  Rings6 from '../Rings/Rings6';
-import deepBlue from '../../audio/Three Red Hearts - Deep Blue.ogg'
+import deepBlue from '../../audio/switch2.ogg'
 import GDPR from '../gdpr/gdpr';
 let lyricID = 0;
 
