@@ -128,7 +128,7 @@ import {
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
-import deepBlue from '../../audio/Three Red Hearts - Three Red Hearts.ogg'
+import deepBlue from '../../audio/Threerh.ogg'
 import westmeath from '../../images/gifs/stones-bg.gif'
 
 // const [playerDetails, setPlayerDetails] = useState({
