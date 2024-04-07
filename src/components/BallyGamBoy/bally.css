@@ -34,3 +34,11 @@ canvas{
         opacity: 0;
     }
 }
+.molly{
+    left: 5%;
+    transform: scale(3) scaleX(-1);
+    top: 77%;
+    position: fixed;
+  }
+
+  

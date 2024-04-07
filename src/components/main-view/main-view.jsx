@@ -12,7 +12,7 @@ import lens from '../../images/ciorcal-glass.png';
 import portrait from '../../images/vert-mode.png'
 import gradient from '../../images/gradient2.png';
 import darkGreenFields from '../../images/ciorcal-glass4.png';
-import ChessLike from '../ChessLike/chessLike'
+import ChessLike from '../ChessLike/chessLike1'
 import { Link } from 'react-router-dom'
 import'./style.css'
 import tutorial0 from '../../images/tutorials/tutorial0.png';

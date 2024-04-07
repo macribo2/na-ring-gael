@@ -6,7 +6,7 @@ import App from './App';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import GameOver from './components/game-over/GameOver';
-import ChessLike from './components/ChessLike/chessLike1';
+import ChessLike from './components/ChessLike/chessLike2';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
 import FairyLand from './components/FairyLand/FairyLand';

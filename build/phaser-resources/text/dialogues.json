@@ -9,36 +9,36 @@
 {
   "id": "l1",
   "text": {
-    "en": "under|about the old labrynth",
-    "ga": "faoin sean lúbra"
+    "en": "about the old labyrinth",
+    "ga": "faoin sean \nlúbra"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "every street, every corner, familiar, distant",
-    "ga": " gach sráid, \ngach cúinne,\ncairdiúil, sia"      }
+    "en": "Sleep fell upon me, \nand I among the rocks",
+    "ga": "Thuit \na choladh orm,\nagus mé \ni measc \n na carraigeacha"      }
 }
 ,
-{
+{ 
   "id": "l3",
   "text": {
-    "en": "I walk this place \nin peace when",
-    "ga": "siúlaim an áit seo\n i suain núair"
+    "en": "How long ago?",
+    "ga": "Cé chomh fada\n ó shin?"
   }
 },
  {
     "id": "l4",
     "text": {
-      "en": "I see the sparks as from flint \nof a horses hoofs on the road",
+      "en": "hoof sparks!",
       "ga": "teine chreasa!"
     }
   },
   {
     "id": "l5",
     "text": {
-      "en": "Call the wind\nand ride away,\n says Black Molly",
-      "ga": "Glaoigh ar an \nngaoth agus\nmarcaigh an púca\narsa Mallaidh Dubh"
+      "en": "Follow Pooka!\n says Black Molly",
+      "ga": "lean púca!\narsa \nMallaidh Dubh"
     }
     },
     {
