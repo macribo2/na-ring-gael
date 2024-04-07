@@ -4,7 +4,7 @@ import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
 import './bally.css';
 import { useHistory } from 'react-router-dom';
-import chessLike from '../ChessLike/chessLike0'; // Adjust the path based on your actual file structure
+import chessLike from '../ChessLike/chessLike1'; // Adjust the path based on your actual file structure
 
 
 // let glassTextA = [
@@ -47,7 +47,7 @@ const BallyGamboyGame = () => {
         <>
             <div id="ballygamboy-game-container"></div>;
             <div className="chess-like-frame-container">
-                {/* <img src={molly} className="molly" alt="black molly" /> */}
+                <img src={molly} className="molly hidden" alt="black molly" />
                 {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
             </div>
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
@@ -94,10 +94,11 @@ class GameScene extends Phaser.Scene {
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
+        let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
-        // this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
-        let champID = localStorage.getItem('champID');
+        this.load.audio('mecha', './phaser-resources/audio/mecha.wav');
+        this.load.image('sparks', `./phaser-resources/images/spark_02.png`);
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/placeholders/ultima-like.png');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
@@ -145,8 +146,8 @@ setTimeout(() => {
 
     // Add sprites for the playing cards
 
-    this.yinCard = this.add.sprite(this.sys.game.config.width / 4 - 60, this.sys.game.config.height / 2,'yinCard').setDepth(7);
-    this.yanCard = this.add.sprite(this.sys.game.config.width / 4 + 120, this.sys.game.config.height / 2, 'yanCard').setDepth(7);
+    this.yinCard = this.add.sprite(this.sys.game.config.width / 4 - 60, this.sys.game.config.height / 2,'yinCard').setDepth(4);
+    this.yanCard = this.add.sprite(this.sys.game.config.width / 4 + 420, this.sys.game.config.height / 2, 'yanCard').setDepth(4);
 // Inside the create() method or wherever you initialize your cards
 this.yinCard.setInteractive();
 this.yinCard.on('pointerdown', () => {
@@ -154,7 +155,7 @@ this.yinCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yinCard, this.yanCard);
     localStorage.setItem('chosenPuca', '1');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/ChessLike'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com'; }, 2000);
     
 });
 const handleCardClick = (chosenCard, otherCard) => {
@@ -193,7 +194,7 @@ this.yanCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yanCard, this.yinCard);
     localStorage.setItem('chosenPuca', '0');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/ChessLike'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com'; }, 2000);
     
 });
 
@@ -201,29 +202,28 @@ this.yanCard.on('pointerdown', () => {
     const cardScale = 0.4; // Adjust this value as needed
     this.yanCard.setScale(cardScale);
     this.yinCard.setScale(cardScale);
-// Define the bobbing and scale in/out effect for the puca cards
-const bobTween1 = this.tweens.add({
-    targets: this.yinCard, // Replace this.yinCard with your first card sprite
-    y: '-=15', // Move the card up slightly
-    scaleX: 0.41, // Scale up horizontally
-    scaleY: 0.41, // Scale up vertically
-    duration: 1400, // Adjust the duration of the tween
-    yoyo: true, // Repeat the tween in reverse
-    repeat: -1 // Repeat indefinitely
-});
-
-// Define the bobbing and scale in/out effect for the second puca card with a slight delay
-const bobTween2 = this.tweens.add({
-    targets: this.yanCard, // Replace this.yanCard with your second card sprite
-    y: '-=20', // Move the card up slightly
-    scaleX: 0.41, // Scale up horizontally
-    scaleY: 0.41, // Scale up vertically
-    duration: 1400, // Adjust the duration of the tween
-    delay: 350, // Delay the start of the tween for the second card
+// Define the dance animation for the yin card
+const danceTween1 = this.tweens.add({
+    targets: this.yinCard,
+    x: '+=450', // Move the card to the right
+    y: '+=30', // Move the card downwards
+    angle: '+=20', // Rotate the card clockwise
+    duration: 2500, // Duration of each dance step
     yoyo: true, // Repeat the tween in reverse
     repeat: -1, // Repeat indefinitely
-
 });
+
+// Define the dance animation for the yan card
+const danceTween2 = this.tweens.add({
+    targets: this.yanCard,
+    x: '-=450', // Move the card to the left
+    y: '-=30', // Move the card upwards
+    angle: '-=20', // Rotate the card counter-clockwise
+    duration: 2500, // Duration of each dance step
+    yoyo: true, // Repeat the tween in reverse
+    repeat: -1, // Repeat indefinitely
+});
+
 
 }, 500);
    
@@ -274,7 +274,7 @@ const bobTween2 = this.tweens.add({
        console.log("First 'ga' text:", firstGaText);
        this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
-       this.textEn = this.add.text(380, 328, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
+       this.textEn = this.add.text(330, 278, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
 
        // Adjust text properties as needed
        this.textGa.setFontSize(30);
@@ -290,9 +290,9 @@ const bobTween2 = this.tweens.add({
    } else {
        console.error('Dialogues data is empty or not loaded correctly.');
    }
-    //   const music = this.sound.add('rabbitTown',{ loop: true });
+      const music = this.sound.add('mecha',{ loop: true });
    
-    //   music.play();
+      music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
@@ -345,7 +345,6 @@ this.bally0map.on('changedata-y', () => {
 // Add green frame image
 // Add green frame image
 const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2);
-
 // Calculate scale to cover the entire screen without distortion
 const scaleXGreen = this.sys.game.config.width / greenFrame.width;
 const scaleYGreen = this.sys.game.config.height / greenFrame.height;
@@ -372,13 +371,13 @@ greenFrame.setPosition(posX, posY);
     const playerY = this.sys.game.config.height / 2;
     this.player = this.add.sprite(playerX, playerY, 'player');
     this.player.setScale(1.5);
-    this.player.setDepth(6);
+    this.player.setDepth(3);
 
     // Create a duplicate of the original player sprite
     this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
     // Apply the tint to the duplicate sprite
     this.tintedPlayer.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
-    this.tintedPlayer.setDepth(7);
+    this.tintedPlayer.setDepth(4);
     this.tintedPlayer.alpha = 0.65;
     this.tintedPlayer.setScale(1.5);
 
@@ -400,16 +399,16 @@ greenFrame.setPosition(posX, posY);
     const buttonY = this.sys.game.config.height / 2 + 50;
 
     // Add directional pad buttons with fixed positions
-    this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(4);
-    this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(4);
-    this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(4);
-    this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(4);
+    this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(9);
+    this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
+    this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(9);
+    this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(9);
     // Add the button to the overlay and hide it initially
     // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
     // this.buttonG = buttonG; // Store the button as a class member
 
     // Add middle button
-    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(4);
+    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(9);
 
     // Set up event listeners for button clicks
     this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
@@ -468,6 +467,18 @@ moveElement(direction) {
     }
 
     if (this.playerMapLocationTracker === 3){
+        const sparks = this.add.sprite(250, 150, 'sparks'); // Replace x and y with the desired coordinates
+          // Add a tween to fade out the sparks sprite
+    this.tweens.add({
+        targets: sparks,
+        alpha: 0, // Set alpha to 0 for complete transparency
+        duration: 1000, // Adjust the duration of the fade out effect (in milliseconds)
+        onComplete: () => {
+            // This function will be called when the tween completes
+            sparks.destroy(); // Remove the sparks sprite from the scene
+        }
+    });
+ 
         const mollyElement = document.querySelector('.molly');
     if (mollyElement) {
         mollyElement.classList.add('hidden');
@@ -480,7 +491,7 @@ moveElement(direction) {
         this.introduceNewElements();
             const mollyElement = document.querySelector('.molly');
         if (mollyElement) {
-            mollyElement.classList.remove('wait-and-fade');
+            mollyElement.classList.add('wait-and-fade');
             mollyElement.classList.remove('hidden');
         } else {
             console.error('Element with className "molly" not found.');
