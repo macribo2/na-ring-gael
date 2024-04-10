@@ -373,13 +373,13 @@ greenFrame.setPosition(posX, posY);
     this.player.setScale(1.5);
     this.player.setDepth(3);
 
-    // Create a duplicate of the original player sprite
-    this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
-    // Apply the tint to the duplicate sprite
-    this.tintedPlayer.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
-    this.tintedPlayer.setDepth(4);
-    this.tintedPlayer.alpha = 0.65;
-    this.tintedPlayer.setScale(1.5);
+    // // Create a duplicate of the original player sprite
+    // this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
+    // // Apply the tint to the duplicate sprite
+    // this.tintedPlayer.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
+    // this.tintedPlayer.setDepth(4);
+    // this.tintedPlayer.alpha = 0.65;
+    // this.tintedPlayer.setScale(1.5);
 
     // Create the overlay container
     this.overlay = this.add.container(0, 0);
@@ -399,10 +399,10 @@ greenFrame.setPosition(posX, posY);
     const buttonY = this.sys.game.config.height / 2 + 50;
 
     // Add directional pad buttons with fixed positions
-    this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(9);
-    this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
-    this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(9);
-    this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(9);
+    this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(19);
+    this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(19);
+    this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(19);
+    this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(19);
     // Add the button to the overlay and hide it initially
     // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
     // this.buttonG = buttonG; // Store the button as a class member
@@ -439,7 +439,7 @@ greenFrame.setPosition(posX, posY);
     this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
     this.buttonRight.on('pointerdown', () => this.moveElement('right'));
 
-    this.tintedPlayer.setOrigin(0.5, 0.5);
+    // this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
     console.log(this.dialogues[0]);
 // Define a function to update the text based on the player map location tracker value
