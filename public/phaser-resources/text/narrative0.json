@@ -85,18 +85,18 @@
    "Abhartach":{
       "gae0":"Mallaidh Dubh: \n...",
       "eng0":"Black Molly: \n...",
-      "gae1":"Abhartach: \nA Mallaidh Dubh, \nnach milis d'eagla. \nCad a spreag thú \ncúnamh a lorg uaimse?",
-      "eng1":"Abhartach: \nBlack Molly, \nhow sweet your fear. \nWhat provoked you \nto seek aid from me?",
-      "gae2":"Mallaidh Dubh: \nA Thaoiseach na dorchadais, \ntá Ironkey, lena meaisíní agus arrachtaigh, \nag máirseáil i leith le huacht cearnóir.",
-      "eng2":"Black Molly: \nO Chieftain of darknesses, \nIronkey, with his machines and monsters, \nmarchs hither with the will of a conqueror.",
+      "gae1":"Abhartach: \nA Mallaidh Dubh, \nagus an fatíos uirthi. \nAg lorg cúnamh uaimse?",
+      "eng1":"Abhartach: \nBlack Molly, \nand fear on her. \nSeeking aid from me?",
+      "gae2":"Mallaidh Dubh: \nA Thaoiseach an dorchadas, \ntá Ironkey, lena meaisíní agus arrachtaigh, \nag máirseáil i leith le huacht cearnóir.",
+      "eng2":"Black Molly: \nO Chieftain of the darkness, \nIronkey, with his machines and monsters, \nmarchs hither with the will of a conqueror.",
       "gae3":"Abhartach: \nIronkey! \nNaimhead crothach airiú!",
       "eng3":"Abhartach: \nIronkey! \nA formidable foe indeed!",
       "gae4":"Mallaidh Dubh:\nconas is féidir linn \na ionsaí a sheasamh?",
       "eng4":"Black Molly: \nHow we may withstand \nhis onslaught?",
-      "gae5":"Abhartach: \n i naoi núair, ní féidir. \n i ",
-      "eng5":"Abhartach: In nine times, it cannot be. \n champions of Ireland \nto our cause."
-      ,"gae6":"...",
-      "eng6":"..."
+      "gae5":"Abhartach: \nsubmerging or overpowering trickery",
+      "eng5":"Abhartach:\nbeartaidheacht \nbháidhte"
+      ,"gae6":"Mallaidh Dubh:\n:\nBob",
+      "eng6":"Black Molly:\na trick"
    },
     "Fionn":{
         "gae0":"Mallaidh Dubh:\nþrǣlgyldere Cǣmere!",

@@ -704,10 +704,15 @@ The place of a house and garden.
 
 You’ll get that if my journey succeeds with me.
 </p>
+
+<p className="menu portrait-mode-txt quote-4">
+
+↻ mobile landscape to continue 
+</p>
 					<p className='portait-mode-text'>
-						Beside the Fire:
+						President de hÍde, Beside the Fire
 <br/>
-						A collection of Irish Gaelic folk stories
+						
 			</p>
 				</div>
 			</div>

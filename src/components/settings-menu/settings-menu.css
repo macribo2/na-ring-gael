@@ -179,7 +179,7 @@ p {
 
 .menu{
   background-color: rgba(5, 12, 3, 0.5);
-  border: 3px solid# rgba(5, 12, 3, 0.5);
+  /* border: 3px solid rgba(5, 12, 3, 0.5); */
   color: darkgray;
   padding: 12px;
   opacity: 0;
@@ -193,17 +193,27 @@ p {
 
 .quote-1{
   animation: fade-in  linear 1s forwards;
+  margin-left:-10%;
+
 }
 
 .quote-2{
-  margin-left:-10%;
+  margin-left:-20%;
   animation: fade-in 1s linear 1s forwards;
 }
 
 .quote-3{
-  margin-left:-22%;
+  margin-left:-32%;
 
   animation: fade-in 1s linear 2.5s forwards;
+}
+
+.quote-4{
+  margin-left:-62%;
+  margin-top:62%;
+color: rgba(152, 251, 152, 0.201);
+
+  animation: fade-in 1s linear 8s forwards;
 }
 .grid-container {
   display: grid;
