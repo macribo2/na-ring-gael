@@ -4,7 +4,6 @@ import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
 import './bally.css';
 import { useHistory } from 'react-router-dom';
-import chessLike from '../ChessLike/chessLike1'; // Adjust the path based on your actual file structure
 
 
 // let glassTextA = [

@@ -17,15 +17,19 @@ const PhaserGame = () => {
     function moveOnToNextWordPair() {
         currentWordPairIndex++;
         console.log('Moving to next word pair. Index:', currentWordPairIndex);
-
+    
         if (currentWordPairIndex < wordPairs.length) {
             const nextWordPair = wordPairs[currentWordPairIndex];
-            posGaText.setText(nextWordPair.posGa);
-            negGaText.setText(nextWordPair.negGa);
+            const showPositive = Math.random() > 0.5; // Random boolean (true or false)
+    
+            const textToSet = showPositive ? posGaText : negGaText;
+            textToSet.setText(showPositive ? nextWordPair.posGa : nextWordPair.negGa);
+    
         } else {
             console.log('End of game');
         }
     }
+    
 
     useEffect(() => {
         const loadFont = () => {
@@ -119,7 +123,7 @@ boardContainer.setScale(0.75)
 
         for (let row = 0; row < boardSize; row++) {
             for (let col = 0; col < boardSize; col++) {
-                const squareColor = (row + col) % 2 === 0 ? 0x2E8B57 : 0xFFC600 ;
+                const squareColor = (row + col) % 2 === 0 ? 0x2E8B57 : 0xD3D3D3;
                 const square = scene.add.rectangle(col * squareSize, row * squareSize, squareSize, squareSize, squareColor);
                 square.setOrigin(0);
                 square.setData('row', row);
@@ -131,8 +135,8 @@ boardContainer.setScale(0.75)
         // Other elements
         const firstWordPair = wordPairs[0];
         
-        const posX = 350;
-        const posY = 100;
+        const posX = 270;
+        const posY = 180;
         const negX = 300;
         const negY = 100;
         const textStyle = {
@@ -178,21 +182,21 @@ boardContainer.setScale(0.75)
         boardContainer.add(player);
         player.rotation = -Math.PI / 4;
     // Add puca and player to the board container
-    const pucaLeftSquareRow = 4 - 2; // Adjust the row of the left puca's square
-    const pucaLeftSquareCol = 4 + 1; // Adjust the column of the left puca's square
-    const pucaLeftX = pucaLeftSquareCol * squareSize+16;
-    const pucaLeftY = pucaLeftSquareRow * squareSize+16;
-    const pucaLeft = scene.add.image(pucaLeftX, pucaLeftY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5);
-    boardContainer.add(pucaLeft);
+    const pucaBlackSquareRow =2; // Adjust the row of the left puca's square
+    const pucaBlackSquareCol = 3; // Adjust the column of the left puca's square
+    const pucaBlackX = pucaBlackSquareCol * squareSize+16;
+    const pucaBlackY = pucaBlackSquareRow * squareSize+16;
+    const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5);
+    boardContainer.add(pucaBlack);
 
-    const pucaRightSquareRow = 4 - 1; // Adjust the row of the right puca's square
-    const pucaRightSquareCol = 4 - 2; // Adjust the column of the right puca's square
-    const pucaRightX = pucaRightSquareCol * squareSize+16;
-    const pucaRightY = pucaRightSquareRow * squareSize+16;
-    const pucaRight = scene.add.image(pucaRightX, pucaRightY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5);
-    pucaLeft.rotation = -Math.PI / 4;
-    pucaRight.rotation = -Math.PI / 4;
-    boardContainer.add(pucaRight);
+    const pucaWhiteSquareRow = 3; // Adjust the row of the right puca's square
+    const pucaWhiteSquareCol = 2; // Adjust the column of the right puca's square
+    const pucaWhiteX = pucaWhiteSquareCol * squareSize+16;
+    const pucaWhiteY = pucaWhiteSquareRow * squareSize+16;
+    const pucaWhite = scene.add.image(pucaWhiteX, pucaWhiteY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5);
+    pucaBlack.rotation = -Math.PI / 4;
+    pucaWhite.rotation = -Math.PI / 4;
+    boardContainer.add(pucaWhite);
 
         // Center the camera on the middle of the screen
         // scene.cameras.main.scrollX = boardContainer.x - (scene.cameras.main.width / 2);
@@ -211,6 +215,7 @@ boardContainer.setScale(0.75)
                   // Player pressed the button when the wrong puca was highlighted
                   console.log('Wrong puca highlighted!');
               }
+              moveOnToNextWordPair() 
       
     });
  
@@ -225,14 +230,14 @@ boardContainer.setScale(0.75)
         // Highlight puca0 or puca1 based on the value of highlightedPuca
         if (highlightedPuca === 0) {
             // Highlight puca0
-            pucaLeft.setAlpha(0.1); // Reduce opacity for the other 
-            pucaRight.setAlpha(1);
+            pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
+            pucaWhite.setAlpha(1);
             
         } else {
             // Highlight puca1
-            pucaRight.setAlpha(0.1); // Reduce opacity for the other 
+            pucaWhite.setAlpha(0.1); // Reduce opacity for the other 
                   // Highlight puca1
-                  pucaLeft.setAlpha(1);
+                  pucaBlack.setAlpha(1);
         }
     }
 
