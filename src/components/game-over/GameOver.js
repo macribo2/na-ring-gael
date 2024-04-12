@@ -1,9 +1,13 @@
 import React from 'react';
 
 const GameOver = () => {
+
+  setTimeout(()=>{
+    window.location.href = 'https://www.na-ring-gael.com/rings4';
+  },3000)
   return (
     <div>
-      <h1>Game Over</h1>
+      <h1>Dorchadas...</h1>
     </div>
   );
 };

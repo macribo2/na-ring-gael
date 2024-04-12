@@ -200,23 +200,42 @@ const PhaserGame = () => {
         // scene.cameras.main.scrollX = boardContainer.x - (scene.cameras.main.width / 2);
         // scene.cameras.main.scrollY = boardContainer.y - (scene.cameras.main.height / 2);
  
-     // Add click event to the button
-     aBtn.on('pointerdown', () => {
-      
-              // Determine whether the correct puca was highlighted when the button was clicked
-              const isCorrectPucaHighlighted = (highlightedPuca === 1); // Assuming puca1 is correct, change accordingly
+        let isProcessing = false; // Flag to indicate whether the function is already in progress
+
+        aBtn.on('pointerdown', () => {
+            if (!isProcessing) { // Check if the function is already in progress
+                isProcessing = true; // Set flag to true while processing
         
-              if (isCorrectPucaHighlighted) {
-                  // Player pressed the button when the correct puca was highlighted
-                  console.log('Correct puca highlighted!');
-              } else {
-                  // Player pressed the button when the wrong puca was highlighted
-                  console.log('Wrong puca highlighted!');
-              }
-              moveOnToNextWordPair() 
-      
-    });
- 
+                // Determine whether the correct puca was highlighted when the button was clicked
+                const isPosDisplayed = gaText.text === wordPairs[currentWordPairIndex].posGa;
+        
+                if (highlightedPuca === 0 && isPosDisplayed) {
+                    // Player pressed the button when the correct puca was highlighted and the displayed word is positive
+                    console.log('Correct puca highlighted and positive word displayed!');
+                    // Increment score, if you're tracking it
+                    // score++;
+                    moveOnToNextWordPair();
+                } else if (highlightedPuca === 1 && !isPosDisplayed) {
+                    // Player pressed the button when the correct puca was highlighted and the displayed word is negative
+                    console.log('Correct puca highlighted and negative word displayed!');
+                    // Increment score, if you're tracking it
+                    // score++;
+                    moveOnToNextWordPair();
+                } else {
+                    // Player pressed the button when the wrong puca was highlighted or the displayed word is incorrect
+                    console.log('Wrong puca highlighted or incorrect word displayed!');
+                    setTimeout(() => {
+                        handleWrongAnswer(scene);
+                        moveOnToNextWordPair();
+                    }, 500);
+                }
+        
+                // Reset flag after a short delay to allow next touch
+                setTimeout(() => {
+                    isProcessing = false;
+                }, 1000);
+            }
+        });
 
       // Start the timer to switch between puca highlights every 2 seconds
       timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
@@ -399,21 +418,42 @@ function create() {
     pucaWhite.rotation = -Math.PI / 4;
     boardContainer.add(pucaWhite);
 
-    // Center the camera on the middle of the screen
-// Add click event to the button
-// Add click event to the button
-aBtn.on('pointerdown', () => {
-    // Determine randomly whether to display positive or negative text
-    const showPositive = Math.random() > 0.5;
+    let buttonCooldown = false;
 
-    // Update the text based on the random selection
-    if (showPositive) {
-        gaText.setText(wordPairs[currentWordPairIndex].posGa);
-    } else {
-        gaText.setText(wordPairs[currentWordPairIndex].negGa);
-    }
-});
+    let wrongAnswerHandled = false;
 
+    // aBtn.on('pointerdown', () => {
+    //     if (!buttonCooldown) {
+    //         buttonCooldown = true; // Set cooldown flag
+    //         setTimeout(() => {
+    //             buttonCooldown = false; // Reset cooldown flag after a short delay
+    //         }, 1000); // Adjust the delay as needed
+    
+    //         const isPositiveWord = currentWordPairIndex >= 0 && wordPairs[currentWordPairIndex].posGa === gaText.text;
+    
+    //         // Determine whether the correct puca was highlighted when the button was clicked
+    //         const isCorrectPucaHighlighted = (highlightedPuca === 1); // Assuming puca1 is correct, change accordingly
+    
+    //         if ((isPositiveWord && isCorrectPucaHighlighted) || (!isPositiveWord && !isCorrectPucaHighlighted)) {
+    //             // Correct answer
+    //             console.log('Correct puca highlighted!');
+    //             moveOnToNextWordPair();
+    //             wrongAnswerHandled = false; // Reset wrongAnswerHandled flag
+    //         } else {
+    //             // Wrong answer
+    //             console.log('Wrong puca highlighted!');
+    //             if (!wrongAnswerHandled) {
+    //                 setTimeout(() => {
+    //                     moveOnToNextWordPair();
+    //                     handleWrongAnswer(scene);
+    //                     alert();
+    //                     wrongAnswerHandled = true; // Set wrongAnswerHsadfsdandled flag to true
+    //                   }, 500); 
+    //             }
+    //         }
+    //     }
+    // });
+    
 
     // Start the timer to switch between puca highlights every 2 seconds
     timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
