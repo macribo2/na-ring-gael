@@ -154,7 +154,7 @@ this.yinCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yinCard, this.yanCard);
     localStorage.setItem('chosenPuca', '1');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
     
 });
 const handleCardClick = (chosenCard, otherCard) => {
@@ -166,7 +166,7 @@ const handleCardClick = (chosenCard, otherCard) => {
         x:this.sys.game.config.width / 2, 
         duration: 500,  // Duration of the animation
         onComplete: () => {
-            this.textGa.setText("Púca Roghnaithe!");
+            this.textGa.setText("ag lódál...");
             this.textEn.setText("Pooka Selected!");
             this.yinCard.setScale(1);
             this.yanCard.setScale(1);
@@ -193,7 +193,7 @@ this.yanCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yanCard, this.yinCard);
     localStorage.setItem('chosenPuca', '0');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
     
 });
 
