@@ -3,9 +3,9 @@ import Phaser from 'phaser';
 import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
 
+let  gaText;
 const PhaserGame = () => {
     let currentWordPairIndex = 0;
-    let posGaText, negGaText;
     let hearts = 3;
     const heartSprites = []; // Array to store heart sprites
     const phaserGameRef = useRef(null);
@@ -20,17 +20,22 @@ const PhaserGame = () => {
     
         if (currentWordPairIndex < wordPairs.length) {
             const nextWordPair = wordPairs[currentWordPairIndex];
-            const showPositive = Math.random() > 0.5; // Random boolean (true or false)
     
-            const textToSet = showPositive ? posGaText : negGaText;
-            textToSet.setText(showPositive ? nextWordPair.posGa : nextWordPair.negGa);
+            // Determine randomly whether to display positive or negative text
+            const showPositive = Math.random() > 0.5;
+    
+            // Update the text based on the random selection
+            if (showPositive) {
+                gaText.setText(nextWordPair.posGa);
+            } else {
+                gaText.setText(nextWordPair.negGa);
+            }
     
         } else {
             console.log('End of game');
         }
     }
     
-
     useEffect(() => {
         const loadFont = () => {
             if (document.fonts && document.fonts.ready) {
@@ -100,9 +105,9 @@ const PhaserGame = () => {
         const scene = this;
         const aBtn = scene.add.sprite(100, scene.cameras.main.height -50, 'aBtn').setDepth(11);
         // aBtn.alpha = 0.5;
-
+        
         aBtn.setInteractive(); // Make the button interactive
-    
+        
         // Create the chessboard
         const boardSize = 10; // Adjust as needed
         const squareSize = scene.scale.width / boardSize;
@@ -110,16 +115,18 @@ const PhaserGame = () => {
         const boardCenterY = scene.scale.height / 2;
         const boardOffsetX = squareSize * boardSize / 2;
         const boardOffsetY = squareSize * boardSize / 2;
-    
+        
         // Container for the entire board
         const boardContainer = scene.add.container(boardCenterX - boardOffsetX, boardCenterY - boardOffsetY);
-
-
-// Rotate the board container 45 degrees (converted to radians)
-boardContainer.rotation = Math.PI / 4;
-boardContainer.x += 400;
-boardContainer.y += 100;
-boardContainer.setScale(0.75)
+        
+        
+        // Rotate the board container 45 degrees (converted to radians)
+        boardContainer.rotation = Math.PI / 4;
+        boardContainer.x += 400;
+        boardContainer.y += 100;
+        boardContainer.setScale(0.75)
+    
+        
 
         for (let row = 0; row < boardSize; row++) {
             for (let col = 0; col < boardSize; col++) {
@@ -131,7 +138,7 @@ boardContainer.setScale(0.75)
                 boardContainer.add(square);
             }
         }
-    
+        
         // Other elements
         const firstWordPair = wordPairs[0];
         
@@ -146,21 +153,12 @@ boardContainer.setScale(0.75)
             stroke: '#000000', // Stroke color
             strokeThickness: 2, // Stroke thickness
         };
-        posGaText = scene.add.text(posX, posY, firstWordPair.posGa, textStyle).setOrigin(0).setDepth(9);
-        negGaText = scene.add.text(negX, negY, firstWordPair.negGa, textStyle).setOrigin(0).setDepth(-1);
-    
-        posGaText.setInteractive();
-        negGaText.setInteractive();
-    
-        posGaText.on('pointerdown', () => {
-            handleWrongAnswer(scene);
-            moveOnToNextWordPair();
-        });
-    
-        negGaText.on('pointerdown', () => {
-            moveOnToNextWordPair();
-        });
-    
+     gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0).setDepth(9);
+          gaText.setInteractive();
+        // negGaText = scene.add.text(negX, negY, firstWordPair.negGa, textStyle).setOrigin(0).setDepth(9);
+        
+        
+        
         // Create heart sprites representing game lives
         for (let i = 0; i < hearts; i++) {
             const heartX = 20 + i * 30;
@@ -310,8 +308,118 @@ const c9posX = (this.sys.game.config.width - circleFrame.displayWidth) / 2;
 const c9posY = (this.sys.game.config.height - circleFrame.displayHeight) / 2;
 circleFrame.setPosition(c9posX, c9posY);
 
+function create() {
+    const scene = this;
+    const aBtn = scene.add.sprite(100, scene.cameras.main.height -50, 'aBtn').setDepth(11);
+    // aBtn.alpha = 0.5;
+
+    aBtn.setInteractive(); // Make the button interactive
+
+    // Create the chessboard
+    const boardSize = 10; // Adjust as needed
+    const squareSize = scene.scale.width / boardSize;
+    const boardCenterX = scene.scale.width / 2;
+    const boardCenterY = scene.scale.height / 2;
+    const boardOffsetX = squareSize * boardSize / 2;
+    const boardOffsetY = squareSize * boardSize / 2;
+
+    // Container for the entire board
+    const boardContainer = scene.add.container(boardCenterX - boardOffsetX, boardCenterY - boardOffsetY);
+
+
+    // Rotate the board container 45 degrees (converted to radians)
+    boardContainer.rotation = Math.PI / 4;
+    boardContainer.x += 400;
+    boardContainer.y += 100;
+    boardContainer.setScale(0.75)
+
+    for (let row = 0; row < boardSize; row++) {
+        for (let col = 0; col < boardSize; col++) {
+            const squareColor = (row + col) % 2 === 0 ? 0x2E8B57 : 0xD3D3D3;
+            const square = scene.add.rectangle(col * squareSize, row * squareSize, squareSize, squareSize, squareColor);
+            square.setOrigin(0);
+            square.setData('row', row);
+            square.setData('col', col);
+            boardContainer.add(square);
+        }
     }
 
+    // Other elements
+    const firstWordPair = wordPairs[0];
+
+    const posX = 270;
+    const posY = 180;
+    const negX = 300;
+    const negY = 100;
+    const textStyle = {
+        fontSize: '6em',
+        fontFamily: 'aonchlo',
+        color: '#ffffff',
+        stroke: '#000000', // Stroke color
+        strokeThickness: 2, // Stroke thickness
+    };
+    
+  
+
+    // Create heart sprites representing game lives
+    for (let i = 0; i < hearts; i++) {
+        const heartX = 20 + i * 30;
+        const heartY = 20;
+        const heartSprite = scene.add.sprite(heartX, heartY, 'heart').setScale(0.2).setOrigin(0,0).setDepth(9);
+        heartSprites.push(heartSprite); // Add heart sprite to array
+    }
+
+    // Add puca and player
+
+    // Add puca and player to the board container
+    const playerSquareRow = 4; // Adjust the row of the player's square
+    const playerSquareCol = 4; // Adjust the column of the player's square
+
+    // Calculate the player's position with respect to the board
+    const playerX = playerSquareCol * squareSize +32;
+    const playerY = playerSquareRow * squareSize+ 32;
+    const player = scene.add.image(playerX, playerY, 'player').setScale(1.5).setOrigin(0.5, 0.5);
+    boardContainer.add(player);
+    player.rotation = -Math.PI / 4;
+
+    // Add puca and player to the board container
+    const pucaBlackSquareRow =2; // Adjust the row of the left puca's square
+    const pucaBlackSquareCol = 3; // Adjust the column of the left puca's square
+    const pucaBlackX = pucaBlackSquareCol * squareSize+16;
+    const pucaBlackY = pucaBlackSquareRow * squareSize+16;
+    const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5);
+    boardContainer.add(pucaBlack);
+
+    const pucaWhiteSquareRow = 3; // Adjust the row of the right puca's square
+    const pucaWhiteSquareCol = 2; // Adjust the column of the right puca's square
+    const pucaWhiteX = pucaWhiteSquareCol * squareSize+16;
+    const pucaWhiteY = pucaWhiteSquareRow * squareSize+16;
+    const pucaWhite = scene.add.image(pucaWhiteX, pucaWhiteY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5);
+    pucaBlack.rotation = -Math.PI / 4;
+    pucaWhite.rotation = -Math.PI / 4;
+    boardContainer.add(pucaWhite);
+
+    // Center the camera on the middle of the screen
+// Add click event to the button
+// Add click event to the button
+aBtn.on('pointerdown', () => {
+    // Determine randomly whether to display positive or negative text
+    const showPositive = Math.random() > 0.5;
+
+    // Update the text based on the random selection
+    if (showPositive) {
+        gaText.setText(wordPairs[currentWordPairIndex].posGa);
+    } else {
+        gaText.setText(wordPairs[currentWordPairIndex].negGa);
+    }
+});
+
+
+    // Start the timer to switch between puca highlights every 2 seconds
+    timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
+
+}
+    }
     function update() {}
     
 
