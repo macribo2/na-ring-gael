@@ -11,7 +11,9 @@ const PhaserGame = () => {
     const phaserGameRef = useRef(null);
     let highlightedPuca = 0; // Tracks which puca is currently highlighted (0 or 1)
     let timerEvent; // Timer event for switching between puca highlights
-
+    let score = 0;
+  
+    
 
 
     function moveOnToNextWordPair() {
@@ -85,6 +87,7 @@ const PhaserGame = () => {
     
 
     function preload() {
+        this.load.audio('fanfare', 'phaser-resources/audio/fanfare.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('circle9', './phaser-resources/images/ciorcal-glass9.png');
 
@@ -213,6 +216,7 @@ const PhaserGame = () => {
                     // Player pressed the button when the correct puca was highlighted and the displayed word is positive
                     console.log('Correct puca highlighted and positive word displayed!');
                     // Increment score, if you're tracking it
+        handleRightAnswer()
                     // score++;
                     moveOnToNextWordPair();
                 } else if (highlightedPuca === 1 && !isPosDisplayed) {
@@ -220,6 +224,8 @@ const PhaserGame = () => {
                     console.log('Correct puca highlighted and negative word displayed!');
                     // Increment score, if you're tracking it
                     // score++;
+        handleRightAnswer()
+
                     moveOnToNextWordPair();
                 } else {
                     // Player pressed the button when the wrong puca was highlighted or the displayed word is incorrect
@@ -422,44 +428,34 @@ function create() {
 
     let wrongAnswerHandled = false;
 
-    // aBtn.on('pointerdown', () => {
-    //     if (!buttonCooldown) {
-    //         buttonCooldown = true; // Set cooldown flag
-    //         setTimeout(() => {
-    //             buttonCooldown = false; // Reset cooldown flag after a short delay
-    //         }, 1000); // Adjust the delay as needed
-    
-    //         const isPositiveWord = currentWordPairIndex >= 0 && wordPairs[currentWordPairIndex].posGa === gaText.text;
-    
-    //         // Determine whether the correct puca was highlighted when the button was clicked
-    //         const isCorrectPucaHighlighted = (highlightedPuca === 1); // Assuming puca1 is correct, change accordingly
-    
-    //         if ((isPositiveWord && isCorrectPucaHighlighted) || (!isPositiveWord && !isCorrectPucaHighlighted)) {
-    //             // Correct answer
-    //             console.log('Correct puca highlighted!');
-    //             moveOnToNextWordPair();
-    //             wrongAnswerHandled = false; // Reset wrongAnswerHandled flag
-    //         } else {
-    //             // Wrong answer
-    //             console.log('Wrong puca highlighted!');
-    //             if (!wrongAnswerHandled) {
-    //                 setTimeout(() => {
-    //                     moveOnToNextWordPair();
-    //                     handleWrongAnswer(scene);
-    //                     alert();
-    //                     wrongAnswerHandled = true; // Set wrongAnswerHsadfsdandled flag to true
-    //                   }, 500); 
-    //             }
-    //         }
-    //     }
-    // });
-    
 
     // Start the timer to switch between puca highlights every 2 seconds
     timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
 
 }
-    }
+   
+function handleRightAnswer() {
+    // Increment score
+    score++;
+
+    // Play fanfare sound
+    const fanfareSound = scene.sound.add('fanfare');
+    fanfareSound.play();
+
+    // Show score increment graphic
+    const scoreText = scene.add.text(400, 300, '+1', { fontSize: '32px', fill: '#ffffff' }).setOrigin(0.5);
+    scene.tweens.add({
+        targets: scoreText,
+        alpha: 0,
+        y: 200,
+        duration: 2000,
+        ease: 'Power1',
+        onComplete: () => {
+            scoreText.destroy(); // Remove the text after animation completes
+        }
+    });
+}
+}
     function update() {}
     
 
