@@ -185,8 +185,8 @@ class GameScene extends Phaser.Scene {
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
-    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-    glassbg.setAlpha(0.1);
+    const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
+    glassbg.setAlpha(0.7);
 
     // Calculate scale to contain the background within the game dimensions
     const scaleX = this.sys.game.config.width / background.width;
@@ -258,15 +258,15 @@ greenFrame.setPosition(posX, posY);
     // this.tintedPlayer.setScale(1.5);
 
     // Create the overlay container
-    // this.overlay.setVisible(false); // Initially hide the overlay
     // Add a transparent background to cover the entire screen
-    // const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
 
     // Add translations and text to the overlay
     // const text = this.add.text(100, 100, , { color: '#ffffff' });
-    this.overlay = this.add.container(0, 0);
+    this.overlay = this.add.container(0, 0).setDepth(17);
+    this.overlay.setVisible(false); // Initially hide the overlay
+
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
     this.overlay.add([glassbg, this.textEn]);
@@ -302,6 +302,11 @@ let isMiddleButtonProcessing = false;
         setTimeout(() => {
             this.buttonMiddle.setTexture('button-middle');
     },500);});
+
+    this.buttonMiddle.on('pointerdown', () => {
+        // Toggle the visibility of the overlay and its elements
+        this.overlay.setVisible(!this.overlay.visible);
+    });
 
 
 
