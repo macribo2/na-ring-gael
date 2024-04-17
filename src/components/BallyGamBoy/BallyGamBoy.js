@@ -5,12 +5,10 @@ import Easca from '../easca/easca2';
 import './bally.css';
 import { useHistory } from 'react-router-dom';
 
-
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
 // ];
 const BallyGamboyGame = () => {
-    
     
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
@@ -37,10 +35,6 @@ const BallyGamboyGame = () => {
             }
         };
     }, []); 
-    const toggleOverlay = () => {
-        setShowEasca(!showEasca); // Toggle the visibility state
-        
-    };
 
     return (
         <>
@@ -63,7 +57,6 @@ class GameScene extends Phaser.Scene {
     
         super({ key: 'GameScene' });
         this.bally0map = null;
-        // this.bgOverlay = null;
         this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
             0: { x: 0.35, y: 0.43 },
@@ -78,6 +71,8 @@ class GameScene extends Phaser.Scene {
         this.dialogues = [];
     
     }
+
+
   // Function to disable movement controls
  disableMovementControls() {
     this.movementControlsEnabled = false;
@@ -110,10 +105,8 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
         this.load.image('bally0map', './phaser-resources/images/ghostTown.png');
-        // this.load.image('bgOverlay', './phaser-resources/images/map2-overlay.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
-        this.load.image('yinCard', './phaser-resources/images/cards/puca0.png'); // Load overlay image
-        this.load.image('yanCard', './phaser-resources/images/cards/puca1.png'); // Load overlay image
+     
     }
 
    
@@ -141,119 +134,16 @@ class GameScene extends Phaser.Scene {
         } else {
             console.error('Element with className "molly" not found.');
         }
-setTimeout(() => {
-
-    // Add sprites for the playing cards
-
-    this.yinCard = this.add.sprite(this.sys.game.config.width / 4 - 60, this.sys.game.config.height / 2,'yinCard').setDepth(4);
-    this.yanCard = this.add.sprite(this.sys.game.config.width / 4 + 420, this.sys.game.config.height / 2, 'yanCard').setDepth(4);
-// Inside the create() method or wherever you initialize your cards
-this.yinCard.setInteractive();
-this.yinCard.on('pointerdown', () => {
-    // Handle click on yinCard
-    console.log('Yin card clicked!');
-    handleCardClick(this.yinCard, this.yanCard);
-    localStorage.setItem('chosenPuca', '1');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
-    
-});
-const handleCardClick = (chosenCard, otherCard) => {
-
-    this.tweens.add({
-        targets: chosenCard,
-        angle: 360,  // Rotate the card 360 degrees
-        scale:1,
-        x:this.sys.game.config.width / 2, 
-        duration: 500,  // Duration of the animation
-        onComplete: () => {
-            this.textGa.setText("ag lódál...");
-            this.textEn.setText("Pooka Selected!");
-            this.yinCard.setScale(1);
-            this.yanCard.setScale(1);
-            // Set the chosen card to invisible after the animation completes
-            // chosenCard.setVisible(false);
-        }
-    });
-
-        // Fade out the other card
-        this.tweens.add({
-            targets: otherCard,
-            alpha: 0,  // Fade out the card
-            duration: 500,  // Duration of the animation
-            onComplete: () => {
-                // Set the other card to invisible after the animation completes
-                otherCard.setVisible(false);
-
-            }
-        });
-           }   
-this.yanCard.setInteractive();
-this.yanCard.on('pointerdown', () => {
-    // Handle click on yinCard
-    console.log('Yin card clicked!');
-    handleCardClick(this.yanCard, this.yinCard);
-    localStorage.setItem('chosenPuca', '0');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
-    
-});
-
-    // Adjust the scale of the card sprites to make them smaller
-    const cardScale = 0.4; // Adjust this value as needed
-    this.yanCard.setScale(cardScale);
-    this.yinCard.setScale(cardScale);
-// Define the dance animation for the yin card
-const danceTween1 = this.tweens.add({
-    targets: this.yinCard,
-    x: '+=450', // Move the card to the right
-    y: '+=30', // Move the card downwards
-    angle: '+=20', // Rotate the card clockwise
-    duration: 2500, // Duration of each dance step
-    yoyo: true, // Repeat the tween in reverse
-    repeat: -1, // Repeat indefinitely
-});
-
-// Define the dance animation for the yan card
-const danceTween2 = this.tweens.add({
-    targets: this.yanCard,
-    x: '-=450', // Move the card to the left
-    y: '-=30', // Move the card upwards
-    angle: '-=20', // Rotate the card counter-clockwise
-    duration: 2500, // Duration of each dance step
-    yoyo: true, // Repeat the tween in reverse
-    repeat: -1, // Repeat indefinitely
-});
-
-
-}, 500);
-   
-
-        // Play the entrance animation for the 'yinCard' with a delay
-        this.time.delayedCall(600, () => {
-            // Spin and fade-in animation for the 'yanCard'
-            this.tweens.add({
-                targets: this.yanCard,
-                angle: 359,
-                alpha: 1,
-                duration: 1000,
-                ease: 'Power2',
-            });
-            
-            // Spin and fade-in animation for the 'yinCard'
-            this.tweens.add({
-                targets: this.yinCard,
-                angle: 350,
-                alpha: 1,
-                duration: 1000,
-                ease: 'Power2',
-            });
-        });
-    
-
+        
+        
+        
     }
     
     
     create() {
-
+    
+     
+    
         
     // Define a boolean flag to track whether movement controls are enabled
  this.movementControlsEnabled = true;
@@ -295,8 +185,8 @@ const danceTween2 = this.tweens.add({
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
-    const glassbg0 = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
-    glassbg0.setAlpha(0.1);
+    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+    glassbg.setAlpha(0.1);
 
     // Calculate scale to contain the background within the game dimensions
     const scaleX = this.sys.game.config.width / background.width;
@@ -313,32 +203,19 @@ const danceTween2 = this.tweens.add({
     this.bally0map.setScale(bally0mapScale);
     this.bally0map.x = (this.sys.game.config.width - this.bally0map.displayWidth) / 2;
     this.bally0map.y = (this.sys.game.config.height - this.bally0map.displayHeight) / 2;
-   // Add the bgOverlay image
-// this.bgOverlay = this.add.sprite(this.bally0map.x, this.bally0map.y, 'bgOverlay').setOrigin(0);
-// this.bgOverlay.setScale(bally0mapScale);
 
 // Ensure the bgOverlay moves with the background
 this.bally0map.on('changedata-x', () => {
-    // this.bgOverlay.x = this.bally0map.x;
 });
 this.bally0map.on('changedata-y', () => {
-    // this.bgOverlay.y = this.bally0map.y;
 });
 
-// Ensure the bgOverlay renders above the player
-// this.bgOverlay.setDepth(1);
 
-
-    // Ensure the bgOverlay moves with the background
-    this.bally0map.on('changedata-x', () => {
-        // this.bgOverlay.x = this.bally0map.x;
-    });
+this.bally0map.on('changedata-x', () => {
+});
     this.bally0map.on('changedata-y', () => {
-        // this.bgOverlay.y = this.bally0map.y;
     });
-
-    // Ensure the bgOverlay renders above the player
-    // this.bgOverlay.setDepth(1);
+    
 
      // Add green frame image
 // Add green frame image
@@ -375,24 +252,24 @@ greenFrame.setPosition(posX, posY);
     // // Create a duplicate of the original player sprite
     // this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
     // // Apply the tint to the duplicate sprite
-    // this.tintedPlayer.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use the hexadecimal color codes here
+    // this.tintedPlay//////?///er.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use/ the hexadecimal color codes here
     // this.tintedPlayer.setDepth(4);
     // this.tintedPlayer.alpha = 0.65;
     // this.tintedPlayer.setScale(1.5);
 
     // Create the overlay container
-    this.overlay = this.add.container(0, 0);
-    this.overlay.setVisible(false); // Initially hide the overlay
+    // this.overlay.setVisible(false); // Initially hide the overlay
     // Add a transparent background to cover the entire screen
-    const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
+    // const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
-    this.overlay.add(glassbg).setDepth(3);
 
     // Add translations and text to the overlay
     // const text = this.add.text(100, 100, , { color: '#ffffff' });
-    this.overlay.add([glassbg0, this.textEn]);
-
+    this.overlay = this.add.container(0, 0);
+    glassbg.displayWidth = this.sys.game.config.width;
+    glassbg.displayHeight = this.sys.game.config.height;
+    this.overlay.add([glassbg, this.textEn]);
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 150; // Right side of the screen
     const buttonY = this.sys.game.config.height / 2 + 50;
@@ -405,14 +282,11 @@ greenFrame.setPosition(posX, posY);
     // Add the button to the overlay and hide it initially
     // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
     // this.buttonG = buttonG; // Store the button as a class member
+// Define a flag to track whether the button is processing a touch event
+let isMiddleButtonProcessing = false;
 
     // Add middle button
     this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(9);
-
-    // Set up event listeners for button clicks
-    this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
-
-
 
     // Define behavior for pointer events (e.g., hover, click)
     this.buttonMiddle.on('pointerover', () => {
@@ -496,7 +370,7 @@ moveElement(direction) {
             console.error('Element with className "molly" not found.');
         }
 
-        this.   disableMovementControls();
+        // this.   disableMovementControls();
     }
 
     const speed = 500; // Adjust the speed as needed
@@ -505,8 +379,7 @@ moveElement(direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >5) {
-            this.playerMapLocationTracker=5; // Increment tracker
-
+                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
@@ -570,12 +443,6 @@ moveElement(direction) {
 
 
 
-    toggleOverlay() {
-        this.overlay.setVisible(!this.overlay.visible);
-        // this.buttonG.setVisible(this.overlay.visible); // Toggle button visibility based on overlay visibility
-   
-   
-    }
 }
 
 export default BallyGamboyGame;

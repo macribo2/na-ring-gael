@@ -83,11 +83,7 @@ left:0px;
     top: 81%;
   }
 
-  .chess-like-1{
-	height: 100vh;
-	width:800px;
-	/* border:4px solid blue; */
-  }
+
 
   .phaser-chess-like {
 	border: 5px solid orchid;
