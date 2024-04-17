@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
+import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
 
 let  gaText, enText;
 function PhaserGame(){
@@ -20,7 +21,26 @@ function PhaserGame(){
 
       // Create the overlay container
     let overlay;
-      overlay.setVisible(false); // Initially hide the overlay
+
+    const [fullscreen, setFullscreen] = useState(false);
+
+const toggleFullscreen = () => {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    const elem = document.documentElement;
+    const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
+    fullscreenPromise.then(() => {
+      setFullscreen(true);
+    });
+  } else {
+    const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
+    exitPromise.then(() => {
+      setFullscreen(false);
+    });
+  }
+};
+
+
+    //   overlay.setVisible(false); // Initially hide the overlay
    function moveOnToNextWordPair() {
         currentWordPairIndex++;
         console.log('Moving to next word pair. Index:', currentWordPairIndex);
@@ -137,10 +157,10 @@ function create() {
 
 
         glassbg.setAlpha(0.9).setDepth(15);
-        this.overlay.add(glassbg).setDepth(3);
+        // this.overlay.add(glassbg).setDepth(3);
         const aBtn = scene.add.sprite(100, scene.cameras.main.height -50, 'aBtn').setDepth(11);
         // aBtn.alpha = 0.5;
-        overlay.setVisible(false); // Initially hide the overlay
+        // overlay.setVisible(false); // Initially hide the overlay
         overlay.add(glassbg);
 
         aBtn.setInteractive(); // Make the button interactive
@@ -191,7 +211,7 @@ function create() {
             strokeThickness: 3, // Stroke thickness
         };
         const enTextStyle = {
-            fontSize: '6em',
+            fontSize: '4em',
             fontFamily: 'anaphora',
             color: '#ffffff',
             stroke: '#000000', // Stroke color
@@ -279,20 +299,22 @@ overlay.add(enText);
     this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
     this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(9);
     this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(9);
-    // Add the button to the overlay and hide it initially
-    // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
-    // this.buttonG = buttonG; // Store the button as a class member
     
+    
+    let isToggling = false; // Flag to track if overlay is currently toggling
+
     // Add middle button
-    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(9);
+    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(20);
     
     
     
-    
-    // Set up event listeners for button clicks
-    this.buttonMiddle.on('pointerdown', () => toggleOverlay());
-    
-    
+// Set up event listener for button clicks
+this.buttonMiddle.on('pointerdown', () => {
+    if (!isToggling) { // Check if not already toggling
+        isToggling = true; // Set flag to true
+        toggleOverlay();
+    }
+});
     
     // Define behavior for pointer events (e.g., hover, click)
     this.buttonMiddle.on('pointerover', () => {
@@ -301,14 +323,17 @@ overlay.add(enText);
         setTimeout(() => {
             this.buttonMiddle.setTexture('button-middle');
         },500);});
-        
- // Inside the toggleOverlay function
- function toggleOverlay (){
-    if (overlay) {
+
+
+
+function toggleOverlay() {
+    if (overlay !== null && overlay !== undefined) {
         overlay.setVisible(!overlay.visible);
-        // Additional logic related to the overlay...
+        setTimeout(()=>{
+            isToggling=false;
+        },200)
     }
-};        
+}
         this.buttonMiddle.on('pointerout', () => {
             // Change the button texture back to the normal state image when not hovered
             setTimeout(() => {
@@ -448,7 +473,28 @@ function handleWrongAnswer(scene) {
     }
     
 
-    return <div className='chess-like-1' ref={phaserGameRef}></div>;
+    return <div className='chess-like-1' ref={phaserGameRef}>
+
+{!fullscreen && (
+<>
+                <img
+                    src={geaga1}
+                    alt="foggy fields"
+                    className="fullscreen-image"
+                    onClick={toggleFullscreen}
+                    />
+                    <div className='touch-prompt'></div>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div>
+                    </>
+            )}
+
+
+
+            {fullscreen && <div className="fullscreen-overlay" onClick={toggleFullscreen}></div>}
+            
+
+    </div>;
 
 
 };

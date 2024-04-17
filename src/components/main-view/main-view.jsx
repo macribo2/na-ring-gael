@@ -963,7 +963,6 @@ You’ll get that if my journey succeeds with me.
 		{currentQuestion>=8?setIsFadedOut(true):null}
 	
 
-		{/* <Link to="/chesslike">Go to Component 2</Link> */}
 		<ReactAudioPlayer src={coin1} id="coin1" />
 
 
