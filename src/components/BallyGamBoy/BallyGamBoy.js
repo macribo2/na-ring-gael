@@ -288,13 +288,22 @@ let isMiddleButtonProcessing = false;
     // Add middle button
     this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(9);
 
+
+    this.buttonMiddle.on('pointerdown', () => {
+        // Toggle the visibility of the overlay and its elements
+        this.overlay.setVisible(!this.overlay.visible);
+    });
+
+
     // Define behavior for pointer events (e.g., hover, click)
+ 
     this.buttonMiddle.on('pointerover', () => {
         // Change the button texture to the lit state image when hovered
         this.buttonMiddle.setTexture('button-middle-lit');
         setTimeout(() => {
             this.buttonMiddle.setTexture('button-middle');
-    },500);});
+        },500);});
+
 
 
     this.buttonMiddle.on('pointerout', () => {
@@ -303,10 +312,8 @@ let isMiddleButtonProcessing = false;
             this.buttonMiddle.setTexture('button-middle');
     },500);});
 
-    this.buttonMiddle.on('pointerdown', () => {
-        // Toggle the visibility of the overlay and its elements
-        this.overlay.setVisible(!this.overlay.visible);
-    });
+ 
+    
 
 
 
@@ -384,7 +391,7 @@ moveElement(direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
+                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
@@ -414,8 +421,7 @@ moveElement(direction) {
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >5) {
-            this.playerMapLocationTracker=5; // Increment tracker
-
+                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);

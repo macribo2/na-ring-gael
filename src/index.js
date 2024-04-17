@@ -34,7 +34,7 @@ const ChessLikeWrapper = () => {
     <>
       <PlayerProvider>
         <Switch>
-          <Route path="/chesslike" render={() => (
+          <Route path="/pookaLogic" render={() => (
             <>
               <ChessLike />
               {shouldRefresh && <ChessLike />}

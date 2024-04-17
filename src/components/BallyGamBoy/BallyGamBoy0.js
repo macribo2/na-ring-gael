@@ -153,7 +153,7 @@ this.yinCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yinCard, this.yanCard);
     localStorage.setItem('chosenPuca', '1');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
     
 });
 const handleCardClick = (chosenCard, otherCard) => {
@@ -192,7 +192,7 @@ this.yanCard.on('pointerdown', () => {
     console.log('Yin card clicked!');
     handleCardClick(this.yanCard, this.yinCard);
     localStorage.setItem('chosenPuca', '0');
-    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/chesslike'; }, 2000);
+    setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
     
 });
 
