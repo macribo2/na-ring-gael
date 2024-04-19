@@ -117,6 +117,8 @@ const toggleFullscreen = () => {
     
 
   function preload() {
+    this.load.image('tallBg', './phaser-resources/images/tallBg0.png');
+
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
 
     this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
@@ -141,10 +143,6 @@ const toggleFullscreen = () => {
 
 
 
-////////////
-
-
-
 function create() {
        overlay = this.add.container(0, 0);
         const scene = this;
@@ -166,7 +164,7 @@ function create() {
         aBtn.setInteractive(); // Make the button interactive
         
         // Create the chessboard
-        const boardSize = 10; // Adjust as needed
+        const boardSize = 9; // Adjust as needed
         const squareSize = scene.scale.width / boardSize;
         const boardCenterX = scene.scale.width / 2;
         const boardCenterY = scene.scale.height / 2;
@@ -181,18 +179,20 @@ function create() {
         boardContainer.rotation = Math.PI / 4;
         boardContainer.x += 400;
         boardContainer.y += 100;
-        boardContainer.setScale(0.75)
+        boardContainer.setScale(0.75).setDepth(1)
     
         
 
         for (let row = 0; row < boardSize; row++) {
             for (let col = 0; col < boardSize; col++) {
-                const squareColor = (row + col) % 2 === 0 ? 0x2E8B57 : 0xD3D3D3;
+                const squareColor = (row + col) % 2 === 0 ?0x9900FF00 : 0x96969696
                 const square = scene.add.rectangle(col * squareSize, row * squareSize, squareSize, squareSize, squareColor);
                 square.setOrigin(0);
                 square.setData('row', row);
                 square.setData('col', col);
                 boardContainer.add(square);
+                square.alpha = 0;
+
             }
         }
         
@@ -244,7 +244,7 @@ overlay.add(enText);
         // Calculate the player's position with respect to the board
         const playerX = playerSquareCol * squareSize +32;
         const playerY = playerSquareRow * squareSize+ 32;
-        const player = scene.add.image(playerX, playerY, 'player').setScale(1.5).setOrigin(0.5, 0.5);
+        const player = scene.add.image(playerX, playerY, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
         boardContainer.add(player);
         player.rotation = -Math.PI / 4;
         // Add puca and player to the board container
@@ -252,14 +252,14 @@ overlay.add(enText);
         const pucaBlackSquareCol = 3; // Adjust the column of the left puca's square
     const pucaBlackX = pucaBlackSquareCol * squareSize+16;
     const pucaBlackY = pucaBlackSquareRow * squareSize+16;
-    const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5);
+    const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
     boardContainer.add(pucaBlack);
     
     const pucaWhiteSquareRow = 3; // Adjust the row of the right puca's square
     const pucaWhiteSquareCol = 2; // Adjust the column of the right puca's square
     const pucaWhiteX = pucaWhiteSquareCol * squareSize+16;
     const pucaWhiteY = pucaWhiteSquareRow * squareSize+16;
-    const pucaWhite = scene.add.image(pucaWhiteX, pucaWhiteY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5);
+    const pucaWhite = scene.add.image(pucaWhiteX, pucaWhiteY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
     pucaBlack.rotation = -Math.PI / 4;
     pucaWhite.rotation = -Math.PI / 4;
     boardContainer.add(pucaWhite);
@@ -377,7 +377,7 @@ function toggleOverlay() {
                             // Reset flag after a short delay to allow next touch
                             setTimeout(() => {
                                 isProcessing = false;
-                            }, 1000);
+                            }, 500);
                         }
                     });
             
@@ -415,9 +415,26 @@ circleFrame.setPosition(c9posX, c9posY);
 
 
 
+// Define the height of 3 board squares
+const boardSquareHeight = squareSize * 3;
+
+// Create the image layer
+const tallBg = scene.add.image(scene.cameras.main.width / 2, -boardSquareHeight, 'tallBg').setOrigin(0.5, 0).setScale(2.5).setDepth(-1); // Adjust the depth to be between the board and the game pieces
+
+
+// Animate the image layer to slide down the screen
+function slideDownImageLayer(scene) {
+    scene.tweens.add({
+        targets: tallBg,
+        y: tallBg.y +64*3, // Move down by the height of 3 board squares
+        duration: 1000, // Adjust the duration as needed
+        ease: 'Linear',
+        onComplete: () => {
+            // Animation complete
+        }
+    });
 }
-function update() {}
-    
+
 
 function handleWrongAnswer(scene) {
     hearts--;
@@ -434,9 +451,12 @@ function handleWrongAnswer(scene) {
         window.location.href = '/gameOver';
     }
 }
+  
+
+
     function handleWrongAnswer(scene) {
         hearts--;
-
+    
         // Remove heart sprite from array and destroy it
         if (heartSprites.length > 0) {
             const removedHeart = heartSprites.pop();
@@ -444,33 +464,43 @@ function handleWrongAnswer(scene) {
                 removedHeart.destroy();
             }
         }
-
+    
         if (hearts === 0) {
             window.location.href = '/gameOver';
         }
     }
-    function handleRightAnswer(scene) {
-        scene.sound.play('fanfare');
+      
     
-        // Increment the score
-        score++;
     
-        // Create the "ceart!" text object
-        const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'Arial', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
     
-        // Tween the text object to simulate floating
-        scene.tweens.add({
-            targets: ceartText,
-            y: ceartText.y - 50, // Float upwards by 50 pixels
-            alpha: 0, // Fade out
-            duration: 1000, // 1 second duration
-            ease: 'Linear',
-            onComplete: () => {
-                // Remove the text object when the tween is complete
-                ceartText.destroy();
-            }
-        });
-    }
+        function handleRightAnswer(scene) {
+            scene.sound.play('fanfare');
+        
+            // Increment the score
+            score++;
+        
+            // Create the "ceart!" text object
+            const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'aonchlo', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
+        
+            // Tween the text object to simulate floating
+            scene.tweens.add({
+                targets: ceartText,
+                y: ceartText.y - 50, // Float upwards by 50 pixels
+                alpha: 0, // Fade out
+                duration: 1000, // 1 second duration
+                ease: 'Linear',
+                onComplete: () => {
+                    // Remove the text object when the tween is complete
+                    ceartText.destroy();
+                }
+            });
+    
+            slideDownImageLayer(scene)
+        }
+    
+}//close  create()
+function update() {}
+    
     
 
     return <div className='chess-like-1' ref={phaserGameRef}>
