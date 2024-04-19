@@ -391,7 +391,7 @@ moveElement(direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
+                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
@@ -421,7 +421,7 @@ moveElement(direction) {
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
             if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pookaLogic'; }, 2000);
+                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
