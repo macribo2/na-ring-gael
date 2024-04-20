@@ -141,6 +141,39 @@ left:0px;
 	.touch-prompt:nth-child(4) {
 		animation-delay: 1.5s;
 	}
-	
+	.ga {
+		font-family:aonchlo;
+	}
 	/* Adjust the properties as needed */
 	
+
+	.touch-prompt-container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 9999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	  pointer-events: none;
+
+	}
+	.no-pointer-events{
+		pointer-events: none;
+	}
+@media screen and (orientation:portrait) {
+
+	#portrait{
+	  display: block;
+	  top: 0;
+	  left: 0;
+	  height: 100%;
+	  width: 100%;
+	  z-index: 9999;
+	  position: fixed;
+	  background-size: contain;
+	  opacity:0.9;
+  
+	}
+}  

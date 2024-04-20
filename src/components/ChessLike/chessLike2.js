@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
 import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
-
+import portrait from '../../images/vert-bg2.png'
 let  gaText, enText;
 function PhaserGame(){
     let currentWordPairIndex = 0;
@@ -47,17 +47,30 @@ const toggleFullscreen = () => {
     
         if (currentWordPairIndex < wordPairs.length) {
             const nextWordPair = wordPairs[currentWordPairIndex];
-    
+            gaText.setAlpha(0);
+            enText.setAlpha(0);
             // Determine randomly whether to display positive or negative text
             const showPositive = Math.random() > 0.5;
     
             // Update the text based on the random selection
             if (showPositive) {
-                gaText.setText(nextWordPair.posGa);
-                enText.setText(nextWordPair.posEn);
+                gaText.setAlpha(0);
+                enText.setAlpha(0);
+                setTimeout(()=>{
+                    gaText.setText(nextWordPair.posGa);
+                    enText.setText(nextWordPair.posEn);
+                    gaText.setAlpha(1);
+enText.setAlpha(1);
+                },500)
             } else {
+
                 gaText.setText(nextWordPair.negGa);
                 enText.setText(nextWordPair.negEn);
+                setTimeout(()=>{
+                    gaText.setAlpha(1);
+enText.setAlpha(1);
+                },500)
+
             }
     
         } else {
@@ -144,6 +157,9 @@ const toggleFullscreen = () => {
 
 
 function create() {
+
+
+    
        overlay = this.add.container(0, 0);
         const scene = this;
     overlay.setVisible(false); // Initially hide the overlay
@@ -164,16 +180,22 @@ function create() {
         aBtn.setInteractive(); // Make the button interactive
         
         // Create the chessboard
-        const boardSize = 9; // Adjust as needed
-        const squareSize = scene.scale.width / boardSize;
-        const boardCenterX = scene.scale.width / 2;
-        const boardCenterY = scene.scale.height / 2;
-        const boardOffsetX = squareSize * boardSize / 2;
-        const boardOffsetY = squareSize * boardSize / 2;
-        
-        // Container for the entire board
-        const boardContainer = scene.add.container(boardCenterX - boardOffsetX, boardCenterY - boardOffsetY);
-        
+// Calculate the size of the board
+const boardSize = 9; // Adjust as needed
+const squareSize = scene.scale.width / boardSize;
+const boardWidth = squareSize * boardSize;
+const boardHeight = squareSize * boardSize;
+
+// Calculate the center of the screen
+const centerX = scene.scale.width / 2;
+const centerY = scene.scale.height / 2;
+
+// Calculate the position of the board container to center it on the screen
+const boardContainerX = centerX - (boardWidth / 2);
+const boardContainerY = centerY - (boardHeight / 2);
+
+// Create the board container at the calculated position
+const boardContainer = scene.add.container(boardContainerX, boardContainerY);
         
         // Rotate the board container 45 degrees (converted to radians)
         boardContainer.rotation = Math.PI / 4;
@@ -199,8 +221,8 @@ function create() {
         // Other elements
         const firstWordPair = wordPairs[0];
         
-        const posX = 270;
-        const posY = 150;
+        const posX = scene.sys.game.config.width / 2;
+        const posY = scene.sys.game.config.height / 2;
         const negX = 300;
         const negY = 100;
         const textStyle = {
@@ -221,7 +243,7 @@ function create() {
 
 // Add enText to the overlay container
 overlay.add(enText);
-        gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0).setDepth(9);
+        gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0.5).setDepth(9);
         //   gaText.setInteractive();
         // negGaText = scene.add.text(negX, negY, firstWordPair.negGa, textStyle).setOrigin(0).setDepth(9);
         
@@ -231,7 +253,7 @@ overlay.add(enText);
         for (let i = 0; i < hearts; i++) {
             const heartX = 20 + i * 30;
             const heartY = 20;
-            const heartSprite = scene.add.sprite(heartX, heartY, 'heart').setScale(0.2).setOrigin(0,0).setDepth(9);
+            const heartSprite = scene.add.sprite(heartX+30, heartY, 'heart').setScale(0.2).setOrigin(0,0).setDepth(9);
             heartSprites.push(heartSprite); // Add heart sprite to array
         }
         
@@ -243,9 +265,20 @@ overlay.add(enText);
         
         // Calculate the player's position with respect to the board
         const playerX = playerSquareCol * squareSize +32;
-        const playerY = playerSquareRow * squareSize+ 32;
+        const playerY = playerSquareRow * squareSize;
         const player = scene.add.image(playerX, playerY, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
         boardContainer.add(player);
+// Calculate the position to center the player on the screen
+const playerCenterX = player.x + player.displayWidth / 2;
+// const playerCenterY = player.y + player.displayHeight / 2;
+
+// Center the camera on the player
+scene.cameras.main.scrollX = playerCenterX - scene.cameras.main.width / 2;
+// scene.cameras.main.scrollY = playerCenterY - scene.cameras.main.height / 2;
+
+
+
+
         player.rotation = -Math.PI / 4;
         // Add puca and player to the board container
         const pucaBlackSquareRow =2; // Adjust the row of the left puca's square
@@ -419,21 +452,28 @@ circleFrame.setPosition(c9posX, c9posY);
 const boardSquareHeight = squareSize * 3;
 
 // Create the image layer
-const tallBg = scene.add.image(scene.cameras.main.width / 2, -boardSquareHeight, 'tallBg').setOrigin(0.5, 0).setScale(2.5).setDepth(-1); // Adjust the depth to be between the board and the game pieces
+const tallBg = scene.add.image(scene.cameras.main.width / 2, scene.cameras.main.height-10, 'tallBg').setOrigin(0.5, 1).setScale(1).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
 function slideDownImageLayer(scene) {
-    scene.tweens.add({
-        targets: tallBg,
-        y: tallBg.y +64*3, // Move down by the height of 3 board squares
-        duration: 1000, // Adjust the duration as needed
-        ease: 'Linear',
-        onComplete: () => {
-            // Animation complete
-        }
-    });
-}
+    pucaBlack.setAlpha(0);
+    pucaWhite.setAlpha(0);
+    
+        scene.tweens.add({
+            targets: tallBg,
+            y: tallBg.y +64*3, // Move down by the height of 3 board squares
+            duration: 700, // Adjust the duration as needed
+            ease: 'Linear',
+            onComplete: () => {
+                // Animation complete
+            }
+        });
+    setTimeout(()=>{
+        pucaBlack.setAlpha(1);
+        pucaWhite.setAlpha(1);
+
+},800)}
 
 
 function handleWrongAnswer(scene) {
@@ -503,7 +543,12 @@ function update() {}
     
     
 
-    return <div className='chess-like-1' ref={phaserGameRef}>
+    return(
+
+        <>
+       
+<div className='chess-like-1' ref={phaserGameRef}></div>
+
 
 {!fullscreen && (
 <>
@@ -523,9 +568,40 @@ function update() {}
 
             {fullscreen && <div className="fullscreen-overlay" onClick={toggleFullscreen}></div>}
             
+            <div className="no-pointer-events">
 
-    </div>;
 
+<img id="portrait" rel="preload" src={ portrait}></img>
+
+<div>
+<div className="portait-mode-text-container">
+
+<p className="menu portrait-mode-txt quote-1 ga">
+
+    Fead air fuar-luirg.
+
+</p>
+<p className="menu portrait-mode-txt quote-2">
+Whistling on cold track.
+</p>
+<p className="menu portrait-mode-txt quote-3">
+A wild goose chase - no scent.
+</p>
+
+<p className="menu portrait-mode-txt quote-4">
+
+↻ mobile landscape to continue 
+</p>
+<p className='portait-mode-text'>
+
+<br/>
+    
+</p>
+</div>
+</div>
+</div>
+            </>
+    ) 
 
 };
 
