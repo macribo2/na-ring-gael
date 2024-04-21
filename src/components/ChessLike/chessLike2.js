@@ -158,11 +158,17 @@ enText.setAlpha(1);
 
 function create() {
 
-let    gameWidth = this.sys.game.config.width + 100;
- let   gameHeight = this.sys.game.config.height + 100;
+
+    const scene = this;
+    // Calculate the center of the screen
+    const centerX = scene.cameras.main.width / 2;
+    const centerY = scene.cameras.main.height / 2;
+
+
+    let    gameWidth = this.sys.game.config.width + 100;
+    let    gameHeight = this.sys.game.config.height + 100;
     
        overlay = this.add.container(0, 0);
-        const scene = this;
     overlay.setVisible(false); // Initially hide the overlay
         
     const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
@@ -182,43 +188,6 @@ glassbg.displayHeight = gameHeight;
         aBtn.setInteractive(); // Make the button interactive
         
         // Create the chessboard
-// Calculate the size of the board
-const boardSize = 9; // Adjust as needed
-const squareSize = 64;
-const boardWidth = squareSize * boardSize;
-const boardHeight = squareSize * boardSize;
-
-// Calculate the center of the screen
-const centerX = scene.scale.width / 2;
-const centerY = scene.scale.height / 2;
-
-// Calculate the position of the board container to center it on the screen
-const boardContainerX =0;
-const boardContainerY = centerY - (boardHeight / 2);
-
-// Create the board container at the calculated position
-const boardContainer = scene.add.container(boardContainerX, boardContainerY);
-        
-        // Rotate the board container 45 degrees (converted to radians)
-        boardContainer.rotation = Math.PI / 4;
-        boardContainer.x += 350;
-        boardContainer.y += 100;
-        boardContainer.setScale(0.75).setDepth(1)
-    
-        
-
-        for (let row = 0; row < boardSize; row++) {
-            for (let col = 0; col < boardSize; col++) {
-                const squareColor = (row + col) % 2 === 0 ?0x9900FF00 : 0x96969696
-                const square = scene.add.rectangle(col * squareSize, row * squareSize, squareSize, squareSize, squareColor);
-                square.setOrigin(0);
-                square.setData('row', row);
-                square.setData('col', col);
-                boardContainer.add(square);
-                square.alpha = 0;
-
-            }
-        }
         
         // Other elements
         const firstWordPair = wordPairs[0];
@@ -241,7 +210,7 @@ const boardContainer = scene.add.container(boardContainerX, boardContainerY);
             stroke: '#000000', // Stroke color
             strokeThickness: 3, // Stroke thickness
         };
-   enText = scene.add.text(posX, posY+100, '', enTextStyle).setOrigin(0).setDepth(9);
+   enText = scene.add.text(posX-64, posY+100, '', enTextStyle).setOrigin(0).setDepth(9);
 
 // Add enText to the overlay container
 overlay.add(enText);
@@ -260,51 +229,17 @@ overlay.add(enText);
         }
         
         // Add puca and player
+        const player = scene.add.image(centerX, centerY + 64, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
         
-        // Add puca and player to the board container
-        const playerSquareRow = 4; // Adjust the row of the player's square
-        const playerSquareCol = 4; // Adjust the column of the player's square
-        
-        // Calculate the player's position with respect to the board
-        const playerX = playerSquareCol * squareSize +32;
-        const playerY = playerSquareRow * squareSize;
-        const player = scene.add.image(playerX, playerY, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
-        boardContainer.add(player);
-// Calculate the position to center the player on the screen
-const playerCenterX = player.x + player.displayWidth / 2;
-// const playerCenterY = player.y + player.displayHeight / 2;
 
-// Center the camera on the player
-// scene.cameras.main.scrollX = playerCenterX - scene.cameras.main.width / 2;
 scene.cameras.main.scrollY = 0;
 
 
 
 
-        player.rotation = -Math.PI / 4;
-        // Add puca and player to the board container
-        const pucaBlackSquareRow =2; // Adjust the row of the left puca's square
-        const pucaBlackSquareCol = 3; // Adjust the column of the left puca's square
-    const pucaBlackX = pucaBlackSquareCol * squareSize+16;
-    const pucaBlackY = pucaBlackSquareRow * squareSize+16;
-    const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
-    boardContainer.add(pucaBlack);
-    pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
-
-
-    
-    const pucaWhiteSquareRow = 3; // Adjust the row of the right puca's square
-    const pucaWhiteSquareCol = 2; // Adjust the column of the right puca's square
-    const pucaWhiteX = pucaWhiteSquareCol * squareSize+16;
-    const pucaWhiteY = pucaWhiteSquareRow * squareSize+16;
-    const pucaWhite = scene.add.image(pucaWhiteX, pucaWhiteY, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
-    pucaBlack.rotation = -Math.PI / 4;
-    pucaWhite.rotation = -Math.PI / 4;
-    boardContainer.add(pucaWhite);
-    
-    // Center the camera on the middle of the screen
-    // scene.cameras.main.scrollX = boardContainer.x - (scene.cameras.main.width / 2);
-    // scene.cameras.main.scrollY = boardContainer.y - (scene.cameras.main.height / 2);
+    const pucaBlack = scene.add.image(centerX+64, centerY-64, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
+    const pucaWhite = scene.add.image(centerX-64, centerY-64, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
+    // boardContainer.add(pucaWhite);
     
     let isProcessing = false; // Flag to indicate whether the function is already in progress
     
@@ -419,12 +354,6 @@ function toggleOverlay() {
                         }
                     });
             
-            // these can overrid tic tc puca tempo.
-            //    this.buttonUp.on('pointerdown', () => this.moveElement('up'));
-//    this.buttonDown.on('pointerdown', () => this.moveElement('down'));
-//    this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
-//    this.buttonRight.on('pointerdown', () => this.moveElement('right'));
-// Add the image
 // Add the image
 const circleFrame = this.add.image(0, 0, 'circle9').setOrigin(0).setDepth(2);
 
@@ -453,11 +382,9 @@ circleFrame.setPosition(c9posX, c9posY);
 
 
 
-// Define the height of 3 board squares
-const boardSquareHeight = squareSize * 3;
 
 // Create the image layer
-const tallBg = scene.add.image(scene.cameras.main.width / 2, scene.cameras.main.height-10, 'tallBg').setOrigin(0.4, 1).setScale(1).setDepth(-1);
+const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.4, 1).setScale(1).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
@@ -475,7 +402,7 @@ function slideDownImageLayer(scene) {
             }
         });
     setTimeout(()=>{
-        pucaBlack.setAlpha(1);
+        pucaBlack.setAlpha(0.1);
         pucaWhite.setAlpha(1);
 
 },800)}
