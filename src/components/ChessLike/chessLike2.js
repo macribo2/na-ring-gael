@@ -158,15 +158,17 @@ enText.setAlpha(1);
 
 function create() {
 
-
+let    gameWidth = this.sys.game.config.width + 100;
+ let   gameHeight = this.sys.game.config.height + 100;
     
        overlay = this.add.container(0, 0);
         const scene = this;
     overlay.setVisible(false); // Initially hide the overlay
         
     const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-    glassbg.displayWidth = this.sys.game.config.width;
-    glassbg.displayHeight = this.sys.game.config.height;
+   
+    glassbg.displayWidth = gameWidth;
+glassbg.displayHeight = gameHeight;
   overlay.add(glassbg).setDepth(3);
 
 
@@ -182,7 +184,7 @@ function create() {
         // Create the chessboard
 // Calculate the size of the board
 const boardSize = 9; // Adjust as needed
-const squareSize = scene.scale.width / boardSize;
+const squareSize = 64;
 const boardWidth = squareSize * boardSize;
 const boardHeight = squareSize * boardSize;
 
@@ -191,7 +193,7 @@ const centerX = scene.scale.width / 2;
 const centerY = scene.scale.height / 2;
 
 // Calculate the position of the board container to center it on the screen
-const boardContainerX = centerX - (boardWidth / 2);
+const boardContainerX =0;
 const boardContainerY = centerY - (boardHeight / 2);
 
 // Create the board container at the calculated position
@@ -199,7 +201,7 @@ const boardContainer = scene.add.container(boardContainerX, boardContainerY);
         
         // Rotate the board container 45 degrees (converted to radians)
         boardContainer.rotation = Math.PI / 4;
-        boardContainer.x += 400;
+        boardContainer.x += 350;
         boardContainer.y += 100;
         boardContainer.setScale(0.75).setDepth(1)
     
@@ -273,8 +275,8 @@ const playerCenterX = player.x + player.displayWidth / 2;
 // const playerCenterY = player.y + player.displayHeight / 2;
 
 // Center the camera on the player
-scene.cameras.main.scrollX = playerCenterX - scene.cameras.main.width / 2;
-// scene.cameras.main.scrollY = playerCenterY - scene.cameras.main.height / 2;
+// scene.cameras.main.scrollX = playerCenterX - scene.cameras.main.width / 2;
+scene.cameras.main.scrollY = 0;
 
 
 
@@ -287,6 +289,9 @@ scene.cameras.main.scrollX = playerCenterX - scene.cameras.main.width / 2;
     const pucaBlackY = pucaBlackSquareRow * squareSize+16;
     const pucaBlack = scene.add.image(pucaBlackX, pucaBlackY, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
     boardContainer.add(pucaBlack);
+    pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
+
+
     
     const pucaWhiteSquareRow = 3; // Adjust the row of the right puca's square
     const pucaWhiteSquareCol = 2; // Adjust the column of the right puca's square
@@ -452,7 +457,7 @@ circleFrame.setPosition(c9posX, c9posY);
 const boardSquareHeight = squareSize * 3;
 
 // Create the image layer
-const tallBg = scene.add.image(scene.cameras.main.width / 2, scene.cameras.main.height-10, 'tallBg').setOrigin(0.5, 1).setScale(1).setDepth(-1);
+const tallBg = scene.add.image(scene.cameras.main.width / 2, scene.cameras.main.height-10, 'tallBg').setOrigin(0.4, 1).setScale(1).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
@@ -462,7 +467,7 @@ function slideDownImageLayer(scene) {
     
         scene.tweens.add({
             targets: tallBg,
-            y: tallBg.y +64*3, // Move down by the height of 3 board squares
+            y: tallBg.y + 64, // Move down by the height of 3 board squares
             duration: 700, // Adjust the duration as needed
             ease: 'Linear',
             onComplete: () => {
@@ -558,9 +563,9 @@ function update() {}
                     className="fullscreen-image"
                     onClick={toggleFullscreen}
                     />
-                    <div className='touch-prompt'></div>
+                    <div className='touch-prompt-container'>
 <div className='touch-prompt'></div>
-<div className='touch-prompt'></div>
+<div className='touch-prompt'></div></div>
                     </>
             )}
 
