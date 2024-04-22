@@ -246,24 +246,21 @@ scene.cameras.main.scrollY = 0;
     // Start the timer to switch between puca highlights every 2 seconds
     timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
     
+// Function to switch between puca highlights
+function switchHighlightedPuca() {
+    highlightedPuca = (highlightedPuca + 1) % 2; // Toggle between 0 and 1
     
-    
-    function switchHighlightedPuca() {
-        highlightedPuca = (highlightedPuca + 1) % 2; // Toggle between 0 and 1
-        // Highlight puca0 or puca1 based on the value of highlightedPuca
-        if (highlightedPuca === 0) {
-            // Highlight puca0
-            pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
-            pucaWhite.setAlpha(1);
-            
-        } else {
-            // Highlight puca1
-            pucaWhite.setAlpha(0.1); // Reduce opacity for the other 
-            // Highlight puca1
-            pucaBlack.setAlpha(1);
-        }
+    // Highlight puca0 or puca1 based on the value of highlightedPuca
+    if (highlightedPuca === 0) {
+        // Highlight puca0
+        pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
+        pucaWhite.setAlpha(1);
+    } else {
+        // Highlight puca1
+        pucaWhite.setAlpha(0.1); // Reduce opacity for the other 
+        pucaBlack.setAlpha(1);
     }
-    
+}
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 100; // Right side of the screen
     const buttonY = this.sys.game.config.height / 2 + 100;
@@ -272,8 +269,123 @@ scene.cameras.main.scrollY = 0;
     this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
     this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(9);
     this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(9);
+   
+    let isManuallySettingPuca = false; // Flag to indicate whether puca highlighting is being manually set
+
+    // Add event listener to the left button
+    this.buttonLeft.on('pointerdown', () => {
+        if (!isManuallySettingPuca) {
+            // Set the flag to indicate that puca highlighting is being manually set
+            isManuallySettingPuca = true;
+            
+            // Set highlightedPuca to 1 to indicate the white puca
+            highlightedPuca = 1;
+            
+            // Update puca transparency based on highlightedPuca
+            pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+            
+            // Clear the existing timer event to prevent jitteriness
+            if (timerEvent) {
+                timerEvent.remove(false);
+            }
+            
+            // Schedule a delayed call to switch the highlighted puca back after 2 seconds
+            scene.time.delayedCall(10, () => {
+                // Revert to alternating puca highlights after 2 seconds
+                timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
+                // Reset the flag to indicate that puca highlighting is no longer being manually set
+                isManuallySettingPuca = false;
+            });
+        }
+    });
+ 
     
-    
+    // Add event listener to the left button
+    this.buttonDown.on('pointerdown', () => {
+        if (!isManuallySettingPuca) {
+            // Set the flag to indicate that puca highlighting is being manually set
+            isManuallySettingPuca = true;
+            
+            // Set highlightedPuca to 1 to indicate the white puca
+            highlightedPuca = 1;
+            
+            // Update puca transparency based on highlightedPuca
+            pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+            
+            // Clear the existing timer event to prevent jitteriness
+            if (timerEvent) {
+                timerEvent.remove(false);
+            }
+            
+            // Schedule a delayed call to switch the highlighted puca back after 2 seconds
+            scene.time.delayedCall(10, () => {
+                // Revert to alternating puca highlights after 2 seconds
+                timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
+                // Reset the flag to indicate that puca highlighting is no longer being manually set
+                isManuallySettingPuca = false;
+            });
+        }
+    });
+ 
+    // Add event listener to the left button
+    this.buttonUp.on('pointerdown', () => {
+        if (!isManuallySettingPuca) {
+            // Set the flag to indicate that puca highlighting is being manually set
+            isManuallySettingPuca = true;
+            
+            // Set highlightedPuca to 1 to indicate the white puca
+            highlightedPuca = 0;
+            
+            // Update puca transparency based on highlightedPuca
+            pucaBlack.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
+            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+            
+            // Clear the existing timer event to prevent jitteriness
+            if (timerEvent) {
+                timerEvent.remove(false);
+            }
+            
+            // Schedule a delayed call to switch the highlighted puca back after 2 seconds
+            scene.time.delayedCall(10, () => {
+                // Revert to alternating puca highlights after 2 seconds
+                timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
+                // Reset the flag to indicate that puca highlighting is no longer being manually set
+                isManuallySettingPuca = false;
+            });
+        }
+    });
+ 
+   // Add event listener to the left button
+   this.buttonRight.on('pointerdown', () => {
+    if (!isManuallySettingPuca) {
+
+        // Set the flag to indicate that puca highlighting is being manually set
+        isManuallySettingPuca = true;
+        
+        // Set highlightedPuca to 1 to indicate the white puca
+        highlightedPuca = 0;
+        
+        // Update puca transparency based on highlightedPuca
+        pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+        pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+        
+        // Clear the existing timer event to prevent jitteriness
+        if (timerEvent) {
+            timerEvent.remove(false);
+        }
+        
+        // Schedule a delayed call to switch the highlighted puca back after 2 seconds
+        scene.time.delayedCall(10, () => {
+            // Revert to alternating puca highlights after 2 seconds
+            timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
+            // Reset the flag to indicate that puca highlighting is no longer being manually set
+            isManuallySettingPuca = false;
+        });
+    }
+});
+
     let isToggling = false; // Flag to track if overlay is currently toggling
 
     // Add middle button
@@ -343,7 +455,6 @@ function toggleOverlay() {
                                 console.log('Wrong puca highlighted or incorrect word displayed!');
                                 setTimeout(() => {
                                     handleWrongAnswer(scene);
-                                    moveOnToNextWordPair();
                                 }, 500);
                             }
                     
@@ -426,26 +537,12 @@ function handleWrongAnswer(scene) {
   
 
 
-    function handleWrongAnswer(scene) {
-        hearts--;
-    
-        // Remove heart sprite from array and destroy it
-        if (heartSprites.length > 0) {
-            const removedHeart = heartSprites.pop();
-            if (removedHeart) {
-                removedHeart.destroy();
-            }
-        }
-    
-        if (hearts === 0) {
-            window.location.href = '/gameOver';
-        }
-    }
       
     
     
     
         function handleRightAnswer(scene) {
+
             scene.sound.play('fanfare');
         
             // Increment the score
@@ -466,7 +563,9 @@ function handleWrongAnswer(scene) {
                     ceartText.destroy();
                 }
             });
-    
+    if(score>=27){
+        alert(score+"thanks for visiting! Come back soon...")
+    }
             slideDownImageLayer(scene)
         }
     
