@@ -162,6 +162,7 @@ left:0px;
 	.no-pointer-events{
 		pointer-events: none;
 	}
+	
 @media screen and (orientation:portrait) {
 
 	#portrait{
