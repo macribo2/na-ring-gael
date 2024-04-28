@@ -594,7 +594,7 @@ localStorage.setItem('heroNameEng', heroNamesEng[value*10])
 	``,
 		`Golden-headed Niamh`,
 		`		
-		 The Pleasant Little Branch`,
+		 The Pleasant Little Branch. An Irish scholar from Roscommon`,
 		`"Young Deer", greatest poet of Ireland, warrior of the Fianna`,
 		`The Sheriff, Highland champion and scholar`,
 		`The Pagan Champion of Valentia`,
