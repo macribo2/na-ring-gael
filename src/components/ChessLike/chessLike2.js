@@ -4,8 +4,11 @@ import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
 import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
 import portrait from '../../images/vert-bg2.png'
-let  gaText, enText;
+import NavCD from '../navCD/navCD';
+
+
 function PhaserGame(){
+    let  gaText, enText;
     let currentWordPairIndex = 0;
     let hearts = 3;
     const heartSprites = []; // Array to store heart sprites
@@ -107,8 +110,11 @@ enText.setAlpha(1);
                     preload: preload,
                     create: create,
                     update: update,
+                   
 
                 },
+                    // Add additional scenes here
+    NavCD: NavCD
             };
     
             const game = new Phaser.Game(config);
@@ -157,7 +163,6 @@ enText.setAlpha(1);
 
 
 function create() {
-
 
     const scene = this;
     // Calculate the center of the screen
@@ -248,7 +253,10 @@ scene.cameras.main.scrollY = 0;
     
 // Function to switch between puca highlights
 function switchHighlightedPuca() {
+    console.log("highlightedPucaSHP: " + highlightedPuca)
+
     highlightedPuca = (highlightedPuca + 1) % 2; // Toggle between 0 and 1
+    console.log("highlightedPucaSHP: " + highlightedPuca)
     
     // Highlight puca0 or puca1 based on the value of highlightedPuca
     if (highlightedPuca === 0) {
@@ -429,6 +437,9 @@ function toggleOverlay() {
             
             
                     aBtn.on('pointerdown', () => {
+                       
+                        highlightedPuca = pucaBlack.alpha === 1 ? 1 : 0;
+                    console.log("highlightedPuca: " + highlightedPuca)
                         if (!isProcessing) { // Check if the function is already in progress
                             isProcessing = true; // Set flag to true while processing
                     
@@ -440,6 +451,7 @@ function toggleOverlay() {
                                 console.log('Correct puca highlighted and positive word displayed!');
                                 // Increment score, if you're tracking it
                     handleRightAnswer(scene)
+
                                 // score++;
                                 moveOnToNextWordPair();
                             } else if (highlightedPuca === 1 && !isPosDisplayed) {
@@ -448,13 +460,18 @@ function toggleOverlay() {
                                 // Increment score, if you're tracking it
                                 // score++;
                     handleRightAnswer(scene)
+                    console.log("highlightedPuca: " + highlightedPuca)
             
                                 moveOnToNextWordPair();
+                    console.log("highlightedPuca: " + highlightedPuca)
+
                             } else {
                                 // Player pressed the button when the wrong puca was highlighted or the displayed word is incorrect
                                 console.log('Wrong puca highlighted or incorrect word displayed!');
                                 setTimeout(() => {
                                     handleWrongAnswer(scene);
+                    console.log("highlightedPuca: " + highlightedPuca)
+
                                 }, 500);
                             }
                     
@@ -495,7 +512,7 @@ circleFrame.setPosition(c9posX, c9posY);
 
 
 // Create the image layer
-const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.4, 1).setScale(1).setDepth(-1);
+const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.35, 1).setScale(1.5).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
@@ -521,7 +538,10 @@ function slideDownImageLayer(scene) {
 
 function handleWrongAnswer(scene) {
     hearts--;
+    scene.scene.add('NavCD', NavCD);
 
+    scene.scene.launch('NavCD');
+// 
     // Remove heart sprite from array and destroy it
     if (heartSprites.length > 0) {
         const removedHeart = heartSprites.pop();
@@ -533,6 +553,8 @@ function handleWrongAnswer(scene) {
     if (hearts === 0) {
         window.location.href = '/gameOver';
     }
+    console.log("highlightedPuca: " + highlightedPuca)
+
 }
   
 
@@ -550,6 +572,7 @@ function handleWrongAnswer(scene) {
         
             // Create the "ceart!" text object
             const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'aonchlo', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
+            console.log("highlightedPuca inside handle right answer: " + highlightedPuca)
         
             // Tween the text object to simulate floating
             scene.tweens.add({
@@ -564,7 +587,7 @@ function handleWrongAnswer(scene) {
                 }
             });
     if(score>=27){
-        alert(score+"thanks for visiting! Come back soon...")
+        alert(score+"thanks for playing! Come back soon...")
     }
             slideDownImageLayer(scene)
         }

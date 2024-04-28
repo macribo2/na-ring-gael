@@ -286,7 +286,7 @@ greenFrame.setPosition(posX, posY);
 let isMiddleButtonProcessing = false;
 
     // Add middle button
-    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(9);
+    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(103);
 
 
     this.buttonMiddle.on('pointerdown', () => {
