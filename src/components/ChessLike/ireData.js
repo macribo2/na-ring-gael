@@ -1,4 +1,4 @@
-const irelandData = {
+const ireData  = {
     "provinces": [
         {
             "name0": "Connacht",
@@ -38,3 +38,4 @@ const irelandData = {
         // More provinces...
     ]
 };
+export default ireData;

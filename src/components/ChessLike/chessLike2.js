@@ -538,9 +538,7 @@ function slideDownImageLayer(scene) {
 
 function handleWrongAnswer(scene) {
     hearts--;
-    scene.scene.add('NavCD', NavCD);
 
-    scene.scene.launch('NavCD');
 // 
     // Remove heart sprite from array and destroy it
     if (heartSprites.length > 0) {
@@ -591,7 +589,9 @@ function handleWrongAnswer(scene) {
     }
             slideDownImageLayer(scene)
         }
-    
+        scene.scene.add('NavCD', NavCD);
+
+    scene.scene.launch('NavCD');
 }//close  create()
 function update() {}
     
