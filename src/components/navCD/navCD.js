@@ -30,7 +30,7 @@ export default class NavCD extends Phaser.Scene {
         // Construct text string
         let textString = `${currentLocation}`;
     
-        this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
+        // this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
     
         // Assuming you have a text object to display this information:
         this.currentPlaceText.setText(textString);
@@ -72,8 +72,8 @@ export default class NavCD extends Phaser.Scene {
             // Add action button
             this.actionBtn = this.add.sprite(250, this.cameras.main.height - 100, 'actionBtn').setDepth(31);
         
-            // Add text indicator
-           let currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
+        //     // Add text indicator
+        //    let currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
         
             // Check if sprites are loaded
             console.log(this.buttonUp);
@@ -123,7 +123,7 @@ export default class NavCD extends Phaser.Scene {
                 let currentLocation = currentCounty.locations[0]; 
                 
                 // Construct text string
-                return `Current Place: ${currentLocation.englishName}`;
+                return `${currentLocation.irishName}`;
             }
             return ''; // Return an empty string if data is not available
         }
