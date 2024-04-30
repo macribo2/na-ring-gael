@@ -17,18 +17,26 @@ export default class NavCD extends Phaser.Scene {
         this.updateCurrentPlaceText();
     }
     
-    updateCurrentPlaceText() {
-        // Check if currentPlaceIndex is defined and has the expected structure
-        if (this.currentPlaceIndex ) {
-            // Get current province and county data from ireData
-            let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
-            let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
+   updateCurrentPlaceText() {
+    // Check if currentPlaceIndex is defined and has the expected structure
+    if (this.currentPlaceIndex ) {
+        // Get current province and county data from ireData
+        let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
+        let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
+        
+        // Get the first location within the county (assuming Galway City is the first location)
+        let currentLocation = currentCounty.locations[0]; 
+        
+        // Construct text string
+        let textString = `${currentLocation}`;
     
-            // Construct text string
-            let textString = `Current Place: ${currentCounty.name}`;
-            alert(JSON.stringify(ireData.provinces[0].name0));
-        }
+        this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
+    
+        // Assuming you have a text object to display this information:
+        this.currentPlaceText.setText(textString);
     }
+}
+
      preload() {
         let champID = localStorage.getItem('champID');    
         this.load.image('glassbg', './phaser-resources/images/big-glass.png');
@@ -49,7 +57,8 @@ export default class NavCD extends Phaser.Scene {
         }
     
         create() {
-            
+            this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, this.updateCurrentPlaceText(), { fontSize: '24px', fill: '#fff' }).setDepth(31);
+        
             // Initialize navigation UI elements and logic
             const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
         
@@ -64,7 +73,7 @@ export default class NavCD extends Phaser.Scene {
             this.actionBtn = this.add.sprite(250, this.cameras.main.height - 100, 'actionBtn').setDepth(31);
         
             // Add text indicator
-            this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
+           let currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
         
             // Check if sprites are loaded
             console.log(this.buttonUp);
@@ -78,6 +87,8 @@ export default class NavCD extends Phaser.Scene {
                 // Add input listeners to directional pad buttons
                 this.buttonUp.setInteractive().on('pointerdown', () => {
                     // Handle up button press
+                    
+                this.currentPlaceText.setText(this.updateCurrentPlaceText());
                 });
         
                 this.buttonDown.setInteractive().on('pointerdown', () => {
@@ -99,8 +110,23 @@ export default class NavCD extends Phaser.Scene {
             } else {
                 console.error('One or more sprites failed to load properly.');
             }
+         
         }
-        
+        updateCurrentPlaceText() {
+            // Check if currentPlaceIndex is defined and has the expected structure
+            if (this.currentPlaceIndex) {
+                // Get current province and county data from ireData
+                let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
+                let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
+                
+                // Get the first location within the county (assuming Galway City is the first location)
+                let currentLocation = currentCounty.locations[0]; 
+                
+                // Construct text string
+                return `Current Place: ${currentLocation.englishName}`;
+            }
+            return ''; // Return an empty string if data is not available
+        }
         update() {
             // Update navigation logic, handle input, etc.
             // Add input listeners to directional pad buttons
@@ -127,5 +153,6 @@ export default class NavCD extends Phaser.Scene {
                 // Handle action button press
             });
         }
-   
+       
+           
 }
