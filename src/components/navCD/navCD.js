@@ -1,177 +1,190 @@
 import Phaser from 'phaser';
-import ireData from '../ChessLike/ireData'
+import ireData from '../ChessLike/ireData';
+
 export default class NavCD extends Phaser.Scene {
     constructor() {
         super({ key: 'NavCD' });
-    
+
         // Define directional pad buttons and action button as class properties
         this.buttonUp = null;
         this.buttonDown = null;
         this.buttonLeft = null;
         this.buttonRight = null;
         this.actionBtn = null;
-        
-        this.currentPlayerLocation = 1;
-        // Initialize current place index
-        this.currentPlaceIndex = [1, 0]; // Initial index
-        // Call updateCurrentPlaceText to ensure it's initialized properly
-        this.updateCurrentPlaceText();
+
+        this.currentPlayerLocation = 0; // Initial location index
+        this.currentCountyIndex = 0; // Initial county index
+        this.currentProvinceIndex = 0; // Initial province index
+
+        // Define province, county, and location data
+        this.provinces = ireData.provinces;
+        this.currentProvince = this.provinces[this.currentProvinceIndex];
+        this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+
+        // Track navigation level
+        this.navigationLevel = 'location'; // Initial navigation level is at location
     }
+
+
+    preload() {
+        let champID = localStorage.getItem('champID');
+        this.load.image('glassbg', './phaser-resources/images/big-glass.png');
+        this.load.image('overlay', './phaser-resources/images/overlay.png');
+        this.load.image('actionBtn', './phaser-resources/images/ui/a-btn.png');
+        this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
+        this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
+        this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
+        this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
+        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
+        this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
+        this.load.image('pucaBlack', './phaser-resources/images/npcs/pooka0.png');
+        this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
+        this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
+    }
+
+    create() {
+        // Set the current province index to 0 and the current county index to 0 initially
+       // Set the current province index and county index to the initial values
+this.currentProvinceIndex = 1;
+this.currentCountyIndex = 1;
+
+// Get the current province and county data from ireData
+this.currentProvince = ireData.provinces[this.currentProvinceIndex];
+this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+
+// Get the first location within the county
+let currentLocation = this.currentCounty.locations[0].irishName;
+
+
+
+        console.log("Current Location:", currentLocation);
+        // Set up the text to display the name of the current location
+        this.currentPlaceText = this.add.text(200, this.cameras.main.height - 200, currentLocation, { fontSize: '24px', fill: '#fff' }).setDepth(31);
+       
+        // Initialize navigation UI elements and logic
+        const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+        this.buttonUp = this.add.sprite(100, this.cameras.main.height - 150, 'button-up').setDepth(31);
+        this.buttonDown = this.add.sprite(100, this.cameras.main.height - 50, 'button-down').setDepth(31);
+        this.buttonLeft = this.add.sprite(50, this.cameras.main.height - 100, 'button-left').setDepth(31);
+        this.buttonRight = this.add.sprite(150, this.cameras.main.height - 100, 'button-right').setDepth(31);
+        this.buttonMiddle = this.add.sprite(100, this.cameras.main.height - 100, 'button-middle').setDepth(20);
+        this.actionBtn = this.add.sprite(250, this.cameras.main.height - 100, 'actionBtn').setDepth(31);
+    
+        // Check if sprites are loaded
+        console.log(this.buttonUp, this.buttonDown, this.buttonLeft, this.buttonRight, this.actionBtn);
+    
+        // Add input listeners only if sprites are properly loaded
+
+   
+        if (this.buttonUp && this.buttonDown && this.buttonLeft && this.buttonRight && this.actionBtn) {
+       // Add input listeners to directional pad buttons
+// Add input listeners to directional pad buttons
+this.buttonUp.setInteractive().on('pointerup', () => {
+    // Handle up button press
+    if (this.navigationLevel === 'location') {
+        // Move to county level
+        this.navigationLevel = 'county';
+    } else if (this.navigationLevel === 'county') {
+        // Move to provincial level
+        this.navigationLevel = 'province';
+        // Update the current location to the first location of the new county
+        this.currentLocation = this.currentCounty.locations[0];
+    }
+    this.updateCurrentPlaceText();
+});
+
+this.buttonDown.setInteractive().on('pointerup', () => {
+    // Handle down button press
+    if (this.navigationLevel === 'province') {
+        // Move to county level
+        this.navigationLevel = 'county';
+        // Update the current county to the first county of the current province
+        this.currentCounty = this.currentProvince.counties[0];
+        // Update the current location to the first location of the new county
+        this.currentLocation = this.currentCounty.locations[0];
+    } else if (this.navigationLevel === 'county') {
+        // Move to location level
+        this.navigationLevel = 'location';
+    } else if (this.navigationLevel === 'location') {
+        // Close the NavCD scene
+        this.scene.stop('NavCD');
+    }
+    this.updateCurrentPlaceText();
+});
+
+this.buttonLeft.setInteractive().on('pointerup', () => {
+    // Handle left button press
+    switch (this.navigationLevel) {
+        case 'province':
+            // Cycle through provinces
+            this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
+            this.currentProvince = this.provinces[this.currentProvinceIndex];
+            break;
+        case 'county':
+            // Cycle through counties within the current province
+            this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Update the current location to the first location of the new county
+            this.currentLocation = this.currentCounty.locations[0];
+            break;
+        case 'location':
+            // Cycle through locations within the current county
+            this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+    }
+    this.updateCurrentPlaceText();
+});
+
+this.buttonRight.setInteractive().on('pointerup', () => {
+    // Handle right button press
+    switch (this.navigationLevel) {
+        case 'province':
+            // Cycle through provinces
+            this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
+            this.currentProvince = this.provinces[this.currentProvinceIndex];
+            break;
+        case 'county':
+            // Cycle through counties within the current province
+            this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Update the current location to the first location of the new county
+            this.currentLocation = this.currentCounty.locations[0];
+            break;
+        case 'location':
+            // Cycle through locations within the current county
+            this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+    }
+    this.updateCurrentPlaceText();
+});
+
+        }
+    
+    }            
+    
+    update() {
+        // No need to set input listeners again in update()
+    }
+
     updateCurrentPlaceText() {
-        // Check if currentPlaceIndex is defined and has the expected structure
-        if (this.currentPlaceIndex ) {
-        // Get current province and county data from ireData
-        let currentProvince = ireData.provinces[this.currentPlaceIndex[1]];
-        let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
-        
-        // Get the first location within the county (assuming Galway City is the first location)
-        let currentLocation = currentCounty.locations[this.currentPlayerLocation]; 
-        
-        // Construct text string
-        let textString = `${currentLocation}`;
-    
-        // this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
-    
-        // Assuming you have a text object to display this information:
+        // Set the text based on the navigation level
+        let textString;
+        switch (this.navigationLevel) {
+            case 'province':
+                textString = this.currentProvince.gaProvince; // Display province name in Irish
+                break;
+            case 'county':
+                textString = this.currentCounty.gaCoName; // Display county name in Irish
+                break;
+            case 'location':
+            default:
+                textString = this.currentLocation.irishName; // Display location name in Irish
+                break;
+        }
         this.currentPlaceText.setText(textString);
     }
-}
 
-     preload() {
-        let champID = localStorage.getItem('champID');    
-        this.load.image('glassbg', './phaser-resources/images/big-glass.png');
-    
-        this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
-    
-    
-            this.load.image('actionBtn', './phaser-resources/images/ui/a-btn.png'); // Replace 'path/to/glass_circle.png' with the actual path to your button image
-            this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
-            this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
-            this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
-            this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
-            this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
-            this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
-            this.load.image('pucaBlack', './phaser-resources/images/npcs/pooka0.png');
-            this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
-            this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
-        }
-    
-        create() {
-            // Get current county data from the current province
-            // Get current province data from ireData
-            let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
-            this.currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
-
-
-            this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, this.updateCurrentPlaceText(), { fontSize: '24px', fill: '#fff' }).setDepth(31);
-        
-            // Initialize navigation UI elements and logic
-            const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-        
-            // Add directional pad buttons
-            this.buttonUp = this.add.sprite(100, this.cameras.main.height - 150, 'button-up').setDepth(31);
-            this.buttonDown = this.add.sprite(100, this.cameras.main.height - 50, 'button-down').setDepth(31);
-            this.buttonLeft = this.add.sprite(50, this.cameras.main.height - 100, 'button-left').setDepth(31);
-            this.buttonRight = this.add.sprite(150, this.cameras.main.height - 100, 'button-right').setDepth(31);
-            this.buttonMiddle = this.add.sprite(100, this.cameras.main.height - 100, 'button-middle').setDepth(20);
-        
-            // Add action button
-            this.actionBtn = this.add.sprite(250, this.cameras.main.height - 100, 'actionBtn').setDepth(31);
-        
-        //     // Add text indicator
-        //    let currentPlaceText = this.add.text(400, this.cameras.main.height - 100, 'Current Place: ', { fontSize: '24px', fill: '#fff' }).setDepth(31);
-        
-            // Check if sprites are loaded
-            console.log(this.buttonUp);
-            console.log(this.buttonDown);
-            console.log(this.buttonLeft);
-            console.log(this.buttonRight);
-            console.log(this.actionBtn);
-        
-            // Add input listeners only if sprites are properly loaded
-            if (this.buttonUp && this.buttonDown && this.buttonLeft && this.buttonRight && this.actionBtn) {
-                // Add input listeners to directional pad buttons
-                this.buttonUp.setInteractive().on('pointerdown', () => {
-                    // Handle up button press
-                    
-                this.currentPlaceText.setText(this.updateCurrentPlaceText());
-                });
-        
-                this.buttonDown.setInteractive().on('pointerdown', () => {
-                    // Handle down button press
-
-    this.scene.stop('NavCD'); // Close the NavCD scene
-                });
-        
-             // Inside the create() method
-this.buttonLeft.setInteractive().on('pointerdown', () => {
-    // Handle left button press
-    this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
-    this.updateCurrentPlaceText();
-});
-
-this.buttonRight.setInteractive().on('pointerdown', () => {
-    // Handle right button press
-    this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
-    this.updateCurrentPlaceText();
-});
-
-                // Add input listener to action button
-                this.actionBtn.setInteractive().on('pointerdown', () => {
-                    // Handle action button press
-                });
-            } else {
-                console.error('One or more sprites failed to load properly.');
-            }
-         
-        }
-        updateCurrentPlaceText() {
-            // Check if currentPlaceIndex is defined and has the expected structure
-            if (this.currentPlaceIndex) {
-                // Get current province and county data from ireData
-                let currentProvince = ireData.provinces[1];
-                let currentCounty = currentProvince.counties[1];
-                
-                // Get the first location within the county (assuming Galway City is the first location)
-                let currentLocation = currentCounty.locations[this.currentPlayerLocation]; 
-                
-                // Construct text string
-
-                return `${currentLocation.irishName}`;
-
-            }
-            return ''; // Return an empty string if data is not available
-        }
-        update() {
-            this.buttonUp.setInteractive().on('pointerdown', () => {
-                // Handle up button press to navigate to the province level
-                this.currentPlaceIndex[1] = 0; // Reset to the first county within the province
-                this.updateCurrentPlaceText();
-            });
-        
-            this.buttonDown.setInteractive().on('pointerup', () => {
-                // Handle down button press
-                this.currentPlaceIndex[1]++; // Move to the next location
-                this.currentPlaceText.setText(this.updateCurrentPlaceText());
-            });
-        
-            this.buttonLeft.setInteractive().on('pointerup', () => {
-                // Handle left button press
-                // this.currentPlaceIndex[0]--; // Move to the previous county
-                this.currentPlaceText.setText(this.updateCurrentPlaceText());
-            });
-        
-            this.buttonRight.setInteractive().on('pointerup', () => {
-                // Handle right button press
-                // this.currentPlaceIndex[0]++; // MFove to the next county
-                this.currentPlaceText.setText(this.updateCurrentPlaceText());
-            });
-        
-            // Add input listener to action button
-            this.actionBtn.setInteractive().on('pointerdown', () => {
-                // Handle action button press
-            });
-        }
-        
-           
 }
