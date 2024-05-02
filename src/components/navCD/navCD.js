@@ -10,22 +10,22 @@ export default class NavCD extends Phaser.Scene {
         this.buttonLeft = null;
         this.buttonRight = null;
         this.actionBtn = null;
-    
+        
+        this.currentPlayerLocation = 1;
         // Initialize current place index
-        this.currentPlaceIndex = [0, 0]; // Initial index
+        this.currentPlaceIndex = [1, 0]; // Initial index
         // Call updateCurrentPlaceText to ensure it's initialized properly
         this.updateCurrentPlaceText();
     }
-    
-   updateCurrentPlaceText() {
-    // Check if currentPlaceIndex is defined and has the expected structure
-    if (this.currentPlaceIndex ) {
+    updateCurrentPlaceText() {
+        // Check if currentPlaceIndex is defined and has the expected structure
+        if (this.currentPlaceIndex ) {
         // Get current province and county data from ireData
-        let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
+        let currentProvince = ireData.provinces[this.currentPlaceIndex[1]];
         let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
         
         // Get the first location within the county (assuming Galway City is the first location)
-        let currentLocation = currentCounty.locations[0]; 
+        let currentLocation = currentCounty.locations[this.currentPlayerLocation]; 
         
         // Construct text string
         let textString = `${currentLocation}`;
@@ -57,6 +57,12 @@ export default class NavCD extends Phaser.Scene {
         }
     
         create() {
+            // Get current county data from the current province
+            // Get current province data from ireData
+            let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
+            this.currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
+
+
             this.currentPlaceText = this.add.text(400, this.cameras.main.height - 100, this.updateCurrentPlaceText(), { fontSize: '24px', fill: '#fff' }).setDepth(31);
         
             // Initialize navigation UI elements and logic
@@ -93,16 +99,23 @@ export default class NavCD extends Phaser.Scene {
         
                 this.buttonDown.setInteractive().on('pointerdown', () => {
                     // Handle down button press
+
+    this.scene.stop('NavCD'); // Close the NavCD scene
                 });
         
-                this.buttonLeft.setInteractive().on('pointerdown', () => {
-                    // Handle left button press
-                });
-        
-                this.buttonRight.setInteractive().on('pointerdown', () => {
-                    // Handle right button press
-                });
-        
+             // Inside the create() method
+this.buttonLeft.setInteractive().on('pointerdown', () => {
+    // Handle left button press
+    this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
+    this.updateCurrentPlaceText();
+});
+
+this.buttonRight.setInteractive().on('pointerdown', () => {
+    // Handle right button press
+    this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
+    this.updateCurrentPlaceText();
+});
+
                 // Add input listener to action button
                 this.actionBtn.setInteractive().on('pointerdown', () => {
                     // Handle action button press
@@ -116,36 +129,42 @@ export default class NavCD extends Phaser.Scene {
             // Check if currentPlaceIndex is defined and has the expected structure
             if (this.currentPlaceIndex) {
                 // Get current province and county data from ireData
-                let currentProvince = ireData.provinces[this.currentPlaceIndex[0]];
-                let currentCounty = currentProvince.counties[this.currentPlaceIndex[1]];
+                let currentProvince = ireData.provinces[1];
+                let currentCounty = currentProvince.counties[1];
                 
                 // Get the first location within the county (assuming Galway City is the first location)
-                let currentLocation = currentCounty.locations[0]; 
+                let currentLocation = currentCounty.locations[this.currentPlayerLocation]; 
                 
                 // Construct text string
+
                 return `${currentLocation.irishName}`;
+
             }
             return ''; // Return an empty string if data is not available
         }
         update() {
-            // Update navigation logic, handle input, etc.
-            // Add input listeners to directional pad buttons
             this.buttonUp.setInteractive().on('pointerdown', () => {
-                // Handle up button press
+                // Handle up button press to navigate to the province level
+                this.currentPlaceIndex[1] = 0; // Reset to the first county within the province
                 this.updateCurrentPlaceText();
-
             });
         
-            this.buttonDown.setInteractive().on('pointerdown', () => {
+            this.buttonDown.setInteractive().on('pointerup', () => {
                 // Handle down button press
+                this.currentPlaceIndex[1]++; // Move to the next location
+                this.currentPlaceText.setText(this.updateCurrentPlaceText());
             });
         
-            this.buttonLeft.setInteractive().on('pointerdown', () => {
+            this.buttonLeft.setInteractive().on('pointerup', () => {
                 // Handle left button press
+                // this.currentPlaceIndex[0]--; // Move to the previous county
+                this.currentPlaceText.setText(this.updateCurrentPlaceText());
             });
         
-            this.buttonRight.setInteractive().on('pointerdown', () => {
+            this.buttonRight.setInteractive().on('pointerup', () => {
                 // Handle right button press
+                // this.currentPlaceIndex[0]++; // MFove to the next county
+                this.currentPlaceText.setText(this.updateCurrentPlaceText());
             });
         
             // Add input listener to action button
@@ -153,6 +172,6 @@ export default class NavCD extends Phaser.Scene {
                 // Handle action button press
             });
         }
-       
+        
            
 }
