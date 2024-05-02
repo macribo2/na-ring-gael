@@ -1,16 +1,16 @@
 const ireData  = {
     "provinces": [
         {
-            "name0": "Connacht",
-             "name1": "Connaught",
+            "enProvince": "Connacht",
+             "gaProvince": "Connaught",
             "counties": [
                 {
-                    "name0": "Gailleamh",
-                    "name1": "Galway",
+                    "gaCoName": "Gailleamh",
+                    "enCoName": "Galway",
                     "locations": [
                         {
-                            "irishName": "Cathair na Gaillimhe",
-                            "englishName": "Galway City"
+                            "irishName": "Cill Cais",
+                            "englishName": "Kilcash"
                         },
 
                         /*
@@ -32,48 +32,13 @@ const ireData  = {
                         // More locations for Galway...
                     ]
                 },
-                // More counties for Connacht...
+                //Galway, Leitrim, Mayo, Roscommon and Sligo
 
-                {
-                "gaCoName": "Co. An Ċláir",
-                "enCoName": "Co. Clare",
-                "locations":[
-                    {
-                        "irishName":"",
-                        "englishName":"",
-
-                    },
-                    {
-                        "irishName":"",
-                        "englishName":"",
-
-                    },{
-                        "irishName":"",
-                        "englishName":"",
-
-                    },{
-                        "irishName":"",
-                        "englishName":"",
-
-                    },{
-                        "irishName":"",
-                        "englishName":"",
-
-                    },{
-                        "irishName":"",
-                        "englishName":"",
-
-                    },
-
-                ],
-
-                }
-            ,
         
         
             {
-                "gaCoName": "",
-                "enCoName": "",
+                "gaCoName": "Co. na Liatroma",
+                "enCoName": "Co. Leitrim",
                 "locations":[
                     {
                         "irishName":"",
@@ -107,28 +72,46 @@ const ireData  = {
                 }
         ,
         {
-            "gaCoName": "",
-            "enCoName": "",
+
+            /*
+           
+      
+     
+     
+    
+    ],
+    "locationsEng": [
+      "Cill Ala",
+      "Caisleán an Ḃarraiġ",
+      "Baile Ui Ḟiacáin",
+      "An Caoláire Rua",
+      "Lios an tSaṁaiḋ",
+      "An Éill"
+    ],
+    
+            */
+            "gaCoName": "Co. Ṁaigh Eo",
+            "enCoName": "Mayo",
             "locations":[
                 {
-                    "irishName":"",
+                    "irishName": "Cill Ala",
                     "englishName":"",
 
                 },
                 {
-                    "irishName":"",
+                    "irishName":"Caisleán an Ḃarraiġ",
                     "englishName":"",
 
                 },{
-                    "irishName":"",
+                    "irishName": "Baile Ui Ḟiacáin",
                     "englishName":"",
 
                 },{
-                    "irishName":"",
-                    "englishName":"",
+                    "irishName": "An Caoláire Rua",
+                    "englishName": "Lios an tSaṁaiḋ",
 
                 },{
-                    "irishName":"",
+                    "irishName": "An Éill",
                     "englishName":"",
 
                 },{
@@ -143,7 +126,26 @@ const ireData  = {
 ,
 {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "Co. Ros Comáin",
+
+    /*
+         "Cluain Fada",
+      "Baile an Tobair",
+      "Loch Bó Finne",
+      "Scramóg",
+      "Loch Bó Dearge",
+      "Corr na Fola"
+    ],
+    "locationsEng": [
+      "Cloodfad - long meadow",
+      "Baile an Tobair",
+      "Lough Bofin - lake of the blonde cow",
+      "Scramóg",
+      "Lough Boderg - lake of the red cow",
+      "Cornafulla - hill of the blood"
+    ],
+    "county":
+    */
     "locations":[
         {
             "irishName":"",
@@ -175,57 +177,79 @@ const ireData  = {
     ],
 
     }
+,
+{
+    "gaCoName": "Co. Ṡligiġ",
+    "enCoName": "Sligo",
+    "locations":[
+        {
+            "irishName": "Béal Átha na gCarraigíní",
+            "englishName":"Bellanagarrigeeny - Ford of the flagstone",
+
+        },
+        {
+            "irishName":"An Mullach Mór",
+            "englishName": "Mullaghmore - the great summit",
+
+        },{
+            "irishName":"Uaimheanna na Céise",
+            "englishName":   "Keshcorrn Caves",
+
+        },{
+            "irishName":"Machaire Eabha",
+            "englishName":"Maugherow - the plain of Eabha",
+
+        },{
+            "irishName": "Baile Uí Ḋálaigh",
+            "englishName": "Ballydawley - home of the O Dalys",
+
+        },{
+            "irishName": "Tobar an Ċoire",
+            "englishName":"Tobercurry - well of the cauldron"
+
+        },
+
+    ],
+
+    }
 
         ]
         },
         {
-            "enProvence": "Leinster",
-            "gaProvence": "Laighean",
+            "enProvince": "Leinster",
+            "gaProvince": "Laighean",
             "counties": [
                 {
-                    "name": "Dublin",
+                    "gaCoName": "Co. Baile Átha Ċliath",
+                    "enCoName": "Co. Dublin",
 
-                    /* "Fionnġlas",
-      "Cluain Dolcáin",
-      "Cluain Tarbh",
-      "Binn Éadair",
-      "Dún Laoiġaire",
-      "Deilginis"
-      
-       "Finglas - Clear streamlet",
-      "Clondalkin - Dolcan's meadow",
-      "Clontarf - Meadow of Bulls ",
-      "Howth - Éadar's peak",
-      "Dun Laoghaire - Fort of High King Laoghaire Mac Néill",
-      " Dalkey - Thorn Island"
-      
-      */
+        
                     "locations": [
                         {
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName": "Fionnġlas",
+                            "englishName":  "Finglas - Clear streamlet",
                         },
                         {
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName":  "Cluain Dolcáin",
+                            "englishName":   "Clondalkin - Dolcan's meadow",
                         },{
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName": "Cluain Tarbh",
+                            "englishName": "Clontarf - Meadow of Bulls ",
                         },{
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName": "Binn Éadair",
+                            "englishName":  "Howth - Éadar's peak",
                         },{
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName": "Dún Laoiġaire",
+                            "englishName":   "Dun Laoghaire - Fort of High King Laoghaire Mac Néill"
                         },{
                             
-                            "irishName": "",
-                            "englishName": ""
+                            "irishName": "Deilginis",
+                            "englishName":"Dalkey - Thorn Island"
                         },
                     ]
                 },
