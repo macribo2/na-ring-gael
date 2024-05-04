@@ -13,57 +13,77 @@ const ireData  = {
                             "englishName": "Kilcash"
                         },
 
-                        /*
-                        "Poll an Phúca",
-      "Cill Cais",
-      "An Spidéal ",
-      "An Teach Dóite",
-      "An Ċeaṫrú Rua",
-      "Inis Meáin "
-                        
-        "The Pooka's hole",
-      "Cill Cais",
-      "An Spidéal ",
-      "The burned House",
-      "An Ċeaṫrú Rua",
-      "Inis Meáin "
-                        
-                        */
-                        // More locations for Galway...
+
+                        {
+                            "irishName":"An Ċeaṫrú Rua",
+                            
+                            "englishName": ""
+                        },
+
+                        {
+                            "irishName":"Poll an Phúca",
+                            
+                            "englishName": "The Pooka's Hole"
+                        },
+                        {
+                            "irishName":"An Spidéal ",
+                            
+                            "englishName": "The Hospital"
+                        },
+                        {
+                            "irishName": "Inis Meáin",
+                            "englishName": ""
+                        }
+     
                     ]
                 },
                 //Galway, Leitrim, Mayo, Roscommon and Sligo
 
-        
+        /*
+              
+      
+      
+      
+     
+      
+
+
+
+
+
+
+        */
         
             {
                 "gaCoName": "Co. na Liatroma",
                 "enCoName": "Co. Leitrim",
                 "locations":[
                     {
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName":"Gleann Éada",
+                        "englishName":"Glenade - lake of the glen of jealousy",
 
                     },
                     {
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName":"Droim Seanḃó",
+                        "englishName":"Drumshanbo  - ridge of the huts",
 
                     },{
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName":"Aċaḋ na Síleann",
+                        "englishName":"Aughnasheelan - Field of the fairy",
+
 
                     },{
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName": "Fíonach",
+                        "englishName":"Feenagh - wooded place",
+
 
                     },{
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName":"Dromad",
+                        "englishName":"Dromod - long ridge"
 
                     },{
-                        "irishName":"",
-                        "englishName":"",
+                        "irishName":"Garḃach",
+                        "englishName":"Garvagh - rough land",
 
                     },
 
@@ -77,17 +97,6 @@ const ireData  = {
            
       
      
-     
-    
-    ],
-    "locationsEng": [
-      "Cill Ala",
-      "Caisleán an Ḃarraiġ",
-      "Baile Ui Ḟiacáin",
-      "An Caoláire Rua",
-      "Lios an tSaṁaiḋ",
-      "An Éill"
-    ],
     
             */
             "gaCoName": "Co. Ṁaigh Eo",
@@ -129,48 +138,47 @@ const ireData  = {
     "enCoName": "Co. Ros Comáin",
 
     /*
-         "Cluain Fada",
-      "Baile an Tobair",
-      "Loch Bó Finne",
-      "Scramóg",
-      "Loch Bó Dearge",
-      "Corr na Fola"
+
+
     ],
     "locationsEng": [
-      "Cloodfad - long meadow",
-      "Baile an Tobair",
-      "Lough Bofin - lake of the blonde cow",
-      "Scramóg",
-      "Lough Boderg - lake of the red cow",
-      "Cornafulla - hill of the blood"
+
     ],
     "county":
     */
     "locations":[
         {
-            "irishName":"",
-            "englishName":"",
+            "irishName":       "Cluain Fada",
+            "englishName":      "Cloodfad - long meadow",
+
 
         },
         {
-            "irishName":"",
-            "englishName":"",
+            "irishName":      "Baile an Tobair",
+
+            "englishName":            "Baile an Tobair",
 
         },{
-            "irishName":"",
-            "englishName":"",
+            "irishName":      "Loch Bó Finne",
+            "englishName":
+            "Lough Bofin - lake of the blonde cow",
+
 
         },{
-            "irishName":"",
-            "englishName":"",
+            "irishName":      "Scramóg",
+            
+            "englishName":            "Scramóg",
+
 
         },{
-            "irishName":"",
-            "englishName":"",
+            "irishName":"Loch Bó Dearge",
+           
+            "englishName":            "Lough Boderg - lake of the red cow",
+
 
         },{
-            "irishName":"",
-            "englishName":"",
+            "irishName": "Corr na Fola",
+            "englishName":            "Cornafulla - hill of the blood"
 
         },
 
@@ -253,21 +261,8 @@ const ireData  = {
                         },
                     ]
                 },
-                // More counties for Leinster...
-           
                 {
-/*"co": ,
-    "locations": [     ,"Ráth Ḟearna",,, ,
-      
-    ],
-    "locationsEng": [
-      ,
-      ,
-      ,
-      "Corlis - the pidgeons",
-      
-    ],
-*/
+
                     "gaCoName": "Co. Na hIarṁí",
                     "enCoName": "Co. Westmeath",
                     "locations":[
@@ -279,7 +274,7 @@ const ireData  = {
                         {
                             "irishName":"Ráth Ḟearna",
                             "englishName":"Raharney - Fearna's ringfort",
-    
+                            
                         },{
                             "irishName":"Tulaigh an Eallaigh",
                             "englishName":"Tullynally - hillock of the swans",
@@ -291,19 +286,20 @@ const ireData  = {
                         },{
                             "irishName":"Cill Ḃeagáin",
                             "englishName":"Kilbeggan - church of Bécán, distinguished Irish Saint",
-    
+                            
                         },{
                             "irishName":"An Muileann gCearr",
                             "englishName":"Mullingar - the crooked mill",
-    
+                            
                         },
+
     
                     ],
     
                     }
             ,      {
                 "gaCoName": "",
-                "enCoName": "",
+                "enCoName": "carlow",
                 "locations":[
                     {
                         "irishName":"",
@@ -336,7 +332,7 @@ const ireData  = {
 
                 }
         ,      {
-            "gaCoName": "",
+            "gaCoName": "kildare",
             "enCoName": "",
             "locations":[
                 {
@@ -370,8 +366,11 @@ const ireData  = {
 
             }
     ,      {
+
+                                // More counties for Leinster...
+                //    
         "gaCoName": "",
-        "enCoName": "",
+        "enCoName": " kilkenny",
         "locations":[
             {
                 "irishName":"",
@@ -405,7 +404,7 @@ const ireData  = {
         }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "laois",
     "locations":[
         {
             "irishName":"",
@@ -439,7 +438,7 @@ const ireData  = {
     }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": " longford",
     "locations":[
         {
             "irishName":"",
@@ -473,7 +472,7 @@ const ireData  = {
     }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "louth",
     "locations":[
         {
             "irishName":"",
@@ -507,7 +506,7 @@ const ireData  = {
     }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "offaly",
     "locations":[
         {
             "irishName":"",
@@ -541,7 +540,7 @@ const ireData  = {
     }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "meath",
     "locations":[
         {
             "irishName":"",
@@ -575,7 +574,43 @@ const ireData  = {
     }
 ,      {
     "gaCoName": "",
-    "enCoName": "",
+    "enCoName": "wexford",
+    "locations":[
+        {
+            "irishName":"",
+            "englishName":"",
+
+        },
+        {
+            "irishName":"",
+            "englishName":"",
+
+        },{
+            "irishName":"",
+            "englishName":"",
+
+        },{
+            "irishName":"",
+            "englishName":"",
+
+        },{
+            "irishName":"",
+            "englishName":"",
+
+        },{
+            "irishName":"",
+            "englishName":"",
+
+        },
+
+    ],
+
+    }
+,
+
+{
+    "gaCoName": "",
+    "enCoName": "wicklow",
     "locations":[
         {
             "irishName":"",
