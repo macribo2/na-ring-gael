@@ -41,17 +41,6 @@ const ireData  = {
 
         /*
               
-      
-      
-      
-     
-      
-
-
-
-
-
-
         */
         
             {
@@ -298,7 +287,24 @@ const ireData  = {
     
                     }
             ,      {
-                "gaCoName": "",
+
+                /*"Cill Deirge",
+      "Baile Uí Ṁurċú",
+      "Baile Haicéid",
+      "An Ḃuiríos",
+      "Miseal",
+      "Cill Daṁáin"
+    ],
+    "locationsEng": [
+      "Cill Deirge",
+      "Baile Uí Ṁurċú",
+      "Baile Haicéid",
+      "An Ḃuiríos",
+      "Miseal",
+      "Cill Daṁáin"
+    ],
+    "county": "Co. Ċeaṫarlaċ",*/
+                "gaCoName": "Co. Ċeaṫarlaċ",
                 "enCoName": "carlow",
                 "locations":[
                     {
@@ -332,6 +338,9 @@ const ireData  = {
 
                 }
         ,      {
+
+            /*
+            */
             "gaCoName": "kildare",
             "enCoName": "",
             "locations":[
@@ -368,7 +377,9 @@ const ireData  = {
     ,      {
 
                                 // More counties for Leinster...
-                //    
+                //
+                /*
+            */    
         "gaCoName": "",
         "enCoName": " kilkenny",
         "locations":[
@@ -403,6 +414,9 @@ const ireData  = {
 
         }
 ,      {
+
+    /*
+            */
     "gaCoName": "",
     "enCoName": "laois",
     "locations":[
@@ -437,6 +451,9 @@ const ireData  = {
 
     }
 ,      {
+
+    /*
+            */
     "gaCoName": "",
     "enCoName": " longford",
     "locations":[
@@ -471,6 +488,9 @@ const ireData  = {
 
     }
 ,      {
+
+    /*
+            */
     "gaCoName": "",
     "enCoName": "louth",
     "locations":[
@@ -505,6 +525,8 @@ const ireData  = {
 
     }
 ,      {
+    /*
+            */
     "gaCoName": "",
     "enCoName": "offaly",
     "locations":[
@@ -539,6 +561,9 @@ const ireData  = {
 
     }
 ,      {
+
+    /*
+            */
     "gaCoName": "",
     "enCoName": "meath",
     "locations":[
@@ -573,6 +598,8 @@ const ireData  = {
 
     }
 ,      {
+    /*
+            */
     "gaCoName": "",
     "enCoName": "wexford",
     "locations":[
@@ -609,6 +636,8 @@ const ireData  = {
 ,
 
 {
+    /*
+            */
     "gaCoName": "",
     "enCoName": "wicklow",
     "locations":[
