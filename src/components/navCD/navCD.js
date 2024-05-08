@@ -24,6 +24,25 @@ export default class NavCD extends Phaser.Scene {
 
         // Track navigation level
         this.navigationLevel = 'location'; // Initial navigation level is at location
+        this.currentPlayerLocation = 0; // Initial location index
+        this.currentCountyIndex = 0; // Initial county index
+        this.currentProvinceIndex = 0; // Initial province index
+
+        // Define province, county, and location data
+        this.provinces = ireData.provinces;
+        this.currentProvince = this.provinces[this.currentProvinceIndex];
+        this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+
+        // Track navigation level
+        this.navigationLevel = 'location'; // Initial navigation level is at location
+
+        // Track previous navigation state
+        this.prevNavigationLevel = null;
+        this.prevCountyIndex = null;
+        this.prevProvinceIndex = null;
+        this.prevLocation = null;
+
     }
 
 
@@ -90,6 +109,10 @@ let currentLocation = this.currentCounty.locations[0].irishName;
 
 
 let upButtonTapCount = 0; // Variable to track the number of taps on the up button
+let prevNavigationLevel = 'location'; // Variable to track the previous navigation level
+let prevCountyIndex = this.currentCountyIndex; // Variable to track the previous county index
+let prevProvinceIndex = this.currentProvinceIndex; // Variable to track the previous province index
+let prevPlayerLocation = this.currentPlayerLocation; // Variable to track the previous player location
 
 this.buttonNavUp.setInteractive().on('pointerup', () => {
     console.log('Up button clicked!');
@@ -98,23 +121,15 @@ this.buttonNavUp.setInteractive().on('pointerup', () => {
         // Move to county level
         this.navigationLevel = 'county';
     } else if (this.navigationLevel === 'county') {
-        if (upButtonTapCount === 0) {
-            // Increment tap count and return without changing level
-            upButtonTapCount++;
-            return;
-        } else {
-            // Move to provincial level
-            this.navigationLevel = 'province';
-            // Reset tap count for future taps
-            upButtonTapCount = 0;
-        }
+        // Move to provincial level
+        this.navigationLevel = 'province';
         // Update the current location to the first location of the new county
-        this.currentLocation = this.currentCounty.locations[0];
+        if (this.currentCounty) {
+            this.currentLocation = this.currentCounty.locations[0];
+        }
     }
     this.updateCurrentPlaceText();
 });
-
-let downButtonTapCount = 0; // Variable to track the number of taps on the down button
 
 this.buttonNavDown.setInteractive().on('pointerup', () => {
     console.log('Down button clicked!');
@@ -122,77 +137,123 @@ this.buttonNavDown.setInteractive().on('pointerup', () => {
     if (this.navigationLevel === 'province') {
         // Move to county level
         this.navigationLevel = 'county';
-    } else if (this.navigationLevel === 'county') {
-        if (downButtonTapCount === 0) {
-            // Increment tap count and return without changing level
-            downButtonTapCount++;
-            return;
-        } else {
-            // Move to location level
-            this.navigationLevel = 'location';
-            // Reset tap count for future taps
-            downButtonTapCount = 0;
+        // Reset the current county index to 0 for the current province
+        this.currentCountyIndex = 0;
+        this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+        // Store the current location as previous location
+        this.prevLocation = this.currentLocation;
+        // Restore the previous location within the county
+        if (this.prevNavigationLevel === 'location') {
+            this.currentLocation = this.prevLocation;
+            this.currentPlayerLocation = this.currentCounty.locations.findIndex(location => location.irishName === this.prevLocation.irishName);
         }
-        // Update the current county to the first county of the current province
-        this.currentCounty = this.currentProvince.counties[0];
-        // Update the current location to the first location of the new county
-        this.currentLocation = this.currentCounty.locations[0];
+    } else if (this.navigationLevel === 'county') {
+        // Move to location level
+        this.navigationLevel = 'location';
+        // Store the current location as previous location
+        this.prevLocation = this.currentLocation;
+        // Restore the previous location within the county
+        if (this.prevNavigationLevel === 'location') {
+            this.currentLocation = this.prevLocation;
+            this.currentPlayerLocation = this.currentCounty.locations.findIndex(location => location.irishName === this.prevLocation.irishName);
+        }
+    } else if (this.navigationLevel === 'location') {
+        // If previously navigated horizontally, reset the indices and navigate back to the original county
+        if (this.prevNavigationLevel === 'county') {
+            // Restore the previous county and location
+            this.currentCountyIndex = this.prevCountyIndex;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            this.currentLocation = this.prevLocation;
+            this.currentPlayerLocation = this.currentCounty.locations.findIndex(location => location.irishName === this.prevLocation.irishName);
+        }
     }
+    // Update the previous navigation level and indices
+    this.prevNavigationLevel = this.navigationLevel;
+    this.prevCountyIndex = this.currentCountyIndex;
+    this.prevProvinceIndex = this.currentProvinceIndex;
     this.updateCurrentPlaceText();
 });
 
 this.buttonNavLeft.setInteractive().on('pointerup', () => {
-    // Handle left buttonNav press
-    switch (this.navigationLevel) {
-        case 'province':
-            // Cycle through provinces
-            this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
-            this.currentProvince = this.provinces[this.currentProvinceIndex];
-            break;
-        case 'county':
-            // Cycle through counties within the current province
-            this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
-            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-            // Update the current location to the first location of the new county
-            this.currentLocation = this.currentCounty.locations[0];
-            break;
-        case 'location':
-            // Cycle through locations within the current county
-            this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
-            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-            break;
-    }
-    this.updateCurrentPlaceText();
-});
-
-this.buttonNavRight.setInteractive().on('pointerup', () => {
-    // Handle right buttonNav press
-    switch (this.navigationLevel) {
-        case 'province':
-            // Cycle through provinces
-            this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
-            this.currentProvince = this.provinces[this.currentProvinceIndex];
-            break;
-        case 'county':
-            // Cycle through counties within the current province
-            this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
-            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-            // Update the current location to the first location of the new county
-            this.currentLocation = this.currentCounty.locations[0];
-            break;
-        case 'location':
-            // Cycle through locations within the current county
-            this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
-            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-            break;
-    }
-    this.updateCurrentPlaceText();
-});
-
+        console.log('Left button clicked!');
+        // Handle left button press
+        switch (this.navigationLevel) {
+            case 'province':
+                // Cycle through provinces
+                this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
+                this.currentProvince = this.provinces[this.currentProvinceIndex];
+                // Reset the current county index to 0 for the new province
+                this.currentCountyIndex = 0;
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                // Reset the current location index to 0 for the new county
+                this.currentPlayerLocation = 0;
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                break;
+            case 'county':
+                // Cycle through counties within the current province
+                this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                // Reset the current location index to 0 for the new county
+                this.currentPlayerLocation = 0;
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                break;
+            case 'location':
+                // Cycle through locations within the current county
+                this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                break;
         }
+        this.updateCurrentPlaceText();
+    });
     
-    }            
     
+    this.buttonNavRight.setInteractive().on('pointerup', () => {
+        console.log('Right button clicked!');
+        // Handle right button press
+        switch (this.navigationLevel) {
+            case 'province':
+                // Move to the next province
+                this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
+                this.currentProvince = this.provinces[this.currentProvinceIndex];
+                // Reset the current county index for the new province
+                this.currentCountyIndex = 0;
+                // Check if currentProvince is defined
+                if (this.currentProvince) {
+                    // Update currentCounty if defined, otherwise reset to undefined
+                    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex] || undefined;
+                    // Update currentLocation if currentCounty is defined
+                    if (this.currentCounty) {
+                        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                    } else {
+                        this.currentLocation = undefined;
+                    }
+                } else {
+                    this.currentCounty = undefined;
+                    this.currentLocation = undefined;
+                }
+                break;
+            case 'county':
+                // Move to the next county within the current province
+                this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                // Update currentLocation if currentCounty is defined
+                if (this.currentCounty) {
+                    this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                } else {
+                    this.currentLocation = undefined;
+                }
+                break;
+            case 'location':
+                // Move to the next location within the current county
+                this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                break;
+        }
+        this.updateCurrentPlaceText();
+    });
+    
+            
+        }}    
     update() {
         // No need to set input listeners again in update()
     }
@@ -202,17 +263,18 @@ this.buttonNavRight.setInteractive().on('pointerup', () => {
         let textString;
         switch (this.navigationLevel) {
             case 'province':
-                textString = this.currentProvince.gaProvince; // Display province name in Irish
+                textString = this.currentProvince ? this.currentProvince.gaProvince : ''; // Display province name in Irish if defined
                 break;
             case 'county':
-                textString = this.currentCounty.gaCoName; // Display county name in Irish
+                textString = this.currentCounty ? this.currentCounty.gaCoName : ''; // Display county name in Irish if defined
                 break;
             case 'location':
             default:
-                textString = this.currentLocation.irishName; // Display location name in Irish
+                textString = this.currentLocation ? this.currentLocation.irishName : ''; // Display location name in Irish if defined
                 break;
         }
         this.currentPlaceText.setText(textString);
     }
+    
 
 }
