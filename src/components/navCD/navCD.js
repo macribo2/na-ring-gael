@@ -61,10 +61,39 @@ export default class NavCD extends Phaser.Scene {
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pucaBlack', './phaser-resources/images/npcs/pooka0.png');
         this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
+        this.load.image('puca-mounted', './phaser-resources/images/npcs/pookaMounted.png');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
     }
 
     create() {
+        const puca = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'puca-mounted');
+
+        // Set up the player sprite
+        const player = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'player');
+    
+        // Ensure the player sprite is rendered above the puca sprite
+        puca.setDepth(21); // Set a higher depth value for the player sprite
+        player.setDepth(1); // Set a higher depth value for the player sprite
+    
+        // Optionally, you can adjust the scale of the player sprite to fit better
+        player.setScale(1.3); // Adjust the scale as needed
+        puca.setScale(0.3); // Adjust the scale as needed
+    
+        // You can adjust the positions of the puca and player sprites as needed
+        puca.setOrigin(0.7, 0.4); // Center the puca sprite
+        player.setOrigin(0.5, 0.5); // Center the player sprite
+    
+   // Tween to make the sprites bob up and down
+   const bobTween = this.tweens.add({
+    targets: [puca, player],
+    y: '+=10', // Move the sprites down by 20 pixels
+    duration: 2000, // Duration of the downward movement
+    ease: 'Sine.easeInOut', // Easing function for smooth acceleration and deceleration
+    yoyo: true, // Repeat the tween in reverse
+    repeat: -1 // Repeat indefinitely
+});
+
+
         // Set the current province index to 0 and the current county index to 0 initially
        // Set the current province index and county index to the initial values
 this.currentProvinceIndex = 1;
@@ -131,7 +160,8 @@ this.buttonNavUp.setInteractive().on('pointerup', () => {
     this.updateCurrentPlaceText();
 });
 
-this.buttonNavDown.setInteractive().on('pointerup', () => {
+ // Add input listeners to directional pad buttons
+ this.buttonNavDown.setInteractive().on('pointerup', () => {
     console.log('Down button clicked!');
     // Handle down button press
     if (this.navigationLevel === 'province') {
@@ -140,8 +170,6 @@ this.buttonNavDown.setInteractive().on('pointerup', () => {
         // Reset the current county index to 0 for the current province
         this.currentCountyIndex = 0;
         this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-        // Store the current location as previous location
-        this.prevLocation = this.currentLocation;
         // Restore the previous location within the county
         if (this.prevNavigationLevel === 'location') {
             this.currentLocation = this.prevLocation;
@@ -150,8 +178,6 @@ this.buttonNavDown.setInteractive().on('pointerup', () => {
     } else if (this.navigationLevel === 'county') {
         // Move to location level
         this.navigationLevel = 'location';
-        // Store the current location as previous location
-        this.prevLocation = this.currentLocation;
         // Restore the previous location within the county
         if (this.prevNavigationLevel === 'location') {
             this.currentLocation = this.prevLocation;
@@ -165,12 +191,17 @@ this.buttonNavDown.setInteractive().on('pointerup', () => {
             this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
             this.currentLocation = this.prevLocation;
             this.currentPlayerLocation = this.currentCounty.locations.findIndex(location => location.irishName === this.prevLocation.irishName);
+        } else {
+            // Perform dismount if at location level and press down
+            this.scene.stop('NavCD');
+            // Optionally, start another scene or perform any other necessary actions
         }
     }
     // Update the previous navigation level and indices
     this.prevNavigationLevel = this.navigationLevel;
     this.prevCountyIndex = this.currentCountyIndex;
     this.prevProvinceIndex = this.currentProvinceIndex;
+    this.prevLocation = this.currentLocation;
     this.updateCurrentPlaceText();
 });
 
