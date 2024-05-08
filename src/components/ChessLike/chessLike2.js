@@ -17,37 +17,37 @@ function PhaserGame(){
     let timerEvent; // Timer event for switching between puca highlights
     let score = 0;
     
-
+    
     let gaTextRef = useRef(null);
     let enTextRef = useRef(null);
-
-
-      // Create the overlay container
+    
+    
+    // Create the overlay container
     let overlay;
-
+    
     const [fullscreen, setFullscreen] = useState(false);
-
-const toggleFullscreen = () => {
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    const elem = document.documentElement;
-    const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
-    fullscreenPromise.then(() => {
-      setFullscreen(true);
-    });
-  } else {
-    const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
-    exitPromise.then(() => {
-      setFullscreen(false);
-    });
-  }
-};
-
-
+    
+    const toggleFullscreen = () => {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            const elem = document.documentElement;
+            const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
+            fullscreenPromise.then(() => {
+                setFullscreen(true);
+            });
+        } else {
+            const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
+            exitPromise.then(() => {
+                setFullscreen(false);
+            });
+        }
+    };
+    
+    
     //   overlay.setVisible(false); // Initially hide the overlay
-   function moveOnToNextWordPair() {
+    function moveOnToNextWordPair() {
         currentWordPairIndex++;
         console.log('Moving to next word pair. Index:', currentWordPairIndex);
-    
+        
         if (currentWordPairIndex < wordPairs.length) {
             const nextWordPair = wordPairs[currentWordPairIndex];
             gaText.setAlpha(0);
@@ -162,6 +162,7 @@ enText.setAlpha(1);
 
 
 
+    let isSceneLaunched = false;
 function create() {
 
     const scene = this;
@@ -512,7 +513,7 @@ circleFrame.setPosition(c9posX, c9posY);
 
 
 // Create the image layer
-const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.35, 1).setScale(1.5).setDepth(-1);
+const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.50, 1).setScale(1.5).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
@@ -547,53 +548,67 @@ function handleWrongAnswer(scene) {
             removedHeart.destroy();
         }
     }
-
+    
     if (hearts === 0) {
         window.location.href = '/gameOver';
     }
     console.log("highlightedPuca: " + highlightedPuca)
+    
+}
+
+
+
+
+
+
+function handleRightAnswer(scene) {
+    slideDownImageLayer(scene);
+    
+    scene.sound.play('fanfare');
+    
+    // Increment the score
+    score++;
+    
+    // Create the "ceart!" text object
+    const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'aonchlo', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
+    console.log("highlightedPuca inside handle right answer: " + highlightedPuca);
+    
+    // Tween the text object to simulate floating
+    scene.tweens.add({
+        targets: ceartText,
+        y: ceartText.y - 50, // Float upwards by 50 pixels
+        alpha: 0, // Fade out
+        duration: 1000, // 1 second duration
+        ease: 'Linear',
+        onComplete: () => {
+            // Remove the text object when the tween is complete
+            ceartText.destroy();
+        }
+    });
+    
+    // Verify conditions before launching the scene
+    console.log("Score: " + score);
+    console.log("isSceneLaunched: " + isSceneLaunched);
+    
 
 }
-  
-
 
       
-    
-    
-    
-        function handleRightAnswer(scene) {
-
-            scene.sound.play('fanfare');
-        
-            // Increment the score
-            score++;
-        
-            // Create the "ceart!" text object
-            const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'aonchlo', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
-            console.log("highlightedPuca inside handle right answer: " + highlightedPuca)
-        
-            // Tween the text object to simulate floating
-            scene.tweens.add({
-                targets: ceartText,
-                y: ceartText.y - 50, // Float upwards by 50 pixels
-                alpha: 0, // Fade out
-                duration: 1000, // 1 second duration
-                ease: 'Linear',
-                onComplete: () => {
-                    // Remove the text object when the tween is complete
-                    ceartText.destroy();
-                }
-            });
-    if(score>=27){
-        alert(score+"thanks for playing! Come back soon...")
-    }
-            slideDownImageLayer(scene)
-        }
-        scene.scene.add('NavCD', NavCD);
-
-    scene.scene.launch('NavCD');
 }//close  create()
-function update() {}
+function update(scene) {
+
+    if (score >= 0 && !isSceneLaunched) {
+        this.scene.add('NavCD', NavCD);
+        // Launch the desired scene
+        this.scene.launch('NavCD');
+        
+        // Set the flag to true to prevent launching the scene multiple times
+        isSceneLaunched = true;
+        console.log("Scene launched!");
+    } else {
+        console.log("Conditions not met for launching scene.");
+    }
+}
     
     
 

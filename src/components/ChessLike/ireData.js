@@ -289,11 +289,6 @@ const ireData  = {
             ,      {
 
                 /*"Cill Deirge",
-      "Baile Uí Ṁurċú",
-      "Baile Haicéid",
-      "An Ḃuiríos",
-      "Miseal",
-      "Cill Daṁáin"
     ],
     "locationsEng": [
       "Cill Deirge",
@@ -308,20 +303,25 @@ const ireData  = {
                 "enCoName": "carlow",
                 "locations":[
                     {
-                        "irishName":"",
+                        "irishName":
+                        "Baile Uí Ṁurċú",
+                        
                         "englishName":"",
 
                     },
                     {
-                        "irishName":"",
+                        "irishName":"Baile Haicéid",
+                        
                         "englishName":"",
 
                     },{
-                        "irishName":"",
+                        "irishName":"An Ḃuiríos",
+                        
                         "englishName":"",
 
                     },{
-                        "irishName":"",
+                        "irishName":"Miseal",
+                        
                         "englishName":"",
 
                     },{
@@ -340,33 +340,39 @@ const ireData  = {
         ,      {
 
             /*
-            */
-            "gaCoName": "kildare",
-            "enCoName": "",
+          
+      */
+            "gaCoName": "Co. Ċill Dara",
+            "enCoName": "Co. Kildare",
             "locations":[
                 {
-                    "irishName":"",
+                    "irishName":             "Cairbre",
+              
                     "englishName":"",
 
                 },
                 {
-                    "irishName":"",
+                    "irishName":      "Na Solláin",
+              
                     "englishName":"",
 
                 },{
-                    "irishName":"",
+                    "irishName":      "Fioḋ Alúine",
                     "englishName":"",
 
                 },{
-                    "irishName":"",
+                    "irishName":      "Maigh Nuad",
+              
                     "englishName":"",
 
                 },{
-                    "irishName":"",
+                    "irishName":      "An Currach",
+              
                     "englishName":"",
 
                 },{
-                    "irishName":"",
+                    "irishName":      "Léim an Ḃradáin"
+                    ,
                     "englishName":"",
 
                 },
@@ -379,33 +385,50 @@ const ireData  = {
                                 // More counties for Leinster...
                 //
                 /*
+                    "locations": [
+      "Ġráinseaċ Ċuffe",
+      "Baile Ṁic Andáin",
+      "Bearna na Gaoiṫe",
+      "Dún Garḃáin",
+      "Baile an Ṗoill",
+      "Sliaḃ Rua"
+    ],
+    "locationsEng": [
+
+    ],
+    "county": ,
             */    
-        "gaCoName": "",
-        "enCoName": " kilkenny",
+        "gaCoName": "Co. Ċill Ċainniġ",
+        "enCoName": "Co. kilkenny",
         "locations":[
             {
-                "irishName":"",
+                "irishName":      "Ġráinseaċ Ċuffe",
+                
                 "englishName":"",
 
             },
             {
-                "irishName":"",
+                "irishName":"Baile Ṁic Andáin",
+                
                 "englishName":"",
 
             },{
-                "irishName":"",
+                "irishName":"Bearna na Gaoiṫe",
+                
                 "englishName":"",
 
             },{
-                "irishName":"",
+                "irishName":"Dún Garḃáin",
+                
                 "englishName":"",
 
             },{
-                "irishName":"",
+                "irishName":"Baile an Ṗoill",
+                
                 "englishName":"",
 
             },{
-                "irishName":"",
+                "irishName":"Sliaḃ Rua",
                 "englishName":"",
 
             },
@@ -416,33 +439,49 @@ const ireData  = {
 ,      {
 
     /*
-            */
+             "locations": [
+      
+    ],
+    "locationsEng": [
+      "Errill - bed or tomb",
+      "Durrow - the oak plain",
+      "Ballyfin - the town of finn",
+      "Crom-a-Boo Bridge - Castle Crom forever bridge",
+      "Portarlington - nook of the tanner'",
+      "Borris-in-Ossory - Borrough of the ancient Kingdom of Osraige"
+    ],
+    "county":  */
     "gaCoName": "",
     "enCoName": "laois",
     "locations":[
         {
-            "irishName":"",
+            "irishName":"Eiréil ",
+           
             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName": "Darú",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"An Baile Fionn",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Droichead Crom Abú",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Cúil an tSúdaire",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Buiríos Mór Osraí",
             "englishName":"",
 
         },
@@ -453,33 +492,48 @@ const ireData  = {
 ,      {
 
     /*
+    ],
+  
+      "Lisbrack - the speckled ringfort",
+      "Mostrim - frontier of the elder tree",
+      "Granard - possibly meaning sun height or hill of the sun.",
+      "Cloondara - the meadow of two ringforts",
+      "Moydow - plain of the mound",
+      "Carrigboy - the yellow stone"
+
             */
-    "gaCoName": "",
+    "gaCoName":  "Co. An Longfoirt",
     "enCoName": " longford",
     "locations":[
         {
-            "irishName":"",
+            "irishName":
+            "An Lios Breac",
+        
             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName":"Meathais Troim",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Gránard",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Cluain Dá Ráth",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Maiġ Duṁa",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"An Ċarraig Ḃuí",
             "englishName":"",
 
         },
@@ -489,34 +543,54 @@ const ireData  = {
     }
 ,      {
 
-    /*
+    /*   
+      
+    ],
+    "locationsEng": [
+
+      "Dundalk - fort of Dealgan, Fir Bolg Chieftain",
+      "Greenore - the sun fort",
+
+      "Clogherhead - rocky headland",
+      "Ardee - te ford of Ferdi",
+      "Puckstown - hole of the Pooka",
+      "Castlebellingham - Gernon’s Town"
+
+
+    ],
+    "county": "",
             */
-    "gaCoName": "",
+    "gaCoName": "Co. An Lú",
     "enCoName": "louth",
     "locations":[
         {
-            "irishName":"",
+            "irishName":"Dún Dealgan",
+           
             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName": "An Grianfort",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Ceann Ċloċair",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Baile Átha Ḟirdia",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Poll an Phúca",
+           
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName": "Baile an Ġearlánaigh",
             "englishName":"",
 
         },
@@ -526,33 +600,55 @@ const ireData  = {
     }
 ,      {
     /*
-            */
+    
+    ],
+    "locationsEng": [
+
+     "Clonmacnoise  - Meadow of the Sons of Nós ",
+      "Edenderry - Hill-brow of the oak wood ",
+
+      " Birr - plain of water ",
+
+      "The head of Princess Eitigh ( Kinnitty )",
+
+      "Iomgháin's ring-fort ( Rathangan )",
+
+      "Seat of the seal ( Shinrone )"
+*/
     "gaCoName": "",
     "enCoName": "offaly",
+    
     "locations":[
         {
-            "irishName":"",
+            "irishName":
+    
+            "Cluain Ṁic Nóis",
             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName":
+            "Éadan Doire",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Biorra",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Cionn Eitigh",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Ráth Iomġáin",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Suí an Róin",
             "englishName":"",
 
         },
@@ -563,33 +659,49 @@ const ireData  = {
 ,      {
 
     /*
-            */
-    "gaCoName": "",
+      
+    ],
+    "locationsEng": [
+      "Navan - the cave",
+      "Rathcairn -  ring-fort pile of rocks",
+      "Kilbride - Church of St Bridget",
+      "sacred space, elevated place",
+      "Ballinabrackey - Summer pasture of the wolf-plain",
+      "Fairyhouse"
+    ],
+    "county": ,      */
+    "gaCoName":"Co. Na Mí",
     "enCoName": "meath",
     "locations":[
         {
-            "irishName":"",
-            "englishName":"",
+            "irishName":
+            "An Uaimh",
+             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName": "Ráth Ċairn",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Cill Ḃríde",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Teamhair",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Buaile na Bréachṁaí ",
+          
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":  "Tigh na Sióg",
+          
             "englishName":"",
 
         },
@@ -599,33 +711,48 @@ const ireData  = {
     }
 ,      {
     /*
-            */
+          
+    ],
+    "locationsEng": [
+
+      "Killinierin - Forest of Iron",
+      "Inis Córṫaidh",
+      "Pollaphuca - Hole of the Pooka",
+      "Mullinagore - The Grazing of Goats",
+      "Owenduff  - The Black River",
+      "Duncormick - Cormac's fort"
+     */
     "gaCoName": "",
     "enCoName": "wexford",
     "locations":[
         {
-            "irishName":"",
+            "irishName":   "Coill an Iarainn",
+            
             "englishName":"",
 
         },
         {
-            "irishName":"",
+            "irishName":"Inis Córṫaidh",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Poll an Phúca",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Maolán na nGaḃar",
+           
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName": "An Abhainn Dubh",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Dún Ċormaic",
             "englishName":"",
 
         },
@@ -637,33 +764,47 @@ const ireData  = {
 
 {
     /*
-            */
-    "gaCoName": "",
+           
+    ],
+    "locationsEng": [
+      "Hole of the Pooka",
+      "The grey stones",
+      "Shillelagh - thonged willow",
+      "Donard - high fortress",
+      "Arklow - meadow of Arnkell. The Great Estuary",
+      "From Oboka, a river in Ptolemy's Geography"
+    ],   */
+    "gaCoName": "Co. Ċill Ṁantáin",
     "enCoName": "wicklow",
     "locations":[
         {
-            "irishName":"",
-            "englishName":"",
+            "irishName":    "Poll an Ṗúca",
+          
 
         },
         {
-            "irishName":"",
+            "irishName":  "Na Cloċa Liaṫa",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Siol Éalaiġ",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Dún Ard",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"An tInḃear Mór",
+            
             "englishName":"",
 
         },{
-            "irishName":"",
+            "irishName":"Aḃóca"
+            ,
             "englishName":"",
 
         },
@@ -675,6 +816,323 @@ const ireData  = {
             ]
         },
         // More provinces...
-    ]
+        {
+            "enProvince": "Ulster",
+            "gaProvince": "Uladh",
+            "counties": [
+
+                /* "co": "antrim",
+    "locations": [
+      "Reaċlainn",
+      "Dearḃóg",
+      "Aċaḋ Eoċaille",
+      "Carn Ṁéaḃla",
+      "Carraig Ḟearġais",
+      "Béal Feiriste"
+    ],
+    "locationsEng": [
+      "Rathlin - the rugged island",
+      "Dervock - oak plantation",
+      "Ahoghill - field of the yew forest",
+      "Cairn of Queen Maeve",
+      "Carrickfergus - Fergus' rock",
+      "Belfast - mouth of river Farset"
+    ],
+    "county": "Co. Aontroma",
+   */
+
+    
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        ,
+
+        {
+
+
+            /* "co": "donegal",
+    "locations": [
+      "Cionn Dhún Damh",
+      "Baile idir Dhá Abhainn",
+      "Sléiḃte Ḋoire Ḃeatha",
+      "Leitir Ceanainn",
+      "Bealach Féich",
+      "Na Cruacha Gorma"
+    ],
+    "locationsEng": [
+      "Dunaff Head - Headland of the Stag (or Ox)",
+      "Ballyederowen - town between two rivers",
+      " Derryveagh  - Mountain of the living oaks",
+      "Letterkenny - hillside of the O'Cannons",
+      "Ballybofey - Fiach's pass",
+      "Croaghgorm - the blue stack mountains"
+    ],
+    "county": "Co. Ḋún na nGall",*/
+            "gaCoName": "",
+            "enCoName": "",
+
+
+            "locations": [
+                {
+                    
+                    "irishName": "",
+                    "englishName":  "",
+                }]
+            }
+
+            ,
+            {
+                "gaCoName": "",
+                "enCoName": "",
+
+    /*
+     {
+    "emblem": "fermanagh",
+    "co": "fermanagh",
+    "locations": [
+      "An Garastún",
+      "Paiteagó",
+      "Eadarnaiḋ",
+      "Lios na Daróg",
+      "Scriobaċ",
+      "Inis Ceiṫleann"
+    ],
+    "locationsEng": [
+      "Garrison",
+      "Picts: they spoke a language like the Welsh. The great test-word in place-names is Pet. Same as Gaelic 'Baile' which in-fact replaces it. - logainm.ie",
+      "Ederney - middle place/place between",
+      "Ringfort of the Oak",
+      "Scraping | Scribing",
+      "Isle of Cethleann the Prophet, wife of Balor the Smiter."
+    ],
+    "county": "Co. Ḟear Manaċ",*/
+                "locations": [
+                    {
+                        
+                        "irishName": "",
+                        "englishName":  "",
+                    }]
+                }
+    
+                ,
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+
+    /*
+    {
+    "emblem": "derry",
+    "co": "derry",
+    "locations": [
+      "Doire",
+      "Léim an Ṁadaiḋ",
+      "Droichead Fíolta",
+      "Maċaire Ráṫa",
+      "An Seanṁullach",
+      "Muine Mór"
+    ],
+    "locationsEng": [
+      "Derry - oak grove",
+      "Limavady - leap of the dog",
+      "Bridge of Fíolta (seeded?)",
+      "Maghera - plain of the ringfort",
+      "Shanmullagh - the old summit",
+      "Muine Mór"
+    ],
+    "county": "Co. Ḋoire",*/
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        
+                    ,
+
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+
+    /**/
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        
+                    ,
+                    {
+                        "gaCoName": "",
+                        "enCoName": "",
+    /*
+    "co": "down",
+    "locations": [
+      "An Lorgain",
+      "Lios na gCearrḃach",
+      "An Caisleán Riaḃach",
+      "An Ṁainistir Liath",
+      "Dún Pádraig",
+      "Cill Ċaoil"
+    ],
+    "locationsEng": [
+      "An Lorgain",
+      "Lios na gCearrḃach",
+      "An Caisleán Riaḃach",
+      "An Ṁainistir Liath",
+      "Dún Pádraig",
+      "Cill Ċaoil"
+    ],
+    "county": "Co. An Dúin",*/
+    
+            
+                        "locations": [
+                            {
+                                
+                                "irishName": "",
+                                "englishName":  "",
+                            }]
+                        },
+
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+
+    /*    "emblem": "armagh",
+    "co": "armagh",
+    "locations": [
+      "Sráid na nAlbanach",
+      "Craigavon",
+      "Port An Dúnáin",
+      "Baile Úr",
+      "Baile an Ṁuilinn",
+      "Lios Liath"
+    ],
+    "locationsEng": [
+      "Sráid na nAlbanach",
+      "Craigavon",
+      "Port An Dúnáin",
+      "Baile Úr",
+      "Baile an Ṁuilinn",
+      "Lios Liath"
+    ],
+    "county": "Co. Ard Ṁaċa",
+*/
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        
+                    ,
+
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+
+    /*
+     "emblem": "monaghan",
+    "co": "monaghan",
+    "locations": [
+      "Scairbh na gCaorach",
+      "Cluain Eois",
+      "Einistir Ḃuithe",
+      "Teach an Scotaigh",
+      "Crícheán Rua",
+      "Carraig Ṁaċaire Rois"
+    ],
+    "locationsEng": [
+      "Scairbh na gCaorach",
+      "Cluain Eois",
+      "Einistir Ḃuithe",
+      "Teach an Scotaigh",
+      "Crícheán Rua",
+      "Carraig Ṁaċaire Rois"
+    ],
+    "county": "Co. Ṁuineaċáin",
+    */
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        
+                    ,
+
+                {
+                    "gaCoName": "",
+                    "enCoName": "",
+    /*
+    {
+    "emblem": "cavan",
+    "co": "cavan",
+    "locations": [
+      "Doire na Criaḋ",
+      "An Cnoc Rua",
+      "Béal Tairbirt",
+      "An Dromainn",
+      "Dún an Rí",
+      "Lios Cré"
+    ],
+
+    "locationsEng": [
+      "Derrynacreeve - Oakwood of the clay",
+      "Redhills - the red hill",
+      "Belturbet - mouth of the isthmus",
+      "The ridge",
+      "Dunaree - fort of the king",
+      "Lisgrea - ringfort of earth"
+    ],
+    "county": "Co. An Caḃáin",
+    */
+
+        
+                    "locations": [
+                        {
+                            
+                            "irishName": "",
+                            "englishName":  "",
+                        }]
+                    }
+        
+            
+    ]},
+    {
+        "enProvince": "Munster",
+        "gaProvince": "Cúige Mumhan",
+        "counties": [
+            {
+                "gaCoName": "Co. ",
+                "enCoName": "Co. ",
+
+    
+                "locations": [
+                    {
+                        
+                        "irishName": "",
+                        "englishName": ""
+                    }]
+                }
+    
+]},]
 };
 export default ireData;
