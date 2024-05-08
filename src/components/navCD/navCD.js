@@ -29,7 +29,8 @@ export default class NavCD extends Phaser.Scene {
 
     preload() {
         let champID = localStorage.getItem('champID');
-        this.load.image('glassbg', './phaser-resources/images/big-glass.png');
+        this.load.image('glassbg', './phaser-resources/images/mapFrame4.png');
+        this.load.image('stonebg', './phaser-resources/images/fog5.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png');
         this.load.image('actionBtn', './phaser-resources/images/ui/a-btn.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -60,17 +61,28 @@ let currentLocation = this.currentCounty.locations[0].irishName;
 
         console.log("Current Location:", currentLocation);
         // Set up the text to display the name of the current location
-        this.currentPlaceText = this.add.text(200, this.cameras.main.height - 200, currentLocation, { fontSize: '24px', fill: '#fff' }).setDepth(31);
+        this.currentPlaceText = this.add.text(200, this.cameras.main.height - 200, currentLocation, { fontFamily:'aonchlo', fontSize: '24px', fill: '#fff' }).setDepth(31);
        
         // Initialize navigation UI elements and logic
-        const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-        this.buttonUp = this.add.sprite(100, this.cameras.main.height - 150, 'button-up').setDepth(31);
-        this.buttonDown = this.add.sprite(100, this.cameras.main.height - 50, 'button-down').setDepth(31);
-        this.buttonLeft = this.add.sprite(50, this.cameras.main.height - 100, 'button-left').setDepth(31);
-        this.buttonRight = this.add.sprite(150, this.cameras.main.height - 100, 'button-right').setDepth(31);
-        this.buttonMiddle = this.add.sprite(100, this.cameras.main.height - 100, 'button-middle').setDepth(20);
-        this.actionBtn = this.add.sprite(250, this.cameras.main.height - 100, 'actionBtn').setDepth(31);
-    
+        const stonebg = this.add.sprite(0, 0, 'stonebg').setOrigin(0);
+        stonebg.displayWidth = this.sys.game.config.width;
+        stonebg.displayHeight = this.sys.game.config.height;
+        const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
+        const buttonY = this.sys.game.config.height / 2 + 100; // Adjust the vertical position as needed
+        
+        // Add the buttons
+        const buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(31);
+        const buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(31);
+        const buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(31);
+        const buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(31);
+        const buttonMiddle = this.add.sprite(buttonX, buttonY ,'button-middle').setDepth(31);
+
+        // this.actionBtn = this.add.sprite(100, this.cameras.main.height - 50, 'actionBtn').setDepth(31);
+        console.log(buttonUp.parentContainer);
+        console.log(buttonUp.parentContainer);
+        console.log(buttonUp.parentContainer);
+        console.log(buttonUp.parentContainer+"kdddkdkd");
+
         // Check if sprites are loaded
         console.log(this.buttonUp, this.buttonDown, this.buttonLeft, this.buttonRight, this.actionBtn);
     
@@ -80,7 +92,9 @@ let currentLocation = this.currentCounty.locations[0].irishName;
         if (this.buttonUp && this.buttonDown && this.buttonLeft && this.buttonRight && this.actionBtn) {
        // Add input listeners to directional pad buttons
 // Add input listeners to directional pad buttons
-this.buttonUp.setInteractive().on('pointerup', () => {
+buttonUp.setInteractive();
+buttonUp.on('pointerup', () => {
+    console.log('Up button clicked!');
     // Handle up button press
     if (this.navigationLevel === 'location') {
         // Move to county level
@@ -108,7 +122,7 @@ this.buttonDown.setInteractive().on('pointerup', () => {
         this.navigationLevel = 'location';
     } else if (this.navigationLevel === 'location') {
         // Close the NavCD scene
-        this.scene.stop('NavCD');
+        // this.scene.stop('NavCD');
     }
     this.updateCurrentPlaceText();
 });
