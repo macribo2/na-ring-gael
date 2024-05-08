@@ -5,11 +5,11 @@ export default class NavCD extends Phaser.Scene {
     constructor() {
         super({ key: 'NavCD' });
 
-        // Define directional pad buttons and action button as class properties
-        this.buttonUp = null;
-        this.buttonDown = null;
-        this.buttonLeft = null;
-        this.buttonRight = null;
+        // Define directional pad buttonNavs and action buttonNav as class properties
+        this.buttonNavUp = null;
+        this.buttonNavDown = null;
+        this.buttonNavLeft = null;
+        this.buttonNavRight = null;
         this.actionBtn = null;
 
         this.currentPlayerLocation = 0; // Initial location index
@@ -28,9 +28,10 @@ export default class NavCD extends Phaser.Scene {
 
 
     preload() {
-        let champID = localStorage.getItem('champID');
-        this.load.image('glassbg', './phaser-resources/images/mapFrame4.png');
         this.load.image('stonebg', './phaser-resources/images/fog5.png');
+
+        let champID = localStorage.getItem('champID');
+        this.load.image('glassbg', './phaser-resources/images/big-glass.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png');
         this.load.image('actionBtn', './phaser-resources/images/ui/a-btn.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -61,41 +62,34 @@ let currentLocation = this.currentCounty.locations[0].irishName;
 
         console.log("Current Location:", currentLocation);
         // Set up the text to display the name of the current location
-        this.currentPlaceText = this.add.text(200, this.cameras.main.height - 200, currentLocation, { fontFamily:'aonchlo', fontSize: '24px', fill: '#fff' }).setDepth(31);
+        this.currentPlaceText = this.add.text(200, this.cameras.main.height - 300, currentLocation, { fontFamily:'aonchlo', fontSize: '3em', fill: '#fff' }).setDepth(31);
        
-        // Initialize navigation UI elements and logic
         const stonebg = this.add.sprite(0, 0, 'stonebg').setOrigin(0);
         stonebg.displayWidth = this.sys.game.config.width;
         stonebg.displayHeight = this.sys.game.config.height;
+        // Initialize navigation UI elements and logic
+
         const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
         const buttonY = this.sys.game.config.height / 2 + 100; // Adjust the vertical position as needed
-        
-        // Add the buttons
-        const buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(31);
-        const buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(31);
-        const buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(31);
-        const buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(31);
-        const buttonMiddle = this.add.sprite(buttonX, buttonY ,'button-middle').setDepth(31);
 
-        // this.actionBtn = this.add.sprite(100, this.cameras.main.height - 50, 'actionBtn').setDepth(31);
-        console.log(buttonUp.parentContainer);
-        console.log(buttonUp.parentContainer);
-        console.log(buttonUp.parentContainer);
-        console.log(buttonUp.parentContainer+"kdddkdkd");
-
+        this.buttonNavUp = this.add.sprite(buttonX , this.cameras.main.height - 150, 'button-up').setDepth(31);
+        this.buttonNavDown = this.add.sprite(buttonX , this.cameras.main.height - 50, 'button-down').setDepth(31);
+        this.buttonNavLeft = this.add.sprite(buttonX -50, this.cameras.main.height - 100, 'button-left').setDepth(31);
+        this.buttonNavRight = this.add.sprite(buttonX +50, this.cameras.main.height - 100, 'button-right').setDepth(31);
+        this.buttonNavMiddle = this.add.sprite(buttonX , this.cameras.main.height - 100, 'button-middle').setDepth(20);
+        this.actionBtn = this.add.sprite(250, this.cameras.main.height - 800, 'actionBtn').setDepth(31);
+    
         // Check if sprites are loaded
-        console.log(this.buttonUp, this.buttonDown, this.buttonLeft, this.buttonRight, this.actionBtn);
+        console.log(this.buttonNavUp, this.buttonNavDown, this.buttonNavLeft, this.buttonNavRight, this.actionBtn);
     
         // Add input listeners only if sprites are properly loaded
 
    
-        if (this.buttonUp && this.buttonDown && this.buttonLeft && this.buttonRight && this.actionBtn) {
-       // Add input listeners to directional pad buttons
-// Add input listeners to directional pad buttons
-buttonUp.setInteractive();
-buttonUp.on('pointerup', () => {
-    console.log('Up button clicked!');
-    // Handle up button press
+        if (this.buttonNavUp && this.buttonNavDown && this.buttonNavLeft && this.buttonNavRight && this.actionBtn) {
+       // Add input listeners to directional pad buttonNavs
+// Add input listeners to directional pad buttonNavs
+this.buttonNavUp.setInteractive().on('pointerup', () => {
+    // Handle up buttonNav press
     if (this.navigationLevel === 'location') {
         // Move to county level
         this.navigationLevel = 'county';
@@ -108,8 +102,8 @@ buttonUp.on('pointerup', () => {
     this.updateCurrentPlaceText();
 });
 
-this.buttonDown.setInteractive().on('pointerup', () => {
-    // Handle down button press
+this.buttonNavDown.setInteractive().on('pointerup', () => {
+    // Handle down buttonNav press
     if (this.navigationLevel === 'province') {
         // Move to county level
         this.navigationLevel = 'county';
@@ -122,13 +116,13 @@ this.buttonDown.setInteractive().on('pointerup', () => {
         this.navigationLevel = 'location';
     } else if (this.navigationLevel === 'location') {
         // Close the NavCD scene
-        // this.scene.stop('NavCD');
+        this.scene.stop('NavCD');
     }
     this.updateCurrentPlaceText();
 });
 
-this.buttonLeft.setInteractive().on('pointerup', () => {
-    // Handle left button press
+this.buttonNavLeft.setInteractive().on('pointerup', () => {
+    // Handle left buttonNav press
     switch (this.navigationLevel) {
         case 'province':
             // Cycle through provinces
@@ -151,8 +145,8 @@ this.buttonLeft.setInteractive().on('pointerup', () => {
     this.updateCurrentPlaceText();
 });
 
-this.buttonRight.setInteractive().on('pointerup', () => {
-    // Handle right button press
+this.buttonNavRight.setInteractive().on('pointerup', () => {
+    // Handle right buttonNav press
     switch (this.navigationLevel) {
         case 'province':
             // Cycle through provinces
