@@ -70,7 +70,6 @@ let currentLocation = this.currentCounty.locations[0].irishName;
         // Initialize navigation UI elements and logic
 
         const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
-        const buttonY = this.sys.game.config.height / 2 + 100; // Adjust the vertical position as needed
 
         this.buttonNavUp = this.add.sprite(buttonX , this.cameras.main.height - 150, 'button-up').setDepth(31);
         this.buttonNavDown = this.add.sprite(buttonX , this.cameras.main.height - 50, 'button-down').setDepth(31);
@@ -88,35 +87,56 @@ let currentLocation = this.currentCounty.locations[0].irishName;
         if (this.buttonNavUp && this.buttonNavDown && this.buttonNavLeft && this.buttonNavRight && this.actionBtn) {
        // Add input listeners to directional pad buttonNavs
 // Add input listeners to directional pad buttonNavs
+
+
+let upButtonTapCount = 0; // Variable to track the number of taps on the up button
+
 this.buttonNavUp.setInteractive().on('pointerup', () => {
-    // Handle up buttonNav press
+    console.log('Up button clicked!');
+    // Handle up button press
     if (this.navigationLevel === 'location') {
         // Move to county level
         this.navigationLevel = 'county';
     } else if (this.navigationLevel === 'county') {
-        // Move to provincial level
-        this.navigationLevel = 'province';
+        if (upButtonTapCount === 0) {
+            // Increment tap count and return without changing level
+            upButtonTapCount++;
+            return;
+        } else {
+            // Move to provincial level
+            this.navigationLevel = 'province';
+            // Reset tap count for future taps
+            upButtonTapCount = 0;
+        }
         // Update the current location to the first location of the new county
         this.currentLocation = this.currentCounty.locations[0];
     }
     this.updateCurrentPlaceText();
 });
 
+let downButtonTapCount = 0; // Variable to track the number of taps on the down button
+
 this.buttonNavDown.setInteractive().on('pointerup', () => {
-    // Handle down buttonNav press
+    console.log('Down button clicked!');
+    // Handle down button press
     if (this.navigationLevel === 'province') {
         // Move to county level
         this.navigationLevel = 'county';
+    } else if (this.navigationLevel === 'county') {
+        if (downButtonTapCount === 0) {
+            // Increment tap count and return without changing level
+            downButtonTapCount++;
+            return;
+        } else {
+            // Move to location level
+            this.navigationLevel = 'location';
+            // Reset tap count for future taps
+            downButtonTapCount = 0;
+        }
         // Update the current county to the first county of the current province
         this.currentCounty = this.currentProvince.counties[0];
         // Update the current location to the first location of the new county
         this.currentLocation = this.currentCounty.locations[0];
-    } else if (this.navigationLevel === 'county') {
-        // Move to location level
-        this.navigationLevel = 'location';
-    } else if (this.navigationLevel === 'location') {
-        // Close the NavCD scene
-        this.scene.stop('NavCD');
     }
     this.updateCurrentPlaceText();
 });
