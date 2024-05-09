@@ -63,9 +63,12 @@ export default class NavCD extends Phaser.Scene {
         this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
         this.load.image('puca-mounted', './phaser-resources/images/npcs/pookaMounted.png');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
+
+        this.load.image('westmeath','./countyMaps/westmeath.png')
     }
 
     create() {
+        console.log("Scene created");
         const puca = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'puca-mounted');
 
         // Set up the player sprite
@@ -113,9 +116,21 @@ let currentLocation = this.currentCounty.locations[0].irishName;
         this.currentPlaceText = this.add.text(200, this.cameras.main.height - 300, currentLocation, { fontFamily:'aonchlo', fontSize: '3em', fill: '#fff' }).setDepth(31);
        
         const stonebg = this.add.sprite(0, 0, 'stonebg').setOrigin(0);
+        
         stonebg.displayWidth = this.sys.game.config.width;
         stonebg.displayHeight = this.sys.game.config.height;
-        // Initialize navigation UI elements and logic
+        const westmeath = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'westmeath').setScale(4);
+
+        westmeath.setAlpha(0.4);
+        
+// Set the initial position of the background sprite
+const initialX = this.cameras.main.centerX;
+const initialY = this.cameras.main.centerY;
+westmeath.setPosition(initialX, initialY);
+
+// Define the amount of scroll when pressing the directional pad
+const scrollAmount = 50; // Adjust as needed
+
 
         const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
 
@@ -205,84 +220,140 @@ this.buttonNavUp.setInteractive().on('pointerup', () => {
     this.updateCurrentPlaceText();
 });
 
+
+// Define the bounds for the background image movement
+const minX = 0; // Minimum x-coordinate
+const maxX = 400- this.cameras.main.height ; // 400 === image width. this sets Maximum x-coordinate
+const minY = 0; // Minimum y-coordinate
+const maxY = 400 - this.cameras.main.height ; // Maximum y-coordinate
+
+const locationPositions = [
+    { x: 100, y: 100 }, // Location 1
+    { x: 300, y: 200 }, // Location 2
+    { x: 500, y: 300 }, // Location 3
+    { x: 700, y: 400 }, // Location 4
+    { x: 900, y: 500 }, // Location 5
+    { x: 1100, y: 600 } // Location 6
+];
 this.buttonNavLeft.setInteractive().on('pointerup', () => {
-        console.log('Left button clicked!');
-        // Handle left button press
-        switch (this.navigationLevel) {
-            case 'province':
-                // Cycle through provinces
-                this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
-                this.currentProvince = this.provinces[this.currentProvinceIndex];
-                // Reset the current county index to 0 for the new province
-                this.currentCountyIndex = 0;
-                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-                // Reset the current location index to 0 for the new county
-                this.currentPlayerLocation = 0;
-                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                break;
-            case 'county':
-                // Cycle through counties within the current province
-                this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
-                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-                // Reset the current location index to 0 for the new county
-                this.currentPlayerLocation = 0;
-                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                break;
-            case 'location':
-                // Cycle through locations within the current county
-                this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
-                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                break;
-        }
-        this.updateCurrentPlaceText();
-    });
+    console.log('Left button clicked!');
+    // Scroll the background image to the left within the bounds
+    if (this.currentPlayerLocation > 0) {
+        this.currentPlayerLocation--;
+        const newPosition = locationPositions[this.currentPlayerLocation];
+        const newX = Phaser.Math.Clamp(newPosition.x, minX, maxX);
+        westmeath.setPosition(newX, newPosition.y);
+    }
+    // Debugging: Log the current location index and its corresponding position
+    console.log("Current player location index:", this.currentPlayerLocation);
+    console.log("Position:", locationPositions[this.currentPlayerLocation]);
+
+    // Handle left button press
+    switch (this.navigationLevel) {
+        case 'province':
+            // Cycle through provinces
+            this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
+            this.currentProvince = this.provinces[this.currentProvinceIndex];
+            // Reset the current county index to 0 for the new province
+            this.currentCountyIndex = 0;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Reset the current location index to 0 for the new county
+            this.currentPlayerLocation = 0;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+        case 'county':
+            // Cycle through counties within the current province
+            this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Reset the current location index to 0 for the new county
+            this.currentPlayerLocation = 0;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+        case 'location':
+            // Cycle through locations within the current county
+            this.currentPlayerLocation = (this.currentPlayerLocation - 1 + this.currentCounty.locations.length) % this.currentCounty.locations.length;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+    }
+    this.updateCurrentPlaceText();
+});
+
     
-    
-    this.buttonNavRight.setInteractive().on('pointerup', () => {
-        console.log('Right button clicked!');
-        // Handle right button press
-        switch (this.navigationLevel) {
-            case 'province':
-                // Move to the next province
-                this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
-                this.currentProvince = this.provinces[this.currentProvinceIndex];
-                // Reset the current county index for the new province
-                this.currentCountyIndex = 0;
-                // Check if currentProvince is defined
-                if (this.currentProvince) {
-                    // Update currentCounty if defined, otherwise reset to undefined
-                    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex] || undefined;
-                    // Update currentLocation if currentCounty is defined
-                    if (this.currentCounty) {
-                        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                    } else {
-                        this.currentLocation = undefined;
-                    }
-                } else {
-                    this.currentCounty = undefined;
-                    this.currentLocation = undefined;
-                }
-                break;
-            case 'county':
-                // Move to the next county within the current province
-                this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
-                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+// Add a flag to prevent multiple event triggers
+let isButtonNavRightClicked = false;
+
+this.buttonNavRight.setInteractive().on('pointerup', () => {
+     // Check if the button is already clicked, if so, return
+    if (isButtonNavRightClicked) {
+        return;
+    }
+
+    // Set the flag to true to indicate that the button is clicked
+    isButtonNavRightClicked = true;
+
+    console.log('Right button clicked!');
+    // Scroll the background image to the right within the bounds
+    if (this.currentPlayerLocation < locationPositions.length - 1) {
+        this.currentPlayerLocation++;
+        alert(this.currentPlayerLocation)
+        const newPosition = locationPositions[this.currentPlayerLocation];
+        const newX = Phaser.Math.Clamp(newPosition.x, minX, maxX);
+        westmeath.setPosition(newX, newPosition.y);
+        console.log("Location Positions:", locationPositions);
+        console.log("New Position:", newPosition);
+    console.log("Current Player Location Index:", this.currentPlayerLocation);
+      
+    }
+    // Debugging: Log the current location index and its corresponding position
+    console.log("Current player location index:", this.currentPlayerLocation);
+    console.log("Position:", locationPositions[this.currentPlayerLocation]);
+
+    // Handle right button press
+    switch (this.navigationLevel) {
+        case 'province':
+            // Move to the next province
+            this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
+            this.currentProvince = this.provinces[this.currentProvinceIndex];
+            // Reset the current county index for the new province
+            this.currentCountyIndex = 0;
+            // Check if currentProvince is defined
+            if (this.currentProvince) {
+                // Update currentCounty if defined, otherwise reset to undefined
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex] || undefined;
                 // Update currentLocation if currentCounty is defined
                 if (this.currentCounty) {
                     this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
                 } else {
                     this.currentLocation = undefined;
                 }
-                break;
-            case 'location':
-                // Move to the next location within the current county
-                this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
+            } else {
+                this.currentCounty = undefined;
+                this.currentLocation = undefined;
+            }
+            break;
+        case 'county':
+            // Move to the next county within the current province
+            this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Update currentLocation if currentCounty is defined
+            if (this.currentCounty) {
                 this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                break;
-        }
-        this.updateCurrentPlaceText();
-    });
-    
+            } else {
+                this.currentLocation = undefined;
+            }
+            break;
+        case 'location':
+            // Move to the next location within the current county
+            this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            break;
+    }
+    this.updateCurrentPlaceText();
+
+    // Reset the flag after processing the event
+    isButtonNavRightClicked = false;
+});
+
             
         }}    
     update() {
