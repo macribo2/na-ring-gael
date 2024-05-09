@@ -1,0 +1,52 @@
+[
+  {
+    "id": "l0",
+    "text": {
+      "en": "Here I am,\ndreaming once more",
+      "ga": "Anseo atá mé,\nag taidhbhreadh \narís"
+    }
+  },
+{
+  "id": "l1",
+  "text": {
+    "en": "about the old labyrinth",
+    "ga": "faoin sean \nlúbra"
+  }
+},
+{
+  "id": "l2",
+  "text": {
+    "en": "Sleep fell upon me, \nand I among the rocks",
+    "ga": "Thuit \na choladh orm,\nagus mé \ni measc \n na carraigeacha"      }
+}
+,
+{ 
+  "id": "l3",
+  "text": {
+    "en": "How long ago?",
+    "ga": "Cé chomh fada\n ó shin?"
+  }
+},
+ {
+    "id": "l4",
+    "text": {
+      "en": "hoof sparks!",
+      "ga": "teine chreasa!"
+    }
+  },
+  {
+    "id": "l5",
+    "text": {
+      "en": "Follow Pooka!\n says Black Molly",
+      "ga": "lean púca!\narsa \nMallaidh Dubh"
+    }
+    },
+    {
+      "id": "l6",
+      "text": {
+        "en": "...",
+        "ga": "..."
+      }}
+    
+    
+]
