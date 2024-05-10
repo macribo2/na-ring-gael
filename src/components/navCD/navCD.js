@@ -10,7 +10,7 @@ export default class NavCD extends Phaser.Scene {
     this.minX = 0;
     this.maxX = 0;
     this.locationPositions = [];
-    this.currentPlayerLocation = 0;
+    this.currentPlayerLocation = 1;
     this.currentCounty = null;
     this.navigationLevel = "location";
 
@@ -50,7 +50,45 @@ export default class NavCD extends Phaser.Scene {
       `./phaser-resources/images/champions/${champID}.png`,
     );
 
+    
     this.load.image("westmeath", "./countyMaps/westmeath.png");
+    this.load.image("galway", "./countyMaps/galway.png");
+    this.load.image("antrim", "./countyMaps/antrim.png");
+    this.load.image("armagh", "./countyMaps/armagh.png");
+    this.load.image("carlow", "./countyMaps/carlow.png");
+    this.load.image("cavan", "./countyMaps/cavan.png");
+    this.load.image("clare", "./countyMaps/clare.png");
+    this.load.image("cork", "./countyMaps/cork.png");
+    this.load.image("derry", "./countyMaps/derry.png");
+    this.load.image("donegal", "./countyMaps/donegal.png");
+    this.load.image("down", "./countyMaps/down.png");
+    this.load.image("dublin", "./countyMaps/dublin.png");
+    this.load.image("fermanagh", "./countyMaps/fermanagh.png");
+    this.load.image("kerry", "./countyMaps/kerry.png");
+    this.load.image("kildare", "./countyMaps/kildare.png");
+    this.load.image("kilkenny", "./countyMaps/kilkenny.png");
+    this.load.image("laois", "./countyMaps/laois.png");
+    this.load.image("leitrim", "./countyMaps/leitrim.png");
+    this.load.image("limerick", "./countyMaps/limerick.png");
+    this.load.image("longford", "./countyMaps/longford.png");
+    this.load.image("louth", "./countyMaps/louth.png");
+    this.load.image("mayo", "./countyMaps/mayo.png");
+    this.load.image("meath", "./countyMaps/meath.png");
+    this.load.image("monaghan", "./countyMaps/monaghan.png");
+    this.load.image("offaly", "./countyMaps/offaly.png");
+    this.load.image("roscommon", "./countyMaps/roscommon.png");
+    this.load.image("sligo", "./countyMaps/sligo.png");
+    this.load.image("tipperary    ", "./countyMaps/tipperary.png");
+    this.load.image("tyrone", "./countyMaps/tyrone.png");
+    this.load.image("waterford", "./countyMaps/waterford.png");
+    this.load.image("westmeath", "./countyMaps/westmeath.png");
+    this.load.image("wexford", "./countyMaps/wexford.png");
+    this.load.image("wicklow", "./countyMaps/wicklow.png");
+    this.load.image("ulster", "./countyMaps/ulster.png");
+    this.load.image("leinster", "./countyMaps/leinster.png");
+    this.load.image("connacht", "./countyMaps/connacht.png");
+    this.load.image("munster", "./countyMaps/munster.png");
+
   }
 
 
@@ -124,6 +162,21 @@ this.westmeath.setPosition(initialX, initialY);
 
   // Get the current province and county data from ireData
   this.currentProvince = ireData.provinces[this.currentProvinceIndex];
+
+    // Get the current province and county data from ireData
+    this.currentProvinceIndex = 0; // Set the initial province index
+    this.currentProvince = ireData.provinces[this.currentProvinceIndex];
+
+    // Check if currentProvince is defined
+    if (this.currentProvince) {
+        // Initialize this.provinces with the province data
+        this.provinces = ireData.provinces;
+    } else {
+        // Handle the case where currentProvince is undefined
+        console.error("Current province data is undefined.");
+        return; // Abort further initialization
+    }
+
   this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
 
   // Get the first location within the county
@@ -345,21 +398,74 @@ this.buttonNavLeft.setInteractive()
     // Other create code...
   }
 
-  handleLeftButtonPress() {
-    if (this.currentPlayerLocation > 0) {
-      this.currentPlayerLocation--;
-      this.updateWestmeathPosition();
+  handleLeftProvince() {
+    // Move to the previous province
+    this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
+    this.currentProvince = this.provinces[this.currentProvinceIndex];
+    // Reset the current county index for the new province
+    this.currentCountyIndex = 0;
+    // Update current county and location
+    if (this.currentProvince) {
+        this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+        if (this.currentCounty) {
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            console.log("Current location:", this.currentLocation);
+        } else {
+            this.currentLocation = undefined;
+        }
+    } else {
+        this.currentCounty = undefined;
+        this.currentLocation = undefined;
     }
-    // Update other logic as needed
-  }
+    // Update the displayed location name after the navigation changes
+    this.updateCurrentPlaceText();
+}
 
-  handleRightButtonPress() {
-    if (this.currentPlayerLocation < this.locationPositions.length - 1) {
-      this.currentPlayerLocation++;
-      this.updateWestmeathPosition();
+handleLeftCounty() {
+    // Move to the previous county within the current province
+    this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
+    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+    // Update current location
+    if (this.currentCounty) {
+        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+        console.log("Current location:", this.currentLocation);
+    } else {
+        this.currentLocation = undefined;
     }
-    // Update other logic as needed
-  }
+    // Update the displayed location name after the navigation changes
+    this.updateCurrentPlaceText();
+}
+
+handleLeftLocation() {
+    // Move to the previous location within the current county
+    this.currentPlayerLocation--;
+    if (this.currentPlayerLocation < 0) {
+        // If the index is negative, wrap around to the end of the array
+        this.currentPlayerLocation = this.currentCounty.locations.length - 1;
+    }
+    this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+    console.log("Current location:", this.currentLocation);
+    // Update the displayed location name after the navigation changes
+    this.updateCurrentPlaceText();
+}
+
+handleLeftButtonPress() {
+    switch (this.navigationLevel) {
+        case 'province':
+            this.handleLeftProvince();
+            break;
+        case 'county':
+            this.handleLeftCounty();
+            break;
+        case 'location':
+            this.handleLeftLocation();
+            break;
+        default:
+            break;
+    }
+}
+
+
 
   updateWestmeathPosition() {
     const newPosition = this.locationPositions[this.currentPlayerLocation];
@@ -369,82 +475,7 @@ this.buttonNavLeft.setInteractive()
 
 
   handleRightButtonPress = () => {
-    if (this.currentPlayerLocation >= 0 && this.currentPlayerLocation < this.locationPositions.length) {
-        const newPosition = this.locationPositions[this.currentPlayerLocation];
-        if (newPosition) {
-            const newX = Phaser.Math.Clamp(newPosition.x, this.minX, this.maxX);
-            this.westmeath.setPosition(newX, newPosition.y);
-            // Handle the right button press logic directly here
-            if (this.currentPlayerLocation < this.locationPositions.length - 1) {
-                // Additional logic...
-
-
-    const newPosition = this.locationPositions[this.currentPlayerLocation];
-    const newX = Phaser.Math.Clamp(newPosition.x, this.minX, this.maxX);
-    this.westmeath.setPosition(newX, newPosition.y);
-        // Handle the right button press logic directly here
-        if (this.currentPlayerLocation < this.locationPositions.length - 1) {
-            this.currentPlayerLocation++;
-            const newPosition = this.locationPositions[this.currentPlayerLocation];
-            const newX = Phaser.Math.Clamp(newPosition.x, this.minX, this.maxX);
-            this.westmeath.setPosition(newX, newPosition.y);
-        }
-        // Update navigation and current location
-        switch (this.navigationLevel) {
-            // Handle navigation for province level
-            case 'province':
-                // Move to the next province
-                this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
-                this.currentProvince = this.provinces[this.currentProvinceIndex];
-                // Reset the current county index for the new province
-                this.currentCountyIndex = 0;
-                // Check if currentProvince is defined
-                if (this.currentProvince) {
-                    // Update currentCounty if defined, otherwise reset to undefined
-                    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex] || undefined;
-                    // Update currentLocation if currentCounty is defined
-                    if (this.currentCounty) {
-                        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                        console.log("Current location:", this.currentLocation);
-                    } else {
-                        this.currentLocation = undefined;
-                    }
-                } else {
-                    this.currentCounty = undefined;
-                    this.currentLocation = undefined;
-                }
-                break;
-            // Handle navigation for county level
-            case 'county':
-                // Move to the next county within the current province
-                this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
-                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-                // Update currentLocation if currentCounty is defined
-                if (this.currentCounty) {
-                    this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                    console.log("Current location:", this.currentLocation);
-                } else {
-                    this.currentLocation = undefined;
-                }
-                break;
-            // Handle navigation for location level
-            case 'location':
-                // Move to the next location within the current county
-                this.currentPlayerLocation = (this.currentPlayerLocation + 1) % this.currentCounty.locations.length;
-                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                console.log("Current location:", this.currentLocation);
-                break;
-        }
-        // Update the displayed location name after the navigation changes
-        this.updateCurrentPlaceText();
-            }
-        } else {
-            console.error("Invalid position data at currentPlayerLocation:", this.currentPlayerLocation);
-        }
-    } else {
-        console.error("currentPlayerLocation is out of bounds:", this.currentPlayerLocation);
-    }
-
+  
 };
 
 
