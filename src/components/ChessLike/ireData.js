@@ -1,10 +1,11 @@
-const ireData  = {
+    const ireData  = {
     "provinces": [
         {
             "enProvince": "Connacht",
              "gaProvince": "Connaught",
             "counties": [
                 {
+                    "name":"galway",
                     "gaCoName": "Gailleamh",
                     "enCoName": "Galway",
                     "locations": [
@@ -44,6 +45,8 @@ const ireData  = {
         */
         
             {
+                "name":"leitrim",
+
                 "gaCoName": "Co. na Liatroma",
                 "enCoName": "Co. Leitrim",
                 "locations":[
@@ -88,7 +91,8 @@ const ireData  = {
      
     
             */
-            "gaCoName": "Co. Ṁaigh Eo",
+            "name":"mayo",
+"gaCoName": "Co. Ṁaigh Eo",
             "enCoName": "Mayo",
             "locations":[
                 {
@@ -123,8 +127,9 @@ const ireData  = {
             }
 ,
 {
-    "gaCoName": "",
-    "enCoName": "Co. Ros Comáin",
+    "name":"roscommon",
+"gaCoName": "Co. Ros Comáin",
+    "enCoName": "",
 
     /*
 
@@ -176,7 +181,8 @@ const ireData  = {
     }
 ,
 {
-    "gaCoName": "Co. Ṡligiġ",
+    "name":"sligo",
+"gaCoName": "Co. Ṡligiġ",
     "enCoName": "Sligo",
     "locations":[
         {
@@ -217,7 +223,8 @@ const ireData  = {
             "gaProvince": "Laighean",
             "counties": [
                 {
-                    "gaCoName": "Co. Baile Átha Ċliath",
+                    "name":"dublin",
+"gaCoName": "Co. Baile Átha Ċliath",
                     "enCoName": "Co. Dublin",
 
         
@@ -252,7 +259,8 @@ const ireData  = {
                 },
                 {
 
-                    "gaCoName": "Co. Na hIarṁí",
+                    "name":"westmeath",
+"gaCoName": "Co. Na hIarṁí",
                     "enCoName": "Co. Westmeath",
                     "locations":[
                         {
@@ -299,14 +307,15 @@ const ireData  = {
       "Cill Daṁáin"
     ],
     "county": "Co. Ċeaṫarlaċ",*/
-                "gaCoName": "Co. Ċeaṫarlaċ",
-                "enCoName": "carlow",
+                "name":"carlow",
+"gaCoName": "Co. Ċeaṫarlaċ",
+                "enCoName": "carlow, from cethir, a four-footed animal \nthe place of herds",
                 "locations":[
                     {
                         "irishName":
                         "Baile Uí Ṁurċú",
                         
-                        "englishName":"",
+                        "englishName":"...",
 
                     },
                     {
@@ -342,7 +351,8 @@ const ireData  = {
             /*
           
       */
-            "gaCoName": "Co. Ċill Dara",
+            "name":"kildare",
+"gaCoName": "Co. Ċill Dara",
             "enCoName": "Co. Kildare",
             "locations":[
                 {
@@ -398,7 +408,8 @@ const ireData  = {
     ],
     "county": ,
             */    
-        "gaCoName": "Co. Ċill Ċainniġ",
+        "name":"kilkenny",
+"gaCoName": "Co. Ċill Ċainniġ",
         "enCoName": "Co. kilkenny",
         "locations":[
             {
@@ -451,7 +462,8 @@ const ireData  = {
       "Borris-in-Ossory - Borrough of the ancient Kingdom of Osraige"
     ],
     "county":  */
-    "gaCoName": "",
+    "name":"laois",
+"gaCoName": "Co Laoise",
     "enCoName": "laois",
     "locations":[
         {
@@ -502,8 +514,9 @@ const ireData  = {
       "Carrigboy - the yellow stone"
 
             */
-    "gaCoName":  "Co. An Longfoirt",
-    "enCoName": " longford",
+    "name":"longford",
+"gaCoName":  "Co. An Longfoirt",
+    "enCoName": "longford",
     "locations":[
         {
             "irishName":
@@ -560,7 +573,8 @@ const ireData  = {
     ],
     "county": "",
             */
-    "gaCoName": "Co. An Lú",
+    "name":"louth",
+"gaCoName": "Co. An Lú",
     "enCoName": "louth",
     "locations":[
         {
@@ -615,8 +629,9 @@ const ireData  = {
 
       "Seat of the seal ( Shinrone )"
 */
-    "gaCoName": "",
-    "enCoName": "offaly",
+    "name":"offaly",
+"gaCoName": "Co. Uíbh Fhailí",
+    "enCoName": "Offaly, legendary kingdom of Rus Failge",
     
     "locations":[
         {
@@ -670,7 +685,8 @@ const ireData  = {
       "Fairyhouse"
     ],
     "county": ,      */
-    "gaCoName":"Co. Na Mí",
+    "name":"meath",
+"gaCoName":"Co. Na Mí",
     "enCoName": "meath",
     "locations":[
         {
@@ -722,7 +738,8 @@ const ireData  = {
       "Owenduff  - The Black River",
       "Duncormick - Cormac's fort"
      */
-    "gaCoName": "",
+    "name":"wexford",
+"gaCoName": "",
     "enCoName": "wexford",
     "locations":[
         {
@@ -774,7 +791,8 @@ const ireData  = {
       "Arklow - meadow of Arnkell. The Great Estuary",
       "From Oboka, a river in Ptolemy's Geography"
     ],   */
-    "gaCoName": "Co. Ċill Ṁantáin",
+    "name":"wicklow",
+"gaCoName": "Co. Ċill Ṁantáin",
     "enCoName": "wicklow",
     "locations":[
         {
@@ -843,15 +861,16 @@ const ireData  = {
 
     
                 {
-                    "gaCoName": "",
-                    "enCoName": "",
+                    "name":"antrim",
+"gaCoName": "Co. Aontroma",
+                    "enCoName": "Antrim, lone dwelling",
 
         
                     "locations": [
                         {
                             
                             "irishName": "",
-                            "englishName":  "",
+                            "englishName":  "Co. Donegal, the fortress of the foreigners",
                         }]
                     }
         ,
@@ -877,7 +896,8 @@ const ireData  = {
       "Croaghgorm - the blue stack mountains"
     ],
     "county": "Co. Ḋún na nGall",*/
-            "gaCoName": "",
+            "name":"",
+"gaCoName": "",
             "enCoName": "",
 
 
@@ -891,7 +911,8 @@ const ireData  = {
 
             ,
             {
-                "gaCoName": "",
+                "name":"",
+"gaCoName": "",
                 "enCoName": "",
 
     /*
@@ -925,8 +946,9 @@ const ireData  = {
     
                 ,
                 {
-                    "gaCoName": "",
-                    "enCoName": "",
+                    "name":"derry",
+"gaCoName":"Co. Ḋoire",
+                    "enCoName": "Derry, oak wood",
 
     /*
     {
@@ -961,7 +983,8 @@ const ireData  = {
                     ,
 
                 {
-                    "gaCoName": "",
+                    "name":"",
+"gaCoName": "",
                     "enCoName": "",
 
     /**/
@@ -976,8 +999,9 @@ const ireData  = {
         
                     ,
                     {
-                        "gaCoName": "",
-                        "enCoName": "",
+                        "name":"down",
+"gaCoName": "Co. An Dúin",
+                        "enCoName": "Co. Down, \nfortress, and the burial place of Saint Patrick",
     /*
     "co": "down",
     "locations": [
@@ -1008,11 +1032,12 @@ const ireData  = {
                         },
 
                 {
-                    "gaCoName": "",
-                    "enCoName": "",
+                    "name":"armagh",
+"gaCoName":"Co. Ard Ṁaċa",
+                    "enCoName": "Armagh, hill of the godess Macha",
 
-    /*    "emblem": "armagh",
-    "co": "armagh",
+    /*    "emblem": 
+    "co": 
     "locations": [
       "Sráid na nAlbanach",
       "Craigavon",
@@ -1029,7 +1054,7 @@ const ireData  = {
       "Baile an Ṁuilinn",
       "Lios Liath"
     ],
-    "county": "Co. Ard Ṁaċa",
+    "county": 
 */
         
                     "locations": [
@@ -1043,7 +1068,8 @@ const ireData  = {
                     ,
 
                 {
-                    "gaCoName": "",
+                    "name":"",
+"gaCoName": "",
                     "enCoName": "",
 
     /*
@@ -1079,8 +1105,9 @@ const ireData  = {
                     ,
 
                 {
-                    "gaCoName": "",
-                    "enCoName": "",
+                    "name":"cavan",
+"gaCoName":  "Co. An Caḃáin",
+                    "enCoName": "Co Cavan, the hollow",
     /*
     {
     "emblem": "cavan",
@@ -1102,7 +1129,7 @@ const ireData  = {
       "Dunaree - fort of the king",
       "Lisgrea - ringfort of earth"
     ],
-    "county": "Co. An Caḃáin",
+    "county":
     */
 
         
