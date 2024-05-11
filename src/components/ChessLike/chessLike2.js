@@ -9,6 +9,8 @@ import NavCD from '../navCD/navCD';
 
 function PhaserGame(){
     let  gaText, enText;
+
+    
     let currentWordPairIndex = 0;
     let hearts = 3;
     const heartSprites = []; // Array to store heart sprites
@@ -216,11 +218,12 @@ glassbg.displayHeight = gameHeight;
             stroke: '#000000', // Stroke color
             strokeThickness: 3, // Stroke thickness
         };
-   enText = scene.add.text(posX-64, posY+100, '', enTextStyle).setOrigin(0).setDepth(9);
+        enText = scene.add.text(posX-64, posY+100, '', enTextStyle).setOrigin(0).setDepth(9);
+        
+                gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0.5).setDepth(9);
 
 // Add enText to the overlay container
 overlay.add(enText);
-        gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0.5).setDepth(9);
         //   gaText.setInteractive();
         // negGaText = scene.add.text(negX, negY, firstWordPair.negGa, textStyle).setOrigin(0).setDepth(9);
         
@@ -523,7 +526,7 @@ function slideDownImageLayer(scene) {
     
         scene.tweens.add({
             targets: tallBg,
-            y: tallBg.y + 64, // Move down by the height of 3 board squares
+            y: tallBg.y + 128, // Move down by the height of 3 board squares
             duration: 700, // Adjust the duration as needed
             ease: 'Linear',
             onComplete: () => {
