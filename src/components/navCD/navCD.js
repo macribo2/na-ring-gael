@@ -4,9 +4,43 @@ import ireData from "../ChessLike/ireData";
 export default class NavCD extends Phaser.Scene {
   constructor() {
     super({ key: "NavCD" });
-
+    this.countyBackgrounds = {
+        "antrim": "antrim",
+        "armagh": "armagh",
+        "carlow": "carlow",
+        "cavan": "cavan",
+        "clare": "clare",
+        "cork": "cork",
+        "derry": "derry",
+        "donegal": "donegal",
+        "down": "down",
+        "dublin": "dublin",
+        "fermanagh": "fermanagh",
+        "galway": "galway",
+        "kerry": "kerry",
+        "kildare": "kildare",
+        "kilkenny": "kilkenny",
+        "laois": "laois",
+        "leitrim": "leitrim",
+        "limerick": "limerick",
+        "longford": "longford",
+        "louth": "louth",
+        "mayo": "mayo",
+        "meath": "meath",
+        "monaghan": "monaghan",
+        "offaly": "offaly",
+        "roscommon": "roscommon",
+        "sligo": "sligo",
+        "tipperary": "tipperary",
+        "tyrone": "tyrone",
+        "waterford": "waterford",
+        "westmeath": "westmeath",
+        "wexford": "wexford",
+        "wicklow": "wicklow"
+    };
+    
     // Initialize class properties
-    this.westmeath = null;
+    this.countyBG = null;
     this.minX = 0;
     this.maxX = 0;
     this.locationPositions = [];
@@ -81,7 +115,6 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("tipperary    ", "./countyMaps/tipperary.png");
     this.load.image("tyrone", "./countyMaps/tyrone.png");
     this.load.image("waterford", "./countyMaps/waterford.png");
-    this.load.image("westmeath", "./countyMaps/westmeath.png");
     this.load.image("wexford", "./countyMaps/wexford.png");
     this.load.image("wicklow", "./countyMaps/wicklow.png");
     this.load.image("ulster", "./countyMaps/ulster.png");
@@ -100,7 +133,8 @@ export default class NavCD extends Phaser.Scene {
   create() {
 
 
-    this.westmeath = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "westmeath").setScale(4);
+    this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
+    
 
 // Define the bounds for the background image movement
 this.minX = 0; // Minimum x-coordinate
@@ -108,7 +142,7 @@ this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
 // Set the initial position of the background sprite
 // const initialX = this.cameras.main.centerX;
 // const initialY = this.cameras.main.centerY;
-this.westmeath.setPosition(initialX, initialY);
+this.countyBG.setPosition(initialX, initialY);
 
   // Define the bounds for the background image movement
   this.minX = 0; // Minimum x-coordinate
@@ -201,9 +235,9 @@ this.westmeath.setPosition(initialX, initialY);
   stonebg.displayWidth = this.sys.game.config.width;
   stonebg.displayHeight = this.sys.game.config.height;
 
-  this.westmeath.setAlpha(0.4);
+  this.countyBG.setAlpha(0.4);
 
-  this.westmeath.setPosition(initialX, initialY);
+  this.countyBG.setPosition(initialX, initialY);
 
   // Define the amount of scroll when pressing the directional pad
   const scrollAmount = 50; // Adjust as needed
@@ -257,89 +291,121 @@ this.westmeath.setPosition(initialX, initialY);
     let prevProvinceIndex = this.currentProvinceIndex; // Variable to track the previous province index
     let prevPlayerLocation = this.currentPlayerLocation; // Variable to track the previous player location
 
-    this.buttonNavUp.setInteractive().on("pointerup", () => {
-      // Disable button interaction to prevent multiple clicks
-      this.buttonNavUp.disableInteractive();
 
-      // Handle up button press
-      if (this.navigationLevel === "location") {
-        // Move to county level
+
+// Update the navigation level when pressing the up button
+
+
+// Update the navigation level when pressing the up button
+this.buttonNavUp.setInteractive().on("pointerup", () => {
+    this.buttonNavUp.disableInteractive();
+
+    if (this.navigationLevel === "location") {
         this.navigationLevel = "county";
-      } else if (this.navigationLevel === "county") {
-        // Move to provincial level
+        this.tweens.add({
+            targets: this.countyBG,
+            scale: 2,
+            duration: 500,
+            ease: 'Linear',
+            onComplete: () => {
+                if (this.currentCounty) {
+                    this.currentLocation = this.currentCounty.locations[0];
+                }
+                this.updateCurrentPlaceText();
+                this.buttonNavUp.setInteractive();
+            }
+        });
+
+    } else if (this.navigationLevel === "county") {
         this.navigationLevel = "province";
-        // Update the current location to the first location of the new county
-        if (this.currentCounty) {
-          this.currentLocation = this.currentCounty.locations[0];
+        if (this.currentProvince) {
+            this.currentLocation = this.currentProvince.counties[0].locations[0];
         }
-      }
-      this.updateCurrentPlaceText();
-      setTimeout(() => {
+        this.updateCurrentPlaceText();
         this.buttonNavUp.setInteractive();
-      }, 55); // Adjust the delay as needed
-    });
+
+      
+    }
+
+    setTimeout(() => {
+        this.buttonNavUp.setInteractive();
+    }, 55);
+});
+
 
     // Add input listeners to directional pad buttons
     this.buttonNavDown.setInteractive().on("pointerup", () => {
-      console.log("Down button clicked!");
-      this.buttonNavDown.disableInteractive();
+        console.log("Down button clicked!");
+        this.buttonNavDown.disableInteractive();
+    
+        // Handle down button press
+        if (this.navigationLevel === "province") {
+            // Move to county level
+            this.navigationLevel = "county";
+            // Reset the current county index to 0 for the current province
+            this.currentCountyIndex = 0;
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            // Restore the previous location within the county
+            if (this.prevNavigationLevel === "location") {
+                this.currentLocation = this.prevLocation;
+                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
+                    (location) => location.irishName === this.prevLocation.irishName,
+                );
+            }
+        } else if (this.navigationLevel === "county") {
+            // Move to location level
+            this.navigationLevel = "location";
+            // Restore the previous location within the county
+            if (this.prevNavigationLevel === "location") {
+                this.currentLocation = this.prevLocation;
+                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
+                    (location) => location.irishName === this.prevLocation.irishName,
+                );
+            }
+            // Tween to zoom in
 
-      // Handle down button press
-      if (this.navigationLevel === "province") {
-        // Move to county level
-        this.navigationLevel = "county";
-        // Reset the current county index to 0 for the current province
-        this.currentCountyIndex = 0;
-        this.currentCounty =
-          this.currentProvince.counties[this.currentCountyIndex];
-        // Restore the previous location within the county
-        if (this.prevNavigationLevel === "location") {
-          this.currentLocation = this.prevLocation;
-          this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-            (location) => location.irishName === this.prevLocation.irishName,
-          );
+            player.setScale(1.3); // Adjust the scale as needed
+            puca.setScale(0.3);
+            this.tweens.add({
+                targets: this.countyBG,
+                scale: 4, // Zoom in to 4x scale
+                duration: 500, // Duration of the zoom-in effect
+                ease: 'Linear', // Easing function
+                onComplete: () => {
+                    // Update the displayed location name after the navigation changes
+                    this.updateCurrentPlaceText();
+                    this.buttonNavDown.setInteractive();
+                }
+            });
+        } else if (this.navigationLevel === "location") {
+            // If previously navigated horizontally, reset the indices and navigate back to the original county
+            if (this.prevNavigationLevel === "county") {
+                // Restore the previous county and location
+                this.currentCountyIndex = this.prevCountyIndex;
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                this.currentLocation = this.prevLocation;
+                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
+                    (location) => location.irishName === this.prevLocation.irishName,
+                );
+    
+                // Update the navigation level to 'county'
+                this.navigationLevel = "county";
+            } else {
+                // Perform dismount if at location level and press down
+                this.scene.stop("NavCD");
+                // Optionally, start another scene or perform any other necessary actions
+            }
         }
-      } else if (this.navigationLevel === "county") {
-        // Move to location level
-        this.navigationLevel = "location";
-        // Restore the previous location within the county
-        if (this.prevNavigationLevel === "location") {
-          this.currentLocation = this.prevLocation;
-          this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-            (location) => location.irishName === this.prevLocation.irishName,
-          );
-        }
-      } else if (this.navigationLevel === "location") {
-        // If previously navigated horizontally, reset the indices and navigate back to the original county
-        if (this.prevNavigationLevel === "county") {
-          // Restore the previous county and location
-          this.currentCountyIndex = this.prevCountyIndex;
-          this.currentCounty =
-            this.currentProvince.counties[this.currentCountyIndex];
-          this.currentLocation = this.prevLocation;
-          this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-            (location) => location.irishName === this.prevLocation.irishName,
-          );
-
-          // Update the navigation level to 'county'
-          this.navigationLevel = "county";
-        } else {
-          // Perform dismount if at location level and press down
-          this.scene.stop("NavCD");
-          // Optionally, start another scene or perform any other necessary actions
-        }
-      }
-      // Update the previous navigation level and indices
-      this.prevNavigationLevel = this.navigationLevel;
-      this.prevCountyIndex = this.currentCountyIndex;
-      this.prevProvinceIndex = this.currentProvinceIndex;
-      this.prevLocation = this.currentLocation;
-      this.updateCurrentPlaceText();
-      setTimeout(() => {
-        this.buttonNavDown.setInteractive();
-      }, 55); // Adjust the delay as needed
+        // Update the previous navigation level and indices
+        this.prevNavigationLevel = this.navigationLevel;
+        this.prevCountyIndex = this.currentCountyIndex;
+        this.prevProvinceIndex = this.currentProvinceIndex;
+        this.prevLocation = this.currentLocation;
+        setTimeout(() => {
+            this.buttonNavDown.setInteractive();
+        }, 55); // Adjust the delay as needed
     });
-
+    
     // Add a flag to track if the button is currently being pressed
     // Add boolean flags to track button press state
  
@@ -351,10 +417,13 @@ this.westmeath.setPosition(initialX, initialY);
 
 
   }
+  // Define county background images for the 32 counties of Ireland
+
  
-    // Add Westmeath background image
-    this.westmeath = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, "westmeath").setScale(4).setAlpha(0.3);
-    
+    // Add countyBG background image
+    console.log("Current County:33333333", this.currentCounty);
+  this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
+
     // Define the bounds for the background image movement
     this.minX = 0;
     this.maxX = 400 - this.cameras.main.height;
@@ -362,7 +431,7 @@ this.westmeath.setPosition(initialX, initialY);
     // Set the initial position of the background sprite
     const initialX = this.cameras.main.centerX;
     const initialY = this.cameras.main.centerY;
-    this.westmeath.setPosition(initialX, initialY);
+    this.countyBG.setPosition(initialX, initialY);
     
     // Define location positions (sample data)
     this.locationPositions = [
@@ -380,6 +449,8 @@ this.westmeath.setPosition(initialX, initialY);
     
     // Other create code...
   }
+
+  
   handleLeftProvince() {
     // Check if the function is already in progress
     if (this.leftProvinceInProgress) {
@@ -422,34 +493,26 @@ this.westmeath.setPosition(initialX, initialY);
 }
 
 handleLeftCounty() {
-    // Check if the function is already in progress
-    if (this.leftCountyInProgress) {
-        return;
-    }
-
-    // Set a flag to indicate that the function is in progress
-    this.leftCountyInProgress = true;
-
-    // Move to the previous county within the current province after a delay
-    setTimeout(() => {
+    // Spin the map out before changing the county
+    this.spinOutLeft(this.countyBG).then(() => {
+        // Move to the previous county within the current province
         this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
         this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-
-        // Update current location if the current county is defined
+        // Update current location
         if (this.currentCounty) {
             this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
             console.log("Current location:", this.currentLocation);
         } else {
             this.currentLocation = undefined;
         }
-
         // Update the displayed location name after the navigation changes
+        this.updateCountyBackground();
+        // Spin the map back in after changing the county
+        this.spinInLeft(this.countyBG);
         this.updateCurrentPlaceText();
-
-        // Reset the flag after the function completes
-        this.leftCountyInProgress = false;
-    }, 55);
+    });
 }
+
 
 
 handleLeftLocation() {
@@ -479,13 +542,38 @@ handleLeftLocation() {
         self.leftLocationInProgress = false;
 
         // Call the alert function after the navigation changes
-    }, 500);
+    }, 50);
 
     // Update the current location immediately (outside the setTimeout)
     this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
     console.log("Current location:", this.currentLocation);
+console.log("Current County:", this.currentCounty);
+
 }
 
+updateCountyBackground() {
+
+    
+    console.log("Current County Name:", this.currentCounty ? this.currentCounty.name : "Undefined");
+    console.log("County Backgrounds:", this.countyBackgrounds);
+
+    // Check if the current county is defined and has a name
+    if (this.currentCounty && this.currentCounty.name) {
+        // Get the county background image key based on the current county
+        let countyBackgroundKey = this.countyBackgrounds[this.currentCounty.name];
+
+        // Check if the county background image key exists
+        if (countyBackgroundKey) {
+            // Set the county background image
+            this.countyBG.setTexture(countyBackgroundKey);
+            // alert(countyBackgroundKey);
+        } else {
+            console.error("County background key not found for:", this.currentCounty.name);
+        }
+    } else {
+        console.error("Current county is undefined or does not have a name.");
+    }
+}
 
 handleLeftButtonPress() {
     switch (this.navigationLevel) {
@@ -505,10 +593,10 @@ handleLeftButtonPress() {
 
 
 
-  updateWestmeathPosition() {
+  updatecountyBGPosition() {
     const newPosition = this.locationPositions[this.currentPlayerLocation];
     const newX = Phaser.Math.Clamp(newPosition.x, this.minX, this.maxX);
-    this.westmeath.setPosition(newX, newPosition.y);
+    this.countyBG.setPosition(newX, newPosition.y);
   }
 
 
@@ -562,22 +650,94 @@ handleRightLocation() {
     // Update the current location immediately (outside the setTimeout)
     this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
     console.log("Current location:", this.currentLocation);
+    console.log("Current County:", this.currentCounty);
+
+}
+handleRightCounty() {
+    // Spin the map out before changing the county
+    this.spinOut(this.countyBG).then(() => {
+        // Move to the next county within the current province
+        this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
+        this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+        // Update current location
+        if (this.currentCounty) {
+            this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+            console.log("Current location:", this.currentLocation);
+        } else {
+            this.currentLocation = undefined;
+        }
+        // Update the displayed location name after the navigation changes
+        this.updateCountyBackground();
+        // Spin the map back in after changing the county
+        this.spinIn(this.countyBG).then(() => {
+            // Update the current place text after spinning in
+            this.updateCurrentPlaceText();
+        });
+    });
 }
 
-handleRightCounty() {
-    // Move to the next county within the current province
-    this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
-    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-    // Update current location
-    if (this.currentCounty) {
-        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-        console.log("Current location:", this.currentLocation);
-    } else {
-        this.currentLocation = undefined;
-    }
-    // Update the displayed location name after the navigation changes
-    this.updateCurrentPlaceText();
+// Define a function to handle spinning out animation when moving left
+spinOutLeft(sprite) {
+    return new Promise((resolve) => {
+        sprite.scene.tweens.add({
+            targets: sprite,
+            angle: 0, // Rotate by -90 degrees for spinning out (opposite direction)
+            duration: 100, // Duration of the animation
+            ease: 'linear', // Easing function for smooth acceleration and deceleration
+            onComplete: () => {
+                sprite.setVisible(false); // Hide the sprite after spinning out
+                resolve(); // Resolve the Promise when animation completes
+            }
+        });
+    });
 }
+
+// Define a function to handle spinning in animation when moving left
+spinInLeft(sprite) {
+    return new Promise((resolve) => {
+        sprite.setVisible(true); // Show the sprite before spinning in
+        sprite.scene.tweens.add({
+            targets: sprite,
+            angle: -90, // Rotate back to 0 degrees for spinning in
+            duration: 100, // Duration of the animation
+            ease: 'linear', // Easing function for smooth acceleration and deceleration
+            onComplete: resolve // Resolve the Promise when animation completes
+        });
+    });
+}
+
+
+
+// Define a function to handle spinning out animation
+ spinOut(sprite) {
+    return new Promise((resolve) => {
+        sprite.scene.tweens.add({
+            targets: sprite,
+            angle: 90, // Rotate by 90 degrees for spinning out
+            duration: 100, // Duration of the animation
+            ease: 'linear', // Easing function for smooth acceleration and deceleration
+            onComplete: () => {
+                sprite.setVisible(false); // Hide the sprite after spinning out
+                resolve(); // Resolve the Promise when animation completes
+            }
+        });
+    });
+}
+
+// Define a function to handle spinning in animation
+ spinIn(sprite) {
+    return new Promise((resolve) => {
+        sprite.setVisible(true); // Show the sprite before spinning in
+        sprite.scene.tweens.add({
+            targets: sprite,
+            angle: 180, // Rotate back to 0 degrees for spinning in
+            duration: 100, // Duration of the animation
+            ease: 'linear', // Easing function for smooth acceleration and deceleration
+            onComplete: resolve // Resolve the Promise when animation completes
+        });
+    });
+}
+
 handleRightProvince() {
     // Check if the function is already in progress
     if (this.rightProvinceInProgress) {
