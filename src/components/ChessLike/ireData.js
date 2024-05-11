@@ -48,30 +48,30 @@ const ireData  = {
                 "enCoName": "Co. Leitrim",
                 "locations":[
                     {
-                        "irishName":"Gleann Éada",
+                        "irishName":"Gleann Éada1",
                         "englishName":"Glenade - lake of the glen of jealousy",
 
                     },
                     {
-                        "irishName":"Droim Seanḃó",
+                        "irishName":"Droim Seanḃó2",
                         "englishName":"Drumshanbo  - ridge of the huts",
 
                     },{
-                        "irishName":"Aċaḋ na Síleann",
+                        "irishName":"Aċaḋ na Síleann3",
                         "englishName":"Aughnasheelan - Field of the fairy",
 
 
                     },{
-                        "irishName": "Fíonach",
+                        "irishName": "Fíonach4",
                         "englishName":"Feenagh - wooded place",
 
 
                     },{
-                        "irishName":"Dromad",
+                        "irishName":"Dromad5",
                         "englishName":"Dromod - long ridge"
 
                     },{
-                        "irishName":"Garḃach",
+                        "irishName":"Garḃach6",
                         "englishName":"Garvagh - rough land",
 
                     },

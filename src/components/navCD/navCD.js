@@ -89,7 +89,11 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("connacht", "./countyMaps/connacht.png");
     this.load.image("munster", "./countyMaps/munster.png");
 
+
+
+
   }
+
 
 
 
@@ -214,11 +218,10 @@ this.westmeath.setPosition(initialX, initialY);
     .setDepth(31);
   this.buttonNavLeft = this.add
     .sprite(buttonX - 50, this.cameras.main.height - 100, "button-left")
-    .setDepth(31);
-    this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
-    
-    this.buttonNavRight = this.add.sprite(buttonX + 50, this.cameras.main.height - 100, "button-right").setDepth(31);
-  this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress);
+    .setDepth(31).setInteractive().on("pointerdown", this.handleLeftButtonPress);
+    ;
+
+    this.buttonNavRight = this.add.sprite(buttonX + 50, this.cameras.main.height - 100, "button-right").setDepth(31).on("pointerdown", this.handleRightButtonPress);
 
   this.buttonNavMiddle = this.add
     .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
@@ -273,7 +276,7 @@ this.westmeath.setPosition(initialX, initialY);
       this.updateCurrentPlaceText();
       setTimeout(() => {
         this.buttonNavUp.setInteractive();
-      }, 500); // Adjust the delay as needed
+      }, 55); // Adjust the delay as needed
     });
 
     // Add input listeners to directional pad buttons
@@ -334,38 +337,18 @@ this.westmeath.setPosition(initialX, initialY);
       this.updateCurrentPlaceText();
       setTimeout(() => {
         this.buttonNavDown.setInteractive();
-      }, 500); // Adjust the delay as needed
+      }, 55); // Adjust the delay as needed
     });
 
     // Add a flag to track if the button is currently being pressed
     // Add boolean flags to track button press state
-    let isButtonNavLeftPressed = false;
-    let isButtonNavRightPressed = false;
-
+ 
 
 
     // Left button event listeners
     // Left button event listeners
  // Left button event listeners
-this.buttonNavLeft.setInteractive()
-.on('pointerdown', () => {
-  if (!isButtonNavLeftPressed) {
-      isButtonNavLeftPressed = true;
-      // Handle left button press logic directly here
-      if (this.currentPlayerLocation > 0) {
-          this.currentPlayerLocation--;
-          const newPosition = this.locationPositions[this.currentPlayerLocation];
-          const newX = Phaser.Math.Clamp(newPosition.x, this.minX, this.maxX);
-          this.westmeath.setPosition(newX, newPosition.y);
-      }
-      // Debugging: Log the current location index and its corresponding position
-      console.log("Current player location index:", this.currentPlayerLocation);
-      console.log("Position:", this.locationPositions[this.currentPlayerLocation]);
-  }
-})
-.on('pointerup', () => {
-  isButtonNavLeftPressed = false;
-});
+
 
   }
  
@@ -397,57 +380,112 @@ this.buttonNavLeft.setInteractive()
     
     // Other create code...
   }
-
   handleLeftProvince() {
-    // Move to the previous province
-    this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
-    this.currentProvince = this.provinces[this.currentProvinceIndex];
-    // Reset the current county index for the new province
-    this.currentCountyIndex = 0;
-    // Update current county and location
-    if (this.currentProvince) {
+    // Check if the function is already in progress
+    if (this.leftProvinceInProgress) {
+        return;
+    }
+
+    // Set a flag to indicate that the function is in progress
+    this.leftProvinceInProgress = true;
+
+    // Move to the previous province after a delay
+    setTimeout(() => {
+        // Update the current province index
+        this.currentProvinceIndex = (this.currentProvinceIndex - 1 + this.provinces.length) % this.provinces.length;
+        this.currentProvince = this.provinces[this.currentProvinceIndex];
+        
+        // Reset the current county index for the new province
+        this.currentCountyIndex = 0;
+
+        // Update current county and location if the current province is defined
+        if (this.currentProvince) {
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            if (this.currentCounty) {
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                console.log("Current location:", this.currentLocation);
+            } else {
+                this.currentLocation = undefined;
+            }
+        } else {
+            // Reset county and location if the current province is undefined
+            this.currentCounty = undefined;
+            this.currentLocation = undefined;
+        }
+
+        // Update the displayed location name after the navigation changes
+        this.updateCurrentPlaceText();
+
+        // Reset the flag after the function completes
+        this.leftProvinceInProgress = false;
+    }, 55);
+}
+
+handleLeftCounty() {
+    // Check if the function is already in progress
+    if (this.leftCountyInProgress) {
+        return;
+    }
+
+    // Set a flag to indicate that the function is in progress
+    this.leftCountyInProgress = true;
+
+    // Move to the previous county within the current province after a delay
+    setTimeout(() => {
+        this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
         this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+
+        // Update current location if the current county is defined
         if (this.currentCounty) {
             this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
             console.log("Current location:", this.currentLocation);
         } else {
             this.currentLocation = undefined;
         }
-    } else {
-        this.currentCounty = undefined;
-        this.currentLocation = undefined;
-    }
-    // Update the displayed location name after the navigation changes
-    this.updateCurrentPlaceText();
+
+        // Update the displayed location name after the navigation changes
+        this.updateCurrentPlaceText();
+
+        // Reset the flag after the function completes
+        this.leftCountyInProgress = false;
+    }, 55);
 }
 
-handleLeftCounty() {
-    // Move to the previous county within the current province
-    this.currentCountyIndex = (this.currentCountyIndex - 1 + this.currentProvince.counties.length) % this.currentProvince.counties.length;
-    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-    // Update current location
-    if (this.currentCounty) {
-        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-        console.log("Current location:", this.currentLocation);
-    } else {
-        this.currentLocation = undefined;
-    }
-    // Update the displayed location name after the navigation changes
-    this.updateCurrentPlaceText();
-}
 
 handleLeftLocation() {
-    // Move to the previous location within the current county
-    this.currentPlayerLocation--;
-    if (this.currentPlayerLocation < 0) {
-        // If the index is negative, wrap around to the end of the array
-        this.currentPlayerLocation = this.currentCounty.locations.length - 1;
+    // Check if the function is already in progress
+    if (this.leftLocationInProgress) {
+        return;
     }
+
+    // Set a flag to indicate that the function is in progress
+    this.leftLocationInProgress = true;
+
+    // Store the reference to 'this' in a variable to access it inside the setTimeout callback
+    const self = this;
+
+    // Move to the previous location within the current county after a delay
+    setTimeout(function() {
+        self.currentPlayerLocation--;
+        if (self.currentPlayerLocation < 0) {
+            // If the index is negative, wrap around to the end of the array
+            self.currentPlayerLocation = self.currentCounty.locations.length - 1;
+        }
+        
+        // Update the displayed location name after the navigation changes
+        self.updateCurrentPlaceText();
+
+        // Reset the flag after the function completes
+        self.leftLocationInProgress = false;
+
+        // Call the alert function after the navigation changes
+    }, 500);
+
+    // Update the current location immediately (outside the setTimeout)
     this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
     console.log("Current location:", this.currentLocation);
-    // Update the displayed location name after the navigation changes
-    this.updateCurrentPlaceText();
 }
+
 
 handleLeftButtonPress() {
     switch (this.navigationLevel) {
@@ -475,8 +513,111 @@ handleLeftButtonPress() {
 
 
   handleRightButtonPress = () => {
-  
-};
+    switch (this.navigationLevel) {
+        case 'province':
+            this.handleRightProvince();
+            break;
+        case 'county':
+            this.handleRightCounty();
+            break;
+        case 'location':
+            this.handleRightLocation();
+            break;
+        default:
+            break;
+    }
+}
+// Define a boolean flag to track if the right button is pressed
+
+handleRightLocation() {
+    // Check if the function is already in progress
+    if (this.rightLocationInProgress) {
+        return;
+    }
+
+    // Set a flag to indicate that the function is in progress
+    this.rightLocationInProgress = true;
+
+    // Store the reference to 'this' in a variable to access it inside the setTimeout callback
+    const self = this;
+
+    // Move to the next location within the current county after a delay
+    setTimeout(function() {
+        self.currentPlayerLocation++;
+        if (self.currentPlayerLocation >= self.currentCounty.locations.length) {
+            // If the index exceeds the array length, wrap around to the beginning
+            self.currentPlayerLocation = 0;
+        }
+        
+        // Update the displayed location name after the navigation changes
+        self.updateCurrentPlaceText();
+
+        // Reset the flag after the function completes
+        self.rightLocationInProgress = false;
+
+        // Call the alert function after the navigation changes
+        // alert();
+    }, 55);
+
+    // Update the current location immediately (outside the setTimeout)
+    this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+    console.log("Current location:", this.currentLocation);
+}
+
+handleRightCounty() {
+    // Move to the next county within the current province
+    this.currentCountyIndex = (this.currentCountyIndex + 1) % this.currentProvince.counties.length;
+    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+    // Update current location
+    if (this.currentCounty) {
+        this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+        console.log("Current location:", this.currentLocation);
+    } else {
+        this.currentLocation = undefined;
+    }
+    // Update the displayed location name after the navigation changes
+    this.updateCurrentPlaceText();
+}
+handleRightProvince() {
+    // Check if the function is already in progress
+    if (this.rightProvinceInProgress) {
+        return;
+    }
+
+    // Set a flag to indicate that the function is in progress
+    this.rightProvinceInProgress = true;
+
+    // Move to the next province after a delay
+    setTimeout(() => {
+        // Update the current province index
+        this.currentProvinceIndex = (this.currentProvinceIndex + 1) % this.provinces.length;
+        this.currentProvince = this.provinces[this.currentProvinceIndex];
+
+        // Reset the current county index for the new province
+        this.currentCountyIndex = 0;
+
+        // Update current county and location if the current province is defined
+        if (this.currentProvince) {
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            if (this.currentCounty) {
+                this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+                console.log("Current location:", this.currentLocation);
+            } else {
+                this.currentLocation = undefined;
+            }
+        } else {
+            // Reset county and location if the current province is undefined
+            this.currentCounty = undefined;
+            this.currentLocation = undefined;
+        }
+
+        // Update the displayed location name after the navigation changes
+        this.updateCurrentPlaceText();
+
+        // Reset the flag after the function completes
+        this.rightProvinceInProgress = false;
+    }, 55);
+}
 
 
   update() {
