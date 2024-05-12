@@ -128,9 +128,10 @@ export default class NavCD extends Phaser.Scene {
   }
 
 
-
-
+  
   create() {
+  let location = this.locationPositions[this.playerLocation];
+
 
 
     this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
@@ -291,11 +292,6 @@ this.countyBG.setPosition(initialX, initialY);
     let prevProvinceIndex = this.currentProvinceIndex; // Variable to track the previous province index
     let prevPlayerLocation = this.currentPlayerLocation; // Variable to track the previous player location
 
-
-
-// Update the navigation level when pressing the up button
-
-
 // Update the navigation level when pressing the up button
 this.buttonNavUp.setInteractive().on("pointerup", () => {
     this.buttonNavUp.disableInteractive();
@@ -434,18 +430,56 @@ this.buttonNavUp.setInteractive().on("pointerup", () => {
     this.countyBG.setPosition(initialX, initialY);
     
     // Define location positions (sample data)
-    this.locationPositions = [
-        { x: 100, y: 100 }, // Location 1
-        { x: 300, y: 200 }, // Location 2
-        { x: 200, y: 300 }, // Location 3
-        { x: 100, y: 200 }, // Location 4
-        { x: 200, y: 100 }, // Location 5
-        { x: 300, y: 300 }, // Location 6
-    ];
+   // Define location positions
+this.locationPositions = [
+  { x: 100, y: 100 }, // Location 1
+  { x: 300, y: 200 }, // Location 2
+  { x: 200, y: 300 }, // Location 3
+  { x: 100, y: 200 }, // Location 4
+  { x: 200, y: 100 }, // Location 5
+  { x: 300, y: 300 }, // Location 6
+];
+
 
     // Add event listeners to navigation buttons
-    this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
+        this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
     this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress);
+   function handleLeftLocation() {
+      // Check if the function is already in progress
+      if (this.leftLocationInProgress) {
+          return;
+      }
+  
+      // Set a flag to indicate that the function is in progress
+      this.leftLocationInProgress = true;
+  
+      // Store the reference to 'this' in a variable to access it inside the setTimeout callback
+      const self = this;
+  
+      // Move to the previous location within the current county after a delay
+      setTimeout(function() {
+          self.currentPlayerLocation--;
+          if (self.currentPlayerLocation < 0) {
+              // If the index is negative, wrap around to the end of the array
+              self.currentPlayerLocation = self.currentCounty.locations.length - 1;
+          }
+  this.moveBackgroundToLocation(self.currentPlayerLocation);
+          
+          // Update the displayed location name after the navigation changes
+          self.updateCurrentPlaceText();
+  
+          // Reset the flag after the function completes
+          self.leftLocationInProgress = false;
+  
+          // Call the alert function after the navigation changes
+      }, 50);
+  
+      // Update the current location immediately (outside the setTimeout)
+      this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+      console.log("Current location:", this.currentLocation);
+  console.log("Current County:", this.currentCounty);
+  
+  }
     
     // Other create code...
   }
@@ -515,41 +549,7 @@ handleLeftCounty() {
 
 
 
-handleLeftLocation() {
-    // Check if the function is already in progress
-    if (this.leftLocationInProgress) {
-        return;
-    }
 
-    // Set a flag to indicate that the function is in progress
-    this.leftLocationInProgress = true;
-
-    // Store the reference to 'this' in a variable to access it inside the setTimeout callback
-    const self = this;
-
-    // Move to the previous location within the current county after a delay
-    setTimeout(function() {
-        self.currentPlayerLocation--;
-        if (self.currentPlayerLocation < 0) {
-            // If the index is negative, wrap around to the end of the array
-            self.currentPlayerLocation = self.currentCounty.locations.length - 1;
-        }
-        
-        // Update the displayed location name after the navigation changes
-        self.updateCurrentPlaceText();
-
-        // Reset the flag after the function completes
-        self.leftLocationInProgress = false;
-
-        // Call the alert function after the navigation changes
-    }, 50);
-
-    // Update the current location immediately (outside the setTimeout)
-    this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-    console.log("Current location:", this.currentLocation);
-console.log("Current County:", this.currentCounty);
-
-}
 
 updateCountyBackground() {
 
@@ -574,6 +574,13 @@ updateCountyBackground() {
         console.error("Current county is undefined or does not have a name.");
     }
 }
+handleLeftLocation() {
+  // Implement the logic for handling left navigation at the location level
+  // For example:
+  console.log("Handling left navigation at the location level...");
+  // Call the moveBackgroundToLocation function with the appropriate location index
+  this.moveBackgroundToLocation(this.currentPlayerLocation);
+}
 
 handleLeftButtonPress() {
     switch (this.navigationLevel) {
@@ -584,7 +591,7 @@ handleLeftButtonPress() {
             this.handleLeftCounty();
             break;
         case 'location':
-            this.handleLeftLocation();
+          this.handleLeftLocation();
             break;
         default:
             break;
@@ -803,4 +810,20 @@ handleRightProvince() {
     }
     this.currentPlaceText.setText(textString);
   }
+
+  moveBackgroundToLocation(locationIndex) {
+    const location = this.locationPositions[this.currentPlayerLocation]; // Retrieve the location object based on the index
+    if (location) { // Check if the location object exists
+      this.tweens.add({
+        targets: this.countyBG,
+        x: location.x,
+        y: location.y,
+        duration: 500, // Adjust the duration as needed
+        ease: 'Linear', // Use linear easing for smooth movement
+      });
+    } else {
+      console.error(`Location not found for index ${locationIndex}`);
+    }
+  }
+  
 }
