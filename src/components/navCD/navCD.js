@@ -2,57 +2,62 @@ import Phaser from "phaser";
 import ireData from "../ChessLike/ireData";
 
 export default class NavCD extends Phaser.Scene {
-  constructor() {
-    super({ key: "NavCD" });
-    this.countyBackgrounds = {
-        "antrim": "antrim",
-        "armagh": "armagh",
-        "carlow": "carlow",
-        "cavan": "cavan",
-        "clare": "clare",
-        "cork": "cork",
-        "derry": "derry",
-        "donegal": "donegal",
-        "down": "down",
-        "dublin": "dublin",
-        "fermanagh": "fermanagh",
-        "galway": "galway",
-        "kerry": "kerry",
-        "kildare": "kildare",
-        "kilkenny": "kilkenny",
-        "laois": "laois",
-        "leitrim": "leitrim",
-        "limerick": "limerick",
-        "longford": "longford",
-        "louth": "louth",
-        "mayo": "mayo",
-        "meath": "meath",
-        "monaghan": "monaghan",
-        "offaly": "offaly",
-        "roscommon": "roscommon",
-        "sligo": "sligo",
-        "tipperary": "tipperary",
-        "tyrone": "tyrone",
-        "waterford": "waterford",
-        "westmeath": "westmeath",
-        "wexford": "wexford",
-        "wicklow": "wicklow"
-    };
+    constructor() {
+        super({ key: "NavCD" });
+        this.countyBackgrounds = {
+            "antrim": "antrim",
+            "armagh": "armagh",
+            "carlow": "carlow",
+            "cavan": "cavan",
+            "clare": "clare",
+            "cork": "cork",
+            "derry": "derry",
+            "donegal": "donegal",
+            "down": "down",
+            "dublin": "dublin",
+            "fermanagh": "fermanagh",
+            "galway": "galway",
+            "kerry": "kerry",
+            "kildare": "kildare",
+            "kilkenny": "kilkenny",
+            "laois": "laois",
+            "leitrim": "leitrim",
+            "limerick": "limerick",
+            "longford": "longford",
+            "louth": "louth",
+            "mayo": "mayo",
+            "meath": "meath",
+            "monaghan": "monaghan",
+            "offaly": "offaly",
+            "roscommon": "roscommon",
+            "sligo": "sligo",
+            "tipperary": "tipperary",
+            "tyrone": "tyrone",
+            "waterford": "waterford",
+            "westmeath": "westmeath",
+            "wexford": "wexford",
+            "wicklow": "wicklow",
+            "ireland": "ireland"
+        };
+        
+        // Initialize class properties
+        this.countyBG = null;
+        this.minX = 0;
+        this.maxX = 0;
+        this.locationPositions = [];
+        this.currentPlayerLocation = 1;
+        this.currentCounty = null;
+        this.navigationLevel = "location";
     
-    // Initialize class properties
-    this.countyBG = null;
-    this.minX = 0;
-    this.maxX = 0;
-    this.locationPositions = [];
-    this.currentPlayerLocation = 1;
-    this.currentCounty = null;
-    this.navigationLevel = "location";
-
-    // Bind event handlers
-    this.handleLeftButtonPress = this.handleLeftButtonPress.bind(this);
-    this.handleRightButtonPress = this.handleRightButtonPress.bind(this);
-  }
-
+        // Bind event handlers
+        this.handleLeftButtonPress = this.handleLeftButtonPress.bind(this);
+        this.handleRightButtonPress = this.handleRightButtonPress.bind(this);
+        this.buttonNavLeft = null; // Define buttonNavLeft first
+        this.buttonNavRight = null; // Define buttonNavRight first
+        this.buttonNavMiddle = null; // Define buttonmiddle first
+    }
+    
+    
 
   preload() {
     this.load.image("stonebg", "./phaser-resources/images/fog5.png");
@@ -121,6 +126,7 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("leinster", "./countyMaps/leinster.png");
     this.load.image("connacht", "./countyMaps/connacht.png");
     this.load.image("munster", "./countyMaps/munster.png");
+    this.load.image("ireland", "./phaser-resources/images/ire0.png");
 
 
 
@@ -130,13 +136,15 @@ export default class NavCD extends Phaser.Scene {
 
   
   create() {
-  let location = this.locationPositions[this.playerLocation];
 
 
-
+        
+        
     this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
-    
-
+         
+    this.provincialMapSprite= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
+    this.provincialMapSprite.alpha = 0; // Initially set alpha to 0 to make it transparent
+   
 // Define the bounds for the background image movement
 this.minX = 0; // Minimum x-coordinate
 this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
@@ -223,7 +231,7 @@ this.countyBG.setPosition(initialX, initialY);
 
   console.log("Current Location:", currentLocation);
   // Set up the text to display the name of the current location
-  this.currentPlaceText = this.add
+  this.gaCurrentPlaceText = this.add
     .text(200, this.cameras.main.height - 300, currentLocation, {
       fontFamily: "aonchlo",
       fontSize: "3em",
@@ -231,7 +239,15 @@ this.countyBG.setPosition(initialX, initialY);
     })
     .setDepth(31);
 
-  const stonebg = this.add.sprite(0, 0, "stonebg").setOrigin(0);
+    this.enCurrentPlaceText = this.add
+    .text(200, this.cameras.main.height - 100, currentLocation, {
+      fontFamily: "Anaphora",
+      fontSize: "2em",
+      fill: "#fff",
+    })
+    .setDepth(32).setVisible();
+
+    const stonebg = this.add.sprite(0, 0, "stonebg").setOrigin(0);
 
   stonebg.displayWidth = this.sys.game.config.width;
   stonebg.displayHeight = this.sys.game.config.height;
@@ -258,9 +274,9 @@ this.countyBG.setPosition(initialX, initialY);
 
     this.buttonNavRight = this.add.sprite(buttonX + 50, this.cameras.main.height - 100, "button-right").setDepth(31).on("pointerdown", this.handleRightButtonPress);
 
-  this.buttonNavMiddle = this.add
+  this.buttonMiddle = this.add
     .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
-    .setDepth(20);
+    .setDepth(20).setInteractive().on("pointerdown", this.handleMiddleButtonPress);;
   this.actionBtn = this.add
     .sprite(250, this.cameras.main.height - 800, "actionBtn")
     .setDepth(31);
@@ -298,6 +314,18 @@ this.buttonNavUp.setInteractive().on("pointerup", () => {
 
     if (this.navigationLevel === "location") {
         this.navigationLevel = "county";
+        // Get the center coordinates of the screen
+const centerX = this.cameras.main.width / 2;
+const centerY = this.cameras.main.height / 2;
+
+// Tween to reset the background map to the middle of the screen
+this.tweens.add({
+    targets: this.countyBG, // The background map sprite
+    x: centerX, // Set the x coordinate to the center of the screen
+    y: centerY, // Set the y coordinate to the center of the screen
+    duration: 500, // Duration of the animation in milliseconds
+    ease: 'Linear', // Easing function for smooth animation
+});
         this.tweens.add({
             targets: this.countyBG,
             scale: 2,
@@ -314,13 +342,35 @@ this.buttonNavUp.setInteractive().on("pointerup", () => {
 
     } else if (this.navigationLevel === "county") {
         this.navigationLevel = "province";
+
+        // Tween to fade in the provincial map image
+        this.tweens.add({
+            targets: [this.provincialMapSprite], // An array of targets for the tween
+            alpha: 0.5, // Fade in by setting alpha to 1
+            duration: 500, // Duration of the animation in milliseconds
+            ease: 'Linear', // Easing function for smooth animation
+            scale:0.7
+        });
         if (this.currentProvince) {
             this.currentLocation = this.currentProvince.counties[0].locations[0];
         }
         this.updateCurrentPlaceText();
         this.buttonNavUp.setInteractive();
 
-      
+        this.tweens.add({
+            targets: this.countyBG,
+            scale: 0.5,
+            alpha:0,
+            duration: 500,
+            ease: 'Linear',
+            onComplete: () => {
+                if (this.currentCounty) {
+                    this.currentLocation = this.currentCounty.locations[0];
+                }
+                this.updateCurrentPlaceText();
+                this.buttonNavUp.setInteractive();
+            }
+        });
     }
 
     setTimeout(() => {
@@ -336,6 +386,28 @@ this.buttonNavUp.setInteractive().on("pointerup", () => {
     
         // Handle down button press
         if (this.navigationLevel === "province") {
+
+            this.tweens.add({
+                targets: [this.provincialMapSprite], // An array of targets for the tween
+                alpha: 0, // Fade out by setting alpha to 0
+                duration: 500, // Duration of the animation in milliseconds
+                ease: 'Linear', // Easing function for smooth animation
+           scale:2
+            });
+            this.tweens.add({
+                targets: this.countyBG,
+                scale: 2,
+                alpha:0.3,
+                duration: 500,
+                ease: 'Linear',
+                onComplete: () => {
+                    if (this.currentCounty) {
+                        this.currentLocation = this.currentCounty.locations[0];
+                    }
+                    this.updateCurrentPlaceText();
+                    this.buttonNavUp.setInteractive();
+                }
+            });
             // Move to county level
             this.navigationLevel = "county";
             // Reset the current county index to 0 for the current province
@@ -348,32 +420,40 @@ this.buttonNavUp.setInteractive().on("pointerup", () => {
                     (location) => location.irishName === this.prevLocation.irishName,
                 );
             }
+        
+        
         } else if (this.navigationLevel === "county") {
             // Move to location level
             this.navigationLevel = "location";
-            // Restore the previous location within the county
-            if (this.prevNavigationLevel === "location") {
-                this.currentLocation = this.prevLocation;
-                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-                    (location) => location.irishName === this.prevLocation.irishName,
-                );
-            }
-            // Tween to zoom in
+            // Update the current location based on the accessed county
+            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
 
-            player.setScale(1.3); // Adjust the scale as needed
-            puca.setScale(0.3);
-            this.tweens.add({
-                targets: this.countyBG,
-                scale: 4, // Zoom in to 4x scale
-                duration: 500, // Duration of the zoom-in effect
-                ease: 'Linear', // Easing function
-                onComplete: () => {
-                    // Update the displayed location name after the navigation changes
-                    this.updateCurrentPlaceText();
-                    this.buttonNavDown.setInteractive();
-                }
-            });
-        } else if (this.navigationLevel === "location") {
+            // Set the current location to the first location in the county
+            this.currentLocation = this.currentCounty.locations[0];
+            this.currentPlayerLocation = 0;
+            // Refresh the location display
+            this.refreshLocationDisplay();
+            // Store previous navigation level and location
+            this.prevNavigationLevel = "county";
+            this.prevLocation = this.currentLocation;
+              // Tween to zoom in
+
+              player.setScale(1.3); // Adjust the scale as needed
+              puca.setScale(0.3);
+              this.tweens.add({
+                  targets: this.countyBG,
+                  scale: 4, // Zoom in to 4x scale
+                  duration: 500, // Duration of the zoom-in effect
+                  ease: 'Linear', // Easing function
+                  onComplete: () => {
+                      // Update the displayed location name after the navigation changes
+                      this.updateCurrentPlaceText();
+                      this.buttonNavDown.setInteractive();
+                  }
+        })}
+        
+        
+            else if (this.navigationLevel === "location") {
             // If previously navigated horizontally, reset the indices and navigate back to the original county
             if (this.prevNavigationLevel === "county") {
                 // Restore the previous county and location
@@ -444,47 +524,94 @@ this.locationPositions = [
     // Add event listeners to navigation buttons
         this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
     this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress);
-   function handleLeftLocation() {
-      // Check if the function is already in progress
-      if (this.leftLocationInProgress) {
-          return;
-      }
-  
-      // Set a flag to indicate that the function is in progress
-      this.leftLocationInProgress = true;
-  
-      // Store the reference to 'this' in a variable to access it inside the setTimeout callback
-      const self = this;
-  
-      // Move to the previous location within the current county after a delay
-      setTimeout(function() {
-          self.currentPlayerLocation--;
-          if (self.currentPlayerLocation < 0) {
-              // If the index is negative, wrap around to the end of the array
-              self.currentPlayerLocation = self.currentCounty.locations.length - 1;
-          }
-  this.moveBackgroundToLocation(self.currentPlayerLocation);
-          
-          // Update the displayed location name after the navigation changes
-          self.updateCurrentPlaceText();
-  
-          // Reset the flag after the function completes
-          self.leftLocationInProgress = false;
-  
-          // Call the alert function after the navigation changes
-      }, 50);
-  
-      // Update the current location immediately (outside the setTimeout)
-      this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-      console.log("Current location:", this.currentLocation);
-  console.log("Current County:", this.currentCounty);
-  
-  }
+
+    
+    
     
     // Other create code...
-  }
 
-  
+    ;
+    this.buttonNavRight = this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress.bind(this));
+      
+
+    this.buttonNavLeft = this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress.bind(this))
+    let location = this.locationPositions[this.playerLocation];
+
+    let isToggling = false; // Flag to track if overlay is currently toggling
+   this.overlay = this.add.container(0, 0);
+    this.overlay.setVisible(false); // Initially hide the overlay
+    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+    glassbg.displayWidth = this.gameWidth;
+    glassbg.displayHeight = this.gameHeight;
+    this.overlay.add(glassbg).setDepth(3);
+    // Add middle button
+    
+    const enTextStyle = {
+        fontSize: '4em',
+        fontFamily: 'anaphora',
+        color: '#ffffff',
+        stroke: '#000000', // Stroke color
+        strokeThickness: 3, // Stroke thickness
+    };
+    
+    let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
+    this.overlay.add(enText);
+    
+// Set up event listener for button clicks
+this.buttonMiddle.on('pointerdown', this.handleMiddleButtonPress);
+
+    // Define behavior for pointer events (e.g., hover, click)
+    this.buttonMiddle.on('pointerover', () => {
+
+        // Change the button texture to the lit state image when hovered
+        this.buttonMiddle.setTexture('button-middle-lit');
+        setTimeout(() => {
+            this.buttonMiddle.setTexture('button-middle');
+        },500);});
+
+}
+
+//////////////////////////
+
+
+
+///////////////////////
+
+
+
+
+            
+            
+         
+  refreshLocationDisplay() {
+    // Logic to update the location display based on the current location
+    // For example:
+    this.updateCurrentPlaceText(); // Call the function responsible for updating the location text
+    // Other logic related to refreshing the location display
+}
+
+
+handleMiddleButtonPress() {
+    // Check if enCurrentPlaceText and overlay are initialized
+    if (this.enCurrentPlaceText ) {
+        // Set enCurrentPlaceText and overlay to visible
+        this.enCurrentPlaceText.setVisible(true);
+    //   
+
+        // Set a timeout to hide enCurrentPlaceText and overlay after some time
+        setTimeout(() => {
+            this.enCurrentPlaceText.setVisible(false);
+            // this.overlay.setVisible(false);
+        }, 200);
+    } else {
+        // Log an error if enCurrentPlaceText or overlay is not initialized
+        console.error('enCurrentPlaceText or overlay is not initialized.');
+    }
+}
+
+
+ 
+      
   handleLeftProvince() {
     // Check if the function is already in progress
     if (this.leftProvinceInProgress) {
@@ -575,14 +702,53 @@ updateCountyBackground() {
     }
 }
 handleLeftLocation() {
-  // Implement the logic for handling left navigation at the location level
-  // For example:
-  console.log("Handling left navigation at the location level...");
-  // Call the moveBackgroundToLocation function with the appropriate location index
-  this.moveBackgroundToLocation(this.currentPlayerLocation);
+   // Check if the function is already in progress
+   if (this.leftLocationInProgress) {
+    return;
 }
 
+// Set a flag to indicate that the function is in progress
+this.rightLocationInProgress = true;
+
+// Store the reference to 'this' in a variable to access it inside the setTimeout callback
+const self = this;
+
+// Move to the next location within the current county after a delay
+setTimeout(function() {
+    self.currentPlayerLocation++;
+    if (self.currentPlayerLocation >= self.currentCounty.locations.length) {
+        // If the index exceeds the array length, wrap around to the beginning
+        self.currentPlayerLocation = 0;
+    }
+    self.moveBackgroundToLocation(self.currentPlayerLocation);
+    
+    // Update the displayed location name after the navigation changes
+    self.updateCurrentPlaceText();
+
+    // Reset the flag after the function completes
+    self.leftLocationInProgress = false;
+
+    // Call the alert function after the navigation changes
+    // alert();
+}, 55);
+
+// Update the current location immediately (outside the setTimeout)
+this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
+console.log("Current location:", this.currentLocation);
+console.log("Current County:", this.currentCounty);
+
+}
+
+
 handleLeftButtonPress() {
+    // Check if the button is already being pressed
+    if (this.leftButtonPressed) {
+        return;
+    }
+
+    // Set a flag to indicate that the button is being pressed
+    this.leftButtonPressed = true;
+
     switch (this.navigationLevel) {
         case 'province':
             this.handleLeftProvince();
@@ -591,13 +757,17 @@ handleLeftButtonPress() {
             this.handleLeftCounty();
             break;
         case 'location':
-          this.handleLeftLocation();
+            this.handleLeftLocation();
             break;
         default:
             break;
     }
-}
 
+    // Reset the flag after a short delay to allow for the next press
+    setTimeout(() => {
+        this.leftButtonPressed = false;
+    }, 500); // Adjust the delay as needed
+}
 
 
   updatecountyBGPosition() {
@@ -607,7 +777,15 @@ handleLeftButtonPress() {
   }
 
 
-  handleRightButtonPress = () => {
+  handleRightButtonPress() {
+    // Check if the button is already being pressed
+    if (this.rightButtonPressed) {
+        return;
+    }
+
+    // Set a flag to indicate that the button is being pressed
+    this.rightButtonPressed = true;
+
     switch (this.navigationLevel) {
         case 'province':
             this.handleRightProvince();
@@ -621,7 +799,13 @@ handleLeftButtonPress() {
         default:
             break;
     }
+
+    // Reset the flag after a short delay to allow for the next press
+    setTimeout(() => {
+        this.rightButtonPressed = false;
+    }, 500); // Adjust the delay as needed
 }
+
 // Define a boolean flag to track if the right button is pressed
 
 handleRightLocation() {
@@ -643,6 +827,7 @@ handleRightLocation() {
             // If the index exceeds the array length, wrap around to the beginning
             self.currentPlayerLocation = 0;
         }
+        self.moveBackgroundToLocation(self.currentPlayerLocation);
         
         // Update the displayed location name after the navigation changes
         self.updateCurrentPlaceText();
@@ -700,6 +885,7 @@ spinOutLeft(sprite) {
 }
 
 // Define a function to handle spinning in animation when moving left
+// Define a function to handle spinning in animation when moving left
 spinInLeft(sprite) {
     return new Promise((resolve) => {
         sprite.setVisible(true); // Show the sprite before spinning in
@@ -708,10 +894,14 @@ spinInLeft(sprite) {
             angle: -90, // Rotate back to 0 degrees for spinning in
             duration: 100, // Duration of the animation
             ease: 'linear', // Easing function for smooth acceleration and deceleration
-            onComplete: resolve // Resolve the Promise when animation completes
+            onComplete: () => {
+                sprite.angle = 0; // Reset the angle to 0 degrees after spinning in
+                resolve(); // Resolve the Promise when animation completes
+            }
         });
     });
 }
+
 
 
 
@@ -740,8 +930,10 @@ spinInLeft(sprite) {
             angle: 180, // Rotate back to 0 degrees for spinning in
             duration: 100, // Duration of the animation
             ease: 'linear', // Easing function for smooth acceleration and deceleration
-            onComplete: resolve // Resolve the Promise when animation completes
-        });
+            onComplete: () => {
+                sprite.angle = 0; // Reset the angle to 0 degrees after spinning in
+                resolve(); // Resolve the Promise when animation completes
+            }        });
     });
 }
 
@@ -786,30 +978,51 @@ handleRightProvince() {
     }, 55);
 }
 
-
-  update() {
-    // No need to set input listeners again in update()
-  }
-
-  updateCurrentPlaceText() {
-    // Set the text based on the navigation level
-    let textString;
+updateCurrentPlaceText() {
+    let gaTextString;
+    let enTextString;
     switch (this.navigationLevel) {
-      case "province":
-        textString = this.currentProvince
-          ? this.currentProvince.gaProvince
-          : ""; // Display province name in Irish if defined
-        break;
-      case "county":
-        textString = this.currentCounty ? this.currentCounty.gaCoName : ""; // Display county name in Irish if defined
-        break;
-      case "location":
-      default:
-        textString = this.currentLocation ? this.currentLocation.irishName : ""; // Display location name in Irish if defined
-        break;
+        case "province":
+            gaTextString = this.currentProvince ? this.currentProvince.gaProvince : "";
+            enTextString = this.currentProvince ? this.currentProvince.enProvince : "";
+         
+            break;
+        case "county":
+            gaTextString = this.currentCounty ? this.currentCounty.gaCoName : "";
+            enTextString = this.currentCounty ? this.currentCounty.enCoName : "";
+
+            break;
+        case "location":
+        default:
+            enTextString = this.currentLocation ? this.currentLocation.englishName : "";
+            gaTextString = this.currentLocation ? this.currentLocation.irishName : "";
+            break;
     }
-    this.currentPlaceText.setText(textString);
+    // Assuming `gaCurrentPlaceText` is the text object you want to update
+    this.gaCurrentPlaceText.setText(gaTextString);
+    this.enCurrentPlaceText.setText(enTextString)
+// Initialize variables for rocking motion
+this.rockingAngle = 0; // Starting angle
+this.rockingSpeed = 0.001; // Speed of rocking motion
+this.rockingRange = 10; // Range of rocking motion in degrees
+
+    
+}
+
+
+  update() {    // Update the rocking angle
+    this.rockingAngle += this.rockingSpeed;
+
+    // Calculate the rotation angle based on a sine wave
+    let rotationAngle = Math.sin(this.rockingAngle) * this.rockingRange;
+
+    // Apply the rotation angle to the provincial map sprite
+    this.provincialMapSprite.angle = rotationAngle;
   }
+
+ 
+  
+  
 
   moveBackgroundToLocation(locationIndex) {
     const location = this.locationPositions[this.currentPlayerLocation]; // Retrieve the location object based on the index

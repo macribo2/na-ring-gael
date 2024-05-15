@@ -599,8 +599,8 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 function update(scene) {
-//try 23
-    if (score >= 0 && !isSceneLaunched) {
+//try 24
+    if (score >=0 && !isSceneLaunched) {
         this.scene.add('NavCD', NavCD);
         // Launch the desired scene
         this.scene.launch('NavCD');
