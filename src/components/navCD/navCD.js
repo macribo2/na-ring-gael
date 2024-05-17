@@ -39,6 +39,12 @@ export default class NavCD extends Phaser.Scene {
             "wicklow": "wicklow",
             "ireland": "ireland"
         };
+     this.provinceGraphics = {
+            "Connacht": "connachtMap",
+            "Leinster": "leinsterMap",
+            "Munster": "munsterMap",
+            "Ulster": "ulsterMap"
+        };
         
         // Initialize class properties
         this.countyBG = null;
@@ -55,15 +61,22 @@ export default class NavCD extends Phaser.Scene {
         this.buttonNavLeft = null; // Define buttonNavLeft first
         this.buttonNavRight = null; // Define buttonNavRight first
         this.buttonNavMiddle = null; // Define buttonmiddle first
+        
+        this.exitPoints = {
+            "west": { x: 100, y: 100 }, // Example exit point for Connacht
+            "east": { x: 300, y: 200 }, // Example exit point for Leinster
+            "south": { x: 200, y: 300 },  // Example exit point for Munster
+            "north": { x: 100, y: 100 }     // Example exit point for Ulster
+        };
     }
     
+    // Function to move player and puca off the screen based on direction
     
-
-  preload() {
-    this.load.image("stonebg", "./phaser-resources/images/fog5.png");
-
-    let champID = localStorage.getItem("champID");
-    this.load.image("glassbg", "./phaser-resources/images/big-glass.png");
+    preload() {
+      this.load.image("stonebg", "./phaser-resources/images/fog5.png");
+      
+      let champID = localStorage.getItem("champID");
+      this.load.image("glassbg", "./phaser-resources/images/big-glass.png");
     this.load.image("overlay", "./phaser-resources/images/overlay.png");
     this.load.image("actionBtn", "./phaser-resources/images/ui/a-btn.png");
     this.load.image("button-up", "./phaser-resources/images/ui/pad-u.png");
@@ -88,6 +101,7 @@ export default class NavCD extends Phaser.Scene {
       "player",
       `./phaser-resources/images/champions/${champID}.png`,
     );
+    this.load.image("fullscreen", "./phaser-resources/images/ui/full-screen.png");
 
     
     this.load.image("westmeath", "./countyMaps/westmeath.png");
@@ -122,10 +136,10 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("waterford", "./countyMaps/waterford.png");
     this.load.image("wexford", "./countyMaps/wexford.png");
     this.load.image("wicklow", "./countyMaps/wicklow.png");
-    this.load.image("ulster", "./countyMaps/ulster.png");
-    this.load.image("leinster", "./countyMaps/leinster.png");
-    this.load.image("connacht", "./countyMaps/connacht.png");
-    this.load.image("munster", "./countyMaps/munster.png");
+    this.load.image("ulsterMap", "./phaser-resources/images/ulsterMap.png");
+    this.load.image("leinsterMap", "./phaser-resources/images/leinsterMap.png");
+    this.load.image("connachtMap", "./phaser-resources/images/connachtMap.png");
+    this.load.image("munsterMap", "./phaser-resources/images/munsterMap.png");
     this.load.image("ireland", "./phaser-resources/images/ire0.png");
 
 
@@ -137,9 +151,49 @@ export default class NavCD extends Phaser.Scene {
   
   create() {
 
+    console.log("Scene created");
 
-        
-        
+    // Center coordinates
+    const centerX = this.cameras.main.width / 2;
+    const centerY = this.cameras.main.height / 2;
+  
+    // Create puca sprite
+    this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
+    this.puca.setDepth(21); // Ensure puca is behind the player
+    this.puca.setScale(0.3); // Adjust scale
+    this.puca.setOrigin(0.7, 0.4); // Adjust origin
+  
+    console.log("Puca created at", centerX, centerY);
+  
+    // Create player sprite
+    this.player = this.add.sprite(centerX, centerY, "player");
+    this.player.setDepth(1); // Ensure player is in front of puca
+    this.player.setScale(1.3); // Adjust scale
+    this.player.setOrigin(0.5, 0.5); // Adjust origin
+  
+    console.log("Player created at", centerX, centerY);
+  
+    // Add tween for bobbing effect
+    this.tweens.add({
+      targets: [this.puca, this.player],
+      y: "+=10", // Move down by 10 pixels
+      duration: 2000, // Duration in milliseconds
+      ease: "Sine.easeInOut", // Easing function
+      yoyo: true, // Yoyo effect
+      repeat: -1, // Repeat indefinitely
+    });
+  
+    console.log("Tween created");
+  
+    // Initialize exitPoints with example values
+    this.exitPoints = {
+      west: { x: -50, y: this.cameras.main.height / 2 },
+      east: { x: this.cameras.main.width + 50, y: this.cameras.main.height / 2 },
+      north: { x: this.cameras.main.width / 2, y: -50 },
+      south: { x: this.cameras.main.width / 2, y: this.cameras.main.height + 50 },
+    };
+  
+
     this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
          
     this.provincialMapSprite= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
@@ -159,42 +213,16 @@ this.countyBG.setPosition(initialX, initialY);
   const minX = this.minX;
   const maxX = this.maxX;
   this.locationPositions = [
-    { x: 100, y: 100 }, // Location 1
-    { x: 300, y: 200 }, // Location 2
-    { x: 200, y: 300 }, // Location 3
+    { x: 0, y: 0 }, // Location 1
+    { x: -300, y: 0 }, // Location 2
+    { x: 0, y: 300 }, // Location 3
+    { x: 300, y: 500 }, // Location 6
+    { x: -200, y: 0 }, // Location 5
     { x: 100, y: 200 }, // Location 4
-    { x: 200, y: 100 }, // Location 5
-    { x: 300, y: 300 }, // Location 6
   ];
-  console.log("Scene created");
-  const puca = this.add.sprite(
-    this.cameras.main.width / 2,
-    this.cameras.main.height / 2,
-    "puca-mounted",
-  );
-
-  // Set up the player sprite
-  const player = this.add.sprite(
-    this.cameras.main.width / 2,
-    this.cameras.main.height / 2,
-    "player",
-  );
-
-  // Ensure the player sprite is rendered above the puca sprite
-  puca.setDepth(21); // Set a higher depth value for the player sprite
-  player.setDepth(1); // Set a higher depth value for the player sprite
-
-  // Optionally, you can adjust the scale of the player sprite to fit better
-  player.setScale(1.3); // Adjust the scale as needed
-  puca.setScale(0.3); // Adjust the scale as needed
-
-  // You can adjust the positions of the puca and player sprites as needed
-  puca.setOrigin(0.7, 0.4); // Center the puca sprite
-  player.setOrigin(0.5, 0.5); // Center the player sprite
-
   // Tween to make the sprites bob up and down
   const bobTween = this.tweens.add({
-    targets: [puca, player],
+    targets: [this.puca, this.player],
     y: "+=10", // Move the sprites down by 20 pixels
     duration: 2000, // Duration of the downward movement
     ease: "Sine.easeInOut", // Easing function for smooth acceleration and deceleration
@@ -276,7 +304,7 @@ this.countyBG.setPosition(initialX, initialY);
 
   this.buttonMiddle = this.add
     .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
-    .setDepth(20).setInteractive().on("pointerdown", this.handleMiddleButtonPress);;
+    .setDepth(20).setInteractive().on("pointerdown", this.handleMiddleButtonPress);
   this.actionBtn = this.add
     .sprite(250, this.cameras.main.height - 800, "actionBtn")
     .setDepth(31);
@@ -387,12 +415,39 @@ this.tweens.add({
         // Handle down button press
         if (this.navigationLevel === "province") {
 
+// Determine the direction based on provincialMapSprite
+let direction;
+let provinceIndex = this.currentProvinceIndex;
+switch (provinceIndex) {
+    case 0:
+        direction = "west";
+                break;
+        case 1:
+            direction = "east";
+            break;
+            case 2:
+                
+        direction = "north";
+        break;
+                case 3:
+                    direction = "south";
+                    break;
+                    default:
+                        console.error("Invalid provincial Index!");
+                        return;
+                    }
+                    console.log(provinceIndex)
+
+// Perform animation based on the direction
+this.moveOffScreen(direction);
+
+
             this.tweens.add({
                 targets: [this.provincialMapSprite], // An array of targets for the tween
                 alpha: 0, // Fade out by setting alpha to 0
                 duration: 500, // Duration of the animation in milliseconds
                 ease: 'Linear', // Easing function for smooth animation
-           scale:2
+                scale:1
             });
             this.tweens.add({
                 targets: this.countyBG,
@@ -438,8 +493,8 @@ this.tweens.add({
             this.prevLocation = this.currentLocation;
               // Tween to zoom in
 
-              player.setScale(1.3); // Adjust the scale as needed
-              puca.setScale(0.3);
+              this.player.setScale(1.3); // Adjust the scale as needed
+              this.puca.setScale(0.3);
               this.tweens.add({
                   targets: this.countyBG,
                   scale: 4, // Zoom in to 4x scale
@@ -482,18 +537,9 @@ this.tweens.add({
         }, 55); // Adjust the delay as needed
     });
     
-    // Add a flag to track if the button is currently being pressed
-    // Add boolean flags to track button press state
- 
-
-
-    // Left button event listeners
-    // Left button event listeners
- // Left button event listeners
-
+  
 
   }
-  // Define county background images for the 32 counties of Ireland
 
  
     // Add countyBG background image
@@ -512,12 +558,12 @@ this.tweens.add({
     // Define location positions (sample data)
    // Define location positions
 this.locationPositions = [
-  { x: 100, y: 100 }, // Location 1
-  { x: 300, y: 200 }, // Location 2
-  { x: 200, y: 300 }, // Location 3
-  { x: 100, y: 200 }, // Location 4
-  { x: 200, y: 100 }, // Location 5
-  { x: 300, y: 300 }, // Location 6
+    { x: 0, y: 0 }, // Location 1
+    { x: -300, y: 0 }, // Location 2
+    { x: 0, y: 300 }, // Location 3
+    { x: 300, y: 500 }, // Location 6
+    { x: -200, y: 0 }, // Location 5
+    { x: 100, y: 200 }, // Location 4
 ];
 
 
@@ -539,7 +585,7 @@ this.locationPositions = [
 
     let isToggling = false; // Flag to track if overlay is currently toggling
    this.overlay = this.add.container(0, 0);
-    this.overlay.setVisible(false); // Initially hide the overlay
+    // this.overlay.setVisible(false); // Initially hide the overlay
     const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
     glassbg.displayWidth = this.gameWidth;
     glassbg.displayHeight = this.gameHeight;
@@ -557,9 +603,6 @@ this.locationPositions = [
     let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
     this.overlay.add(enText);
     
-// Set up event listener for button clicks
-this.buttonMiddle.on('pointerdown', this.handleMiddleButtonPress);
-
     // Define behavior for pointer events (e.g., hover, click)
     this.buttonMiddle.on('pointerover', () => {
 
@@ -569,14 +612,135 @@ this.buttonMiddle.on('pointerdown', this.handleMiddleButtonPress);
             this.buttonMiddle.setTexture('button-middle');
         },500);});
 
+
+
+// Define mapping of province names to graphics
+
+// Get the current province
+const currentProvince = this.provinces[this.currentProvinceIndex];
+
+// Check if the current province is defined
+if (currentProvince) {
+    // Get the graphic for the current province
+    const provinceGraphicKey = this.provinceGraphics[currentProvince.enProvince];
+    
+    // Check if the graphic key exists
+    if (provinceGraphicKey) {
+        // Set the province map sprite based on the graphic key
+        this.provincialMapSprite.setTexture(provinceGraphicKey)
+        this.provincialMapSprite.alpha = 0; // Set alpha to make it visible
+    } else {
+        console.error("Graphic key not found for current province:", currentProvince.enProvince);
+    }
+} else {
+    console.error("Current province is undefined.");
 }
 
-//////////////////////////
+// Other initialization code...
+     // Create a fullscreen button sprite
+     this.fullscreenButton = this.add.sprite(50, 50, 'fullscreen').setInteractive();
+        
+     // Set up event listener for pointer events on the button sprite
+     this.fullscreenButton.on('pointerdown', this.toggleFullscreen, this);
+
+// Function to move player and puca off-screen
+// Function to move player and puca off-screen
+this.moveOffScreen = (direction) => {
+    // Ensure exitPoints is initialized
+    if (!this.exitPoints) {
+        console.error('exitPoints is not initialized.');
+        return;
+    }
+
+    // Ensure direction is valid
+    if (!this.exitPoints[direction]) {
+        console.error(`No exit point found for direction: ${direction}`);
+        return;
+    }
+
+    // Access exit points based on direction
+    const exitPoint = this.exitPoints[direction];
+    const exitX = exitPoint.x;
+    const exitY = exitPoint.y;
+
+    // Debugging logs to verify the values
+    console.log(`Exit point for direction "${direction}": x=${exitX}, y=${exitY}`);
+
+    // Ensure player and puca are defined
+    if (!this.player || !this.puca) {
+        console.error('Player or Puca sprite is not initialized.');
+        return;
+    }
+
+    // Log initial positions
+    console.log(`Initial Player Position: x=${this.player.x}, y=${this.player.y}`);
+    console.log(`Initial Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
+
+    // Animate the player to move off the screen
+    this.tweens.add({
+        targets: this.player,
+        x: exitX,
+        y: exitY,
+        angle: 360, // Rotate player by 360 degrees (1 full rotation)
+        duration: 550, // Adjust the duration as needed
+        onComplete: () => {
+            console.log('Player tween completed');
+            console.log(`Final Player Position: x=${this.player.x}, y=${this.player.y}`);
+            // Optionally, hide or destroy the player sprite after moving off the screen
+            // this.player.setVisible(false);
+            // Or this.player.destroy();
+        }
+    });
+
+    // Animate the puca to move off the screen
+    this.tweens.add({
+        targets: this.puca,
+        x: exitX,
+        y: exitY,
+        duration: 400, // Adjust the duration as needed
+        onComplete: () => {
+            console.log('Puca tween completed');
+            console.log(`Final Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
+            // Optionally, hide or destroy the puca sprite after moving off the screen
+            // this.puca.setVisible(false);
+            // Or this.puca.destroy();
+
+            // Restore player and puca to center after a delay
+            setTimeout(() => {
+                const centerX = this.cameras.main.width / 2;
+                const centerY = this.cameras.main.height / 2;
+                this.player.setX(centerX);
+                this.player.setY(centerY);
+                this.puca.setX(centerX);
+                this.puca.setY(centerY);
+            }, 1000); // Adjust the delay as needed
+        }
+    });
+};
 
 
-
-///////////////////////
-
+}
+    
+    //////////////////////////
+    
+    
+    
+    ///////////////////////
+    
+    
+            toggleFullscreen() {
+            // Check if the game is currently in fullscreen mode
+            const fullscreen = this.scale.isFullscreen;
+        
+            // Toggle fullscreen mode
+            if (!fullscreen) {
+                // Enter fullscreen mode
+                this.scale.startFullscreen();
+            } else {
+                // Exit fullscreen mode
+                this.scale.stopFullscreen();
+            }
+        }
 
 
 
@@ -602,7 +766,7 @@ handleMiddleButtonPress() {
         setTimeout(() => {
             this.enCurrentPlaceText.setVisible(false);
             // this.overlay.setVisible(false);
-        }, 200);
+        }, 2000);
     } else {
         // Log an error if enCurrentPlaceText or overlay is not initialized
         console.error('enCurrentPlaceText or overlay is not initialized.');
@@ -693,7 +857,6 @@ updateCountyBackground() {
         if (countyBackgroundKey) {
             // Set the county background image
             this.countyBG.setTexture(countyBackgroundKey);
-            // alert(countyBackgroundKey);
         } else {
             console.error("County background key not found for:", this.currentCounty.name);
         }
@@ -728,8 +891,6 @@ setTimeout(function() {
     // Reset the flag after the function completes
     self.leftLocationInProgress = false;
 
-    // Call the alert function after the navigation changes
-    // alert();
 }, 55);
 
 // Update the current location immediately (outside the setTimeout)
@@ -836,7 +997,6 @@ handleRightLocation() {
         self.rightLocationInProgress = false;
 
         // Call the alert function after the navigation changes
-        // alert();
     }, 55);
 
     // Update the current location immediately (outside the setTimeout)
@@ -1018,7 +1178,13 @@ this.rockingRange = 10; // Range of rocking motion in degrees
 
     // Apply the rotation angle to the provincial map sprite
     this.provincialMapSprite.angle = rotationAngle;
-  }
+        const currentProvince = this.provinces[this.currentProvinceIndex];
+    if (currentProvince) {
+        const provinceGraphicKey = this.provinceGraphics[currentProvince.enProvince];
+        if (provinceGraphicKey) {
+            this.provincialMapSprite.setTexture(provinceGraphicKey);
+        }
+  }}
 
  
   
