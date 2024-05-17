@@ -2,7 +2,7 @@
     "provinces": [
         {
             "enProvince": "Connacht",
-             "gaProvince": "Connaught",
+             "gaProvince": "Connacht",
             "counties": [
                 {
                     "name":"galway",
