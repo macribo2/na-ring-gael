@@ -167,6 +167,49 @@ enText.setAlpha(1);
     let isSceneLaunched = false;
 function create() {
 
+    console.log("Scene created");
+
+    // Other initialization code...
+
+    // Initialize overlay container
+    this.overlay = this.add.container(0, 0).setDepth(3);
+    this.overlay.setVisible(false); // Initially hide the overlay
+    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+    glassbg.displayWidth = this.sys.game.config.width;
+    glassbg.displayHeight = this.sys.game.config.height;
+    this.overlay.add(glassbg);
+
+    const enTextStyle = {
+        fontSize: '4em',
+        fontFamily: 'anaphora',
+        color: '#ffffff',
+        stroke: '#000000',
+        strokeThickness: 3,
+    };
+
+    this.enText = this.add.text(0, 0, 'English Text', enTextStyle).setOrigin(0).setDepth(9);
+    this.overlay.add(this.enText);
+
+    // Add middle button
+    this.buttonMiddle = this.add
+        .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
+        .setDepth(20)
+        .setInteractive()
+        .on("pointerdown", () => {
+            if (!this.isToggling) { // Check if not already toggling
+                this.isToggling = true; // Set flag to true
+                this.toggleOverlay(); // Call the toggleOverlay method
+            }
+        });
+
+    // Define behavior for pointer events (e.g., hover)
+    this.buttonMiddle.on('pointerover', () => {
+        this.buttonMiddle.setTexture('button-middle-lit');
+        setTimeout(() => {
+            this.buttonMiddle.setTexture('button-middle');
+        }, 500);
+    });
+
     const scene = this;
     // Calculate the center of the screen
     const centerX = scene.cameras.main.width / 2;
@@ -179,7 +222,7 @@ function create() {
        overlay = this.add.container(0, 0);
     overlay.setVisible(false); // Initially hide the overlay
         
-    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+
    
     glassbg.displayWidth = gameWidth;
 glassbg.displayHeight = gameHeight;
@@ -211,13 +254,7 @@ glassbg.displayHeight = gameHeight;
             stroke: '#000000', // Stroke color
             strokeThickness: 3, // Stroke thickness
         };
-        const enTextStyle = {
-            fontSize: '4em',
-            fontFamily: 'anaphora',
-            color: '#ffffff',
-            stroke: '#000000', // Stroke color
-            strokeThickness: 3, // Stroke thickness
-        };
+
         enText = scene.add.text(posX-64, posY+100, '', enTextStyle).setOrigin(0).setDepth(9);
         
                 gaText = scene.add.text(posX, posY, '', textStyle).setOrigin(0.5).setDepth(9);
