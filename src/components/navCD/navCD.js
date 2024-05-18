@@ -54,7 +54,7 @@ export default class NavCD extends Phaser.Scene {
         this.currentPlayerLocation = 1;
         this.currentCounty = null;
         this.navigationLevel = "location";
-    
+    this.isToggling= true;
         // Bind event handlers
         this.handleLeftButtonPress = this.handleLeftButtonPress.bind(this);
         this.handleRightButtonPress = this.handleRightButtonPress.bind(this);
@@ -149,310 +149,219 @@ export default class NavCD extends Phaser.Scene {
 
 
   
-  create() {
+    create() {
 
-    console.log("Scene created");
+        console.log("Scene created");
 
-    // Center coordinates
-    const centerX = this.cameras.main.width / 2;
-    const centerY = this.cameras.main.height / 2;
-  
-    // Create puca sprite
-    this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
-    this.puca.setDepth(21); // Ensure puca is behind the player
-    this.puca.setScale(0.3); // Adjust scale
-    this.puca.setOrigin(0.7, 0.4); // Adjust origin
-  
-    console.log("Puca created at", centerX, centerY);
-  
-    // Create player sprite
-    this.player = this.add.sprite(centerX, centerY, "player");
-    this.player.setDepth(1); // Ensure player is in front of puca
-    this.player.setScale(1.3); // Adjust scale
-    this.player.setOrigin(0.5, 0.5); // Adjust origin
-  
-    console.log("Player created at", centerX, centerY);
-  
-    // Add tween for bobbing effect
-    this.tweens.add({
-      targets: [this.puca, this.player],
-      y: "+=10", // Move down by 10 pixels
-      duration: 2000, // Duration in milliseconds
-      ease: "Sine.easeInOut", // Easing function
-      yoyo: true, // Yoyo effect
-      repeat: -1, // Repeat indefinitely
+        // Center coordinates
+        const centerX = this.cameras.main.width / 2;
+        const centerY = this.cameras.main.height / 2;
+    
+        // Create puca sprite
+        this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
+        this.puca.setDepth(21); // Ensure puca is behind the player
+        this.puca.setScale(0.3); // Adjust scale
+        this.puca.setOrigin(0.7, 0.4); // Adjust origin
+    
+        console.log("Puca created at", centerX, centerY);
+    
+        // Create player sprite
+        this.player = this.add.sprite(centerX, centerY, "player");
+        this.player.setDepth(1); // Ensure player is in front of puca
+        this.player.setScale(1.3); // Adjust scale
+        this.player.setOrigin(0.5, 0.5); // Adjust origin
+    
+        console.log("Player created at", centerX, centerY);
+    
+        // Add tween for bobbing effect
+        this.tweens.add({
+        targets: [this.puca, this.player],
+        y: "+=10", // Move down by 10 pixels
+        duration: 2000, // Duration in milliseconds
+        ease: "Sine.easeInOut", // Easing function
+        yoyo: true, // Yoyo effect
+        repeat: -1, // Repeat indefinitely
+        });
+    
+        console.log("Tween created");
+    
+        // Initialize exitPoints with example values
+        this.exitPoints = {
+        west: { x: -50, y: this.cameras.main.height / 2 },
+        east: { x: this.cameras.main.width + 50, y: this.cameras.main.height / 2 },
+        north: { x: this.cameras.main.width / 2, y: -50 },
+        south: { x: this.cameras.main.width / 2, y: this.cameras.main.height + 50 },
+        };
+    
+
+        this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
+            
+        this.provincialMapSprite= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
+        this.provincialMapSprite.alpha = 0; // Initially set alpha to 0 to make it transparent
+    
+    // Define the bounds for the background image movement
+    this.minX = 0; // Minimum x-coordinate
+    this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
+    // Set the initial position of the background sprite
+    // const initialX = this.cameras.main.centerX;
+    // const initialY = this.cameras.main.centerY;
+    this.countyBG.setPosition(initialX, initialY);
+
+    // Define the bounds for the background image movement
+    this.minX = 0; // Minimum x-coordinate
+    this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
+    const minX = this.minX;
+    const maxX = this.maxX;
+    this.locationPositions = [
+        { x: 0, y: 0 }, // Location 1
+        { x: -300, y: 0 }, // Location 2
+        { x: 0, y: 300 }, // Location 3
+        { x: 300, y: 500 }, // Location 6
+        { x: -200, y: 0 }, // Location 5
+        { x: 100, y: 200 }, // Location 4
+    ];
+    // Tween to make the sprites bob up and down
+    const bobTween = this.tweens.add({
+        targets: [this.puca, this.player],
+        y: "+=10", // Move the sprites down by 20 pixels
+        duration: 2000, // Duration of the downward movement
+        ease: "Sine.easeInOut", // Easing function for smooth acceleration and deceleration
+        yoyo: true, // Repeat the tween in reverse
+        repeat: -1, // Repeat indefinitely
     });
-  
-    console.log("Tween created");
-  
-    // Initialize exitPoints with example values
-    this.exitPoints = {
-      west: { x: -50, y: this.cameras.main.height / 2 },
-      east: { x: this.cameras.main.width + 50, y: this.cameras.main.height / 2 },
-      north: { x: this.cameras.main.width / 2, y: -50 },
-      south: { x: this.cameras.main.width / 2, y: this.cameras.main.height + 50 },
-    };
-  
 
-    this.countyBG= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
-         
-    this.provincialMapSprite= this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
-    this.provincialMapSprite.alpha = 0; // Initially set alpha to 0 to make it transparent
-   
-// Define the bounds for the background image movement
-this.minX = 0; // Minimum x-coordinate
-this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
-// Set the initial position of the background sprite
-// const initialX = this.cameras.main.centerX;
-// const initialY = this.cameras.main.centerY;
-this.countyBG.setPosition(initialX, initialY);
-
-  // Define the bounds for the background image movement
-  this.minX = 0; // Minimum x-coordinate
-  this.maxX = 400 - this.cameras.main.height; // Maximum x-coordinate
-  const minX = this.minX;
-  const maxX = this.maxX;
-  this.locationPositions = [
-    { x: 0, y: 0 }, // Location 1
-    { x: -300, y: 0 }, // Location 2
-    { x: 0, y: 300 }, // Location 3
-    { x: 300, y: 500 }, // Location 6
-    { x: -200, y: 0 }, // Location 5
-    { x: 100, y: 200 }, // Location 4
-  ];
-  // Tween to make the sprites bob up and down
-  const bobTween = this.tweens.add({
-    targets: [this.puca, this.player],
-    y: "+=10", // Move the sprites down by 20 pixels
-    duration: 2000, // Duration of the downward movement
-    ease: "Sine.easeInOut", // Easing function for smooth acceleration and deceleration
-    yoyo: true, // Repeat the tween in reverse
-    repeat: -1, // Repeat indefinitely
-  });
-
-  // Set the current province index to 0 and the current county index to 0 initially
-  // Set the current province index and county index to the initial values
-  this.currentProvinceIndex = 1;
-  this.currentCountyIndex = 1;
-
-  // Get the current province and county data from ireData
-  this.currentProvince = ireData.provinces[this.currentProvinceIndex];
+    // Set the current province index to 0 and the current county index to 0 initially
+    // Set the current province index and county index to the initial values
+    this.currentProvinceIndex = 1;
+    this.currentCountyIndex = 1;
 
     // Get the current province and county data from ireData
-    this.currentProvinceIndex = 0; // Set the initial province index
     this.currentProvince = ireData.provinces[this.currentProvinceIndex];
 
-    // Check if currentProvince is defined
-    if (this.currentProvince) {
-        // Initialize this.provinces with the province data
-        this.provinces = ireData.provinces;
-    } else {
-        // Handle the case where currentProvince is undefined
-        console.error("Current province data is undefined.");
-        return; // Abort further initialization
-    }
+        // Get the current province and county data from ireData
+        this.currentProvinceIndex = 0; // Set the initial province index
+        this.currentProvince = ireData.provinces[this.currentProvinceIndex];
 
-  this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-
-  // Get the first location within the county
-  let currentLocation = this.currentCounty.locations[0].irishName;
-
-  console.log("Current Location:", currentLocation);
-  // Set up the text to display the name of the current location
-  this.gaCurrentPlaceText = this.add
-    .text(200, this.cameras.main.height - 300, currentLocation, {
-      fontFamily: "aonchlo",
-      fontSize: "3em",
-      fill: "#fff",
-    })
-    .setDepth(31);
-
-    this.enCurrentPlaceText = this.add
-    .text(200, this.cameras.main.height - 100, currentLocation, {
-      fontFamily: "Anaphora",
-      fontSize: "2em",
-      fill: "#fff",
-    })
-    .setDepth(32).setVisible();
-
-    const stonebg = this.add.sprite(0, 0, "stonebg").setOrigin(0);
-
-  stonebg.displayWidth = this.sys.game.config.width;
-  stonebg.displayHeight = this.sys.game.config.height;
-
-  this.countyBG.setAlpha(0.4);
-
-  this.countyBG.setPosition(initialX, initialY);
-
-  // Define the amount of scroll when pressing the directional pad
-  const scrollAmount = 50; // Adjust as needed
-
-  const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
-
-  this.buttonNavUp = this.add
-    .sprite(buttonX, this.cameras.main.height - 150, "button-up")
-    .setDepth(31);
-  this.buttonNavDown = this.add
-    .sprite(buttonX, this.cameras.main.height - 50, "button-down")
-    .setDepth(31);
-  this.buttonNavLeft = this.add
-    .sprite(buttonX - 50, this.cameras.main.height - 100, "button-left")
-    .setDepth(31).setInteractive().on("pointerdown", this.handleLeftButtonPress);
-    ;
-
-    this.buttonNavRight = this.add.sprite(buttonX + 50, this.cameras.main.height - 100, "button-right").setDepth(31).on("pointerdown", this.handleRightButtonPress);
-
-  this.buttonMiddle = this.add
-    .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
-    .setDepth(20).setInteractive().on("pointerdown", this.handleMiddleButtonPress);
-  this.actionBtn = this.add
-    .sprite(250, this.cameras.main.height - 800, "actionBtn")
-    .setDepth(31);
-
-  // Check if sprites are loaded
-  console.log(
-    this.buttonNavUp,
-    this.buttonNavDown,
-    this.buttonNavLeft,
-    this.buttonNavRight,
-    this.actionBtn,
-  );
-
-  // Add input listeners only if sprites are properly loaded
-
-  if (
-    this.buttonNavUp &&
-    this.buttonNavDown &&
-    this.buttonNavLeft &&
-    this.buttonNavRight &&
-    this.actionBtn
-  ) {
-    // Add input listeners to directional pad buttonNavs
-    // Add input listeners to directional pad buttonNavs
-
-    let upButtonTapCount = 0; // Variable to track the number of taps on the up button
-    let prevNavigationLevel = "location"; // Variable to track the previous navigation level
-    let prevCountyIndex = this.currentCountyIndex; // Variable to track the previous county index
-    let prevProvinceIndex = this.currentProvinceIndex; // Variable to track the previous province index
-    let prevPlayerLocation = this.currentPlayerLocation; // Variable to track the previous player location
-
-// Update the navigation level when pressing the up button
-this.buttonNavUp.setInteractive().on("pointerup", () => {
-    this.buttonNavUp.disableInteractive();
-
-    if (this.navigationLevel === "location") {
-        this.navigationLevel = "county";
-        // Get the center coordinates of the screen
-const centerX = this.cameras.main.width / 2;
-const centerY = this.cameras.main.height / 2;
-
-// Tween to reset the background map to the middle of the screen
-this.tweens.add({
-    targets: this.countyBG, // The background map sprite
-    x: centerX, // Set the x coordinate to the center of the screen
-    y: centerY, // Set the y coordinate to the center of the screen
-    duration: 500, // Duration of the animation in milliseconds
-    ease: 'Linear', // Easing function for smooth animation
-});
-        this.tweens.add({
-            targets: this.countyBG,
-            scale: 2,
-            duration: 500,
-            ease: 'Linear',
-            onComplete: () => {
-                if (this.currentCounty) {
-                    this.currentLocation = this.currentCounty.locations[0];
-                }
-                this.updateCurrentPlaceText();
-                this.buttonNavUp.setInteractive();
-            }
-        });
-
-    } else if (this.navigationLevel === "county") {
-        this.navigationLevel = "province";
-
-        // Tween to fade in the provincial map image
-        this.tweens.add({
-            targets: [this.provincialMapSprite], // An array of targets for the tween
-            alpha: 0.5, // Fade in by setting alpha to 1
-            duration: 500, // Duration of the animation in milliseconds
-            ease: 'Linear', // Easing function for smooth animation
-            scale:0.7
-        });
+        // Check if currentProvince is defined
         if (this.currentProvince) {
-            this.currentLocation = this.currentProvince.counties[0].locations[0];
+            // Initialize this.provinces with the province data
+            this.provinces = ireData.provinces;
+        } else {
+            // Handle the case where currentProvince is undefined
+            console.error("Current province data is undefined.");
+            return; // Abort further initialization
         }
-        this.updateCurrentPlaceText();
-        this.buttonNavUp.setInteractive();
 
-        this.tweens.add({
-            targets: this.countyBG,
-            scale: 0.5,
-            alpha:0,
-            duration: 500,
-            ease: 'Linear',
-            onComplete: () => {
-                if (this.currentCounty) {
-                    this.currentLocation = this.currentCounty.locations[0];
-                }
-                this.updateCurrentPlaceText();
-                this.buttonNavUp.setInteractive();
-            }
-        });
-    }
+    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
 
-    setTimeout(() => {
-        this.buttonNavUp.setInteractive();
-    }, 55);
-});
+    // Get the first location within the county
+    let currentLocation = this.currentCounty.locations[0].irishName;
 
+    console.log("Current Location:", currentLocation);
+    // Set up the text to display the name of the current location
+    this.gaCurrentPlaceText = this.add
+        .text(200, this.cameras.main.height - 300, currentLocation, {
+        fontFamily: "aonchlo",
+        fontSize: "3em",
+        fill: "#fff",
+        })
+        .setDepth(31);
 
-    // Add input listeners to directional pad buttons
-    this.buttonNavDown.setInteractive().on("pointerup", () => {
-        console.log("Down button clicked!");
-        this.buttonNavDown.disableInteractive();
-    
-        // Handle down button press
-        if (this.navigationLevel === "province") {
+        this.enCurrentPlaceText = this.add
+        .text(200, this.cameras.main.height - 100, currentLocation, {
+        fontFamily: "Anaphora",
+        fontSize: "2em",
+        fill: "#fff",
+        })
+        .setDepth(32).setVisible();
+        this.isToggling = false; // Initialize isToggling flag
 
-// Determine the direction based on provincialMapSprite
-let direction;
-let provinceIndex = this.currentProvinceIndex;
-switch (provinceIndex) {
-    case 0:
-        direction = "west";
-                break;
-        case 1:
-            direction = "east";
-            break;
-            case 2:
-                
-        direction = "north";
-        break;
-                case 3:
-                    direction = "south";
-                    break;
-                    default:
-                        console.error("Invalid provincial Index!");
-                        return;
-                    }
-                    console.log(provinceIndex)
+        // Define the overlay container and its contents
+        this.overlay = this.add.container(0, 0);
+        this.overlay.setVisible(false); // Initially hide the overlay
+        
+        const stonebg = this.add.sprite(0, 0, "stonebg").setOrigin(0);
 
-// Perform animation based on the direction
-this.moveOffScreen(direction);
+    stonebg.displayWidth = this.sys.game.config.width;
+    stonebg.displayHeight = this.sys.game.config.height;
 
+    this.countyBG.setAlpha(0.4);
 
-            this.tweens.add({
-                targets: [this.provincialMapSprite], // An array of targets for the tween
-                alpha: 0, // Fade out by setting alpha to 0
-                duration: 500, // Duration of the animation in milliseconds
-                ease: 'Linear', // Easing function for smooth animation
-                scale:1
-            });
+    this.countyBG.setPosition(initialX, initialY);
+
+    // Define the amount of scroll when pressing the directional pad
+    const scrollAmount = 50; // Adjust as needed
+
+    const buttonX = this.sys.game.config.width - 100; // Adjust the offset as needed
+
+    this.buttonNavUp = this.add
+        .sprite(buttonX, this.cameras.main.height - 150, "button-up")
+        .setDepth(31);
+    this.buttonNavDown = this.add
+        .sprite(buttonX, this.cameras.main.height - 50, "button-down")
+        .setDepth(31);
+    this.buttonNavLeft = this.add
+        .sprite(buttonX - 50, this.cameras.main.height - 100, "button-left")
+        .setDepth(31).setInteractive().on("pointerdown", this.handleLeftButtonPress);
+        ;
+
+        this.buttonNavRight = this.add.sprite(buttonX + 50, this.cameras.main.height - 100, "button-right").setDepth(31).on("pointerdown", this.handleRightButtonPress);
+
+    this.buttonMiddle = this.add
+        .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
+        .setDepth(20).setInteractive().on("pointerdown", this.handleMiddleButtonPress);
+    this.actionBtn = this.add
+        .sprite(250, this.cameras.main.height - 800, "actionBtn")
+        .setDepth(31);
+
+    // Check if sprites are loaded
+    console.log(
+        this.buttonNavUp,
+        this.buttonNavDown,
+        this.buttonNavLeft,
+        this.buttonNavRight,
+        this.actionBtn,
+    );
+
+    // Add input listeners only if sprites are properly loaded
+
+    if (
+        this.buttonNavUp &&
+        this.buttonNavDown &&
+        this.buttonNavLeft &&
+        this.buttonNavRight &&
+        this.actionBtn
+    ) {
+        // Add input listeners to directional pad buttonNavs
+        // Add input listeners to directional pad buttonNavs
+
+        let upButtonTapCount = 0; // Variable to track the number of taps on the up button
+        let prevNavigationLevel = "location"; // Variable to track the previous navigation level
+        let prevCountyIndex = this.currentCountyIndex; // Variable to track the previous county index
+        let prevProvinceIndex = this.currentProvinceIndex; // Variable to track the previous province index
+        let prevPlayerLocation = this.currentPlayerLocation; // Variable to track the previous player location
+
+    // Update the navigation level when pressing the up button
+    this.buttonNavUp.setInteractive().on("pointerup", () => {
+        this.buttonNavUp.disableInteractive();
+
+        if (this.navigationLevel === "location") {
+            this.navigationLevel = "county";
+            // Get the center coordinates of the screen
+    const centerX = this.cameras.main.width / 2;
+    const centerY = this.cameras.main.height / 2;
+
+    // Tween to reset the background map to the middle of the screen
+    this.tweens.add({
+        targets: this.countyBG, // The background map sprite
+        x: centerX, // Set the x coordinate to the center of the screen
+        y: centerY, // Set the y coordinate to the center of the screen
+        duration: 500, // Duration of the animation in milliseconds
+        ease: 'Linear', // Easing function for smooth animation
+    });
             this.tweens.add({
                 targets: this.countyBG,
                 scale: 2,
-                alpha:0.3,
                 duration: 500,
                 ease: 'Linear',
                 onComplete: () => {
@@ -463,263 +372,375 @@ this.moveOffScreen(direction);
                     this.buttonNavUp.setInteractive();
                 }
             });
-            // Move to county level
-            this.navigationLevel = "county";
-            // Reset the current county index to 0 for the current province
-            this.currentCountyIndex = 0;
-            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-            // Restore the previous location within the county
-            if (this.prevNavigationLevel === "location") {
-                this.currentLocation = this.prevLocation;
-                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-                    (location) => location.irishName === this.prevLocation.irishName,
-                );
-            }
-        
-        
+
         } else if (this.navigationLevel === "county") {
-            // Move to location level
-            this.navigationLevel = "location";
-            // Update the current location based on the accessed county
-            this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+            this.navigationLevel = "province";
 
-            // Set the current location to the first location in the county
-            this.currentLocation = this.currentCounty.locations[0];
-            this.currentPlayerLocation = 0;
-            // Refresh the location display
-            this.refreshLocationDisplay();
-            // Store previous navigation level and location
-            this.prevNavigationLevel = "county";
-            this.prevLocation = this.currentLocation;
-              // Tween to zoom in
-
-              this.player.setScale(1.3); // Adjust the scale as needed
-              this.puca.setScale(0.3);
-              this.tweens.add({
-                  targets: this.countyBG,
-                  scale: 4, // Zoom in to 4x scale
-                  duration: 500, // Duration of the zoom-in effect
-                  ease: 'Linear', // Easing function
-                  onComplete: () => {
-                      // Update the displayed location name after the navigation changes
-                      this.updateCurrentPlaceText();
-                      this.buttonNavDown.setInteractive();
-                  }
-        })}
-        
-        
-            else if (this.navigationLevel === "location") {
-            // If previously navigated horizontally, reset the indices and navigate back to the original county
-            if (this.prevNavigationLevel === "county") {
-                // Restore the previous county and location
-                this.currentCountyIndex = this.prevCountyIndex;
-                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
-                this.currentLocation = this.prevLocation;
-                this.currentPlayerLocation = this.currentCounty.locations.findIndex(
-                    (location) => location.irishName === this.prevLocation.irishName,
-                );
-    
-                // Update the navigation level to 'county'
-                this.navigationLevel = "county";
-            } else {
-                // Perform dismount if at location level and press down
-                this.scene.stop("NavCD");
-                // Optionally, start another scene or perform any other necessary actions
+            // Tween to fade in the provincial map image
+            this.tweens.add({
+                targets: [this.provincialMapSprite], // An array of targets for the tween
+                alpha: 0.5, // Fade in by setting alpha to 1
+                duration: 500, // Duration of the animation in milliseconds
+                ease: 'Linear', // Easing function for smooth animation
+                scale:0.7
+            });
+            if (this.currentProvince) {
+                this.currentLocation = this.currentProvince.counties[0].locations[0];
             }
+            this.updateCurrentPlaceText();
+            this.buttonNavUp.setInteractive();
+
+            this.tweens.add({
+                targets: this.countyBG,
+                scale: 0.5,
+                alpha:0,
+                duration: 500,
+                ease: 'Linear',
+                onComplete: () => {
+                    if (this.currentCounty) {
+                        this.currentLocation = this.currentCounty.locations[0];
+                    }
+                    this.updateCurrentPlaceText();
+                    this.buttonNavUp.setInteractive();
+                }
+            });
         }
-        // Update the previous navigation level and indices
-        this.prevNavigationLevel = this.navigationLevel;
-        this.prevCountyIndex = this.currentCountyIndex;
-        this.prevProvinceIndex = this.currentProvinceIndex;
-        this.prevLocation = this.currentLocation;
+
         setTimeout(() => {
-            this.buttonNavDown.setInteractive();
-        }, 55); // Adjust the delay as needed
+            this.buttonNavUp.setInteractive();
+        }, 55);
     });
-    
-  
-
-  }
-
- 
-    // Add countyBG background image
-    console.log("Current County:33333333", this.currentCounty);
-  this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
-
-    // Define the bounds for the background image movement
-    this.minX = 0;
-    this.maxX = 400 - this.cameras.main.height;
-
-    // Set the initial position of the background sprite
-    const initialX = this.cameras.main.centerX;
-    const initialY = this.cameras.main.centerY;
-    this.countyBG.setPosition(initialX, initialY);
-    
-    // Define location positions (sample data)
-   // Define location positions
-this.locationPositions = [
-    { x: 0, y: 0 }, // Location 1
-    { x: -300, y: 0 }, // Location 2
-    { x: 0, y: 300 }, // Location 3
-    { x: 300, y: 500 }, // Location 6
-    { x: -200, y: 0 }, // Location 5
-    { x: 100, y: 200 }, // Location 4
-];
 
 
-    // Add event listeners to navigation buttons
-        this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
-    this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress);
-
-    
-    
-    
-    // Other create code...
-
-    ;
-    this.buttonNavRight = this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress.bind(this));
-      
-
-    this.buttonNavLeft = this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress.bind(this))
-    let location = this.locationPositions[this.playerLocation];
-
-    let isToggling = false; // Flag to track if overlay is currently toggling
-   this.overlay = this.add.container(0, 0);
-    // this.overlay.setVisible(false); // Initially hide the overlay
-    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-    glassbg.displayWidth = this.gameWidth;
-    glassbg.displayHeight = this.gameHeight;
-    this.overlay.add(glassbg).setDepth(3);
-    // Add middle button
-    
-    const enTextStyle = {
-        fontSize: '4em',
-        fontFamily: 'anaphora',
-        color: '#ffffff',
-        stroke: '#000000', // Stroke color
-        strokeThickness: 3, // Stroke thickness
-    };
-    
-    let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
-    this.overlay.add(enText);
-    
-    // Define behavior for pointer events (e.g., hover, click)
-    this.buttonMiddle.on('pointerover', () => {
-
-        // Change the button texture to the lit state image when hovered
-        this.buttonMiddle.setTexture('button-middle-lit');
-        setTimeout(() => {
-            this.buttonMiddle.setTexture('button-middle');
-        },500);});
-
-
-
-// Define mapping of province names to graphics
-
-// Get the current province
-const currentProvince = this.provinces[this.currentProvinceIndex];
-
-// Check if the current province is defined
-if (currentProvince) {
-    // Get the graphic for the current province
-    const provinceGraphicKey = this.provinceGraphics[currentProvince.enProvince];
-    
-    // Check if the graphic key exists
-    if (provinceGraphicKey) {
-        // Set the province map sprite based on the graphic key
-        this.provincialMapSprite.setTexture(provinceGraphicKey)
-        this.provincialMapSprite.alpha = 0; // Set alpha to make it visible
-    } else {
-        console.error("Graphic key not found for current province:", currentProvince.enProvince);
-    }
-} else {
-    console.error("Current province is undefined.");
-}
-
-// Other initialization code...
-     // Create a fullscreen button sprite
-     this.fullscreenButton = this.add.sprite(50, 50, 'fullscreen').setInteractive();
+        // Add input listeners to directional pad buttons
+        this.buttonNavDown.setInteractive().on("pointerup", () => {
+            console.log("Down button clicked!");
+            this.buttonNavDown.disableInteractive();
         
-     // Set up event listener for pointer events on the button sprite
-     this.fullscreenButton.on('pointerdown', this.toggleFullscreen, this);
+            // Handle down button press
+            if (this.navigationLevel === "province") {
 
-// Function to move player and puca off-screen
-// Function to move player and puca off-screen
-this.moveOffScreen = (direction) => {
-    // Ensure exitPoints is initialized
-    if (!this.exitPoints) {
-        console.error('exitPoints is not initialized.');
-        return;
-    }
+    // Determine the direction based on provincialMapSprite
+    let direction;
+    let provinceIndex = this.currentProvinceIndex;
+    switch (provinceIndex) {
+        case 0:
+            direction = "west";
+                    break;
+            case 1:
+                direction = "east";
+                break;
+                case 2:
+                    
+            direction = "north";
+            break;
+                    case 3:
+                        direction = "south";
+                        break;
+                        default:
+                            console.error("Invalid provincial Index!");
+                            return;
+                        }
+                        console.log(provinceIndex)
 
-    // Ensure direction is valid
-    if (!this.exitPoints[direction]) {
-        console.error(`No exit point found for direction: ${direction}`);
-        return;
-    }
+    // Perform animation based on the direction
+    this.moveOffScreen(direction);
 
-    // Access exit points based on direction
-    const exitPoint = this.exitPoints[direction];
-    const exitX = exitPoint.x;
-    const exitY = exitPoint.y;
 
-    // Debugging logs to verify the values
-    console.log(`Exit point for direction "${direction}": x=${exitX}, y=${exitY}`);
+                this.tweens.add({
+                    targets: [this.provincialMapSprite], // An array of targets for the tween
+                    alpha: 0, // Fade out by setting alpha to 0
+                    duration: 500, // Duration of the animation in milliseconds
+                    ease: 'Linear', // Easing function for smooth animation
+                    scale:1
+                });
+                this.tweens.add({
+                    targets: this.countyBG,
+                    scale: 2,
+                    alpha:0.3,
+                    duration: 500,
+                    ease: 'Linear',
+                    onComplete: () => {
+                        if (this.currentCounty) {
+                            this.currentLocation = this.currentCounty.locations[0];
+                        }
+                        this.updateCurrentPlaceText();
+                        this.buttonNavUp.setInteractive();
+                    }
+                });
+                // Move to county level
+                this.navigationLevel = "county";
+                // Reset the current county index to 0 for the current province
+                this.currentCountyIndex = 0;
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                // Restore the previous location within the county
+                if (this.prevNavigationLevel === "location") {
+                    this.currentLocation = this.prevLocation;
+                    this.currentPlayerLocation = this.currentCounty.locations.findIndex(
+                        (location) => location.irishName === this.prevLocation.irishName,
+                    );
+                }
+            
+            
+            } else if (this.navigationLevel === "county") {
+                // Move to location level
+                this.navigationLevel = "location";
+                // Update the current location based on the accessed county
+                this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
 
-    // Ensure player and puca are defined
-    if (!this.player || !this.puca) {
-        console.error('Player or Puca sprite is not initialized.');
-        return;
-    }
+                // Set the current location to the first location in the county
+                this.currentLocation = this.currentCounty.locations[0];
+                this.currentPlayerLocation = 0;
+                // Refresh the location display
+                this.refreshLocationDisplay();
+                // Store previous navigation level and location
+                this.prevNavigationLevel = "county";
+                this.prevLocation = this.currentLocation;
+                // Tween to zoom in
 
-    // Log initial positions
-    console.log(`Initial Player Position: x=${this.player.x}, y=${this.player.y}`);
-    console.log(`Initial Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
-
-    // Animate the player to move off the screen
-    this.tweens.add({
-        targets: this.player,
-        x: exitX,
-        y: exitY,
-        angle: 360, // Rotate player by 360 degrees (1 full rotation)
-        duration: 550, // Adjust the duration as needed
-        onComplete: () => {
-            console.log('Player tween completed');
-            console.log(`Final Player Position: x=${this.player.x}, y=${this.player.y}`);
-            // Optionally, hide or destroy the player sprite after moving off the screen
-            // this.player.setVisible(false);
-            // Or this.player.destroy();
-        }
-    });
-
-    // Animate the puca to move off the screen
-    this.tweens.add({
-        targets: this.puca,
-        x: exitX,
-        y: exitY,
-        duration: 400, // Adjust the duration as needed
-        onComplete: () => {
-            console.log('Puca tween completed');
-            console.log(`Final Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
-            // Optionally, hide or destroy the puca sprite after moving off the screen
-            // this.puca.setVisible(false);
-            // Or this.puca.destroy();
-
-            // Restore player and puca to center after a delay
+                this.player.setScale(1.3); // Adjust the scale as needed
+                this.puca.setScale(0.3);
+                this.tweens.add({
+                    targets: this.countyBG,
+                    scale: 4, // Zoom in to 4x scale
+                    duration: 500, // Duration of the zoom-in effect
+                    ease: 'Linear', // Easing function
+                    onComplete: () => {
+                        // Update the displayed location name after the navigation changes
+                        this.updateCurrentPlaceText();
+                        this.buttonNavDown.setInteractive();
+                    }
+            })}
+            
+            
+                else if (this.navigationLevel === "location") {
+                // If previously navigated horizontally, reset the indices and navigate back to the original county
+                if (this.prevNavigationLevel === "county") {
+                    // Restore the previous county and location
+                    this.currentCountyIndex = this.prevCountyIndex;
+                    this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
+                    this.currentLocation = this.prevLocation;
+                    this.currentPlayerLocation = this.currentCounty.locations.findIndex(
+                        (location) => location.irishName === this.prevLocation.irishName,
+                    );
+        
+                    // Update the navigation level to 'county'
+                    this.navigationLevel = "county";
+                } else {
+                    // Perform dismount if at location level and press down
+                    this.scene.stop("NavCD");
+                    // Optionally, start another scene or perform any other necessary actions
+                }
+            }
+            // Update the previous navigation level and indices
+            this.prevNavigationLevel = this.navigationLevel;
+            this.prevCountyIndex = this.currentCountyIndex;
+            this.prevProvinceIndex = this.currentProvinceIndex;
+            this.prevLocation = this.currentLocation;
             setTimeout(() => {
-                const centerX = this.cameras.main.width / 2;
-                const centerY = this.cameras.main.height / 2;
-                this.player.setX(centerX);
-                this.player.setY(centerY);
-                this.puca.setX(centerX);
-                this.puca.setY(centerY);
-            }, 1000); // Adjust the delay as needed
+                this.buttonNavDown.setInteractive();
+            }, 55); // Adjust the delay as needed
+        });
+        
+    
+
+    }
+
+    
+        // Add countyBG background image
+        console.log("Current County:33333333", this.currentCounty);
+    this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
+
+        // Define the bounds for the background image movement
+        this.minX = 0;
+        this.maxX = 400 - this.cameras.main.height;
+
+        // Set the initial position of the background sprite
+        const initialX = this.cameras.main.centerX;
+        const initialY = this.cameras.main.centerY;
+        this.countyBG.setPosition(initialX, initialY);
+        
+        // Define location positions (sample data)
+    // Define location positions
+    this.locationPositions = [
+        { x: 0, y: 0 }, // Location 1
+        { x: -300, y: 0 }, // Location 2
+        { x: 0, y: 300 }, // Location 3
+        { x: 300, y: 500 }, // Location 6
+        { x: -200, y: 0 }, // Location 5
+        { x: 100, y: 200 }, // Location 4
+    ];
+
+
+        // Add event listeners to navigation buttons
+            this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress);
+        this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress);
+
+        
+        
+        
+        // Other create code...
+
+        ;
+        this.buttonNavRight = this.buttonNavRight.setInteractive().on("pointerdown", this.handleRightButtonPress.bind(this));
+        
+
+        this.buttonNavLeft = this.buttonNavLeft.setInteractive().on("pointerdown", this.handleLeftButtonPress.bind(this))
+        let location = this.locationPositions[this.playerLocation];
+
+        let isToggling = false; // Flag to track if overlay is currently toggling
+    this.overlay = this.add.container(0, 0);
+        // this.overlay.setVisible(false); // Initially hide the overlay
+        const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
+        glassbg.displayWidth = this.gameWidth;
+        glassbg.displayHeight = this.gameHeight;
+        this.overlay.add(glassbg).setDepth(3);
+        // Add middle button
+        
+        const enTextStyle = {
+            fontSize: '4em',
+            fontFamily: 'anaphora',
+            color: '#ffffff',
+            stroke: '#000000', // Stroke color
+            strokeThickness: 3, // Stroke thickness
+        };
+        
+        let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
+        this.overlay.add(enText);
+        
+        // Define behavior for pointer events (e.g., hover, click)
+      
+      
+// function toggleOverlay() {
+//     if (this.overlay !== null && this.overlay !== undefined) {
+//         this.overlay.setVisible(this.overlay.visible);
+//         setTimeout(()=>{
+//             isToggling=true;
+//         },200)
+//     }
+// }
+        this.buttonMiddle.on('pointerover', () => {
+// Set up event listener for button clicks
+this.buttonMiddle.on('pointerdown', () => {
+    if (this.isToggling) { // Check if not already toggling
+        isToggling = false; // Set flag to true
+        this.toggleOverlay();
+    }
+});
+            // Change the button texture to the lit state image when hovered
+            this.buttonMiddle.setTexture('button-middle-lit');
+            setTimeout(() => {
+                this.buttonMiddle.setTexture('button-middle');
+            },500);});
+
+
+
+    // Define mapping of province names to graphics
+
+    // Get the current province
+    const currentProvince = this.provinces[this.currentProvinceIndex];
+
+    // Check if the current province is defined
+    if (currentProvince) {
+        // Get the graphic for the current province
+        const provinceGraphicKey = this.provinceGraphics[currentProvince.enProvince];
+        
+        // Check if the graphic key exists
+        if (provinceGraphicKey) {
+            // Set the province map sprite based on the graphic key
+            this.provincialMapSprite.setTexture(provinceGraphicKey)
+            this.provincialMapSprite.alpha = 0; // Set alpha to make it visible
+        } else {
+            console.error("Graphic key not found for current province:", currentProvince.enProvince);
         }
-    });
-};
+    } else {
+        console.error("Current province is undefined.");
+    }
+
+    // Other initialization code...
+        // Create a fullscreen button sprite
+        this.fullscreenButton = this.add.sprite(50, 50, 'fullscreen').setInteractive();
+            
+        // Set up event listener for pointer events on the button sprite
+        this.fullscreenButton.on('pointerdown', this.toggleFullscreen, this);
+
+    // Function to move player and puca off-screen
+    // Function to move player and puca off-screen
+    this.moveOffScreen = (direction) => {
+        // Ensure exitPoints is initialized
+        if (!this.exitPoints) {
+            console.error('exitPoints is not initialized.');
+            return;
+        }
+
+        // Ensure direction is valid
+        if (!this.exitPoints[direction]) {
+            console.error(`No exit point found for direction: ${direction}`);
+            return;
+        }
+
+        // Access exit points based on direction
+        const exitPoint = this.exitPoints[direction];
+        const exitX = exitPoint.x;
+        const exitY = exitPoint.y;
+
+        // Debugging logs to verify the values
+        console.log(`Exit point for direction "${direction}": x=${exitX}, y=${exitY}`);
+
+        // Ensure player and puca are defined
+        if (!this.player || !this.puca) {
+            console.error('Player or Puca sprite is not initialized.');
+            return;
+        }
+
+        // Log initial positions
+        console.log(`Initial Player Position: x=${this.player.x}, y=${this.player.y}`);
+        console.log(`Initial Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
+
+        // Animate the player to move off the screen
+        this.tweens.add({
+            targets: this.player,
+            x: exitX,
+            y: exitY,
+            angle: 360, // Rotate player by 360 degrees (1 full rotation)
+            duration: 550, // Adjust the duration as needed
+            onComplete: () => {
+                console.log('Player tween completed');
+                console.log(`Final Player Position: x=${this.player.x}, y=${this.player.y}`);
+                // Optionally, hide or destroy the player sprite after moving off the screen
+                // this.player.setVisible(false);
+                // Or this.player.destroy();
+            }
+        });
+
+        // Animate the puca to move off the screen
+        this.tweens.add({
+            targets: this.puca,
+            x: exitX,
+            y: exitY,
+            duration: 400, // Adjust the duration as needed
+            onComplete: () => {
+                console.log('Puca tween completed');
+                console.log(`Final Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
+                // Optionally, hide or destroy the puca sprite after moving off the screen
+                // this.puca.setVisible(false);
+                // Or this.puca.destroy();
+
+                // Restore player and puca to center after a delay
+                setTimeout(() => {
+                    const centerX = this.cameras.main.width / 2;
+                    const centerY = this.cameras.main.height / 2;
+                    this.player.setX(centerX);
+                    this.player.setY(centerY);
+                    this.puca.setX(centerX);
+                    this.puca.setY(centerY);
+                }, 1000); // Adjust the delay as needed
+            }
+        });
+    };
 
 
-}
+    }
     
     //////////////////////////
     
@@ -756,26 +777,28 @@ this.moveOffScreen = (direction) => {
 
 
 handleMiddleButtonPress() {
-    // Check if enCurrentPlaceText and overlay are initialized
-    if (this.enCurrentPlaceText ) {
-        // Set enCurrentPlaceText and overlay to visible
-        this.enCurrentPlaceText.setVisible(true);
-    //   
-
-        // Set a timeout to hide enCurrentPlaceText and overlay after some time
-        setTimeout(() => {
-            this.enCurrentPlaceText.setVisible(false);
-            // this.overlay.setVisible(false);
-        }, 2000);
-    } else {
-        // Log an error if enCurrentPlaceText or overlay is not initialized
+    if (!this.enCurrentPlaceText || !this.overlay) {
         console.error('enCurrentPlaceText or overlay is not initialized.');
+        return;
     }
+
+    this.toggleOverlay(); // Call the toggleOverlay method
 }
 
 
  
-      
+     // Inside your scene class
+
+     toggleOverlay() {
+        if (this.overlay !== null && this.overlay !== undefined) {
+            this.overlay.setVisible(!this.overlay.visible);
+            setTimeout(() => {
+                this.isToggling = false; // Reset flag to allow future toggles
+            }, 500); // Adjust delay as needed
+        }
+    }
+
+ 
   handleLeftProvince() {
     // Check if the function is already in progress
     if (this.leftProvinceInProgress) {
