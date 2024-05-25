@@ -50,7 +50,8 @@ const BallyNeo = () => {
     };
   }, []);
 
-  return <div id="bally-neo-game-container"></div>;
+  return <div id="bally-neo-game-container">
+</div>;
 };
 
 export default BallyNeo;
