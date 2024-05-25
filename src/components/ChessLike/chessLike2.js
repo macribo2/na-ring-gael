@@ -192,7 +192,7 @@ function create() {
 
     // Add middle button
     this.buttonMiddle = this.add
-        .sprite(buttonX, this.cameras.main.height - 100, "button-middle")
+        .sprite(-500, -500, "button-middle")
         .setDepth(20)
         .setInteractive()
         .on("pointerdown", () => {
@@ -636,8 +636,8 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 function update(scene) {
-//try 24
-    if (score >=0 && !isSceneLaunched) {
+//try 25
+    if (score >=25 && !isSceneLaunched) {
         this.scene.add('NavCD', NavCD);
         // Launch the desired scene
         this.scene.launch('NavCD');
