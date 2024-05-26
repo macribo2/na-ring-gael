@@ -13,6 +13,7 @@ import FairyLand from './components/FairyLand/FairyLand';
 import BallyTown from './components/BallyTown/BallyTown';
 import BallyNeo from './components/BallyNeo/BallyNeo';
 import BallyMurphius from './components/BallyMurphius/BallyMurphius';
+import Kilcash from './components/genericLocation/genericLocation'
 
 import {Rings4} from './components/Rings/Rings4';
 
@@ -50,7 +51,7 @@ const ChessLikeWrapper = () => {
       <Route path="/ballytown" component={BallyTown} />
       <Route path="/ballyneo" component={BallyNeo} />
       <Route path="/ballymurphius" component={BallyMurphius} />
-      <Route path="/" component={App} />
+      <Route path="/connacht/galway/kilcash" component={Kilcash} />
         </Switch>
       </PlayerProvider>
     </>

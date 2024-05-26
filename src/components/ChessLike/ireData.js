@@ -1,4 +1,4 @@
-    const ireData  = {
+const ireData  = {
     "provinces": [
         {
             "enProvince": "Connacht",
@@ -10,30 +10,37 @@
                     "enCoName": "Co. Galway - stoney",
                     "locations": [
                         {
-                            "irishName": "Cill Cais",
-                            "englishName": "Kilcash"
-                        },
-
-
-                        {
-                            "irishName":"An Ċeaṫrú Rua",
                             
-                            "englishName": ""
+"url":"connacht/galway/kilcash",
+"irishName":  "Cill Cais",
+                            "englishName": "Kilcash",
+                           
+                        },
+
+
+                        {
+                            "url":"connacht/galway/carraroe",
+"irishName": "An Ċeaṫrú Rua",
+                            
+                            "englishName": "Carraroe - the red quarter"
                         },
 
                         {
-                            "irishName":"Poll an Phúca",
+                            "url":"connacht/galway/pollapuca",
+"irishName": "Poll an Phúca",
                             
                             "englishName": "The Pooka's Hole"
                         },
                         {
-                            "irishName":"An Spidéal ",
+                            "url":"connacht/galway/spiddal",
+"irishName": "An Spidéal ",
                             
-                            "englishName": "The Hospital"
+                            "englishName": "Spiddal - The Hospital"
                         },
                         {
-                            "irishName": "Inis Meáin",
-                            "englishName": ""
+                            "url":"connacht/galway/inismaan",
+"irishName":  "Inis Meáin",
+                            "englishName": "Inismaan - middle island"
                         }
      
                     ]
@@ -48,30 +55,36 @@
                 "enCoName": "Co. Leitrim - grey ridge",
                 "locations":[
                     {
-                        "irishName":"Gleann Éada",
+                        "url":"connacht/leitrim/glenade",
+"irishName": "Gleann Éada",
                         "englishName":"Glenade - lake of the glen of jealousy",
 
                     },
                     {
-                        "irishName":"Droim Seanḃó",
+                        "url":"connacht/leitrim/drumshanbo",
+"irishName": "Droim Seanḃó",
                         "englishName":"Drumshanbo  - ridge of the huts",
 
                     },{
-                        "irishName":"Aċaḋ na Síleann",
+                        "url":"connacht/leitrim/aughnasheelan",
+"irishName": "Aċaḋ na Síleann",
                         "englishName":"Aughnasheelan - Field of the fairy",
 
 
                     },{
-                        "irishName": "Fíonach",
+                        "url":"connacht/leitrim/feenagh",
+"irishName":  "Fíonach",
                         "englishName":"Feenagh - wooded place",
 
 
                     },{
-                        "irishName":"Dromad",
+                        "url":"connacht/leitrim/dromod",
+"irishName": "Dromad",
                         "englishName":"Dromod - long ridge"
 
                     },{
-                        "irishName":"Garḃach",
+                        "url":"connacht/leitrim/garvagh",
+"irishName": "Garḃach",
                         "englishName":"Garvagh - rough land",
 
                     },
@@ -87,29 +100,35 @@
             "enCoName": "Mayo - plain of the yew",
             "locations":[
                 {
-                    "irishName": "Cill Ala",
+                    "url":"connacht/mayo/killala",
+"irishName":  "Cill Ala",
             
-                    "englishName":"",
+                    "englishName":"Killala - the mottled church",
 
                 },
                 {
-                    "irishName":"Caisleán an Ḃarraiġ",
+                    "url":"connacht/mayo/castlebar",
+"irishName": "Caisleán an Ḃarraiġ",
+                    "englishName":"Castlebar - Barry's castle",
+
+                },{
+                    "url":"",
+"irishName":  "Baile Ui Ḟiacáin",
                     "englishName":"",
 
                 },{
-                    "irishName": "Baile Ui Ḟiacáin",
-                    "englishName":"",
-
-                },{
-                    "irishName": "An Caoláire Rua",
+                    "url":"",
+"irishName":  "An Caoláire Rua",
                     "englishName": ""
 
                 },{
-                    "irishName": "An Éill",
+                    "url":"",
+"irishName":  "An Éill",
                     "englishName":"",
 
                 },{
-                    "irishName":"Lios an tSaṁaiḋ",
+                    "url":"",
+"irishName": "Lios an tSaṁaiḋ",
                     "englishName":"",
 
                 },
@@ -126,36 +145,42 @@
 
     "locations":[
         {
-            "irishName":       "Cluain Fada",
+            "url":"",
+"irishName":        "Cluain Fada",
             "englishName":      "Cloodfad - long meadow",
 
 
         },
         {
-            "irishName":      "Baile an Tobair",
+            "url":"",
+"irishName":       "Baile an Tobair",
 
             "englishName":            "Baile an Tobair",
 
         },{
-            "irishName":      "Loch Bó Finne",
+            "url":"",
+"irishName":       "Loch Bó Finne",
             "englishName":
             "Lough Bofin - lake of the blonde cow",
 
 
         },{
-            "irishName":"Scramóg",
+            "url":"",
+"irishName": "Scramóg",
             
             "englishName":"Scramóg",
 
 
         },{
-            "irishName":"Loch Bó Dearge",
+            "url":"",
+"irishName": "Loch Bó Dearge",
            
             "englishName":"Lough Boderg - lake of the red cow",
 
 
         },{
-            "irishName": "Corr na Fola",
+            "url":"",
+"irishName":  "Corr na Fola",
             "englishName":"Cornafulla - hill of the blood"
 
         },
@@ -170,28 +195,34 @@
     "enCoName": "Sligo - shelly place",
     "locations":[
         {
-            "irishName": "Béal Átha na gCarraigíní",
+            "url":"",
+"irishName":  "Béal Átha na gCarraigíní",
             "englishName":"Bellanagarrigeeny - Ford of the flagstone",
 
         },
         {
-            "irishName":"An Mullach Mór",
+            "url":"",
+"irishName": "An Mullach Mór",
             "englishName": "Mullaghmore - the great summit",
 
         },{
-            "irishName":"Uaimheanna na Céise",
+            "url":"",
+"irishName": "Uaimheanna na Céise",
             "englishName":"Keshcorrn Caves",
 
         },{
-            "irishName":"Machaire Eabha",
+            "url":"",
+"irishName": "Machaire Eabha",
             "englishName":"Maugherow - the plain of Eabha",
 
         },{
-            "irishName": "Baile Uí Ḋálaigh",
+            "url":"",
+"irishName":  "Baile Uí Ḋálaigh",
             "englishName": "Ballydawley - home of the O Dalys",
 
         },{
-            "irishName": "Tobar an Ċoire",
+            "url":"",
+"irishName":  "Tobar an Ċoire",
             "englishName":"Tobercurry - well of the cauldron"
 
         },
@@ -215,28 +246,34 @@
                     "locations": [
                         {
                             
-                            "irishName": "Fionnġlas",
+                            "url":"",
+"irishName":  "Fionnġlas",
                             "englishName":  "Finglas - Clear streamlet",
                         },
                         {
                             
-                            "irishName":  "Cluain Dolcáin",
+                            "url":"",
+"irishName":   "Cluain Dolcáin",
                             "englishName":   "Clondalkin - Dolcan's meadow",
                         },{
                             
-                            "irishName": "Cluain Tarbh",
+                            "url":"",
+"irishName":  "Cluain Tarbh",
                             "englishName": "Clontarf - Meadow of Bulls ",
                         },{
                             
-                            "irishName": "Binn Éadair",
+                            "url":"",
+"irishName":  "Binn Éadair",
                             "englishName":  "Howth - Éadar's peak",
                         },{
                             
-                            "irishName": "Dún Laoiġaire",
+                            "url":"",
+"irishName":  "Dún Laoiġaire",
                             "englishName":   "Dun Laoghaire - Fort of High King Laoghaire Mac Néill"
                         },{
                             
-                            "irishName": "Deilginis",
+                            "url":"",
+"irishName":  "Deilginis",
                             "englishName":"Dalkey - Thorn Island"
                         },
                     ]
@@ -248,28 +285,34 @@
                     "enCoName": "Co. Westmeath - West Middle, \nfrom the old Province of Meath.",
                     "locations":[
                         {
-                            "irishName": "Baile na gCailleach",
+                            "url":"",
+"irishName":  "Baile na gCailleach",
                             "englishName":"Collinstown - town of the veiled women or town of the hags",
     
                         },
                         {
-                            "irishName":"Ráth Ḟearna",
+                            "url":"",
+"irishName": "Ráth Ḟearna",
                             "englishName":"Raharney - Fearna's ringfort",
                             
                         },{
-                            "irishName":"Tulaigh an Eallaigh",
+                            "url":"",
+"irishName": "Tulaigh an Eallaigh",
                             "englishName":"Tullynally - hillock of the swans",
     
                         },{
-                            "irishName":"Na Colúir",
+                            "url":"",
+"irishName": "Na Colúir",
                             "englishName":"Corlis - the pidgeons",
     
                         },{
-                            "irishName":"Cill Ḃeagáin",
+                            "url":"",
+"irishName": "Cill Ḃeagáin",
                             "englishName":"Kilbeggan - church of Bécán, distinguished Irish Saint",
                             
                         },{
-                            "irishName":"An Muileann gCearr",
+                            "url":"",
+"irishName": "An Muileann gCearr",
                             "englishName":"Mullingar - the crooked mill",
                             
                         },
@@ -285,33 +328,39 @@
                 "enCoName": "carlow, from cethir, a four-footed animal \nthe place of herds",
                 "locations":[
                     {
-                        "irishName":
+                        "url":"",
+"irishName": 
                         "Baile Uí Ṁurċú",
                         
                         "englishName":"...",
 
                     },
                     {
-                        "irishName":"Baile Haicéid",
+                        "url":"",
+"irishName": "Baile Haicéid",
                         
                         "englishName":"",
 
                     },{
-                        "irishName":"An Ḃuiríos",
+                        "url":"",
+"irishName": "An Ḃuiríos",
                         
                         "englishName":"",
 
                     },{
-                        "irishName":"Miseal",
+                        "url":"",
+"irishName": "Miseal",
                         
                         "englishName":"",
 
                     },{
-                        "irishName":"Cill Daṁáin",
+                        "url":"",
+"irishName": "Cill Daṁáin",
                         "englishName":"",
 
                     },{
-                        "irishName":"Cill Deirge"
+                        "url":"",
+"irishName": "Cill Deirge"
                         ,
                         "englishName":"",
 
@@ -328,32 +377,38 @@
             "enCoName": "Co. Kildare - church of the oak",
             "locations":[
                 {
-                    "irishName":             "Cairbre",
+                    "url":"",
+"irishName":              "Cairbre",
               
                     "englishName":"",
 
                 },
                 {
-                    "irishName":      "Na Solláin",
+                    "url":"",
+"irishName":       "Na Solláin",
               
                     "englishName":"",
 
                 },{
-                    "irishName":      "Fioḋ Alúine",
+                    "url":"",
+"irishName":       "Fioḋ Alúine",
                     "englishName":"",
 
                 },{
-                    "irishName":      "Maigh Nuad",
+                    "url":"",
+"irishName":       "Maigh Nuad",
               
                     "englishName":"",
 
                 },{
-                    "irishName":      "An Currach",
+                    "url":"",
+"irishName":       "An Currach",
               
                     "englishName":"",
 
                 },{
-                    "irishName":      "Léim an Ḃradáin"
+                    "url":"",
+"irishName":       "Léim an Ḃradáin"
                     ,
                     "englishName":"",
 
@@ -369,33 +424,39 @@
         "enCoName": "Co. kilkenny",
         "locations":[
             {
-                "irishName":      "Ġráinseaċ Ċuffe",
+                "url":"",
+"irishName":       "Ġráinseaċ Ċuffe",
                 
                 "englishName":"",
 
             },
             {
-                "irishName":"Baile Ṁic Andáin",
+                "url":"",
+"irishName": "Baile Ṁic Andáin",
                 
                 "englishName":"",
 
             },{
-                "irishName":"Bearna na Gaoiṫe",
+                "url":"",
+"irishName": "Bearna na Gaoiṫe",
                 
                 "englishName":"",
 
             },{
-                "irishName":"Dún Garḃáin",
+                "url":"",
+"irishName": "Dún Garḃáin",
                 
                 "englishName":"",
 
             },{
-                "irishName":"Baile an Ṗoill",
+                "url":"",
+"irishName": "Baile an Ṗoill",
                 
                 "englishName":"",
 
             },{
-                "irishName":"Sliaḃ Rua",
+                "url":"",
+"irishName": "Sliaḃ Rua",
                 "englishName":"",
 
             },
@@ -411,24 +472,30 @@
     "enCoName": "Co. Laois - Uí Laoighis, people of Lugaid Laígne",
     "locations":[
         {
-            "irishName":"Eiréil ",
+            "url":"",
+"irishName": "Eiréil ",
             "englishName": "Errill - bed or tomb",
         },
         {
-            "irishName":"Darú",
+            "url":"",
+"irishName": "Darú",
             "englishName":"Durrow - the oak plain",
            },{
-            "irishName":"An Baile Fionn",
+            "url":"",
+"irishName": "An Baile Fionn",
                "englishName":"Ballyfin - the town of finn",
         },{
-            "irishName": "Droichead Crom Abú",
+            "url":"",
+"irishName":  "Droichead Crom Abú",
                "englishName": "Crom-a-Boo Bridge - Castle Crom forever bridge",
    
         },{
-            "irishName":"Cúil an tSúdaire",
+            "url":"",
+"irishName": "Cúil an tSúdaire",
             "englishName":"Portarlington - nook of the tanner'",
         },{
-            "irishName":"Buiríos Mór Osraí",
+            "url":"",
+"irishName": "Buiríos Mór Osraí",
             "englishName": "Borris-in-Ossory - Borrough of the ancient Kingdom of Osraige"
            },
 
@@ -441,32 +508,38 @@
     "enCoName": "Longford - the port. A term of Irish chroniclers to describe Viking ship enclosure / fortress.",
     "locations":[
         {
-            "irishName":"An Lios Breac",
+            "url":"",
+"irishName": "An Lios Breac",
         
             "englishName":"Lisbrack - the speckled ringfort",
       
 
         },
         {
-            "irishName":"Meathais Troim",
+            "url":"",
+"irishName": "Meathais Troim",
             "englishName":"Mostrim - frontier of the elder tree",
 
 
         },{
-            "irishName":"Gránard",
+            "url":"",
+"irishName": "Gránard",
             "englishName":"Granard - possibly meaning sun height or hill of the sun.",
 
 
         },{
-            "irishName":"Cluain Dá Ráth",
+            "url":"",
+"irishName": "Cluain Dá Ráth",
             "englishName":"Cloondara - the meadow of two ringforts",
 
 
         },{
-            "irishName":"Maiġ Duṁa",
+            "url":"",
+"irishName": "Maiġ Duṁa",
             "englishName":"Moydow - plain of the mound",
         },{
-            "irishName":"An Ċarraig Ḃuí",
+            "url":"",
+"irishName": "An Ċarraig Ḃuí",
             "englishName":"Carrigboy - the yellow stone"
         },
 
@@ -480,25 +553,31 @@
     "enCoName": "County of the village of Lugh of the Tuatha Dé Danann.",
     "locations":[
         {
-            "irishName":"Dún Dealgan",
+            "url":"",
+"irishName": "Dún Dealgan",
             "englishName":"Dundalk - fort of Dealgan, Fir Bolg Chieftain",
       
 
         },
         {
-            "irishName": "An Grianfort",
+            "url":"",
+"irishName":  "An Grianfort",
            "englishName":"Greenore - the sun fort",
               },{
-            "irishName":"Ceann Ċloċair",
+            "url":"",
+"irishName": "Ceann Ċloċair",
             "englishName":"Clogherhead - rocky headland",
         },{
-            "irishName":"Baile Átha Ḟirdia",
+            "url":"",
+"irishName": "Baile Átha Ḟirdia",
             "englishName":"Ardee - te ford of Ferdi",
        },{
-            "irishName":"Poll an Phúca",
+            "url":"",
+"irishName": "Poll an Phúca",
             "englishName":"Puckstown - hole of the Pooka",
         },{
-            "irishName": "Baile an Ġearlánaigh",
+            "url":"",
+"irishName":  "Baile an Ġearlánaigh",
             "englishName":"Castlebellingham - Gernon’s Town"
         },
 
@@ -513,32 +592,38 @@
    
     "locations":[
         {
-            "irishName":"Cluain Ṁic Nóis",
+            "url":"",
+"irishName": "Cluain Ṁic Nóis",
             "englishName":"Clonmacnoise  - Meadow of the Sons of Nós ",
             
 
         },
         {
-            "irishName":"Éadan Doire",
+            "url":"",
+"irishName": "Éadan Doire",
             "englishName": "Edenderry - Hill-brow of the oak wood ",
 
         },{
-            "irishName":"Biorra",
+            "url":"",
+"irishName": "Biorra",
             "englishName":"Birr - plain of water ",
       
 
         },{
-            "irishName":"Cionn Eitigh",
+            "url":"",
+"irishName": "Cionn Eitigh",
             "englishName":"The head of Princess Eitigh ( Kinnitty )",
       
 
         },{
-            "irishName":"Ráth Iomġáin",
+            "url":"",
+"irishName": "Ráth Iomġáin",
             "englishName":"Iomgháin's ring-fort ( Rathangan )",
       
 
         },{
-            "irishName":  "Suí an Róin",
+            "url":"",
+"irishName":   "Suí an Róin",
             "englishName":"Seat of the seal ( Shinrone )"
 
         },
@@ -554,32 +639,38 @@
     "enCoName": "Meath - the middle",
     "locations":[
         {
-            "irishName":"An Uaimh",
+            "url":"",
+"irishName": "An Uaimh",
              "englishName":"Navan - the cave",
                },
         {
-            "irishName": "Ráth Ċairn",
+            "url":"",
+"irishName":  "Ráth Ċairn",
              "englishName":"Rathcairn -  ring-fort pile of rocks",
 
 
         },{
-            "irishName": "Cill Ḃríde",
+            "url":"",
+"irishName":  "Cill Ḃríde",
             "englishName":"Kilbride - Church of St Bridget",
 
 
         },{
-            "irishName":  "Teamhair",
+            "url":"",
+"irishName":   "Teamhair",
             "englishName":"sacred space, elevated place",
 
 
         },{
-            "irishName":  "Buaile na Bréachṁaí ",
+            "url":"",
+"irishName":   "Buaile na Bréachṁaí ",
           
             "englishName":"Ballinabrackey - Summer pasture of the wolf-plain",
 
 
         },{
-            "irishName":"Tigh na Sióg",
+            "url":"",
+"irishName": "Tigh na Sióg",
             "englishName":"Fairyhouse"
         },
 
@@ -593,25 +684,31 @@
     "enCoName": "Co. Wexford - fjord of the mud flats",
     "locations":[
         {
-            "irishName":"Coill an Iarainn",
+            "url":"",
+"irishName": "Coill an Iarainn",
             "englishName":"Killinierin - Forest of Iron",
                     },
         {
-            "irishName":"Inis Córṫaidh",
+            "url":"",
+"irishName": "Inis Córṫaidh",
             "englishName":"Enniscorthy - Island of Rocks",
                         
         },{
-            "irishName":"Poll an Phúca",
+            "url":"",
+"irishName": "Poll an Phúca",
             "englishName":"Pollaphuca - Hole of the Pooka",
                        
         },{
-            "irishName":"Maolán na nGaḃar",
+            "url":"",
+"irishName": "Maolán na nGaḃar",
             "englishName":"Mullinagore - The Grazing of Goats",
         },{
-            "irishName":"An Abhainn Dubh",
+            "url":"",
+"irishName": "An Abhainn Dubh",
             "englishName":"Owenduff - The Black River",
         },{
-            "irishName":"Dún Ċormaic",
+            "url":"",
+"irishName": "Dún Ċormaic",
             "englishName":"Duncormick - Cormac's fort"
         },
 
@@ -627,27 +724,33 @@
     "enCoName": "Co. wicklow - Vikinga-ló meadow of the Vikings. \nIn Irish, Church of the Toothless One, after 'Mantan', contemporary of St. Patrick \nhad his teeth knocked out by Irish pagans.",
     "locations":[
         {
-            "irishName":"Poll an Ṗúca",
+            "url":"",
+"irishName": "Poll an Ṗúca",
             "engName":"Hole of the Pooka",
         },
         {
-            "irishName":  "Na Cloċa Liaṫa",
+            "url":"",
+"irishName":   "Na Cloċa Liaṫa",
             "englishName": "The grey stones",
         },{
-            "irishName":"Siol Éalaiġ",
+            "url":"",
+"irishName": "Siol Éalaiġ",
             "englishName":"Shillelagh - thonged willow",
 
 
         },{
-            "irishName":"Dún Ard",        
+            "url":"",
+"irishName": "Dún Ard",        
             "englishName":  "Donard - high fortress",
 
         },{
-            "irishName":"An tInḃear Mór",
+            "url":"",
+"irishName": "An tInḃear Mór",
             "englishName":"Arklow - meadow of Arnkell. The Great Estuary",
 
         },{
-            "irishName":"Aḃóca"
+            "url":"",
+"irishName": "Aḃóca"
             ,
             "englishName":"From Oboka, a river in Ptolemy's Geography"
 
@@ -673,33 +776,39 @@
                     "locations": [
                         {
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":      "Rathlin - the rugged island",
                             
                         },
                         {
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":"Dervock - oak plantation",
                             
                         },{
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":"Ahoghill - field of the yew forest",
                             
                         },{
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":"Cairn of Queen Maeve",
                             
                         },{
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":"Carrickfergus - Fergus' rock",
                             
                         },{
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":"Belfast - mouth of river Farset"
                         
                         },
@@ -717,37 +826,43 @@
 
             "locations": [
                 {
-                    "irishName":"Cionn Dhún Damh",
+                    "url":"",
+"irishName": "Cionn Dhún Damh",
                                 "englishName":      "Dunaff Head - Headland of the Stag",
                 },
                     {
                         
-                        "irishName":"Baile idir Dhá Abhainn"
+                        "url":"",
+"irishName": "Baile idir Dhá Abhainn"
 ,
                         "englishName":"Ballyederowen - town between two rivers",
      
                 },
                 {
                         
-                    "irishName":"Sléiḃte Ḋoire Ḃeatha",
+                    "url":"",
+"irishName": "Sléiḃte Ḋoire Ḃeatha",
                     "englishName":" Derryveagh  - Mountain of the living oaks",
 
             },
             {
                         
-                "irishName":"Leitir Ceanainn",
+                "url":"",
+"irishName": "Leitir Ceanainn",
                 "englishName":"Letterkenny - hillside of the O'Cannons",
 
         },
         {
                         
-            "irishName":"Bealach Féich",
+            "url":"",
+"irishName": "Bealach Féich",
             "englishName":"Ballybofey - Fiach's pass",
 
     },
     {
                         
-        "irishName":"Na Cruacha Gorma",
+        "url":"",
+"irishName": "Na Cruacha Gorma",
         "englishName":"Croaghgorm - the blue stack mountains"
 
 },
@@ -758,40 +873,46 @@
             {
                 "name":"fermanagh",
                 "gaCoName": "Co. Ḟear Manaċ",
-                "enCoName": "Co. Fermanagh - Men of Magh Eanagh, Country of the Lakes",
+                "enCoName": "Co. Fermanagh - Men of Magh Eanagh, \nCountry of the Lakes",
 
     
                 "locations": [
                     {
                         
-                        "irishName": "An Garastún",
+                        "url":"",
+"irishName":  "An Garastún",
                         "englishName":"Garrison",
                     },
                     {
                                 
                           
                      
-                        "irishName":"Paiteagó",
+                        "url":"",
+"irishName": "Paiteagó",
                         "englishName":"Picts: they spoke a language like the Welsh. The great test-word in place-names is Pet. Same as Gaelic 'Baile' which in-fact replaces it. - logainm.ie",
                     },
                     {
-                        "irishName": "Eadarnaiḋ",
+                        "url":"",
+"irishName":  "Eadarnaiḋ",
                         "englishName": "Ederney - middle place/place between",
 
                     },
                     {
-                        "irishName": "Lios na Daróg",
+                        "url":"",
+"irishName":  "Lios na Daróg",
                         "englishName":"Ringfort of the Oak",
                     },
                     {
                                 
         
                      
-                        "irishName": "Scriobaċ",
+                        "url":"",
+"irishName":  "Scriobaċ",
                         "englishName":"Scraping | Scribing",
                     },
                     {
-                        "irishName": "Inis Ceiṫleann",
+                        "url":"",
+"irishName":  "Inis Ceiṫleann",
                         "englishName":"Isle of Cethleann the Prophet, wife of Balor the Smiter."
                    
                     }]
@@ -807,33 +928,39 @@
                     "locations": [
                         {
                             
-                            "irishName":"Doire",
+                            "url":"",
+"irishName": "Doire",
                       
                             "englishName":"Derry - oak grove",
 
                         },        {
                             
-                            "irishName":"Léim an Ṁadaiḋ",
+                            "url":"",
+"irishName": "Léim an Ṁadaiḋ",
                       
                             "englishName":           "Limavady - leap of the dog",
                             
                         },        {
                             
-                            "irishName":"Maċaire Ráṫa",
+                            "url":"",
+"irishName": "Maċaire Ráṫa",
                             "englishName":"An Seanṁullach",
                             
                         },        {
                             
-                            "irishName":"Muine Mór"
+                            "url":"",
+"irishName": "Muine Mór"
                             ,
                             "englishName":  "",
                         },        {
                             
-                            "irishName":"Droichead Fíolta",
+                            "url":"",
+"irishName": "Droichead Fíolta",
                             "englishName":  "",
                         },        {
                             
-                            "irishName": "",
+                            "url":"",
+"irishName":  "",
                             "englishName":  "",
                         }]
                     }
@@ -849,35 +976,41 @@
                         "locations": [
                             {
                                 
-                                "irishName":       "An Lorgain",
+                                "url":"",
+"irishName":        "An Lorgain",
 
                                 "englishName":  "",
                             },
                             {
                                 
-                                "irishName":                                 "Lios na gCearrḃach",
+                                "url":"",
+"irishName":                                  "Lios na gCearrḃach",
                                 "englishName":  "",
                             },
                             {
                                 
-                                "irishName":
+                                "url":"",
+"irishName": 
                                 "An Caisleán Riaḃach",
                                
                                 "englishName":  "",
                             },                            {
                                 
-                                "irishName":  "An Ṁainistir Liath",
+                                "url":"",
+"irishName":   "An Ṁainistir Liath",
                                 
                                 "englishName":  "",
                             },                            {
                                 
-                                "irishName": "Dún Pádraig",
+                                "url":"",
+"irishName":  "Dún Pádraig",
                                 
                                 "englishName":  "",
                             }
                             ,                            {
                                 
-                                "irishName": "Cill Ċaoil",
+                                "url":"",
+"irishName":  "Cill Ċaoil",
                                 "englishName":  "",
                             },
                         
@@ -894,38 +1027,44 @@
                     "locations": [
                         {
                             
-                            "irishName": "Sráid na nAlbanach",
+                            "url":"",
+"irishName":  "Sráid na nAlbanach",
                             
                             "englishName":  "",
                         },
                     
                         {
                             
-                            "irishName": "Craigavon",
+                            "url":"",
+"irishName":  "Craigavon",
                             
                             "englishName":  "",
                         },
                         {
                             
-                            "irishName": "Port An Dúnáin",
+                            "url":"",
+"irishName":  "Port An Dúnáin",
                             
                             "englishName":  "",
                         },
                         {
                             
-                            "irishName": "Baile Úr",
+                            "url":"",
+"irishName":  "Baile Úr",
                            
                             "englishName":  "",
                         },
                         {
                             
-                            "irishName":  "Baile an Ṁuilinn",
+                            "url":"",
+"irishName":   "Baile an Ṁuilinn",
                            
                             "englishName":  "",
                         },
                         {
                             
-                            "irishName":  "Lios Liath",
+                            "url":"",
+"irishName":   "Lios Liath",
                             "englishName":  "",
                         },
                                       ]
@@ -936,43 +1075,49 @@
                 {
                     "name":"monaghan",
 "gaCoName": "Co. Muineachán",
-                    "enCoName": "Co. Monaghan - land of the little hills / bushy / hilly field",
+                    "enCoName": "Co. Monaghan - land of the little \nhills / bushy / hilly field",
 
         
                     "locations": [
                         {
                             
-                            "irishName":       "Scairbh na gCaorach",
+                            "url":"",
+"irishName":        "Scairbh na gCaorach",
 
                             "englishName":  "",
                         
                         },                        {
                             
-                            "irishName":                             "Cluain Eois",
+                            "url":"",
+"irishName":                              "Cluain Eois",
                             
                             "englishName":  "",
                         
                         },                        {
                             
-                            "irishName": "Einistir Ḃuithe",
+                            "url":"",
+"irishName":  "Einistir Ḃuithe",
                             
                             "englishName":  "",
                         
                         },                        {
                             
-                            "irishName": "Teach an Scotaigh",
+                            "url":"",
+"irishName":  "Teach an Scotaigh",
                             "englishName":  "",
                         
                         },                        {
                             
-                            "irishName": 
+                            "url":"",
+"irishName":  
                             "Crícheán Rua",
 
                             "englishName":  "",
                         
                         },                        {
                             
-                            "irishName":                             "Carraig Ṁaċaire Rois",
+                            "url":"",
+"irishName":                              "Carraig Ṁaċaire Rois",
                             "englishName":  "",
                         
                         },
@@ -989,38 +1134,44 @@
                     "locations": [
                         {
                             
-                            "irishName":"Doire na Criaḋ",
+                            "url":"",
+"irishName": "Doire na Criaḋ",
                             "englishName":    "Derrynacreeve - Oakwood of the clay",
                       
                         },
                         {
                             
-                            "irishName": "An Cnoc Rua",
+                            "url":"",
+"irishName":  "An Cnoc Rua",
                             
                             "englishName":           "Redhills - the red hill",
 
                         
                         },                        {
                             
-                            "irishName": "Béal Tairbirt",
+                            "url":"",
+"irishName":  "Béal Tairbirt",
                               
                             "englishName":                "Belturbet - mouth of the isthmus",
 
                         
                         },  {
                             
-                            "irishName": "An Dromainn",
+                            "url":"",
+"irishName":  "An Dromainn",
                             
                             "englishName":              "The ridge",
                         
                         },                        {
                             
-                            "irishName": "Dún an Rí",
+                            "url":"",
+"irishName":  "Dún an Rí",
                             
                             "englishName": "Dunaree - fort of the king",
                                                 },                        {
                             
-                            "irishName": "Lios Cré",
+                            "url":"",
+"irishName":  "Lios Cré",
                             "englishName": "Lisgrea - ringfort of earth"
                        
                         },                                ,]
@@ -1036,46 +1187,52 @@
         "counties": [
             {
                 "gaCoName": "Co. An Ċláir",
-                "enCoName": "Co. Clare - may come from the Norman de Clare family, who took their name from Clare in England, from the Latin clarus, 'clear'. Clár is a plain, in Irish.",
+                "enCoName": "Co. Clare - may come from the Norman de Clare family, \nwho took their name from Clare in England, \nfrom the Latin clarus, 'clear'. \nClár is a plain, in Irish.",
    
                 "locations": [
                     {
-                        "irishName":  
+                        "url":"",
+"irishName":   
                         "Bun Raite"
                       , 
                         "englishName": ""
                     },
                     {
                             
-                        "irishName":    "Ceann Boirne",
+                        "url":"",
+"irishName":     "Ceann Boirne",
                         
                         "englishName":  "",
                     
                     },
                     {
                             
-                        "irishName": "Fíoch Rua",
+                        "url":"",
+"irishName":  "Fíoch Rua",
                         
                         "englishName":  "",
                     
                     },
                     {
                             
-                        "irishName": "An Tulach",
+                        "url":"",
+"irishName":  "An Tulach",
                         
                         "englishName":  "",
                     
                     },
                     {
                             
-                        "irishName": "Cill Rois",
+                        "url":"",
+"irishName":  "Cill Rois",
                         
                         "englishName":  "",
                     
                     },
                     {
                             
-                        "irishName": "Leaba Ṡíoda",
+                        "url":"",
+"irishName":  "Leaba Ṡíoda",
                         "englishName":  "",
                     
                     },                        
@@ -1088,20 +1245,23 @@
        
                     "locations": [
                         {
-                            "irishName": 
+                            "url":"",
+"irishName":  
                             "Cathair Saiḋḃín",
                             
                             "englishName": ""
                         },
                         {
                                 
-                            "irishName": "An Daingean",
+                            "url":"",
+"irishName":  "An Daingean",
                             "englishName":  "",
                         
                         },
                         {
                                 
-                            "irishName": 
+                            "url":"",
+"irishName":  
                             "Gleann na bPúcaí",
                             
                             "englishName":  "",
@@ -1109,13 +1269,15 @@
                         },
                         {
                                 
-                            "irishName": "Sliabh Mis",
+                            "url":"",
+"irishName":  "Sliabh Mis",
                             "englishName":  "",
                         
                         },
                         {
                                 
-                            "irishName": 
+                            "url":"",
+"irishName":  
                             "Na Cruaċa Duḃa",
                             
                             "englishName":  "",
@@ -1123,7 +1285,8 @@
                         },
                         {
                                 
-                            "irishName": "An tSnaidhm",
+                            "url":"",
+"irishName":  "An tSnaidhm",
                             "englishName":  "",
                         
                         }
@@ -1135,13 +1298,15 @@
 
     "locations": [
         {
-            "irishName":       "Cill na Mallaċ",
+            "url":"",
+"irishName":        "Cill na Mallaċ",
             
             "englishName":       "Church of the Summits (Buttevant)",
         },
         {
                 
-            "irishName": "Sliabh an Nóglaigh",
+            "url":"",
+"irishName":  "Sliabh an Nóglaigh",
             
             "englishName":  
             "Nagles mountains - volunteers mountain",
@@ -1149,7 +1314,8 @@
         },
         {
                 
-            "irishName":"Gleann an Ṗreaċáin",
+            "url":"",
+"irishName": "Gleann an Ṗreaċáin",
            
             "englishName": 
             "Glenville - glen of the crows",
@@ -1157,22 +1323,25 @@
         },
         {
                 
-            "irishName":  "Beal na mḂláth",
+            "url":"",
+"irishName":   "Beal na mḂláth",
             
             "englishName":  
-            "Bealnablath - Mouth of the ford of the buttermilk "
+            "Bealnablath - Mouth of the flower;\nford of the buttermilk "
         
         },
         {
                 
-            "irishName": "Cionn tSáile",
+            "url":"",
+"irishName":  "Cionn tSáile",
             
             "englishName":  "Kinsale - head of the brine"
         
         },
         {
                 
-            "irishName": "An Sciobairín",
+            "url":"",
+"irishName":  "An Sciobairín",
             "englishName":  
             "Skibbereen - little boat harbour"
         
@@ -1181,19 +1350,21 @@
     }
 ,            {
     "gaCoName": "Co. Luimnach",
-    "enCoName": "Co. Limerick - after the city of Limerick, 'bare spot'. \n Vikings called it Hlymrekr, 'mighty noise'",
+    "enCoName": "Co. Limerick - after the city of Limerick,\n 'bare spot'.  Vikings called it Hlymrekr,\n 'mighty noise'",
 
     "locations": [
         {
-            "irishName":  "Pailis Ċaonraí",
+            "url":"",
+"irishName":   "Pailis Ċaonraí",
       
             "englishName": 
-            "Pallaskenry - the palisaded Castle of Kenry",
+            "Pallaskenry - the palisaded \nCastle of Kenry",
          
         },
         {
                 
-            "irishName":             "Poll an Phúca",
+            "url":"",
+"irishName":              "Poll an Phúca",
 
             "englishName":           "Poulaphouca - the Pooka's hole",
    
@@ -1201,7 +1372,8 @@
         },
         {
                 
-            "irishName":             "Caisleán Uí Ċonaill",
+            "url":"",
+"irishName":              "Caisleán Uí Ċonaill",
 
             "englishName":          "Castleconnell - O Connell's Castle",
    
@@ -1209,7 +1381,8 @@
         },
         {
                 
-            "irishName":             "Áth na bḞuinseog",
+            "url":"",
+"irishName":              "Áth na bḞuinseog",
 
             "englishName":           "Ford of the Ash",
    
@@ -1217,7 +1390,8 @@
         },
         {
                 
-            "irishName":             "An Ḟeoṫanaċ",
+            "url":"",
+"irishName":              "An Ḟeoṫanaċ",
  
             "englishName":           "An Ḟeoṫanaċ",
    
@@ -1225,7 +1399,8 @@
         },
         {
                 
-            "irishName":            "Brú Rí"
+            "url":"",
+"irishName":             "Brú Rí"
             ,
             "englishName":           "Bruree - Abode of kings"
    
@@ -1245,13 +1420,15 @@
 
     "locations": [
         {
-            "irishName": "Ros Cré",
+            "url":"",
+"irishName":  "Ros Cré",
             
             "englishName":   "Roscrea - Crea's wood",
         },
         {
                 
-            "irishName": "Durlas",
+            "url":"",
+"irishName":  "Durlas",
             
             "englishName": 
             "Thurles - Durlas Éile - strong fort of the Eli people",
@@ -1260,14 +1437,16 @@
         },
         {
                 
-            "irishName": "Faiċe Ró",
+            "url":"",
+"irishName":  "Faiċe Ró",
             
             "englishName":  "Faiche Ro - Rosegreen",
         
         },
         {
                 
-            "irishName": "Sliabh na mBan",
+            "url":"",
+"irishName":  "Sliabh na mBan",
             
             "englishName": 
             "Slievenamo - The Women's mountain",
@@ -1276,14 +1455,16 @@
         },
         {
                 
-            "irishName": "Cluain Meala",
+            "url":"",
+"irishName":  "Cluain Meala",
            
             "englishName":    "Clonmel - honey meadow",
         
         },
         {
                 
-            "irishName":  "Tigh na Naoi Míle",
+            "url":"",
+"irishName":   "Tigh na Naoi Míle",
             "englishName":  
             "Ninemilehouse - nine miles from Glenbower"
         
@@ -1295,45 +1476,51 @@
     "gaCoName":
     "Co. Ṗort Láirge",
  
-    "enCoName": "Co. Waterford -  Veðrafjǫrðr 'ram fjord'. Port Láirge means 'Larag's port'",
+    "enCoName": "Co. Waterford -  \nVeðrafjǫrðr 'ram fjord'.\n Port Láirge means 'Larag's port'",
 
     "locations": [
         {
-            "irishName": 
+            "url":"",
+"irishName":  
                 "Sléiḃte an Ċomaraigh",
              
             "englishName": ""
         },
         {
                 
-            "irishName":     "An Baile Dubh",
+            "url":"",
+"irishName":      "An Baile Dubh",
         
             "englishName":  "",
         
         },
         {
                 
-            "irishName":     "Tullach an Iarainn",
+            "url":"",
+"irishName":      "Tullach an Iarainn",
         
             "englishName":  "",
         
         },
         {
                 
-            "irishName":     "Cluain Ḟia",
+            "url":"",
+"irishName":      "Cluain Ḟia",
             "englishName":  "",
         
         },
         {
                 
-            "irishName":     "Dún Garḃán",
+            "url":"",
+"irishName":      "Dún Garḃán",
         
             "englishName":  "",
         
         },
         {
                 
-            "irishName":     "Cill Ṁíodáin"
+            "url":"",
+"irishName":      "Cill Ṁíodáin"
         
             ,
             "englishName":  "",
