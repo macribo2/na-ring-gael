@@ -758,7 +758,7 @@
             {
                 "name":"fermanagh",
                 "gaCoName": "Co. Ḟear Manaċ",
-                "enCoName": "Co. Fermanagh - Men of Magh Eanagh, Country of the Lakes",
+                "enCoName": "Co. Fermanagh - Men of Magh Eanagh, \nCountry of the Lakes",
 
     
                 "locations": [
@@ -936,7 +936,7 @@
                 {
                     "name":"monaghan",
 "gaCoName": "Co. Muineachán",
-                    "enCoName": "Co. Monaghan - land of the little hills / bushy / hilly field",
+                    "enCoName": "Co. Monaghan - land of the little \nhills / bushy / hilly field",
 
         
                     "locations": [
@@ -1036,7 +1036,7 @@
         "counties": [
             {
                 "gaCoName": "Co. An Ċláir",
-                "enCoName": "Co. Clare - may come from the Norman de Clare family, who took their name from Clare in England, from the Latin clarus, 'clear'. Clár is a plain, in Irish.",
+                "enCoName": "Co. Clare - may come from the Norman de Clare family, \nwho took their name from Clare in England, \nfrom the Latin clarus, 'clear'. \nClár is a plain, in Irish.",
    
                 "locations": [
                     {
@@ -1160,7 +1160,7 @@
             "irishName":  "Beal na mḂláth",
             
             "englishName":  
-            "Bealnablath - Mouth of the ford of the buttermilk "
+            "Bealnablath - Mouth of the flower;\nford of the buttermilk "
         
         },
         {
@@ -1181,14 +1181,14 @@
     }
 ,            {
     "gaCoName": "Co. Luimnach",
-    "enCoName": "Co. Limerick - after the city of Limerick, 'bare spot'. \n Vikings called it Hlymrekr, 'mighty noise'",
+    "enCoName": "Co. Limerick - after the city of Limerick,\n 'bare spot'.  Vikings called it Hlymrekr,\n 'mighty noise'",
 
     "locations": [
         {
             "irishName":  "Pailis Ċaonraí",
       
             "englishName": 
-            "Pallaskenry - the palisaded Castle of Kenry",
+            "Pallaskenry - the palisaded \nCastle of Kenry",
          
         },
         {
@@ -1295,7 +1295,7 @@
     "gaCoName":
     "Co. Ṗort Láirge",
  
-    "enCoName": "Co. Waterford -  Veðrafjǫrðr 'ram fjord'. Port Láirge means 'Larag's port'",
+    "enCoName": "Co. Waterford -  \nVeðrafjǫrðr 'ram fjord'.\n Port Láirge means 'Larag's port'",
 
     "locations": [
         {
