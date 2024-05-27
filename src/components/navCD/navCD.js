@@ -77,75 +77,77 @@ export default class NavCD extends Phaser.Scene {
     // Function to move player and puca off the screen based on direction
     
     preload() {
-      this.load.image("stonebg", "./phaser-resources/images/fog5.png");
+      this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
       
       let champID = localStorage.getItem("champID");
-      this.load.image("glassbg", "./phaser-resources/images/big-glass.png");
-    this.load.image("overlay", "./phaser-resources/images/overlay.png");
-    this.load.image("actionBtn", "./phaser-resources/images/ui/a-btn.png");
-    this.load.image("button-up", "./phaser-resources/images/ui/pad-u.png");
-    this.load.image("button-down", "./phaser-resources/images/ui/pad-d.png");
-    this.load.image("button-left", "./phaser-resources/images/ui/pad-l.png");
-    this.load.image("button-right", "./phaser-resources/images/ui/pad-r.png");
+      this.load.image("glassbg", "/phaser-resources/images/big-glass.png");
+    this.load.image("overlay", "/phaser-resources/images/overlay.png");
+    this.load.image("actionBtn", "/phaser-resources/images/ui/a-btn.png");
+    this.load.image("button-up", "/phaser-resources/images/ui/pad-u.png");
+    this.load.image("button-down", "/phaser-resources/images/ui/pad-d.png");
+    this.load.image("button-left", "/phaser-resources/images/ui/pad-l.png");
+    this.load.image("button-right", "/phaser-resources/images/ui/pad-r.png");
     this.load.image(
       "button-middle-lit",
-      "./phaser-resources/images/ui/middle-a.png",
+      "/phaser-resources/images/ui/middle-a.png",
     );
     this.load.image(
       "button-middle",
-      "./phaser-resources/images/ui/middle-b.png",
+      "/phaser-resources/images/ui/middle-b.png",
     );
-    this.load.image("pucaBlack", "./phaser-resources/images/npcs/pooka0.png");
-    this.load.image("pucaWhite", "./phaser-resources/images/npcs/pooka1.png");
+    this.load.image("pucaBlack", "/phaser-resources/images/npcs/pooka0.png");
+    this.load.image("pucaWhite", "/phaser-resources/images/npcs/pooka1.png");
     this.load.image(
       "puca-mounted",
-      "./phaser-resources/images/npcs/pookaMounted.png",
+      "/phaser-resources/images/npcs/pookaMounted.png",
     );
     this.load.image(
       "player",
-      `./phaser-resources/images/champions/${champID}.png`,
+      `/phaser-resources/images/champions/${champID}.png`,
     );
-    this.load.image("fullscreen", "./phaser-resources/images/ui/full-screen.png");
+    this.load.image("fullscreen", "/phaser-resources/images/ui/full-screen.png");
 
     
-    this.load.image("westmeath", "./countyMaps/westmeath.png");
-    this.load.image("galway", "./countyMaps/galway.png");
-    this.load.image("antrim", "./countyMaps/antrim.png");
-    this.load.image("armagh", "./countyMaps/armagh.png");
-    this.load.image("carlow", "./countyMaps/carlow.png");
-    this.load.image("cavan", "./countyMaps/cavan.png");
-    this.load.image("clare", "./countyMaps/clare.png");
-    this.load.image("cork", "./countyMaps/cork.png");
-    this.load.image("derry", "./countyMaps/derry.png");
-    this.load.image("donegal", "./countyMaps/donegal.png");
-    this.load.image("down", "./countyMaps/down.png");
-    this.load.image("dublin", "./countyMaps/dublin.png");
-    this.load.image("fermanagh", "./countyMaps/fermanagh.png");
-    this.load.image("kerry", "./countyMaps/kerry.png");
-    this.load.image("kildare", "./countyMaps/kildare.png");
-    this.load.image("kilkenny", "./countyMaps/kilkenny.png");
-    this.load.image("laois", "./countyMaps/laois.png");
-    this.load.image("leitrim", "./countyMaps/leitrim.png");
-    this.load.image("limerick", "./countyMaps/limerick.png");
-    this.load.image("longford", "./countyMaps/longford.png");
-    this.load.image("louth", "./countyMaps/louth.png");
-    this.load.image("mayo", "./countyMaps/mayo.png");
-    this.load.image("meath", "./countyMaps/meath.png");
-    this.load.image("monaghan", "./countyMaps/monaghan.png");
-    this.load.image("offaly", "./countyMaps/offaly.png");
-    this.load.image("roscommon", "./countyMaps/roscommon.png");
-    this.load.image("sligo", "./countyMaps/sligo.png");
-    this.load.image("tipperary    ", "./countyMaps/tipperary.png");
-    this.load.image("tyrone", "./countyMaps/tyrone.png");
-    this.load.image("waterford", "./countyMaps/waterford.png");
-    this.load.image("wexford", "./countyMaps/wexford.png");
-    this.load.image("wicklow", "./countyMaps/wicklow.png");
-    this.load.image("ulsterMap", "./phaser-resources/images/ulsterMap.png");
-    this.load.image("leinsterMap", "./phaser-resources/images/leinsterMap.png");
-    this.load.image("connachtMap", "./phaser-resources/images/connachtMap.png");
-    this.load.image("munsterMap", "./phaser-resources/images/munsterMap.png");
-    this.load.image("ireland", "./phaser-resources/images/ire0.png");
+    this.load.image("westmeath", "/countyMaps/westmeath.png");
+    this.load.image("galway", "/countyMaps/galway.png");
+    this.load.image("antrim", "/countyMaps/antrim.png");
+    this.load.image("armagh", "/countyMaps/armagh.png");
+    this.load.image("carlow", "/countyMaps/carlow.png");
+    this.load.image("cavan", "/countyMaps/cavan.png");
+    this.load.image("clare", "/countyMaps/clare.png");
+    this.load.image("cork", "/countyMaps/cork.png");
+    this.load.image("derry", "/countyMaps/derry.png");
+    this.load.image("donegal", "/countyMaps/donegal.png");
+    this.load.image("down", "/countyMaps/down.png");
+    this.load.image("dublin", "/countyMaps/dublin.png");
+    this.load.image("fermanagh", "/countyMaps/fermanagh.png");
+    this.load.image("kerry", "/countyMaps/kerry.png");
+    this.load.image("kildare", "/countyMaps/kildare.png");
+    this.load.image("kilkenny", "/countyMaps/kilkenny.png");
+    this.load.image("laois", "/countyMaps/laois.png");
+    this.load.image("leitrim", "/countyMaps/leitrim.png");
+    this.load.image("limerick", "/countyMaps/limerick.png");
+    this.load.image("longford", "/countyMaps/longford.png");
+    this.load.image("louth", "/countyMaps/louth.png");
+    this.load.image("mayo", "/countyMaps/mayo.png");
+    this.load.image("meath", "/countyMaps/meath.png");
+    this.load.image("monaghan", "/countyMaps/monaghan.png");
+    this.load.image("offaly", "/countyMaps/offaly.png");
+    this.load.image("roscommon", "/countyMaps/roscommon.png");
+    this.load.image("sligo", "/countyMaps/sligo.png");
+    this.load.image("tipperary    ", "/countyMaps/tipperary.png");
+    this.load.image("tyrone", "/countyMaps/tyrone.png");
+    this.load.image("waterford", "/countyMaps/waterford.png");
+    this.load.image("wexford", "/countyMaps/wexford.png");
+    this.load.image("wicklow", "/countyMaps/wicklow.png");
+    this.load.image("ulsterMap", "/phaser-resources/images/ulsterMap.png");
+    this.load.image("leinsterMap", "/phaser-resources/images/leinsterMap.png");
+    this.load.image("connachtMap", "/phaser-resources/images/connachtMap.png");
+    this.load.image("munsterMap", "/phaser-resources/images/munsterMap.png");
+    this.load.image("ireland", "/phaser-resources/images/ire0.png");
 
+
+    this.load.image("waves", "/countyMaps/waves.png");
 
 
 
@@ -208,8 +210,9 @@ export default class NavCD extends Phaser.Scene {
         north: { x: this.cameras.main.width / 2, y: -50 },
         south: { x: this.cameras.main.width / 2, y: this.cameras.main.height + 50 },
     };
-
+    
     this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
+   
 
     this.provincialMapSprite = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
     this.provincialMapSprite.alpha = 0;
@@ -506,8 +509,8 @@ export default class NavCD extends Phaser.Scene {
                     // Update the navigation level to 'county'
                     this.navigationLevel = "county";
                 } else {
-                    // Perform dismount if at location level and press down
-                    this.scene.stop("NavCD");
+                  let  url = this.currentLocation.url;
+                    window.location.href = 'https://www.na-ring-gael.com/'+ url;
                     // Optionally, start another scene or perform any other necessary actions
                 }
                 isButtonNavDownClickable = true; // Re-enable the button
@@ -535,11 +538,11 @@ export default class NavCD extends Phaser.Scene {
         // Add countyBG background image
         console.log("Current County:33333333", this.currentCounty);
     this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
-
+  
         // Define the bounds for the background image movement
         this.minX = 0;
         this.maxX = 400 - this.cameras.main.height;
-
+        // this.waves = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'waves').setScale(1).setDepth(0);
         // Set the initial position of the background sprite
         this.countyBG.setPosition(initialX, initialY);
         
