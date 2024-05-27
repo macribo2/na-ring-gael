@@ -89,6 +89,10 @@ class GameScene extends Phaser.Scene {
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
         let champID = localStorage.getItem('champID');
+        this.load.image('ghost0', `./phaser-resources/images/champions/5.png`);
+        this.load.image('ghost1', `./phaser-resources/images/champions/5.png`);
+        this.load.image('ghost2', `./phaser-resources/images/champions/5.png`);
+        this.load.image('ghost3', `./phaser-resources/images/champions/5.png`);
         
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
         this.load.audio('mecha', './phaser-resources/audio/mecha.wav');

@@ -130,6 +130,7 @@ export default function SettingsMenu(props) {
 		 let elementClass;
 	
 let randLights = Math.floor(Math.random * 8)
+alert();
 
 		 let runrig = document.getElementById('runrig')
 	

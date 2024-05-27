@@ -77,7 +77,7 @@ export default class NavCD extends Phaser.Scene {
     // Function to move player and puca off the screen based on direction
     
     preload() {
-      this.load.image("stonebg", "/phaser-resources/images/fog5.png");
+      this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
       
       let champID = localStorage.getItem("champID");
       this.load.image("glassbg", "/phaser-resources/images/big-glass.png");
@@ -147,6 +147,8 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("ireland", "/phaser-resources/images/ire0.png");
 
 
+    this.load.image("waves", "/countyMaps/waves.png");
+
 
 
   }
@@ -208,8 +210,9 @@ export default class NavCD extends Phaser.Scene {
         north: { x: this.cameras.main.width / 2, y: -50 },
         south: { x: this.cameras.main.width / 2, y: this.cameras.main.height + 50 },
     };
-
+    
     this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["westmeath"]).setScale(4);
+   
 
     this.provincialMapSprite = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds["ireland"]).setDepth(66);
     this.provincialMapSprite.alpha = 0;
@@ -535,11 +538,11 @@ export default class NavCD extends Phaser.Scene {
         // Add countyBG background image
         console.log("Current County:33333333", this.currentCounty);
     this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
-
+  
         // Define the bounds for the background image movement
         this.minX = 0;
         this.maxX = 400 - this.cameras.main.height;
-
+        // this.waves = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'waves').setScale(1).setDepth(0);
         // Set the initial position of the background sprite
         this.countyBG.setPosition(initialX, initialY);
         

@@ -8,7 +8,7 @@ import { Col, Row, Button ,BtnGroup } from 'react-bootstrap'
 
 
 import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css';
+// import 'react-simple-keyboard/build/css/index.css';
 
 
 

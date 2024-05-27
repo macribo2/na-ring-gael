@@ -112,14 +112,14 @@ const ireData  = {
                     "englishName":"Castlebar - Barry's castle",
 
                 },{
-                    "url":"",
+                    "url":"connacht/mayo/newport",
 "irishName":  "Baile Ui Ḟiacáin",
-                    "englishName":"",
+                    "englishName":"Newport",
 
                 },{
-                    "url":"",
+                    "url":"connacht/mayo/killary",
 "irishName":  "An Caoláire Rua",
-                    "englishName": ""
+                    "englishName": "Killary - the red fjord"
 
                 },{
                     "url":"",
