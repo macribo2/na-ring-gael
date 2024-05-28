@@ -47,6 +47,7 @@ export default class NavCD extends Phaser.Scene {
         };
         
         // Initialize class properties
+        this.prevLocation = null; // or some default value
         this.countyBG = null;
         this.minX = 0;
         this.maxX = 0;
@@ -243,7 +244,7 @@ export default class NavCD extends Phaser.Scene {
     });
 
     this.currentProvinceIndex = 1;
-    this.currentCountyIndex = 1;
+    this.currentCountyIndex = 3;
 
     this.currentProvince = ireData.provinces[this.currentProvinceIndex];
 
