@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
+import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+
 import './narrative.css';
 
 const Narrative0 = () => {
@@ -11,7 +13,16 @@ const Narrative0 = () => {
                 width: window.innerWidth,
                 height: window.innerHeight,
                 parent: 'narrative-container',
-                scene: [GameScene] // Add GameScene to the game's scenes
+                scene: [GameScene], // Add GameScene to the game's scenes
+                plugins: {
+        global: [{
+            key: 'rexUI',
+            plugin: RexUIPlugin,
+            start: true
+        }]
+    }
+
+            
             };
             const gameInstance = new Phaser.Game(gameConfig);
             gameRef.current = new Phaser.Game(gameConfig);
@@ -30,6 +41,7 @@ const Narrative0 = () => {
 class GameScene extends Phaser.Scene {
     constructor(props) {
         super({ key: 'GameScene' });
+        this.music = null; // Initialize music reference
         this.narrativeTracker = 0;
         this.textGa = null;
         this.textEn = null;
@@ -85,6 +97,9 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+
+        // this.load.audio('threeRedHearts', './phaser-resources/audio/threeRedHearts.ogg');
+        
         this.load.image('Sirriam', './phaser-resources/images/players/alex.png');
         this.load.image('Fand', './phaser-resources/images/players/poet.png');
         this.load.image('Douglas_Hyde', './phaser-resources/images/players/douglas.png');
@@ -107,7 +122,16 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-        
+        // if (!this.music) {
+        //     // Add the music if it doesn't already exist
+        //     this.music = this.sound.add('threeRedHearts', { loop: true });
+        // }
+
+        // // Check if the music is already playing
+        // if (!this.music.isPlaying) {
+        //     this.music.play();
+        // }
+      // Add background spr
         this.hero = parseInt(this.hero); // Convert to a numbert
         this.updateNarrativeTracker();
 
@@ -135,6 +159,26 @@ class GameScene extends Phaser.Scene {
             this.textGa.setDepth(19);
             this.textEn.setFontSize(24);
             this.textEn.setDepth(19);
+            this.typingEffect(this, 30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'aonchlo', fontSize: '28px' });
+
+            function typingEffect(scene, x, y, text, style) {
+                const content = text.split(' ');
+                const textObj = scene.add.text(x, y, '', style);
+                const wordIndex = 0;
+            
+                scene.time.addEvent({
+                    delay: 200, // Delay in milliseconds between each word
+                    callback: function () {
+                        if (wordIndex < content.length) {
+                            textObj.text += content[wordIndex] + ' ';
+                            wordIndex++;
+                        }
+                    },
+                    loop: true
+                });
+            }
+
+
         } else {
             console.error('narrative data is empty or not loaded correctly.');
         }
