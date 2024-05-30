@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
-import RexUIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 
 import './narrative.css';
 
 const Narrative0 = () => {
     const gameRef = useRef(null);
+
     useEffect(() => {
         const initializeGame = () => {
             const gameConfig = {
@@ -13,88 +13,41 @@ const Narrative0 = () => {
                 width: window.innerWidth,
                 height: window.innerHeight,
                 parent: 'narrative-container',
-                scene: [GameScene], // Add GameScene to the game's scenes
-                plugins: {
-        global: [{
-            key: 'rexUI',
-            plugin: RexUIPlugin,
-            start: true
-        }]
-    }
-
-            
+                scene: [GameScene],
+          
             };
-            const gameInstance = new Phaser.Game(gameConfig);
-            gameRef.current = new Phaser.Game(gameConfig);
+
+            if (!gameRef.current) {
+                gameRef.current = new Phaser.Game(gameConfig);
+            }
         };
+
         initializeGame();
-    
-        // Other code...
+
+        // Cleanup on unmount
+        return () => {
+            if (gameRef.current) {
+                gameRef.current.destroy(true);
+                gameRef.current = null;
+            }
+        };
     }, []);
-    
+
     return (
-        <div id="narrative-container">
-        </div>
+        <div id="narrative-container"></div>
     );
 };
 
 class GameScene extends Phaser.Scene {
-    constructor(props) {
+    constructor() {
         super({ key: 'GameScene' });
-        this.music = null; // Initialize music reference
+        this.music = null;
         this.narrativeTracker = 0;
         this.textGa = null;
         this.textEn = null;
         this.hero = localStorage.getItem('portrait');
-        this.graphics = null; // Store reference to graphics
-            // Bind updateText method to the current instance of GameScene
-  
-            
+        this.graphics = null;}
 
-    }
-    updateText = ()=> {
-        if (this.narrativeTracker === 6) {
-
-            window.location.href = "https://www.na-ring-gael.com/rings4";
-            // Access the scene directly from the Phaser game instance
-            const narrative0 = this.gameRef.current.scene.getScene('Narrative0');
-            if (narrative0) {
-            } else {
-                console.error('GameScene not found.');
-            }
-        }
-
-        // Retrieve the current dialogue based on the narrativeTracker
-        const narrativeData = this.cache.json.get('narrative0');
-    
-        // Check if narrativeData is an array and not empty
-        if (Array.isArray(narrativeData) && narrativeData.length > 0) {
-            const narrative0 = narrativeData[0]; // Extract the first object from the array
-            console.log('Narrative0:', narrative0); // Check if the JSON data is loaded correctly
-    
-            // Check if narrativeTracker is within the expected range
-            if (this.narrativeTracker >= 0 && this.narrativeTracker < 7) {
-                const currentNarrative = narrative0[this.hero]; //
-                console.log('Current Narrative:', currentNarrative); // Check the current narrative data
-    
-                // Construct the keys based on the narrativeTracker value
-                const key = `gae${this.narrativeTracker}`;
-    
-                // Check if the currentNarrative and the key are defined
-                if (currentNarrative && currentNarrative[key]) {
-                    // Update the gaText and enText with the new dialogue text
-                    this.textGa.setText(currentNarrative[key]);
-                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]); // Replace 'gae' with 'eng'
-                } else {
-                    console.error(`No dialogue found for key: ${key}`);
-                }
-            } else {
-                console.error(`narrativeTracker value (${this.narrativeTracker}) is out of range.`);
-            }
-        } else {
-            console.error('narrativeData is empty or not loaded correctly.');
-        }
-    }
 
     preload() {
 
@@ -122,6 +75,9 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+
+
+        
         // if (!this.music) {
         //     // Add the music if it doesn't already exist
         //     this.music = this.sound.add('threeRedHearts', { loop: true });
@@ -131,10 +87,18 @@ class GameScene extends Phaser.Scene {
         // if (!this.music.isPlaying) {
         //     this.music.play();
         // }
-      // Add background spr
-        this.hero = parseInt(this.hero); // Convert to a numbert
         this.updateNarrativeTracker();
+      // Add background spr
+      this.hero = parseInt(this.hero); // Convert to a number
 
+
+
+      // Initialize text objects
+      this.textGa = this.add.text(100, 100, '', { fontSize: '32px', color: '#ffffff' });
+      this.textEn = this.add.text(100, 150, '', { fontSize: '32px', color: '#ffffff' });
+
+      // Call updateText to initialize the text
+      this.updateText();   
         switch(this.hero){
             case 0: this.hero= "Niamh"; break;
             case 1: this.hero= "Niamh"; break;
@@ -159,24 +123,7 @@ class GameScene extends Phaser.Scene {
             this.textGa.setDepth(19);
             this.textEn.setFontSize(24);
             this.textEn.setDepth(19);
-            this.typingEffect(this, 30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'aonchlo', fontSize: '28px' });
-
-            function typingEffect(scene, x, y, text, style) {
-                const content = text.split(' ');
-                const textObj = scene.add.text(x, y, '', style);
-                const wordIndex = 0;
-            
-                scene.time.addEvent({
-                    delay: 200, // Delay in milliseconds between each word
-                    callback: function () {
-                        if (wordIndex < content.length) {
-                            textObj.text += content[wordIndex] + ' ';
-                            wordIndex++;
-                        }
-                    },
-                    loop: true
-                });
-            }
+          
 
 
         } else {
@@ -225,7 +172,34 @@ class GameScene extends Phaser.Scene {
         
 
     }
-   
+    updateText = () => {
+        if (this.narrativeTracker === 6) {
+            window.location.href = "https://www.na-ring-gael.com/rings4";
+            return;
+        }
+
+        const narrativeData = this.cache.json.get('narrative0');
+
+        if (Array.isArray(narrativeData) && narrativeData.length > 0) {
+            const narrative0 = narrativeData[0]; // Extract the first object from the array
+            const currentNarrative = narrative0[this.hero]; // Get the narrative for the hero
+
+            if (currentNarrative) {
+                const key = `gae${this.narrativeTracker}`;
+
+                if (currentNarrative[key]) {
+                    this.textGa.setText(currentNarrative[key]);
+                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]); // Replace 'gae' with 'eng'
+                } else {
+                    console.error(`No dialogue found for key: ${key}`);
+                }
+            } else {
+                console.error(`No narrative found for hero: ${this.hero}`);
+            }
+        } else {
+            console.error('narrativeData is empty or not loaded correctly.');
+        }
+    }
     toggleOverlay() {
         this.overlay.setVisible(!this.overlay.visible);
     }
