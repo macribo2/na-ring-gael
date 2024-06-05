@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
 import Easca from '../easca/easca2';
-import './generic-location.css';
+// import './generic-location.css';
 import NavCD from '../navCD/navCD'
 import { useHistory } from 'react-router-dom';
 
