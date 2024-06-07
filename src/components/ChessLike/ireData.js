@@ -884,12 +884,9 @@ const ireData  = {
                         "englishName":"Garrison",
                     },
                     {
-                                
-                          
-                     
                         "url":"ulster/fermanagh/paiteago",
 "irishName": "Paiteagó",
-                        "englishName":"Picts: they spoke a language like the Welsh. The great test-word in place-names is Pet. Same as Gaelic 'Baile' which in-fact replaces it. - logainm.ie",
+                        "englishName":"Picts: they spoke a language like the Welsh.\n The great test-word in place-names is Pet. \nSame as Gaelic 'Baile' which in-fact replaces it.-logainm.ie",
                     },
                     {
                         "url":"ulster/fermanagh/ederney",

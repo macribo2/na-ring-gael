@@ -26,7 +26,7 @@
 
 .history-e {
   font-family: 'anaphora';
-  top: 64%;
+  top: 64%; 
   left: 5%;
   width: 85%;
   z-index: 9999;
@@ -34,7 +34,6 @@
   color: aliceblue;
   font-size: 1.4em;
   padding: 20px;
-  background-color: #000000ad;
 }
 
 #toggle-glass-btn-history {
@@ -51,7 +50,7 @@
 
 .history-i {
   width: 85%;
-  top: 5%;
+  top: 18%;
   font-size: 2em;
   pointer-events: none;
   color:aliceblue;
@@ -72,29 +71,34 @@
 .ring-gael-dial-container,
 #bg-container-gael,
 .about-hist {
-  z-index: 19;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: left; /* Center horizontally */
+  justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  transform: scale(0.8);
+  z-index: 5;
+  position: fixed;
+  opacity: 0.3
 }
+.ring-gael-dial-container{
 
+  z-index: 99;
+
+}
 .about-hist {
   z-index: 10;
+  transform: scale(1);
 
 
 }
 .about-hist{
   position: fixed;
-  z-index: 10;
-  transform: scale(1);
-  padding: 10%
+  /* transform: scale(2); */
 
 } 
+
 
 
 #bg-container-gael {
@@ -199,13 +203,8 @@
   transform:rotate(15deg) scale(1.2);
 
 }
-
 .amergin-wave {
-
   background-image: url('../../images/tonnta1.jpg');
-
-  /* background-size: contain; */
-  /* left: 26%; */
   background-repeat: repeat;
   opacity: 0.6;
   border-radius: 50%;
@@ -214,8 +213,16 @@
   width: 266px;
   pointer-events: none;
   padding-bottom: 2px;
-border: 5px solid rgba(125, 110, 24, 0.932);
+  border: 5px solid rgba(125, 110, 24, 0.932);
+  box-sizing: border-box; /* Ensures padding and border are included in width/height */
+
+  position: absolute; /* Position the element relative to its closest positioned ancestor */
+  top: 50%; /* Center vertically */
+  left: calc(33.33% - 133px); /* Center it in the left 1/3 of the screen */
+  transform: translateY(-50%); /* Adjust for proper vertical centering */
 }
+
+
 .gael-bg {
   z-index: -1;
   animation: fade-in 1s linear forwards;
@@ -282,7 +289,7 @@ border: 5px solid rgba(125, 110, 24, 0.932);
   height: 100%;
   width: 100%;
   text-align: center;
-  top:50%;
+  top:15%;
   left:0;
   /* padding-top: 1%; */
   /* border-radius: 50%; */
@@ -299,9 +306,7 @@ pointer-events: none;
 
 
  .sea-slide{
-   /* display: flex; */
-   /* align-items: center; */
-   /* justify-content: center; */
+ 
    background-repeat: repeat;
   }
   
@@ -309,9 +314,7 @@ pointer-events: none;
   width: 32px;
    background-repeat: repeat;
    height: 32px;
-  /* border: 4px solid gainsboro; */
-  /* max-width: 100%; */
-  /* max-height: 100%; */
+ 
 }
 
 
@@ -375,15 +378,10 @@ position: fixed;
 #glass{
       height: 100%;
       width: 100%;
-      z-index: 257;
+      z-index: 1;
       animation: fade-in 0.3s forwards;
       display: grid;
       justify-content: left;
 
-}
-.slide{
-  position: fixed;
-  top:5%;
-  left:5%;
 }
 
