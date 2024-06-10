@@ -95,6 +95,7 @@ class GameScene extends Phaser.Scene {
         this.load.json('dialogues', '/phaser-resources/text/generic-location-dialogues.json');
         this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', '/phaser-resources/images/fog3.png');
+        this.load.image('featherIcon', '/phaser-resources/images/puca1.png');
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
         this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
         // this.load.image('greenRingLeft', '/phaser-resources/images/ciorcal-glass8.png');
@@ -186,11 +187,16 @@ class GameScene extends Phaser.Scene {
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
     const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
     const pucaIcon = this.add.sprite(20,height - 50, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
+    const featherIcon = this.add.sprite(30,height - 60, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
 
     // Add event listener for pointerdown event
     pucaIcon.on('pointerdown', () => {
       // Start the NavCD scene
       this.scene.start('NavCD');
+    });
+    featherIcon.on('pointerdown', () => {
+        // this.scene.start('NavCD');
+return(<Easca/>)
     });
     glassbg.setAlpha(0.7);
 
@@ -275,7 +281,7 @@ greenFrame.setPosition(posX, posY);
 
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
-    this.overlay.add([glassbg, this.textEn, pucaIcon]);
+    this.overlay.add([glassbg, this.textEn, pucaIcon, featherIcon]);
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 150; // Right side of the screen
     const buttonY = this.sys.game.config.height / 2 + 50;
