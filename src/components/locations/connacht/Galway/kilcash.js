@@ -4,6 +4,7 @@ import molly from '../../../../images/cut-scenes/stern.png'
 import Easca from '../../../easca/easca2';
 import './bally.css';
 import { useHistory } from 'react-router-dom';
+import NavCD from '../../../navCD/navCD'
 
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
@@ -20,7 +21,7 @@ const Kilcash = () => {
                 type: Phaser.AUTO,
                 width: window.innerWidth, // Set width to match the browser window width
                 height: window.innerHeight, // Set height to match the browser window height
-                scene: [GameScene],
+                scene: [GameScene,NavCD],
                 parent: 'ballygamboy-game-container'
             };
             
@@ -86,6 +87,7 @@ class GameScene extends Phaser.Scene {
 
  
     preload() {
+        this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
@@ -185,7 +187,14 @@ this.textEn.setVisible(true);
         const background = this.add.sprite(0, 0, 'background').setOrigin(0);
         const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
         glassbg.setAlpha(0.7);
-    
+        const { width, height } = this.sys.game.config;
+        const pucaIcon = this.add.sprite(20,height - 50, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
+
+        // Add event listener for pointerdown event
+        pucaIcon.on('pointerdown', () => {
+          // Start the NavCD scene
+          this.scene.start('NavCD');
+        });
         // Calculate scale to contain the background within the game dimensions
         const scaleX = this.sys.game.config.width / background.width;
         const scaleY = this.sys.game.config.height / background.height;
@@ -235,11 +244,13 @@ this.textEn.setVisible(true);
         glassbg.displayHeight = this.sys.game.config.height;
     
         if (glassbg && this.textEn) {
-            this.overlay.add([glassbg, this.textEn]);
+            this.overlay.add([glassbg, this.textEn, pucaIcon]);
         } else {
             console.error("glassbg or this.textEn is null. Cannot add to overlay.");
         }
-    
+
+        
+
         // Define the position of the directional pad buttons
         const buttonX = this.sys.game.config.width - 150; // Right side of the screen
         const buttonY = this.sys.game.config.height / 2 + 50;

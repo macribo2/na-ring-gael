@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import ireData from "../ChessLike/ireData";
 
 export default class NavCD extends Phaser.Scene {
+
+    
     constructor() {
         super({ key: "NavCD" });
         this.countyBackgrounds = {
@@ -78,7 +80,8 @@ export default class NavCD extends Phaser.Scene {
     // Function to move player and puca off the screen based on direction
     
     preload() {
-      this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
+        this.load.image("pucaLeaps", "/phaser-resources/images/startCDNav.png");
+        this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
       
       let champID = localStorage.getItem("champID");
       this.load.image("glassbg", "/phaser-resources/images/big-glass.png");
@@ -156,7 +159,33 @@ export default class NavCD extends Phaser.Scene {
 
   create() {
  
- 
+    let isFirstCatch = localStorage.getItem('isFirstCatch') === null;
+    if (isFirstCatch) {
+        // Display the message and graphic
+        const message = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Léim an Púca súas sa spéir!', {
+            fontSize: '32px',
+            
+            fill: '#fff'
+        }).setOrigin(0.5).setDepth(699);
+
+        const pucaLeaps= this.add.image(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'pucaLeaps').setOrigin(0.5).setDepth(600);
+   // Calculate the scale factors
+   const scaleX = this.cameras.main.width / pucaLeaps.width;
+   const scaleY = this.cameras.main.height / pucaLeaps.height;
+   const scale = Math.max(scaleX, scaleY);
+
+   // Apply the scale
+   pucaLeaps.setScale(scale);
+        // Hide the message and graphic after a delay
+        this.time.delayedCall(3500, () => {
+            message.destroy();
+            pucaLeaps.destroy();
+        });
+
+        // Update the flag in local storage
+        localStorage.setItem('isFirstCatch', 'true');
+    }
+
    // Add and configure overlay
    this.overlay = this.add.container(0, 0).setDepth(3);
    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
@@ -186,12 +215,12 @@ export default class NavCD extends Phaser.Scene {
    const centerY = this.cameras.main.height / 2;
 
    this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
-   this.puca.setDepth(21);
+   this.puca.setDepth(921);
    this.puca.setScale(0.3);
    this.puca.setOrigin(0.7, 0.4);
 
    this.player = this.add.sprite(centerX, centerY, "player");
-   this.player.setDepth(1);
+   this.player.setDepth(920);
    this.player.setScale(1.3);
    this.player.setOrigin(0.5, 0.5);
 
