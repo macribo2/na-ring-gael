@@ -97,52 +97,52 @@ export default function Rings3(props) {
 	}
 	let ogHero = localStorage.getItem('portrait')
 	var irishText = [
-		`<span style="font-family:aonchlo;animation:fade-in 0.5s forwards; color:palegoldenrod" >Fadó fadó...</span>`,
+		`<span style="font-family:aonchlo;animation:fade-in 0.5s forwards; color: #D8D0E8;" >Fadó fadó...</span>`,
 
 
-		`<span style="font-family:aonchlo;color:palegoldenrod">d'Aistir Amergín Glúingel Míl Espáine go hOileann na Túatha Dé Danann.</span>`,
+		`<span style="font-family:aonchlo;color: #D8D0E8;"><br/>d'Aistir Amergín Glúingel Míl Espáine go hOileann na Túatha Dé Danann.</span>`,
 
-		`<span style="font-family:aonchlo; color:palegoldenrod">Thar na Túatha ríal trí Banríon Éirú, Banba, Fóladh.</span>`,
+		`<span style="font-family:aonchlo; color: #D8D0E8;"><br/><br/><br/>Thar na Túatha bhí trí Banríon: Éirú, Banba, Fóladh.</span>`,
 
-		`<span style="font-family:aonchlo;color:palegoldenrod">Chas a draoithe stoirm i gcoinne naimhead fad taingaire. </span>`,
+		`<span style="font-family:aonchlo;color: #D8D0E8;">Chas a draoithe stoirm i gcoinne an naimhead fad taingaire. </span>`,
 
 
-		`<span style="font-family:aonchlo; color:palegoldenrod">D'freagair Amergín dríocht le filíocht</span>`,
+		`<span style="font-family:aonchlo; color: #D8D0E8;">D'freagair Amergín dríocht le filíocht</span>`,
 
 		`<br/>
 
 <div className="poem">
 
-<span style="font-family:aonchlo;animation:fade-in 0.5s forwards;color:palegoldenrod">Am gaeth i m-muir <br/>
- &nbsp;Am tond trethan<br/>
- &nbsp; &nbsp;Am fuaim mara...</span>
+<span style="font-family:aonchlo;animation:fade-in 0.5s forwards;color:linen">Am gaeth i m-muir <br/>
+ Am tond trethan<br/>
+ Am fuaim mara...</span>
 </div>
 
 `,
 
 		`
-	<div className="poem">
-	<span style="font-family:aonchlo;font-family:aonchlo;animation:fade-in 0.5s forwards;color:palegoldenrod ">&nbsp; &nbsp;Am dam seċt ndirend <br/>
- &nbsp; &nbsp;Am séig i n-aill<br/>
-&nbsp; &nbsp;Am dér gréne<br/>
-&nbsp; &nbsp;Am cain lubai...</span>
+	<div className="poem"><br/>
+	<span style="font-family:aonchlo;font-family:aonchlo;animation:fade-in 0.5s forwards;color:linen">Am dam seċt ndirend <br/>
+ Am séig i n-aill<br/>
+Am dér gréne<br/>
+Am cain lubai...</span>
 </div>`,
 
 
 
 		`
 <div className="poem">
-<span style="font-family:aonchlo;color:palegoldenrod">&nbsp; &nbsp;Am bri danae<br/>
-&nbsp; &nbsp;Am bri i fodb fras feoċtu<br/>
-&nbsp; &nbsp;Am dé delbas <br/>
-&nbsp; &nbsp;do ċind codnu...</span>
-<span style="font-family:aonchlo;animation:fade-in 1.5s forwards;color:palegoldenrod"><br/><span style=" font-family:aonchlo;animation:fade-in 0.5s forwards;color:palegoldenrod">&nbsp; &nbsp; &nbsp; &nbsp;...Cáinte im gai<br/> 
+<span style="font-family:aonchlo;color:linen">Am bri danae<br/>
+Am bri i fodb fras feoċtu<br/>
+Am dé delbas <br/>
+do ċind codnu...</span>
+<span style="font-family:aonchlo;animation:fade-in 1.5s forwards;color:linen"><br/><span style=" font-family:aonchlo;animation:fade-in 0.5s forwards;color:linen">&nbsp; &nbsp; &nbsp; &nbsp;...Cáinte im gai<br/> 
 &nbsp; &nbsp; &nbsp; &nbsp;	cainte gaiṫe.</span></div>
 `,
-		`<span style="font-family:aonchlo;position:fixed;left:7%;width:55%;top:10%; color:palegoldenrod">Briseadh ar Ríthe Túatha Dé Danann.</span>`,
+		`<span style="font-family:aonchlo;position:fixed;left:7%;width:85%;top:50%; color: #D8D0E8;">Briseadh ar Ríthe Dé Danann ar deireadh i Teamhrach.</span>`,
 
-		`<span style="font-family:aonchlo; position:fixed;left:7%;width:55%;top: 10%;color:palegoldenrod">
-		Bin tús na cíannta Gaelach, de réir finscéal.</span>`,
+		`<span style="font-family:aonchlo; position:fixed;left:7%;width:85%;top: 60%;color: #D8D0E8;">
+		Le filíocht agus sleá a thosaigh cíannta Gaelach, de réir na finscéalta.</span>`,
 
 	];
 	// let tullyPortrait = setPlayerIcon();
@@ -151,15 +151,16 @@ export default function Rings3(props) {
 		`&nbsp; Long long ago...`,
 
 
-		`Amergin of the Bright Knees <br/> Birth of Song,
+		`Bright Knees Birth of Song,  
 		 Soldier of Spain <br/>
 		 led his people to the island of Dé Dannan.`,
-		`Three queens rúled the Dé Dannan<br/>
+		`The Dé Dannan were supernatural beings ruled by three queens,<br/>
 		 Éiru, Banba, Fóladh.`,
 
 
-		`Their Druids cast a tempest against the prophesized enemy`, `
-		Amergín answered magic with verse`,
+		`Their Druids cast a tempest against this long prophesized enemy`,
+		 `
+		Amergín answered magic with poetry`,
 
 		` I am the wind which breaths upon the sea<br/>
 		  I am the wave of the ocean<br/>
@@ -177,11 +178,10 @@ export default function Rings3(props) {
 	   ...(I am) a Song on a Spear<br/>
 	   an Enchantment of Winds.`
 		,
-		`The kings of Dé Danann 
-			fell to the soldiers of Iberia`
+		`The kings of Dé Danann were at last defeated at their most sacred site.`
 		,
 
-		`So began the Gael, and the Sídh, from poetry and conquest.<br/>
+		`So began Gaelic civilization, with poetry and spear,<br/>
 		according to legend.`
 
 	];

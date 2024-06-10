@@ -1,0 +1,45 @@
+canvas{
+    /* border: 1px solid black; */
+ top:-1%;
+ position:fixed;
+ left:-1%;
+ width:102%;
+ height:102%;
+
+}
+
+@font-face {
+ font-family: 'aonchlo';
+ src: url('../../../../fonts/aonchlo.ttf');
+ font-weight: 400;
+ font-weight: normal;
+}
+@font-face {
+ font-family: 'anaphora';
+ src: url('../../../../fonts/Anaphora-Light-trial.ttf');
+
+ /* src: url('../../../../fonts/Anaphora-Light-trial.ttf'); */
+ font-weight: 400;
+ font-weight: normal;
+}
+.wait-and-fade{
+ animation: wait-and-fade 5s steps(8) forwards;    
+}
+
+@keyframes wait-and-fade {
+ 0% {
+     opacity: 1;
+ }
+ 1%{opacity: 1;}
+ 70%{opacity: 1;}
+ 100% {
+     opacity: 0;
+ }
+}
+.molly{
+ left: 5%;
+ transform: scale(3) scaleX(-1);
+ top: 77%;
+ position: fixed;
+}
+
