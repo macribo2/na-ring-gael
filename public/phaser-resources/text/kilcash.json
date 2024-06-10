@@ -1,0 +1,53 @@
+[
+  {
+    "id": "l0",
+    "text": {
+      "en": "Kilcash \n County Galway",
+      "ga": "Cill Cais, \nCo. na Gaillaimhe "
+    }
+  },
+{
+  "id": "l1",
+  "text": {
+    "en": "JSON (Java Script Object Notation):\n storyteller of the internet",
+    "ga": "JSON: Scéalaí an gréasán"
+  }
+},
+{
+  "id": "l2",
+  "text": {
+    "en": "Among computer programming languages",
+    "ga": "I measc teangaí ɼiomhchláɼú"      }
+}
+,
+{ 
+  "id": "l3",
+  "text": {
+    "en": "JSON is a simple language.",
+    "ga": "Teanga simplí é, JSON."
+  }
+},
+ {
+    "id": "l4",
+    "text": {
+      "en": "JSON is used to share information \nbetween people and computers.",
+      "ga": "Usáidtear JSON chun eolas a roinnt \nidir daoine agus ríomhairí."
+    }
+  },
+
+    {
+      "id": "l5",
+      "text": {
+        "en": "...",
+        "ga": "{\"\nid\": \"l5\",\n\"text\": {\n\"  en\": \"like this:\",\n\"ga\": \"mar seo:\"\n }\n},"
+      }},
+      {
+        "id": "l6",
+        "text": {
+          "en": "like that.",
+          "ga": "mar sin."
+        }
+        },
+    
+    
+]
