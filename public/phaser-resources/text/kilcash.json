@@ -9,45 +9,44 @@
 {
   "id": "l1",
   "text": {
-    "en": "JSON (Java Script Object Notation):\n storyteller of the internet",
-    "ga": "JSON: Scéalaí an gréasán"
+    "en": "",
+    "ga": ""
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "Among computer programming languages",
-    "ga": "I measc teangaí ɼiomhchláɼú"      }
+    "en": "",
+    "ga": ""      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "JSON is a simple language.",
-    "ga": "Teanga simplí é, JSON."
+    "en": "",
+    "ga": ""
   }
 },
  {
     "id": "l4",
     "text": {
-      "en": "JSON is used to share information \nbetween people and computers.",
-      "ga": "Usáidtear JSON chun eolas a roinnt \nidir daoine agus ríomhairí."
+      "en": "",
+      "ga": ""
     }
   },
-
+  {
+    "id": "l5",
+    "text": {
+      "en": "",
+      "ga": ""
+    }
+    },
     {
-      "id": "l5",
+      "id": "l6",
       "text": {
         "en": "...",
-        "ga": "{\"\nid\": \"l5\",\n\"text\": {\n\"  en\": \"like this:\",\n\"ga\": \"mar seo:\"\n }\n},"
-      }},
-      {
-        "id": "l6",
-        "text": {
-          "en": "like that.",
-          "ga": "mar sin."
-        }
-        },
+        "ga": "..."
+      }}
     
     
 ]

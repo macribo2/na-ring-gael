@@ -476,9 +476,10 @@ top:20%;
       }
       .og-opponent{
 transform: scaleX(-1) scale(1);
+left:65%
       }
       .og-hero{
-        margin-left: -8% !important;
+        margin-left: 28% !important;
         ;
 
 
