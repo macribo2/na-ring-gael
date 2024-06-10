@@ -635,13 +635,18 @@ function handleRightAnswer(scene) {
 
       
 }//close  create()
+
+let latestTarget = 5;
 function update(scene) {
+
 //try 25
-    if (score >=0 && !isSceneLaunched) {
+    if (score >= latestTarget && !isSceneLaunched) {
         this.scene.add('NavCD', NavCD);
         // Launch the desired scene
+   
+   
         this.scene.launch('NavCD');
-        
+        latestTarget +=5;
         // Set the flag to true to prevent launching the scene multiple times
         isSceneLaunched = true;
         console.log("Scene launched!");

@@ -1285,124 +1285,111 @@ function handlePearl() {
     }
 }
 return (
-	
-	<>
-			<div className="input-elements-container-7b">
-				
-		</div>
-		<div className="input-elements-container-7">
+    <>
+        <div className="input-elements-container-7b">
+        </div>
+        <div className="input-elements-container-7">
+            <div className='tutorial-container'>
+                <div className="tutorial0-container"></div>
+            </div>
+        </div>
+        <p id="hints-ring-4" className={props.isOn ? "hints" : "hidden"}></p>
 
-    <div className='tutorial-container'>
-      <div className="tutorial0-container"></div>
-    </div>
-  </div>
+        {props.isOn ? (
+            <p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
+                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+            </p>
+        ) : null}
 
-		<p id="hints-ring-4" className={props.isOn ? "hints" : "hidden"}></p>
-		
-	
+        <div className="image-container">
+            <img src={opponent1} className="og-opponent" alt="opponent portrait" />
+            <div className="button-container" onClick={handlePearl}>
+                <button id="pearl" className='bob'>
+                    <img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
+                </button>
+            </div>
+            {ogHero && (
+                <>
+                    <img src={ogHero === "1" ? avatar1 :
+                        ogHero === "2" ? avatar2 :
+                        ogHero === "3" ? avatar3 :
+                        ogHero === "4" ? avatar4 :
+                        ogHero === "5" ? avatar5 :
+                        ogHero === "6" ? avatar6 :
+                        ogHero === "7" ? avatar7 :
+                        ogHero === "8" ? avatar8 :
+                        ogHero === "9" ? avatar9 : empty}
+                        className="og-hero"
+                        alt="hero portrait"
+                    />
+                </>
+            )}
 
-		
-		{props.isOn ? <>
-						<p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
-					{hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-				</p>
+            <p className="names-e">
+                {namesInEnglish[Math.floor(value * 100) + round.current * 100]}
+            </p>
+            <p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
+                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+            </p>
+        </div>
+        <div className="input-elements-container-5"></div>
+        <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+            {/* Rest of your JSX */}
+        </div>
 
-                {/* <h2 id="output2"> Black Molly invites your gambit</h2> */}
-			
-			</>
-			:null }
-			
-			<div className="image-container">
-  <img src={opponent1} className="og-opponent" alt="opponent portrait" />
-  <div className="button-container"onClick={handlePearl}>
-    <button id="pearl" className='bob'>
-      <img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
-    </button>
-  </div>
-	
-  <img src={ogHero === "1" ?  avatar1  : empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "2" ? avatar2 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "3" ? avatar3 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "4" ? avatar4 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "5" ? avatar5 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "6" ? avatar6 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "7" ? avatar7 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "8" ? avatar8 :empty} className="og-hero"  alt="hero portrait"/>
-			<img src={ogHero === "9" ? avatar9 :empty} className="og-hero"  alt="hero portrait"/>
-	
-</div>
-<p className="names-e">
-  {namesInEnglish[Math.floor(value * 100) + round.current * 100]}
-</p>
-<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
-  {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-</p>
-<div className="input-elements-container-5"></div>
-<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
-  {/* Rest of your JSX */}
-</div>
-	
+        <img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
+        <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+            {/* lens-cap elements */}
+            <img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
+            <img className="lens-cap" src={lensCap} alt="Lens Cap" />
 
-<img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
-{/* return <ReactAudioPlayer src={ leonLishnerAndFriends} autoPlay loop /> */}
+            {/* CircularInput with CircularTrack */}
+            <CircularInput value={value} className="dial4" onChange={tryValue}>
+                <CircularTrack
+                    stroke="gold" // Set the stroke color to gold
+                    strokeWidth={'2px'} // Adjust the width of the track
+                    strokeLinecap="round" // Ensure round line caps for a smoother appearance
+                    style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%' }} // Ensure it overlays the lens-cap elements
+                />
+                <img className="pawn-filter" src={pawn} alt="pawn-frame" />
+                <CircularThumb
+                    fill="rgba(135,5,2)"
+                    stroke="rgba(180,180,180,1)"
+                    strokeWidth={'3px'}
+                />
+            </CircularInput>
+            <button
+                className="button-mash-ring-4"
+                onClick={() => {
+                    setShowDiv(false);
+                    const championName = hname;
 
+                    localStorage.setItem('champID', champID);
+                    localStorage.setItem('champName', hname);
+                    setTimeout(function () {
+                        history.push({
+                            pathname: '/ballygamboy',
+                        });
 
-<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
-    {/* lens-cap elements */}
-    <img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
-    <img className="lens-cap" src={lensCap} alt="Lens Cap" />
+                    }, 500)
+                    return <ReactAudioPlayer src={coin0} autoPlay />
 
-    {/* CircularInput with CircularTrack */}
-    <CircularInput value={value} className="dial4" onChange={tryValue}>
-      <CircularTrack
-        stroke="gold" // Set the stroke color to gold
-        strokeWidth={'2px'} // Adjust the width of the track
-        strokeLinecap="round" // Ensure round line caps for a smoother appearance
-        style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, width: '100%', height: '100%' }} // Ensure it overlays the lens-cap elements
-      />
+                }}
+                onTouchStart={() => {
+                    // setShowDiv(false);
 
-      <img className="pawn-filter" src={pawn} alt="pawn-frame" />
+                }}
+                onTouchEnd={props.proceedThroughQuiz}
+            >
+                <div className="circle">
+                    <img src={champIcon} className="champion-portrait" alt="champion portrait" />
+                </div>
+            </button>
+        </div>
+        <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
+    </>
+);
 
-      <CircularThumb
-        fill="rgba(135,5,2)"
-        stroke="rgba(180,180,180,1)"
-        strokeWidth={'3px'}
-      />
-			</CircularInput>
-			<button 
-  className="button-mash-ring-4" 
-  onClick={() => {
-    setShowDiv(false); // If needed, update local state
-	const championName = hname; // Assuming heroName is the prop containing the champion's name
-
-	localStorage.setItem('champID', champID);
-	localStorage.setItem('champName',hname);
-setTimeout(function(){
-	
-	history.push({
-		pathname: '/ballygamboy',
-	});
-	
-},500)
-
-return <ReactAudioPlayer src={ coin0} autoPlay />
-
-}}
-  onTouchStart={() => {
-    // setShowDiv(false);
-
-  }}
-  onTouchEnd={props.proceedThroughQuiz}
->
-  <div className="circle">
-    <img src={champIcon} className="champion-portrait" alt="champion portrait" />
-  </div>
-</button>
-  </div>
-<ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
-  	
-	</>
-			);
 		}
 	    
 
