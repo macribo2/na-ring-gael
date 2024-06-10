@@ -14,7 +14,11 @@ const Kilcash = () => {
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
     const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
-    
+      // Define a function to handle showing the Easca component
+  const handleShowEasca = () => {
+    setShowEasca(true);
+  };
+
     useEffect(() => {
         const initializeGame = () => {
             const config = {
@@ -27,10 +31,15 @@ const Kilcash = () => {
             
             gameRef.current = new Phaser.Game(config);
         };
+
+        window.addEventListener('showEasca', handleShowEasca);
+
         
         initializeGame();
         
         return () => {
+          window.removeEventListener('showEasca', handleShowEasca);
+
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
@@ -88,6 +97,7 @@ class GameScene extends Phaser.Scene {
  
     preload() {
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
+        this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
@@ -189,12 +199,21 @@ this.textEn.setVisible(true);
         glassbg.setAlpha(0.7);
         const { width, height } = this.sys.game.config;
         const pucaIcon = this.add.sprite(20,height - 50, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
+        const featherIcon = this.add.sprite(120,height - 50, 'featherIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
 
         // Add event listener for pointerdown event
         pucaIcon.on('pointerdown', () => {
           // Start the NavCD scene
           this.scene.start('NavCD');
         });
+
+
+  // Add event listener for pointerdown event
+featherIcon.on('pointerdown', () => {
+    // Dispatch a custom event to notify React to show the Easca component
+    const event = new Event('showEasca');
+    window.dispatchEvent(event);
+});
         // Calculate scale to contain the background within the game dimensions
         const scaleX = this.sys.game.config.width / background.width;
         const scaleY = this.sys.game.config.height / background.height;
@@ -244,7 +263,7 @@ this.textEn.setVisible(true);
         glassbg.displayHeight = this.sys.game.config.height;
     
         if (glassbg && this.textEn) {
-            this.overlay.add([glassbg, this.textEn, pucaIcon]);
+            this.overlay.add([glassbg, this.textEn, pucaIcon, featherIcon]);
         } else {
             console.error("glassbg or this.textEn is null. Cannot add to overlay.");
         }
