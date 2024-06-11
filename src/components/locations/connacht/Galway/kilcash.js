@@ -172,7 +172,7 @@ class GameScene extends Phaser.Scene {
             firstEnText = dialogues[this.playerMapLocationTracker].text.en;
             console.log("First 'ga' text:", firstGaText);
             
-            this.textGa = this.add.text(350, 120, '', { fill: '#ffffff', fontFamily: 'aonchlo' });
+            this.textGa = this.add.text(350, 70, '', { fill: '#ffffff', fontFamily: 'aonchlo' });
             this.textEn = this.add.text(250, 278, '', { fill: '#ffffff', fontFamily: 'anaphora' });
             this.textGa.setVisible(true);
 this.textEn.setVisible(true);

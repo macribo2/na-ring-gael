@@ -220,7 +220,7 @@ this.bally0map.on('changedata-x', () => {
      // Add green frame image
 // Add green frame image
 // Add green frame image
-const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2);
+const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2).setAlpha(0);
 // Calculate scale to cover the entire screen without distortion
 const scaleXGreen = this.sys.game.config.width / greenFrame.width;
 const scaleYGreen = this.sys.game.config.height / greenFrame.height;
