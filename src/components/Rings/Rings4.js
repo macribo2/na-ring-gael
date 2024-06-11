@@ -1303,10 +1303,10 @@ return (
 
         <div className="image-container">
             <img src={opponent1} className="og-opponent" alt="opponent portrait" />
-            <div className="button-container" onClick={handlePearl}>
-                <button id="pearl" className='bob'>
-                    <img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
-                </button>
+				<div className="button-container" onClick={handlePearl}>
+					<button id="pearl" className='bob'>
+						<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
+					</button>
             </div>
             {ogHero && (
                 <>
@@ -1333,9 +1333,7 @@ return (
             </p>
         </div>
         <div className="input-elements-container-5"></div>
-        <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
-            {/* Rest of your JSX */}
-        </div>
+       
 
         <img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
         <div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
