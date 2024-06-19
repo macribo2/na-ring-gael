@@ -252,3 +252,14 @@ top: 60%;
 	.react-simple-keyboard .hg-theme-default .hg-button {
 		color: red !important; /* Change this to your desired text color */
 	  }
+
+	  .long-press-options {
+		position: absolute;
+		background: white;
+		border: 1px solid #ccc;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+		display: flex;
+		flex-direction: column;
+	  }
+	  

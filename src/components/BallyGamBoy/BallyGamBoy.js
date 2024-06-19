@@ -45,7 +45,7 @@ const BallyGamboyGame = () => {
             </div>
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
 
-            <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
+            <div style={{fontFamily:"INFO56_0", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
             {showEasca && <Easca />}
         </>
     );
@@ -59,12 +59,12 @@ class GameScene extends Phaser.Scene {
         this.bally0map = null;
         this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
-            0: { x: 0.35, y: 0.43 },
-            1: { x: 0.43, y: 0.54 },
-            2: { x: 0.60, y: 0.54 },
-            3: { x: 0.64, y: 0.40},
-            4: { x: 0.67, y: 0.40},
-            5: { x: 0.67, y: 0.40},
+            0: { y: 0.6, x: 0.7 },
+            1: { y: 0.6, x: 1.8 },
+            2: { y: 0.6, x:0.7 },
+            3: { y: 0.8, x: 1.8},
+            4: { y: 0.6, x: 0.7},
+            5: { y: 0.6, x: 0.7},
         };
         this.textGa = null; // Initialize textGa and textEn as class properties
         this.textEn = null;
@@ -94,7 +94,8 @@ class GameScene extends Phaser.Scene {
         this.load.audio('mecha', './phaser-resources/audio/mecha.wav');
         this.load.image('sparks', `./phaser-resources/images/spark_02.png`);
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
-        this.load.image('background', './phaser-resources/images/placeholders/ultima-like.png');
+        this.load.image('background', './phaser-resources/images/ghostTown2.png');
+
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('greenRingLeft', './phaser-resources/images/ciorcal-glass8.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -104,7 +105,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
-        this.load.image('bally0map', './phaser-resources/images/ghostTown.png');
+        this.load.image('bally0map', './phaser-resources/images/hill-0.png');
         this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
      
     }
@@ -161,15 +162,15 @@ class GameScene extends Phaser.Scene {
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
        console.log("First 'ga' text:", firstGaText);
-       this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
+       this.textGa = this.add.text(320, 50, firstGaText, { fill: '#ffffff',fontFamily: 'INFO56_0' });
 
        this.textEn = this.add.text(330, 278, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
 
        // Adjust text properties as needed
-       this.textGa.setFontSize(30);
+       this.textGa.setFontSize(45);
        this.textGa.setOrigin(0.5);
        this.textGa.setDepth(19);
-       this.textGa.setFontFamily('aonchlo');
+       this.textGa.setFontFamily('INFO56_0');
 
 
        this.textEn.setFontSize(24);
@@ -243,10 +244,10 @@ const posX = 0;
 // Set the position of the green frame image
 greenFrame.setPosition(posX, posY);
 
-    const playerX = this.sys.game.config.width / 4;
-    const playerY = this.sys.game.config.height / 2;
+    const playerX = this.sys.game.config.width / 2;
+    const playerY = this.sys.game.config.height /2;
     this.player = this.add.sprite(playerX, playerY, 'player');
-    this.player.setScale(1.5);
+    this.player.setScale(3);
     this.player.setDepth(3);
 
     // // Create a duplicate of the original player sprite

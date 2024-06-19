@@ -43,3 +43,7 @@ canvas{
  position: fixed;
 }
 
+.speech-bubble{
+    position: fixed;
+    color:orange;
+}

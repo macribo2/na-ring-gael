@@ -110,8 +110,6 @@ export default class NavCD extends Phaser.Scene {
       `/phaser-resources/images/champions/${champID}.png`,
     );
     this.load.image("fullscreen", "/phaser-resources/images/ui/full-screen.png");
-
-    
     this.load.image("westmeath", "/countyMaps/westmeath.png");
     this.load.image("galway", "/countyMaps/galway.png");
     this.load.image("antrim", "/countyMaps/antrim.png");
@@ -149,8 +147,6 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("connachtMap", "/phaser-resources/images/connachtMap.png");
     this.load.image("munsterMap", "/phaser-resources/images/munsterMap.png");
     this.load.image("ireland", "/phaser-resources/images/ire0.png");
-
-
     this.load.image("waves", "/countyMaps/waves.png");
 
 
@@ -272,7 +268,7 @@ export default class NavCD extends Phaser.Scene {
         repeat: -1,
     });
 
-    this.currentProvinceIndex = 1;
+    this.currentProvinceIndex = 2;
     this.currentCountyIndex = 3;
 
     this.currentProvince = ireData.provinces[this.currentProvinceIndex];

@@ -889,7 +889,7 @@ You’ll get that if my journey succeeds with me.
 			 
 				<div id="holder" className="avatar-holder" >
 								<div className='fader'>
-			<img rel="preload" src={tutorial0} className={value*10 === 0 ? 'avatar':'hidden' } id="tutorial0" alt="a spinning arrow circle inviing user input" />
+		
 			</div>
 			<img rel="preload" src={avatar1} className={value*10 === 1 ? 'avatar':'hidden' } id={currentQuestion ===10? "avatar":null } alt="a  an rpg style playable character" style={currentQuestion ===9?{ animation: "lower-fields 3s forwards" }:null}/>		
 			<img rel="preload" src={avatar2} className={value*10 === 2 ? 'avatar':'hidden' } id={currentQuestion ===10? "avatar":null } alt="a  an rpg style playable character" style={currentQuestion ===9?{ animation: "lower-fields 3s forwards" }:null}/>		

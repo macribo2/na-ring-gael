@@ -15,6 +15,7 @@ import BallyNeo from './components/BallyNeo/BallyNeo';
 import Poem0 from './components/poem-0/poem-0';
 import BallyMurphius from './components/BallyMurphius/BallyMurphius';
 import Kilcash from './components/locations/connacht/Galway/kilcash';
+import Nagels from './components/locations/munster/Cork/nagles';
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
 
@@ -210,7 +211,7 @@ const ChessLikeWrapper = () => {
 <Route path="/munster/kerry/black-stacks"component={GenericLocation}/>
 <Route path="/munster/kerry/sneem"component={GenericLocation}/>
 <Route path="/munster/cork/buttevant"component={GenericLocation}/>
-<Route path="/munster/cork/nagels"component={GenericLocation}/>
+<Route path="/munster/cork/nagels"component={Nagels}/>
 <Route path="/munster/cork/glenville"component={GenericLocation}/>
 <Route path="/munster/cork/bealnablath"component={GenericLocation}/>
 <Route path="/munster/cork/kinsale"component={GenericLocation}/>

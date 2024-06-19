@@ -2,22 +2,22 @@
   {
     "id": "l0",
     "text": {
-      "en": "Here I am,\ndreaming once more",
-      "ga": "Anseo atá mé,\nag taidhbhreadh \narís"
+      "en": "Here I am,\nimprisoned in the ring",
+      "ga": "Anseo atá mé,\ni ngéibheann sa fáinne"
     }
   },
 {
   "id": "l1",
   "text": {
-    "en": "about the old labyrinth",
-    "ga": "faoin sean \nlúbra"
+    "en": "in this labyrinth",
+    "ga": "sa lúbra seo"
   }
 },
 {
   "id": "l2",
   "text": {
     "en": "Sleep fell upon me, \nand I among the rocks",
-    "ga": "Thuit \na choladh orm,\nagus mé \ni measc \n na carraigeacha"      }
+    "ga": "Thuit a choladh orm,\nagus mé i measc na carraigeacha"      }
 }
 ,
 { 
@@ -30,15 +30,15 @@
  {
     "id": "l4",
     "text": {
-      "en": "hoof sparks!",
-      "ga": "teine chreasa!"
+      "en": "I am being watched!",
+      "ga": "Táthar ag faire orm!"
     }
   },
   {
     "id": "l5",
     "text": {
-      "en": "Follow Pooka!\n says Black Molly",
-      "ga": "lean púca!\narsa \nMallaidh Dubh"
+      "en": "Hey you!\n Follow pooka back to Ireland.",
+      "ga": "Haigh tusa!\nLean púca ar ais go hÉireann."
     }
     },
     {
