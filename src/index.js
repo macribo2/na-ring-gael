@@ -18,6 +18,7 @@ import Kilcash from './components/locations/connacht/Galway/kilcash';
 import Nagels from './components/locations/munster/Cork/nagles';
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
+import {Rings5} from './components/Rings/Rings5';
 
 const ChessLikeWrapper = () => {
   const [shouldRefresh, setShouldRefresh] = useState(false);
@@ -46,6 +47,7 @@ const ChessLikeWrapper = () => {
           )}
            />
       <Route path="/rings4" component={Rings4 } />
+      <Route path="/rings5" component={Rings5 } />
 
 
 

@@ -676,7 +676,7 @@ tullyP.style.transform = 'rotate(180deg)'
 function thumbStart() { 
 	document.querySelector(".champion-portrait").classList.add('fade-in-champ');
 	document.querySelector(".numbers-e").classList.add('fade-in-champ'); document.querySelector(".numbers-i").classList.add('fade-in-champ');
-	document.querySelector(".question-text").classList.add('fade-out-champ');
+	// document.querySelector(".question-text").classList.add('fade-out-champ');
 
 } 
 
