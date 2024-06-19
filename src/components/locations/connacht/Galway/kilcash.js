@@ -64,8 +64,8 @@ const Kilcash = () => {
 class GameScene extends Phaser.Scene {
     
     constructor() {
-    
         super({ key: 'GameScene' });
+        this.userInputText = null; // Initialize userInputText
         this.kilcashMapMap = null;
         this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
@@ -97,7 +97,7 @@ class GameScene extends Phaser.Scene {
  
     preload() {
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
-        this.load.image('featherIcon', '/phaser-resources/images/feather.png');
+        this.load.image('speakIcon', '/phaser-resources/images/ui/speak.png');
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
@@ -157,6 +157,8 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+
+
         // Define a boolean flag to track whether movement controls are enabled
         this.movementControlsEnabled = true;
     
@@ -199,7 +201,7 @@ this.textEn.setVisible(true);
         glassbg.setAlpha(0.7);
         const { width, height } = this.sys.game.config;
         const pucaIcon = this.add.sprite(20,height - 50, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
-        const featherIcon = this.add.sprite(120,height - 50, 'featherIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
+        const speakIcon = this.add.sprite(120,height - 50, 'speakIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
 
         // Add event listener for pointerdown event
         pucaIcon.on('pointerdown', () => {
@@ -209,7 +211,7 @@ this.textEn.setVisible(true);
 
 
   // Add event listener for pointerdown event
-featherIcon.on('pointerdown', () => {
+speakIcon.on('pointerdown', () => {
     // Dispatch a custom event to notify React to show the Easca component
     const event = new Event('showEasca');
     window.dispatchEvent(event);
@@ -263,7 +265,7 @@ featherIcon.on('pointerdown', () => {
         glassbg.displayHeight = this.sys.game.config.height;
     
         if (glassbg && this.textEn) {
-            this.overlay.add([glassbg, this.textEn, pucaIcon, featherIcon]);
+            this.overlay.add([glassbg, this.textEn, pucaIcon, speakIcon]);
         } else {
             console.error("glassbg or this.textEn is null. Cannot add to overlay.");
         }
@@ -312,8 +314,38 @@ featherIcon.on('pointerdown', () => {
         // Define a function to update the text based on the player map location tracker value
         // Call the updateText function with the initial player map location tracker value
         this.updateText(this.playerMapLocationTracker);
-    }
     
+       // Retrieve the input from local storage
+       const eascaInput = localStorage.getItem('eascaInput') || '...';
+
+       // Add text element with content from local storage or fallback to 'test1'
+       this.userInputText = this.add.text(100, 100, eascaInput, { fill: '#ffffff', fontFamily: 'Arial', fontSize: '24px' });
+       this.userInputText.setOrigin(0.5); // Set origin to center the text at (100, 100)
+
+       // Additional setup or code in your create method
+
+       // Set up a repeating event to clear local storage and update text every 5 seconds
+       this.time.addEvent({
+           delay: 5000, // 5 seconds
+           callback: this.updateUserInputText,
+           callbackScope: this,
+           loop: true
+       });
+    }
+
+    updateUserInputText() {
+        // Clear the local storage value
+        localStorage.setItem('eascaInput', '');
+
+        // Update the text with the new value from local storage
+        const eascaInput = localStorage.getItem('eascaInput') || ' ';
+        if (this.userInputText) {
+            this.userInputText.setText(eascaInput);
+        } else {
+            console.error('userInputText is not defined');
+        }
+    }
+
 update() {
     // Continuously update the position of bgOverlay to match kilcashMapMap
     // if (this.bgOverlay && this.kilcashMapMap) {

@@ -4,7 +4,7 @@ import molly from '../../../../images/cut-scenes/stern.png'
 import './cork.css';
 import { useHistory } from 'react-router-dom';
 import NavCD from '../../../navCD/navCD'
-
+import {Rings5} from '../../../Rings/Rings5'
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
 // ];
@@ -48,6 +48,7 @@ const Nagels = () => {
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
 
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
+            {/* <Rings5/> */}
         </>
     );
 };
@@ -57,16 +58,16 @@ class GameScene extends Phaser.Scene {
     constructor() {
     
         super({ key: 'GameScene' });
-        this.nagelsMapMap = null;
+        this.nagelsMap = null;
         this.playerMapLocationTracker = 0; // Start at location 1
         this.mapLocations = {
-            0: { x: 0.3, y: 0.1 },
-            1: { x: 0.35, y: 0.1 },
-            2: { x: 0.4, y: 0.1},
-            3: { x: 0.4, y: 0.25 },
-            4: { x: 0.4, y: 0.4},
-            5: { x: 0.35, y: 0.4},
-            6: { x: 0.3, y: 0.1},
+            0: { x: 0, y: 0 },
+            1: { x: 0, y: 0 },
+            2: { x: 0, y: 0},
+            3: { x: 0, y: 0 },
+            4: { x: 0, y: 0},
+            5: { x: 0, y: 0},
+            6: { x: 0, y: 0},
         };
         this.textGa = null; // Initialize textGa and textEn as class properties
         this.textEn = null;
@@ -88,7 +89,7 @@ class GameScene extends Phaser.Scene {
  
     preload() {
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
-        this.load.image('featherIcon', '/phaser-resources/images/feather.png');
+        // this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
         // Load assets
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
@@ -99,7 +100,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
         this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', '/phaser-resources/images/map0.png');
-        this.load.image('nagelsMap', '/phaser-resources/images/map1.png');
+        this.load.image('nagelsMap', '/phaser-resources/images/fogblue.png');
         this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
         this.load.image('greenRingLeft', '/phaser-resources/images/big-glass.png'); 
         this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
@@ -208,18 +209,18 @@ this.textEn.setVisible(true);
         // Set the scale of the background
         background.setScale(scale).setScrollFactor(0);
     
-        // Create the nagelsMapMap element
-        this.nagelsMapMap = this.add.sprite(0.5, 0.5, 'nagelsMap').setOrigin(0);
+        // Create the nagelsMap element
+        this.nagelsMap = this.add.sprite(0.5, 0.5, 'nagelsMap');
     
-        const nagelsMapMapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.nagelsMapMap.width, this.nagelsMapMap.height) * 4;
-        this.nagelsMapMap.setScale(nagelsMapMapScale);
-        // this.nagelsMapMap.x = (this.sys.game.config.width - this.nagelsMapMap.displayWidth) / 2;
-        // this.nagelsMapMap.y = (this.sys.game.config.height - this.nagelsMapMap.displayHeight) / 2;
-        this.nagelsMapMap.x = -700
-        this.nagelsMapMap.y =0;
+        const nagelsMapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.nagelsMap.width, this.nagelsMap.height) * 4;
+        this.nagelsMap.setScale(nagelsMapScale);
+        // this.nagelsMap.x = (this.sys.game.config.width - this.nagelsMap.displayWidth) / 2;
+        // this.nagelsMap.y = (this.sys.game.config.height - this.nagelsMap.displayHeight) / 2;
+        this.nagelsMap.x = -600
+        this.nagelsMap.y =0;
         // Ensure the bgOverlay moves with the background
-        this.nagelsMapMap.on('changedata-x', () => {});
-        this.nagelsMapMap.on('changedata-y', () => {});
+        this.nagelsMap.on('changedata-x', () => {});
+        this.nagelsMap.on('changedata-y', () => {});
     
         // Add green frame image
         const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2).setAlpha(0);
@@ -301,10 +302,10 @@ this.textEn.setVisible(true);
     }
     
 update() {
-    // Continuously update the position of bgOverlay to match nagelsMapMap
-    // if (this.bgOverlay && this.nagelsMapMap) {
-        // this.bgOverlay.x = this.nagelsMapMap.x;
-        // this.bgOverlay.y = this.nagelsMapMap.y;
+    // Continuously update the position of bgOverlay to match nagelsMap
+    // if (this.bgOverlay && this.nagelsMap) {
+        // this.bgOverlay.x = this.nagelsMap.x;
+        // this.bgOverlay.y = this.nagelsMap.y;
     // }
 }
 
@@ -385,8 +386,8 @@ moveElement(direction) {
 
    // Get the new map location coordinates as percentages
    const { x, y } = this.mapLocations[this.playerMapLocationTracker];
-   const mapWidth = this.nagelsMapMap.width;
-   const mapHeight = this.nagelsMapMap.height;
+   const mapWidth = this.nagelsMap.width;
+   const mapHeight = this.nagelsMap.height;
    
    // Calculate the actual pixel coordinates based on percentages
    const targetX = -x * mapWidth + this.sys.game.config.width / 2;
@@ -394,13 +395,13 @@ moveElement(direction) {
 
    // Tween the map to the new position
    this.tweens.add({
-       targets: this.nagelsMapMap,
+       targets: this.nagelsMap,
        x: targetX,
         y: targetY, // Negative y to move the map in the opposite direction
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
-            console.log(`Background Map Origin: (${Math.floor(this.nagelsMapMap.x)}, ${Math.floor(this.nagelsMapMap.y)})`);
+            console.log(`Background Map Origin: (${Math.floor(this.nagelsMap.x)}, ${Math.floor(this.nagelsMap.y)})`);
         }
     });
 }
