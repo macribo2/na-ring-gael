@@ -14,7 +14,10 @@ const GenericLocations = () => {
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
     const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
-    
+      // Define a function to handle showing the Easca component
+  const handleShowEasca = () => {
+    setShowEasca(true);
+  };
     useEffect(() => {
         const initializeGame = () => {
             const config = {
@@ -27,10 +30,13 @@ const GenericLocations = () => {
             
             gameRef.current = new Phaser.Game(config);
         };
+        window.addEventListener('showEasca', handleShowEasca);
         
         initializeGame();
         
         return () => {
+          window.removeEventListener('showEasca', handleShowEasca);
+            
             if (gameRef.current) {
                 gameRef.current.destroy(true);
             }
@@ -95,7 +101,8 @@ class GameScene extends Phaser.Scene {
         this.load.json('dialogues', '/phaser-resources/text/generic-location-dialogues.json');
         this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', '/phaser-resources/images/fog3.png');
-        this.load.image('featherIcon', '/phaser-resources/images/puca1.png');
+        this.load.image('featherIcon', '/phaser-resources/images/feather.png');
+
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
         this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
         // this.load.image('greenRingLeft', '/phaser-resources/images/ciorcal-glass8.png');
@@ -187,17 +194,19 @@ class GameScene extends Phaser.Scene {
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
     const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
     const pucaIcon = this.add.sprite(20,height - 50, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
-    const featherIcon = this.add.sprite(30,height - 60, 'horseIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
+    const featherIcon = this.add.sprite(120,height - 50, 'featherIcon').setOrigin(0).setScale(0.5).setAlpha(0.7).setInteractive(); // Make the sprite interactive
 
     // Add event listener for pointerdown event
     pucaIcon.on('pointerdown', () => {
       // Start the NavCD scene
       this.scene.start('NavCD');
     });
-    featherIcon.on('pointerdown', () => {
-        // this.scene.start('NavCD');
-return(<Easca/>)
-    });
+    // Add event listener for pointerdown event
+featherIcon.on('pointerdown', () => {
+    // Dispatch a custom event to notify React to show the Easca component
+    const event = new Event('showEasca');
+    window.dispatchEvent(event);
+});
     glassbg.setAlpha(0.7);
 
     // Calculate scale to contain the background within the game dimensions

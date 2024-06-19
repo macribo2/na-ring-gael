@@ -3,7 +3,7 @@ import darkFields from '../../images/about2/stone-0.png'
 import { render } from "react-dom";
 import './gael-ring.css';
 import mash from '../../images/gifs/mash.gif';
-import seas1 from '../../images/gael-ring/seas.gif'
+// import seas1 from '../../images/gael-ring/seas.gif'
 import React, { useState, useEffect } from 'react'
 import lens from '../../images/ciorcal-glass-light.png';
 import empty from '../../images/empty.png';
@@ -422,12 +422,12 @@ do ċind codnu...</span>
 				</div>) : null}
 
 			<div className={value * 10 === 5 ? "gael-bg" : "hidden"}>
-				<img rel="preload" className={value * 10 === 5 ? "sea-wave" : "hidden"} src={seas1} alt="" />
+				{/* <img rel="preload" className={value * 10 === 5 ? "sea-wave" : "hidden"} src={seas1} alt="" /> */}
 
 			</div>
 
 			<div className={value * 10 === 3 || value * 10 === 4 || value * 10 === 5 || value * 10 === 6 || value * 10 === 7 ? "gael-bg" : "hidden"}>
-				<img rel="preload" className="sea-wave" src={seas1} alt="" />
+				{/* <img rel="preload" className="sea-wave" src={seas1} alt="" /> */}
 
 			</div>
 

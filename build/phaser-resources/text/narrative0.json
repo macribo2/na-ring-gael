@@ -17,18 +17,18 @@
   
    },
    "Douglas_Hyde":{
-      "gae0":"Mallaidh Dubh: \nA Dhuibhghlas, \nLaoch na hÉireann, \nTá droch scéal agam.",
-      "eng0":"Black Molly: \nDouglas, Hero of Ireland, \nI have bad news.",
-      "gae1":"Douglas Hyde: \nMallaidh Dubh!\nCad 'tá ort?",
-      "eng1":"Douglas Hyde: \nBlack Molly! What troubles you?",
-      "gae2":"Mallaidh Dubh:\nTá Ironkey, lena mheaisíní, \nag máirseáil ar ríocht na Sióga.",
-      "eng2":"Black Molly: \n\nLord Ironkey, with his machines, \nmarches on the Fairy Underworld.",
-      "gae3":"Douglas Hyde: \nIronkey? \nTá súile leagtha ag an créatúr sin \nar Tír na nÓg?",
-      "eng3":"Douglas Hyde: \nIronkey? That creature has set his sights \non Tír na nÓg?",
-      "gae4":"Mallaidh Dubh: \nIs amhlaidh atá.",
-      "eng4":"Black Molly: \nIt is so.",
-      "gae5":"Douglas Hyde: \nNí mór dúinn glaoch\n ar laochra na hÉireann \nchun tacú linn.",
-      "eng5":"Douglas Hyde: \nWe must rally \nthe champions of Ireland."
+      "gae0":"Mallaidh Dubh: \nA Dhuibhghlas, \nLaoch na hÉireann.",
+      "eng0":"Black Molly: \nDouglas, Hero of Ireland.",
+      "gae1":"Douglas Hyde: \nMallaidh cad 'tá cearr?",
+      "eng1":"Douglas Hyde: \nMolly What's wrong?",
+      "gae2":"Mallaidh Dubh:\nIronkey, lena mheaisíní, \nag máirseáil ar ríocht na Sióga.",
+      "eng2":"Black Molly: \n\nIronkey, with his machines, \nmarches on the Fairy Underworld.",
+      "gae3":"Douglas Hyde: \nIronkey? \nSiocaire.",
+      "eng3":"Douglas Hyde: \nIronkey? Small, contemptible creature.",
+      "gae4":"Mallaidh Dubh: \nAch a fórsaí?.",
+      "eng4":"Black Molly: \nBut his forces?",
+      "gae5":"Douglas Hyde: \nBailaigh tusa na hÓglaigh.\n Rachfaidh mise ag seilg.",
+      "eng5":"Douglas Hyde: \nYou gather the Volunteers. \nI shall go hunting."
      ,"gae6":"...",
       "eng6":"..."
    },

@@ -98,7 +98,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
-        this.load.image('background', './phaser-resources/images/placeholders/ultima-like.png');
+        this.load.image('background', './phaser-resources/images/24c.png');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('greenRingLeft', './phaser-resources/images/ciorcal-glass8.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
