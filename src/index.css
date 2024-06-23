@@ -1331,12 +1331,14 @@ position: relative;
   /* border: 4px solid blueviolet; */
   justify-content: center;
 
-
+position: fixed;
   display: grid;
   align-items: center;
 border-radius: 50%;
   height: 50px;
   width: 50px;
+  top:80%;
+  left:80%;
   /* transform:scale(1.2); */
 opacity:1;
 /* background-color: rgb(32, 21, 28); */
