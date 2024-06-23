@@ -1,20 +1,28 @@
 .cookies-modal{
-    height: 50%;
-    left:25%;
-    width:50%;
+    height: 100%;
+    justify-content: center;
+    display: grid;
+    align-items: center;
+    text-align: center;;
+    left:0%;
+    width:100%;
     position:fixed;
-top:25%;
+    color:rgba(255, 238, 205, 0.547);
+top:0%;
 z-index: 1000;
-background-color: rgba(216, 191, 216, 0.684);
+background-color: rgba(24, 19, 24, 0.842);
 
 }
 .gdpr-buttons{
     margin-top: 10%;
     width:50%;
+    height:50px;
     margin-left:25%;
-    background-color:grey;
+    background-color:rgba(67, 67, 67, 0.277);
     color:gold;
     border-radius: 0;
+    display: grid;
+    text-align: center;
 
 
 }

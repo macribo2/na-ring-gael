@@ -26,10 +26,10 @@ const CookiesConsent = () => {
       {showModal && (
         <div className="cookies-modal">
           <h2>Cookie Consent</h2>
-          <p>This website uses cookies to ensure you get the best experience.</p>
+          This website uses cookies to ensure you get the best experience.
           <div className="buttons">
             <button className='gdpr-buttons menu' onClick={() => handleConsent(true)}>Accept</button>
-            <button className='gdpr-buttons'onClick={() => handleConsent(false)}>Decline</button>
+            <button className='gdpr-buttons menu'onClick={() => handleConsent(false)}>Decline</button>
           </div>
         </div>
       )}

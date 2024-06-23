@@ -145,7 +145,6 @@ class GameScene extends Phaser.Scene {
         }
         
         
-        
     }
     
     create() {

@@ -5,10 +5,10 @@ import bg0 from '../../images/fog3.png';
 import eye1 from '../../images/gifs/suile0.gif';
 import eye2 from '../../images/gifs/suile3.gif';
 import React, { useEffect,useState  } from 'react';
-import ironkey from '../../images/iron-key.png';
+import ironkey from '../../images/nrg-text.png';
 import keyface from '../../images/gifs/keyface.gif';
 import greyBG from '../../images/cut-scenes/rectanglesbg0.jpg';
-import lordIronkey from '../../images/gifs/keyface.gif'
+import nrg from '../../images/nrg.png'
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
 import distantHills from '../../images/newbg4town.png';
@@ -167,7 +167,7 @@ let randLights = Math.floor(Math.random * 8)
 			
 			<img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
 <div className="ironkeyportraitholder">
-				<img rel="preload" src={lordIronkey} className="iron-key-portrait" alt="lord iron key and his key." />
+				<img rel="preload" src={nrg} className="nrg" alt="a hilltop." />
 
 
 				
@@ -176,7 +176,6 @@ let randLights = Math.floor(Math.random * 8)
 
 		
 			<img src={blurryBG} className = "blurry-bg" alt="hazy green grey" />
-			<img className="distant-hills" src={distantHills} alt="distant hills" />
 
 
 

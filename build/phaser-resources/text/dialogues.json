@@ -2,15 +2,15 @@
   {
     "id": "l0",
     "text": {
-      "en": "Here I am,\nimprisoned in the ring",
-      "ga": "Anseo atá mé,\ni ngéibheann sa fáinne"
+      "en": "Here I am,\nimprisoned",
+      "ga": "Anseo atá mé,\ni ngéibheann"
     }
   },
 {
   "id": "l1",
   "text": {
-    "en": "in this labyrinth",
-    "ga": "sa lúbra seo"
+    "en": "in this ring",
+    "ga": "sa fáinne seo"
   }
 },
 {
@@ -44,8 +44,8 @@
     {
       "id": "l6",
       "text": {
-        "en": "...",
-        "ga": "..."
+        "en": "...?",
+        "ga": "...?"
       }}
     
     
