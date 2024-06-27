@@ -6,6 +6,10 @@ import './bally.css';
 import { useHistory } from 'react-router-dom';
 import NavCD from '../../../navCD/navCD'
 
+
+import ReactRain from 'react-rain-animation';
+
+
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
 // ];
@@ -57,6 +61,23 @@ const Kilcash = () => {
 
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
             {showEasca && <Easca />}
+
+            	
+					<div className="rain1">
+						
+						<ReactRain numDrops="56" />
+						</div>
+						<div className="rain2">
+						<ReactRain  numDrops="56" />
+						</div>
+						<div className="rain3">
+
+						<ReactRain numDrops="56" />
+						</div>
+						<div className="rain4">
+
+						<ReactRain numDrops="56" />
+</div>					
         </>
     );
 };
@@ -210,7 +231,7 @@ this.textEn.setVisible(true);
         });
 
 
-  // Add event listener for pointerdown event
+// Add event listener for pointerdown event
 speakIcon.on('pointerdown', () => {
     // Dispatch a custom event to notify React to show the Easca component
     const event = new Event('showEasca');

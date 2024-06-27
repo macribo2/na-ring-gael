@@ -167,7 +167,7 @@ p {
   align-items: center;
   width: 100%;
   left: 0;
-  bottom: 0%;
+  bottom: 15%;
   z-index: 9000;
   position: fixed;
 }
@@ -178,9 +178,8 @@ p {
 }
 
 .menu{
-  background-color: rgba(5, 12, 3, 0.5);
-  /* border: 3px solid rgba(5, 12, 3, 0.5); */
-  color: darkgray;
+  background-color: rgba(240, 252, 237, 0.6);
+  color: rgb(82, 114, 7);
   padding: 12px;
   opacity: 0;
   width: 19%;
@@ -189,6 +188,23 @@ p {
   font-size: 2em;
   font-family: 'Ubuntu';
   border-radius: 0;
+}
+.game-over-menu{
+
+  background-color: rgba(22, 24, 21, 0.4);
+  color: rgb(82, 114, 7);
+  padding: 12px;
+  opacity: 0;
+  width: 19%;
+  margin: 3%;
+  margin-top:25%;
+  animation: fade-in  linear 1s forwards;
+  font-size: 2em;
+  font-family: 'Ubuntu';
+  border-radius: 0;
+  
+
+
 }
 
 .quote-1{
@@ -824,11 +840,11 @@ transform: scale(1.5);
 #iron-key-text{
 	animation: fade-in-ik 12s forwards;
     margin-top: 0%;
-    top: 15%;
+    top: 0%;
     position: fixed;
     z-index: 9000;
     margin-left: 1%;
-    transform:scale(0.4)
+    transform:scale(0.5)
 }
 
 .runrig{
@@ -874,7 +890,7 @@ transform: scale(1.5);
     position: fixed;
     z-index: 1;
 justify-content: center;  
-bottom:-35%;
+bottom:-10%;
 /* animation: bounce 2s 131 steps(3);   */
   }
 

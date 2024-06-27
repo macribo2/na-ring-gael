@@ -80,16 +80,16 @@ export default function Rings3(props) {
 	let Ring3AnsEng = [
 		`
 		`, 
-		`a ring turns`, 
-		`a ring shines`,
+		`a ring turns (sings)`, 
+		`a ring shines (illuminates)`,
 `a ring tells a story`,
-`play the ring`,
+`create rings`,
 		 		
-		 `to return to Éire`,
-		 `to return to Éire`,	
-		 `to return to Éire`,
-		 `to return to Éire`,
-		 `to return to Éire`,
+		 `to return to Ireland`,
+		 `to return to Ireland`,	
+		 `to return to Ireland`,
+		 `to return to Ireland`,
+		 `to return to Ireland`,
 		
 		``, ``, ``,
 	]
@@ -101,7 +101,7 @@ export default function Rings3(props) {
 		`casann fáinne`,
 		`lasann fáinne`,			
 		`insíonn fáinne scéal`,
-		`seinm an fáinne`,
+		`tar isteach sa fáinne`,
 		`le filleadh go hÉireann`,
 		`le filleadh go hÉireann`,	
 		`le filleadh go hÉireann`,	

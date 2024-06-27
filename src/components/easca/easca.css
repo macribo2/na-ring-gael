@@ -7,6 +7,11 @@
 	src: url(../../fonts/aonchlo.ttf);
   }
   
+@font-face {
+	font-family: info;
+	src: url(../../fonts/INFO56_0.ttf);
+  }
+  
 /* *{
 	background-color:black;} */
 	.button-group{
@@ -34,7 +39,6 @@
 	}
 	.btn{
 
-		/* margin:0 !important; */
 		display: block;
 		width: 100%;
 		/* margin:2px; */
@@ -158,7 +162,6 @@ top: 60%;
     touch-action: manipulation;
     -webkit-user-select: none;
     user-select: none;
-    width: %;
     top: 61%;
     position: fixed;
 	z-index: 9000;
@@ -167,15 +170,13 @@ top: 60%;
 
  .hg-button, .hg-layout-easca.hg-rows,
 .hg-theme-default,.hg-standardBtn{	
-	background-color: rgb(4, 4, 4) !important;
+	background-color: rgba(4, 4, 4,0) !important;
 
 }
-.hg-button{
-	background-color: rgb(28, 27, 29) !important;
-
-
-}
-
+.hg-button, .hg-button.hg-button {
+	background-color: rgb(23, 0, 45) !important;
+	color: aliceblue !important;
+  }
 .react-simple-keyboard{
 	top: 42%;
 	left: 2.5%;
@@ -193,7 +194,7 @@ top: 60%;
     text-align: left;
     font-size: 2em;
     background-color: rgba(0,0,0,0);
-    font-family: aonchlo;
+    font-family: info;
 	color:greenyellow
 
 }
@@ -232,20 +233,11 @@ top: 60%;
 	width:100%;
 }
 
-@keyframes colorCycle {
-	0% { color: red; }
-	16.666% { color: orange; }
-	33.333% { color: yellow; }
-	50% { color: green; }
-	66.666% { color: blue; }
-	83.333% { color: indigo; }
-	100% { color: violet; }
-  }
+
   
 	.hg-button, .hg-standardBtn{
 		
 		font-size: 1.5em;
-		animation: colorCycle 7s infinite; /* Adjust the duration as needed */
 	
 	}
 

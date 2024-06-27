@@ -449,7 +449,7 @@ color:rgba(255, 255, 255, 0.9);
   z-index: 130; 
 }
 
-.names-i, .numbers-i{
+names-i., .numbers-i{
 top:2%;
   font-size: 3em;
   position: fixed;
@@ -459,7 +459,10 @@ top:2%;
   text-align: left;
   width: 100%;;
       }
+      .names-i{
+  font-family: 'aonchlo';
 
+      }
 .in-g{
   opacity: 1;
   color:  violet;

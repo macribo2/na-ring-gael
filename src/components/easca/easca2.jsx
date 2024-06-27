@@ -18,9 +18,58 @@ export default class Easca extends React.Component {
         '{shift}': '⇧',
         '{send}': 'seol'
       },
-      showEasca: true
+      showEasca: true,
+      showOptions: false,
     };
+
+    this.longPressTimer = null;
   }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
+    window.addEventListener('showEasca', this.handleShowEasca);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
+    window.removeEventListener('showEasca', this.handleShowEasca);
+  }
+
+  handleShowEasca = () => {
+    this.setState({ showEasca: true });
+  };
+
+  handleKeyDown = (e) => {
+    if (e.key === 'G' || e.key === 'g') {
+      if (this.longPressTimer) {
+        clearTimeout(this.longPressTimer);
+      }
+      this.longPressTimer = setTimeout(() => {
+        this.setState({ showOptions: true });
+      }, 500); // 500ms for long press detection
+    }
+  };
+
+  handleKeyUp = (e) => {
+    if (e.key === 'G' || e.key === 'g') {
+      if (this.longPressTimer) {
+        clearTimeout(this.longPressTimer);
+      }
+      if (!this.state.showOptions) {
+        this.setState(prevState => ({ input: prevState.input + e.key }));
+      }
+      this.setState({ showOptions: false });
+    }
+  };
+
+  handleOptionClick = (option) => {
+    this.setState((prevState) => ({
+      input: prevState.input + option,
+      showOptions: false
+    }));
+  };
 
   onChange = input => {
     this.setState({ input });
@@ -121,6 +170,14 @@ export default class Easca extends React.Component {
             }
           ]}
         />
+        {this.state.showOptions && (
+          <div className="options-modal">
+            <button onClick={() => this.handleOptionClick('ng')}>ng</button>
+            <button onClick={() => this.handleOptionClick('gh')}>gh</button>
+            <button onClick={() => this.handleOptionClick('G')}>G</button>
+            <button onClick={() => this.handleOptionClick('ġ')}>ġ</button>
+          </div>
+        )}
       </>
     );
   }

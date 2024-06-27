@@ -3,8 +3,6 @@ import './rings1.css';
 import bigGlass from '../../images/big-glass.png'
 import lens from '../../images/ciorcal-glass.png';
 import lensBG from '../../images/ciorcal-glass2.png';
-import leftImage from '../../images/98.png'; // Replace with the actual path to your left image
-import rightImage from '../../images/98.pn'; // Replace with the actual path to your right image
 
 import emerald from '../../images/misc_crystal_new.png'
 import pearl from '../../images/stone-soup/misc_crystal_old.png';
