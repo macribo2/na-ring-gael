@@ -2,7 +2,7 @@
 import React from 'react';
 import '../concept/concept.css'
 import './history.css';
-import Rings3 from '../Rings/Rings-amergin'
+import Rings3 from '../Rings/Rings6'
 // import Rings3 from '../encounter/encounter'
 
 // import Rings3 from '../Rings/Rings3'

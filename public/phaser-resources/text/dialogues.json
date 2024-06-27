@@ -2,43 +2,43 @@
   {
     "id": "l0",
     "text": {
-      "en": "Here I am,\nimprisoned",
-      "ga": "Anseo atá mé,\ni ngéibheann"
+      "en": "Rise Rise!",
+      "ga": "Éirígí éirígí!"
     }
   },
 {
   "id": "l1",
   "text": {
-    "en": "in this ring",
-    "ga": "sa fáinne seo"
+    "en": "The otherworld is under attack",
+    "ga": " tá tír na nÓg faoi ionsaí"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "Sleep fell upon me, \nand I among the rocks",
-    "ga": "Thuit a choladh orm,\nagus mé i measc na carraigeacha"      }
+    "en": "It came in a vision",
+    "ga": "\n Chonaic mé Aisling"      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "How long ago?",
-    "ga": "Cé chomh fada\n ó shin?"
+    "en": "among the rocks",
+    "ga": "i measc na carraigeacha"
   }
 },
  {
     "id": "l4",
     "text": {
-      "en": "I am being watched!",
-      "ga": "Táthar ag faire orm!"
+      "ga": "B'fearr dhom leabhairt \nleis an Taoseach.",
+      "en": "I'd better speak with the Taoiseach."
     }
   },
   {
     "id": "l5",
     "text": {
-      "en": "Hey you!\n Follow pooka back to Ireland.",
-      "ga": "Haigh tusa!\nLean púca ar ais go hÉireann."
+      "en": " you!\n Follow pooka back to Ireland.",
+      "ga": "Haigh tusa!\nLean púca ar ais go Dún an Rí."
     }
     },
     {

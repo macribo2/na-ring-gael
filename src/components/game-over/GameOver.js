@@ -6,7 +6,7 @@ import eye2 from '../../images/gifs/suile3.gif';
 import React, { useEffect, useState } from 'react';
 import ironkey from '../../images/iron-key.png';
 import keyface from '../../images/gifs/keyface.gif';
-import greyBG from '../../images/cut-scenes/rectanglesbg0.jpg';
+import greyBG from '../../images/cut-scenes/rectanglesbg1.jpg';
 import lordIronkey from '../../images/gifs/keyface.gif';
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
@@ -137,11 +137,11 @@ export default function SettingsMenu(props) {
         <div className="light light10"></div>
       </div>
       <div className='menu-container'>
-        <button className="menu" onClick={handleAboutClick}>ar ais</button>
+        <button className="game-over-menu" onClick={handleAboutClick}>ar ais</button>
         {showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={props.handleInputSelect} /> : null}
-        <button className="menu" onClick={handleBeginClick}>arís</button>
+        <button className="game-over-menu" onClick={handleBeginClick}>arís</button>
         <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
-        <h2>scóɼ:</h2>
+        {/* <h2>scóɼ:</h2> */}
 
       </div>
     </>

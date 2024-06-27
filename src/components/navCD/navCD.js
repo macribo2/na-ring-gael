@@ -268,7 +268,7 @@ export default class NavCD extends Phaser.Scene {
         repeat: -1,
     });
 
-    this.currentProvinceIndex = 2;
+    this.currentProvinceIndex = 4;
     this.currentCountyIndex = 3;
 
     this.currentProvince = ireData.provinces[this.currentProvinceIndex];

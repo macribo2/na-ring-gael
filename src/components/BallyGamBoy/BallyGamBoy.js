@@ -95,7 +95,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('sparks', `./phaser-resources/images/spark_02.png`);
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/ghostTown2.png');
-
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
         this.load.image('greenRingLeft', './phaser-resources/images/ciorcal-glass8.png');
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -245,7 +244,7 @@ const posX = 0;
 greenFrame.setPosition(posX, posY);
 
     const playerX = this.sys.game.config.width / 2;
-    const playerY = this.sys.game.config.height /2;
+    const playerY = this.sys.game.config.height -100;
     this.player = this.add.sprite(playerX, playerY, 'player');
     this.player.setScale(3);
     this.player.setDepth(3);
