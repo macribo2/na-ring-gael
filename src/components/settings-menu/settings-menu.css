@@ -178,8 +178,8 @@ p {
 }
 
 .menu{
-  background-color: rgba(240, 252, 237, 0.6);
-  color: rgb(82, 114, 7);
+  background-color: rgb(82, 114, 7);
+  color: goldenrod;
   padding: 12px;
   opacity: 0;
   width: 19%;
@@ -882,17 +882,20 @@ transform: scale(1.5);
 	
 	.settings-button{
 		
-		/* border:4px solid red; */
 	}
 
   .ironkeyportraitholder{
-    /* border: 4px solid orange; */
     position: fixed;
     z-index: 1;
-justify-content: center;  
-bottom:-10%;
-/* animation: bounce 2s 131 steps(3);   */
+    justify-content: center;  
   }
+
+  .ironkeyportraitholder-intro{
+    bottom:-10%;
+  }
+.ironkeyportraitholder-game-over{
+  animation: bounce 2s 131 steps(3);  
+}
 
 	.iron-key-portrait{
     position:fixed;
@@ -902,7 +905,11 @@ bottom:-10%;
     /* animation: advance 270s forwards steps(135), */
     /* fade-in-ik 26s forwards ease-in; */
 	  }
-
+    .iron-key-portrait-game-over{
+     
+      animation: advance 270s forwards steps(135),
+      fade-in-ik 26s forwards ease-in;
+      }
 @keyframes bounce {
   0%{margin-top:0 } 
   79%{margin-top:0 }

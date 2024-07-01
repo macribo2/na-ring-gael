@@ -179,7 +179,7 @@ const ireData  = {
 
 
         },{
-            "url":"connacht/roscommon/cornafulla ",
+            "url":"connacht/roscommon/cornafulla",
 "irishName":  "Corr na Fola",
             "englishName":"Cornafulla - hill of the blood"
 
@@ -1493,8 +1493,8 @@ const ireData  = {
         {
                 
             "url":"munster/tipperary/rathsasseragh",
-"irishName":      "Rathsasseragh",
-            "englishName":  "Ringfort of the plough-team",
+"irishName":      "Ráth na Seisreach",
+            "englishName":  "RathsasseraghRingfort of the plough-team",
         
         },
         {

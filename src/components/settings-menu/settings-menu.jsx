@@ -40,10 +40,7 @@ const enterFullscreen = () => {
 	}
 };
 
-  
-
-
-export default function SettingsMenu(props) {
+  export default function SettingsMenu(props) {
 	let lightStartX = [3, 10, 44, 99, 12, 18, 77, 89, 46, 54]
 	function setLightStartX() {
 		for (let i = 0; i < lightStartX.length; i++) { 
@@ -51,7 +48,6 @@ export default function SettingsMenu(props) {
 		}
 	 }
 	useEffect(() => {
-
 		    // Play the audio when the component first loads
 			const audioPlayer = document.getElementById('deepBlue');
 			if (audioPlayer) {
@@ -166,7 +162,7 @@ let randLights = Math.floor(Math.random * 8)
 			<img rel="preload" src={bg0} className="settings-bg" alt="low intensity background  graphic, expect this to change sometimes." />
 			
 			<img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
-<div className="ironkeyportraitholder">
+<div className="ironkeyportraitholder ironkeyportraitholder-intro">
 				<img rel="preload" src={nrg} className="nrg" alt="a hilltop." />
 
 

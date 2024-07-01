@@ -120,8 +120,8 @@ export default function SettingsMenu(props) {
       <div className="setting-menu" onClick={() => props.handleInputSelect('gamepad')}>
         <img rel="preload" src={bg0} className="settings-bg" alt="low intensity background graphic, expect this to change sometimes." />
         <img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
-        <div className="ironkeyportraitholder">
-          <img rel="preload" src={lordIronkey} className="iron-key-portrait" alt="lord iron key and his key." />
+        <div className="ironkeyportraitholder ironkeyportraitholder-game-over ">
+          <img rel="preload" src={lordIronkey} className="iron-key-portrait iron-key-portrait-game-over" alt="lord iron key and his iron key." />
         </div>
         <img src={blurryBG} className="blurry-bg" alt="hazy green grey" />
         <img className="distant-hills" src={distantHills} alt="distant hills" />
