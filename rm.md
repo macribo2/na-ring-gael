@@ -1,25 +1,31 @@
 
+credits
+
+Swords by Clint Bellanger
+developed by Ribo
+music by Three Red Hearts,
+names and their translations collected by namenerds.com
+Scots Gaelic Proverbs collected by Alexander Nicolson
+
+
+additonal image resources: game-icons.net, opengameart.org
 
 
 
 
-pixel art concept for a video game:
-
-Ficheall
-
-
-JSON  sees in you the genius of our people.
-writ large.
 Here's how it goes
 Seo JSON:
 
 {"":""}
 
 JSON, Nodaireacht Oibiachtaí JavaScript
-a usáidtear chun do inchur teacs, a sheoladh chuig freastalí an gréasán.
+a usáidtear chun inchur teacs, a roinnt le freastalí an gréasán. 
+
 Agus ar ais.
 
-Seo sampla eile:
+Seo sampla:
+
+
 {"userName":"Patrick"}
 
 Seo sampla eile:
@@ -40,31 +46,9 @@ Seo sampla eile:
 Tá muid ag breathnú ar na mílte bléibíní solas beaga, ag aithrú daitheanna, thart ar 60 uair/soicéand.
 
 Buntús ríomharachta is ea an comhead dénartha.
-Mar is mar sin a  nvm install 16.13.0
-:w
+Mar sin a bhí 
 
-
-
-
-
-
-
-
-
-
-Shinrin-Yoku, Patrick De Arteaga.
-Royalty free Music from patrickdearteaga.com 
-
-
-Starter code for quiz-app beginner react project
-
-- clone repo
-- npm install
-- npm start
-
-translations
-
-It was so.
+It was so
 
 ráth 
 

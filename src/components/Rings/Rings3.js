@@ -85,11 +85,11 @@ export default function Rings3(props) {
 `a ring tells a story`,
 `Let us spin rings`,
 		 		
-		 `to return to Éire`,
-		 `to return to Éire`,	
-		 `to return to Éire`,
-		 `to return to Éire`,
-		 `to return to Éire`,
+		 `to return to Éireann`,
+		 `to return to Éireann`,	
+		 `to return to Éireann`,
+		 `to return to Éireann`,
+		 `to return to Éireann`,
 		
 		``, ``, ``,
 	]

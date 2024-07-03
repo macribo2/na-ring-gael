@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import GameOver from './components/game-over/GameOver';
 import ChessLike from './components/ChessLike/chessLike2';
+import PucaLoic2 from './components/ChessLike/chessLike3';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
 import FairyLand from './components/FairyLand/FairyLand';
@@ -46,6 +47,17 @@ const ChessLikeWrapper = () => {
 
           )}
            />
+
+<Route path="/pucaloic2" render={() => (
+            <>
+              <PucaLoic2 />
+              {shouldRefresh && <PucaLoic2 />}
+            </>
+
+          )}
+           />
+
+           
       <Route path="/rings4" component={Rings4 } />
       <Route path="/rings5" component={Rings5 } />
 
