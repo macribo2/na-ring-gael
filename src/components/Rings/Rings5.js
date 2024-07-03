@@ -150,20 +150,20 @@ let ogHero = localStorage.getItem('portrait')
 		`a seacht`,
 		
 		
-		`sin beart 8 ghiotán eolas, sa comhad dénártha.   
+		`tá ocht giotán eolas i beart.   
 		`,
-		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
-		`,		`sin beart 8 ghiotán eolas, sa comhad dénártha.
+		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
+		`,		`tá ocht giotán eolas i beart.
 		`,
  
 		];
@@ -268,20 +268,20 @@ let ogHero = localStorage.getItem('portrait')
 		`seven`,
 		
 		
-		`Those are eight bits of information, or a byte of binary code.   
+		`There are eight bits of information in a byte.   
 		`,
-		  `This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
-		`,`This represents eight bits of information, in binary code.
+		  `There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
+		`,`There are eight bits of information in a byte.
 		`,
  
 		];

@@ -52,11 +52,7 @@ export default function SettingsMenu(props) {
     'à Sasainn ann',
     `Le eachaibh luath is iochar throm`,
     `Ar eiginn ar n-eirigh as ar suain`,
-    `Ar eiginn ar n-eirigh as ar suain`,
-    `An Gaidheal 'sa leabaidh`,
-    `An Gaidheal 'na shuain`,
-    `Is ar eiginn ar n-eirigh`,
-    'as ar suain',
+    
     ' ',
     ' '
   ];
@@ -67,23 +63,16 @@ export default function SettingsMenu(props) {
 `,`    Behind the door 
 `,`    there will be no Sun
 `,`   There'll be no table, there's be no wine
-`,`    He cameC
+`,`    He came
 `,`   across the wave
 `,`    O he came
 `,`    With fast horses and a heavy key
-`,`    We must rise from our slumber!
-`,`    He came
-`,`    from England
-`,`    With fast horses and a heavy key.
-`,`     
-`,`    He came from England
-`,`     
-`,`    We barely rose from our slumber,
-`,`    We barely rose from our slumber:
-`,`    The Gaels in bed,
-`,`    The Gaels who are asleep -
-`,`    They barely rose from their slumber!`, 
-  ];
+`,`    We must rise from our slumber
+`,
+' ',
+' '
+
+];
   localStorage.setItem('isFirstCatch', null);
   useEffect(() => {
     const interval = setInterval(() => {
