@@ -84,7 +84,7 @@ export default function SettingsMenu(props) {
 `,`    The Gaels who are asleep -
 `,`    They barely rose from their slumber!`, 
   ];
-
+  localStorage.setItem('isFirstCatch', null);
   useEffect(() => {
     const interval = setInterval(() => {
       setFade('fade-out');

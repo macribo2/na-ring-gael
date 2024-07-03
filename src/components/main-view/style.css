@@ -72,12 +72,13 @@ pointer-events: none;
 
 .portrait-mode-txt {
 	  display: none;
-    
-	  left: -109%;
+	  padding: 10%;
+   border:10px solid rgba(0,0,0,0); 
+	  left: -100%;
 	  background-color: rgba(0, 0, 0, 0);
 	  transform: rotate(90deg);
 	  font-family: anaphora;
-	  top: 10%;
+	  top: 0%;
 	  width: 200%;
 	  position: fixed;
 	  height: 100%;
