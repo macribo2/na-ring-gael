@@ -7,7 +7,7 @@ music by Three Red Hearts,
 names and their translations collected by namenerds.com
 Scots Gaelic Proverbs collected by Alexander Nicolson
 
-
+An Toll Dubh lyrics by Runrig
 additonal image resources: game-icons.net, opengameart.org
 
 
