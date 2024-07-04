@@ -4,7 +4,7 @@ import molly from '../../../../images/cut-scenes/stern.png'
 import './cork.css';
 import { useHistory } from 'react-router-dom';
 import NavCD from '../../../navCD/navCD'
-import {Rings5} from '../../../Rings/Rings5'
+import Rings6 from '../../../Rings/Rings6'
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
 // ];
@@ -48,7 +48,7 @@ const Nagels = () => {
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
 
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
-            {/* <Rings5/> */}
+            <Rings6/>
         </>
     );
 };

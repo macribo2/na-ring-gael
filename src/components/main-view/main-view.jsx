@@ -773,9 +773,7 @@ You’ll get that if my journey succeeds with me.
 
 				
 				<div className="input-elements-container">
-{/* 					show wheel of fortune when puca selected
-				{value * 10 === 8 ? <Fortuna currentQuestion={ currentQuestion} handleAnswerButtonClick={handleAnswerButtonClick} /> : null}
-				 */}
+
 				</div>
 			</> : null}
 

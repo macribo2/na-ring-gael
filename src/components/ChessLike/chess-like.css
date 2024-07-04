@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'aonchlo';
     src: url('../../fonts/aonchlo.ttf');
@@ -12,81 +11,73 @@
     font-weight: normal;
 }
 
-.chess-like-1{
-height:100%;
-width:100%;
-z-index: 9999;
-position: fixed;
-top:0;
-left:0;
-justify-content: center;
-align-items: center;
-text-align: center;
-
+.chess-like-1 {
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Adjust as needed */
-	position: absolute;
+    height: 100vh;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.chess-like-frame-container{
 
-	position: relative;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: space-between; 
-	pointer-events: none;
-
-}
-.chess-like-frame{
-	pointer-events: none;
-top:0;
-left:0px;
-	position: fixed;
-	z-index: 999;
-	flex: 1;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
+.chess-like-frame-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between; 
+    pointer-events: none;
 }
 
+.chess-like-frame {
+    pointer-events: none;
+    top: 0;
+    left: 0px;
+    position: fixed;
+    z-index: 999;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-.hesitate{
-	/* display:none; */
-	  -webkit-animation: hesitate 2.5s forwards;
-			  animation: hesitate 2.5s forwards;
-	}
-	
-
+.hesitate {
+    -webkit-animation: hesitate 2.5s forwards;
+    animation: hesitate 2.5s forwards;
+}
 
 @-webkit-keyframes hesitate {
-	0% {
-	  opacity: 0
-	}
-	50% {
-	  opacity: 0
-	}
-	
-	100% {
-	  opacity: 1
-	}
-  }
+    0% {
+        opacity: 0
+    }
+    50% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
 
-  .molly{
-	left: 0%;
+.molly {
+    left: 0%;
     transform: scale(2) scaleX(-1);
     top: 81%;
-  }
+}
 
-
-
-  .phaser-chess-like {
-	border: 5px solid orchid;
+.phaser-chess-like {
+    border: 5px solid orchid;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -94,86 +85,85 @@ left:0px;
     align-items: center;
     position: fixed;
     top: 0;
-    left: 0;  }
-  
-	.chess-board {
-		transform: rotate(45deg);
-	}
-	.fullscreen-image {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-		display: flex;
-		justify-content: center; /* Horizontally center the content */
-		align-items: center; /* Vertically center the content */
-		z-index: 9999; /* Ensure it's on top of other elements */
-	}
-	
-	@keyframes ripple {
-		to {
-			transform: scale(2);
-			opacity: 0;
-		}
-	}
-	
-	.touch-prompt {
-		pointer-events: none;
-		position: absolute;
-		z-index: 9999;
-		width: 100px;
-		height: 100px;
-		border-radius: 50%;
-		border: 2px solid #CFB53B;
-		animation: ripple 6.5s infinite;
-	}
-	
-	.touch-prompt:nth-child(2) {
-		animation-delay: 0.5s;
-	}
-	
-	.touch-prompt:nth-child(3) {
-		animation-delay: 1s;
-	}
-	
-	.touch-prompt:nth-child(4) {
-		animation-delay: 1.5s;
-	}
-	.ga {
-		font-family:aonchlo;
-	}
-	/* Adjust the properties as needed */
-	
+    left: 0;
+}
 
-	.touch-prompt-container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		z-index: 9999;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	  pointer-events: none;
+.chess-board {
+    transform: rotate(45deg);
+}
 
-	}
-	.no-pointer-events{
-		pointer-events: none;
-	}
-	
+.fullscreen-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.touch-prompt {
+    pointer-events: none;
+    position: absolute;
+    z-index: 9999;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #CFB53B;
+    animation: ripple 6.5s infinite;
+}
+
+.touch-prompt:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.touch-prompt:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.touch-prompt:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+.ga {
+    font-family: aonchlo;
+}
+
+.touch-prompt-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
 @media screen and (orientation:portrait) {
-
-	#portrait{
-	  display: block;
-	  top: 0;
-	  left: 0;
-	  height: 100%;
-	  width: 100%;
-	  z-index: 9999;
-	  position: fixed;
-	  background-size: contain;
-  
-	}
-}  
+    #portrait {
+        display: block;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 9999;
+        position: fixed;
+        background-size: contain;
+    }
+}

@@ -351,7 +351,7 @@ moveElement(direction) {
         return; // Exit the function if controls are disabled
     }
 
-    if (this.playerMapLocationTracker === 3){
+    if (this.playerMapLocationTracker === 4){
         const sparks = this.add.sprite(250, 150, 'sparks'); // Replace x and y with the desired coordinates
           // Add a tween to fade out the sparks sprite
     this.tweens.add({
