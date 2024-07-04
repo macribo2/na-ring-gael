@@ -739,7 +739,7 @@ const [rng, setRng] = useState(Math.floor(Math.random()*3))
 		'Sárnait',
 		'Osnait',
 		'Giolla-Padraig',
-		'Echna'
+		'Áine'
 	
 	
 	
@@ -829,7 +829,7 @@ const [rng, setRng] = useState(Math.floor(Math.random()*3))
 		'fair lady',
 		'chief, noble, best',
 		'freedom',
-		'dark',
+		'Dark, dark-haired, little dark one; Black. \nA name beloved for millenia',
 		'radience, light',
 		'goddess of love and beauty, patron of County Cork. Also, queen of the banshees',
 		'from uan \'lamb\'. Of truth, beauty, and unity',
@@ -846,7 +846,7 @@ const [rng, setRng] = useState(Math.floor(Math.random()*3))
 'chief, noble, best',
 'deer',
 'servant of Patrick',
-'steed'
+'Radiance, Áine, goddess of Summer'
 	]
 }
 
@@ -1303,11 +1303,7 @@ return (
 
         <div className="image-container">
             <img src={opponent1} className="og-opponent" alt="opponent portrait" />
-				<div className="button-container" onClick={handlePearl}>
-					<button id="pearl" className='bob'>
-						<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
-					</button>
-            </div>
+			
             {ogHero && (
                 <>
                     <img src={ogHero === "1" ? avatar1 :
@@ -1385,6 +1381,12 @@ return (
             </button>
         </div>
         <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
+
+		<div className="button-container" onClick={handlePearl}>
+					<button id="pearl" className='bob'>
+						<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
+					</button>
+            </div>
     </>
 );
 

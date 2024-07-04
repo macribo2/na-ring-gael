@@ -570,7 +570,7 @@ const ireData  = {
         },{
             "url":"leinster/louth/ardee",
 "irishName": "Baile Átha Ḟirdia",
-            "englishName":"Ardee - te ford of Ferdi",
+            "englishName":"Ardee - the ford of Ferdi",
        },{
             "url":"leinster/louth/puckstown",
 "irishName": "Poll an Phúca",

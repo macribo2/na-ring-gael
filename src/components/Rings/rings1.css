@@ -484,7 +484,7 @@ transform: scaleX(-1) scale(1);
 left:65%
       }
       .og-hero{
-        margin-left: 28% !important;
+        margin-left: 45% !important;
         ;
 
 
@@ -952,7 +952,7 @@ z-index: 63;
     align-items: center;
     text-align: center;
     left: 50%;
-    top:0;
+    top:20%;
     position: fixed;
     display: grid;
     transform: translate(180%, 185%);
@@ -961,7 +961,7 @@ z-index: 9999;
   }
       .og-hero,
       .og-opponent {
-        opacity: 0.2;
+        opacity: 0.5;
         transform: scale(1.2);
         /* Style your images as needed */
       }
