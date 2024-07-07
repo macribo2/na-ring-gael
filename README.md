@@ -4,14 +4,17 @@
 Na Ring Gael is a language learning game designed to help players improve their Irish (Gaelic) vocabulary through interactive gameplay. 
 
 This software is a game played in Irish.
-It uses React and Phaser 3.  "mobile first"; specifically mobile landscape mode is being developed, with little regard for other modes so far. 
+It uses React and Phaser 3.  "mobile first"; 
+(specifically mobile landscape mode is being developed, with little regard for other modes so far.)
 
 Project is open-source. 
+
 I have ideas for playable modules exploring interesting computer number patterns, json, things like that. 
 It ought allow the determined player to complete increasingly challenging levels covering foundation topics in computer science. 
 But these are just side quests. 
+
 The player who likes to ride around picking fights and doing classic rpg adventures should be offered a satisfying experience, too. 
-Merely walking around looking at plants, engaging with creatures and npcs, in Irish, is a cognative leap supported by the conventions of classic gaming. The main thing this software does (will do) is let people quest in Irish, with built-in support for language learners.
+Merely walking around looking at plants, engaging with creatures and npcs, in Irish, represents the cognitive leap this software is for. We support the player's journey by the conventions of classic gaming, with built-in support for language learners to quest in Irish.
 
 
 ## Getting Started
