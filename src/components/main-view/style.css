@@ -74,7 +74,7 @@ pointer-events: none;
 	  display: none;
 	  padding: 10%;
    border:10px solid rgba(0,0,0,0); 
-	  left: -100%;
+	  left: -115%;
 	  background-color: rgba(0, 0, 0, 0);
 	  transform: rotate(90deg);
 	  font-family: anaphora;

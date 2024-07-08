@@ -532,29 +532,9 @@ function toggleOverlay() {
                         }
                     });
             
-// Add the image
-const circleFrame = this.add.image(0, 0, 'circle9').setOrigin(0).setDepth(2);
+
 
 // Calculate scale to cover the entire screen without distortion
-const c9scaleX = this.sys.game.config.width / circleFrame.width;
-const c9scaleY = this.sys.game.config.height / circleFrame.height;
-const c9scale = Math.max(c9scaleX, c9scaleY); // Use Math.max instead of Math.min
-
-// Zoom in the image (adjust the scale factor as needed)
-const zoomFactor = 0.6;
-const scaledWidth = circleFrame.width * zoomFactor;
-const scaledHeight = circleFrame.height * zoomFactor;
-const c9scaleZoomedX = this.sys.game.config.width / scaledWidth;
-const c9scaleZoomedY = this.sys.game.config.height / scaledHeight;
-const c9scaleZoomed = Math.max(c9scaleZoomedX, c9scaleZoomedY);
-
-// Set the scale of the image to cover the entire screen while maintaining aspect ratio
-circleFrame.setScale(c9scaleZoomed).setScrollFactor(0);
-
-// Center the circular frame horizontally and vertically on the screen
-const c9posX = (this.sys.game.config.width - circleFrame.displayWidth) / 2;
-const c9posY = (this.sys.game.config.height - circleFrame.displayHeight) / 2;
-circleFrame.setPosition(c9posX, c9posY);
 
 
 

@@ -449,7 +449,7 @@ color:rgba(255, 255, 255, 0.9);
   z-index: 130; 
 }
 
-names-i., .numbers-i{
+.names-i, .numbers-i{
 top:2%;
   font-size: 3em;
   position: fixed;
@@ -461,7 +461,7 @@ top:2%;
       }
       .names-i{
   font-family: 'aonchlo';
-
+display:none;
       }
 .in-g{
   opacity: 1;
@@ -484,7 +484,7 @@ transform: scaleX(-1) scale(1);
 left:65%
       }
       .og-hero{
-        margin-left: 45% !important;
+        margin-left: 65% !important;
         ;
 
 

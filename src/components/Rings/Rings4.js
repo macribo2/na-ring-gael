@@ -615,6 +615,7 @@ if (champID !== 25) {
 		setShowDiv(true);
 		document.querySelector(".champion-portrait").classList.add('fade-in-champ');
 		document.querySelector(".button-mash-ring-4").classList.add('fade-in-champ');
+		document.querySelector(".names-i").classList.add('fade-in-champ');
 			// Change the display property after a delay (0.5s for the animation duration)
 	setTimeout(() => {
 		buttonMashRing4.style.display = 'block';
@@ -1295,11 +1296,7 @@ return (
         </div>
         <p id="hints-ring-4" className={props.isOn ? "hints" : "hidden"}></p>
 
-        {props.isOn ? (
-            <p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
-                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-            </p>
-        ) : null}
+      
 
         <div className="image-container">
             <img src={opponent1} className="og-opponent" alt="opponent portrait" />
@@ -1324,9 +1321,7 @@ return (
             <p className="names-e">
                 {namesInEnglish[Math.floor(value * 100) + round.current * 100]}
             </p>
-            <p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
-                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
-            </p>
+           
         </div>
         <div className="input-elements-container-5"></div>
        
@@ -1372,6 +1367,7 @@ return (
                 onTouchStart={() => {
                     // setShowDiv(false);
 
+
                 }}
                 onTouchEnd={props.proceedThroughQuiz}
             >
@@ -1386,7 +1382,18 @@ return (
 					<button id="pearl" className='bob'>
 						<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
 					</button>
+
+
             </div>
+
+			{props.isOn ? (
+            <p x={100} y={100} className="names-i in-g" textAnchor="middle" dy="0.3em" fontWeight="bold">
+                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+            </p>
+        ) : null}
+ <p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
+                {hname = namesInIrish[Math.floor(value * 100) + round.current * 100]}
+            </p>
     </>
 );
 

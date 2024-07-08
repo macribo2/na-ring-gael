@@ -48,9 +48,6 @@ export default function SettingsMenu(props) {
     'treasna tonn',
     'Ó Thainig sé ',
     'Le eachaibh luath is iochar throm',
-    'Thainig sé',
-    'à Sasainn ann',
-    `Le eachaibh luath is iochar throm`,
     `Ar eiginn ar n-eirigh as ar suain`,
     
     ' ',

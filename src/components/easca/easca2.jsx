@@ -16,7 +16,9 @@ export default class Easca extends React.Component {
         '{enter}': '↵',
         '{alt}': 'ᵹ',
         '{shift}': '⇧',
-        '{send}': 'seol'
+        '{send}': 'seol',
+        '{mode}': '>_'
+
       },
       showEasca: true,
       showOptions: false,
@@ -153,9 +155,9 @@ export default class Easca extends React.Component {
               "{shift} {space} {enter} {send}"
             ],
             alt: [
-              "é q w ú í ó ṗ {backspace}",
-              "á ṡ ḋ ḟ ġ y ṫ",
-              "ċ ḃ z ṁ ⁊ x {alt}",
+              "é q w ú í ó _ {backspace}",
+              "á _ _ _ _ y {mode}",
+              "_ _ z _ ⁊ x {alt}",
               "{shift} {space} {enter} {send}"
             ]
           }}
