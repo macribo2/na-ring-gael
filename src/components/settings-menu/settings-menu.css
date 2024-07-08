@@ -211,18 +211,19 @@ p {
 }
 
 .quote-1{
+
   animation: fade-in  linear 1s forwards;
   margin-left:-10%;
 color:deepskyblue;
 }
 
 .quote-2{
-  margin-left:-65%;
+  margin-left:-55%;
   animation: fade-in 1s linear 1s forwards;
 }
 
 .quote-3{
-  margin-left:-76%;
+  margin-left:-65%;
 
   animation: fade-in 1s linear 2.5s forwards;
 }
@@ -830,7 +831,7 @@ vertical-align:middle;
 		/* position: fixed; */
 		top:0;
 		left:0;
-		/* z-index:120; */
+		z-index:9999;
 	animation: fade-out-puzzle-gif 20s forwards linear;
 /* border: 5px solid green;; */
 transform: scale(1.5);	 

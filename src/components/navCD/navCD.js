@@ -155,8 +155,7 @@ export default class NavCD extends Phaser.Scene {
 
   create() {
  
-    let isFirstCatch = localStorage.getItem('isFirstCatch') === null;
-    if (isFirstCatch) {
+  
         // Display the message and graphic
         const message = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Léim an Púca súas sa spéir!', {
             fontSize: '32px',
@@ -180,7 +179,7 @@ export default class NavCD extends Phaser.Scene {
 
         // Update the flag in local storage
         localStorage.setItem('isFirstCatch', 'true');
-    }
+    
 
    // Add and configure overlay
    this.overlay = this.add.container(0, 0).setDepth(3);
