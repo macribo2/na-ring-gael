@@ -5,8 +5,14 @@
     { "posGa": "fíor ", "negGa": "bréagach ", "posEn": "True ", "negEn": "  False " },
     { "posGa": "a h-aon", "negGa": "a náid", "posEn": "one", "negEn": "zero" },
     { "posGa": "beo ", "negGa": "marbh ", "posEn": "living", "negEn": "dead" },
-    { "posGa": "lá ", "negGa": "oiche ", "posEn": "Day  ", "negEn": "Night " },
     { "posGa": "dearfach ", "negGa": "diúltach ", "posEn": "Positive     ", "negEn": "Negative  " },
+    { "posGa": "lá ", "negGa": "oiche ", "posEn": "Day  ", "negEn": "Night " },
+    
+    { "posGa": "sothuigthe", "negGa": "dothuigthe", "posEn": "comprehensible", "negEn": "incomprehensible" },
+    { "posGa": "so-ólta", "negGa": "do-ólta", "posEn": "drinkable     ", "negEn": "undrinkable" },
+    { "posGa": "sodhéanta", "negGa": "dodhéanta", "posEn": "easy to do", "negEn": "impossible" },
+
+    
     { "posGa": "ceart ", "negGa": "mícheart ", "posEn": "Right", "negEn": "  Wrong " },
     { "posGa": "láidir", "negGa": "lag", "posEn": "strong", "negEn": "weak" },
     { "posGa": "maith ", "negGa": "olc ", "posEn": "Good  ", "negEn": "Bad " },

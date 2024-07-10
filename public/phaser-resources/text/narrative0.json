@@ -66,27 +66,27 @@
   
    },
    "Mug_Ruith":{
-      "gae0":"\n...",
+      "gae0":"",
       "eng0":"Black Molly:\n...",
       "gae1":"\nMallaidh Dubh, \nbhraithim tú, ann.",
       "eng1":"Mug Ruith:\nBlack Molly, \nI sense your presence.",
-      "gae2":"\nA saoi, \nNí seasfaidh\nTír na nÓg \ni gcoinne acmhainn cogaíochta Ironkey i bhfad.",
-      "eng2":"Black Molly:\nO wise one\nTír na nÓg \ncan't stand \nagainst Ironkey's war capacity for long.",
-      "gae3":"\nGo deimhin, Ach ná bíodh eagla ort, \ntiochfaidh ár comhghuaillithe \ni gcabhair orainn.",
-      "eng3":"Mug Ruith:\nIndeed. \nBut fear not, \nour allies will stand with us.",
-      "gae4":"\nFéinnidh na hÉireann?",
-      "eng4":"Black Molly:\nChampions of Ireland?",
-      "gae5":"\nTá ár nasc domhain.",
-      "eng5":"Mug Ruith:\nOur bond is deep."
-      ,"gae6":"...",
+      "gae2":"\nA saoi, \nNí seasfaidh\nTír na nÓg \ni gcoinne acmhainn cogaíochta Ironkey.",
+      "eng2":"Black Molly:\nO Sage\nTír na nÓg \ncan't stand \nagainst Ironkey's war capacity.",
+      "gae3":"\nPah. Tugfaidh mise bata agus bóthar dó.",
+      "eng3":"Mug Ruith:\nI'll send him packing.",
+      "gae4":"\nAn féidir glaoch ar na Fianna?",
+      "eng4":"Black Molly:\nMay we summon the champions of Ireland?",
+      "gae5":"\nCeann amháin.",
+      "eng5":"Mug Ruith:\nJust one."
+      ,"gae6":"",
       "eng6":"..."
   
    },
    "Abhartach":{
-      "gae0":" \n...",
+      "gae0":" ",
       "eng0":"Black Molly: \n...",
-      "gae1":"\nA Mallaidh Dubh, \nagus an fatíos uirthi. \nAg lorg cúnamh uaimse?",
-      "eng1":"Abhartach: \nBlack Molly, \nand fear on her. \nSeeking aid from me?",
+      "gae1":"\nMallaidh Dubh, \nagus fatíos uirthi. \nAg lorg cúnamh uaimse?",
+      "eng1":"Abhartach: \nBlack Molly, \nfull of fear. \nSeeking aid from me?",
       "gae2":" \nA Thaoiseach doracha, \ntá Ironkey, lena meaisíní \nagus arrachtaigh, \nag máirseáil i leith \nle huacht cearnóir.",
       "eng2":"Black Molly: \nO dark Chieftain, \nIronkey, with his machines and monsters, \nmarchs hither with the will of a conqueror.",
       "gae3":"\nIronkey! \nNaimhead crothach airiú!",

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "l0",
+    "text": {
+      "en": "Dunaree \n fort of the king \n County Cavan",
+      "ga": "Dún an Rí"
+    }
+  },
+{
+  "id": "l1",
+  "text": {
+    "en": "A busy day in Dunaree!",
+    "ga": "Lá gnóthach i Dún an Rí!"
+  }
+},
+{
+  "id": "l2",
+  "text": {
+    "en": "You! What is the cause of these crowds?",
+    "ga": "Tusa! \nCad is cúis leis na slúite?"      }
+}
+,
+{ 
+  "id": "l3",
+  "text": {
+    "en": "",
+    "ga": "Innú céad lá \nféile scéaliochta \nDún an Rí"
+  }
+},
+ {
+    "id": "l4",
+    "text": {
+      "en": "",
+      "ga": "Ach! \nníl ám againn chuige seo!\n Tá teachtaracht agam don Rí."
+    }
+  },
+  {
+    "id": "l5",
+    "text": {
+      "en": "",
+      "ga": ""
+    }
+    },
+    {
+      "id": "l6",
+      "text": {
+        "en": "...",
+        "ga": "brú chun tosaigh, fan sa scúinne, nó fág?"
+      }}
+    
+    
+]
