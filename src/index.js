@@ -4,6 +4,7 @@ import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import Dunaree from './components/locations/ulster/Cavan/dunaree';
 
 import GameOver from './components/game-over/GameOver';
 import ChessLike from './components/ChessLike/chessLike2';
@@ -57,6 +58,14 @@ const ChessLikeWrapper = () => {
           )}
            />
 
+<Route path="/ulster/cavan/dunaree" render={() => (
+            <>
+              <Dunaree />
+              {shouldRefresh && <Dunaree />}
+            </>
+
+          )}
+           />
            
       <Route path="/rings4" component={Rings4 } />
       <Route path="/rings5" component={Rings5 } />

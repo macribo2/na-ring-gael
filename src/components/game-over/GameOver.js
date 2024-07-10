@@ -70,6 +70,8 @@ export default function SettingsMenu(props) {
 ' '
 
 ];
+localStorage.setItem('score', 1);
+
   localStorage.setItem('isFirstCatch', null);
   useEffect(() => {
     const interval = setInterval(() => {
