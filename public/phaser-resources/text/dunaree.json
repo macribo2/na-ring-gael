@@ -9,43 +9,43 @@
 {
   "id": "l1",
   "text": {
-    "en": "A busy day in Dunaree!",
-    "ga": "Lá gnóthach i Dún an Rí!"
+    "ga": "Tá an áit plódaithe!",
+    "en": "The place is packed!"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "You! What is the cause of these crowds?",
-    "ga": "Tusa! \nCad is cúis leis na slúite?"      }
+    "en": "From whence come crowds today?",
+    "ga": "Cad as a dtagann\nna slúite innu?"      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "",
-    "ga": "Innú céad lá \nféile scéaliochta \nDún an Rí"
+    "en": "Storytelling competition",
+    "ga": "Comortas scéalíochta"
   }
 },
  {
     "id": "l4",
     "text": {
-      "en": "",
-      "ga": "Ach! \nníl ám againn chuige seo!\n Tá teachtaracht agam don Rí."
+      "en": "The crowds practicing",
+      "ga": "Na slúite ag cleachta"
     }
   },
   {
     "id": "l5",
     "text": {
-      "en": "",
-      "ga": ""
+      "en": "what a racket!",
+      "ga": "A leithead de raic!"
     }
     },
     {
       "id": "l6",
       "text": {
-        "en": "...",
-        "ga": "brú chun tosaigh, fan sa scúinne, nó fág?"
+        "en": "I'll slither to the front of the queue\nfor the cause.",
+        "ga": "Sleabhnóidh mé \ngo bárr an scúinne\nar shon na cúise."
       }}
     
     

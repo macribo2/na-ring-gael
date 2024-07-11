@@ -90,7 +90,9 @@ class GameScene extends Phaser.Scene {
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
 
         // Load assets
-        // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
+        this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
+        this.loadFont('INFO56_0', './phaser-resources/fonts/INFO56_0.ttf');
+                        
         let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
@@ -161,7 +163,7 @@ class GameScene extends Phaser.Scene {
             firstEnText = dialogues[this.playerMapLocationTracker].text.en;
             console.log("First 'ga' text:", firstGaText);
             
-            this.textGa = this.add.text(350, 70, '', { fill: '#000', fontFamily: 'INFO56_0' });
+            this.textGa = this.add.text(350, 70, '', { fill: '2A3D66', fontFamily: 'INFO56_0' });
             this.textEn = this.add.text(250, 278, '', { fill: '#ffffff', fontFamily: 'anaphora' });
             this.textGa.setVisible(true);
 this.textEn.setVisible(true);
@@ -282,12 +284,17 @@ this.textEn.setVisible(true);
         this.buttonRight.on('pointerdown', () => this.moveElement('right'));
     
         this.player.setOrigin(0.5, 0.5);
-    
-        // Define a function to update the text based on the player map location tracker value
-        // Call the updateText function with the initial player map location tracker value
-        this.updateText(this.playerMapLocationTracker);
+            this.updateText(this.playerMapLocationTracker);
     }
-    
+    // Utility function to load the font
+    loadFont(name, url) {
+        let newFont = new FontFace(name, `url(${url})`);
+        newFont.load().then(function(loaded) {
+            document.fonts.add(loaded);
+        }).catch(function(error) {
+            console.error(`Failed to load font: ${name}`, error);
+        });
+    }
 update() {
 }
 
