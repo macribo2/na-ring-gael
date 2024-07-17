@@ -48,17 +48,17 @@
 }
 
   .fortuna {
-	top: 0%;
+	top: 40%;
 	pointer-events: none;
-	display: flex;
 	justify-content:center;
 	align-items: center;
 	height:100%;
 	width:100%;
-	left: 0;
+	left:-10%;
+    display:none;
 	position: fixed;
-  
-z-index: -1;
+  transform:scale(0.7);
+z-index: 9999;
 }
   
 #fortuna-vid{
