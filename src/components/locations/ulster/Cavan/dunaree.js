@@ -4,6 +4,7 @@ import molly from '../../../../images/cut-scenes/stern.png'
 import './cavan.css';
 import { useHistory } from 'react-router-dom';
 import NavCD from '../../../navCD/navCD'
+import Fortuna from '../../../fortuna/fortuna'
 import Rings6 from '../../../Rings/Rings6'
 // let glassTextA = [
 //     `Translations and comments go here. json soon. This is glassTextA[0]`,
@@ -12,14 +13,14 @@ const Dunaree = () => {
     
     let championName = localStorage.getItem('championName');
     const gameRef = useRef(null);
-
+    const [showFortuna, setShowFortuna] = useState(false);
     useEffect(() => {
         const initializeGame = () => {
             const config = {
                 type: Phaser.AUTO,
                 width: window.innerWidth, // Set width to match the browser window width
                 height: window.innerHeight, // Set height to match the browser window height
-                scene: [GameScene,NavCD],
+                scene: [GameScene,NavCD,Fortuna],
                 parent: 'ballygamboy-game-container'
             };
             
@@ -48,6 +49,8 @@ const Dunaree = () => {
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
 
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
+      
+      <Fortuna/>
         </>
     );
 };
@@ -90,9 +93,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('horseIcon', '/phaser-resources/images/puca1.png');
 
         // Load assets
-        this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
-        this.loadFont('INFO56_0', './phaser-resources/fonts/INFO56_0.ttf');
-                        
+        // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
         let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
@@ -111,7 +112,10 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
         this.load.image('overlay', '/phaser-resources/images/overlay.png'); // Load overlay image
-     
+
+        for (let i = 1; i <= 10; i++) {
+            this.load.image(`person${i}`, `/phaser-resources/images/champions/${i}.png`); // Update the path to your image files
+        }
     }
 
     updateText(playerMapLocationTracker) {
@@ -148,6 +152,9 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+  
+
+
         // Define a boolean flag to track whether movement controls are enabled
         this.movementControlsEnabled = true;
     
@@ -163,16 +170,19 @@ class GameScene extends Phaser.Scene {
             firstEnText = dialogues[this.playerMapLocationTracker].text.en;
             console.log("First 'ga' text:", firstGaText);
             
-            this.textGa = this.add.text(350, 70, '', { fill: '2A3D66', fontFamily: 'INFO56_0' });
+            this.textGa = this.add.text(50, 20, '', { fill: '2A3D66', fontFamily: 'INFO56_0' });
             this.textEn = this.add.text(250, 278, '', { fill: '#ffffff', fontFamily: 'anaphora' });
             this.textGa.setVisible(true);
 this.textEn.setVisible(true);
-            
+      
+this.textGa.setStroke('#000000', 6); // 6 is the thickness of the outline
+      
             // Adjust text properties as needed
-            this.textGa.setFontSize(60);
-            this.textGa.setOrigin(0.5);
+            this.textGa.setFontSize("6em");
+            this.textGa.setOrigin(0);
             this.textGa.setDepth(99);
             this.textGa.setFontFamily('INFO56_0');
+            this.textGa.setColor('turquoise');
     
             this.textEn.setFontSize(24);
             this.textEn.setOrigin(0.5);
@@ -285,16 +295,36 @@ this.textEn.setVisible(true);
     
         this.player.setOrigin(0.5, 0.5);
             this.updateText(this.playerMapLocationTracker);
-    }
-    // Utility function to load the font
-    loadFont(name, url) {
-        let newFont = new FontFace(name, `url(${url})`);
-        newFont.load().then(function(loaded) {
-            document.fonts.add(loaded);
-        }).catch(function(error) {
-            console.error(`Failed to load font: ${name}`, error);
-        });
-    }
+ 
+       // Create a group to hold the crowd
+       this.crowdGroup = this.add.group();
+
+       // Number of people in the crowd
+       const crowdSize = 30;
+ // Add people to the crowd
+ for (let i = 0; i < crowdSize; i++) {
+   // Randomly position each person within a specific area
+   const x = Phaser.Math.Between(-100, 800);
+   const y = Phaser.Math.Between(100, 500);
+   const randomImageIndex = Phaser.Math.Between(1, 10);
+   const personImage = `person${randomImageIndex}`;
+   
+   // Create the sprite and add it to the group
+   const person = this.add.sprite(x, y, personImage).setScale(2);
+   this.crowdGroup.add(person);
+   // Add a small random movement to each person to simulate crowd movement
+   this.tweens.add({
+       targets: person,
+       x: person.x + Phaser.Math.Between(-5, 5),
+       y: person.y + Phaser.Math.Between(-5, 5),
+       duration: Phaser.Math.Between(1000, 2000),
+       yoyo: true,
+       repeat: -1,
+       ease: 'Sine.easeInOut'
+   });
+}
+        }
+    
 update() {
 }
 
@@ -334,8 +364,12 @@ moveElement(direction) {
     switch (direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >7) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
+            if (this.playerMapLocationTracker >4) {
+                    // Change display property of elements with .fortuna class
+                    const fortunaElements = document.querySelectorAll('.fortuna');
+                    fortunaElements.forEach(el => {
+                      el.style.display = 'block';
+                    });
             }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
@@ -364,9 +398,13 @@ moveElement(direction) {
             break;
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
-            }
+            if (this.playerMapLocationTracker >4) {
+                // Change display property of elements with .fortuna class
+                const fortunaElements = document.querySelectorAll('.fortuna');
+                fortunaElements.forEach(el => {
+                  el.style.display = 'block';
+                });
+        }
             console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
@@ -374,10 +412,10 @@ moveElement(direction) {
     }
 
    // Get the new map location coordinates as percentages
-   const { x, y } = this.mapLocations[this.playerMapLocationTracker];
    
-
-
+//    const { x, y } = this.mapLocations[this.playerMapLocationTracker];
+   
+   
 }
 
 

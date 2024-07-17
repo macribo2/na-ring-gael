@@ -16,37 +16,44 @@
 {
   "id": "l2",
   "text": {
-    "en": "From whence come crowds today?",
-    "ga": "Cad as a dtagann\nna slúite innu?"      }
+    "en": "From whence come crowds here today?",
+    "ga": "Cad as a dtagann\nna slúite anseo innu?"      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "Storytelling competition",
-    "ga": "Comortas scéalíochta"
+    "en": "",
+    "ga": ""
   }
 },
- {
-    "id": "l4",
-    "text": {
-      "en": "The crowds practicing",
-      "ga": "Na slúite ag cleachta"
-    }
-  },
-  {
-    "id": "l5",
-    "text": {
-      "en": "what a racket!",
-      "ga": "A leithead de raic!"
+{
+  "id": "l4",
+  "text": {
+    "en": "Storytelling competition innú!?",
+    "ga": "Fleadh scéalíochta innú!?"
+  }
+},
+{
+  "id": "l5",
+  "text": {
+    "en": "what a racket!",
+    "ga": "A leithead de raic!"
     }
     },
     {
       "id": "l6",
       "text": {
-        "en": "I'll slither to the front of the queue\nfor the cause.",
-        "ga": "Sleabhnóidh mé \ngo bárr an scúinne\nar shon na cúise."
+        "en": "But I don't have time for this!",
+        "ga": "Níl ám agam chuige seo!"
       }}
     
-    
+      ,
+      {
+        "id": "l7",
+        "text": {
+          "en": "I'll just pretend...",
+          "ga": "Ligfaidh mé orm..."
+        }}
+      
 ]

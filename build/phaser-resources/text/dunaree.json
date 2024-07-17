@@ -9,44 +9,51 @@
 {
   "id": "l1",
   "text": {
-    "en": "Tá an áit plódaithe!",
-    "ga": "The place is packed!"
+    "ga": "Tá an áit plódaithe!",
+    "en": "The place is packed!"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "What is the cause of these crowds, to be here today?",
-    "ga": "Cad as a dtagann\nna slúite innu?"      }
+    "en": "From whence come crowds here today?",
+    "ga": "Cad as a dtagann\nna slúite anseo innu?"      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "Storytelling competition",
-    "ga": "Comortas scéalíochta"
+    "en": "",
+    "ga": ""
   }
 },
- {
-    "id": "l4",
-    "text": {
-      "en": "The crowds practicing",
-      "ga": "Na slúite ag cleachta"
-    }
-  },
-  {
-    "id": "l5",
-    "text": {
-      "en": "what a racket!",
-      "ga": "A leithead de raic!"
+{
+  "id": "l4",
+  "text": {
+    "en": "Storytelling competition innú!?",
+    "ga": "Fleadh scéalíochta innú!?"
+  }
+},
+{
+  "id": "l5",
+  "text": {
+    "en": "what a racket!",
+    "ga": "A leithead de raic!"
     }
     },
     {
       "id": "l6",
       "text": {
-        "en": "I'll slither to the front of the queue\nfor the cause.",
-        "ga": "Sleabhnóidh mé go bárr an scúinne\nar shon na cúise."
+        "en": "But I don't have time for this!",
+        "ga": "Níl ám agam chuige seo!"
       }}
     
-    
+      ,
+      {
+        "id": "l7",
+        "text": {
+          "en": "I'll just pretend...",
+          "ga": "Ligfaidh mé orm..."
+        }}
+      
 ]

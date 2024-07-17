@@ -72,12 +72,14 @@
       "eng1":"Mug Ruith:\nBlack Molly, \nI sense your presence.",
       "gae2":"\nA saoi, \nNí seasfaidh\nTír na nÓg \ni gcoinne acmhainn cogaíochta Ironkey.",
       "eng2":"Black Molly:\nO Sage\nTír na nÓg \ncan't stand \nagainst Ironkey's war capacity.",
-      "gae3":"\nPah. Tugfaidh mise bata agus bóthar dó.",
-      "eng3":"Mug Ruith:\nI'll send him packing.",
-      "gae4":"\nAn féidir glaoch ar na Fianna?",
-      "eng4":"Black Molly:\nMay we summon the champions of Ireland?",
-      "gae5":"\nCeann amháin.",
-      "eng5":"Mug Ruith:\nJust one."
+     
+     
+      "gae3":"\n Caithfimid.",
+      "eng3":"Mug Ruith:\n We must.",
+      "gae4":"\n'b ea?",
+      "eng4":"Black Molly:\nis it so?",
+      "gae5":"\n's ea.",
+      "eng5":"Fionn:\nit is so."
       ,"gae6":"",
       "eng6":"..."
   
@@ -105,12 +107,12 @@
         "eng1":"Fionn: Ironkey attacks!?",
         "gae2":"\nAn feidir cúnamh a lorg \nó laochra na hÉireann?",
         "eng2":"Black Molly:\nCan we seek help from the champions\n of Ireland?",
-        "gae3":"\n Caithfimid.",
-        "eng3":"Fionn:We must.",
-        "gae4":"\n'b ea?",
-        "eng4":"Black Molly:\nis it so?",
-        "gae5":"\n's ea.",
-        "eng5":"Fionn:\nit is so."
+        "gae3":"\nPah. Tugfaidh mise bata agus bóthar dó.",
+        "eng3":"Fionn:\nI'll send him packing.",
+        "gae4":"\nAn féidir glaoch ar na Fianna?",
+        "eng4":"Black Molly:\nMay we summon the champions of Ireland?",
+        "gae5":"\nCeann amháin.",
+        "eng5":"Finn:\nJust one."
         ,"gae6":"...",
         "eng6":"..."
     
