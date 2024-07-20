@@ -47,3 +47,20 @@ canvas{
     position: fixed;
     color:orange;
 }
+
+#phaser-container{
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    z-index: 999;
+    align-self: center;
+    
+    align-content: center;
+    /* border: 14px solid blue; */
+}
