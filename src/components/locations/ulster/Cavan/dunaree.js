@@ -111,7 +111,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-middle-lit', '/phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
         this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
-        this.load.image('overlay', '/phaser-resources/images/overlay.png'); // Load overlay image
 
         for (let i = 1; i <= 10; i++) {
             this.load.image(`person${i}`, `/phaser-resources/images/champions/${i}.png`); // Update the path to your image files
