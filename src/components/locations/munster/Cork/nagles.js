@@ -49,6 +49,7 @@ const Nagels = () => {
     this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
     this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
+    this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
     this.load.image('background', '/phaser-resources/images/background-elements/fields-and-sky.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
@@ -61,11 +62,12 @@ const Nagels = () => {
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
     this.load.image('stump', '/phaser-resources/images/sprites/empty.png'); // Load the tree image
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
+    this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
+
+  
 
   }
   function create() {
-    this.translucentBg = this.add.sprite(400, 300, 'translucentBg');
-    this.translucentBg.setVisible(false); // Initially hidden
 
     const tileSize = 32;
     const gridWidth = 25; // Number of tiles in width
@@ -73,8 +75,8 @@ const Nagels = () => {
     const bgWidth = tileSize * gridWidth;
     const bgHeight = tileSize * gridHeight;
     // Initialize borderGraphics
-    this.borderGraphics = this.add.graphics();
-    this.borderGraphics.setDepth(1); // Optional: Set depth if needed
+    this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
+    this.borderGraphics.setDepth(9); // Optional: Set depth if needed
   
     this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.background.setOrigin(0, 0);
@@ -99,23 +101,6 @@ const Nagels = () => {
       // Add more non-blocking interactive objects here
     ];
 
-    // Timeout flag
-    this.isMiddleButtonCooldown = false;
-    function handleMiddleButtonClick(scene) {
-      if (scene.isMiddleButtonCooldown) return;
-  
-      toggleVisibility(scene);
-  
-      scene.isMiddleButtonCooldown = true;
-      setTimeout(() => {
-        scene.isMiddleButtonCooldown = false;
-      }, 500); // Adjust the delay as needed (500ms in this case)
-    }
-    function toggleVisibility(scene) {
-      // Toggle visibility of elements
-      scene.translucentBg.setVisible(!scene.translucentBg.visible);
-      scene.collisionTextEng.setVisible(!scene.collisionTextEng.visible);
-    }  
     // Log the interactive objects for debugging
     // console.log('Interactive Objects:', this.interactiveObjects);
   
@@ -137,35 +122,51 @@ const Nagels = () => {
       { type: 'noPic', x: 22, y: 9, nameEng:'A cliff',name: 'Aill' },
       { type: 'noPic', x: 23, y: 10, nameEng:'A cliff',name: 'Aill' },
       { type: 'noPic', x: 24, y: 11, nameEng:'A cliff',name: 'Aill' },
-      { type: 'tree', x: 0, y: 0, nameEng:'Alder',name: 'Fearnóg' },
-      { type: 'treeSlim', x: 3, y: 0, nameEng:'Beech',name: 'Feá' },
-      { type: 'treeRed', x: 7, y: 0, nameEng:'Ash',name: 'Fuinseog' },
-      { type: 'fern', x: 1, y: 4, nameEng:'Bracken', name: 'Raithneach mhór' },
-      { type: 'fern', x: 20, y: 9, nameEng:'Buckler fern broad', name: 'Raithneach leathan' },
-      { type: 'fern', x: 16, y: 2, nameEng:'Buckler fern hey-scented', name: 'Raithneach chumhra' },
-      { type: 'fern', x: 7, y: 10, nameEng:'Wilsons Filmy-fern', name: 'Dallán sléibhe'},
-      { type: 'fern', x: 4, y: 4, nameEng:'	Blechnum spicant, Hard fern', name: 'Raithneach chrua' },
-      { type: 'tree', x: 14, y: 8, nameEng:'Elm, English', name: 'Leamhán gallda' },
-      { type: 'tree', x: 12, y: 4, nameEng:'Chestnut, sweet', name: 'Castán' },
-      { type: 'tree', x: 9, y: 6, nameEng:'Blackthorn', name: 'Draighean' },
-      { type: 'tree', x: 1, y: 6, nameEng:'Hazel', name: 'Coll' },
-      { type: 'tree', x: 5, y: 6, nameEng:'Sycamore', name: 'Seiceamóir' },
-      { type: 'treeWillow', x: 8, y: 4, nameEng:'Willow creeping', name: 'Saileach reatha' },
-      { type: 'treeWillow', x: 15, y: 10, nameEng:'Willow grey sallow', name: 'Saileach liath' },
-      { type: 'treeWillow', x: 21, y: 6, nameEng:'Willow', name: 'Saileánach' },
-      { type: 'tree', x: 2, y: 8, nameEng:'Oak, Sessile', name: 'Dair ghaelach' },
-      { type: 'treeHawthorn', x: 9, y: 8, nameEng:'Hawthorn', name: 'Sceach gheal' },
-      { type: 'tree', x: 11, y: 10, nameEng:'Crab-apple', name: 'Crann fia-úll' },
+     
+     
+     
+      { type: 'tree', x: 0, y: 0, nameEng:'tree',name: 'crann' },
+      { type: 'treeSlim', x: 3, y: 0, nameEng:'tree',name: 'crann' },
+      { type: 'treeRed', x: 7, y: 0,  nameEng:'tree',name: 'crann' },
+      { type: 'fern', x: 1, y: 4,nameEng:'tree',name: 'crann' },
+
+      { type: 'fern', x: 20, y: 9,nameEng:'tree',name: 'crann' },
+
+      { type: 'fern', x: 16, y: 2,nameEng:'tree',name: 'crann' },
+
+      { type: 'fern', x: 7, y: 10,nameEng:'tree',name: 'crann' },
+      { type: 'fern', x: 4, y: 4, nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 14, y: 8, nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 12, y: 4,nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 9, y: 6, nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 1, y: 6,nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 5, y: 6, nameEng:'tree',name: 'crann' },
+
+      { type: 'treeWillow', x: 8, y: 4, nameEng:'tree',name: 'crann' },
+
+      { type: 'treeWillow', x: 15, y: 10,nameEng:'tree',name: 'crann' },
+
+      { type: 'treeWillow', x: 21, y: 6, nameEng:'tree',name: 'crann' },
+
+      { type: 'tree', x: 2, y: 8, nameEng:'tree',name: 'crann' },
+    
+      { type: 'treeHawthorn', x: 9, y: 8,nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 11, y: 10, nameEng:'tree',name: 'crann' },
       { type: 'treeHawthorn', x: 19, y: 10, nameEng:'Hawthrorn', name: 'Sceach gheal' },
-      { type: 'tree', x: 1, y: 12,  nameEng:'Oak, Sessile',name: 'Dair ghaelach' },
-      { type: 'treeRed', x: 5, y: 12, nameEng:'Maple', name: 'Mailp' },
-      { type: 'treeHawthorn', x: 13, y: 12,  nameEng:'Hawthorn',name: 'Sceach gheal' },
-      { type: 'tree', x: 6, y: 12, nameEng:'Oak, Sessile', name: 'Dair ghaelach' },
-      { type: 'tree', x: 6, y: 13, nameEng:'Horse-Chestnut', name: 'Crann cnó capaill' },
-      { type: 'tree', x: 14, y: 13, nameEng:'Chestnut, sweet', name: 'Castán' },
-      { type: 'tree', x: 11, y: 16, nameEng:'Oak, Sessile', name: 'Dair ghaelach' },
-      { type: 'tree', x: 19, y: 16, nameEng:'Laurel', name: 'Labhras silíní' },
-      { type: 'tree', x: 3, y: 16, nameEng:'Oak, Sessile', name: 'Dair ghaelach' },
+      { type: 'tree', x: 1, y: 12,  nameEng:'tree',name: 'crann' },
+      { type: 'treeRed', x: 5, y: 12, nameEng:'tree',name: 'crann' },
+      { type: 'treeHawthorn', x: 13, y: 12, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 6, y: 12,nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 6, y: 13, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 14, y: 13, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 11, y: 16, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 19, y: 16, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 3, y: 16, nameEng:'tree',name: 'crann' },
       { type: 'noPic', x: 13, y: 16, nameEng:'Water',name: 'Uisce' },
       { type: 'noPic', x: 14, y: 16, nameEng:'Water',name: 'Uisce' },
       { type: 'noPic', x: 15, y: 16, nameEng:'Water',name: 'Uisce' },
@@ -181,9 +182,9 @@ const Nagels = () => {
       { type: 'tree', x: 7, y: 17, nameEng:'Oak, Sessile', name: 'Dair ghaelach' },
       { type: 'tree', x: 8, y: 17, nameEng:'Blackthorn', name: 'Draighean' },
       { type: 'tree', x: 9, y: 17, nameEng:'Blackthorn', name: 'Draighean' },
-      { type: 'tree', x: 10, y: 17, nameEng:'Hazel', name: 'Coll' },
-      { type: 'tree', x: 12, y: 17, nameEng:'Hazel', name: 'Coll' },
-      { type: 'tree', x: 20, y: 17, nameEng:'Sycamore', name: 'Seiceamóir' },
+      { type: 'tree', x: 10, y: 17, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 12, y: 17, nameEng:'tree',name: 'crann' },
+      { type: 'tree', x: 20, y: 17, nameEng:'tree',name: 'crann' },
     ];
   
     // Draw obstacles
@@ -199,7 +200,7 @@ const Nagels = () => {
     // Create a say graphic
     this.sayGraphic = this.add.sprite(0, 0, 'say');
     this.sayGraphic.setAlpha(0); // Initially invisible
-    this.sayGraphic.setDepth(10); // Ensure it is above other elements
+    this.sayGraphic.setDepth(8); // Ensure it is above other elements
       // Add the translucent background and English text
     
     this.collisionTextEng = this.add.text(200, 210, '', {
@@ -209,7 +210,7 @@ const Nagels = () => {
       padding: { x: 10, y: 10 },
       stroke: '#000000',
       strokeThickness: 3
-    }).setScrollFactor(0).setVisible(false);
+    }).setScrollFactor(0).setVisible(false).setDepth(19);
 
     
 
@@ -221,7 +222,7 @@ const Nagels = () => {
       padding: { x: 10, y: 10 },
       stroke: '#000000',
       strokeThickness: 3
-    }).setScrollFactor(0);
+    }).setScrollFactor(0).setDepth(20);
   
 
 
@@ -235,13 +236,13 @@ const Nagels = () => {
 
 
     // Add and po/sition buttons
-    this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(103).setScrollFactor(0);
-    this.buttonMiddle.on('pointerdown', () => toggleVisibility(this));
+    this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+    this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
 
-    this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(19).setScrollFactor(0);
-    this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(19).setScrollFactor(0);
-    this.buttonRight = this.add.sprite(0, 0, 'button-right').setInteractive().setDepth(19).setScrollFactor(0);
-    this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(19).setScrollFactor(0);
+    this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonRight = this.add.sprite(0, 0, 'button-right').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(22).setScrollFactor(0);
   
     // Set up the camera
     this.cameras.main.setZoom(2); // Zoom in 2x
@@ -268,7 +269,33 @@ const Nagels = () => {
     this.buttonRight.on('pointerup', () => handleButtonInputRelease.call(this, 'right'));
     this.buttonUp.on('pointerup', () => handleButtonInputRelease.call(this, 'up'));
     this.buttonDown.on('pointerup', () => handleButtonInputRelease.call(this, 'down'));
+  
+     // Create the translucent background and English text
+    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg');
+     
+    //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
+     this.translucentBg.setVisible(false); // Initially hidden
+    this.translucentBg.setDepth(9).setAlpha(0.4);
+    
+    // Timeout flag
+    this.isMiddleButtonCooldown = false;
   }
+    function handleMiddleButtonClick(scene) {
+      if (scene.isMiddleButtonCooldown) return;
+      toggleVisibility(scene);
+  
+      scene.isMiddleButtonCooldown = true;
+      setTimeout(() => {
+        scene.isMiddleButtonCooldown = false;
+      }, 500); // Adjust the delay as needed (500ms in this case)
+    }
+    function toggleVisibility(scene) {
+      // Toggle visibility of elements
+      scene.translucentBg.setVisible(!scene.translucentBg.visible);
+      scene.collisionTextEng.setVisible(!scene.collisionTextEng.visible);
+    }  
+  
+  
   
   function handleButtonInput(direction) {
     if (direction === 'left') {
