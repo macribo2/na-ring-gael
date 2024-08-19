@@ -1,4 +1,9 @@
-*branch pucaloic
+
+![Screenshot from 2024-08-19 20-38-58](https://github.com/user-attachments/assets/de38f88a-b261-4b0a-bd9a-fcca919bbf32)
+
+
+
+*Latest on branch pucaloic
 # Na Ring Gael
 
 Na Ring Gael is a language learning game designed to help players improve their Irish (Gaelic) vocabulary through interactive gameplay. 
