@@ -148,7 +148,7 @@ enText.setAlpha(1);
     
 
   function preload() {
-    this.load.image('tallBg', './phaser-resources/images/tallBg0.png');
+    this.load.image('tallBg', './phaser-resources/images/background-elememnts/level1.png');
 
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
 
