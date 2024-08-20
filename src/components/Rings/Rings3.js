@@ -82,7 +82,7 @@ export default function Rings3(props) {
 		`, 
 		`a ring turns`, 
 		`a ring shines`,
-`a ring turns a song`,
+`a ring sings a song`,
 `Use rings`,
 		 		
 		 `to return to Éireann`,

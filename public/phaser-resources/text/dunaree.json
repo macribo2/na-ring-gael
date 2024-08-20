@@ -2,58 +2,92 @@
   {
     "id": "l0",
     "text": {
-      "en": "Dunaree \n fort of the king \n County Cavan",
-      "ga": "Dún an Rí"
+      "en": "Dunaree \nfort of the king \nSix Hundred and Fourty Nine Current Era",
+      "ga": "Dún an Rí\n649 CE"
     }
   },
 {
   "id": "l1",
   "text": {
-    "ga": "Tá an áit plódaithe!",
-    "en": "The place is packed!"
+    "ga": "Ardfhile Seanchán Toirpéist:",
+    "en": "High poet Seanchán Toirpéist:"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "crowds here today",
-    "ga": "na slúite anseo innu"      }
+  
+    "ga": "An bhfuil scéal na Tána \nag éinne?",
+    "en": "Can anybody tell the Táin?"
+      }
 }
 ,
 { 
   "id": "l3",
   "text": {
-    "en": "",
-    "ga": ""
+    "ga": "",
+    "en": ""
   }
 },
 {
   "id": "l4",
   "text": {
-    "en": "Storytelling competition innú!?",
-    "ga": "Fleadh scéalíochta innú!?"
-  }
+        "ga": "Ní raibh.",
+    "en": "Nobody had the Táin."
+    }
 },
 {
   "id": "l5",
   "text": {
-    "en": "what a racket!",
-    "ga": "A leithead de raic!"
+    "en": "We the assembly of poets; have forgotten!",
+    "ga": "Dearmaid déanta againne,\nTionól na filí!"
+  
     }
     },
     {
       "id": "l6",
       "text": {
-        "en": "But I don't have time for this!",
-        "ga": "Níl ám agam chuige seo!"
-      }}
-    
-      ,
-      {
+  
+        "en": "But we remembered the poets said,",
+        "ga": "Ach ba chuimhin linn, \narsa na filí,"
+ 
+      }},
+        {
         "id": "l7",
         "text": {
-          "en": "I'll just pretend...",
-          "ga": "Ligfaidh mé orm..."
-        }}
+                 "ga": "Gur imigh saoi as Éirinn \nchun na Mór-roinne",
+        "en": "That a sage from Ireland went to the Continent,"
+         }},
+                   {
+        "id": "l8",
+        "text": {
+          "en": "and had with him a copy of the Táin",
+          "ga": "agus cóip den Táin aige"
+         }},
+
+
+         {
+          "id": "l9",
+          "text": {
+  
+            "en": "to exchange for a copy \nof the Esodir Sevilla Etymologies",
+            "ga": "len é a mhalartú ar chóip \nde Chuilmeanna Esodir Sevilla."
+   
+           }},
+
+
+
+         {
+          "id": "l10",
+          "text": {
+  
+            "en": "",
+            "ga": ""
+   
+           }}
+
+           
+  
       
 ]
+

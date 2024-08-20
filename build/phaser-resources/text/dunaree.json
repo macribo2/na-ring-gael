@@ -9,15 +9,15 @@
 {
   "id": "l1",
   "text": {
-    "ga": "Tá an áit plódaithe!",
+    "ga": "Níl an léamh sin ar an Táin inghlachta",
     "en": "The place is packed!"
   }
 },
 {
   "id": "l2",
   "text": {
-    "en": "From whence come crowds here today?",
-    "ga": "Cad as a dtagann\nna slúite anseo innu?"      }
+    "en": "crowds here today",
+    "ga": "na slúite anseo innu"      }
 }
 ,
 { 

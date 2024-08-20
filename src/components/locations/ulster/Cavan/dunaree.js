@@ -363,7 +363,7 @@ moveElement(direction) {
     switch (direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >4) {
+            if (this.playerMapLocationTracker >9) {
                     // Change display property of elements with .fortuna class
                     const fortunaElements = document.querySelectorAll('.fortuna');
                     fortunaElements.forEach(el => {
@@ -397,7 +397,7 @@ moveElement(direction) {
             break;
         case 'right':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >4) {
+            if (this.playerMapLocationTracker >9) {
                 // Change display property of elements with .fortuna class
                 const fortunaElements = document.querySelectorAll('.fortuna');
                 fortunaElements.forEach(el => {
