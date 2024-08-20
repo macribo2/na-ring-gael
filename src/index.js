@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Dunaree from './components/locations/ulster/Cavan/dunaree';
 
 import GameOver from './components/game-over/GameOver';
+import Baile from './components/locations/baile';
 import ChessLike from './components/ChessLike/chessLike2';
 import PucaLoic2 from './components/ChessLike/chessLike3';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
@@ -69,7 +70,7 @@ const ChessLikeWrapper = () => {
            
       <Route path="/rings4" component={Rings4 } />
       <Route path="/rings5" component={Rings5 } />
-
+      <Route path="/baile" component={Baile } />
 
 
 
