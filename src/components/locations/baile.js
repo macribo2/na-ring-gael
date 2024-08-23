@@ -11,6 +11,7 @@ const Baile = () => {
       type: Phaser.AUTO,
       width: '100%',  // Use percentage to adapt to screen width
       height: '100%', // Use percentage to adapt to screen height
+      clickTally:0,
       scale: {
         mode: Phaser.Scale.ScaleModes.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -50,8 +51,8 @@ const Baile = () => {
     this.load.json('dialogues', '/phaser-resources/text/baile.json');
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
-    this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
-    this.load.image('background', '/phaser-resources/images/background-elements/fields-and-sky.png');
+    this.load.image('player', `/phaser-resources/images/players/eighty.png`);
+    this.load.image('background', '/phaser-resources/images/background-elements/baile.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
     this.load.image('fern', '/phaser-resources/images/sprites/plantGreen_2.png'); // Load the tree image
@@ -96,16 +97,40 @@ const Baile = () => {
   
 
     this.interactiveObjects = [
-      { type: 'stump', x: 2, y: 5, nameEng: 'carpet', name: 'carpéid' },
-      { type: 'stump', x: 15, y: 8, nameEng: 'stairs', name: 'staighre' },
-      // Add more non-blocking interactive objects here
-    ];
+      // { type: 'stump', x: 2, y: 5, nameEng: 'carpet', name: 'carpéid' },
+      // { type: 'stump', x: 2, y: 5, nameEng: 'carpet', name: 'carpéid' },
 
+      // { type: 'stump', x: 2, y: 5, nameEng: 'carpet', name: 'carpéid' },
+      // { type: 'stump', x: 15, y: 8, nameEng: 'stairs', name: 'staighre' },
+      // Add more non-blocking interactive objects here
+      { type: 'noPic', x: 1, y: 4, nameEng: 'carpet', name: 'carpéid' },
+      { type: 'noPic', x: 3, y: 4, nameEng: 'carpet', name: 'carpéid'},
+      { type: 'noPic', x: 1, y: 4, nameEng: 'carpet', name: 'carpéid' },
+      { type: 'noPic', x: 2, y: 5, nameEng: 'carpet', name: 'carpéid'},
+      { type: 'noPic', x: 4, y: 5, nameEng: 'carpet', name: 'carpéid' },
+      { type: 'noPic', x: 3, y: 5, nameEng: 'parent', name: 'tuismitheoir' },
+      { type: 'noPic', x: 1, y: 3, nameEng: 'sink', name: 'doirteal' },
+
+      { type: 'noPic', x: 4, y: 3, nameEng: 'parent', name: 'tuismitheoir' },
+      { type: 'noPic', x: 3, y: 3, nameEng: 'parent', name: 'tuismitheoir' },
+      { type: 'noPic', x: 2, y: 3, nameEng: 'parent (familiar)', name: 'tuiste' },
+      { type: 'noPic', x: 2, y: 4, nameEng: 'parent (familiar)', name: 'tuiste' },
+
+    ];
+    
     // Log the interactive objects for debugging
     // console.log('Interactive Objects:', this.interactiveObjects);
-  
+    
     // Define obstacles with names and positions
     this.obstacles = [
+      { type: 'noPic', x: 0, y: 4, nameEng: 'wall', name: 'balla' },
+      { type: 'noPic', x: 0, y: 3, nameEng: 'wall', name: 'balla' },
+
+      { type: 'noPic', x: 0, y: 2, nameEng: 'wall', name: 'balla' },
+      { type: 'noPic', x: 1, y: 2, nameEng: 'wall', name: 'balla' },
+      { type: 'noPic', x: 2, y: 2, nameEng: 'wall', name: 'balla' },
+      { type: 'noPic', x: 3, y: 2, nameEng: 'oven', name: 'oigheann' },
+      { type: 'noPic', x: 4, y: 2, nameEng: 'wall', name: 'balla' },
       { type: 'furniture', x: 17, y: 4, nameEng:'fishtank',name: 'umar éisc' },
       { type: 'noPic', x: 18, y: 2, nameEng:'fala',name: 'wall'},
       { type: 'noPic', x: 18, y: 2, nameEng:'window',name: 'fuinneóg'} 
@@ -232,6 +257,7 @@ const Baile = () => {
     } else if (direction === 'down') {
       this.cursors.down.isDown = true;
     }
+    this.clickTally++;
     movePlayer.call(this);
   }
   
@@ -764,8 +790,8 @@ function updateText(playerMapLocationTracker) {
         
         if (currentDialogue) {
             // Update the textGa and textEn with the new dialogue text
-            this.textGa.setText(currentDialogue.text.ga);
-            this.textEn.setText(currentDialogue.text.en);
+            this.textGa.setText(currentDialogue.text.ga).setPosition(200,50);
+            this.textEn.setText(currentDialogue.text.en).setOrigin(0.5);
         } else {
             console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
         }
@@ -796,7 +822,10 @@ function updateText(playerMapLocationTracker) {
   }
 
   return (
-    <div id="phaser-container" style={{ width: '800px', height: '480px' }}></div>
+    <div id="phaser-container" style={{ width: '800px', height: '480px' }}>
+
+
+    </div>
   );
 };
 

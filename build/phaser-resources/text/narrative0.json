@@ -137,16 +137,16 @@
    "Fand":{
       "gae0":"\nA Aigéan aidhbhseach impídmh ort!",
       "eng0":"Black Molly:\nOh vast, terrible ocean\n I entreet upon you!",
-      "gae1":"\nSeachain, Mallaidh Dubh,\nná glaoigh ar an farraige go baoth",
-      "eng1":"Beware, Black Molly,\nManannan's aid is not to be sought lightly",
+      "gae1":"\nSeachain, Mallaidh Dubh,\nná glaoigh ar an farraige go baoth\nAr dthánaigh tú gan tairiscint?",
+      "eng1":"Beware, Black Molly,\nAid from Manannan is not sought lightly",
       "gae2":"...",
       "eng2":"...",
-      "gae3":"\nach ná bí búrtha,\nseasfaidh mé leat.",
-      "eng3":"but don't fret, \nI shall stand with you.",
-      "gae4":"Tá dóchas ann! \nLean ar aghaidh, Fand na dáimhe.",
-      "eng4":"Black Molly:\nthen there is hope! Lead on, o muse.",
+      "gae3":"\nná bí búrtha,\n Chuideoidh mé leat. Gheoidh muid rud éigint oirrúnach\nó gach cúige.\nLean mé!",
+      "eng3":"but don't fret, \nI'll help you get it, a token from each province. \nfollow me!",
+      "gae4":"Leanfaidh mé thú, Fand na dáimhe.",
+      "eng4":"Black Molly:\nLead on, o muse.",
       "gae5":"Roghnímís ár laoch...",
-      "eng5":"\nLet us choose our champion..."
+      "eng5":"Select your fenian..."
       ,"gae6":"...",
       "eng6":"..."
   
