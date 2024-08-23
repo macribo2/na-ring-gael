@@ -51,7 +51,7 @@ const Nagels = () => {
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
-    this.load.image('background', '/phaser-resources/images/background-elements/fields-and-sky.png');
+    this.load.image('background', '/phaser-resources/images/background-elements/nagels.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
     this.load.image('fern', '/phaser-resources/images/sprites/plantGreen_2.png'); // Load the tree image
@@ -125,9 +125,6 @@ const Nagels = () => {
      
      
      
-      { type: 'tree', x: 0, y: 0, nameEng:'tree',name: 'crann' },
-      { type: 'treeSlim', x: 3, y: 0, nameEng:'tree',name: 'crann' },
-      { type: 'treeRed', x: 7, y: 0,  nameEng:'tree',name: 'crann' },
       { type: 'fern', x: 1, y: 4,nameEng:'tree',name: 'crann' },
 
       { type: 'fern', x: 20, y: 9,nameEng:'tree',name: 'crann' },

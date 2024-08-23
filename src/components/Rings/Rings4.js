@@ -119,7 +119,6 @@ import champion97 from '../../images/champions/97.png'
 import champion98 from '../../images/champions/98.png'
 import champion99 from '../../images/champions/99.png'
 import opponent1 from '../../images/draoi0.gif'
-import tree from '../../images/tree.png'
 import {
   CircularInput,
   CircularTrack,
@@ -143,18 +142,15 @@ import westmeath from '../../images/gifs/stones-bg.gif'
 // 	  };
 	
 export function Rings4(props) {
+
 	const audioPlayer = document.getElementById('deepBlue');
-    
     // Check if the audio player exists
     if (audioPlayer) {
-
         // Play the audio
         audioPlayer.play();
     }
 	// const { playerDetails, setPlayerDetails } = usePlayerContext();
-
 	const { updatePlayerDetails } = usePlayer();
-
 	const [champName, setChampName] = useState(''); // Assuming you initialize champname with an empty string initially
 	const [playerSheet, setPlayerSheet] = useState({
 	  champName: '',
@@ -163,7 +159,6 @@ export function Rings4(props) {
 	let hname;
 	let isOn = props.isOn
 	const prevHnameRef = useRef();
-
 	useEffect(() => {
 	  console.log('Rings4 component is rendering');
   

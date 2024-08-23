@@ -497,7 +497,7 @@ left:65%
       .champion-portrait{
 top:5%;
   left: 37%;
-  opacity: 0;
+  opacity: 1;
   transform: scale(2);
   
   /* display:none; */

@@ -51,6 +51,10 @@ const Dunaree = () => {
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
       
       <Fortuna/>
+      <Fortuna/>
+      <Fortuna/>
+      <Fortuna/>
+      <Fortuna/>
         </>
     );
 };
@@ -345,7 +349,7 @@ moveElement(direction) {
     }
 }
 
-    if (this.playerMapLocationTracker === 4){
+    if (this.playerMapLocationTracker === 3){
         this.introduceNewElements();
             const mollyElement = document.querySelector('.molly');
         if (mollyElement) {
@@ -363,7 +367,7 @@ moveElement(direction) {
     switch (direction) {
         case 'up':
             this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >9) {
+            if (this.playerMapLocationTracker === 3) {
                     // Change display property of elements with .fortuna class
                     const fortunaElements = document.querySelectorAll('.fortuna');
                     fortunaElements.forEach(el => {
@@ -395,20 +399,33 @@ moveElement(direction) {
             this.updateText(this.playerMapLocationTracker);
        
             break;
-        case 'right':
-            this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >9) {
-                // Change display property of elements with .fortuna class
-                const fortunaElements = document.querySelectorAll('.fortuna');
-                fortunaElements.forEach(el => {
-                  el.style.display = 'block';
-                });
-        }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
-            this.updateText(this.playerMapLocationTracker);
-       
+            case 'right':
+                this.playerMapLocationTracker++; // Increment tracker
+                if (this.playerMapLocationTracker === 3) {
+                    // Select all elements with the class 'fortuna'
+                    const fortunaElements = document.querySelectorAll('.fortuna');
+            
+                    fortunaElements.forEach(el => {
+                        // Generate random positions within the viewport
+                        const randomX = Math.floor(Math.random() * (window.innerWidth - el.offsetWidth));
+                        const randomY = Math.floor(Math.random() * (window.innerHeight - el.offsetHeight));
+            
+                        // Position the element at the random coordinates
+                        el.style.position = 'absolute';
+                        el.style.left = `${randomX}px`;
+                        el.style.top = `${randomY}px`;
+            
+                        // Make the element visible
+                        el.style.display = 'block';
+                    });
+                }
+                console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
+                this.updateText(this.playerMapLocationTracker);
+                break;
+            
             break;
-    }
+    
+        }
 
    // Get the new map location coordinates as percentages
    

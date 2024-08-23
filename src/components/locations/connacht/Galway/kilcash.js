@@ -144,18 +144,35 @@ class GameScene extends Phaser.Scene {
     }
 
     updateText(playerMapLocationTracker) {
-        // Retrieve the current dialogue based on the playerMapLocationTracker
         const dialogues = this.cache.json.get('dialogues');
         
-        // Check if the current dialogue is defined
         if (dialogues) {
-            // Get the text for the current dialogue
             const currentDialogue = dialogues[playerMapLocationTracker];
             
             if (currentDialogue) {
+                // Set the text but make it invisible first
+                this.textGa.setAlpha(0);
+                this.textEn.setAlpha(0);
+                
                 // Update the textGa and textEn with the new dialogue text
                 this.textGa.setText(currentDialogue.text.ga);
                 this.textEn.setText(currentDialogue.text.en);
+                
+                // Create a fade-in tween for textGa
+                this.tweens.add({
+                    targets: this.textGa,
+                    alpha: 1, // Fade to full visibility
+                    duration: 1000, // Duration of the fade in milliseconds
+                    ease: 'Power2',
+                });
+    
+                // Create a fade-in tween for textEn
+                this.tweens.add({
+                    targets: this.textEn,
+                    alpha: 1, // Fade to full visibility
+                    duration: 1000, // Duration of the fade in milliseconds
+                    ease: 'Power2',
+                });
             } else {
                 console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
             }
