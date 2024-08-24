@@ -148,7 +148,7 @@ enText.setAlpha(1);
     
 
   function preload() {
-    this.load.image('tallBg', './phaser-resources/images/background-elememnts/level1.png');
+    this.load.image('tallBg', './phaser-resources/images/background-elements/level1.png');
 
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
 
@@ -166,8 +166,8 @@ enText.setAlpha(1);
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('heart', './phaser-resources/images/heart.png');
-        this.load.image('pucaBlack', './phaser-resources/images/npcs/pooka0.png');
-        this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
+        this.load.image('pucaBlack', './phaser-resources/images/ui/pookaSQ01.png');
+        this.load.image('pucaWhite', './phaser-resources/images/ui/pookaSQ10.png');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
     }
 
