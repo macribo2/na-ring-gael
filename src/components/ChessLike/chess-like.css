@@ -177,3 +177,19 @@ left:0px;
   
 	}
 }  
+
+@media screen and (orientation:landscape) {
+
+	#landscape{
+	  display: block;
+	  top: 0;
+	  left: 0;
+	  height: 100%;
+	  width: 100%;
+	  z-index: 9999;
+	  position: fixed;
+	  background-size: contain;
+	  border:9px solid orange;
+  
+	}
+}  

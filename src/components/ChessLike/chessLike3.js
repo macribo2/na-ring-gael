@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
 import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
-import portrait from '../../images/vert-swd.png'
+import portrait from '../../images/port-swd.png'
 
 import NavCD from '../navCD/navCD';
 
@@ -148,6 +148,10 @@ enText.setAlpha(1);
     
 
   function preload() {
+    this.load.image(
+        "puca-mounted",
+        "/phaser-resources/images/npcs/pookaMounted.png",
+      );                           
     this.load.image('tallBg', './phaser-resources/images/background-elements/level1.png');
 
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
@@ -285,9 +289,18 @@ overlay.add(enText);
         }
         
         // Add puca and player
-        const player = scene.add.image(centerX, centerY + 64, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
+        // const player = scene.add.image(centerX, centerY + 64, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
         
-
+        this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
+        this.puca.setDepth(921);
+        this.puca.setScale(0.3);
+        this.puca.setOrigin(0.7, 0.4);
+     
+        this.player = this.add.sprite(centerX, centerY, "player");
+        this.player.setDepth(920);
+        this.player.setScale(1.3);
+        this.player.setOrigin(0.5, 0.5);
+     
 scene.cameras.main.scrollY = 0;
 
 
@@ -695,10 +708,10 @@ function update(scene) {
             <div className="no-pointer-events">
 
 
-<img id="portrait" rel="preload" src={ portrait}></img>
+<img id="landscape" rel="preload" src={ portrait}></img>
 
 <div>
-<div className="portait-mode-text-container">
+<div className="landscape-mode-text-container">
 
 <p className="menu portrait-mode-txt quote-1 ga">
 
