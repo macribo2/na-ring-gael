@@ -101,10 +101,10 @@ export default class NavCD extends Phaser.Scene {
     );
     this.load.image("pucaBlack", "/phaser-resources/images/npcs/pooka0.png");
     this.load.image("pucaWhite", "/phaser-resources/images/npcs/pooka1.png");
-    this.load.image(
-      "puca-mounted",
-      "/phaser-resources/images/npcs/pookaMounted.png",
-    );
+        this.load.image(
+        "puca-mounted",
+        "/phaser-resources/images/npcs/pookaMounted.png",
+        );
     this.load.image(
       "player",
       `/phaser-resources/images/champions/${champID}.png`,
@@ -214,7 +214,6 @@ export default class NavCD extends Phaser.Scene {
    this.puca.setScale(0.3);
    this.puca.setOrigin(0.7, 0.4);
 
-   this.player = this.add.sprite(centerX, centerY, "player");
    this.player.setDepth(920);
    this.player.setScale(1.3);
    this.player.setOrigin(0.5, 0.5);
