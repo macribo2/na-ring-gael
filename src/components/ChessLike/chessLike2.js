@@ -677,7 +677,7 @@ function update(scene) {
 <img id="portrait" rel="preload" src={ portrait}></img>
 
 <div>
-<div className="portait-mode-text-container">
+<div className="portrait-mode-text-container">
 
 <p className="menu portrait-mode-txt quote-1 ga">
 
@@ -695,7 +695,7 @@ A wild goose chase - no scent.
 
 ↻ mobile landscape to continue 
 </p>
-<p className='portait-mode-text'>
+<p className='portrait-mode-text'>
 
 <br/>
     

@@ -210,13 +210,25 @@ p {
 
 }
 
-.quote-1{
+.quote-1, .swd-quote-1{
 
   animation: fade-in  linear 1s forwards;
   margin-left:-10%;
 color:deepskyblue;
 }
+.swd-quote-1{
+  margin-left:-35%;
+  background-color: rgba(0, 0, 0, 0);
 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0);
+}
+.swd-quote-2{
+  margin-top:25%;
+  margin-left:10%;
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0);
+
+}
 .quote-2{
   margin-left:-55%;
   animation: fade-in 1s linear 1s forwards;
@@ -224,21 +236,18 @@ color:deepskyblue;
 
 .quote-3{
   margin-left:-65%;
-
   animation: fade-in 1s linear 2.5s forwards;
 }
 
 .quote-4{
   margin-left:-48%;
   margin-top:42%;
-color: rgba(152, 251, 152, 0.201);
-
+  color: rgba(152, 251, 152, 0.201);
   animation: fade-in 1s linear 8s forwards;
 }
 .grid-container {
   display: grid;
   /* grid-template-columns: auto auto auto; */
-
 }
 #silken{
   display:none;

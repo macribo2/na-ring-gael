@@ -237,6 +237,30 @@ z-index: 7000;
   #screen-blocker {
     display: none;
   }
+.landscape-mode-txt{
+
+  left:45%;
+  top:0%;
+  width:80%;
+  height:40%;
+  transform: rotate(-90deg);
+
+}
+  .landscape-mode-text-container {
+    pointer-events: none;
+      top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 9999;
+        display: grid;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        width: 100%; /* Adjust the width to your preference */
+        height: 100%; /* Adjust the height to your preference */
+    }
+    
+
 }
 
 @keyframes draoi-scroll-up {

@@ -688,7 +688,7 @@ let thePucaOf = localStorage.getItem('pucaEng')
 		<img id="portrait" rel="preload" src={ portrait}></img>
 
 			<div>
-				<div className="portait-mode-text-container">
+				<div className="portrait-mode-text-container">
 
 
 		<p className="menu portrait-mode-txt quote-1">
@@ -708,7 +708,7 @@ You’ll get that if my journey succeeds with me.
 
 ↻ mobile landscape to continue 
 </p>
-					<p className='portait-mode-text'>
+					<p className='portrait-mode-text'>
 						President de hÍde, Beside the Fire
 <br/>
 						
