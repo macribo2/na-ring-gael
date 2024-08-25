@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import './chess-like.css';
-import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
-import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
+import knightRounds from './knightRounds'; // Assuming knightRounds.js is in the same directory
+import geaga1 from '../../images/geaga-1.png'; // Assuming knightRounds.js is in the same directory
 import portrait from '../../images/port-swd.png'
 
 import NavCD from '../navCD/navCD';
@@ -60,8 +60,8 @@ function PhaserGame(){
         currentWordPairIndex++;
         console.log('Moving to next word pair. Index:', currentWordPairIndex);
         
-        if (currentWordPairIndex < wordPairs.length) {
-            const nextWordPair = wordPairs[currentWordPairIndex];
+        if (currentWordPairIndex < knightRounds.length) {
+            const nextWordPair = knightRounds[currentWordPairIndex];
             gaText.setAlpha(0);
             enText.setAlpha(0);
             // Determine randomly whether to display positive or negative text
@@ -170,7 +170,7 @@ enText.setAlpha(1);
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('heart', './phaser-resources/images/heart.png');
-        this.load.image('pucaBlack', './phaser-resources/images/ui/pookaSQ01.png');
+        this.load.image('pookaSq01', './phaser-resources/images/ui/pookaSQ01.png');
         this.load.image('pucaWhite', './phaser-resources/images/ui/pookaSQ10.png');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
     }
@@ -255,7 +255,7 @@ glassbg.displayHeight = gameHeight;
         // Create the chessboard
         
         // Other elements
-        const firstWordPair = wordPairs[0];
+        const firstWordPair = knightRounds[0];
         
         const posX = scene.sys.game.config.width / 2;
         const posY = scene.sys.game.config.height / 2;
@@ -306,7 +306,7 @@ scene.cameras.main.scrollY = 0;
 
 
 
-    const pucaBlack = scene.add.image(centerX+64, centerY-64, 'pucaBlack').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
+    const pookaSq01 = scene.add.image(centerX+64, centerY-64, 'pookaSq01').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
     const pucaWhite = scene.add.image(centerX-64, centerY-64, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
     // boardContainer.add(pucaWhite);
     
@@ -325,17 +325,17 @@ function switchHighlightedPuca() {
     // Highlight puca0 or puca1 based on the value of highlightedPuca
     if (highlightedPuca === 0) {
         // Highlight puca0
-        pucaBlack.setAlpha(0.1); // Reduce opacity for the other 
+        pookaSq01.setAlpha(0.1); // Reduce opacity for the other 
         pucaWhite.setAlpha(1);
     } else {
         // Highlight puca1
         pucaWhite.setAlpha(0.1); // Reduce opacity for the other 
-        pucaBlack.setAlpha(1);
+        pookaSq01.setAlpha(1);
     }
 }
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 100; // Right side of the screen
-    const buttonY = this.sys.game.config.height / 2 + 100;
+    const buttonY = this.sys.game.config.height / 2 + 300;
     
     this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(9);
     this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
@@ -354,7 +354,7 @@ function switchHighlightedPuca() {
             highlightedPuca = 1;
             
             // Update puca transparency based on highlightedPuca
-            pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+            pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
             pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
             
             // Clear the existing timer event to prevent jitteriness
@@ -383,7 +383,7 @@ function switchHighlightedPuca() {
             highlightedPuca = 1;
             
             // Update puca transparency based on highlightedPuca
-            pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+            pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
             pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
             
             // Clear the existing timer event to prevent jitteriness
@@ -411,7 +411,7 @@ function switchHighlightedPuca() {
             highlightedPuca = 0;
             
             // Update puca transparency based on highlightedPuca
-            pucaBlack.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
+            pookaSq01.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
             pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
             
             // Clear the existing timer event to prevent jitteriness
@@ -440,7 +440,7 @@ function switchHighlightedPuca() {
         highlightedPuca = 0;
         
         // Update puca transparency based on highlightedPuca
-        pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+        pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
         pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
         
         // Clear the existing timer event to prevent jitteriness
@@ -502,13 +502,13 @@ function toggleOverlay() {
             
                     aBtn.on('pointerdown', () => {
                        
-                        highlightedPuca = pucaBlack.alpha === 1 ? 1 : 0;
+                        highlightedPuca = pookaSq01.alpha === 1 ? 1 : 0;
                     console.log("highlightedPuca: " + highlightedPuca)
                         if (!isProcessing) { // Check if the function is already in progress
                             isProcessing = true; // Set flag to true while processing
                     
                             // Determine whether the correct puca was highlighted when the button was clicked
-                            const isPosDisplayed = gaText.text === wordPairs[currentWordPairIndex].posGa;
+                            const isPosDisplayed = gaText.text === knightRounds[currentWordPairIndex].posGa;
                     
                             if (highlightedPuca === 0 && isPosDisplayed) {
                                 // Player pressed the button when the correct puca was highlighted and the displayed word is positive
@@ -581,7 +581,7 @@ const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').
 
 // Animate the image layer to slide down the screen
 function slideDownImageLayer(scene) {
-    pucaBlack.setAlpha(0);
+    pookaSq01.setAlpha(0);
     pucaWhite.setAlpha(0);
     
         scene.tweens.add({
@@ -594,7 +594,7 @@ function slideDownImageLayer(scene) {
             }
         });
     setTimeout(()=>{
-        pucaBlack.setAlpha(0.1);
+        pookaSq01.setAlpha(0.1);
         pucaWhite.setAlpha(1);
 
 },800)}
@@ -713,29 +713,21 @@ function update(scene) {
 <div>
 <div className="landscape-mode-text-container">
 
-<p className="menu portrait-mode-txt quote-1 ga">
+<p className="menu landscape-mode-txt swd-quote-1 ga">
 
-Ná tarraing mi gun adhbhar,<br/>'s ná pill mi gun chliú  
+Ná tarraing mi gun adhbhar,
+<br/>'s ná pill mi gun chliú  
 </p>
-<p className="menu portrait-mode-txt quote-2">
 <br/>
+<p className="menu landscape-mode-txt swd-quote-2 ga">
+
 Draw me not without cause,
-</p>
-<p className="menu portrait-mode-txt quote-3">
 <br/>
 
 nor return me without honor.
 </p>
-
-<p className="menu portrait-mode-txt quote-4">
-
-</p>
-<p className='portait-mode-text'>
-
-<br/>
-    
-</p>
 </div>
+
 </div>
 </div>
             </>
