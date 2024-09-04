@@ -9,6 +9,10 @@ import NavCD from '../navCD/navCD';
 
 
 function PhaserGame(){
+  const [highlightedSquares, setHighlightedSquares] = React.useState([]);
+const [player, setPlayer] = React.useState(null);
+const [puca, setPuca] = React.useState(null);
+
     let  gaText, enText;
 
     
@@ -152,7 +156,7 @@ enText.setAlpha(1);
         "puca-mounted",
         "/phaser-resources/images/npcs/pookaMounted.png",
       );                           
-    this.load.image('tallBg', './phaser-resources/images/background-elements/level1.png');
+    this.load.image('tallBg', './phaser-resources/images/background-elements/level2.png');
 
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
 
@@ -171,7 +175,7 @@ enText.setAlpha(1);
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
         this.load.image('heart', './phaser-resources/images/heart.png');
         this.load.image('pookaSq01', './phaser-resources/images/ui/pookaSQ01.png');
-        this.load.image('pucaWhite', './phaser-resources/images/ui/pookaSQ10.png');
+      
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
     }
 
@@ -304,11 +308,94 @@ overlay.add(enText);
 scene.cameras.main.scrollY = 0;
 
 
+const squares = {
+    pookaSq001: this.add.image(centerX + 96, centerY - 32, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq010: this.add.image(centerX + 96, centerY + 32, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq011: this.add.image(centerX - 96, centerY - 32, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq100: this.add.image(centerX - 96, centerY + 32, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq101: this.add.image(centerX + 32, centerY + 96, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq110: this.add.image(centerX + 32, centerY - 96, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq111: this.add.image(centerX - 32, centerY + 96, 'pookaSq01').setScale(0.35).setDepth(5),
+    pookaSq000: this.add.image(centerX - 32, centerY - 96, 'pookaSq01').setScale(0.35).setDepth(5)
+};
 
 
-    const pookaSq01 = scene.add.image(centerX+64, centerY-64, 'pookaSq01').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
-    const pucaWhite = scene.add.image(centerX-64, centerY-64, 'pucaWhite').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5);
-    // boardContainer.add(pucaWhite);
+const movePlayerAndPuca = (targetX, targetY) => {
+    // Move the puca and player to the new position
+    this.puca.setPosition(targetX, targetY);
+    this.player.setPosition(targetX, targetY);
+
+    // Call the function to update possible moves
+    updatePossibleMoves(targetX, targetY);
+
+    // Fade out all squares
+    fadeOutSquare();
+};
+
+
+// Function to fade out the specified square
+const fadeOutSquare = (scene, square) => {
+    if (square) { // Check if the square is defined
+        scene.tweens.add({
+            targets: square,  // The element you want to fade out
+            alpha: 0,         // Fade to fully transparent
+            duration: 500,    // Duration of the fade-out in milliseconds
+            ease: 'Linear',   // Easing function for smooth transition
+            onComplete: () => {
+                square.setVisible(false); // Optional: Hide the square after fade-out
+            }
+        });
+    }
+};
+
+// Define squares object to store square references
+scene.squares = {};
+
+// Assuming these squares are defined somewhere in your code
+scene.squares.pookaSq000 = scene.add.image(centerX - 32, centerY - 96, 'pookaSq01').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5).setInteractive();
+scene.squares.pookaSq001 = scene.add.image(centerX + 96, centerY - 32, 'pookaSq01').setScale(0.35).setOrigin(0.5, 0.5).setDepth(5).setInteractive();
+// ... define other squares similarly
+
+// Add event listeners to the squares
+Object.entries(squares).forEach(([key, square]) => {
+    if (square) {
+        square.setInteractive();
+        square.on('pointerdown', () => {
+            movePlayerAndPuca.call(this, square.x, square.y);
+        });
+    }
+});
+
+// Function to fade out all squares
+const fadeOutAllSquares = () => {
+    Object.values(squares).forEach(square => {
+        if (square) {
+            this.tweens.add({
+                targets: square,
+                alpha: 0,              // Fade to fully transparent
+                duration: 500,         // Duration of the fade-out in milliseconds
+                ease: 'Linear',        // Easing function for smooth transition
+                onComplete: () => {
+                    square.setVisible(false); // Optional: hide or destroy the square after fade-out
+                }
+            });
+        }
+    });
+};
+
+// Function to update possible moves
+const updatePossibleMoves = (playerX, playerY) => {
+    squares.pookaSq001.setPosition(playerX + 96, playerY - 32);
+    squares.pookaSq010.setPosition(playerX + 96, playerY + 32);
+    squares.pookaSq011.setPosition(playerX - 96, playerY - 32);
+    squares.pookaSq100.setPosition(playerX - 96, playerY + 32);
+    squares.pookaSq101.setPosition(playerX + 32, playerY + 96);
+    squares.pookaSq110.setPosition(playerX + 32, playerY - 96);
+    squares.pookaSq111.setPosition(playerX - 32, playerY + 96);
+    squares.pookaSq000.setPosition(playerX - 32, playerY - 96);
+};
+
+
     
     let isProcessing = false; // Flag to indicate whether the function is already in progress
     
@@ -317,25 +404,11 @@ scene.cameras.main.scrollY = 0;
     
 // Function to switch between puca highlights
 function switchHighlightedPuca() {
-    console.log("highlightedPucaSHP: " + highlightedPuca)
-
-    highlightedPuca = (highlightedPuca + 1) % 2; // Toggle between 0 and 1
-    console.log("highlightedPucaSHP: " + highlightedPuca)
     
-    // Highlight puca0 or puca1 based on the value of highlightedPuca
-    if (highlightedPuca === 0) {
-        // Highlight puca0
-        pookaSq01.setAlpha(0.1); // Reduce opacity for the other 
-        pucaWhite.setAlpha(1);
-    } else {
-        // Highlight puca1
-        pucaWhite.setAlpha(0.1); // Reduce opacity for the other 
-        pookaSq01.setAlpha(1);
-    }
 }
     // Define the position of the directional pad buttons
     const buttonX = this.sys.game.config.width - 100; // Right side of the screen
-    const buttonY = this.sys.game.config.height / 2 + 300;
+    const buttonY = this.sys.game.config.height / 2 + 200;
     
     this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(9);
     this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(9);
@@ -347,17 +420,8 @@ function switchHighlightedPuca() {
     // Add event listener to the left button
     this.buttonLeft.on('pointerdown', () => {
         if (!isManuallySettingPuca) {
-            // Set the flag to indicate that puca highlighting is being manually set
-            isManuallySettingPuca = true;
-            
-            // Set highlightedPuca to 1 to indicate the white puca
-            highlightedPuca = 1;
-            
-            // Update puca transparency based on highlightedPuca
-            pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
-            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
-            
-            // Clear the existing timer event to prevent jitteriness
+             isManuallySettingPuca = true;
+           
             if (timerEvent) {
                 timerEvent.remove(false);
             }
@@ -383,8 +447,8 @@ function switchHighlightedPuca() {
             highlightedPuca = 1;
             
             // Update puca transparency based on highlightedPuca
-            pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
-            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+            // pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+            // pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
             
             // Clear the existing timer event to prevent jitteriness
             if (timerEvent) {
@@ -411,8 +475,8 @@ function switchHighlightedPuca() {
             highlightedPuca = 0;
             
             // Update puca transparency based on highlightedPuca
-            pookaSq01.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
-            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+            // pookaSq01.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
+            // pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
             
             // Clear the existing timer event to prevent jitteriness
             if (timerEvent) {
@@ -440,8 +504,8 @@ function switchHighlightedPuca() {
         highlightedPuca = 0;
         
         // Update puca transparency based on highlightedPuca
-        pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
-        pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
+        // pookaSq01.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
+        // pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
         
         // Clear the existing timer event to prevent jitteriness
         if (timerEvent) {
@@ -502,7 +566,7 @@ function toggleOverlay() {
             
                     aBtn.on('pointerdown', () => {
                        
-                        highlightedPuca = pookaSq01.alpha === 1 ? 1 : 0;
+                        highlightedPuca = 1;
                     console.log("highlightedPuca: " + highlightedPuca)
                         if (!isProcessing) { // Check if the function is already in progress
                             isProcessing = true; // Set flag to true while processing
@@ -581,8 +645,8 @@ const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').
 
 // Animate the image layer to slide down the screen
 function slideDownImageLayer(scene) {
-    pookaSq01.setAlpha(0);
-    pucaWhite.setAlpha(0);
+    // pookaSq01.setAlpha(0);
+    // pucaWhite.setAlpha(0);
     
         scene.tweens.add({
             targets: tallBg,
@@ -594,8 +658,6 @@ function slideDownImageLayer(scene) {
             }
         });
     setTimeout(()=>{
-        pookaSq01.setAlpha(0.1);
-        pucaWhite.setAlpha(1);
 
 },800)}
 
@@ -687,20 +749,6 @@ function update(scene) {
 <div className='chess-like-1' ref={phaserGameRef}></div>
 
 
-{!fullscreen && (
-<>
-                <img
-                    src={geaga1}
-                    alt="foggy fields"
-                    className="fullscreen-image"
-                    onClick={toggleFullscreen}
-                    />
-                    <div className='touch-prompt-container'>
-<div className='touch-prompt'></div>
-<div className='touch-prompt'></div></div>
-                    </>
-            )}
-
 
 
             {fullscreen && <div className="fullscreen-overlay" onClick={toggleFullscreen}></div>}
@@ -719,18 +767,35 @@ Ná tarraing mi gun adhbhar,
 <br/>'s ná pill mi gun chliú  
 </p>
 <br/>
-<p className="menu landscape-mode-txt swd-quote-2 ga">
+<p className="menu landscape-mode-txt swd-quote-2 en">
 
-Draw me not without cause,
+Draw me not <br/>without cause,
 <br/>
-
-nor return me without honor.
+nor return me <br/>without honor.
 </p>
 </div>
 
 </div>
 </div>
+
+
+{!fullscreen && (
+<>
+                <img
+                    src={geaga1}
+                    alt="foggy fields"
+                    className="fullscreen-image"
+                    onClick={toggleFullscreen}
+                    />
+                    <div className='touch-prompt-container'>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div></div>
+                    </>
+            )}
+
             </>
+
+
     ) 
 
 };
