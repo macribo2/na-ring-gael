@@ -739,9 +739,7 @@ You’ll get that if my journey succeeds with me.
         stroke="rgba(180,180,180,1)"
         strokeWidth={'3px'}
 							
-						strokeWidth={'3px'}
-					stroke="rgba(180,180,180,1)" 
-							
+					
 						>
 						
 						</CircularThumb>

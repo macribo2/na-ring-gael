@@ -176,6 +176,7 @@ left:0px;
 	  background-size: contain;
   
 	}
+	.swd-quote-2{display:none;}
 }  
 
 @media screen and (orientation:landscape) {
