@@ -248,7 +248,7 @@ const ireData  = {
                             
                             "url":"leinster/dublin/finglas",
 "irishName":  "Fionnġlas",
-                            "englishName":  "Finglas - Clear streamlet",
+                            "englishName":  "leinster/dublin/finglas\nFinglas - Clear streamlet",
                         },
                         {
                             
