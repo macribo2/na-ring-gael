@@ -179,7 +179,7 @@ p {
 
 .menu {
   background-color: rgba(64, 224, 208, 0.1);
-  color: goldenrod;
+  color: rgb(255, 0, 238);
   padding: 12px;
   opacity: 0;
   width: 19%;
@@ -214,7 +214,7 @@ p {
 
   animation: fade-in  linear 1s forwards;
   margin-left:-10%;
-color:deepskyblue;
+color:rgb(233, 250, 255);
 }
 .swd-quote-1{
   margin-left:-35%;
