@@ -625,7 +625,7 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 
-let latestTarget = 0;
+let latestTarget = 5;
 function update(scene) {
 
 //try 25
