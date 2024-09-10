@@ -173,7 +173,8 @@ export default class NavCD extends Phaser.Scene {
     // Configure player sprite properties
     this.player.setDepth(920);
     this.player.setScale(1.3);
-
+    this.player.setX(centerX);
+    this.player.setY(centerY);
   
         // Display the message and graphic
         const message = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Léim an Púca súas sa spéir!', {
@@ -227,7 +228,7 @@ export default class NavCD extends Phaser.Scene {
 
    const centerX = this.cameras.main.width / 2;
    const centerY = this.cameras.main.height / 2;
-   this.player = this.add.sprite(x, y, 'player');
+   this.player = this.add.sprite(centerX, centerY, 'player');
 
    this.puca = this.add.sprite(centerX, centerY, "puca-mounted");
    this.puca.setDepth(921);
