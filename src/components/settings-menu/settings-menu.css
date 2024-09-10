@@ -190,7 +190,9 @@ p {
   border-radius: 0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add this line for the drop shadow */
 }
-
+.main-menu{
+  color:chartreuse;
+}
 
 .game-over-menu{
 
