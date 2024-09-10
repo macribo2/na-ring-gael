@@ -87,17 +87,17 @@ export default class NavCD extends Phaser.Scene {
       this.load.image("glassbg", "/phaser-resources/images/big-glass.png");
     this.load.image("overlay", "/phaser-resources/images/overlay.png");
     this.load.image("actionBtn", "/phaser-resources/images/ui/a-btn.png");
-    this.load.image("button-up", "/phaser-resources/images/ui/pad-u.png");
-    this.load.image("button-down", "/phaser-resources/images/ui/pad-d.png");
-    this.load.image("button-left", "/phaser-resources/images/ui/pad-l.png");
-    this.load.image("button-right", "/phaser-resources/images/ui/pad-r.png");
+    this.load.image("button-up", "/phaser-resources/images/ui/cd-nav/pad-u.png");
+    this.load.image("button-down", "/phaser-resources/images/cd-nav/ui/pad-d.png");
+    this.load.image("button-left", "/phaser-resources/images/ui/cd-nav/pad-l.png");
+    this.load.image("button-right", "/phaser-resources/images/ui/cd-nav/pad-r.png");
     this.load.image(
       "button-middle-lit",
       "/phaser-resources/images/ui/middle-a.png",
     );
     this.load.image(
       "button-middle",
-      "/phaser-resources/images/ui/middle-b.png",
+      "/phaser-resources/images/ui/cd-nav/middle-b.png",
     );
     this.load.image("pucaBlack", "/phaser-resources/images/npcs/pooka0.png");
     this.load.image("pucaWhite", "/phaser-resources/images/npcs/pooka1.png");

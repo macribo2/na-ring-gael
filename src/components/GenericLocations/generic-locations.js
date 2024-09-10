@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import molly from '../../images/draoi0.gif'
+
 import Easca from '../easca/easca2';
 // import './generic-location.css';
 import NavCD from '../navCD/navCD'
@@ -115,7 +116,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
         this.load.image('genericMap0', '/phaser-resources/images/location0.png');
         this.load.image('overlay', '/phaser-resources/images/overlay.png'); // Load overlay image
-     
+        this.load.image("fullscreen", "/phaser-resources/images/ui/full-screen.png");
     }
 
    
@@ -148,10 +149,25 @@ class GameScene extends Phaser.Scene {
         
     }
     
+    toggleFullscreen() {
+        // Check if the game is currently in fullscreen mode
+        const fullscreen = this.scale.isFullscreen;
+    
+        // Toggle fullscreen mode
+        if (!fullscreen) {
+            // Enter fullscreen mode
+            this.scale.startFullscreen();
+        } else {
+            // Exit fullscreen mode
+            this.scale.stopFullscreen();
+        }
+    }
     
     create() {
     
-     
+        this.fullscreenButton = this.add.sprite(50, 50, 'fullscreen').setInteractive();
+        this.fullscreenButton.on('pointerdown', this.toggleFullscreen, this);
+    
     
         
     // Define a boolean flag to track whether movement controls are enabled
