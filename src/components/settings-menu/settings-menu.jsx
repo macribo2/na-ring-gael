@@ -190,11 +190,11 @@ let randLights = Math.floor(Math.random * 8)
 			
 		</div>
 <div className='menu-container'>
-			<button className="menu"
+			<button className="menu main-menu"
 			onClick={handleAboutClick}
 			>intro</button >
 			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
-			<button className="menu"
+			<button className="menu main-menu"
 			onClick={handleBeginClick}
 			>begin</button>
 <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />

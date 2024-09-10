@@ -6,12 +6,6 @@ module.exports = [
 `,
 
 
-//1
-    
-`<span id='herzlich willkommen'>Fáilte.<br/></span><span id="Náid ist gleich 0.">Tá náid cothrom le 0.</span>
-
-
-`,
   
 
     
@@ -39,12 +33,9 @@ module.exports = [
 */
 //10
 `
-<span id='schreibe eins'>scríobh an tuimhear a haon</span> <span id='this manifesto:'>an forógra seo</span>: <ul>
 
 <div style="animation:delay-fade-in 1s;">
 <li>
-<span id='One cannot'>Nach feidir</span><span id='give a neutral account'> tuairisc neodrach a thabhairt</span><span id='of the connec- tions'> ar na caidreamh </span><span id='between'>idir</span><span id='language'> teanga</span><span id='and mind'> agus meabhair</span>
-</li>
 </div>
 <br>
 
