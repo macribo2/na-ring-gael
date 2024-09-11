@@ -73,6 +73,7 @@ export default class NavCD extends Phaser.Scene {
         };
 
         this.overlay = null;
+        this.hudBG=null;
         this.enCurrentPlaceText = null;
         this.isToggling = false;
     }
@@ -80,7 +81,8 @@ export default class NavCD extends Phaser.Scene {
     // Function to move player and puca off the screen based on direction
     
     preload() {
-        this.load.image("pucaLeaps", "/phaser-resources/images/startCDNav.png");
+
+        this.load.image("hudBG", "/phaser-resources/images/background-elements/grey-bg-small.png");        this.load.image("pucaLeaps", "/phaser-resources/images/startCDNav.png");
         this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
       
       let champID = localStorage.getItem("champID");
@@ -181,7 +183,7 @@ export default class NavCD extends Phaser.Scene {
             fontSize: '32px',
             
             fill: '#fff'
-        }).setOrigin(0.5).setDepth(699);
+        }).setOrigin(0.5).setDepth(999);
 
         const pucaLeaps= this.add.image(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'pucaLeaps').setOrigin(0.5).setDepth(600);
    // Calculate the scale factors
@@ -200,18 +202,45 @@ export default class NavCD extends Phaser.Scene {
         // Update the flag in local storage
         localStorage.setItem('isFirstCatch', 'true');
     
-
+        this.scale.on('resize', (gameSize) => {
+            const { width, height } = gameSize;
+        
+            const scaleX = width / hudBGOriginalWidth;
+            const scaleY = height / hudBGOriginalHeight;
+        
+            const scale = Math.max(scaleX, scaleY);
+        
+            this.hudBG.setScale(scale);
+            this.hudBG.setPosition(0, 0);
+        });
+        
    // Add and configure overlay
    this.overlay = this.add.container(0, 0).setDepth(3);
    const glassbg = this.add.sprite(0, 0, 'glassbg').setOrigin(0);
-   glassbg.displayWidth = this.gameWidth;
-   glassbg.displayHeight = this.gameHeight;
    this.overlay.add(glassbg);
    this.overlay.setVisible(false); // Start as invisible
 
+   // Assuming the HUD image is designed for a specific resolution (like 1920x1080)
+this.hudBG = this.add.sprite(0, 0, 'hudBG').setOrigin(0).setVisible(false).setDepth(999);
+
+// Get the game dimensions
+const gameWidth = this.scale.width;
+const gameHeight = this.scale.height;
+
+// Get the original dimensions of the hudBG image (you can also hardcode this if you know the size)
+const hudBGOriginalWidth = this.hudBG.width;
+const hudBGOriginalHeight = this.hudBG.height;
+
+
+// Apply the scale to the hudBG
+this.hudBG.setScale(scale);
+
+// Optional: Adjust the position to center the image
+this.hudBG.setPosition(0,0).setAlpha(0.5);
+
    // Add and configure text
    this.enCurrentPlaceText = this.add.text(400, 300, 'Overlay Text', { fontSize: '32px', fill: '#fff' });
-   this.enCurrentPlaceText.setDepth(4); // Make sure text is above the overlay
+   this.enCurrentPlaceText.setDepth(999); // Make sure text is above the overlay
    this.enCurrentPlaceText.setVisible(false); // Start as invisible
 
    // Add and configure middle button
@@ -316,10 +345,10 @@ export default class NavCD extends Phaser.Scene {
         .setDepth(31);
 
     this.enCurrentPlaceText = this.add
-        .text(200, this.cameras.main.height - 100, currentLocation, {
-            fontFamily: "Anaphora",
-            fontSize: "2em",
-            fill: "#fff",
+        .text(40, this.cameras.main.height - 100, currentLocation, {
+            fontFamily: "ubuntu",
+            fontSize: "3em",
+            fill: "chartreuse",
         })
         .setDepth(32)
         .setVisible();
@@ -623,12 +652,14 @@ export default class NavCD extends Phaser.Scene {
         let isToggling = false; // Flag to track if overlay is currently toggling
 
         
+      
         const enTextStyle = {
             fontSize: '4em',
-            fontFamily: 'anaphora',
-            color: '#ffffff',
+            fontFamily: 'ubuntu',
+            color: 'chartreuse',
             stroke: '#000000', // Stroke color
             strokeThickness: 3, // Stroke thickness
+            
         };
         
         let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
@@ -830,6 +861,7 @@ toggleOverlay() {
         console.log('Overlay visibility after:', this.overlay.visible);
 
         this.enCurrentPlaceText.setVisible(!this.enCurrentPlaceText.visible);
+        this.hudBG.setVisible(!this.hudBG.visible);
         console.log('enCurrentPlaceText visibility:', this.enCurrentPlaceText.visible);
 
         // alert("Overlay visibility toggled.");

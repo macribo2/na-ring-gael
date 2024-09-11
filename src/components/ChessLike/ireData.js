@@ -140,14 +140,14 @@ const ireData  = {
 {
     "name":"roscommon",
     "gaCoName": "Co. Ros Comáin",
-    "enCoName": "St Coman's woods",
+    "enCoName": "connacht/roscommon/\nSt Coman's woods",
 
 
     "locations":[
         {
             "url":"connacht/roscommon/cloodfad",
 "irishName":        "Cluain Fada",
-            "englishName":      "Cloodfad - long meadow",
+            "englishName":      "connacht/roscommon/cloodfad\nCloodfad - long meadow",
 
 
         },
@@ -240,7 +240,7 @@ const ireData  = {
                 {
                     "name":"dublin",
 "gaCoName": "Co. Baile Átha Ċliath",
-                    "enCoName": "hurdled ford",
+                    "enCoName": "leinster/dublin/\nhurdled ford",
 
         
                     "locations": [

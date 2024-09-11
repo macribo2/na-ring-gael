@@ -197,12 +197,14 @@ function create() {
     glassbg.displayHeight = this.sys.game.config.height;
     this.overlay.add(glassbg);
 
+ 
     const enTextStyle = {
         fontSize: '4em',
-        fontFamily: 'anaphora',
-        color: '#ffffff',
-        stroke: '#000000',
-        strokeThickness: 3,
+        fontFamily: 'ubuntu',
+        color: 'chartreuse',
+        stroke: '#000000', // Stroke color
+        strokeThickness: 3, // Stroke thickness
+        
     };
 
     this.enText = this.add.text(0, 0, 'English Text', enTextStyle).setOrigin(0).setDepth(9);
