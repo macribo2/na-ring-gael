@@ -1,19 +1,19 @@
 const ireData  = {
     "provinces": [
         {
-            "enProvince": "Connacht",
+            "enProvince": "Connacht/\ndescendants of Conn\nKing of the Hundred Battles",
              "gaProvince": "Connacht",
             "counties": [
                 {
                     "name":"galway",
                     "gaCoName": "Gailleamh",
-                    "enCoName": "Co. Galway - stoney",
+                    "enCoName": "Connacht/galway\nCo. Galway - stoney",
                     "locations": [
                         {
                             
 "url":"connacht/galway/kilcash",
 "irishName":  "Cill Cais",
-                            "englishName": "Kilcash",
+                            "englishName": "connacht/galway/kilcash\nKilcash, Church of the Hazel Trees",
                            
                         },
 
@@ -22,7 +22,7 @@ const ireData  = {
                             "url":"connacht/galway/carraroe",
 "irishName": "An Ċeaṫrú Rua",
                             
-                            "englishName": "Carraroe - the red quarter"
+                            "englishName": "connacht/galway/carraroe\nCarraroe - the red quarter"
                         },
 
                         {
@@ -234,7 +234,7 @@ const ireData  = {
         ]
         },
         {
-            "enProvince": "Leinster",
+            "enProvince": "Leinster/\nKingdom of Laighin\nlaigin - spears",
             "gaProvince": "Laighean",
             "counties": [
                 {

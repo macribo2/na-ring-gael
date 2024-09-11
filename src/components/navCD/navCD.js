@@ -82,7 +82,8 @@ export default class NavCD extends Phaser.Scene {
     
     preload() {
 
-        this.load.image("hudBG", "/phaser-resources/images/background-elements/grey-bg-small.png");        this.load.image("pucaLeaps", "/phaser-resources/images/startCDNav.png");
+        this.load.image("hudBG", "/phaser-resources/images/background-elements/grey-bg.png");
+                this.load.image("pucaLeaps", "/phaser-resources/images/startCDNav.png");
         this.load.image("stonebg", "/phaser-resources/images/fogblue.png");
       
       let champID = localStorage.getItem("champID");
@@ -90,7 +91,7 @@ export default class NavCD extends Phaser.Scene {
     this.load.image("overlay", "/phaser-resources/images/overlay.png");
     this.load.image("actionBtn", "/phaser-resources/images/ui/a-btn.png");
     this.load.image("button-up", "/phaser-resources/images/ui/cd-nav/pad-u.png");
-    this.load.image("button-down", "/phaser-resources/images/cd-nav/ui/pad-d.png");
+    this.load.image("button-down", "/phaser-resources/images/ui/cd-nav/pad-d.png");
     this.load.image("button-left", "/phaser-resources/images/ui/cd-nav/pad-l.png");
     this.load.image("button-right", "/phaser-resources/images/ui/cd-nav/pad-r.png");
     this.load.image(
@@ -205,8 +206,8 @@ export default class NavCD extends Phaser.Scene {
         this.scale.on('resize', (gameSize) => {
             const { width, height } = gameSize;
         
-            const scaleX = width / hudBGOriginalWidth;
-            const scaleY = height / hudBGOriginalHeight;
+            const scaleX = width ;
+            const scaleY = height ;
         
             const scale = Math.max(scaleX, scaleY);
         
@@ -221,7 +222,7 @@ export default class NavCD extends Phaser.Scene {
    this.overlay.setVisible(false); // Start as invisible
 
    // Assuming the HUD image is designed for a specific resolution (like 1920x1080)
-this.hudBG = this.add.sprite(0, 0, 'hudBG').setOrigin(0).setVisible(false).setDepth(999);
+this.hudBG = this.add.sprite(0, 0, 'hudBG').setOrigin(0).setVisible(false).setDepth(9);
 
 // Get the game dimensions
 const gameWidth = this.scale.width;
@@ -236,7 +237,7 @@ const hudBGOriginalHeight = this.hudBG.height;
 this.hudBG.setScale(scale);
 
 // Optional: Adjust the position to center the image
-this.hudBG.setPosition(0,0).setAlpha(0.5);
+this.hudBG.setPosition(0,0).setAlpha(0.6);
 
    // Add and configure text
    this.enCurrentPlaceText = this.add.text(400, 300, 'Overlay Text', { fontSize: '32px', fill: '#fff' });
@@ -662,7 +663,7 @@ this.hudBG.setPosition(0,0).setAlpha(0.5);
             
         };
         
-        let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(9);
+        let enText = this.add.text(0, 0, '', enTextStyle).setOrigin(0).setDepth(999);
         this.overlay.add(enText);
         
         // Define behavior for pointer events (e.g., hover, click)
