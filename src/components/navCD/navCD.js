@@ -211,7 +211,7 @@ export default class NavCD extends Phaser.Scene {
         
             const scale = Math.max(scaleX, scaleY);
         
-            this.hudBG.setScale(scale);
+            this.hudBG.setScale(5);
             this.hudBG.setPosition(0, 0);
         });
         
@@ -234,7 +234,7 @@ const hudBGOriginalHeight = this.hudBG.height;
 
 
 // Apply the scale to the hudBG
-this.hudBG.setScale(scale);
+this.hudBG.setScale(5);
 
 // Optional: Adjust the position to center the image
 this.hudBG.setPosition(0,0).setAlpha(0.6);
