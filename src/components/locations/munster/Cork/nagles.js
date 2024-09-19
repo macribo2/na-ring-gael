@@ -25,7 +25,7 @@ const Nagels = () => {
     // Create the Phaser game instance
     gameRef.current = new Phaser.Game(config);
 
-    // Cleanup function to destroy the Phaser game when the component unmounts
+
     return () => {
       if (gameRef.current) {
         gameRef.current.destroy(true);
@@ -68,43 +68,6 @@ const Nagels = () => {
 
   }
   function create() {
-
-    const tileSize = 32;
-    const gridWidth = 25; // Number of tiles in width
-    const gridHeight = 18; // Number of tiles in height
-    const bgWidth = tileSize * gridWidth;
-    const bgHeight = tileSize * gridHeight;
-    // Initialize borderGraphics
-    this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
-    this.borderGraphics.setDepth(9); // Optional: Set depth if needed
-  
-    this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
-    this.background.setOrigin(0, 0);
-  
-    // Center the player on the grid
-    const playerStartX = Math.floor(gridWidth / 2) * tileSize + tileSize / 2;
-    const playerStartY = Math.floor(gridHeight / 2) * tileSize + tileSize / 2;
-    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
-    this.player.setOrigin(0.5, 0.5).setScale(0.5);
-    this.cursors = this.input.keyboard.createCursorKeys();
-  
-    // Ensure the player stays locked to the grid
-    this.player.nextMove = { x: this.player.x, y: this.player.y };
-    this.isMoving = false;
-    this.moveDelay = 100; // Add a delay for continuous movement (milliseconds)
-    this.lastMoveTime = 0; // Track the last time movement occurred
-  
-
-    this.interactiveObjects = [
-      { type: 'stump', x: 2, y: 5, nameEng: 'A stump', name: 'stumpa' },
-      { type: 'stump', x: 15, y: 8, nameEng: 'A stump', name: 'stumpa' },
-      // Add more non-blocking interactive objects here
-    ];
-
-    // Log the interactive objects for debugging
-    // console.log('Interactive Objects:', this.interactiveObjects);
-  
-    // Define obstacles with names and positions
     this.obstacles = [
       { type: 'rock', x: 17, y: 4, nameEng:'A rock',name: 'Carraig' },
       { type: 'noPic', x: 18, y: 2, nameEng:'A cliff',name: 'Aill' },
@@ -183,6 +146,42 @@ const Nagels = () => {
       { type: 'tree', x: 12, y: 17, nameEng:'tree',name: 'crann' },
       { type: 'tree', x: 20, y: 17, nameEng:'tree',name: 'crann' },
     ];
+    const tileSize = 32;
+    const gridWidth = 25; // Number of tiles in width
+    const gridHeight = 18; // Number of tiles in height
+    const bgWidth = tileSize * gridWidth;
+    const bgHeight = tileSize * gridHeight;
+    // Initialize borderGraphics
+    this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
+    this.borderGraphics.setDepth(9); // Optional: Set depth if needed
+  
+    this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
+    this.background.setOrigin(0, 0);
+  
+    // Center the player on the grid
+    const playerStartX = Math.floor(gridWidth / 2) * tileSize + tileSize / 2;
+    const playerStartY = Math.floor(gridHeight / 2) * tileSize + tileSize / 2;
+    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
+    this.player.setOrigin(0.5, 0.5).setScale(0.5);
+    this.cursors = this.input.keyboard.createCursorKeys();
+    // Ensure the player stays locked to the grid
+    this.player.nextMove = { x: this.player.x, y: this.player.y };
+    this.isMoving = false;
+    this.moveDelay = 100; // Add a delay for continuous movement (milliseconds)
+    this.lastMoveTime = 0; // Track the last time movement occurred
+  
+
+    this.interactiveObjects = [
+      { type: 'stump', x: 2, y: 5, nameEng: 'A stump', name: 'stumpa' },
+      { type: 'stump', x: 15, y: 8, nameEng: 'A stump', name: 'stumpa' },
+      // Add more non-blocking interactive objects here
+    ];
+
+    // Log the interactive objects for debugging
+    // console.log('Interactive Objects:', this.interactiveObjects);
+  
+    // Define obstacles with names and positions
+   
   
     // Draw obstacles
     this.obstacles.forEach(obstacle => {
@@ -277,6 +276,9 @@ const Nagels = () => {
     // Timeout flag
     this.isMiddleButtonCooldown = false;
   }
+
+
+
     function handleMiddleButtonClick(scene) {
       if (scene.isMiddleButtonCooldown) return;
       toggleVisibility(scene);
@@ -294,119 +296,33 @@ const Nagels = () => {
   
   
   
-  function handleButtonInput(direction) {
-    if (direction === 'left') {
-      this.cursors.left.isDown = true;
-    } else if (direction === 'right') {
-      this.cursors.right.isDown = true;
-    } else if (direction === 'up') {
-      this.cursors.up.isDown = true;
-    } else if (direction === 'down') {
-      this.cursors.down.isDown = true;
-    }
-    movePlayer.call(this);
-  }
-  
-  function handleButtonInputRelease(direction) {
-    if (direction === 'left') {
-      this.cursors.left.isDown = false;
-    } else if (direction === 'right') {
-      this.cursors.right.isDown = false;
-    } else if (direction === 'up') {
-      this.cursors.up.isDown = false;
-    } else if (direction === 'down') {
-      this.cursors.down.isDown = false;
-    }
-  }
-  
-  function movePlayer() {
-    const tileSize = 32; // Example tile size, adjust as needed
-    const gridWidth = 25; // Example grid width, adjust as needed
-    const gridHeight = 18; // Example grid height, adjust as needed
-  
-    if (!this.isMoving && this.time.now - this.lastMoveTime > this.moveDelay) {
-      this.isMoving = true;
-      this.lastMoveTime = this.time.now;
-  
-      let nextMove = { x: this.player.x, y: this.player.y };
-  
-      if (this.cursors.left.isDown) {
-        nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-      } else if (this.cursors.right.isDown) {
-        nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-      } else if (this.cursors.up.isDown) {
-        nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-      } else if (this.cursors.down.isDown) {
-        nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    function handleButtonInput(direction) {
+      if (direction === 'left') {
+        this.cursors.left.isDown = true;
+      } else if (direction === 'right') {
+        this.cursors.right.isDown = true;
+      } else if (direction === 'up') {
+        this.cursors.up.isDown = true;
+      } else if (direction === 'down') {
+        this.cursors.down.isDown = true;
       }
-  
-      this.player.nextMove = nextMove;
-      this.player.setPosition(nextMove.x, nextMove.y);
-  
-      this.isMoving = false;
+      movePlayer.call(this, direction); // Pass direction to movePlayer
     }
-  }
+    
+    function handleButtonInputRelease(direction) {
+      if (direction === 'left') {
+        this.cursors.left.isDown = false;
+      } else if (direction === 'right') {
+        this.cursors.right.isDown = false;
+      } else if (direction === 'up') {
+        this.cursors.up.isDown = false;
+      } else if (direction === 'down') {
+        this.cursors.down.isDown = false;
+      }
+    }
+    
+ 
 let buttonPressed = false;
-
-function handleButtonLeft() {
-  this.buttonLeft.on('pointerdown', () => {
-    buttonPressed = true;
-    // Optionally handle visual feedback for button press start
-  });
-
-  this.buttonLeft.on('pointerup', () => {
-    if (buttonPressed) {
-      buttonPressed = false;
-      // Ensure movePlayer is called only once
-      movePlayer.call(this, 'left');
-    }
-  });
-}
-
-function handleButtonRight() {
-  this.buttonRight.on('pointerdown', () => {
-    buttonPressed = true;
-    // Optionally handle visual feedback for button press start
-  });
-
-  this.buttonRight.on('pointerup', () => {
-    if (buttonPressed) {
-      buttonPressed = false;
-      // Ensure movePlayer is called only once
-      movePlayer.call(this, 'right');
-    }
-  });
-}
-
-function handleButtonUp() {
-  this.buttonUp.on('pointerdown', () => {
-    buttonPressed = true;
-    // Optionally handle visual feedback for button press start
-  });
-
-  this.buttonUp.on('pointerup', () => {
-    if (buttonPressed) {
-      buttonPressed = false;
-      // Ensure movePlayer is called only once
-      movePlayer.call(this, 'up');
-    }
-  });
-}
-
-function handleButtonDown() {
-  this.buttonDown.on('pointerdown', () => {
-    buttonPressed = true;
-    // Optionally handle visual feedback for button press start
-  });
-
-  this.buttonDown.on('pointerup', () => {
-    if (buttonPressed) {
-      buttonPressed = false;
-      // Ensure movePlayer is called only once
-      movePlayer.call(this, 'down');
-    }
-  });
-}
 
 // Track the state of the mouse click
 let mousePressed = false;
@@ -420,96 +336,26 @@ function setupMouseEvents() {
   this.input.on('pointerup', (pointer) => {
     if (mousePressed) {
       mousePressed = false;
-      // Trigger movement or other actions only on mouse click end
-      // Example: movePlayer.call(this, 'left'); // Call relevant function based on context
+  
     }
   });
 }
   
 let isMoving = false; // Track if movement is ongoing
 
-function movePlayer(direction) {
-  if (isMoving) return; // Prevent overlapping movements
 
-  isMoving = true;
-  const speed = 32; // Size of one square
-
-  let targetX = this.player.x;
-  let targetY = this.player.y;
-
-  switch (direction) {
-    case 'left':
-      targetX -= speed;
-      break;
-    case 'right':
-      targetX += speed;
-      break;
-    case 'up':
-      targetY -= speed;
-      break;
-    case 'down':
-      targetY += speed;
-      break;
-  }
-
-  this.tweens.add({
-    targets: this.player,
-    x: targetX,
-    y: targetY,
-    duration: 200, // Adjust as needed
-    onComplete: () => {
-      isMoving = false; // Allow next move
-    }
-  });
-}
-
-  
-  function handleButtonLeft() {
-    if (!this.isMoving) {
-      this.isMoving = true;
-      this.cursors.left.isDown = true;
-      movePlayer.call(this);
-      this.cursors.left.isDown = false;
-    }
-  }
-  
-  function handleButtonRight() {
-    if (!this.isMoving) {
-      this.isMoving = true;
-      this.cursors.right.isDown = true;
-      movePlayer.call(this);
-      this.cursors.right.isDown = false;
-    }
-  }
-  
-  function handleButtonUp() {
-    if (!this.isMoving) {
-      this.isMoving = true;
-      this.cursors.up.isDown = true;
-      movePlayer.call(this);
-      this.cursors.up.isDown = false;
-    }
-  }
-  
-  function handleButtonDown() {
-    if (!this.isMoving) {
-      this.isMoving = true;
-      this.cursors.down.isDown = true;
-      movePlayer.call(this);
-      this.cursors.down.isDown = false;
-    }
-  }
   
 // Helper function to create a delay
 function delay(ms) {
+  alert()
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function movePlayer() {
-  const tileSize = 32; // Example tile size, adjust as needed
-  const gridWidth = 25; // Example grid width, adjust as needed
-  const gridHeight = 18; // Example grid height, adjust as needed
-  
+  const tileSize = 32;
+  const gridWidth = 25;
+  const gridHeight = 18;
+
   if (!this.isMoving && this.time.now - this.lastMoveTime > this.moveDelay) {
     this.isMoving = true;
     this.lastMoveTime = this.time.now;
@@ -526,10 +372,26 @@ async function movePlayer() {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
 
-    // Wait for 500ms before moving the player
+    console.log(`Moving to (${nextMove.x}, ${nextMove.y})`);
+
+    // Check for obstacles here before applying the delay
+    const nextTileX = Math.floor(nextMove.x / tileSize);
+    const nextTileY = Math.floor(nextMove.y / tileSize);
+
+    const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
+
+    if (obstacle) {
+      console.log(`Blocked by ${obstacle.nameEng}`);
+      this.isMoving = false;
+      return; // Block movement and stop further execution
+    }
+
+    // Add delay before setting the new position
     await delay(500);
 
     this.player.setPosition(nextMove.x, nextMove.y);
+
+    console.log(`Position set to (${this.player.x}, ${this.player.y})`);
 
     this.isMoving = false;
   }
@@ -537,41 +399,7 @@ async function movePlayer() {
 
 
 
-function handleButtonLeft() {
-  if (!this.isMoving) {
-    this.isMoving = true;
-    this.cursors.left.isDown = true;
-    movePlayer.call(this);
-    this.cursors.left.isDown = false;
-  }
-}
 
-function handleButtonRight() {
-  if (!this.isMoving) {
-    this.isMoving = true;
-    this.cursors.right.isDown = true;
-    movePlayer.call(this);
-    this.cursors.right.isDown = false;
-  }
-}
-
-function handleButtonUp() {
-  if (!this.isMoving) {
-    this.isMoving = true;
-    this.cursors.up.isDown = true;
-    movePlayer.call(this);
-    this.cursors.up.isDown = false;
-  }
-}
-
-function handleButtonDown() {
-  if (!this.isMoving) {
-    this.isMoving = true;
-    this.cursors.down.isDown = true;
-    movePlayer.call(this);
-    this.cursors.down.isDown = false;
-  }
-}
 
   function update(time, delta) {
     const moveInterval = 50; // Adjust the delay between moves (milliseconds)
@@ -699,24 +527,6 @@ function updateButtonPositions(scene) {
   // console.log(`Up Button: (${scene.buttonUp.x}, ${scene.buttonUp.y})`);
 }
 
-// Helper function to check interaction
-function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
-    if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
-        return null;
-    }
-
-    return interactiveObjects.find(object => {
-        if (!object || typeof object.x === 'undefined' || typeof object.y === 'undefined') {
-            // console.error('Invalid object in interactiveObjects:', object); // Debugging statement
-            return false;
-        }
-        const objectX = object.x * tileSize + tileSize / 2;
-        const objectY = object.y * tileSize + tileSize / 2;
-        return nextMove.x === objectX && nextMove.y === objectY;
-    });
-}
 
 // Helper function to check collision
 function checkCollision(nextMove, obstacles, tileSize) {
@@ -727,64 +537,6 @@ function checkCollision(nextMove, obstacles, tileSize) {
     });
 }
 
-// Helper function to draw grid
-function drawGrid(scene, tileSize, gridWidth, gridHeight) {
-    const darkGreenTranslucent = 0x00000000; // Translucent dark green color
-
-    // Draw horizontal lines
-    for (let x = 0; x <= gridWidth * tileSize; x += tileSize) {
-        // scene.add.line(0, 0, x, 0, x, gridHeight * tileSize, darkGreenTranslucent).setOrigin(0, 0);
-    }
-
-    // Draw vertical lines
-    for (let y = 0; y <= gridHeight * tileSize; y += tileSize) {
-        // scene.add.line(0, 0, 0, y, gridWidth * tileSize, y, darkGreenTranslucent).setOrigin(0, 0);
-    }
-}
-
-// Helper function to check interaction
-function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
-    if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
-        return null;
-    }
-
-    return interactiveObjects.find(object => {
-        if (!object || typeof object.x === 'undefined' || typeof object.y === 'undefined') {
-            // console.error('Invalid object in interactiveObjects:', object); // Debugging statement
-            return false;
-        }
-        const objectX = object.x * tileSize + tileSize / 2;
-        const objectY = object.y * tileSize + tileSize / 2;
-        return nextMove.x === objectX && nextMove.y === objectY;
-    });
-}
-
-// Helper function to check collision
-function checkCollision(nextMove, obstacles, tileSize) {
-    return obstacles.find(obstacle => {
-        const obstacleX = obstacle.x * tileSize + tileSize / 2;
-        const obstacleY = obstacle.y * tileSize + tileSize / 2;
-        return nextMove.x === obstacleX && nextMove.y === obstacleY;
-    });
-}
-
-// Helper function to draw grid
-function drawGrid(scene, tileSize, gridWidth, gridHeight) {
-    const darkGreenTranslucent = 0x00000000; // Translucent dark green color
-
-    // Draw horizontal lines
-    for (let x = 0; x <= gridWidth * tileSize; x += tileSize) {
-        // scene.add.line(0, 0, x, 0, x, gridHeight * tileSize, darkGreenTranslucent).setOrigin(0, 0);
-    }
-
-    // Draw vertical lines
-    for (let y = 0; y <= gridHeight * tileSize; y += tileSize) {
-        // scene.add.line(0, 0, 0, y, gridWidth * tileSize, y, darkGreenTranslucent).setOrigin(0, 0);
-    }
-}
-
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
@@ -806,33 +558,7 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 }
 
 
-// Helper function to check interaction
-function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
-    if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
-        return null;
-    }
-
-    return interactiveObjects.find(object => {
-        if (!object || typeof object.x === 'undefined' || typeof object.y === 'undefined') {
-            // console.error('Invalid object in interactiveObjects:', object); // Debugging statement
-            return false;
-        }
-        const objectX = object.x * tileSize + tileSize / 2;
-        const objectY = object.y * tileSize + tileSize / 2;
-        return nextMove.x === objectX && nextMove.y === objectY;
-    });
-}
-
-
-  function checkCollision(nextMove, obstacles, tileSize) {
-    return obstacles.find(obstacle => {
-      const obstacleX = obstacle.x * tileSize + tileSize / 2;
-      const obstacleY = obstacle.y * tileSize + tileSize / 2;
-      return nextMove.x === obstacleX && nextMove.y === obstacleY;
-    });
-  }
+ 
 
   function drawGrid(scene, tileSize, gridWidth, gridHeight) {
     const darkGreenTranslucent = 0x00000000; // Translucent dark green color
