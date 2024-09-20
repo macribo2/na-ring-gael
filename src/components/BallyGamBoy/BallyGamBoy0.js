@@ -129,7 +129,6 @@ class GameScene extends Phaser.Scene {
             this.textGa.setText(dialogues[this.playerMapLocationTracker].text.ga);
             this.textEn.setText(dialogues[this.playerMapLocationTracker].text.en);
         } else {
-            console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
         }
     }
     
@@ -138,7 +137,6 @@ class GameScene extends Phaser.Scene {
         if (mollyElement) {
             mollyElement.classList.add('hidden');
         } else {
-            console.error('Element with className "molly" not found.');
         }
 setTimeout(() => {
 
@@ -150,7 +148,6 @@ setTimeout(() => {
 this.yinCard.setInteractive();
 this.yinCard.on('pointerdown', () => {
     // Handle click on yinCard
-    console.log('Yin card clicked!');
     handleCardClick(this.yinCard, this.yanCard);
     localStorage.setItem('chosenPuca', '1');
     setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
@@ -189,7 +186,6 @@ const handleCardClick = (chosenCard, otherCard) => {
 this.yanCard.setInteractive();
 this.yanCard.on('pointerdown', () => {
     // Handle click on yinCard
-    console.log('Yin card clicked!');
     handleCardClick(this.yanCard, this.yinCard);
     localStorage.setItem('chosenPuca', '0');
     setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
@@ -265,12 +261,10 @@ const bobTween2 = this.tweens.add({
         const dialogues = this.cache.json.get('dialogues');
         let textGa, textEn;
    if (dialogues) {
-       console.log(dialogues);
        
        // Check if dialogues data is available
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-       console.log("First 'ga' text:", firstGaText);
        this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
        this.textEn = this.add.text(380, 328, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
@@ -287,7 +281,6 @@ const bobTween2 = this.tweens.add({
        this.textEn.setDepth(19);
        // Access and use the dialogues data here
    } else {
-       console.error('Dialogues data is empty or not loaded correctly.');
    }
       const music = this.sound.add('rabbitTown',{ loop: true });
    
@@ -441,7 +434,6 @@ greenFrame.setPosition(posX, posY);
 
     this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
-    console.log(this.dialogues[0]);
 // Define a function to update the text based on the player map location tracker value
 
 
@@ -497,7 +489,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=5; // Increment tracker
 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -507,7 +498,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=0; // Increment tracker
                 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -518,7 +508,6 @@ moveElement(direction) {
                 this.playerMapLocationTracker=0; // Increment tracker
                     
                 }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -528,7 +517,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=5; // Increment tracker
 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -551,7 +539,6 @@ moveElement(direction) {
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
-            console.log(`Background Map Origin: (${Math.floor(this.bally0map.x)}, ${Math.floor(this.bally0map.y)})`);
         }
     });
 }

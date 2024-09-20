@@ -18,6 +18,7 @@ import BallyNeo from './components/BallyNeo/BallyNeo';
 import Poem0 from './components/poem-0/poem-0';
 import BallyMurphius from './components/BallyMurphius/BallyMurphius';
 import Kilcash from './components/locations/connacht/Galway/kilcash';
+import Cave0 from './components/locations/cave0';
 import Nagels from './components/locations/munster/Cork/nagles';
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
@@ -67,6 +68,7 @@ const ChessLikeWrapper = () => {
 
           )}
            />
+<Route path="/cave0"component={Cave0}/>
            
       <Route path="/rings4" component={Rings4 } />
       <Route path="/rings5" component={Rings5 } />
