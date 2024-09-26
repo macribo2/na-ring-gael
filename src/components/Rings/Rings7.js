@@ -405,7 +405,6 @@ let ogHero = localStorage.getItem('portrait')
 
   const valueWithinLimits = rv => {
     const v = Math.floor(rv * 100) / 100;
-    console.log("v", v);
 
     const diff = v - value;
     let vRound = round.current;
@@ -415,8 +414,6 @@ let ogHero = localStorage.getItem('portrait')
     const requestedValue = v + vRound;
     const minValue = 0.77;
     const maxValue = 0.99;
-    console.log("current | requested", currentValue + "|" + requestedValue);
-    console.log(" round.current", round.current);
 
     // //if (requestedValue > 1) return value;
     if (requestedValue > max) return maxValue;

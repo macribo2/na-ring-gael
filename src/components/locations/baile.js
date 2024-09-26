@@ -119,7 +119,6 @@ const Baile = () => {
     ];
     
     // Log the interactive objects for debugging
-    // console.log('Interactive Objects:', this.interactiveObjects);
     
     // Define obstacles with names and positions
     this.obstacles = [
@@ -636,7 +635,6 @@ function updateButtonPositions(scene) {
   const buttonX = screenWidth - padding - buttonSize-200;
   const buttonY = screenHeight - padding - buttonSize-100;
 
-  // console.log(`Button X: ${buttonX}, Button Y: ${buttonY}`); // Debugging output
 
   // Update positions
   scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
@@ -645,19 +643,11 @@ function updateButtonPositions(scene) {
   scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
   scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 
-  // // Verify button positions
-  // console.log(`Middle Button: (${scene.buttonMiddle.x}, ${scene.buttonMiddle.y})`);
-  // console.log(`Left Button: (${scene.buttonLeft.x}, ${scene.buttonLeft.y})`);
-  // console.log(`Down Button: (${scene.buttonDown.x}, ${scene.buttonDown.y})`);
-  // console.log(`Right Button: (${scene.buttonRight.x}, ${scene.buttonRight.y})`);
-  // console.log(`Up Button: (${scene.buttonUp.x}, ${scene.buttonUp.y})`);
 }
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;
     }
 
@@ -698,9 +688,7 @@ function drawGrid(scene, tileSize, gridWidth, gridHeight) {
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;
     }
 
@@ -742,9 +730,7 @@ function drawGrid(scene, tileSize, gridWidth, gridHeight) {
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;
     }
 
@@ -762,7 +748,6 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
         // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;

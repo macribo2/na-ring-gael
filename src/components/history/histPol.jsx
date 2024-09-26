@@ -402,7 +402,6 @@ the tonge speaketh"<br/>
         function narrate(story) {
             $('#top-content-ire').html = storyTexts[story];
             $('#top-content-eng').html = storyTexts[story];
-            console.log("test! " + story);
         }
         //test
 
@@ -416,9 +415,7 @@ the tonge speaketh"<br/>
         }
         function playGame() {
             narrate(story);
-            console.log("hello narrate!");
             progressStory(story);
-            console.log(story);
         }
 
         function progressStory() {
@@ -427,7 +424,6 @@ the tonge speaketh"<br/>
                 // bckBtn.style.display = 'inline';
                 // bckBtn.style.animation = 'delay-fade-in 1s';
                 // fwdBtn.style.animation = 'slide-button-right 1s forwards';
-                console.log("hello bckBtn?");
             }
             else {
                 //I want this, it's not working yet:
@@ -485,22 +481,18 @@ the tonge speaketh"<br/>
     bBtnDown = (e) => {
 
         this.setState({ engMode: true })
-        console.log("engMode:" + this.state.engMode)
     }
     bBtnUp = () => {
         this.setState({ engMode: false })
 
-        console.log("engMode:" + this.state.engMode)
     }
 
 	toggleStartOptions = () => {
 		if (this.state.showStartMenu === true) {
 			this.setState({ showStartMenu: false })
-			console.log('showStartMenu ' + this.state.showStartMenu)
 		}
 		else if (this.state.showStartMenu === false)
 			this.setState({ showStartMenu: true })
-		console.log('showStartMenu ' + this.state.showStartMenu)
 
 
 	}

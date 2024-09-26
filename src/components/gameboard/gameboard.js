@@ -10,7 +10,6 @@ import '../dublin/dublin.css';
 
 function GameBoard({ setCurrentMap, currentMap, currentCounty, countyData, startAnimation, stopAnimation }) {
 
-console.log(currentMap)
 
   
 
@@ -141,7 +140,6 @@ console.log(currentMap)
     const rect = document.getElementById(`square-${highlightedSquare.cellIndex}-${highlightedSquare.rowIndex}`).getBoundingClientRect();
     const xPercentage = ((rect.left + window.scrollX) / window.innerWidth) * 100;
     const yPercentage = ((rect.top + window.scrollY) / window.innerHeight) * 100;
-    console.log(`x: ${xPercentage}%, y: ${yPercentage}%`);
 
     // Check if yPercentage is greater than 90% and refresh the page if it is
     if (yPercentage > 105) {
@@ -365,17 +363,13 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
 
 
   
-    // Log the target row and column values
-    console.log(`Move the green knight to row ${newGreenKnightPosition.row}, column ${newGreenKnightPosition.col}`);
-  
+   
     // Highlight the target square by setting its coordinates in state
     setTargetSquare({ rowIndex: newGreenKnightPosition.row, cellIndex: newGreenKnightPosition.col });
   
     // ...
 
 
-    // Log the target row and column values
-    console.log(`Move the green knight to row ${newGreenKnightPosition.row}, column ${newGreenKnightPosition.col}`);
 
     // Construct the message for the alert
     const alertMessage = `Move the green knight to row ${newGreenKnightPosition.row}, column ${newGreenKnightPosition.col}`;
@@ -462,7 +456,6 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
     //  }
   //  else {
   //   // Ignore the click for other squares
-  //   console.log(`Clicked on an invalid square: ${clickedSquareId}`);
   // }
   
   // Remove the background image from the previous square
@@ -477,7 +470,6 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
 
   if (isWhiteKnightSquare) {
     setPlayerChoice('white');
-    console.log('Clicked on a black knight square');
     // Add the "drift-down" class and the "rotate-horse-45" class to the white horse element
     const whiteHorse = document.getElementById('square-15-3');
     if (whiteHorse) {
@@ -522,7 +514,6 @@ if (rowIndex !== initialRow || cellIndex !== initialCol) {
   function handleKnightChoice(color) {
     setKnightType(color); // Set the chosen knight type (e.g., 'white' or 'black')
     startAnimation(color); // Start the animation
-    console.log(color)
     playAudio();
   }
   

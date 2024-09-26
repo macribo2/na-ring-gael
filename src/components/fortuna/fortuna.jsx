@@ -466,13 +466,11 @@ export default class Fortuna extends React.Component {
 			setTimeout(function () {
 				$('#fortuna-vid').trigger('pause');
 				
-				console.log(' fortunaTime '+fortunaTime[ct] + "ct "+ct)
 
 }, 1000)
 			setTimeout(function () {
 				$('#btn-a2').fadeIn()
 				let whichIcon = "#imgID" + localStorage.getItem('ct');
-				console.log("whichIcon"+ whichIcon)
 				$(whichIcon).fadeIn().removeClass('hidden');
 				hasStopped = true;
 			}, 2000);
@@ -490,8 +488,6 @@ export default class Fortuna extends React.Component {
 						// pucaNa = fortunaTeams[i];
 						thePookaOf =  ""//fortunaTeamsEng[i];
 						localStorage.setItem('pucaEng',thePookaOf )
-						console.log('this ft...' + fortunaTime[ct] + "   i "+i  )
-						console.log('this ft...' + pucaNa + " " + thePookaOf)
 						// ct = i;
 						
 					}

@@ -75,7 +75,6 @@ export default class Easca extends React.Component {
 
   onChange = input => {
     this.setState({ input });
-    console.log("Input changed", input);
   };
 
   onKeyPress = (button) => {
@@ -110,7 +109,6 @@ export default class Easca extends React.Component {
 
   handleSend = () => {
     const { input } = this.state;
-    console.log("Sending input:", input);
     localStorage.setItem('eascaInput', input);
     this.setState({ input: "" });
     this.closeEasca();

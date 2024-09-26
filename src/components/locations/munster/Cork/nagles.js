@@ -178,7 +178,6 @@ const Nagels = () => {
     ];
 
     // Log the interactive objects for debugging
-    // console.log('Interactive Objects:', this.interactiveObjects);
   
     // Define obstacles with names and positions
    
@@ -372,7 +371,6 @@ async function movePlayer() {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
 
-    console.log(`Moving to (${nextMove.x}, ${nextMove.y})`);
 
     // Check for obstacles here before applying the delay
     const nextTileX = Math.floor(nextMove.x / tileSize);
@@ -381,7 +379,6 @@ async function movePlayer() {
     const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
 
     if (obstacle) {
-      console.log(`Blocked by ${obstacle.nameEng}`);
       this.isMoving = false;
       return; // Block movement and stop further execution
     }
@@ -391,7 +388,6 @@ async function movePlayer() {
 
     this.player.setPosition(nextMove.x, nextMove.y);
 
-    console.log(`Position set to (${this.player.x}, ${this.player.y})`);
 
     this.isMoving = false;
   }
@@ -510,7 +506,6 @@ function updateButtonPositions(scene) {
   const buttonX = screenWidth - padding - buttonSize-200;
   const buttonY = screenHeight - padding - buttonSize-100;
 
-  // console.log(`Button X: ${buttonX}, Button Y: ${buttonY}`); // Debugging output
 
   // Update positions
   scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
@@ -519,12 +514,6 @@ function updateButtonPositions(scene) {
   scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
   scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 
-  // // Verify button positions
-  // console.log(`Middle Button: (${scene.buttonMiddle.x}, ${scene.buttonMiddle.y})`);
-  // console.log(`Left Button: (${scene.buttonLeft.x}, ${scene.buttonLeft.y})`);
-  // console.log(`Down Button: (${scene.buttonDown.x}, ${scene.buttonDown.y})`);
-  // console.log(`Right Button: (${scene.buttonRight.x}, ${scene.buttonRight.y})`);
-  // console.log(`Up Button: (${scene.buttonUp.x}, ${scene.buttonUp.y})`);
 }
 
 
@@ -540,9 +529,7 @@ function checkCollision(nextMove, obstacles, tileSize) {
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
-        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;
     }
 

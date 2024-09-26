@@ -167,11 +167,9 @@ class GameScene extends Phaser.Scene {
         const dialogues = this.cache.json.get('dialogues');
     
         if (dialogues) {
-            console.log(dialogues);
             // Check if dialogues data is available
             firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
             firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-            console.log("First 'ga' text:", firstGaText);
             
             this.textGa = this.add.text(50, 20, '', { fill: '2A3D66', fontFamily: 'INFO56_0' });
             this.textEn = this.add.text(250, 278, '', { fill: '#ffffff', fontFamily: 'anaphora' });
@@ -374,7 +372,6 @@ moveElement(direction) {
                       el.style.display = 'block';
                     });
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -384,7 +381,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=0; // Increment tracker
                 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -395,7 +391,6 @@ moveElement(direction) {
                 this.playerMapLocationTracker=0; // Increment tracker
                     
                 }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -419,7 +414,6 @@ moveElement(direction) {
                         el.style.display = 'block';
                     });
                 }
-                console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
                 this.updateText(this.playerMapLocationTracker);
                 break;
             

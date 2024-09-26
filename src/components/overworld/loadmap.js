@@ -2784,8 +2784,6 @@ function loadMap(direction) {
     $.getJSON('mapData.json', function (county) {
 
         $.each(county, function (key, val) {
-            console.log("val " + val.co)
-            console.log("val.county " + val.county)
 
             if (val.co === imreoir.whereAmI) {
                 $('#output').html(val.county)
@@ -2805,14 +2803,10 @@ function loadMap(direction) {
                 // $('.countyMap').css('left', val.left)
                 // $('.countyMap').css('top', val.top)
                 $('.countyMap').css('background-image', val.countyBG)
-                console.log('imreoir where am I?' + imreoir.whereAmI)
 
 
-                console.log("line 123" + val.co)
                 newLocations = val.locations;
                 newLocationsEng = val.locationsEng
-                console.log(newLocations)
-                console.log(newLocationsEng)
                 switch (val.co) {
                     case "antrim": narrativeCode = 1; break;
                     case "armagh": narrativeCode = 2; break;
@@ -2858,7 +2852,6 @@ function loadMap(direction) {
 
             }
             else {
-                console.log("does > > > >" + imreoir.whereAmI + " match  error loading map.")
             }
 
 

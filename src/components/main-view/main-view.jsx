@@ -150,7 +150,6 @@ export default function App() {
 		  setValue(v => !v);
 		}, []);
 		localStorage.setItem("isOn", isOn)
-		console.log(localStorage.getItem('isOn'))
 		return [value, toggle];
 	  }
 
@@ -383,22 +382,18 @@ const[score, setScore] = useState(0)
 		},1000)
 	
 			setShowGlass(1);
-			console.log("hello" + {showGlass});
 		}
 		else {
 			setShowGlass(0);
-			console.log("hello" + showGlass);
 		}
 	}
 
 	const handleMenuButtonClick = (showSettings) => {
 		if (showSettings === 0) {
 			setSettings(1);
-			console.log("hello" + {showGlass});
 		}
 		else {
 			setSettings(0);
-			console.log("hello" + showGlass);
 		}
 	}
 	const runEndPart1 = () => { 
@@ -438,7 +433,6 @@ const[score, setScore] = useState(0)
 	const incrementScore = () => { 
 		// setScore(score++)
 		setScore(score+1)
-		console.log(score)
 	}
 	const storyTimer = () => {
 		
@@ -478,8 +472,6 @@ if (score === 1){
 			setCurrentQuestion(nextQuestion);
 			
 		}, 50)
-		console.log("currentQuestion" + currentQuestion)
-		console.log("value:" + value)
 		
 
 	}
@@ -528,8 +520,6 @@ localStorage.setItem('heroNameEng', heroNamesEng[value*10])
 		if (nextQuestion < questions.length) {
 			setCurrentQuestion(nextQuestion);
 		} else { setShowScore(true)}
-		console.log("currentQuestion" + currentQuestion)
-		console.log("value:" + value)
 	}
 	}
 
@@ -538,7 +528,6 @@ localStorage.setItem('heroNameEng', heroNamesEng[value*10])
 		setIsFadedOut(false)
 		setIsFadedOut(true)
 
-			console.log(someVal)
 		
 		gottenRing0 = localStorage.getItem('ring0');
 
@@ -547,8 +536,6 @@ localStorage.setItem('heroNameEng', heroNamesEng[value*10])
 		if (nextQuestion < questions.length) {
 			setCurrentQuestion(nextQuestion);
 		} else { setShowScore(true)}
-		console.log("currentQuestion" + currentQuestion)
-		console.log("value:" + value)
 
 			
 		

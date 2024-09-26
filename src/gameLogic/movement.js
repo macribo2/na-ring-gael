@@ -15,10 +15,8 @@ export function movePiece(startX, startY, targetX, targetY) {
   if (isValidMove(startX, startY, targetX, targetY)) {
     // Perform the move
     // Update player position or trigger other game events
-    console.log(`Moved to (${targetX}, ${targetY})`);
     return true; // Return true if move is valid
   } else {
-    console.log('Invalid move');
     return false; // Return false if move is invalid
   }
 }

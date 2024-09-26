@@ -64,15 +64,12 @@ export default function Rings3(props) {
 	
 	*/
 	function showHints() { 
-		console.log("showTheGlass")
 
 		if(showTheGlass === false){
 		showTheGlass = true;
-			console.log(showTheGlass)
 		}
 		else if (showTheGlass === true) { 
 			showTheGlass = false;
-			console.log(showTheGlass)
 		}
 	}
 
@@ -125,8 +122,6 @@ export default function Rings3(props) {
 
 	function reportStepValue3 () {
 		alert(showTheGlass);
-		console.log(showTheGlass);
-		console.log("showTheGlass");
 
 	}
 

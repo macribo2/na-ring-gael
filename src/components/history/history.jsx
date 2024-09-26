@@ -80,22 +80,18 @@ export default class History extends React.Component {
     bBtnDown = (e) => {
 
         this.setState({ engMode: true })
-        console.log("engMode:" + this.state.engMode)
     }
     bBtnUp = () => {
         this.setState({ engMode: false })
 
-        console.log("engMode:" + this.state.engMode)
     }
 
     toggleStartOptions = () => {
         if (this.state.showFromMenu === true) {
             this.setState({ showFromMenu: false })
-            console.log('showFromMenu ' + this.state.showFromMenu)
         }
         else if (this.state.showFromMenu === false)
             this.setState({ showFromMenu: true })
-        console.log('showFromMenu ' + this.state.showFromMenu)
 
 
     }

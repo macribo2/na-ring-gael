@@ -801,7 +801,6 @@ export default  class EascaLocation extends React.Component  {
 				$("#eascaStage").animate({left:"+=20px"},0)
 // 
 let stagePos = $('#eascaStage').position()
-console.log('position'+stagePos.left)
 if(stagePos.left>=740){
 
 	$('eascaStage').css('left','-1890px')
@@ -1055,12 +1054,8 @@ let		ls = ()=>{
 		
 		`)
 		
-		console.log('hi ó Wren')
-		// $('#wrenfield').fadeIn();
-		// $('#wren-bg0').fadeIn();
 		$('#wren-hood').fadeIn();
 		$('#wren-holder').fadeIn();
-		// $('#wren-holder').css('animation','wren-zoom 10s  forwards ease-out;')
 		
 		}
 		let currentSelect = 0;
@@ -1237,7 +1232,6 @@ let		ls = ()=>{
 		highlightIrish(currentSelect)
 		
 		})
-			console.log(currentSelect + "current select")	
 		
 		$('#cd').on('touchend click', function () {
 		
@@ -1256,7 +1250,6 @@ let		ls = ()=>{
 		
 		});
 		$('#a').on('touchend click',function(){
-			console.log('a');
 			$('.prompt-box').fadeIn();
 		
 		
@@ -1381,7 +1374,6 @@ let		ls = ()=>{
 					$('#fortuna-lit').fadeOut(1000)
 						}, 50);
 							$('.cell').fadeIn()
-							console.log(this.src)
 		
 		
 							$(this).css("border","1px solid white");
@@ -1398,15 +1390,11 @@ let		ls = ()=>{
 						// $(this).fadeOut();
 						// $('#all-champions').fadeOut();
 						let touched = this.src;
-						console.log(this.id)
-						console.log(namesInIrish[this.id])
-						console.log(namesInEnglish[this.id])
 					let	heroPortrait = this.src;
 				let		playerIconURL = `url('`+ heroPortrait +`')`
 				// $('#player-icon').css('backgroundImage',playerIconURL);
 		
 				// $('#player-icon').css('backgroundImage',"url('./images/champions/'+this.id	+'.png')");
-				console.log("hero"+heroPortrait)
 				
 						
 						$('#nameInEng').html("");

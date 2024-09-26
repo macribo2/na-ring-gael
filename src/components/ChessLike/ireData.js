@@ -1,7 +1,7 @@
 const ireData  = {
     "provinces": [
         {
-            "enProvince": "Connacht/\ndescendants of Conn\nKing of the Hundred Battles",
+            "enProvince": "Connacht",
              "gaProvince": "Connacht",
             "counties": [
                 {
@@ -234,7 +234,7 @@ const ireData  = {
         ]
         },
         {
-            "enProvince": "Leinster/\nKingdom of Laighin\nlaigin - spears",
+            "enProvince": "Leinster",
             "gaProvince": "Laighean",
             "counties": [
                 {

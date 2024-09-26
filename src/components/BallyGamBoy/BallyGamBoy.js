@@ -123,7 +123,6 @@ class GameScene extends Phaser.Scene {
             this.textGa.setText(dialogues[this.playerMapLocationTracker].text.ga);
             this.textEn.setText(dialogues[this.playerMapLocationTracker].text.en);
         } else {
-            console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
         }
     }
     
@@ -132,7 +131,6 @@ class GameScene extends Phaser.Scene {
         if (mollyElement) {
             mollyElement.classList.add('wait-and-fade');
         } else {
-            console.error('Element with className "molly" not found.');
         }
         
         
@@ -155,12 +153,10 @@ class GameScene extends Phaser.Scene {
         const dialogues = this.cache.json.get('dialogues');
         let textGa, textEn;
    if (dialogues) {
-       console.log(dialogues);
        
        // Check if dialogues data is available
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-       console.log("First 'ga' text:", firstGaText);
        this.textGa = this.add.text(320, 50, firstGaText, { fill: '#ffffff',fontFamily: 'INFO56_0' });
 
        this.textEn = this.add.text(330, 278, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
@@ -177,7 +173,6 @@ class GameScene extends Phaser.Scene {
        this.textEn.setDepth(19);
        // Access and use the dialogues data here
    } else {
-       console.error('Dialogues data is empty or not loaded correctly.');
    }
       const music = this.sound.add('mecha',{ loop: true });
    
@@ -326,7 +321,6 @@ let isMiddleButtonProcessing = false;
 
     // this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
-    console.log(this.dialogues[0]);
 // Define a function to update the text based on the player map location tracker value
 
 
@@ -368,7 +362,6 @@ moveElement(direction) {
     if (mollyElement) {
         mollyElement.classList.add('hidden');
     } else {
-        console.error('Element with className "molly" not found.');
     }
 }
 
@@ -379,7 +372,6 @@ moveElement(direction) {
             mollyElement.classList.add('wait-and-fade');
             mollyElement.classList.remove('hidden');
         } else {
-            console.error('Element with className "molly" not found.');
         }
 
         // this.   disableMovementControls();
@@ -393,7 +385,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >5) {
                 setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -403,7 +394,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=0; // Increment tracker
                 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -414,7 +404,6 @@ moveElement(direction) {
                 this.playerMapLocationTracker=0; // Increment tracker
                     
                 }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -423,7 +412,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >5) {
                 setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -446,7 +434,6 @@ moveElement(direction) {
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
-            console.log(`Background Map Origin: (${Math.floor(this.bally0map.x)}, ${Math.floor(this.bally0map.y)})`);
         }
     });
 }

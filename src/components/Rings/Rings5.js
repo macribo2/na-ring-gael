@@ -311,7 +311,6 @@ let ogHero = localStorage.getItem('portrait')
 
   const valueWithinLimits = rv => {
     const v = Math.floor(rv * 100) / 100;
-    console.log("v", v);
 
     const diff = v - value;
     let vRound = round.current;
@@ -321,8 +320,6 @@ let ogHero = localStorage.getItem('portrait')
     const requestedValue = v + vRound;
     const minValue = 0.77;
     const maxValue = 0.99;
-    console.log("current | requested", currentValue + "|" + requestedValue);
-    console.log(" round.current", round.current);
 
     // //if (requestedValue > 1) return value;
     if (requestedValue > max) return maxValue;
@@ -434,9 +431,7 @@ const ToggleGlassButton = () => {
     function handleClick() {
         setIsOn(!isOn);
         if (isOn) {
-            console.log("hi from toggle glass overworld portrait mode");
         } else {
-            console.log("hi from toggle glass portrait overworld");
         }
         // Uncomment below if you want to set isOn to false after 3 seconds
         // setTimeout(() => setIsOn(false), 3000);

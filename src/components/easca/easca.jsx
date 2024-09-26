@@ -260,7 +260,6 @@ export default class Easca extends React.Component {
               }
         
               const h1 = $('h1')
-              console.log(h1)      
                  this.jQueryCode();
               
     }

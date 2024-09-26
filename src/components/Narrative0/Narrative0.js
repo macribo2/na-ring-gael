@@ -214,7 +214,6 @@ updateNarrativeTracker(direction) {
     } else if (direction === 'decrement') {
         this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
     }
-    console.log('Narrative Tracker:', this.narrativeTracker);
     if (this.graphics) {
         this.graphics.destroy(); // Clear previous image
     }

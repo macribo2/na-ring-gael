@@ -566,9 +566,6 @@ export default class Overworld extends React.Component {
         var start = Date.now();
         setInterval(function () {
             var delta = Date.now() - start; // milliseconds elapsed since start
-            //   console.log(Math.floor(delta / 1000)); // in seconds
-            // alternatively just show wall clock time:
-            // console.log(new Date().toUTCString());
             overworldPortrait = localStorage.getItem('quest-portrait');
             $('#hero').attr('src', setPlayerIcon());
         }, 1000); // update about every second
@@ -588,9 +585,7 @@ export default class Overworld extends React.Component {
                     $('#output').html(val.county)
                     whereAmI = val.whereAmI
                     localStorage.setItem('whereAmI', whereAmI);
-                    console.log("line 112:" + val.county);
                     map = JSON.parse(val.mapData);
-                    console.log(val.mapData);
                     // $('.countyMap').animate({ 'left': val.left })
                     // $('.countyMap').css({ 'top': val.top })
                     $('.countyMap').css('background-image', val.countyBG)
@@ -598,10 +593,8 @@ export default class Overworld extends React.Component {
                     $('.countyMap').css('background-image', town0)
 
 
-                    // console.log("line 123" + val.co)
                     newLocations = val.locations;
                     newLocationsEng = val.locationsEng;
-                    // console.log(newLocations)
 
                     setTimeout(function () {
 
@@ -619,11 +612,9 @@ export default class Overworld extends React.Component {
 
                         refresh()
 
-                        console.log("whichSea" + whichSea)
                     }, 300)
                 }
                 else {
-                    console.log(">>>> does" + imreoir.whereAmI + " match  error loading map.")
                 }
 
 
@@ -636,8 +627,6 @@ export default class Overworld extends React.Component {
         let allCounties;
         $.getJSON('/whichCounty', function (data) {
             allCounties = data.naContae;
-            console.log(allCounties);
-            console.log("^JQ getJSON call to  /whichCounty endpoint works OK from inside React component baile.jsx")
             localStorage.setItem("whereAmI", "wicklow");
             imreoir.whereAmI = localStorage.getItem("whereAmI");
 
@@ -648,7 +637,6 @@ export default class Overworld extends React.Component {
         }
         imreoir.whereAmI = 'wicklow';
 
-        console.log(imreoir.whereAmI + ": new imreoir whereAmI");
         /*big function to handle which map to go to*/
 
         /*big function to handle where to position player after map change*/
@@ -3513,8 +3501,6 @@ export default class Overworld extends React.Component {
             $.getJSON('mapData.json', function (county) {
 
                 $.each(county, function (key, val) {
-                    console.log("val " + val.co)
-                    console.log("val.county " + val.county)
 
                     if (val.co === imreoir.whereAmI) {
                         $('#output').html(val.county)
@@ -3529,19 +3515,11 @@ export default class Overworld extends React.Component {
 
 
                         map = JSON.parse(val.mapData);
-                        console.log(val.mapData);
-
-                        // $('.countyMap').css('left', val.left)
-                        // $('.countyMap').css('top', val.top)
                         $('.countyMap').css('background-image', val.countyBG)
-                        console.log('imreoir where am I?' + imreoir.whereAmI)
 
 
-                        console.log("line 123" + val.co)
                         newLocations = val.locations;
                         newLocationsEng = val.locationsEng
-                        console.log(newLocations)
-                        console.log(newLocationsEng)
                         switch (val.co) {
                             case "antrim": narrativeCode = 1; break;
                             case "armagh": narrativeCode = 2; break;
@@ -3584,11 +3562,9 @@ export default class Overworld extends React.Component {
                             case "wicklow": narrativeCode = 32; break;
                             default: break
                         }
-                                console.log("🚀 ~ file: overworld.jsx:3683 ~ s:")
 
                     }
                     else {
-                        console.log("does > > > >" + imreoir.whereAmI + " match  error loading map.")
                     }
 
 
@@ -3604,27 +3580,14 @@ export default class Overworld extends React.Component {
         $.getJSON('mapData.json', function (county) {
 
             $.each(county, function (key, val) {
-                console.log("val " + val.co)
-                console.log("val.county " + val.county)
                 if (val.co === imreoir.whereAmI) {
-                    console.log("line 112!!!!!:" + val.county);
                     map = JSON.parse(val.mapData);
-                    console.log("OOOOOOO" + val.mapData);
-                    console.log("OOOOOOO" + val.mapData);
-
-                    // $('.countyMap').css('left', val.left)
-                    // $('.countyMap').css('top', val.top)
                     $('.countyMap').css('background-image', val.countyBG)
-                    console.log('imreoir where am I?' + imreoir.whereAmI)
-                    // $('.countyMap').css('animation', 'zoom-to-' + imreoir.whereAmI + ' 2s forwards ease-in');
 
 
-                    console.log("line 123" + val.co)
 
                 }
                 else {
-                    console.log(whereAmI + 'whereAmI');
-                    console.log("does" + imreoir.whereAmI + " match error loading map.")
                 }
 
 
@@ -3633,25 +3596,20 @@ export default class Overworld extends React.Component {
 
         })
 
-        console.log("line 108" + imreoir.whereAmI);
         imreoir.whereAmI = localStorage.getItem("whereAmI")
 
         imreoir.avatar = setPlayerIcon();
-        console.log("imreoir.avatar: " + imreoir.avatar)
         imreoir.slí = localStorage.getItem("slí")
         imreoir.from = localStorage.getItem("from")
 
 
         function travel(direction) {
-            console.log('travelling...' + direction)
             imreoir.whereAmI = localStorage.getItem("whereAmI");
-            console.log('whereAmI...' + imreoir.whereAmI);
 
             switch (direction) {
                 case 2:
                     break;
                 case 9: playerDetails.whereAmI = 'derry';
-                    console.log('travelling to Derry...')
 
                     break;
                 case 8: playerDetails.whereAmI = 'tyrone';
@@ -3684,7 +3642,6 @@ export default class Overworld extends React.Component {
                 data: playerDetails,
                 success: function (res) {
                     imreoir = JSON.stringify(res);
-                    console.log(imreoir + "hey here- ajax request update player ...success.")
                     window.location.replace('http://167.172.184.73:3000/' + localStorage.get('whereAmI'));
                 }
             })
@@ -4042,8 +3999,6 @@ export default class Overworld extends React.Component {
                 }
 
             }
-            // gameObjects[geagaRow][geagaColumn] = '../../img/geaga.png'
-            // console.log("geaga xy" + gameObjects[geagaRow][geagaColumn])
         }
 
 
@@ -4273,8 +4228,6 @@ export default class Overworld extends React.Component {
 
             let cellWidth = Math.floor(document.getElementById("stage").clientWidth / 10);
             let cellHeight = Math.floor(document.getElementById("stage").clientHeight / 10);
-            console.log("Cell height and width from animatePlayer()" + cellHeight)
-            console.log(cellWidth)
             setTimeout(function () {
                 // alert('waiting...')
                 refresh();
@@ -4485,15 +4438,12 @@ export default class Overworld extends React.Component {
 
             // If element has class(es)
             if (elementClass !== '') {
-                console.log(elementClass);
             }
             if (elementClass === '') {
-                console.log(elementClass);
             }
 
             //making each square of a 10x10 grid of squares a button that moves the player there, on touch.
 
-            console.log('Type of elementClass:', typeof elementClass);
           
 if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                 // rest of your code
@@ -4522,7 +4472,6 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
 
             // If element has no classes
             else {
-                console.log('An element without a class was clicked');
             }
         }
         );
@@ -4821,7 +4770,6 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
 
 
 
-            console.log('whereAmI' + whereAmI)
             localStorage.setItem('whereAmI', whereAmI);
             // secondLocation = eascaLocations[secondLocationId]
             // alert('Beidh muid ag siúl leat i '+  secondLocation +' anocht!')
@@ -4844,30 +4792,22 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
             $('#walkies').fadeOut();
             $.getJSON('mapData.json', function (county) {
                 $.each(county, function (key, val) {
-                    // console.log("val.county " + val.county)
                     if (val.co === imreoir.whereAmI) {
                         $('#output').html(val.county)
                         // $('.emblem').attr('src', '../../img/counties/icons/' + localStorage.getItem('whereAmI')+'.png')
-                        console.log("line 112:" + val.county);
                         map = JSON.parse(val.mapData);
-                        console.log(val.mapData);
 
                         // $('.countyMap').css('left', val.left)
                         // $('.countyMap').css('top', val.top)
                         $('.countyMap').css('background-image', val.countyBG)
-                        console.log('imreoir where am I?' + imreoir.whereAmI)
 
 
 
-                        console.log("line 123" + val.co)
                         newLocations = val.locations;
                         newLocationsEng = val.locationsEng;
-                        console.log(newLocations)
                     }
                     else {
-                        console.log("does" + imreoir.whereAmI + " match " + "error loading map.");
 
-                        console.log(whereAmI + 'whereAmI');
 
                     }
 
@@ -5340,10 +5280,8 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
         avatar = this.props.avatar;
         let handleAnswerButtonClick = this.props.handleAnswerButtonClick
         whereAmIHolder = this.props.whereAmI;
-        console.log(whereAmIHolder + 'whereAmIHolder');
 
         storyTimer()
-        console.log(whereAmI + 'whereAmI');
         // whereAmI = localStorage.getItem('whereAmI');
 
         let runInventory = function () {
@@ -5595,11 +5533,9 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                                     if (this.state.isOn) {
                                         this.setState({ isOn: false })
 
-                                        console.log("hi from toggle glass overworld portrait mode")
                                     }
                                     else {
                                         (this.setState({ isOn: true }))
-                                        console.log("hi from toggle glass portrait overworld")
                                     }
                                     {/* setTimeout(()=> { this.setState({ isOn: false }) }, 3000) */ }
 
@@ -5707,11 +5643,9 @@ if (typeof elementClass === 'string' && elementClass.includes('cell')) {
                                 }));
                                 if (this.state.isOn) {
                                     this.setState({ isOn: false })
-                                    console.log("hi from toggle glass overworld")
                                 }
                                 else {
                                     (this.setState({ isOn: true }))
-                                    console.log("hi from toggle glass  overworld")
                                 }
                             
 
