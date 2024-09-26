@@ -30,12 +30,9 @@ const Cave0 = () => {
         'b': { type: 'noPic', nameEng: 'dark water', name: 'uisce doracha' },
         'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
     };
-
+//deleting this causes crash so ...
     const interactiveMap = {
-        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
-        'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'c': { type: 'noPic', nameEng: 'Mouth of the cave', name: 'Béal an pluais' },
-        ' ': { type: 'walkable', nameEng: 'Cave', name: 'pluais' }
+      
     };
 
     const newObstacles = [];
@@ -156,11 +153,12 @@ const Cave0 = () => {
         'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' },
            };
 
+           
     const interactiveMap = {
         'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
         'c': { type: 'noPic', nameEng: 'Mouth of the cave', name: 'Béal an pluais' },
-        ' ': { type: 'walkable', nameEng: 'Cave', name: 'pluais' }
+        ' ': { type: 'walkable', nameEng: '', name: '' }
     };
     this.obstacles = [];
     this.interactiveObjects = []; // New array for interactive objects
@@ -261,7 +259,7 @@ const Cave0 = () => {
       strokeThickness: 3
     }).setScrollFactor(0).setDepth(20);
   
-    this.textForFade = this.add.text(220, 100, 'forFade', {
+    this.textForFade = this.add.text(200, 80, '', {
       fontSize: '26px',
       fill: '#ffffff',
       fontFamily: 'urchlo',
@@ -508,12 +506,25 @@ function update(time, delta) {
   // Check for collision
   const collision = checkCollision(nextMove, this.obstacles, tileSize);
   if (collision) {
+        // Only access 'name' and 'nameEng' if collision is valid (not undefined)
+        if (collision.name && collision.nameEng) {
       collisionMessage = collision.name;
       collisionMessageEng = collision.nameEng;
-
       // Show the say graphic
       this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
       this.sayGraphic.setAlpha(1).setScale(0.5);
+      
+    }
+
+
+
+
+
+    
+          // Set the collision messages
+          this.collisionText.setText(collisionMessage);
+          this.collisionTextEng.setText(collisionMessageEng);
+          this.collisionMessageTimer = time + this.collisionMessageDuration;
 
       // Fade out the say graphic
       this.tweens.add({
@@ -535,12 +546,25 @@ function update(time, delta) {
           this.borderGraphics.setVisible(false);
       });
 
-      // Set the collision messages
-      this.collisionText.setText(collisionMessage);
-      this.collisionTextEng.setText(collisionMessageEng);
 
 
-      this.collisionMessageTimer = time + this.collisionMessageDuration;
+        // Update textForFade only if it's not already fading
+        if (!this.isFading) {
+          this.textForFade.setText(collisionMessage);  // Set the text
+          this.textForFade.setAlpha(1);                // Make it fully visible
+          this.isFading = true;  // Lock the fading process to prevent updates
+
+          // Fade out the textForFade over 3 seconds
+          this.tweens.add({
+              targets: this.textForFade,
+              alpha: 0,
+              duration: 3000,  // 3 seconds fade
+              ease: 'Linear',
+              onComplete: () => {
+                  this.isFading = false;  // Allow new collisions after fade-out
+              }
+          });
+      }
       return; // Exit early if there's a collision
   }
 
