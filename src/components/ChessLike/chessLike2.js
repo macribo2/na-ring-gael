@@ -57,7 +57,6 @@ function PhaserGame(){
     //   overlay.setVisible(false); // Initially hide the overlay
     function moveOnToNextWordPair() {
         currentWordPairIndex++;
-        console.log('Moving to next word pair. Index:', currentWordPairIndex);
         
         if (currentWordPairIndex < wordPairs.length) {
             const nextWordPair = wordPairs[currentWordPairIndex];
@@ -304,10 +303,8 @@ scene.cameras.main.scrollY = 0;
     
 // Function to switch between puca highlights
 function switchHighlightedPuca() {
-    console.log("highlightedPucaSHP: " + highlightedPuca)
 
     highlightedPuca = (highlightedPuca + 1) % 2; // Toggle between 0 and 1
-    console.log("highlightedPucaSHP: " + highlightedPuca)
     
     // Highlight puca0 or puca1 based on the value of highlightedPuca
     if (highlightedPuca === 0) {
@@ -490,7 +487,6 @@ function toggleOverlay() {
                     aBtn.on('pointerdown', () => {
                        
                         highlightedPuca = pucaBlack.alpha === 1 ? 1 : 0;
-                    console.log("highlightedPuca: " + highlightedPuca)
                         if (!isProcessing) { // Check if the function is already in progress
                             isProcessing = true; // Set flag to true while processing
                     
@@ -499,7 +495,6 @@ function toggleOverlay() {
                     
                             if (highlightedPuca === 0 && isPosDisplayed) {
                                 // Player pressed the button when the correct puca was highlighted and the displayed word is positive
-                                console.log('Correct puca highlighted and positive word displayed!');
                                 // Increment score, if you're tracking it
                     handleRightAnswer(scene)
 
@@ -507,21 +502,16 @@ function toggleOverlay() {
                                 moveOnToNextWordPair();
                             } else if (highlightedPuca === 1 && !isPosDisplayed) {
                                 // Player pressed the button when the correct puca was highlighted and the displayed word is negative
-                                console.log('Correct puca highlighted and negative word displayed!');
                                 // Increment score, if you're tracking it
                                 // score++;
                     handleRightAnswer(scene)
-                    console.log("highlightedPuca: " + highlightedPuca)
             
                                 moveOnToNextWordPair();
-                    console.log("highlightedPuca: " + highlightedPuca)
 
                             } else {
                                 // Player pressed the button when the wrong puca was highlighted or the displayed word is incorrect
-                                console.log('Wrong puca highlighted or incorrect word displayed!');
                                 setTimeout(() => {
                                     handleWrongAnswer(scene);
-                    console.log("highlightedPuca: " + highlightedPuca)
 
                                 }, 500);
                             }
@@ -582,7 +572,6 @@ function handleWrongAnswer(scene) {
     if (hearts === 0) {
         window.location.href = '/gameOver';
     }
-    console.log("highlightedPuca: " + highlightedPuca)
     
 }
 
@@ -601,7 +590,6 @@ function handleRightAnswer(scene) {
     
     // Create the "ceart!" text object
     const ceartText = scene.add.text(100, 100, 'ceart!', { fontFamily: 'aonchlo', fontSize: 24, color: '#ffffff' }).setOrigin(0.5).setDepth(20);
-    console.log("highlightedPuca inside handle right answer: " + highlightedPuca);
     
     // Tween the text object to simulate floating
     scene.tweens.add({
@@ -617,8 +605,6 @@ function handleRightAnswer(scene) {
     });
     
     // Verify conditions before launching the scene
-    console.log("Score: " + score);
-    console.log("isSceneLaunched: " + isSceneLaunched);
     
 
 }
@@ -641,7 +627,6 @@ function update(scene) {
         isSceneLaunched = true;
         console.log("Scene launched!");
     } else {
-        console.log("Conditions not met for launching scene.");
     }
 }
     

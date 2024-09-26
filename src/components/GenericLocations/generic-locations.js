@@ -133,7 +133,6 @@ class GameScene extends Phaser.Scene {
             this.textGa.setText(dialogues[this.playerMapLocationTracker].text.ga);
             this.textEn.setText(dialogues[this.playerMapLocationTracker].text.en);
         } else {
-            console.error(`No dialogue found for playerMapLocationTracker: ${playerMapLocationTracker}`);
         }
     }
     
@@ -180,12 +179,10 @@ class GameScene extends Phaser.Scene {
         const dialogues = this.cache.json.get('dialogues');
         let textGa, textEn;
    if (dialogues) {
-       console.log(dialogues);
        
        // Check if dialogues data is available
        firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
        firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-       console.log("First 'ga' text:", firstGaText);
        this.textGa = this.add.text(520, 80, firstGaText, { fill: '#ffffff',fontFamily: 'aonchlo' });
 
        this.textEn = this.add.text(330, 278, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
@@ -363,7 +360,6 @@ let isMiddleButtonProcessing = false;
 
     // this.tintedPlayer.setOrigin(0.5, 0.5);
     this.player.setOrigin(0.5, 0.5);
-    console.log(this.dialogues[0]);
 // Define a function to update the text based on the player map location tracker value
 
 
@@ -397,7 +393,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >5) {
              this.playerMapLocationTracker = 0
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -407,7 +402,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=5; // Increment tracker
                 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -418,7 +412,6 @@ moveElement(direction) {
                 this.playerMapLocationTracker=5; // Increment tracker
                     
                 }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -427,7 +420,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >5) {
                this.playerMapLocationTracker = 0
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -450,7 +442,6 @@ moveElement(direction) {
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
-            console.log(`Background Map Origin: (${Math.floor(this.bally0map.x)}, ${Math.floor(this.bally0map.y)})`);
         }
     });
 }

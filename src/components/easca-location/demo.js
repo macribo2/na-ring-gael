@@ -1059,7 +1059,6 @@ setTimeout(function(){
 
 let currentLocation = locationMatrix[31][2];
 render();
-console.log(currentLocation+"********")
 	function render() {
 
 		let stageLeft=320;
@@ -1069,7 +1068,6 @@ console.log(currentLocation+"********")
 				$("#stage").animate({left:"+=20px"},0)
 // 
 let stagePos = $('#stage').position()
-console.log('position'+stagePos.left)
 if(stagePos.left>=740){
 
 	$('#stage').css('left','-1890px')
@@ -1322,7 +1320,6 @@ $('#console').html(`<div>
 
 `)
 
-console.log('hi ó Wren')
 // $('#wrenfield').fadeIn();
 // $('#wren-bg0').fadeIn();
 $('#wren-hood').fadeIn();
@@ -1504,7 +1501,6 @@ updateEng(currentSelect)
 highlightIrish(currentSelect)
 
 })
-	console.log(currentSelect + "current select")	
 
 $('#cd').on('touchend click', function () {
 
@@ -1523,7 +1519,6 @@ $('#bright-light-county').fadeOut(8000);
 
 });
 $('#a').on('touchend click',function(){
-	console.log('a');
 	$('.prompt-box').fadeIn();
 
 
@@ -1648,7 +1643,6 @@ $('#pwd').on('touchend click', function(){
 			$('#fortuna-lit').fadeOut(1000)
 				}, 50);
 					$('.cell').fadeIn()
-					console.log(this.src)
 
 
 					$(this).css("border","1px solid white");
@@ -1665,15 +1659,11 @@ $('#pwd').on('touchend click', function(){
 				// $(this).fadeOut();
 				// $('#all-champions').fadeOut();
 				let touched = this.src;
-				console.log(this.id)
-				console.log(namesInIrish[this.id])
-				console.log(namesInEnglish[this.id])
 				heroPortrait = this.src;
 				playerIconURL = `url('`+ heroPortrait +`')`
 		// $('#player-icon').css('backgroundImage',playerIconURL);
 
 		// $('#player-icon').css('backgroundImage',"url('./images/champions/'+this.id	+'.png')");
-		console.log("hero"+heroPortrait)
 		
 				
 				$('#nameInEng').html("");
@@ -1726,7 +1716,6 @@ togglePausedFortuna= () =>{
 		$('#fortuna2').get(0).play();
 
 setTimeout(function(){
-	console.log('hi from toggle pause')
 },1000);
 
 	}
@@ -2064,8 +2053,6 @@ let locations = [
 
  getRandLocation = ()=>{
 	randLoc = Math.floor(Math.random()*locations.length);
-	console.log(randLoc+ " "+locations[randLoc]);
-	console.log(locations.length);
 
 }
 let fortunaTeamsEng = [
@@ -2269,7 +2256,6 @@ let playerRollsA;
 		$('#nameInIre').on('click',function(){
 			beep2.play();
 			$('#avatar').css('backgroundImage',playerIconURL);
-			console.log("£")
 			$('#avatar').fadeIn();
 			
 			$('.chosen').attr("src","./images/champions/empty.png");
@@ -2347,22 +2333,17 @@ setTimeout(function(){
 	
 },2000)
 		playerRollsA = fortuna.currentTime+0.33;
-		console.log('player rolls a '+playerRollsA)
 for(let i=0; i<fortunaTime.length; i++){
 
 	if(playerRollsA<=fortunaTime[i]){
-		// console.log('go to next fortunaTime...')
 
 	}
 
 	if(playerRollsA>=fortunaTime[i]){
-		console.log('maybe this fortunaTime...');
 		if(playerRollsA>=fortunaTime[i+1]){
 		fortunaTeam = fortunaTeams[i];
 		fortunaTeamEng = fortunaTeamsEng[i];
 		teamLocation = locations[i];
-		console.log(teamLocation);
-		console.log(fortunaTeams[i]);		teamImg = i+1;
 		$('#team-icon').css('backgroundImage',"url('./images/o-fortuna/"+teamImg+".png')");
 		
 		
@@ -2371,14 +2352,11 @@ for(let i=0; i<fortunaTime.length; i++){
 }
 
 		// $('#oFortuna2').get(0).pause();
-		console.log(fortuna.currentTime)
 		$('#main-text').html(fortunaTeam);
 		$('#next-text').html('Ainm Buíonn');
 		$('#next-text').html(fortunaTeamEng);
 
 		
-		// console.log('hey f2'+ oFortuna1Position);
-		// $('#oFortuna2').get(0).currentTime=0;
 
 		setTimeout(function(){
 		
@@ -2411,7 +2389,6 @@ $('#right-eye').on('click',function(){
 	
 });
 	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-		console.log("mobile");
 		
 		$('#fortuna2').addClass('mobile') 
 		
@@ -2420,7 +2397,6 @@ $('#right-eye').on('click',function(){
 		
 		else
 		{
-			console.log("not mobile");
 			$('#fortuna-lit').addClass('full-screen-fortuna-lit');
 		
 			$('#stage').addClass('full-screen-stage');
@@ -2449,7 +2425,6 @@ $('#right-eye').on('click',function(){
 	
 
 	$('#oFortuna2').on('click',function(){
-		console.log('hey f2'+ fortunaPos);
 		
 
 		
@@ -2457,7 +2432,6 @@ $('#right-eye').on('click',function(){
 	});
 
 	$('#oFortuna3').on('click',function(){
-		console.log('hey f3'+ oFortuna1Position);
 		
 		// this.trigger('pause');
 		// $('#oFortuna1').playbackRate=0;
@@ -2543,7 +2517,6 @@ function refreshChapter(chapterNo){
 if(chapterNo===2){
 
 	wrenTally++;
-	console.log("chapter number"+cdMeTo)
 	$('#overlay-3').html(`<img id="to-go" src="./images/cd-linucs.gif"/>`);
 	$('.output-gif').fadeTo(7000, 0);
 	setTimeout(function(){
@@ -2563,7 +2536,6 @@ if(chapterNo===2){
 	if(chapterNo===3){
 
 		wrenTally=2; //go back one so other locations can be selected more easily.
-		console.log("chapter number"+chapterNo)
 		$('#overlay-3').html(`<p id="overlay-3">cd `+ cdMeTo + `</p>`);
 		$('.output-gif').fadeTo(7000, 0.1);
 		setTimeout(function(){

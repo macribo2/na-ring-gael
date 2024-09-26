@@ -463,7 +463,6 @@ moveElement(direction) {
     if (mollyElement) {
         mollyElement.classList.add('hidden');
     } else {
-        console.error('Element with className "molly" not found.');
     }
 }
 
@@ -474,7 +473,6 @@ moveElement(direction) {
             mollyElement.classList.remove('wait-and-fade');
             mollyElement.classList.remove('hidden');
         } else {
-            console.error('Element with className "molly" not found.');
         }
 
         this.   disableMovementControls();

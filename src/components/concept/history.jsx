@@ -517,9 +517,6 @@ $('#ó').on('touchend', function () {
             $('#anÓImgFéin').attr('src', './img/btn-icons/0.png');
             teacsÓ = topTeacs0;
 
-            console.log($('#anÓImgFéin').attr('src')
-            )
-
             
             $('#top').empty().append(`<h4 id="top-content">${teacsÓ[slide]}</h4>`);
 
@@ -686,8 +683,6 @@ function    refresh(){
 
                 // $('#middle').removeClass('sea');
                 $('#top').empty().append(`<h4 id="top-content">${teacsÓ[slide]}</h4>`);
-                console.log(images[slide]);
-                console.log(slide);
 
                 // $('#top-content').fadeIn('slow')
 
@@ -708,8 +703,6 @@ function    refresh(){
 
                 $('#middle').removeClass('sea');
                 $('#top').empty().append(`<h4 id="top-content">${teacsÓ[slide]}</h4>`);
-                console.log(images[slide]);
-                console.log(slide);
 
                 $('#top-content').fadeIn('slow')
 

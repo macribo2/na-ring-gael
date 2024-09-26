@@ -206,11 +206,9 @@ class GameScene extends Phaser.Scene {
         const dialogues = this.cache.json.get('dialogues');
     
         if (dialogues) {
-            console.log(dialogues);
             // Check if dialogues data is available
             firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
             firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-            console.log("First 'ga' text:", firstGaText);
             
             this.textGa = this.add.text(350, 70, '', { fill: '#ffffff', fontFamily: 'aonchlo' });
             this.textEn = this.add.text(250, 278, '', { fill: '#ffffff', fontFamily: 'anaphora' });
@@ -431,7 +429,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >7) {
                 setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -441,7 +438,6 @@ moveElement(direction) {
             this.playerMapLocationTracker=0; // Increment tracker
                 
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -452,7 +448,6 @@ moveElement(direction) {
                 this.playerMapLocationTracker=0; // Increment tracker
                     
                 }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -461,7 +456,6 @@ moveElement(direction) {
             if (this.playerMapLocationTracker >5) {
                 setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
             }
-            console.log("playerMapLocationTracker:", this.playerMapLocationTracker);
             this.updateText(this.playerMapLocationTracker);
        
             break;
@@ -484,7 +478,6 @@ moveElement(direction) {
         duration: speed,
         ease: 'Linear',
         onComplete: () => {
-            console.log(`Background Map Origin: (${Math.floor(this.kilcashMapMap.x)}, ${Math.floor(this.kilcashMapMap.y)})`);
         }
     });
 }

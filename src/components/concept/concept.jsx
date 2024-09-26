@@ -69,7 +69,6 @@ export class Concept extends React.Component {
 
         function narrate(story) {
             // output2.className=''; 
-            console.log("test! " + story);
         }
         //test
 
@@ -83,10 +82,8 @@ export class Concept extends React.Component {
         }
         function playGame() {
             narrate(story);
-            console.log("hello narrate!");
             render();
             progressStory(story);
-            console.log(story);
         }
 
         function progressStory() {
@@ -95,7 +92,6 @@ export class Concept extends React.Component {
                 // bckBtn.style.display = 'inline';
                 // bckBtn.style.animation = 'delay-fade-in 1s';
                 // fwdBtn.style.animation = 'slide-button-right 1s forwards';
-                console.log("hello bckBtn?");
             }
             else {
                 //I want this, it's not working yet:
@@ -115,7 +111,6 @@ export class Concept extends React.Component {
                 // fwdBtn.style.animation='fade-out 0.25s forwards';
                 // fwdBtn.style.visibility='hidden';
                 // playBtn.style.animation='fade-in 1s';
-                console.log("story === 5");
             }
             if (story === 1) {
 

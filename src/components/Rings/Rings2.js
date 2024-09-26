@@ -55,15 +55,12 @@ export default function Rings2(props) {
 	
 	*/
 	function showHints() { 
-		console.log("showTheGlass")
 
 		if(showTheGlass === false){
 		showTheGlass = true;
-			console.log(showTheGlass)
 		}
 		else if (showTheGlass === true) { 
 			showTheGlass = false;
-			console.log(showTheGlass)
 		}
 	}
 
@@ -157,8 +154,6 @@ As distinct from The Open Group's UNIX, Microsoft's Windows and Macintosh's Appl
 	]
 	function reportStepValue3 () {
 		alert(showTheGlass);
-		console.log(showTheGlass);
-		console.log("showTheGlass");
 
 	}
 

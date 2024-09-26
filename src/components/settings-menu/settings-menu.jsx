@@ -137,10 +137,8 @@ let randLights = Math.floor(Math.random * 8)
 		
 	  // If element has class(es)
 	  if (elementClass !== '') {
-		console.log(elementClass);
 	  }
 	  if (elementClass === '') {
-		console.log(elementClass);
 	  }
 	
 		//making each square of a 10x10 grid of squares a button that moves the player there, on touch.
@@ -149,7 +147,6 @@ let randLights = Math.floor(Math.random * 8)
 		
 	  // If element has no classes
 	  else {
-		console.log('An element without a class was clicked');
 	  }
 	}
 	);

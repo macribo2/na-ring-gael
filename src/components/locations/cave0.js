@@ -1,10 +1,46 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 
 const Cave0 = () => {
+
+
+
+
+
+
+  const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
+
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const phaserRef = useRef(null);
   useEffect(() => {
+
+
+
+      // Define mapLayout, obstacleMap, and interactiveMap inside useEffect
+      const mapLayout = [
+        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a','a','a','a','c','c','c','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a',' ',' ','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b',' ',' ',' ',' ','a']
+    ];
+
+    const obstacleMap = {
+        'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla cloiche' },
+        'b': { type: 'noPic', nameEng: 'dark water', name: 'uisce doracha' },
+        'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
+    };
+
+    const interactiveMap = {
+        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
+        'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
+        'c': { type: 'noPic', nameEng: 'Mouth of the cave', name: 'Béal an pluais' },
+        ' ': { type: 'walkable', nameEng: 'Cave', name: 'pluais' }
+    };
+
+    const newObstacles = [];
+    const newInteractiveObjects = [];
+
     // Configuration for Phaser game
     const config = {
       type: Phaser.AUTO,
@@ -23,6 +59,33 @@ const Cave0 = () => {
     
     // Create the Phaser game instance
     gameRef.current = new Phaser.Game(config);
+    mapLayout.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+          const obstacle = obstacleMap[cell];
+          const interactive = interactiveMap[cell];
+          
+          if (obstacle && obstacle.type !== 'walkable') {
+              newObstacles.push({
+                  type: obstacle.type,
+                  x: colIndex,
+                  y: rowIndex,
+                  nameEng: obstacle.nameEng,
+                  name: obstacle.name
+              });
+          }
+
+          if (interactive) {
+              newInteractiveObjects.push({
+                  type: interactive.type,
+                  x: colIndex,
+                  y: rowIndex,
+                  nameEng: interactive.nameEng,
+                  name: interactive.name
+              });
+          }
+      });
+  });
+
 
 
     return () => {
@@ -66,6 +129,7 @@ const Cave0 = () => {
 
   }
   function create() {
+
     const mapLayout = [
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a','a','a','a','a','c','c','c','a','a','a','a','a','a','a','a','a','a','a','a','a'],
@@ -130,7 +194,6 @@ const Cave0 = () => {
         });
     });
     
-      console.log(this.obstacles);
       
       
     const tileSize = 32;
@@ -160,11 +223,6 @@ const Cave0 = () => {
 
  
 
-    // Log the interactive objects for debugging
-    // console.log('Interactive Objects:', this.interactiveObjects);
-  
-    // Define obstacles with names and positions
-   
   
     // Draw obstacles
     this.obstacles.forEach(obstacle => {
@@ -203,10 +261,17 @@ const Cave0 = () => {
       strokeThickness: 3
     }).setScrollFactor(0).setDepth(20);
   
+    this.textForFade = this.add.text(220, 100, 'forFade', {
+      fontSize: '26px',
+      fill: '#ffffff',
+      fontFamily: 'urchlo',
+      padding: { x: 10, y: 10 },
+      stroke: '#000000',
+      strokeThickness: 3
+    }).setScrollFactor(0).setDepth(20);
+  
 
-
-    
-    // Timer for collision messages
+       
     this.collisionMessageTimer = 0;
     this.collisionMessageDuration = 2000; // Duration in milliseconds
   
@@ -258,6 +323,8 @@ const Cave0 = () => {
     
     // Timeout flag
     this.isMiddleButtonCooldown = false;
+  
+  
   }
 
 
@@ -333,7 +400,13 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Declare a timer for collision message
+
+// Modify the movePlayer function to handle collision and display the message
 async function movePlayer() {
+  // collisionMessageTimer.current = 100; // Update ref value without triggering a re-render
+  
+
   const tileSize = 32;
   const gridWidth = 25;
   const gridHeight = 18;
@@ -354,17 +427,23 @@ async function movePlayer() {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
 
-    console.log(`Moving to (${nextMove.x}, ${nextMove.y})`);
-
     // Check for obstacles here before applying the delay
     const nextTileX = Math.floor(nextMove.x / tileSize);
     const nextTileY = Math.floor(nextMove.y / tileSize);
 
     const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
 
+    //deleting this if causes walk through first wall bug.
     if (obstacle) {
-      console.log(`Blocked by ${obstacle.nameEng}`);
+      // Show collision message
+      this.collisionText.setText('Obstacle ahead!');
+      this.collisionTextEng.setText('Obstacle ahead (Eng)!');
+
+      // Set the timer for how long the message should stay
+      this.collisionMessageTimer = this.time.now + 3000; // Show for 3 seconds
+
       this.isMoving = false;
+
       return; // Block movement and stop further execution
     }
 
@@ -372,117 +451,112 @@ async function movePlayer() {
     await delay(500);
 
     this.player.setPosition(nextMove.x, nextMove.y);
-
-    console.log(`Position set to (${this.player.x}, ${this.player.y})`);
-
     this.isMoving = false;
   }
 }
 
+function update(time, delta) {
+  const moveInterval = 50;
+
+  // Clear the collision message after the duration
+  if (time > this.collisionMessageTimer) {
+      setTimeout(() => {
+          this.collisionText.setText('');
+          this.collisionTextEng.setText('');
+      }, 3000);
+  }
+
+  // Handle player movement
+  if (this.isMoving) {
+      this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
+      this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
+
+      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
+          this.player.x = this.player.nextMove.x;
+          this.player.y = this.player.nextMove.y;
+          this.isMoving = false;
+          this.moveDelay = time + moveInterval;
+          if (this.borderGraphics) {
+              this.borderGraphics.setVisible(false);
+          }
+      }
+      return;
+  }
+
+  if (time < this.moveDelay) {
+      return;
+  }
+
+  const tileSize = 32;
+  const gridWidth = 25;
+  const gridHeight = 18;
+  let nextMove = { x: this.player.x, y: this.player.y };
+  let collisionMessage = '';
+  let collisionMessageEng = '';
+
+  // Determine the next move based on user input
+  if (this.cursors.left.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+  } else if (this.cursors.right.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+  } else if (this.cursors.up.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+  } else if (this.cursors.down.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+  }
+
+  // Check for collision
+  const collision = checkCollision(nextMove, this.obstacles, tileSize);
+  if (collision) {
+      collisionMessage = collision.name;
+      collisionMessageEng = collision.nameEng;
+
+      // Show the say graphic
+      this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
+      this.sayGraphic.setAlpha(1).setScale(0.5);
+
+      // Fade out the say graphic
+      this.tweens.add({
+          targets: this.sayGraphic,
+          alpha: 0,
+          duration: 200,
+          ease: 'Linear'
+      });
+
+      // Show border around the collision square
+      const borderX = collision.x * tileSize;
+      const borderY = collision.y * tileSize;
+      this.borderGraphics.clear();
+      this.borderGraphics.setVisible(true);
+      this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+
+      // Hide the border after a brief delay
+      this.time.delayedCall(200, () => {
+          this.borderGraphics.setVisible(false);
+      });
+
+      // Set the collision messages
+      this.collisionText.setText(collisionMessage);
+      this.collisionTextEng.setText(collisionMessageEng);
 
 
+      this.collisionMessageTimer = time + this.collisionMessageDuration;
+      return; // Exit early if there's a collision
+  }
 
+  // Check for non-blocking interactions
+  const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
+  if (interactiveObject) {
+      this.collisionText.setText(interactiveObject.name);
+      this.collisionTextEng.setText(interactiveObject.nameEng);
+      this.collisionMessageTimer = time + this.collisionMessageDuration;
+  }
 
-  function update(time, delta) {
-    const moveInterval = 50; // Adjust the delay between moves (milliseconds)
-
-    // Clear the collision message after the duration
-    if (time > this.collisionMessageTimer) {
-        this.collisionText.setText('');
-        this.collisionTextEng.setText('');
-    }
-
-    // Handle player movement
-    if (this.isMoving) {
-        this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
-        this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
-
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
-            this.player.x = this.player.nextMove.x;
-            this.player.y = this.player.nextMove.y;
-            this.isMoving = false;
-            this.moveDelay = time + moveInterval; // Set delay after movement is complete
-            if (this.borderGraphics) {
-            // Clear the border graphics when movement is complete
-            this.borderGraphics.setVisible(false);
-          }}
-        return;
-    }
-
-    if (time < this.moveDelay) {
-        return; // Wait until the delay is over
-    }
-
-    const tileSize = 32;
-    const gridWidth = 25;
-    const gridHeight = 18;
-
-    let nextMove = { x: this.player.x, y: this.player.y };
-    let collisionMessage = '';
-    let collisionMessageEng = '';
-
-    // Determine the next move based on user input
-    if (this.cursors.left.isDown) {
-        nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.right.isDown) {
-        nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.up.isDown) {
-        nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    } else if (this.cursors.down.isDown) {
-        nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    }
-
-    // Check for collision
-    const collision = checkCollision(nextMove, this.obstacles, tileSize);
-    if (collision) {
-        collisionMessage = collision.name;
-        collisionMessageEng = collision.nameEng; // Assuming 'nameEng' is also present in obstacles
-
-        // Show the say graphic
-        this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
-        this.sayGraphic.setAlpha(1).setScale(.5);
-
-        // Fade out the say graphic
-        this.tweens.add({
-            targets: this.sayGraphic,
-            alpha: 0,
-            duration: 200,
-            ease: 'Linear'
-        });
-
-        // Show border around the collision square
-        const borderX = collision.x * tileSize;
-        const borderY = collision.y * tileSize;
-        this.borderGraphics.clear();
-        this.borderGraphics.setVisible(true);
-        this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
-
-        // Hide the border after a brief delay
-        this.time.delayedCall(200, () => {
-            this.borderGraphics.setVisible(false);
-        });
-
-        // Set the collision messages
-        this.collisionText.setText(collisionMessage);
-        this.collisionTextEng.setText(collisionMessageEng);
-        this.collisionMessageTimer = time + this.collisionMessageDuration; // Set the timer
-        return; // Exit early if there's a collision
-    }
-
-    // Check for non-blocking interactions
-    const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
-    if (interactiveObject) {
-        this.collisionText.setText(interactiveObject.name);
-        this.collisionTextEng.setText(interactiveObject.nameEng); // Set the interaction message
-        this.collisionMessageTimer = time + this.collisionMessageDuration; // Set the timer
-
-
-    }
-
-    // Move the player if there's no collision
-    this.player.nextMove = nextMove;
-    this.isMoving = true;
+  // Move the player if there's no collision
+  this.player.nextMove = nextMove;
+  this.isMoving = true;
 }
+
 function updateButtonPositions(scene) {
   const padding = 20;
   const buttonSize = 50;
@@ -492,7 +566,6 @@ function updateButtonPositions(scene) {
   const buttonX = screenWidth - padding - buttonSize-200;
   const buttonY = screenHeight - padding - buttonSize-100;
 
-  // console.log(`Button X: ${buttonX}, Button Y: ${buttonY}`); // Debugging output
 
   // Update positions
   scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
@@ -501,12 +574,6 @@ function updateButtonPositions(scene) {
   scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
   scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 
-  // // Verify button positions
-  // console.log(`Middle Button: (${scene.buttonMiddle.x}, ${scene.buttonMiddle.y})`);
-  // console.log(`Left Button: (${scene.buttonLeft.x}, ${scene.buttonLeft.y})`);
-  // console.log(`Down Button: (${scene.buttonDown.x}, ${scene.buttonDown.y})`);
-  // console.log(`Right Button: (${scene.buttonRight.x}, ${scene.buttonRight.y})`);
-  // console.log(`Up Button: (${scene.buttonUp.x}, ${scene.buttonUp.y})`);
 }
 
 
@@ -522,7 +589,6 @@ function checkCollision(nextMove, obstacles, tileSize) {
 
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
-    // console.log('Checking interaction with:', nextMove); // Debugging statement
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
         // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
         return null;

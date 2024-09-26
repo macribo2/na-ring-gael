@@ -254,7 +254,6 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
    // Set up event listeners
    this.buttonMiddle.on('pointerdown', this.handleMiddleButtonPress);
 
-   console.log("Scene created");
 
    const centerX = this.cameras.main.width / 2;
    const centerY = this.cameras.main.height / 2;
@@ -328,14 +327,12 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
     if (this.currentProvince) {
         this.provinces = ireData.provinces;
     } else {
-        console.error("Current province data is undefined.");
         return;
     }
 
     this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
     let currentLocation = this.currentCounty.locations[0].irishName;
 
-    console.log("Current Location:", currentLocation);
 
     this.gaCurrentPlaceText = this.add
         .text(200, this.cameras.main.height - 300, currentLocation, {
@@ -396,13 +393,7 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
     this.fullscreenButton = this.add.sprite(50, 50, 'fullscreen').setInteractive();
     this.fullscreenButton.on('pointerdown', this.toggleFullscreen, this);
 
-    console.log(
-        this.buttonNavUp,
-        this.buttonNavDown,
-        this.buttonNavLeft,
-        this.buttonNavRight,
-        this.actionBtn,
-    );
+
 
     if (
         this.buttonNavUp &&
@@ -482,7 +473,6 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
             // Disable the button temporarily
             isButtonNavDownClickable = false;
         
-            console.log("Down button clicked!");
         
             if (this.navigationLevel === "province") {
                 let direction;
@@ -501,10 +491,8 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
                         direction = "south";
                         break;
                     default:
-                        console.error("Invalid provincial Index!");
                         return;
                 }
-                console.log(provinceIndex);
         
                 // Perform animation based on the direction
                 this.moveOffScreen(direction);
@@ -611,7 +599,6 @@ this.hudBG.setPosition(0,0).setAlpha(0.6);
 
     
         // Add countyBG background image
-        console.log("Current County:33333333", this.currentCounty);
     this.countyBG = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, this.countyBackgrounds[this.currentCounty.name]).setScale(4).setAlpha(0.3);
   
         // Define the bounds for the background image movement
@@ -709,10 +696,8 @@ this.buttonMiddle.on('pointerdown', () => {
             this.provincialMapSprite.setTexture(provinceGraphicKey)
             this.provincialMapSprite.alpha = 0; // Set alpha to make it visible
         } else {
-            console.error("Graphic key not found for current province:", currentProvince.enProvince);
         }
     } else {
-        console.error("Current province is undefined.");
     }
 
     // Other initialization code...
@@ -727,13 +712,11 @@ this.buttonMiddle.on('pointerdown', () => {
     this.moveOffScreen = (direction) => {
         // Ensure exitPoints is initialized
         if (!this.exitPoints) {
-            console.error('exitPoints is not initialized.');
             return;
         }
 
         // Ensure direction is valid
         if (!this.exitPoints[direction]) {
-            console.error(`No exit point found for direction: ${direction}`);
             return;
         }
 
@@ -742,18 +725,12 @@ this.buttonMiddle.on('pointerdown', () => {
         const exitX = exitPoint.x;
         const exitY = exitPoint.y;
 
-        // Debugging logs to verify the values
-        console.log(`Exit point for direction "${direction}": x=${exitX}, y=${exitY}`);
 
         // Ensure player and puca are defined
         if (!this.player || !this.puca) {
-            console.error('Player or Puca sprite is not initialized.');
             return;
         }
 
-        // Log initial positions
-        console.log(`Initial Player Position: x=${this.player.x}, y=${this.player.y}`);
-        console.log(`Initial Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
 
         // Animate the player to move off the screen
         this.tweens.add({
@@ -763,8 +740,6 @@ this.buttonMiddle.on('pointerdown', () => {
             angle: 360, // Rotate player by 360 degrees (1 full rotation)
             duration: 550, // Adjust the duration as needed
             onComplete: () => {
-                console.log('Player tween completed');
-                console.log(`Final Player Position: x=${this.player.x}, y=${this.player.y}`);
                 // Optionally, hide or destroy the player sprite after moving off the screen
                 // this.player.setVisible(false);
                 // Or this.player.destroy();
@@ -778,8 +753,6 @@ this.buttonMiddle.on('pointerdown', () => {
             y: exitY,
             duration: 400, // Adjust the duration as needed
             onComplete: () => {
-                console.log('Puca tween completed');
-                console.log(`Final Puca Position: x=${this.puca.x}, y=${this.puca.y}`);
                 // Optionally, hide or destroy the puca sprite after moving off the screen
                 // this.puca.setVisible(false);
                 // Or this.puca.destroy();
@@ -842,10 +815,7 @@ setTimeout(()=>{
 
 
 
-    console.log('handleMiddleButtonPress called'); // Debugging log
-    console.log('Context (this):', this); // Log the context
     if (!this.enCurrentPlaceText || !this.overlay) {
-        console.error('enCurrentPlaceText or overlay is not initialized.');
         return;
     }
 
@@ -857,13 +827,10 @@ this.middlePressInProgress = false;
 
 toggleOverlay() {
     if (this.overlay !== null && this.overlay !== undefined) {
-        console.log('Overlay visibility before:', this.overlay.visible);
         this.overlay.setVisible(!this.overlay.visible);
-        console.log('Overlay visibility after:', this.overlay.visible);
 
         this.enCurrentPlaceText.setVisible(!this.enCurrentPlaceText.visible);
         this.hudBG.setVisible(!this.hudBG.visible);
-        console.log('enCurrentPlaceText visibility:', this.enCurrentPlaceText.visible);
 
         // alert("Overlay visibility toggled.");
         setTimeout(() => {
@@ -897,7 +864,6 @@ toggleOverlay() {
             this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
             if (this.currentCounty) {
                 this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                console.log("Current location:", this.currentLocation);
             } else {
                 this.currentLocation = undefined;
             }
@@ -924,7 +890,6 @@ handleLeftCounty() {
         // Update current location
         if (this.currentCounty) {
             this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-            console.log("Current location:", this.currentLocation);
         } else {
             this.currentLocation = undefined;
         }
@@ -943,8 +908,6 @@ handleLeftCounty() {
 updateCountyBackground() {
 
     
-    console.log("Current County Name:", this.currentCounty ? this.currentCounty.name : "Undefined");
-    console.log("County Backgrounds:", this.countyBackgrounds);
 
     // Check if the current county is defined and has a name
     if (this.currentCounty && this.currentCounty.name) {
@@ -956,10 +919,8 @@ updateCountyBackground() {
             // Set the county background image
             this.countyBG.setTexture(countyBackgroundKey);
         } else {
-            console.error("County background key not found for:", this.currentCounty.name);
         }
     } else {
-        console.error("Current county is undefined or does not have a name.");
     }
 }
 handleLeftLocation() {
@@ -993,8 +954,6 @@ setTimeout(function() {
 
 // Update the current location immediately (outside the setTimeout)
 this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-console.log("Current location:", this.currentLocation);
-console.log("Current County:", this.currentCounty);
 
 }
 
@@ -1099,8 +1058,6 @@ handleRightLocation() {
 
     // Update the current location immediately (outside the setTimeout)
     this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-    console.log("Current location:", this.currentLocation);
-    console.log("Current County:", this.currentCounty);
 
 }
 handleRightCounty() {
@@ -1112,7 +1069,6 @@ handleRightCounty() {
         // Update current location
         if (this.currentCounty) {
             this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-            console.log("Current location:", this.currentLocation);
         } else {
             this.currentLocation = undefined;
         }
@@ -1218,7 +1174,6 @@ handleRightProvince() {
             this.currentCounty = this.currentProvince.counties[this.currentCountyIndex];
             if (this.currentCounty) {
                 this.currentLocation = this.currentCounty.locations[this.currentPlayerLocation];
-                console.log("Current location:", this.currentLocation);
             } else {
                 this.currentLocation = undefined;
             }
@@ -1299,7 +1254,6 @@ this.rockingRange = 10; // Range of rocking motion in degrees
         ease: 'Linear', // Use linear easing for smooth movement
       });
     } else {
-      console.error(`Location not found for index ${locationIndex}`);
     }
   }
   

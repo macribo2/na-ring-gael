@@ -160,7 +160,6 @@ export function Rings4(props) {
 	let isOn = props.isOn
 	const prevHnameRef = useRef();
 	useEffect(() => {
-	  console.log('Rings4 component is rendering');
   
 	  // Update the player sheet with the new champName when hname changes
 	  setPlayerSheet((prevPlayerSheet) => ({
@@ -210,7 +209,6 @@ export function Rings4(props) {
 
   const valueWithinLimits = rv => {
     const v = Math.floor(rv * 100) / 100;
-    console.log("v", v);
 
     const diff = v - value;
     let vRound = round.current;
@@ -221,8 +219,6 @@ export function Rings4(props) {
     const requestedValue = v + vRound;
     const minValue = 0.77;
     const maxValue = 0.99;
-    console.log("current | requested", currentValue + "|" + requestedValue);
-    console.log(" round.current", round.current);
 
     // //if (requestedValue > 1) return value;
     if (requestedValue > max) return maxValue;
