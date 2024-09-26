@@ -26,7 +26,7 @@ const Cave0 = () => {
     ];
 
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla cloiche' },
+        'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla na pluaise' },
         'b': { type: 'noPic', nameEng: 'dark water', name: 'uisce doracha' },
         'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
     };
@@ -134,9 +134,9 @@ const Cave0 = () => {
         ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ','e',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ','f',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
@@ -151,13 +151,18 @@ const Cave0 = () => {
         'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla cloiche' },
         'b': { type: 'noPic', nameEng: 'dark water', name: 'uisce doracha' },
         'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' },
+        'c': { type: 'noPic', nameEng: 'I am in the mouth of the cave', name: 'Tá mé i mbéal na plúise' },
            };
 
            
     const interactiveMap = {
         'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
+        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
+        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'c': { type: 'noPic', nameEng: 'Mouth of the cave', name: 'Béal an pluais' },
+        'e': { type: 'noPic', nameEng: 'I listen sharply', name: 'éistím go géir' },
+        'f': { type: 'noPic', nameEng: 'The darkness seems alive to me, with rumors and tidings', name: 'do-chím dorchadas beo le tualas' },
+        'g': { type: 'noPic', nameEng: '', name: '' },
         ' ': { type: 'walkable', nameEng: '', name: '' }
     };
     this.obstacles = [];
