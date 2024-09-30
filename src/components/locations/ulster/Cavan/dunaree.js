@@ -13,16 +13,12 @@ const Dunaree = () => {
 
       // Define mapLayout, obstacleMap, and interactiveMap inside useEffect
       const mapLayout = [
-        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a','a','a','a','c','c','c','a','a','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a',' ',' ','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b',' ',' ',' ',' ','a']
+     
     ];
 
     const obstacleMap = {
         'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla na pluaise' },
-        'b': { type: 'noPic', nameEng: 'dark water', name: 'uisce doracha' },
+        'b': { type: 'noPic', nameEng: 'deep water', name: 'uisce domhain' },
         'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
     };
 //deleting this causes crash so ...
@@ -129,16 +125,16 @@ const Dunaree = () => {
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','b','b','b','b','b'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','j','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','f',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','f',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','g',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','g',' ',' ','b','b','b','b','b','b','b','b'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','d','d',' ',' ',' ','e','e','e',' ',' ',' ',' ',' '],
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
@@ -146,9 +142,10 @@ const Dunaree = () => {
     
     const obstacleMap = {
         'a': { type: 'noPic', nameEng: 'Can\'t go that way.', name: 'Ní féidir dul \nan treo sin.' },
-        'b': { type: 'noPic', nameEng: 'Who knows what is\ndown in the darkness', name: 'Cá bhios cad atá\nthíos sa dorchadas' },
+        'b': { type: 'noPic', nameEng: 'A cliff in the darkness\nI don\'t see the bottom', name: 'Aill sa dorchadas\nní fheicim an bun' },
         'c': { type: 'noPic', nameEng: 'I don\'t trust those boxes', name: 'Níl muinnín agam as\nnaboscaí sin' },
-        'd': { type: 'noPic', nameEng: 'a dark lake', name: 'loch doracha' },
+        'd': { type: 'noPic', nameEng: '\ndark water', name: '\n\nuisce doracha' },
+        'j': { type: 'noPic', nameEng: '\nI Can\'t go up there.', name: '\nNí féidir liom dul \nsuas ansin.' },
            };
 
            
@@ -156,11 +153,13 @@ const Dunaree = () => {
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
         'e': { type: 'noPic', nameEng: 'wooden bridge', name: 'droichead adhmaid' },
         'f': { type: 'noPic', nameEng: 'a stream', name: 'sruthán' },
-        'g': { type: 'noPic', nameEng: 'distant water', name: 'Uisce i gcéin' },
+        'g': { type: 'noPic', nameEng: 'You stepped in the water', name: 'Seas tú san uisce' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         ' ': { type: 'walkable', nameEng: '', name: '' }
     };
+
+    
     this.obstacles = [];
     this.interactiveObjects = []; // New array for interactive objects
     
@@ -458,100 +457,125 @@ async function movePlayer() {
   }
 }
 
+function playerStepsInWater(nextMove, interactiveMap) {
+    if (!nextMove || !interactiveMap) return false;  // Safeguard check
+
+    const tileX = Math.floor(nextMove.x / 32);  // Convert pixel position to grid position (assuming 32px per tile)
+    const tileY = Math.floor(nextMove.y / 32);
+
+    // Check if tileX and tileY are within the bounds of interactiveMap
+    if (tileY < 0 || tileY >= interactiveMap.length || tileX < 0 || tileX >= interactiveMap[0].length) {
+        return false;  // Out of bounds, so no water here
+    }
+
+    const tile = interactiveMap[tileY][tileX];  // Safely access the tile
+
+    return tile && tile.type === 'g';  // Return true if the tile type is 'g' (water)
+}
+
 function update(time, delta) {
-  const moveInterval = 50;
+    const moveInterval = 50;
 
-  // Clear the collision message after the duration
-  if (time > this.collisionMessageTimer) {
-      setTimeout(() => {
-          this.collisionText.setText('');
-          this.collisionTextEng.setText('');
-      }, 3000);
-  }
+    // Clear the collision message after the duration
+    if (time > this.collisionMessageTimer) {
+      this.collisionText.setText('');
+      this.collisionTextEng.setText('');
+    }
 
-  // Handle player movement
-  if (this.isMoving) {
+    // Handle player movement
+    if (this.isMoving) {
       this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
       this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
 
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
-          this.player.x = this.player.nextMove.x;
-          this.player.y = this.player.nextMove.y;
-          this.isMoving = false;
-          this.moveDelay = time + moveInterval;
-          if (this.borderGraphics) {
-              this.borderGraphics.setVisible(false);
-          }
+        this.player.x = this.player.nextMove.x;
+        this.player.y = this.player.nextMove.y;
+        this.isMoving = false;
+        this.moveDelay = time + moveInterval;
+        if (this.borderGraphics) {
+          this.borderGraphics.setVisible(false);
+        }
       }
-      return;
-  }
-
-  if (time < this.moveDelay) {
-      return;
-  }
-
-  const tileSize = 32;
-  const gridWidth = 25;
-  const gridHeight = 18;
-  let nextMove = { x: this.player.x, y: this.player.y };
-  let collisionMessage = '';
-  let collisionMessageEng = '';
-
-  // Determine the next move based on user input
-  if (this.cursors.left.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-  } else if (this.cursors.right.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-  } else if (this.cursors.up.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-  } else if (this.cursors.down.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-  }
-
-  // Check for collision
-  const collision = checkCollision(nextMove, this.obstacles, tileSize);
-  if (collision) {
-        // Only access 'name' and 'nameEng' if collision is valid (not undefined)
-        if (collision.name && collision.nameEng) {
-      collisionMessage = collision.name;
-      collisionMessageEng = collision.nameEng;
-      // Show the say graphic
-      this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
-      this.sayGraphic.setAlpha(1)
-      
+      return; // Exit early if still moving
     }
 
+    if (time < this.moveDelay) {
+      return; // Wait until move delay is over
+    }
 
+    const tileSize = 32;
+    const gridWidth = 25;
+    const gridHeight = 18;
+    let nextMove = { x: this.player.x, y: this.player.y };
+    let collisionMessage = '';
+    let collisionMessageEng = '';
 
+    // Determine the next move based on user input
+    if (this.cursors.left.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.right.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.up.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    } else if (this.cursors.down.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    }
 
+    function createRipple(x, y) {
+      const ripple = this.add.circle(x, y, 5, 0x0000ff, 0.5);  // Example ripple shape
 
-    
-          // Set the collision messages
-          this.collisionText.setText(collisionMessage);
-          this.collisionTextEng.setText(collisionMessageEng);
-          this.collisionMessageTimer = time + this.collisionMessageDuration;
-
-      // Fade out the say graphic
+      // Animate the ripple expanding and fading out
       this.tweens.add({
+        targets: ripple,
+        radius: 50,
+        alpha: 0,
+        duration: 1000,
+        ease: 'Linear',
+        onComplete: () => {
+          ripple.destroy();  // Remove the ripple once the animation is complete
+        }
+      });
+    }
+
+    // Check for collision
+    const collision = checkCollision(nextMove, this.obstacles, tileSize);
+    if (collision) {
+      // Check if the player stepped in water (type 'g')
+      if (collision.type === 'noPic') {
+        collisionMessage = collision.name || 'Stepped into water';
+        collisionMessageEng = collision.nameEng || 'You stepped into the water';
+        createRipple.call(this, this.player.x, this.player.y);
+        alert('You stepped in water!');  // Example: replace this with desired functionality
+      } else {
+        // Handle regular collision
+        if (collision.name && collision.nameEng) {
+          collisionMessage = collision.name;
+          collisionMessageEng = collision.nameEng;
+        }
+
+        // Show the say graphic
+        this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
+        this.sayGraphic.setAlpha(1);
+
+        // Fade out the say graphic
+        this.tweens.add({
           targets: this.sayGraphic,
           alpha: 0,
           duration: 200,
           ease: 'Linear'
-      });
+        });
 
-      // Show border around the collision square
-      const borderX = collision.x * tileSize;
-      const borderY = collision.y * tileSize;
-      this.borderGraphics.clear();
-      this.borderGraphics.setVisible(true);
-      this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+        // Show border around the collision square
+        const borderX = collision.x * tileSize;
+        const borderY = collision.y * tileSize;
+        this.borderGraphics.clear();
+        this.borderGraphics.setVisible(true);
+        this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
 
-      // Hide the border after a brief delay
-      this.time.delayedCall(200, () => {
+        // Hide the border after a brief delay
+        this.time.delayedCall(200, () => {
           this.borderGraphics.setVisible(false);
-      });
-
-
+        });
 
         // Update textForFade only if it's not already fading
         if (!this.isFading) {
@@ -561,30 +585,38 @@ function update(time, delta) {
 
           // Fade out the textForFade over 3 seconds
           this.tweens.add({
-              targets: this.textForFade,
-              alpha: 0,
-              duration: 3000,  // 3 seconds fade
-              ease: 'Linear',
-              onComplete: () => {
-                  this.isFading = false;  // Allow new collisions after fade-out
-              }
+            targets: this.textForFade,
+            alpha: 0,
+            duration: 3000,  // 3 seconds fade
+            ease: 'Linear',
+            onComplete: () => {
+              this.isFading = false;  // Allow new collisions after fade-out
+            }
           });
+        }
       }
-      return; // Exit early if there's a collision
-  }
 
-  // Check for non-blocking interactions
-  const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
-  if (interactiveObject) {
+      // Set the collision messages
+      this.collisionText.setText(collisionMessage);
+      this.collisionTextEng.setText(collisionMessageEng);
+      this.collisionMessageTimer = time + this.collisionMessageDuration;
+
+      return; // Exit early if there's a collision
+    }
+
+    // Check for non-blocking interactions
+    const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
+    if (interactiveObject) {
       this.collisionText.setText(interactiveObject.name);
       this.collisionTextEng.setText(interactiveObject.nameEng);
       this.collisionMessageTimer = time + this.collisionMessageDuration;
-  }
+    }
 
-  // Move the player if there's no collision
-  this.player.nextMove = nextMove;
-  this.isMoving = true;
+    // Move the player if there's no collision
+    this.player.nextMove = nextMove;
+    this.isMoving = true;
 }
+
 
 function updateButtonPositions(scene) {
   const padding = 20;
