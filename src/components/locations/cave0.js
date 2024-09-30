@@ -130,22 +130,22 @@ const Cave0 = () => {
     const mapLayout = [
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a','a','a','a','a','c','c','c','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a ','a','a','a','a','a','a','a','a','a','a'],
         ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ','e',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ','f',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a'],
-        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a'],
-        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a'],
-        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ','e',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ','f',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a',' ',' ',' ',' ',' ','h',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','d',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a'],
+        ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ','i',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a'],
+        ['a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a'],
         ['a','a',' ',' ',' ','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','a','a','a','a','a'],
         ['a','a',' ',' ','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','a','a','a','a'],
-        ['a','a',' ',' ','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b',' ',' ',' ',' ','a']];
+        ['a','a','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b',' ',' ',' ',' ','a']];
     
     const obstacleMap = {
         'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla cloiche' },
@@ -156,13 +156,12 @@ const Cave0 = () => {
 
            
     const interactiveMap = {
-        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
-        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
-        'i': { type: 'puddle', nameEng: 'Puddle', name: 'lochán' },
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'e': { type: 'noPic', nameEng: 'I listen sharply', name: 'éistím go géir' },
-        'f': { type: 'noPic', nameEng: 'The darkness seems alive to me, with rumors and tidings', name: 'do-chím dorchadas beo le tualas' },
-        'g': { type: 'noPic', nameEng: '', name: '' },
+        'e': { type: 'noPic', nameEng: 'I hear...', name: 'chloisim...' },
+        'f': { type: 'noPic', nameEng: 'the wind', name: 'an ghaoith' },
+        'g': { type: 'noPic', nameEng: 'distant water', name: 'Uisce i gcéin' },
+        'h': { type: 'noPic', nameEng: '', name: '' },
+        'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         ' ': { type: 'walkable', nameEng: '', name: '' }
     };
     this.obstacles = [];
@@ -210,10 +209,14 @@ const Cave0 = () => {
   
     this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.background.setOrigin(0, 0);
-  
-    // Center the player on the grid
-    const playerStartX = Math.floor(gridWidth / 2) * tileSize + tileSize / 2;
-    const playerStartY = Math.floor(gridHeight / 2) * tileSize + tileSize / 2;
+  // Specify starting column and row
+const startColumn = 10; // Horizontal position on the grid (1-25)
+const startRow = 2; // Vertical position on the grid (1-18)
+
+// Calculate the player's starting coordinates
+const playerStartX = startColumn * tileSize + tileSize / 2;
+const playerStartY = startRow * tileSize + tileSize / 2;
+
     this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.5).setScale(0.5);
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -243,7 +246,7 @@ const Cave0 = () => {
     this.sayGraphic.setDepth(8); // Ensure it is above other elements
       // Add the translucent background and English text
     
-    this.collisionTextEng = this.add.text(200, 210, '', {
+    this.collisionTextEng = this.add.text(200, 160, '', {
       fontSize: '16px',
       fill: '#ffffff',
       fontFamily: 'Anaphora-Light-trial',
@@ -318,7 +321,7 @@ const Cave0 = () => {
     this.buttonDown.on('pointerup', () => handleButtonInputRelease.call(this, 'down'));
   
      // Create the translucent background and English text
-    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg');
+    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
      
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
