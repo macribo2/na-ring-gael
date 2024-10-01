@@ -127,7 +127,6 @@ import {
 import pawn from '../../images/pawn.png'
 import { usePlayer } from '../player-context/playerContext';
 import coin0 from '../../audio/coin3.ogg'
-import deepBlue from '../../audio/Threerh.ogg'
 import westmeath from '../../images/gifs/stones-bg.gif'
 
 // const [playerDetails, setPlayerDetails] = useState({
@@ -143,12 +142,7 @@ import westmeath from '../../images/gifs/stones-bg.gif'
 	
 export function Rings4(props) {
 
-	const audioPlayer = document.getElementById('deepBlue');
-    // Check if the audio player exists
-    if (audioPlayer) {
-        // Play the audio
-        audioPlayer.play();
-    }
+	
 	// const { playerDetails, setPlayerDetails } = usePlayerContext();
 	const { updatePlayerDetails } = usePlayer();
 	const [champName, setChampName] = useState(''); // Assuming you initialize champname with an empty string initially
@@ -1367,7 +1361,6 @@ return (
                 </div>
             </button>
         </div>
-        <ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
 
 		<div className="button-container" onClick={handlePearl}>
 					<button id="pearl" className='bob'>

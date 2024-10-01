@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
+import geaga1 from '../../../../images/go-full-screen-bg.png'; // Assuming wordPairs.js is in the same directory
+import './dunaree.css'
 
 const Dunaree = () => {
 
@@ -88,6 +90,9 @@ const Dunaree = () => {
   function preload() {
 
     let champID = localStorage.getItem('champID');
+    this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
+    this.load.image('geaga1', '/phaser-resources/images/big-glass.png');
+
     this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
     this.load.image('greenRingLeft', '/phaser-resources/images/big-glass.png'); 
     this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
@@ -104,6 +109,7 @@ const Dunaree = () => {
     this.load.image('background', '/phaser-resources/images/background-elements/doonsheen.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
+    this.load.image('lakeMask', '/phaser-resources/images/background-elements/lakeMask.png'); // Load the tree image
     this.load.image('fern', '/phaser-resources/images/sprites/plantGreen_2.png'); // Load the tree image
     this.load.image('treeSlim', '/phaser-resources/images/sprites/tree23.png'); // Load the tree image
     this.load.image('treeRed', '/phaser-resources/images/sprites/tree35.png'); // Load the tree image
@@ -125,38 +131,37 @@ const Dunaree = () => {
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','j','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','f',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','f',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','g',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','g',' ',' ','b','b','b','b','b','b','b','b'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','d','d','d',' ',' ',' ','e','e','e',' ',' ',' ',' ',' '],
+        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a','a','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','a ','a','j','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','d','g',' ',' ','b','b','b','b','b','b','b','b'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','d',' ',' ',' ','e','e','e',' ',' ',' ',' ',' '],
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
     ];
     
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: 'Can\'t go that way.', name: 'Ní féidir dul \nan treo sin.' },
-        'b': { type: 'noPic', nameEng: 'A cliff in the darkness\nI don\'t see the bottom', name: 'Aill sa dorchadas\nní fheicim an bun' },
-        'c': { type: 'noPic', nameEng: 'I don\'t trust those boxes', name: 'Níl muinnín agam as\nnaboscaí sin' },
-        'd': { type: 'noPic', nameEng: '\ndark water', name: '\n\nuisce doracha' },
-        'j': { type: 'noPic', nameEng: '\nI Can\'t go up there.', name: '\nNí féidir liom dul \nsuas ansin.' },
+        'a': { type: 'noPic', nameEng: 'I Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
+        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
+        'c': { type: 'noPic', nameEng: 'I don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
+        'd': { type: 'noPic', nameEng: '\ndeep water', name: '\n\nuisce doimhean' },
+        'j': { type: 'noPic', nameEng: 'Flood mouth', name: '\nBéal Tuile' },
            };
 
            
     const interactiveMap = {
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'e': { type: 'noPic', nameEng: 'wooden bridge', name: 'droichead adhmaid' },
-        'f': { type: 'noPic', nameEng: 'a stream', name: 'sruthán' },
-        'g': { type: 'noPic', nameEng: 'You stepped in the water', name: 'Seas tú san uisce' },
+        'e': { type: 'noPic', nameEng: 'I stand upon a bridge', name: 'Seasaim ar droichead' },
+        'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasaim sa sruthán' },
+        'g': { type: 'rippleEffect', nameEng: '', name: '' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
-        ' ': { type: 'walkable', nameEng: '', name: '' }
     };
 
     
@@ -327,6 +332,16 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     this.isMiddleButtonCooldown = false;
   
   
+
+    const lakeMask = this.add.sprite(0, 250, 'lakeMask')
+    .setDepth(-9) // Set depth so it's on top
+    .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
+    .setScale(6); // Scale the sprite up if necessary
+
+  // Ensure the sprite covers the entire screen
+  lakeMask.displayWidth = this.cameras.main.width;
+  lakeMask.displayHeight = this.cameras.main.height;
+
   }
 
 
@@ -402,7 +417,25 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Declare a timer for collision message
+
+const [fullscreen, setFullscreen] = useState(false);
+
+
+const toggleFullscreen = () => {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        const elem = document.documentElement;
+        const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
+        fullscreenPromise.then(() => {
+            setFullscreen(true);
+        });
+    } else {
+        const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
+        exitPromise.then(() => {
+            setFullscreen(false);
+        });
+    }
+};
+
 
 // Modify the movePlayer function to handle collision and display the message
 async function movePlayer() {
@@ -438,8 +471,6 @@ async function movePlayer() {
     //deleting this if causes walk through first wall bug.
     if (obstacle) {
       // Show collision message
-      this.collisionText.setText('Obstacle ahead!');
-      this.collisionTextEng.setText('Obstacle ahead (Eng)!');
 
       // Set the timer for how long the message should stay
       this.collisionMessageTimer = this.time.now + 3000; // Show for 3 seconds
@@ -520,32 +551,74 @@ function update(time, delta) {
     } else if (this.cursors.down.isDown) {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
-
     function createRipple(x, y) {
-      const ripple = this.add.circle(x, y, 5, 0x0000ff, 0.5);  // Example ripple shape
+      const currentTime = this.time.now; // Get the current time in milliseconds
+      const rippleCooldown = 5000; // 5 seconds cooldown
+    
+      // Check if enough time has passed since the last ripple
+      if (this.lastRippleTime && currentTime - this.lastRippleTime < rippleCooldown) {
+        return; // Exit if still within cooldown period
+      }
+    
+ // Easing function (easeOutQuart)
+const easeOutQuart = (t, b, c, d) => {
+  t = t / d - 1;
+  return -c * (t * t * t * t - 1) + b;
+};
 
-      // Animate the ripple expanding and fading out
-      this.tweens.add({
-        targets: ripple,
-        radius: 50,
-        alpha: 0,
-        duration: 1000,
-        ease: 'Linear',
-        onComplete: () => {
-          ripple.destroy();  // Remove the ripple once the animation is complete
-        }
-      });
+// Function to create a 1-pixel thick ripple
+const createThinRipple = (color, delay, depth) => {
+  const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+  
+  let progress = 0;
+  const maxRadius = 400;
+  const duration = 26000; // Total duration of the effect
+
+  const expandRipple = () => {
+    ripple.clear();
+    ripple.lineStyle(1, color, 1);
+
+    // Use the easing function to calculate the radius at each frame
+    const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
+
+    ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
+
+    progress += 16;  // Increase time progress by the frame duration (16ms for ~60 FPS)
+
+    if (progress < duration) {
+      this.time.delayedCall(16, expandRipple);  // Call this function every 16ms (approx. 60 FPS)
+    } else {
+      ripple.destroy();  // Destroy the ripple once the animation is complete
     }
+  };
+
+  expandRipple();  // Start the ripple animation
+};
+    
+      // Create the first white ripple effect
+      createThinRipple(0xffffff, 0, -2);  // White ripple
+    
+      // Create the second black ripple after a delay
+      this.time.delayedCall(500, () => {
+        createThinRipple(0x211e27, 500, -1);  // Black ripple
+      });
+    
+      // Set the last ripple time to the current time
+      this.lastRippleTime = currentTime;
+    }
+    
+    // Initialize a flag in your class constructor or setup method
+this.isInWater = false;  // Flag to track if the player is in water
+
 
     // Check for collision
     const collision = checkCollision(nextMove, this.obstacles, tileSize);
     if (collision) {
       // Check if the player stepped in water (type 'g')
-      if (collision.type === 'noPic') {
+      if (collision.type === 'g') {
         collisionMessage = collision.name || 'Stepped into water';
         collisionMessageEng = collision.nameEng || 'You stepped into the water';
         createRipple.call(this, this.player.x, this.player.y);
-        alert('You stepped in water!');  // Example: replace this with desired functionality
       } else {
         // Handle regular collision
         if (collision.name && collision.nameEng) {
@@ -554,7 +627,7 @@ function update(time, delta) {
         }
 
         // Show the say graphic
-        this.sayGraphic.setPosition(this.player.x, this.player.y - 25);
+        this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
         this.sayGraphic.setAlpha(1);
 
         // Fade out the say graphic
@@ -604,19 +677,29 @@ function update(time, delta) {
       return; // Exit early if there's a collision
     }
 
-    // Check for non-blocking interactions
-    const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
-    if (interactiveObject) {
-      this.collisionText.setText(interactiveObject.name);
-      this.collisionTextEng.setText(interactiveObject.nameEng);
-      this.collisionMessageTimer = time + this.collisionMessageDuration;
-    }
 
-    // Move the player if there's no collision
-    this.player.nextMove = nextMove;
-    this.isMoving = true;
+// Check for non-blocking interactions
+const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
+if (interactiveObject) {
+  // Check if the interactive object is of type 'water' (or whatever your specific type is)
+  if (interactiveObject.type === 'rippleEffect') { // Assuming 'g' is the type for water
+    // Set the water messages
+    this.collisionText.setText(interactiveObject.name || '');
+    this.collisionTextEng.setText(interactiveObject.nameEng || '');
+    createRipple.call(this, this.player.x, this.player.y);
+  } else {
+    // Set messages for other interactive objects
+    this.collisionText.setText(interactiveObject.name);
+    this.collisionTextEng.setText(interactiveObject.nameEng);
+  }
+  
+  this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
 
+// Move the player if there's no collision
+this.player.nextMove = nextMove;
+this.isMoving = true; 
+}
 
 function updateButtonPositions(scene) {
   const padding = 20;
@@ -684,7 +767,24 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
   }
 
   return (
+    <>
     <div id="phaser-container" style={{ width: '800px', height: '480px' }}></div>
+   
+{!fullscreen && (
+<>
+                <img
+                    src={geaga1}
+                    alt="foggy fields"
+                    className="fullscreen-image"
+                    onClick={toggleFullscreen}
+                    />
+                    <div className='touch-prompt-container'>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div></div>
+                    </>
+            )}
+
+    </>
   );
 };
 
