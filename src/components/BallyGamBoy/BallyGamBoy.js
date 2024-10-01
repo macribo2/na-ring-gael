@@ -1,446 +1,829 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
-import molly from '../../images/draoi0.gif'
-import Easca from '../easca/easca2';
-import './bally.css';
-import { useHistory } from 'react-router-dom';
+import geaga1 from '../../images/go-full-screen-bg-0.png'; // Assuming wordPairs.js is in the same directory
+import './bally.css'
 
-// let glassTextA = [
-//     `Translations and comments go here. json soon. This is glassTextA[0]`,
-// ];
-const BallyGamboyGame = () => {
+const BallyGamBoy = () => {
+
+  const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
+
+  const gameRef = useRef(null); // Reference to hold the Phaser game instance
+  const phaserRef = useRef(null);
+  useEffect(() => {
+
+
+
+      // Define mapLayout, obstacleMap, and interactiveMap inside useEffect
+      const mapLayout = [
+     
+    ];
+
+    const obstacleMap = {
+        'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla na pluaise' },
+        'b': { type: 'noPic', nameEng: 'deep water', name: 'uisce domhain' },
+        'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
+    };
+//deleting this causes crash so ...
+    const interactiveMap = {
+      
+    };
+
+    const newObstacles = [];
+    const newInteractiveObjects = [];
+
+    // Configuration for Phaser game
+    const config = {
+      type: Phaser.AUTO,
+      width: '100%',  // Use percentage to adapt to screen width
+      height: '100%', // Use percentage to adapt to screen height
+      scale: {
+        mode: Phaser.Scale.ScaleModes.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update
+      }
+    };
     
-    let championName = localStorage.getItem('championName');
-    const gameRef = useRef(null);
-    const [showEasca, setShowEasca] = useState(false); // State to control visibility of Easca component
+    // Create the Phaser game instance
+    gameRef.current = new Phaser.Game(config);
+    mapLayout.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+          const obstacle = obstacleMap[cell];
+          const interactive = interactiveMap[cell];
+          
+          if (obstacle && obstacle.type !== 'walkable') {
+              newObstacles.push({
+                  type: obstacle.type,
+                  x: colIndex,
+                  y: rowIndex,
+                  nameEng: obstacle.nameEng,
+                  name: obstacle.name
+              });
+          }
+
+          if (interactive) {
+              newInteractiveObjects.push({
+                  type: interactive.type,
+                  x: colIndex,
+                  y: rowIndex,
+                  nameEng: interactive.nameEng,
+                  name: interactive.name
+              });
+          }
+      });
+  });
+
+
+
+    return () => {
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+        gameRef.current = null;
+      }
+    };
+  }, []);
+
+  // Phaser scene methods
+  function preload() {
+    this.load.image('creatureHead', 'path/to/creature-head.png');
+
+    let champID = localStorage.getItem('champID');
+    this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
+    this.load.image('geaga1', '/phaser-resources/images/big-glass.png');
+
+    this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
+    this.load.image('greenRingLeft', '/phaser-resources/images/big-glass.png'); 
+    this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
+    this.load.image('button-down', '/phaser-resources/images/ui/pad-d.png');
+    this.load.image('button-left', '/phaser-resources/images/ui/pad-l.png');
+    this.load.image('button-right', '/phaser-resources/images/ui/pad-r.png');
+    this.load.image('button-middle-lit', '/phaser-resources/images/ui/middle-a.png');
+    this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
+    this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
+    this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
+    this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
+    this.load.image('border', `/phaser-resources/images/spark_02.png`);
+    this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
+    this.load.image('background', '/phaser-resources/images/background-elements/doonsheen.png');
+    this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
+    this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
+    this.load.image('lakeMask', '/phaser-resources/images/background-elements/lakeMask.png'); // Load the tree image
+    this.load.image('fern', '/phaser-resources/images/sprites/plantGreen_2.png'); // Load the tree image
+    this.load.image('treeSlim', '/phaser-resources/images/sprites/tree23.png'); // Load the tree image
+    this.load.image('treeRed', '/phaser-resources/images/sprites/tree35.png'); // Load the tree image
+    this.load.image('treeHawthorn', '/phaser-resources/images/sprites/treeSmall_green3.png'); // Load the tree image
+    this.load.image('treeWillow', '/phaser-resources/images/sprites/willow.png'); // Load the tree image
+    this.load.image('stump', '/phaser-resources/images/sprites/empty.png'); // Load the tree image
+    this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
+    this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
+
+  
+
+  }
+
+  
+  function create() {
+
+    const mapLayout = [
+        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a','a','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','a ','a','j','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','d','g',' ',' ','b','b','b','b','b','b','b','b'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','d',' ',' ',' ',' ','k','e',' ',' ',' ',' ',' '],
+        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
-    useEffect(() => {
-        const initializeGame = () => {
-            const config = {
-                type: Phaser.AUTO,
-                width: window.innerWidth, // Set width to match the browser window width
-                height: window.innerHeight, // Set height to match the browser window height
-                scene: [GameScene],
-                parent: 'ballygamboy-game-container'
-            };
+    ];
+    
+    const obstacleMap = {
+        'a': { type: 'noPc', nameEng: '\nI Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
+        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
+        'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
+        'd': { type: 'noPic', nameEng: '\ndeep water', name: '\n\nuisce doimhean' },
+        'j': { type: 'noPic', nameEng: 'Flood mouth', name: '\nBéal Tuile' },
+           };
+
+           
+    const interactiveMap = {
+        'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
+        'e': { type: 'noPic', nameEng: 'I stand upon a bridge', name: 'Seasaim ar droichead' },
+        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhainn' },
+        'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasaim sa sruthán' },
+        'g': { type: 'rippleEffect', nameEng: '', name: '' },
+        'h': { type: 'noPic', nameEng: '', name: '' },
+        'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
+        'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} 
+    };
+
+    
+    this.obstacles = [];
+    this.interactiveObjects = []; // New array for interactive objects
+    
+    mapLayout.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            const obstacle = obstacleMap[cell];
+            const interactive = interactiveMap[cell];
             
-            gameRef.current = new Phaser.Game(config);
-        };
-        
-        initializeGame();
-        
-        return () => {
-            if (gameRef.current) {
-                gameRef.current.destroy(true);
+            if (obstacle) {
+                if (obstacle.type !== 'walkable') { // Only add non-walkable obstacles
+                    this.obstacles.push({
+                        type: obstacle.type,
+                        x: colIndex,
+                        y: rowIndex,
+                        nameEng: obstacle.nameEng,
+                        name: obstacle.name
+                    });
+                }
             }
-        };
-    }, []); 
+            
+            if (interactive) {
+                this.interactiveObjects.push({
+                    type: interactive.type,
+                    x: colIndex,
+                    y: rowIndex,
+                    nameEng: interactive.nameEng,
+                    name: interactive.name
+                });
+            }
+        });
+    });
+    
+      
+      
+    const tileSize = 32;
+    const gridWidth = 25; // Number of tiles in width
+    const gridHeight = 18; // Number of tiles in height
+    const bgWidth = tileSize * gridWidth;
+    const bgHeight = tileSize * gridHeight;
+    // Initialize borderGraphics
+    this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
+    this.borderGraphics.setDepth(99); // Optional: Set depth if needed
+  
+    this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
+    this.background.setOrigin(0, 0);
+  // Specify starting column and row
+const startColumn = 23; // Horizontal position on the grid (1-25)
+const startRow = 16; // Vertical position on the grid (1-18)
 
-    return (
-        <>
-            <div id="ballygamboy-game-container"></div>;
-            <div className="chess-like-frame-container">
-                <img src={molly} className="molly hidden" alt="black molly" />
-                {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
-            </div>
-            <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
+// Calculate the player's starting coordinates
+const playerStartX = startColumn * tileSize + tileSize / 2;
+const playerStartY = startRow * tileSize + tileSize / 2;
 
-            <div style={{fontFamily:"INFO56_0", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
-            {showEasca && <Easca />}
-        </>
-    );
+    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
+    this.player.setOrigin(0.5, 0.4)
+    this.cursors = this.input.keyboard.createCursorKeys();
+    // Ensure the player stays locked to the grid
+    this.player.nextMove = { x: this.player.x, y: this.player.y };
+    this.isMoving = false;
+    this.moveDelay = 100; // Add a delay for continuous movement (milliseconds)
+    this.lastMoveTime = 0; // Track the last time movement occurred
+  
+
+ 
+
+  
+    // Draw obstacles
+    this.obstacles.forEach(obstacle => {
+      const sprite = this.add.sprite(obstacle.x * tileSize + tileSize / 2, obstacle.y * tileSize + tileSize / 2, obstacle.type === 'noPic' ? 'noPic' : obstacle.type);
+      sprite.setName(obstacle.name);
+  
+      if (obstacle.type === 'noPic') {
+        sprite.setAlpha(0); // Make the sprite invisible
+      }
+    });
+  
+    // Create a say graphic
+    this.sayGraphic = this.add.sprite(0, 0, 'say');
+    this.sayGraphic.setAlpha(0); // Initially invisible
+    this.sayGraphic.setDepth(8); // Ensure it is above other elements
+      // Add the translucent background and English text
+    
+    this.collisionTextEng = this.add.text(200, 160, '', {
+      fontSize: '16px',
+      fill: '#ffffff',
+      fontFamily: 'Anaphora-Light-trial',
+      padding: { x: 10, y: 10 },
+      stroke: '#000000',
+      strokeThickness: 3
+    }).setScrollFactor(0).setVisible(false).setDepth(19);
+
+    
+
+    
+    this.collisionText = this.add.text(200, 80, '', {
+      fontSize: '26px',
+      fill: '#ffffff',
+      fontFamily: 'urchlo',
+      padding: { x: 10, y: 10 },
+      stroke: '#000000',
+      strokeThickness: 3
+    }).setScrollFactor(0).setDepth(20);
+  
+    this.textForFade = this.add.text(200, 80, '', {
+      fontSize: '26px',
+      fill: '#ffffff',
+      fontFamily: 'urchlo',
+      padding: { x: 10, y: 10 },
+      stroke: '#000000',
+      strokeThickness: 3
+    }).setScrollFactor(0).setDepth(20);
+  
+
+       
+    this.collisionMessageTimer = 0;
+    this.collisionMessageDuration = 2000; // Duration in milliseconds
+  
+    drawGrid(this, tileSize, gridWidth, gridHeight);
+  // Add this check before using `this.borderGraphics.clear()`
+
+
+    // Add and po/sition buttons
+    this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+    this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
+
+    this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonRight = this.add.sprite(0, 0, 'button-right').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(22).setScrollFactor(0);
+  
+    // Set up the camera
+    this.cameras.main.setZoom(2); // Zoom in 2x
+    this.cameras.main.startFollow(this.player, true); // Follow the player
+  
+    // Set camera bounds to the size of the map
+    this.cameras.main.setBounds(0, 0, bgWidth, bgHeight);
+  
+    // Update button positions initially
+    updateButtonPositions(this);
+  
+    // Listen for resize events
+    this.scale.on('resize', (gameSize, baseSize, displaySize, resolution) => {
+      updateButtonPositions(this);
+    });
+  
+    // Bind button interactions
+    this.buttonLeft.on('pointerdown', () => handleButtonInput.call(this, 'left'));
+    this.buttonRight.on('pointerdown', () => handleButtonInput.call(this, 'right'));
+    this.buttonUp.on('pointerdown', () => handleButtonInput.call(this, 'up'));
+    this.buttonDown.on('pointerdown', () => handleButtonInput.call(this, 'down'));
+  
+    this.buttonLeft.on('pointerup', () => handleButtonInputRelease.call(this, 'left'));
+    this.buttonRight.on('pointerup', () => handleButtonInputRelease.call(this, 'right'));
+    this.buttonUp.on('pointerup', () => handleButtonInputRelease.call(this, 'up'));
+    this.buttonDown.on('pointerup', () => handleButtonInputRelease.call(this, 'down'));
+  
+     // Create the translucent background and English text
+    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
+     
+    //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
+     this.translucentBg.setVisible(false); // Initially hidden
+    this.translucentBg.setDepth(9).setAlpha(0.4);
+    
+    // Timeout flag
+    this.isMiddleButtonCooldown = false;
+  
+  
+
+    const lakeMask = this.add.sprite(0, 250, 'lakeMask')
+    .setDepth(-9) // Set depth so it's on top
+    .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
+    .setScale(6); // Scale the sprite up if necessary
+
+  // Ensure the sprite covers the entire screen
+  lakeMask.displayWidth = this.cameras.main.width;
+  lakeMask.displayHeight = this.cameras.main.height;
+
+  }
+
+
+
+    function handleMiddleButtonClick(scene) {
+      if (scene.isMiddleButtonCooldown) return;
+      toggleVisibility(scene);
+  
+      scene.isMiddleButtonCooldown = true;
+      setTimeout(() => {
+        scene.isMiddleButtonCooldown = false;
+      }, 500); // Adjust the delay as needed (500ms in this case)
+    }
+    function toggleVisibility(scene) {
+      // Toggle visibility of elements
+      scene.translucentBg.setVisible(!scene.translucentBg.visible);
+      scene.collisionTextEng.setVisible(!scene.collisionTextEng.visible);
+    }  
+  
+  
+  
+    function handleButtonInput(direction) {
+      if (direction === 'left') {
+        this.cursors.left.isDown = true;
+      } else if (direction === 'right') {
+        this.cursors.right.isDown = true;
+      } else if (direction === 'up') {
+        this.cursors.up.isDown = true;
+      } else if (direction === 'down') {
+        this.cursors.down.isDown = true;
+      }
+      movePlayer.call(this, direction); // Pass direction to movePlayer
+    }
+    
+    function handleButtonInputRelease(direction) {
+      if (direction === 'left') {
+        this.cursors.left.isDown = false;
+      } else if (direction === 'right') {
+        this.cursors.right.isDown = false;
+      } else if (direction === 'up') {
+        this.cursors.up.isDown = false;
+      } else if (direction === 'down') {
+        this.cursors.down.isDown = false;
+      }
+    }
+    
+ 
+let buttonPressed = false;
+
+// Track the state of the mouse click
+let mousePressed = false;
+
+function setupMouseEvents() {
+  this.input.on('pointerdown', (pointer) => {
+    mousePressed = true;
+    // Optionally, handle visual feedback for mouse click start
+  });
+
+  this.input.on('pointerup', (pointer) => {
+    if (mousePressed) {
+      mousePressed = false;
+  
+    }
+  });
+}
+  
+let isMoving = false; // Track if movement is ongoing
+
+
+  
+// Helper function to create a delay
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+const [fullscreen, setFullscreen] = useState(false);
+
+
+const toggleFullscreen = () => {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        const elem = document.documentElement;
+        const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
+        fullscreenPromise.then(() => {
+            setFullscreen(true);
+        });
+    } else {
+        const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
+        exitPromise.then(() => {
+            setFullscreen(false);
+        });
+    }
 };
 
-class GameScene extends Phaser.Scene {
-    
-    constructor() {
-    
-        super({ key: 'GameScene' });
-        this.bally0map = null;
-        this.playerMapLocationTracker = 0; // Start at location 1
-        this.mapLocations = {
-            0: { y: 0.6, x: 0.7 },
-            1: { y: 0.6, x: 1.8 },
-            2: { y: 0.6, x:0.7 },
-            3: { y: 0.8, x: 1.8},
-            4: { y: 0.6, x: 0.7},
-            5: { y: 0.6, x: 0.7},
-        };
-        this.textGa = null; // Initialize textGa and textEn as class properties
-        this.textEn = null;
-        this.dialogues = [];
-    
-    }
 
-
-  // Function to disable movement controls
- disableMovementControls() {
-    this.movementControlsEnabled = false;
-}
-
-// Function to enable movement controls
- enableMovementControls() {
-    this.movementControlsEnabled = true;
-}
-
- 
-    preload() {
-
-        // Load assets
-        // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
-        let champID = localStorage.getItem('champID');
-        
-        this.load.json('dialogues', './phaser-resources/text/dialogues.json');
-        this.load.audio('mecha', './phaser-resources/audio/mecha.wav');
-        this.load.image('sparks', `./phaser-resources/images/spark_02.png`);
-        this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
-        this.load.image('background', './phaser-resources/images/ghostTown2.png');
-        this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
-        this.load.image('greenRingLeft', './phaser-resources/images/ciorcal-glass8.png');
-        this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
-        this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
-        this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
-        this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
-        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
-        this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
-        this.load.image('pad-g', './phaser-resources/images/ui/pad-g.png');
-        this.load.image('bally0map', './phaser-resources/images/hill-1.png');
-        this.load.image('overlay', './phaser-resources/images/overlay.png'); // Load overlay image
-     
-    }
-
-   
-    updateText(playerMapLocationTracker) {
-        // Retrieve the current dialogue based on the playerMapLocationTracker
-        const dialogues = this.cache.json.get('dialogues');
-        const currentDialogue = this.dialogues[playerMapLocationTracker];
-        
-        // Check if the currentDialogue is defined
-        if (dialogues) {
-        // alert(dialogues[0].text.ga)            // Get the text for the current dialogue
-            
-            // Update the textGa and textEn with the new dialogue text
-            this.textGa.setText(dialogues[this.playerMapLocationTracker].text.ga);
-            this.textEn.setText(dialogues[this.playerMapLocationTracker].text.en);
-        } else {
-        }
-    }
-    
-    introduceNewElements() {
-        const mollyElement = document.querySelector('.molly');
-        if (mollyElement) {
-            mollyElement.classList.add('wait-and-fade');
-        } else {
-        }
-        
-        
-        
-    }
-    
-    
-    create() {
-    
-     
-    
-        
-    // Define a boolean flag to track whether movement controls are enabled
- this.movementControlsEnabled = true;
-
-
-        let  firstGaText;
-        let  firstEnText;        
-        // Get the dialogues data from the cache
-        const dialogues = this.cache.json.get('dialogues');
-        let textGa, textEn;
-   if (dialogues) {
-       
-       // Check if dialogues data is available
-       firstGaText = dialogues[this.playerMapLocationTracker].text.ga;
-       firstEnText = dialogues[this.playerMapLocationTracker].text.en;
-       this.textGa = this.add.text(320, 50, firstGaText, { fill: '#ffffff',fontFamily: 'INFO56_0' });
-
-       this.textEn = this.add.text(330, 278, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
-
-       // Adjust text properties as needed
-       this.textGa.setFontSize(45);
-       this.textGa.setOrigin(0.5);
-       this.textGa.setDepth(19);
-       this.textGa.setFontFamily('INFO56_0');
-
-
-       this.textEn.setFontSize(24);
-       this.textEn.setOrigin(0.5);
-       this.textEn.setDepth(19);
-       // Access and use the dialogues data here
-   } else {
-   }
-      const music = this.sound.add('mecha',{ loop: true });
-   
-      music.play();
-
-    // Add background sprite
-    const background = this.add.sprite(0, 0, 'background').setOrigin(0);
-    const glassbg = this.add.sprite(0, 0, 'glassbg0').setOrigin(0);
-    glassbg.setAlpha(0.7);
-
-    // Calculate scale to contain the background within the game dimensions
-    const scaleX = this.sys.game.config.width / background.width;
-    const scaleY = this.sys.game.config.height / background.height;
-    const scale = Math.max(scaleX, scaleY);
-
-    // Set the scale of the background
-    background.setScale(scale).setScrollFactor(0);
-
-    // Create the bally0map element
-    this.bally0map = this.add.sprite(0, 0, 'bally0map').setOrigin(0);
-
-    const bally0mapScale = Math.max(this.sys.game.config.width, this.sys.game.config.height) / Math.max(this.bally0map.width, this.bally0map.height) * 2;
-    this.bally0map.setScale(bally0mapScale);
-    this.bally0map.x = (this.sys.game.config.width - this.bally0map.displayWidth) / 2;
-    this.bally0map.y = (this.sys.game.config.height - this.bally0map.displayHeight) / 2;
-
-// Ensure the bgOverlay moves with the background
-this.bally0map.on('changedata-x', () => {
-});
-this.bally0map.on('changedata-y', () => {
-});
-
-
-this.bally0map.on('changedata-x', () => {
-});
-    this.bally0map.on('changedata-y', () => {
-    });
-    
-
-     // Add green frame image
-// Add green frame image
-// Add green frame image
-const greenFrame = this.add.image(0, 0, 'greenRingLeft').setOrigin(0).setDepth(2).setAlpha(0);
-// Calculate scale to cover the entire screen without distortion
-const scaleXGreen = this.sys.game.config.width / greenFrame.width;
-const scaleYGreen = this.sys.game.config.height / greenFrame.height;
-const scaleGreen = Math.max(scaleXGreen, scaleYGreen);
-
-// Set the scale of the green frame image to cover the entire screen
-greenFrame.setScale(scaleGreen).setScrollFactor(0);
-
-// Calculate position to center the image on the screen
-// const posX = (this.sys.game.config.width - greenFrame.displayWidth) / 2;
-const posY = (this.sys.game.config.height - greenFrame.displayHeight) / 2;
-
-// Set the position of the green frame image, ensuring it doesn't overflow the edges
-greenFrame.setPosition(posX, posY);
-// Calculate position to align the left side of the image with the left side of the screen
-const posX = 0;
-
-// Calculate vertical position to center the image on the screen
-
-// Set the position of the green frame image
-greenFrame.setPosition(posX, posY);
-
-    const playerX = this.sys.game.config.width / 2;
-    const playerY = this.sys.game.config.height -100;
-    this.player = this.add.sprite(playerX, playerY, 'player');
-    this.player.setScale(3);
-    this.player.setDepth(3);
-
-    // // Create a duplicate of the original player sprite
-    // this.tintedPlayer = this.add.sprite(this.player.x, this.player.y, 'player');
-    // // Apply the tint to the duplicate sprite
-    // this.tintedPlay//////?///er.setTintFill(0x3d535f, 0x91afc0, 0x9793c1, 0x3d535f); // Use/ the hexadecimal color codes here
-    // this.tintedPlayer.setDepth(4);
-    // this.tintedPlayer.alpha = 0.65;
-    // this.tintedPlayer.setScale(1.5);
-
-    // Create the overlay container
-    // Add a transparent background to cover the entire screen
-    glassbg.displayWidth = this.sys.game.config.width;
-    glassbg.displayHeight = this.sys.game.config.height;
-
-    // Add translations and text to the overlay
-    // const text = this.add.text(100, 100, , { color: '#ffffff' });
-    this.overlay = this.add.container(0, 0).setDepth(17);
-    this.overlay.setVisible(false); // Initially hide the overlay
-
-    glassbg.displayWidth = this.sys.game.config.width;
-    glassbg.displayHeight = this.sys.game.config.height;
-    this.overlay.add([glassbg, this.textEn]);
-    // Define the position of the directional pad buttons
-    const buttonX = this.sys.game.config.width - 150; // Right side of the screen
-    const buttonY = this.sys.game.config.height / 2 + 50;
-
-    // Add directional pad buttons with fixed positions
-    this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(19);
-    this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(19);
-    this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(19);
-    this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(19);
-    // Add the button to the overlay and hide it initially
-    // const buttonG = this.add.sprite(buttonX - 50, buttonY, 'pad-g').setInteractive().setVisible(false).setDepth(5);
-    // this.buttonG = buttonG; // Store the button as a class member
-// Define a flag to track whether the button is processing a touch event
-let isMiddleButtonProcessing = false;
-
-    // Add middle button
-    this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(103);
-
-
-    this.buttonMiddle.on('pointerdown', () => {
-        // Toggle the visibility of the overlay and its elements
-        this.overlay.setVisible(!this.overlay.visible);
-    });
-
-
-    // Define behavior for pointer events (e.g., hover, click)
- 
-    this.buttonMiddle.on('pointerover', () => {
-        // Change the button texture to the lit state image when hovered
-        this.buttonMiddle.setTexture('button-middle-lit');
-        setTimeout(() => {
-            this.buttonMiddle.setTexture('button-middle');
-        },500);});
-
-
-
-    this.buttonMiddle.on('pointerout', () => {
-        // Change the button texture back to the normal state image when not hovered
-        setTimeout(() => {
-            this.buttonMiddle.setTexture('button-middle');
-    },500);});
-
- 
-    
-
-
-
-
-
-    this.buttonUp.on('pointerdown', () => this.moveElement('up'));
-    this.buttonDown.on('pointerdown', () => this.moveElement('down'));
-    this.buttonLeft.on('pointerdown', () => this.moveElement('left'));
-    this.buttonRight.on('pointerdown', () => this.moveElement('right'));
-
-    // this.tintedPlayer.setOrigin(0.5, 0.5);
-    this.player.setOrigin(0.5, 0.5);
-// Define a function to update the text based on the player map location tracker value
-
-
-// Call the updateText function with the initial player map location tracker value
-this.updateText(this.playerMapLocationTracker);
+// Modify the movePlayer function to handle collision and display the message
+async function movePlayer() {
+  // collisionMessageTimer.current = 100; // Update ref value without triggering a re-render
   
-   
-}
-update() {
-    // Continuously update the position of bgOverlay to match bally0map
-    // if (this.bgOverlay && this.bally0map) {
-        // this.bgOverlay.x = this.bally0map.x;
-        // this.bgOverlay.y = this.bally0map.y;
-    // }
-}
 
+  const tileSize = 32;
+  const gridWidth = 25;
+  const gridHeight = 18;
 
-moveElement(direction) {
- 
-    // Check if movement controls are enabled
-    if (!this.movementControlsEnabled) {
-        return; // Exit the function if controls are disabled
+  if (!this.isMoving && this.time.now - this.lastMoveTime > this.moveDelay) {
+    this.isMoving = true;
+    this.lastMoveTime = this.time.now;
+
+    let nextMove = { x: this.player.x, y: this.player.y };
+
+    if (this.cursors.left.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.right.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.up.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    } else if (this.cursors.down.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
 
-    if (this.playerMapLocationTracker === 4){
-        const sparks = this.add.sprite(250, 150, 'sparks'); // Replace x and y with the desired coordinates
-          // Add a tween to fade out the sparks sprite
-    this.tweens.add({
-        targets: sparks,
-        alpha: 0, // Set alpha to 0 for complete transparency
-        duration: 1000, // Adjust the duration of the fade out effect (in milliseconds)
-        onComplete: () => {
-            // This function will be called when the tween completes
-            sparks.destroy(); // Remove the sparks sprite from the scene
+    // Check for obstacles here before applying the delay
+    const nextTileX = Math.floor(nextMove.x / tileSize);
+    const nextTileY = Math.floor(nextMove.y / tileSize);
+
+    const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
+
+    //deleting this if causes walk through first wall bug.
+    if (obstacle) {
+      // Show collision message
+
+      // Set the timer for how long the message should stay
+      this.collisionMessageTimer = this.time.now + 3000; // Show for 3 seconds
+
+      this.isMoving = false;
+
+      return; // Block movement and stop further execution
+    }
+
+    // Add delay before setting the new position
+    await delay(500);
+
+    this.player.setPosition(nextMove.x, nextMove.y);
+    this.isMoving = false;
+  }
+}
+let rippleCount = 0; // Step 1: Initialize the counter
+
+function playerStepsInWater(nextMove, interactiveMap) {
+    if (!nextMove || !interactiveMap) return false;  // Safeguard check
+
+    const tileX = Math.floor(nextMove.x / 32);  // Convert pixel position to grid position (assuming 32px per tile)
+    const tileY = Math.floor(nextMove.y / 32);
+
+    // Check if tileX and tileY are within the bounds of interactiveMap
+    if (tileY < 0 || tileY >= interactiveMap.length || tileX < 0 || tileX >= interactiveMap[0].length) {
+        return false;  // Out of bounds, so no water here
+    }
+
+    const tile = interactiveMap[tileY][tileX];  // Safely access the tile
+
+    return tile && tile.type === 'g';  // Return true if the tile type is 'g' (water)
+}
+
+function update(time, delta) {
+    const moveInterval = 50;
+
+    // Clear the collision message after the duration
+    if (time > this.collisionMessageTimer) {
+      this.collisionText.setText('');
+      this.collisionTextEng.setText('');
+    }
+
+    // Handle player movement
+    if (this.isMoving) {
+      this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
+      this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
+
+      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
+        this.player.x = this.player.nextMove.x;
+        this.player.y = this.player.nextMove.y;
+        this.isMoving = false;
+        this.moveDelay = time + moveInterval;
+        if (this.borderGraphics) {
+          this.borderGraphics.setVisible(false);
         }
-    });
- 
-        const mollyElement = document.querySelector('.molly');
-    if (mollyElement) {
-        mollyElement.classList.add('hidden');
+      }
+      return; // Exit early if still moving
+    }
+
+    if (time < this.moveDelay) {
+      return; // Wait until move delay is over
+    }
+
+    const tileSize = 32;
+    const gridWidth = 25;
+    const gridHeight = 18;
+    let nextMove = { x: this.player.x, y: this.player.y };
+    let collisionMessage = '';
+    let collisionMessageEng = '';
+
+    // Determine the next move based on user input
+    if (this.cursors.left.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.right.isDown) {
+      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+    } else if (this.cursors.up.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    } else if (this.cursors.down.isDown) {
+      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+    }
+
+    if (playerStepsInWater()) {
+        createRipple(this.player.x, this.player.y);
+    }
+    
+    function createRipple(x, y) {
+      const currentTime = this.time.now; // Get the current time in milliseconds
+      const rippleCooldown = 5000; // 5 seconds cooldown
+     rippleCount++; // Step 2: Increment the counter
+
+    // Your existing ripple creation code goes here
+    console.log('Ripple created! Count:', rippleCount);
+
+    // Step 3: Check if it's the 3rd ripple
+    if (rippleCount === 3) {
+        // rippleCount = 0; // Reset the counter if needed
+
+    }
+
+      // Check if enough time has passed since the last ripple
+      if (this.lastRippleTime && currentTime - this.lastRippleTime < rippleCooldown) {
+        return; // Exit if still within cooldown period
+      }
+    
+ // Easing function (easeOutQuart)
+const easeOutQuart = (t, b, c, d) => {
+  t = t / d - 1;
+  return -c * (t * t * t * t - 1) + b;
+};
+
+// Function to create a 1-pixel thick ripple
+const createThinRipple = (color, delay, depth) => {
+  const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+  
+  let progress = 0;
+  const maxRadius = 400;
+  const duration = 22000; // Total duration of the effect
+
+  const expandRipple = () => {
+    ripple.clear();
+    ripple.lineStyle(1, color, 1);
+
+    // Use the easing function to calculate the radius at each frame
+    const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
+
+    ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
+
+    progress += 16;  // Increase time progress by the frame duration (16ms for ~60 FPS)
+
+    if (progress < duration) {
+      this.time.delayedCall(16, expandRipple);  // Call this function every 16ms (approx. 60 FPS)
     } else {
+      ripple.destroy();  // Destroy the ripple once the animation is complete
     }
+  };
+
+  expandRipple();  // Start the ripple animation
+};
+    
+      // Create the first white ripple effect
+      createThinRipple(0xffffff, 0, -2);  // White ripple
+    
+      // Create the second black ripple after a delay
+      this.time.delayedCall(500, () => {
+        createThinRipple(0xffffff, 500, -1);  // Black ripple
+      });
+    
+      // Set the last ripple time to the current time
+      this.lastRippleTime = currentTime;
+    }
+    
+    // Initialize a flag in your class constructor or setup method
+this.isInWater = false;  // Flag to track if the player is in water
+
+
+    // Check for collision
+    const collision = checkCollision(nextMove, this.obstacles, tileSize);
+    if (collision) {
+      // Check if the player stepped in water (type 'g')
+      if (collision.type === 'g') {
+        collisionMessage = collision.name || 'Stepped into water';
+        collisionMessageEng = collision.nameEng || 'You stepped into the water';
+        createRipple.call(this, this.player.x, this.player.y);
+      } else {
+        // Handle regular collision
+        if (collision.name && collision.nameEng) {
+          collisionMessage = collision.name;
+          collisionMessageEng = collision.nameEng;
+        }
+
+        // Show the say graphic
+        this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
+        this.sayGraphic.setAlpha(1);
+
+        // Fade out the say graphic
+        this.tweens.add({
+          targets: this.sayGraphic,
+          alpha: 0,
+          duration: 200,
+          ease: 'Linear'
+        });
+
+        // Show border around the collision square
+        const borderX = collision.x * tileSize;
+        const borderY = collision.y * tileSize;
+        this.borderGraphics.clear();
+        this.borderGraphics.setVisible(true);
+        this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+
+        // Hide the border after a brief delay
+        this.time.delayedCall(200, () => {
+          this.borderGraphics.setVisible(false);
+        });
+
+        // Update textForFade only if it's not already fading
+        if (!this.isFading) {
+          this.textForFade.setText(collisionMessage);  // Set the text
+          this.textForFade.setAlpha(1);                // Make it fully visible
+          this.isFading = true;  // Lock the fading process to prevent updates
+
+          // Fade out the textForFade over 3 seconds
+          this.tweens.add({
+            targets: this.textForFade,
+            alpha: 0,
+            duration: 3000,  // 3 seconds fade
+            ease: 'Linear',
+            onComplete: () => {
+              this.isFading = false;  // Allow new collisions after fade-out
+            }
+          });
+        }
+      }
+
+      // Set the collision messages
+      this.collisionText.setText(collisionMessage);
+      this.collisionTextEng.setText(collisionMessageEng);
+      this.collisionMessageTimer = time + this.collisionMessageDuration;
+
+      return; // Exit early if there's a collision
+    }
+
+
+// Check for non-blocking interactions
+const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
+if (interactiveObject) {
+
+    //exit area
+
+    if(interactiveObject.type==="exit"){
+        window.location.href = 'https://www.na-ring-gael.com/pucaloic';
+    }
+  // Check if the interactive object is of type 'water' (or whatever your specific type is)
+  let rippleCooldown = 5000; // 5 seconds cooldown
+  this.lastRippleTime = this.lastRippleTime || 0; // Ensure lastRippleTime is initialized
+  
+  if (interactiveObject.type === 'rippleEffect') { // Assuming 'g' is the type for water
+      // Set the water messages
+      this.collisionText.setText(interactiveObject.name || '');
+      this.collisionTextEng.setText(interactiveObject.nameEng || '');
+      
+      const currentTime = this.time.now; // Get the current time in milliseconds
+  
+      // Check if enough time has passed since the last ripple
+      if (currentTime - this.lastRippleTime >= rippleCooldown) {
+          createRipple.call(this, this.player.x, this.player.y); // Call ripple creation function
+          this.lastRippleTime = currentTime; // Update last ripple time
+      }
+  }
+  else {
+    // Set messages for other interactive objects
+    this.collisionText.setText(interactiveObject.name);
+    this.collisionTextEng.setText(interactiveObject.nameEng);
+  }
+  
+  this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
 
-    if (this.playerMapLocationTracker === 4){
-        this.introduceNewElements();
-            const mollyElement = document.querySelector('.molly');
-        if (mollyElement) {
-            mollyElement.classList.add('wait-and-fade');
-            mollyElement.classList.remove('hidden');
-        } else {
-        }
+// Move the player if there's no collision
+this.player.nextMove = nextMove;
+this.isMoving = true; 
+}
 
-        // this.   disableMovementControls();
-    }
+function updateButtonPositions(scene) {
+  const padding = 20;
+  const buttonSize = 50;
+  const screenWidth = scene.scale.width;
+  const screenHeight = scene.scale.height;
 
-    const speed = 500; // Adjust the speed as needed
+  const buttonX = screenWidth - padding - buttonSize-200;
+  const buttonY = screenHeight - padding - buttonSize-100;
 
-    switch (direction) {
-        case 'up':
-            this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
-            }
-            this.updateText(this.playerMapLocationTracker);
-       
-            break;
-        case 'down':
-            this.playerMapLocationTracker--; // Decrement tracker
-            if (this.playerMapLocationTracker < 0) {
-            this.playerMapLocationTracker=0; // Increment tracker
-                
-            }
-            this.updateText(this.playerMapLocationTracker);
-       
-            break;
-        case 'left':
-            this.playerMapLocationTracker--; // Decrement tracker
 
-            if (this.playerMapLocationTracker < 0) {
-                this.playerMapLocationTracker=0; // Increment tracker
-                    
-                }
-            this.updateText(this.playerMapLocationTracker);
-       
-            break;
-        case 'right':
-            this.playerMapLocationTracker++; // Increment tracker
-            if (this.playerMapLocationTracker >5) {
-                setTimeout(() => {  window.location.href = 'https://www.na-ring-gael.com/pucaloic'; }, 2000);
-            }
-            this.updateText(this.playerMapLocationTracker);
-       
-            break;
-    }
+  // Update positions
+  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
+  scene.buttonLeft.setPosition(buttonX - buttonSize / 2, buttonY).setScale(0.5);
+  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize / 2).setScale(0.5);
+  scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
+  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 
-   // Get the new map location coordinates as percentages
-   const { x, y } = this.mapLocations[this.playerMapLocationTracker];
-   const mapWidth = this.bally0map.width;
-   const mapHeight = this.bally0map.height;
-   
-   // Calculate the actual pixel coordinates based on percentages
-   const targetX = -x * mapWidth + this.sys.game.config.width / 2;
-   const targetY = -y * mapHeight + this.sys.game.config.height / 2;
+}
 
-   // Tween the map to the new position
-   this.tweens.add({
-       targets: this.bally0map,
-       x: targetX,
-        y: targetY, // Negative y to move the map in the opposite direction
-        duration: speed,
-        ease: 'Linear',
-        onComplete: () => {
-        }
+
+// Helper function to check collision
+function checkCollision(nextMove, obstacles, tileSize) {
+    return obstacles.find(obstacle => {
+        const obstacleX = obstacle.x * tileSize + tileSize / 2;
+        const obstacleY = obstacle.y * tileSize + tileSize / 2;
+        return nextMove.x === obstacleX && nextMove.y === obstacleY;
     });
 }
 
 
+// Helper function to check interaction
+function checkInteraction(nextMove, interactiveObjects, tileSize) {
+    if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
+        // console.error('Interactive objects are not defined or not an array:', interactiveObjects); // Debugging statement
+        return null;
+    }
 
-
+    return interactiveObjects.find(object => {
+        if (!object || typeof object.x === 'undefined' || typeof object.y === 'undefined') {
+            // console.error('Invalid object in interactiveObjects:', object); // Debugging statement
+            return false;
+        }
+        const objectX = object.x * tileSize + tileSize / 2;
+        const objectY = object.y * tileSize + tileSize / 2;
+        return nextMove.x === objectX && nextMove.y === objectY;
+    });
 }
 
-export default BallyGamboyGame;
+
+ 
+
+  function drawGrid(scene, tileSize, gridWidth, gridHeight) {
+    const darkGreenTranslucent = 0x00000000; // Translucent dark green color
+  
+    // Draw horizontal lines
+    for (let x = 0; x <= gridWidth * tileSize; x += tileSize) {
+      // scene.add.line(0, 0, x, 0, x, gridHeight * tileSize, darkGreenTranslucent).setOrigin(0, 0);
+    }
+  
+    // Draw vertical lines
+    for (let y = 0; y <= gridHeight * tileSize; y += tileSize) {
+      // scene.add.line(0, 0, 0, y, gridWidth * tileSize, y, darkGreenTranslucent).setOrigin(0, 0);
+    }
+  }
+
+  return (
+    <>
+    <div id="phaser-container" style={{ width: '800px', height: '480px' }}></div>
+   
+{!fullscreen && (
+<>
+                <img
+                    src={geaga1}
+                    alt="foggy fields"
+                    className="fullscreen-image"
+                    onClick={toggleFullscreen}
+                    />
+                    <div className='touch-prompt-container bally-rings'>
+<div className='touch-prompt '></div>
+<div className='touch-prompt '></div></div>
+                    </>
+            )}
+
+    </>
+  );
+};
+
+export default BallyGamBoy;

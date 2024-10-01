@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import './chess-like.css';
 import wordPairs from './wordpairs'; // Assuming wordPairs.js is in the same directory
-import geaga1 from '../../images/geaga-1.png'; // Assuming wordPairs.js is in the same directory
+import geaga1 from '../../images/go-full-screen-bg-0.png'; // Assuming wordPairs.js is in the same directory
 import portrait from '../../images/vert-bg2.png'
 import NavCD from '../navCD/navCD';
 
@@ -612,7 +612,7 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 
-let latestTarget = 12;
+let latestTarget = 6;
 function update(scene) {
 
 //try 25
