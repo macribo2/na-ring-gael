@@ -667,7 +667,7 @@ const [rng, setRng] = useState(Math.floor(Math.random()*3))
 		'Onchú',
 		'Sláine',
 		'Saorla',
-		'Deasmumhnaċ',
+		'Deasmumhnach',
 		'Tighearnán',
 		'Bearach',
 		'Lochlann',

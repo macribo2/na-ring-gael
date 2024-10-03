@@ -88,8 +88,8 @@ const BallyGamBoy = () => {
 
   // Phaser scene methods
   function preload() {
-    this.load.image('creatureHead', 'path/to/creature-head.png');
-
+    this.load.image('creatureHead', 'phaser-resources/images/npcs/frog.png');
+    this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
     this.load.image('geaga1', '/phaser-resources/images/big-glass.png');
@@ -131,29 +131,29 @@ const BallyGamBoy = () => {
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ','a',' ','a','a','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','a ','a','j','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','b',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','d','g',' ',' ','b','b','b','b','b','b','b','b'],
+        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+        ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
+        ['a','a','a','a',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
+        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
+        ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
+        ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a','a','a',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ','a',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','d','g',' ',' ','a','a','a','a','a','a','a','a'],
         ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','d',' ',' ',' ',' ','k','e',' ',' ',' ',' ',' '],
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
     ];
     
     const obstacleMap = {
-        'a': { type: 'noPc', nameEng: '\nI Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
+        'a': { type: 'noPic', nameEng: '\nI Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
         'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
         'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
-        'd': { type: 'noPic', nameEng: '\ndeep water', name: '\n\nuisce doimhean' },
+        'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
         'j': { type: 'noPic', nameEng: 'Flood mouth', name: '\nBéal Tuile' },
            };
 
@@ -254,8 +254,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     
     this.collisionTextEng = this.add.text(200, 160, '', {
       fontSize: '16px',
-      fill: '#ffffff',
-      fontFamily: 'Anaphora-Light-trial',
+      fill: 'lime',
+      fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
       stroke: '#000000',
       strokeThickness: 3
@@ -264,17 +264,17 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     
 
     
-    this.collisionText = this.add.text(200, 80, '', {
-      fontSize: '26px',
-      fill: '#ffffff',
+    this.collisionText = this.add.text(200, 90, '', {
+      fontSize: '24px',
+      fill: 'grey',
       fontFamily: 'urchlo',
       padding: { x: 10, y: 10 },
       stroke: '#000000',
       strokeThickness: 3
     }).setScrollFactor(0).setDepth(20);
   
-    this.textForFade = this.add.text(200, 80, '', {
-      fontSize: '26px',
+    this.textForFade = this.add.text(200, 90, '', {
+      fontSize: '24px',
       fill: '#ffffff',
       fontFamily: 'urchlo',
       padding: { x: 10, y: 10 },
@@ -557,77 +557,102 @@ function update(time, delta) {
     } else if (this.cursors.down.isDown) {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
-
     if (playerStepsInWater()) {
-        createRipple(this.player.x, this.player.y);
-    }
-    
-    function createRipple(x, y) {
-      const currentTime = this.time.now; // Get the current time in milliseconds
-      const rippleCooldown = 5000; // 5 seconds cooldown
-     rippleCount++; // Step 2: Increment the counter
+      createRipple.call(this, this.player.x, this.player.y);  // Make sure `this` is bound correctly
+  }
 
-    // Your existing ripple creation code goes here
-    console.log('Ripple created! Count:', rippleCount);
-
-    // Step 3: Check if it's the 3rd ripple
-    if (rippleCount === 3) {
-        // rippleCount = 0; // Reset the counter if needed
-
-    }
-
-      // Check if enough time has passed since the last ripple
-      if (this.lastRippleTime && currentTime - this.lastRippleTime < rippleCooldown) {
-        return; // Exit if still within cooldown period
-      }
-    
- // Easing function (easeOutQuart)
-const easeOutQuart = (t, b, c, d) => {
-  t = t / d - 1;
-  return -c * (t * t * t * t - 1) + b;
-};
-
-// Function to create a 1-pixel thick ripple
-const createThinRipple = (color, delay, depth) => {
-  const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+  function emergeMonster() {
+    // Create the ripple first
+    createRipple.call(this, 370, 550);
   
-  let progress = 0;
-  const maxRadius = 400;
-  const duration = 22000; // Total duration of the effect
-
-  const expandRipple = () => {
-    ripple.clear();
-    ripple.lineStyle(1, color, 1);
-
-    // Use the easing function to calculate the radius at each frame
-    const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
-
-    ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
-
-    progress += 16;  // Increase time progress by the frame duration (16ms for ~60 FPS)
-
-    if (progress < duration) {
-      this.time.delayedCall(16, expandRipple);  // Call this function every 16ms (approx. 60 FPS)
-    } else {
-      ripple.destroy();  // Destroy the ripple once the animation is complete
+    // Add the creature's head image at the specified position
+    const creature = this.add.image(370, 580, 'lure')
+      .setAlpha(0)   // Initially transparent
+      .setScale(0.1) // Start with a small scale
+      .setDepth(-1);  // Set higher depth so it appears above other objects
+  
+    // Animate the fade-in and zoom
+    this.tweens.add({
+      targets: creature,
+      alpha: 0.6,            // Fade in to full opacity
+      scale: 0.6,            // Zoom to full size
+      duration: 5000,      // Duration of the animation (3 seconds)
+      ease: 'sine',      // Smooth easing function
+    });
+  }
+  
+  
+  function createRipple(x, y) {
+    const currentTime = this.time.now;  // Get the current time in milliseconds
+    const rippleCooldown = 5000;  // 5 seconds cooldown
+  
+    // Step 1: Stop ripple creation only if rippleCount exceeds 5
+    if (rippleCount > 4) {
+      console.log('Ripple creation stopped.');
+      return;  // Exit function if more than 4 ripples have been created
     }
-  };
-
-  expandRipple();  // Start the ripple animation
-};
-    
-      // Create the first white ripple effect
-      createThinRipple(0xffffff, 0, -2);  // White ripple
-    
-      // Create the second black ripple after a delay
-      this.time.delayedCall(500, () => {
-        createThinRipple(0xffffff, 500, -1);  // Black ripple
-      });
-    
-      // Set the last ripple time to the current time
-      this.lastRippleTime = currentTime;
+  
+    rippleCount++;  // Increment the ripple counter
+    console.log('Ripple created! Count:', rippleCount);
+  
+    // Step 2: Emerge the monster after the 4th ripple
+    if (rippleCount === 4) {
+      emergeMonster.call(this);  // Bind `this` to ensure the Scene context is passed
     }
-    
+  
+    // Check if enough time has passed since the last ripple
+    if (this.lastRippleTime && currentTime - this.lastRippleTime < rippleCooldown) {
+      return;  // Exit if still within the cooldown period
+    }
+  
+    // Easing function (easeOutQuart)
+    const easeOutQuart = (t, b, c, d) => {
+      t = t / d - 1;
+      return -c * (t * t * t * t - 1) + b;
+    };
+  
+    // Function to create a ripple with specified style
+    const createThinRipple = (color, delay, depth) => {
+      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+  
+      let progress = 0;
+      const maxRadius = 400;
+      const duration = 22000;  // Total duration of the effect
+  
+      const expandRipple = () => {
+        ripple.clear();
+        ripple.lineStyle(1, color, 1);  // Ensure style is applied each time
+  
+        // Use the easing function to calculate the radius at each frame
+        const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
+  
+        ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
+  
+        progress += 16;  // Increase time progress by the frame duration (~60 FPS)
+  
+        if (progress < duration) {
+          this.time.delayedCall(16, expandRipple);  // Call every 16ms (~60 FPS)
+        } else {
+          ripple.destroy();  // Destroy once the animation is complete
+        }
+      };
+  
+      expandRipple();  // Start the ripple animation
+    };
+  
+    // Create the first white ripple
+    createThinRipple(0xffffff, 0, -2);  // White ripple at depth -2
+  
+    // Create a second ripple after a delay (optional style modification)
+    this.time.delayedCall(500, () => {
+      createThinRipple(0x000000, 500, -1);  // Black ripple at depth -1
+    });
+  
+    // Set the last ripple time to the current time for cooldown logic
+    this.lastRippleTime = currentTime;
+  }
+  
+
     // Initialize a flag in your class constructor or setup method
 this.isInWater = false;  // Flag to track if the player is in water
 
@@ -816,9 +841,9 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     className="fullscreen-image"
                     onClick={toggleFullscreen}
                     />
-                    <div className='touch-prompt-container bally-rings'>
-<div className='touch-prompt '></div>
-<div className='touch-prompt '></div></div>
+                    <div className='touch-prompt-container bally-rings fullscreen-image'>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div></div>
                     </>
             )}
 
