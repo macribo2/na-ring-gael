@@ -66,5 +66,33 @@ canvas{
     object-fit: cover; /* Maintain aspect ratio and fit within the container */
 }
 .bally-rings{
-    top: 20%;
+    /* top: 25%; */
+}
+
+
+  
+  .fullscreen-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 9999; /* Ensure it's on top of other elements */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Maintain aspect ratio */
+  }
+  
+  /* Optional: Adjust for mobile browser address bar, add extra padding if needed */
+  @media (max-width: 768px) { /* Adjust for smaller screens */
+    .touch-prompt-container {
+      top: calc(50vh +40px ); /* Offset slightly to account for browser bar */
+    }
+  }
+  
+
+.touch-prompt-container {
+ top:50%;
+ left:50%;   
 }

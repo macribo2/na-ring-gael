@@ -451,7 +451,7 @@ color:rgba(255, 255, 255, 0.9);
 
 .names-i, .numbers-i{
 top:2%;
-  font-size: 3em;
+  font-size: 4em;
   position: fixed;
   font-family: 'INFO56_0';
   color:rgba(128, 255, 0, 0.788);
@@ -460,7 +460,7 @@ top:2%;
   width: 100%;;
       }
       .names-i{
-  font-family: 'aonchlo';
+  font-family: 'INFO56_0';
 display:none;
       }
 .in-g{
