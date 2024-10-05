@@ -227,7 +227,7 @@ z-index: 888;
   transform:scale(0.6);
 
 }
-#about3b, {
+#about3b {
   /* border:4px solid blue; */
   border-radius: 50%;
   transform:scale(0.7);
@@ -451,7 +451,7 @@ color:rgba(255, 255, 255, 0.9);
 
 .names-i, .numbers-i{
 top:2%;
-  font-size: 4em;
+  font-size: 6em;
   position: fixed;
   font-family: 'INFO56_0';
   color:rgba(128, 255, 0, 0.788);

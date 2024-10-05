@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "754c64c934e02c135535",
-    "url": "/static/css/main.610e2c43.chunk.css"
+    "revision": "6a1be309fed489d02475",
+    "url": "/static/css/main.5c1b8ab3.chunk.css"
   },
   {
-    "revision": "754c64c934e02c135535",
-    "url": "/static/js/main.3486728f.chunk.js"
+    "revision": "6a1be309fed489d02475",
+    "url": "/static/js/main.70e4169e.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -920,10 +920,6 @@ self.__precacheManifest = [
     "url": "/static/media/wren-code0.c84c0649.png"
   },
   {
-    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
-    "url": "/static/media/mapFrame4.0cdb344e.png"
-  },
-  {
     "revision": "4159e8fdaa220a7666d4e619a3429f80",
     "url": "/static/media/wren2b.4159e8fd.png"
   },
@@ -932,12 +928,16 @@ self.__precacheManifest = [
     "url": "/static/media/wren-hood.803e6e68.png"
   },
   {
-    "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
-    "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
+    "revision": "0cdb344e4fbf91bff6d9eaa0cdb88941",
+    "url": "/static/media/mapFrame4.0cdb344e.png"
   },
   {
     "revision": "d0fa8e83c08e2f7d1ce2e1cbe8f2e8b6",
     "url": "/static/media/fairy-ring-east-vert.d0fa8e83.png"
+  },
+  {
+    "revision": "29cb5d03956b7ce387a59b240a2fbf1e",
+    "url": "/static/media/fortuna-glass-lit.29cb5d03.png"
   },
   {
     "revision": "cfabbdb47b5376a44c3f8bd99fe2f968",
@@ -1008,7 +1008,7 @@ self.__precacheManifest = [
     "url": "/static/media/radar2.fc2d582c.ogg"
   },
   {
-    "revision": "d95b5c201ecba54fe0e44d0fd24baef6",
+    "revision": "8e9db63e04f569d02cca1744ff0e7b7b",
     "url": "/index.html"
   }
 ];
