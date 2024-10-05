@@ -212,7 +212,7 @@ const BallyGamBoy = () => {
     // Initialize borderGraphics
     this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
     this.borderGraphics.setDepth(99); // Optional: Set depth if needed
-  
+    this.rippleCreated = false; // Add this in your scene initialization
     this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.background.setOrigin(0, 0);
   // Specify starting column and row
@@ -509,6 +509,7 @@ function playerStepsInWater(nextMove, interactiveMap) {
 
     return tile && tile.type === 'g';  // Return true if the tile type is 'g' (water)
 }
+let lastRippleTime = 0; // Track last ripple time
 
 function update(time, delta) {
     const moveInterval = 50;
@@ -571,7 +572,7 @@ function update(time, delta) {
     createRipple.call(this, 370, 550);
   
     // Add the creature's head image at the specified position
-    const creature = this.add.image(370, 580, 'lure')
+    const creature = this.add.image(370, 580, 'lake-wizard')
       .setAlpha(0)   // Initially transparent
       .setScale(0.1) // Start with a small scale
       .setDepth(-1);  // Set higher depth so it appears above other objects
@@ -586,30 +587,7 @@ function update(time, delta) {
     });
   }
   
-  
   function createRipple(x, y) {
-    const currentTime = this.time.now;  // Get the current time in milliseconds
-    const rippleCooldown = 5000;  // 5 seconds cooldown
-  
-    // Step 1: Stop ripple creation only if rippleCount exceeds 5
-    if (rippleCount > 4) {
-      console.log('Ripple creation stopped.');
-      return;  // Exit function if more than 4 ripples have been created
-    }
-  
-    rippleCount++;  // Increment the ripple counter
-    console.log('Ripple created! Count:', rippleCount);
-  
-    // Step 2: Emerge the monster after the 4th ripple
-    if (rippleCount === 4) {
-      emergeMonster.call(this);  // Bind `this` to ensure the Scene context is passed
-    }
-  
-    // Check if enough time has passed since the last ripple
-    if (this.lastRippleTime && currentTime - this.lastRippleTime < rippleCooldown) {
-      return;  // Exit if still within the cooldown period
-    }
-  
     // Easing function (easeOutQuart)
     const easeOutQuart = (t, b, c, d) => {
       t = t / d - 1;
@@ -619,7 +597,6 @@ function update(time, delta) {
     // Function to create a ripple with specified style
     const createThinRipple = (color, delay, depth) => {
       const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
-  
       let progress = 0;
       const maxRadius = 400;
       const duration = 22000;  // Total duration of the effect
@@ -627,12 +604,8 @@ function update(time, delta) {
       const expandRipple = () => {
         ripple.clear();
         ripple.lineStyle(1, color, 1);  // Ensure style is applied each time
-  
-        // Use the easing function to calculate the radius at each frame
         const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
-  
         ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
-  
         progress += 16;  // Increase time progress by the frame duration (~60 FPS)
   
         if (progress < duration) {
@@ -652,9 +625,6 @@ function update(time, delta) {
     this.time.delayedCall(500, () => {
       createThinRipple(0x000000, 500, -1);  // Black ripple at depth -1
     });
-  
-    // Set the last ripple time to the current time for cooldown logic
-    this.lastRippleTime = currentTime;
   }
   
 
@@ -662,72 +632,78 @@ function update(time, delta) {
 this.isInWater = false;  // Flag to track if the player is in water
 
 
-    // Check for collision
-    const collision = checkCollision(nextMove, this.obstacles, tileSize);
-    if (collision) {
-      // Check if the player stepped in water (type 'g')
-      if (collision.type === 'rippleEffect' && !this.rippleTriggered) {
-        collisionMessage = collision.name || 'Stepped into water';
-        collisionMessageEng = collision.nameEng || 'You stepped into the water';
-        createRipple.call(this, this.player.x, this.player.y);
-      } else {
-        // Handle regular collision
-        if (collision.name && collision.nameEng) {
-          collisionMessage = collision.name;
-          collisionMessageEng = collision.nameEng;
-        }
+  // Check for collision
+const collision = checkCollision(nextMove, this.obstacles, tileSize);
+if (collision) {
+  // Check if the player stepped in water (type 'g')
+  if (collision.type === 'rippleEffect' && !this.rippleCreated) {
+    createRipple.call(this, this.player.x, this.player.y);
+    this.rippleCreated = true; // Set the flag to true to prevent further ripples
 
-        // Show the say graphic
-        this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
-        this.sayGraphic.setAlpha(1);
-
-        // Fade out the say graphic
-        this.tweens.add({
-          targets: this.sayGraphic,
-          alpha: 0,
-          duration: 200,
-          ease: 'Linear'
-        });
-
-        // Show border around the collision square
-        const borderX = collision.x * tileSize;
-        const borderY = collision.y * tileSize;
-        this.borderGraphics.clear();
-        this.borderGraphics.setVisible(true);
-        this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
-
-        // Hide the border after a brief delay
-        this.time.delayedCall(200, () => {
-          this.borderGraphics.setVisible(false);
-        });
-
-        // Update textForFade only if it's not already fading
-        if (!this.isFading) {
-          this.textForFade.setText(collisionMessage);  // Set the text
-          this.textForFade.setAlpha(1);                // Make it fully visible
-          this.isFading = true;  // Lock the fading process to prevent updates
-
-          // Fade out the textForFade over 3 seconds
-          this.tweens.add({
-            targets: this.textForFade,
-            alpha: 0,
-            duration: 3000,  // 3 seconds fade
-            ease: 'Linear',
-            onComplete: () => {
-              this.isFading = false;  // Allow new collisions after fade-out
-            }
-          });
-        }
-      }
-
-      // Set the collision messages
-      this.collisionText.setText(collisionMessage);
-      this.collisionTextEng.setText(collisionMessageEng);
-      this.collisionMessageTimer = time + this.collisionMessageDuration;
-
-      return; // Exit early if there's a collision
+    // Emerge the monster after creating the ripple
+    emergeMonster.call(this);
+  } else {
+    // Reset ripple creation if the player moves away from water
+    if (collision.type !== 'rippleEffect') {
+      this.rippleCreated = false;
     }
 
+    // Handle regular collision
+    if (collision.name && collision.nameEng) {
+      collisionMessage = collision.name;
+      collisionMessageEng = collision.nameEng;
+    }
+
+    // Show the say graphic
+    this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
+    this.sayGraphic.setAlpha(1);
+
+    // Fade out the say graphic
+    this.tweens.add({
+      targets: this.sayGraphic,
+      alpha: 0,
+      duration: 200,
+      ease: 'Linear'
+    });
+
+    // Show border around the collision square
+    const borderX = collision.x * tileSize;
+    const borderY = collision.y * tileSize;
+    this.borderGraphics.clear();
+    this.borderGraphics.setVisible(true);
+    this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+
+    // Hide the border after a brief delay
+    this.time.delayedCall(200, () => {
+      this.borderGraphics.setVisible(false);
+    });
+
+    // Update textForFade only if it's not already fading
+    if (!this.isFading) {
+      this.textForFade.setText(collisionMessage);  // Set the text
+      this.textForFade.setAlpha(1);                // Make it fully visible
+      this.isFading = true;  // Lock the fading process to prevent updates
+
+      // Fade out the textForFade over 3 seconds
+      this.tweens.add({
+        targets: this.textForFade,
+        alpha: 0,
+        duration: 3000,  // 3 seconds fade
+        ease: 'Linear',
+        onComplete: () => {
+          this.isFading = false;  // Allow new collisions after fade-out
+        }
+      });
+    }
+  }
+
+  // Set the collision messages
+  this.collisionText.setText(collisionMessage);
+  this.collisionTextEng.setText(collisionMessageEng);
+  this.collisionMessageTimer = time + this.collisionMessageDuration;
+
+  return; // Exit early if there's a collision
+}
 
 // Check for non-blocking interactions
 const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
