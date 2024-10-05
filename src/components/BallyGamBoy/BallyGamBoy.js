@@ -6,7 +6,7 @@ import './bally.css'
 const BallyGamBoy = () => {
 
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
-
+  const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const phaserRef = useRef(null);
   useEffect(() => {
@@ -529,6 +529,11 @@ function update(time, delta) {
         this.player.y = this.player.nextMove.y;
         this.isMoving = false;
         this.moveDelay = time + moveInterval;
+             // Reset ripple flag when player finishes movement
+      rippleTriggered.current = false;
+
+      // Reset ripple flag when player finishes movement
+      rippleTriggered.current = false;
         if (this.borderGraphics) {
           this.borderGraphics.setVisible(false);
         }
@@ -661,7 +666,7 @@ this.isInWater = false;  // Flag to track if the player is in water
     const collision = checkCollision(nextMove, this.obstacles, tileSize);
     if (collision) {
       // Check if the player stepped in water (type 'g')
-      if (collision.type === 'g') {
+      if (collision.type === 'rippleEffect' && !this.rippleTriggered) {
         collisionMessage = collision.name || 'Stepped into water';
         collisionMessageEng = collision.nameEng || 'You stepped into the water';
         createRipple.call(this, this.player.x, this.player.y);
