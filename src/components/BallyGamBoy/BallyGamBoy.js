@@ -155,6 +155,7 @@ const BallyGamBoy = () => {
         'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
         'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
         'j': { type: 'noPic', nameEng: 'Flood mouth', name: '\nBéal Tuile' },
+        'g': { type: 'rippleEffect', nameEng: '', name: '' },
            };
 
            
@@ -163,7 +164,6 @@ const BallyGamBoy = () => {
         'e': { type: 'noPic', nameEng: 'I stand upon a bridge', name: 'Seasaim ar droichead' },
         'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhainn' },
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasaim sa sruthán' },
-        'g': { type: 'rippleEffect', nameEng: '', name: '' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} 
@@ -241,7 +241,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       const sprite = this.add.sprite(obstacle.x * tileSize + tileSize / 2, obstacle.y * tileSize + tileSize / 2, obstacle.type === 'noPic' ? 'noPic' : obstacle.type);
       sprite.setName(obstacle.name);
   
-      if (obstacle.type === 'noPic') {
+      if (obstacle.type === 'noPic'||'rippleEffect') {
         sprite.setAlpha(0); // Make the sprite invisible
       }
     });
