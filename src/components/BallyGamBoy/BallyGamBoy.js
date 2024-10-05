@@ -88,8 +88,7 @@ const BallyGamBoy = () => {
 
   // Phaser scene methods
   function preload() {
-    this.load.image('creatureHead', 'phaser-resources/images/npcs/frog.png');
-    this.load.image('lake-wizard', 'phaser-resources/images/npcs/lake-wizard.png');
+    this.load.image('creatureHead', 'phaser-resources/images/npcs/lake-wizard.png');
     this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
@@ -143,9 +142,9 @@ const BallyGamBoy = () => {
         ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['a','a','a',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ','a',' ',' ',' ',' ',' ','d','d','d','d','d','d','f',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','d','f',' ',' ','a','a','a','a','a','a','a','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','f',' ',' ',' ',' ','k','e',' ',' ',' ',' ',' '],
+        ['a',' ','a',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','d','g',' ',' ','a','a','a','a','a','a','a','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','d',' ',' ',' ',' ','k','e',' ',' ',' ',' ',' '],
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
     ];
@@ -160,11 +159,11 @@ const BallyGamBoy = () => {
 
            
     const interactiveMap = {
-      'g': { type: 'rippleEffect', nameEng: '', name: '' },
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
         'e': { type: 'noPic', nameEng: 'I stand upon a bridge', name: 'Seasaim ar droichead' },
         'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhainn' },
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasaim sa sruthán' },
+        'g': { type: 'rippleEffect', nameEng: '', name: '' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} 
@@ -245,11 +244,6 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       if (obstacle.type === 'noPic') {
         sprite.setAlpha(0); // Make the sprite invisible
       }
-
-
-if (obstacle === 'f') { // 'f' is the water element
-  this.createRipple(this.playerX, this.playerY);
-}
     });
   
     // Create a say graphic
@@ -568,9 +562,11 @@ function update(time, delta) {
   }
 
   function emergeMonster() {
+    // Create the ripple first
+    createRipple.call(this, 370, 550);
   
     // Add the creature's head image at the specified position
-    const creature = this.add.image(370, 540, 'lake-wizard')
+    const creature = this.add.image(370, 580, 'lure')
       .setAlpha(0)   // Initially transparent
       .setScale(0.1) // Start with a small scale
       .setDepth(-1);  // Set higher depth so it appears above other objects
@@ -578,14 +574,11 @@ function update(time, delta) {
     // Animate the fade-in and zoom
     this.tweens.add({
       targets: creature,
-      alpha: 1,            // Fade in to full opacity
-      scale: 0.3,            // Zoom to full size
+      alpha: 0.6,            // Fade in to full opacity
+      scale: 0.6,            // Zoom to full size
       duration: 5000,      // Duration of the animation (3 seconds)
       ease: 'sine',      // Smooth easing function
     });
-
-    createRipple.call(this, 370, 550);
-
   }
   
   
