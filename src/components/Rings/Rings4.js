@@ -1225,7 +1225,7 @@ if (rng === 2) {
 		'monk',
 		'golden princess',
 		'Life',
-		'chatterer or daughter. In legend Deirdre was the daughter of the royal storyteller Fedlimid mac Daill, at the court of the king of Ulster',
+		'chatterer or daughter. Daughter of the royal\nstoryteller Fedlimid mac Daill, \nat the court of the king of Ulster',
 		'fair-haired, white',
 		'speaker',
 		'sorrowful',
