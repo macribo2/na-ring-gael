@@ -88,7 +88,7 @@ const BallyGamBoy = () => {
 
   // Phaser scene methods
   function preload() {
-    this.load.image('creatureHead', 'phaser-resources/images/npcs/lake-wizard.png');
+    this.load.image('lake-wizard', 'phaser-resources/images/npcs/dragon.png');
     this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
@@ -126,6 +126,7 @@ const BallyGamBoy = () => {
 
   
   function create() {
+    this.rippleCount = 0; // Step 1: Initialize the counter
 
     const mapLayout = [
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
@@ -492,7 +493,6 @@ async function movePlayer() {
     this.isMoving = false;
   }
 }
-let rippleCount = 0; // Step 1: Initialize the counter
 
 function playerStepsInWater(nextMove, interactiveMap) {
     if (!nextMove || !interactiveMap) return false;  // Safeguard check
@@ -569,25 +569,41 @@ function update(time, delta) {
 
   function emergeMonster() {
     // Create the ripple first
-    createRipple.call(this, 370, 550);
   
-    // Add the creature's head image at the specified position
-    const creature = this.add.image(370, 580, 'lake-wizard')
-      .setAlpha(0)   // Initially transparent
-      .setScale(0.1) // Start with a small scale
-      .setDepth(-1);  // Set higher depth so it appears above other objects
-  
-    // Animate the fade-in and zoom
+  // Add the creature's head image at the specified position
+// Add the creature's head image at the specified position (shifted 40px higher)
+const creature = this.add.image(370, 540, 'lake-wizard')  // Start at 540 instead of 580
+  .setAlpha(0)     // Initially transparent
+  .setScale(0.1)   // Start with a small scale
+  .setDepth(-1)    // Set depth to appear above other objects
+  .setY(560);      // Start a little lower at 560 (40px higher than before)
+
+// Animate the fade-in, zoom, and bobbing effect
+this.tweens.add({
+  targets: creature,
+  alpha: 0.8,             // Fade in to near full opacity
+  scale: 0.25,            // Zoom in to final size
+  y: 540,                 // Raise to the new y position (40px higher than before)
+  duration: 1000,         // Duration of the initial rise (4 seconds)
+  ease: 'Power1',         // Easing function for the rise
+  onComplete: () => {
+    createRipple.call(this, 370, 580);
+    // Once the rise is complete, make the creature "bob" up and down
     this.tweens.add({
       targets: creature,
-      alpha: 0.6,            // Fade in to full opacity
-      scale: 0.6,            // Zoom to full size
-      duration: 5000,      // Duration of the animation (3 seconds)
-      ease: 'sine',      // Smooth easing function
+      y: '+=4',          // Move 10 pixels up
+      yoyo: true,         // Move back down
+      repeat: -1,         // Repeat the bobbing indefinitely
+      duration: 4000,     // Duration of each bob cycle
+      ease: 'Sine.easeInOut'  // Smooth bobbing motion
     });
   }
-  
-  function createRipple(x, y) {
+});
+
+
+}
+
+function createRipple(x, y) {
     // Easing function (easeOutQuart)
     const easeOutQuart = (t, b, c, d) => {
       t = t / d - 1;
@@ -631,70 +647,84 @@ function update(time, delta) {
     // Initialize a flag in your class constructor or setup method
 this.isInWater = false;  // Flag to track if the player is in water
 
-
-  // Check for collision
+// Check for collision
+// Check for collision
 const collision = checkCollision(nextMove, this.obstacles, tileSize);
 if (collision) {
+  console.log('Ripple Count:', this.rippleCount);
+
   // Check if the player stepped in water (type 'g')
-  if (collision.type === 'rippleEffect' && !this.rippleCreated) {
-    createRipple.call(this, this.player.x, this.player.y);
-    this.rippleCreated = true; // Set the flag to true to prevent further ripples
+  if (collision.type === 'rippleEffect') {
+    // Only increment ripple count if we haven't already triggered a ripple on this square
+    if (!this.rippleTriggered) {
+      createRipple.call(this, this.player.x, this.player.y);  // Trigger ripple
+      this.rippleCount++;  // Increment ripple count
+      this.rippleTriggered = true;  // Set flag to prevent multiple ripples
 
-    // Emerge the monster after creating the ripple
-    emergeMonster.call(this);
-  } else {
-    // Reset ripple creation if the player moves away from water
-    if (collision.type !== 'rippleEffect') {
-      this.rippleCreated = false;
-    }
+      console.log('Updated Ripple Count:', this.rippleCount);
+      
+      // Emerge the monster after the 4th ripple
+      if (this.rippleCount === 4) {
+        emergeMonster.call(this);  // Monster emerges after 4 ripples
+      }
 
-    // Handle regular collision
-    if (collision.name && collision.nameEng) {
-      collisionMessage = collision.name;
-      collisionMessageEng = collision.nameEng;
-    }
-
-    // Show the say graphic
-    this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
-    this.sayGraphic.setAlpha(1);
-
-    // Fade out the say graphic
-    this.tweens.add({
-      targets: this.sayGraphic,
-      alpha: 0,
-      duration: 200,
-      ease: 'Linear'
-    });
-
-    // Show border around the collision square
-    const borderX = collision.x * tileSize;
-    const borderY = collision.y * tileSize;
-    this.borderGraphics.clear();
-    this.borderGraphics.setVisible(true);
-    this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
-
-    // Hide the border after a brief delay
-    this.time.delayedCall(200, () => {
-      this.borderGraphics.setVisible(false);
-    });
-
-    // Update textForFade only if it's not already fading
-    if (!this.isFading) {
-      this.textForFade.setText(collisionMessage);  // Set the text
-      this.textForFade.setAlpha(1);                // Make it fully visible
-      this.isFading = true;  // Lock the fading process to prevent updates
-
-      // Fade out the textForFade over 3 seconds
-      this.tweens.add({
-        targets: this.textForFade,
-        alpha: 0,
-        duration: 3000,  // 3 seconds fade
-        ease: 'Linear',
-        onComplete: () => {
-          this.isFading = false;  // Allow new collisions after fade-out
-        }
+      // Reset the flag after a delay (e.g., 500ms) to allow more ripples
+      this.time.delayedCall(500, () => {
+        this.rippleTriggered = false;  // Allow ripples again after delay
       });
     }
+  } else {
+    // Reset ripple count and flag if the player moves away from water
+    this.rippleCount = 0;
+    this.rippleTriggered = false;  // Reset the flag when moving away from water
+  }
+
+  // Handle regular collision
+  if (collision.name && collision.nameEng) {
+    collisionMessage = collision.name;
+    collisionMessageEng = collision.nameEng;
+  }
+
+  // Show the say graphic (and handle other collision logic)
+  this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
+  this.sayGraphic.setAlpha(1);
+
+  // Fade out the say graphic
+  this.tweens.add({
+    targets: this.sayGraphic,
+    alpha: 0,
+    duration: 200,
+    ease: 'Linear'
+  });
+
+  // Show border around the collision square
+  const borderX = collision.x * tileSize;
+  const borderY = collision.y * tileSize;
+  this.borderGraphics.clear();
+  this.borderGraphics.setVisible(true);
+  this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+
+  // Hide the border after a brief delay
+  this.time.delayedCall(200, () => {
+    this.borderGraphics.setVisible(false);
+  });
+
+  // Update textForFade only if it's not already fading
+  if (!this.isFading) {
+    this.textForFade.setText(collisionMessage);  // Set the text
+    this.textForFade.setAlpha(1);                // Make it fully visible
+    this.isFading = true;  // Lock the fading process to prevent updates
+
+    // Fade out the textForFade over 3 seconds
+    this.tweens.add({
+      targets: this.textForFade,
+      alpha: 0,
+      duration: 3000,  // 3 seconds fade
+      ease: 'Linear',
+      onComplete: () => {
+        this.isFading = false;  // Allow new collisions after fade-out
+      }
+    });
   }
 
   // Set the collision messages
