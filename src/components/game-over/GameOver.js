@@ -38,34 +38,16 @@ export default function SettingsMenu(props) {
   const [showHistory, setShowHist] = useState(0);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const poemLines = [
-    'Taobh cùl an doras',
-    'ní bheidh griann',
-    'ní beidh bórd, ní beidh fíonn ',
-    'Taobh cùl an doras ',
-    'ní bheidh griann',
-    'ní beidh bórd, ní beidh fíonn ',
-    'Thainig sé',
-    'treasna tonn',
-    'Ó Thainig sé ',
-    'Le eachaibh luath is iochar throm',
-    `Ar eiginn ar n-eirigh as ar suain`,
-    
-    ' ',
+
+    'Soe that the speach being Irish', 
+'the hart must needes be Irishe;', 
+'for out of the aboundance of the hart', 
+'the tonge speaketh',
+    '-Edmund Spencer \nA Veue of The Present State of Ireland',
     ' '
   ];
   const poemLinesEng = [
-    `Behind the door 
-`,`    there will be no Sun.
-`,`   There'll be no table there'll be no wine
-`,`    Behind the door 
-`,`    there will be no Sun
-`,`   There'll be no table, there's be no wine
-`,`    He came
-`,`   across the wave
-`,`    O he came
-`,`    With fast horses and a heavy key
-`,`    We must rise from our slumber
-`,
+    
 ' ',
 ' '
 
