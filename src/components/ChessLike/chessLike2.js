@@ -612,7 +612,7 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 
-let latestTarget = 6;
+let latestTarget = 10;
 function update(scene) {
 
 //try 25
@@ -647,12 +647,11 @@ function update(scene) {
                     className="fullscreen-image"
                     onClick={toggleFullscreen}
                     />
-                    <div className='touch-prompt-container'>
+                    <div className='touch-prompt-container bally-rings fullscreen-image'>
 <div className='touch-prompt'></div>
 <div className='touch-prompt'></div></div>
                     </>
             )}
-
 
 
             {fullscreen && <div className="fullscreen-overlay" onClick={toggleFullscreen}></div>}

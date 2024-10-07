@@ -2,9 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import geaga1 from '../../images/go-full-screen-bg-0.png'; // Assuming wordPairs.js is in the same directory
 import './bally.css'
+import Easca from '../easca/easca2';
 
 const BallyGamBoy = () => {
 
+
+  const handleShowEasca = () => {
+    setShowEasca(true);
+  };
+  const [showEasca, setShowEasca] = useState(false); // 
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
   const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
@@ -49,6 +55,11 @@ const BallyGamBoy = () => {
     
     // Create the Phaser game instance
     gameRef.current = new Phaser.Game(config);
+
+    window.addEventListener('showEasca', handleShowEasca);
+        
+
+
     mapLayout.forEach((row, rowIndex) => {
       row.forEach((cell, colIndex) => {
           const obstacle = obstacleMap[cell];
@@ -83,11 +94,22 @@ const BallyGamBoy = () => {
         gameRef.current.destroy(true);
         gameRef.current = null;
       }
+      window.removeEventListener('showEasca', handleShowEasca);
+            
+      if (gameRef.current) {
+          gameRef.current.destroy(true);
+      }
     };
+
+
+
+
   }, []);
 
   // Phaser scene methods
   function preload() {
+    this.load.image('featherIcon', '/phaser-resources/images/feater.png');
+
     this.load.image('lake-wizard', 'phaser-resources/images/npcs/dragon.png');
     this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
@@ -126,6 +148,7 @@ const BallyGamBoy = () => {
 
   
   function create() {
+ 
     this.rippleCount = 0; // Step 1: Initialize the counter
 
     const mapLayout = [
@@ -134,7 +157,7 @@ const BallyGamBoy = () => {
         ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
         ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
         ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-        ['a','a','a','a',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+        ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
@@ -142,10 +165,10 @@ const BallyGamBoy = () => {
         ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a','a','a',' ',' ',' ',' ',' ',' ',' ','g',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ','a',' ',' ',' ',' ',' ','d','d','d','d','d','d','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','d','g',' ',' ','a','a','a','a','a','a','a','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ','d','d','d',' ',' ',' ',' ','k','e',' ',' ',' ',' ',' '],
+        ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
+        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
         ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
     
     ];
@@ -330,6 +353,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
      // Create the translucent background and English text
     this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
      
+
+    this.featherIcon = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2,50,50, 'featherIcon').setOrigin(0).setScale(6).setAlpha(1).setInteractive().setDepth(999).setVisible(false); // Make the sprite interactive
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
     this.translucentBg.setDepth(9).setAlpha(0.4);
@@ -348,7 +373,15 @@ const playerStartY = startRow * tileSize + tileSize / 2;
   lakeMask.displayWidth = this.cameras.main.width;
   lakeMask.displayHeight = this.cameras.main.height;
 
-  }
+
+ 
+
+  this.featherIcon.on('pointerdown', () => {
+    // Dispatch a custom event to notify React to show the Easca component
+    const event = new Event('showEasca');
+    window.dispatchEvent(event);
+  });
+}
 
 
 
@@ -364,6 +397,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     function toggleVisibility(scene) {
       // Toggle visibility of elements
       scene.translucentBg.setVisible(!scene.translucentBg.visible);
+      scene.featherIcon.setVisible(!scene.featherIcon.visible);
       scene.collisionTextEng.setVisible(!scene.collisionTextEng.visible);
     }  
   
@@ -577,6 +611,7 @@ const creature = this.add.image(370, 540, 'lake-wizard')  // Start at 540 instea
   .setScale(0.1)   // Start with a small scale
   .setDepth(-1)    // Set depth to appear above other objects
   .setY(560);      // Start a little lower at 560 (40px higher than before)
+  createRipple.call(this, 370, 560);
 
 // Animate the fade-in, zoom, and bobbing effect
 this.tweens.add({
@@ -584,10 +619,10 @@ this.tweens.add({
   alpha: 0.8,             // Fade in to near full opacity
   scale: 0.25,            // Zoom in to final size
   y: 540,                 // Raise to the new y position (40px higher than before)
-  duration: 1000,         // Duration of the initial rise (4 seconds)
+  duration: 500,         // Duration of the initial rise (4 seconds)
   ease: 'Power1',         // Easing function for the rise
   onComplete: () => {
-    createRipple.call(this, 370, 580);
+    createRipple.call(this, 370, 570);
     // Once the rise is complete, make the creature "bob" up and down
     this.tweens.add({
       targets: creature,
@@ -804,7 +839,6 @@ function checkCollision(nextMove, obstacles, tileSize) {
     });
 }
 
-
 // Helper function to check interaction
 function checkInteraction(nextMove, interactiveObjects, tileSize) {
     if (!interactiveObjects || !Array.isArray(interactiveObjects)) {
@@ -857,7 +891,7 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 <div className='touch-prompt'></div></div>
                     </>
             )}
-
+   {showEasca && <Easca />}
     </>
   );
 };

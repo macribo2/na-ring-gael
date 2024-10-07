@@ -714,7 +714,7 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 
-let latestTarget = 5;
+let latestTarget = 12;
 function update(scene) {
 
 //try 25
