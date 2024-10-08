@@ -108,7 +108,7 @@ const BallyGamBoy = () => {
 
   // Phaser scene methods
   function preload() {
-    this.load.image('featherIcon', '/phaser-resources/images/feater.png');
+    this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
     this.load.image('lake-wizard', 'phaser-resources/images/npcs/dragon.png');
     this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
@@ -353,8 +353,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
      // Create the translucent background and English text
     this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
      
-
-    this.featherIcon = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2,50,50, 'featherIcon').setOrigin(0).setScale(6).setAlpha(1).setInteractive().setDepth(999).setVisible(false); // Make the sprite interactive
+// Feather icon in the bottom left corner
+this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScale(0.3).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
     this.translucentBg.setDepth(9).setAlpha(0.4);
