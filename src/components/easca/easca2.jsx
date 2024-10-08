@@ -9,6 +9,8 @@ export default class Easca extends React.Component {
     super();
     this.state = {
       layoutName: 'easca',
+      holdTimer: null, // Timer to track button hold
+
       input: "",
       display: {
         '{space}': ' ',
@@ -18,13 +20,14 @@ export default class Easca extends React.Component {
         '{shift}': '⇧',
         '{send}': 'seol',
         '{mode}': '>_'
-
       },
       showEasca: true,
       showOptions: false,
     };
 
     this.longPressTimer = null;
+    this.holdTimer = null; // Timer for button hold
+    this.keyHeld = {}; // Object to track key hold state
   }
 
   componentDidMount() {
@@ -39,31 +42,36 @@ export default class Easca extends React.Component {
     window.removeEventListener('showEasca', this.handleShowEasca);
   }
 
-  handleShowEasca = () => {
-    this.setState({ showEasca: true });
-  };
-
   handleKeyDown = (e) => {
-    if (e.key === 'G' || e.key === 'g') {
-      if (this.longPressTimer) {
-        clearTimeout(this.longPressTimer);
-      }
-      this.longPressTimer = setTimeout(() => {
-        this.setState({ showOptions: true });
-      }, 500); // 500ms for long press detection
-    }
+    // If the key is already being held down, ignore the event
+    if (this.keyHeld[e.key]) return;
+
+    // Mark the key as held down
+    this.keyHeld[e.key] = true;
+
+    // Start the hold timer when any key is pressed
+    this.holdTimer = setTimeout(() => {
+      alert("Button held for 3 seconds");
+    }, 3000);
+
+    // Add the key pressed to the input
+    this.setState(prevState => ({
+      input: prevState.input + e.key
+    }));
   };
 
   handleKeyUp = (e) => {
-    if (e.key === 'G' || e.key === 'g') {
-      if (this.longPressTimer) {
-        clearTimeout(this.longPressTimer);
-      }
-      if (!this.state.showOptions) {
-        this.setState(prevState => ({ input: prevState.input + e.key }));
-      }
-      this.setState({ showOptions: false });
+    // Clear the hold timer when the button is released
+    if (this.holdTimer) {
+      clearTimeout(this.holdTimer);
     }
+
+    // Reset the key hold state
+    this.keyHeld[e.key] = false;
+  };
+
+  handleShowEasca = () => {
+    this.setState({ showEasca: true });
   };
 
   handleOptionClick = (option) => {
@@ -79,6 +87,18 @@ export default class Easca extends React.Component {
 
   onKeyPress = (button) => {
     console.log("Button pressed", button);
+ // Clear any existing timer before starting a new one
+ if (this.state.holdTimer) {
+  clearTimeout(this.state.holdTimer);
+}
+
+// Start a new timer for 3 seconds
+const timer = setTimeout(() => {
+  alert("Button held for 3 seconds");
+}, 3000);
+
+// Store the timer in the state
+this.setState({ holdTimer: timer });
 
     if (button === "{shift}") {
       this.handleShift();
@@ -117,6 +137,15 @@ export default class Easca extends React.Component {
   closeEasca = () => {
     this.setState({ showEasca: false });
   };
+
+    // This gets triggered when a button is released or touch ends
+    onTouchEnd = () => {
+      // Clear the hold timer when touch ends
+      if (this.state.holdTimer) {
+        clearTimeout(this.state.holdTimer);
+        this.setState({ holdTimer: null });
+      }
+    };
 
   render() {
     if (!this.state.showEasca) return null;
@@ -159,25 +188,10 @@ export default class Easca extends React.Component {
               "{shift} {space} {enter} {send}"
             ]
           }}
-          buttonTheme={[
-            {
-              class: "hg-red",
-              buttons: "Q W E R T Y q w e r t y"
-            },
-            {
-              class: "hg-highlight",
-              buttons: "Q q"
-            }
-          ]}
+
+          disableButtonHold={true}  // Add this line
+    
         />
-        {this.state.showOptions && (
-          <div className="options-modal">
-            <button onClick={() => this.handleOptionClick('ng')}>ng</button>
-            <button onClick={() => this.handleOptionClick('gh')}>gh</button>
-            <button onClick={() => this.handleOptionClick('G')}>G</button>
-            <button onClick={() => this.handleOptionClick('ġ')}>ġ</button>
-          </div>
-        )}
       </>
     );
   }
