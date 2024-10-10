@@ -2,3 +2,23 @@
     position:fixed;
     z-index: 9999;
 }
+
+.narrat {
+    top: 4%;
+    border-color: rgb(179, 116, 0);
+    position: fixed;
+    z-index: 99999;}
+
+    .narrative-overlay {
+        width: 75vw; /* 75% of the viewport width */
+        height: 75vh; /* 75% of the viewport height */
+        margin: 0 auto; /* Center the overlay */
+        padding: 20px; /* Gap around the content */
+        background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+        border-radius: 10px; /* Optional: Rounded corners */
+        position: relative; /* Required for positioning child elements */
+        overflow: hidden; /* Prevent overflow */
+        z-index: 100; /* Ensure it appears above other content */
+        border: 6px solid red;
+      }
+      
