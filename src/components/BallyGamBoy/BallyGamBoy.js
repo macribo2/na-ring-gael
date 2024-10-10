@@ -3,9 +3,13 @@ import Phaser from 'phaser';
 import geaga1 from '../../images/go-full-screen-bg-0.png'; // Assuming wordPairs.js is in the same directory
 import './bally.css'
 import Easca from '../easca/easca2';
-
+import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
+  const [showNarrative, setShowNarrative] = useState(false); // Manage the visibility of Narrative1
 
+  const toggleNarrative = () => {
+      setShowNarrative(!showNarrative); // Toggle Narrative1 visibility
+  };
 
   const handleShowEasca = () => {
     setShowEasca(true);
@@ -110,7 +114,7 @@ const BallyGamBoy = () => {
   function preload() {
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
-    this.load.image('lake-wizard', 'phaser-resources/images/npcs/dragon.png');
+    this.load.image('lake-wizard', 'phaser-resources/images/sprites/fish/fish4Texture.png');
     this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
@@ -378,6 +382,7 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
 
   this.featherIcon.on('pointerdown', () => {
     // Dispatch a custom event to notify React to show the Easca component
+   
     const event = new Event('showEasca');
     window.dispatchEvent(event);
   });
@@ -602,42 +607,66 @@ function update(time, delta) {
   }
 
   function emergeMonster() {
-    // Create the ripple first
+    // Create the first ripple with a delay of 1 second before showing the creature
+    createRipple.call(this, 370, 560);
+    
+    this.time.delayedCall(1000, () => {
+      // Add the creature's head image at the specified position (shifted 40px higher)
+      const creature = this.add.image(340, 540, 'lake-wizard')  // Start at 540 instead of 580
+        .setAlpha(0)     // Initially transparent
+        .setScale(0.7)   // Start with a small scale
+        .setDepth(1)     // Set depth to appear above other objects
+        .setY(620);      // Start a little lower at 560 (40px higher than before)
   
-  // Add the creature's head image at the specified position
-// Add the creature's head image at the specified position (shifted 40px higher)
-const creature = this.add.image(370, 540, 'lake-wizard')  // Start at 540 instead of 580
-  .setAlpha(0)     // Initially transparent
-  .setScale(0.1)   // Start with a small scale
-  .setDepth(-1)    // Set depth to appear above other objects
-  .setY(560);      // Start a little lower at 560 (40px higher than before)
-  createRipple.call(this, 370, 560);
-
-// Animate the fade-in, zoom, and bobbing effect
-this.tweens.add({
-  targets: creature,
-  alpha: 0.8,             // Fade in to near full opacity
-  scale: 0.25,            // Zoom in to final size
-  y: 540,                 // Raise to the new y position (40px higher than before)
-  duration: 500,         // Duration of the initial rise (4 seconds)
-  ease: 'Power1',         // Easing function for the rise
-  onComplete: () => {
-    createRipple.call(this, 370, 570);
-    // Once the rise is complete, make the creature "bob" up and down
-    this.tweens.add({
-      targets: creature,
-      y: '+=4',          // Move 10 pixels up
-      yoyo: true,         // Move back down
-      repeat: -1,         // Repeat the bobbing indefinitely
-      duration: 4000,     // Duration of each bob cycle
-      ease: 'Sine.easeInOut'  // Smooth bobbing motion
-    });
+      // Animate the fade-in, zoom, and bobbing effect for the creature
+      this.tweens.add({
+        targets: creature,
+        alpha: 0.8,             // Fade in to near full opacity
+        scale: 0.8,            // Zoom in to final size
+        y: 550,                 // Raise to the new y position (40px higher than before)
+        x: 360,                 // Raise to the new y position (40px higher than before)
+        duration: 3400,          // Duration of the initial rise
+        ease: 'Power1',         // Easing function for the rise
+        onComplete: () => {
+          // Ripple once the creature rises
+          createRipple.call(this, 390, 520);
+          
+          // Bobbing effect
+          this.tweens.add({
+            targets: creature,
+            y: '+=4',          // Move 4 pixels up
+            yoyo: true,        // Move back down
+            repeat: -1,        // Repeat the bobbing indefinitely
+            duration: 4000,    // Duration of each bob cycle
+            ease: 'Sine.easeInOut'  // Smooth bobbing motion
+          });
+  
+          // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
+          this.time.delayedCall(2000, () => {
+            const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
+              .setAlpha(0)    // Initially transparent
+              .setScale(0.15) // Set desired size for the treasure
+              .setDepth(1);   // Ensure it appears above other objects
+  
+            // Fade in the treasure (lure)
+            this.tweens.add({
+              targets: lure,
+              alpha: 1,        // Fully visible
+              duration: 1000,  // Fade-in duration
+              ease: 'Power1'
+            });
+          }, [], this);  // 2-second delay after the creature appears
+        }
+      });
+      this.time.delayedCall(4000, () => {
+        setShowNarrative(true);  // Show the narrative overlay
+    }, [], this);
+}, [], this);
+  
+  
   }
-});
-
-
-}
-
+  
+  
 function createRipple(x, y) {
     // Easing function (easeOutQuart)
     const easeOutQuart = (t, b, c, d) => {
@@ -650,7 +679,7 @@ function createRipple(x, y) {
       const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
       let progress = 0;
       const maxRadius = 400;
-      const duration = 22000;  // Total duration of the effect
+      const duration = 42000;  // Total duration of the effect
   
       const expandRipple = () => {
         ripple.clear();
@@ -673,8 +702,8 @@ function createRipple(x, y) {
     createThinRipple(0xffffff, 0, -2);  // White ripple at depth -2
   
     // Create a second ripple after a delay (optional style modification)
-    this.time.delayedCall(500, () => {
-      createThinRipple(0x000000, 500, -1);  // Black ripple at depth -1
+    this.time.delayedCall(50, () => {
+      createThinRipple(0x707070, 500, -1);  // Black ripple at depth -1
     });
   }
   
@@ -699,7 +728,7 @@ if (collision) {
       console.log('Updated Ripple Count:', this.rippleCount);
       
       // Emerge the monster after the 4th ripple
-      if (this.rippleCount === 4) {
+      if (this.rippleCount === 3) {
         emergeMonster.call(this);  // Monster emerges after 4 ripples
       }
 
@@ -709,8 +738,7 @@ if (collision) {
       });
     }
   } else {
-    // Reset ripple count and flag if the player moves away from water
-    this.rippleCount = 0;
+
     this.rippleTriggered = false;  // Reset the flag when moving away from water
   }
 
@@ -876,8 +904,15 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 
   return (
     <>
-    <div id="phaser-container" style={{ width: '800px', height: '480px' }}></div>
+    <div id="phaser-container" style={{ width: '800px', height: '480px' }}>
    
+            {showNarrative && (
+                <div style={{ width: '75vw', border:'20px solid blue',height: '75vh', margin: 'auto', padding: '20px', border: '1px solid #ccc', position: 'relative' }}>
+                    <Narrative1 setShowNarrative={setShowNarrative} />
+                </div>
+            )}
+  
+     
 {!fullscreen && (
 <>
                 <img
@@ -892,6 +927,10 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     </>
             )}
    {showEasca && <Easca />}
+   {
+    
+  }
+  </div>
     </>
   );
 };

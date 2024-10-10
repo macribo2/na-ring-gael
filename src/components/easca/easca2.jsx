@@ -10,6 +10,7 @@ export default class Easca extends React.Component {
     this.state = {
       layoutName: 'easca',
       holdTimer: null, // Timer to track button hold
+      options: [], // State to store the options for the menu
 
       input: "",
       display: {
@@ -94,8 +95,9 @@ export default class Easca extends React.Component {
 
 // Start a new timer for 3 seconds
 const timer = setTimeout(() => {
-  alert("Button held for 3 seconds");
-}, 3000);
+  this.showOptionsMenu(button); // Show options menu when button is held
+
+}, 2000);
 
 // Store the timer in the state
 this.setState({ holdTimer: timer });
@@ -110,7 +112,53 @@ this.setState({ holdTimer: timer });
       this.restoreDefaultKeyboard();
     }
   };
+  showOptionsMenu = (button) => {
+    let options = [];
 
+    // Define additional options based on the pressed button
+    switch (button) {
+      case 'a':
+        options = ['á', 'Á', '7', 'A'];
+        break;
+
+        case 'e':
+          options = ['é', 'É', 'E'];
+          break;
+          case 'i':
+        options = ['í', 'Í', 'I' ];
+        break;
+        case 'o':
+        options = ['ó', 'Ó', 'O'];
+        break;
+        case 'u':
+        options = ['ú', 'Ú', 'U'];
+        break;
+        case 'f':
+        options = [ 'ḟ', 'fh', 'Fh', 'F'];
+        break;
+        case 'g':
+        options = ['ġ', 'gh', 'Gh', 'G'];
+        break;
+        case 't':
+          options= ['ṫ','th']
+          break;
+          case 'm':
+            options= ['ṁ','mh']
+      default:
+        options = [];
+    }
+
+    this.setState({ options, showOptions: true }); // Show the options menu
+  };
+
+
+  handleOptionClick = (option) => {
+    this.setState((prevState) => ({
+      input: prevState.input.slice(0, -1) + option, // Replace last character with selected option
+      showOptions: false,
+      options: [] // Clear options
+    }));
+  };
   handleShift = () => {
     this.setState({
       layoutName: this.state.layoutName === "shift" ? "easca" : "shift"
@@ -192,6 +240,17 @@ this.setState({ holdTimer: timer });
           disableButtonHold={true}  // Add this line
     
         />
+
+
+{this.state.showOptions && (
+          <div className="options-menu">
+            {this.state.options.map(option => (
+              <button key={option} onClick={() => this.handleOptionClick(option)}>
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
       </>
     );
   }
