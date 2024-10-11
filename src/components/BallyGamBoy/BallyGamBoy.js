@@ -5,6 +5,7 @@ import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
+
   const [showNarrative, setShowNarrative] = useState(false); // Manage the visibility of Narrative1
 
   const toggleNarrative = () => {
@@ -19,10 +20,36 @@ const BallyGamBoy = () => {
   const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const phaserRef = useRef(null);
-  useEffect(() => {
 
 
 
+  const checkNarrativeTracker = () => {
+    const trackerValue = localStorage.getItem('narrativeTracker');
+    if (trackerValue && parseInt(trackerValue, 10) === 5) {
+        setShowNarrative(false);  // Close the narrative only when the tracker hits 5
+        localStorage.setItem('narrativeTracker', 0);  // Optionally reset the tracker
+    }
+};
+
+
+// Call this function periodically or on state updates
+useEffect(() => {
+  const delayCheck = setTimeout(() => {
+    const interval = setInterval(checkNarrativeTracker, 1000);  // Check every second
+    return () => clearInterval(interval);
+}, 2000);  // Add a 2-second delay before starting the check
+
+  const trackerValue = localStorage.getItem('narrativeTracker');
+  // If there's no tracker value or if it's undefined, reset it to 0
+  if (!trackerValue) {
+      localStorage.setItem('narrativeTracker', 0);
+  }
+    const interval = setInterval(checkNarrativeTracker, 1000);  // Poll every second
+    
+
+    if (!localStorage.getItem('narrativeTracker')) {
+      localStorage.setItem('narrativeTracker', 0);
+  }
       // Define mapLayout, obstacleMap, and interactiveMap inside useEffect
       const mapLayout = [
      
@@ -91,6 +118,18 @@ const BallyGamBoy = () => {
       });
   });
 
+  const handleStorageChange = (e) => {
+    if (e.key === 'narrativeTracker') {
+        checkNarrativeTracker();
+    }
+};
+
+// Add an event listener for localStorage changes
+window.addEventListener('storage', handleStorageChange);
+
+// Run the check once on component mount to hide the narrative if already at 5
+checkNarrativeTracker();
+
 
 
     return () => {
@@ -103,6 +142,9 @@ const BallyGamBoy = () => {
       if (gameRef.current) {
           gameRef.current.destroy(true);
       }
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+      clearTimeout(delayCheck);
     };
 
 
@@ -114,8 +156,8 @@ const BallyGamBoy = () => {
   function preload() {
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
-    this.load.image('lake-wizard', 'phaser-resources/images/sprites/fish/fish4Texture.png');
-    this.load.image('lure', 'phaser-resources/images/sprites/gold_pile_0.png');
+    this.load.image('lake-wizard', '/phaser-resources/images/sprites/serpent.png');
+    this.load.image('lure',         '/phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
     this.load.image('geaga1', '/phaser-resources/images/big-glass.png');
@@ -612,21 +654,20 @@ function update(time, delta) {
     
     this.time.delayedCall(1000, () => {
       // Add the creature's head image at the specified position (shifted 40px higher)
-      const creature = this.add.image(340, 540, 'lake-wizard')  // Start at 540 instead of 580
+      const creature = this.add.image(370, 550, 'lake-wizard')  
         .setAlpha(0)     // Initially transparent
-        .setScale(0.7)   // Start with a small scale
-        .setDepth(1)     // Set depth to appear above other objects
-        .setY(620);      // Start a little lower at 560 (40px higher than before)
+        .setScale(0.2)   // Start with a small scale
+        .setDepth(-2)     // Set depth to appear above other objects
   
       // Animate the fade-in, zoom, and bobbing effect for the creature
       this.tweens.add({
         targets: creature,
         alpha: 0.8,             // Fade in to near full opacity
-        scale: 0.8,            // Zoom in to final size
-        y: 550,                 // Raise to the new y position (40px higher than before)
-        x: 360,                 // Raise to the new y position (40px higher than before)
+        scale: 0.3,            // Zoom in to final size
         duration: 3400,          // Duration of the initial rise
-        ease: 'Power1',         // Easing function for the rise
+        ease: 'Power1',   
+        depth:59,      
+        // Easing function for the rise
         onComplete: () => {
           // Ripple once the creature rises
           createRipple.call(this, 390, 520);
@@ -678,8 +719,8 @@ function createRipple(x, y) {
     const createThinRipple = (color, delay, depth) => {
       const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
       let progress = 0;
-      const maxRadius = 400;
-      const duration = 42000;  // Total duration of the effect
+      const maxRadius = 180;
+      const duration = 14000;  // Total duration of the effect
   
       const expandRipple = () => {
         ripple.clear();
@@ -906,11 +947,14 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
     <>
     <div id="phaser-container" style={{ width: '800px', height: '480px' }}>
    
-            {showNarrative && (
-                <div style={{ width: '75vw', border:'20px solid blue',height: '75vh', margin: 'auto', padding: '20px', border: '1px solid #ccc', position: 'relative' }}>
+    {showNarrative && (
+                <div style={{ width: '75vw', height: '75vh', margin: 'auto', position: 'relative' }}>
                     <Narrative1 setShowNarrative={setShowNarrative} />
                 </div>
             )}
+
+            {/* Game content continues here when narrative is hidden */}
+   
   
      
 {!fullscreen && (

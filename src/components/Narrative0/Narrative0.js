@@ -118,7 +118,7 @@ class GameScene extends Phaser.Scene {
             const firstEnText = narrative0[0][this.hero].eng0;
             this.textGa = this.add.text(30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'INFO56_0' });
             this.textEn = this.add.text(30, 200, firstEnText, { color: '#ffffff', fontFamily: 'anaphora'});
-            this.textGa.setFontSize(28);
+            this.textGa.setFontSize(23);
             // this.textGa.setOrigin(0);
             this.textGa.setDepth(19);
             this.textEn.setFontSize(24);
