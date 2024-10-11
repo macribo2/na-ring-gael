@@ -1312,7 +1312,7 @@ return (
 
 		<img src={westmeath} className="westmeath-animation" alt="static filled render of westmeath land." />
 
-		<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>
+		<div className="input-elements-container-8" style={{ left: '0', width: '50%' }}>	
 			{/* lens-cap elements */}
 			<img className="lens-cap2" src={lensCap2} alt="Lens Cap 2" />
 			<img className="lens-cap" src={lensCap} alt="Lens Cap" />
