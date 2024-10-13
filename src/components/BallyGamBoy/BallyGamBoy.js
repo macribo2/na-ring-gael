@@ -25,7 +25,7 @@ const BallyGamBoy = () => {
 
   const checkNarrativeTracker = () => {
     const trackerValue = localStorage.getItem('narrativeTracker');
-    if (trackerValue && parseInt(trackerValue, 10) === 5) {
+    if (trackerValue && parseInt(trackerValue, 10) === 6) {
         setShowNarrative(false);  // Close the narrative only when the tracker hits 5
         localStorage.setItem('narrativeTracker', 0);  // Optionally reset the tracker
     }
@@ -156,7 +156,7 @@ checkNarrativeTracker();
   function preload() {
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
-    this.load.image('lake-wizard', '/phaser-resources/images/sprites/serpent.png');
+    this.load.image('lake-wizard', '/phaser-resources/images/npcs/snake.png');
     this.load.image('lure',         '/phaser-resources/images/sprites/gold_pile_0.png');
     let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
@@ -335,8 +335,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
 
     
     this.collisionText = this.add.text(200, 90, '', {
-      fontSize: '24px',
-      fill: 'grey',
+      fontSize: '20px',
+      fill: '#D8BFD8',
       fontFamily: 'urchlo',
       padding: { x: 10, y: 10 },
       stroke: '#000000',
@@ -650,9 +650,9 @@ function update(time, delta) {
 
   function emergeMonster() {
     // Create the first ripple with a delay of 1 second before showing the creature
-    createRipple.call(this, 370, 560);
     
     this.time.delayedCall(1000, () => {
+      createRipple.call(this, 370, 560);
       // Add the creature's head image at the specified position (shifted 40px higher)
       const creature = this.add.image(370, 550, 'lake-wizard')  
         .setAlpha(0)     // Initially transparent

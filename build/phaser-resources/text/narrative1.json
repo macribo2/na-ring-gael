@@ -1,12 +1,18 @@
 [
   {
     "hero": {
-      "gae0": "Dia dhuit!",
-      "eng0": "Hello!",
-      "gae1": "An óir atá á lorg agat?",
-      "eng1": "Is it gold you are searching for?",
-      "gae2": "Féach, tá neart.",
-      "eng2": "Look, there's plenty."
-    }
+      "gae0": "Cé a corraíl an tuisce? Cad atá uait?",
+      "eng0": "Who stirred the water? What do you want?",
+      "gae1":"Ór? Cinnte! \nFéach síos ansin. \nMá shínann tú do lámh...",
+"eng1": "Gold? Certainly!\nLook down there. \nIf you stretch your hand...",
+"gae2":"...no?\n But see how it shines!",
+    "eng2": "...ní shínfaidh?\n Ach féach mar a lasann sé!",
+      "eng3":"No? Then you pursue\n secrets and knowledge\nor you are lost.",
+      "gae3":"Ní hea?\nMar sin ar thoir rún agus feasa atá tú \nnó, tá tú caillte",
+      "eng4":"Light the torches\nat the back of the cave",
+      "gae4":"Las na tóirsí ag cúl an plúais",
+      "eng5":"Then you'll find \na secret in the lake",
+      "gae5":"Aimseoidh tú rún sa loch ansin"
+     }
   }
 ]
