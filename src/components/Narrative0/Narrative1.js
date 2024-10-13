@@ -20,7 +20,11 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.json('narrative1', './phaser-resources/text/narrative1.json');  // Ensure the path is correctZ
+        this.load.image('scene1-bg', '/phaser-resources/images/npcs/snake.png');
+        this.load.image('scene2-bg', '/phaser-resources/images/illustrations/goldInLake.png');
+        this.load.image('scene3-bg', 'phaser-resources/images/illustrations/torches.png');
+        this.load.image('scene4-bg', 'path/to/scene3-bg.png');
+        this.load.json('narrative1', './phaser-resources/text/narrative1.json');  // Ensure the path is correct
         this.load.image('overlay', '/phaser-resources/images/big-glass.png');
    
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
@@ -32,6 +36,7 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        
 
               
     const tileSize = 32;
@@ -102,35 +107,55 @@ class GameScene extends Phaser.Scene {
 
     updateText() {
         const narrativeData = this.cache.json.get('narrative1');
-
+    
         if (!narrativeData || !Array.isArray(narrativeData) || narrativeData.length === 0) {
             console.error('Narrative data is empty or not loaded correctly.');
             return;
         }
-
+    
         const currentNarrative = narrativeData[0][this.hero];
-
         if (!currentNarrative) {
             console.error(`No narrative found for hero: ${this.hero}`);
             return;
         }
-
+    
         const keyGa = `gae${this.narrativeTracker}`;
         const keyEn = `eng${this.narrativeTracker}`;
-
+    
         if (currentNarrative[keyGa] && currentNarrative[keyEn]) {
             this.textGa.setText(currentNarrative[keyGa]);
             this.textEn.setText(currentNarrative[keyEn]);
         } else {
             console.error(`No dialogue found for narrative tracker: ${this.narrativeTracker}`);
         }
-
-        // Save narrativeTracker to localStorage
-        localStorage.setItem('narrativeTracker', this.narrativeTracker);
-
-     
+    
+        // Update graphics based on the narrativeTracker
+        this.updateGraphics();
     }
+    updateGraphics() {
+        const backgroundImages = [
+            'scene1-bg',
+            'scene2-bg',
+            'scene3-bg',
+            'scene4-bg',  // Add more as needed
+        ];
+    
+        // Assuming you've preloaded these background images
+        const currentBackground = backgroundImages[this.narrativeTracker];
+    
+        if (this.backgroundSprite) {
+            this.backgroundSprite.setTexture(currentBackground);
+        } else {
+            this.backgroundSprite = this.add.sprite(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                currentBackground
+            ).setOrigin(0.5, 0.5).setDepth(-1);  // Background below text and controls
+        }
+        console.log('Updating background to:', currentBackground);
 
+    }
+        
     addTextBubbles() {
         // Define your logic for adding text bubbles here
         this.textGa = this.add.text(100, 50, '', {      fontSize: '24px',
@@ -160,12 +185,6 @@ class GameScene extends Phaser.Scene {
         }
     
         const currentNarrative = narrativeData[0][this.hero];
-    
-        if (!currentNarrative) {
-            console.error(`No narrative found for hero: ${this.hero}`);
-            return;
-        }
-    
         const keyGa = `gae${this.narrativeTracker}`;
         const keyEn = `eng${this.narrativeTracker}`;
     
@@ -176,7 +195,8 @@ class GameScene extends Phaser.Scene {
             console.error(`No dialogue found for narrative tracker: ${this.narrativeTracker}`);
         }
     
-       
+        // Ensure that updateGraphics() is called
+        this.updateGraphics();
     }
     
 
