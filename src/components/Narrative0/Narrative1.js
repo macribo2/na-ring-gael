@@ -21,6 +21,7 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         this.load.json('narrative1', './phaser-resources/text/narrative1.json');  // Ensure the path is correctZ
+        this.load.image('overlay', '/phaser-resources/images/big-glass.png');
    
         this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
         this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
@@ -31,6 +32,13 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+
+              
+    const tileSize = 32;
+    const gridWidth = 25; // Number of tiles in width
+    const gridHeight = 18; // Number of tiles in height
+    const bgWidth = tileSize * gridWidth;
+    const bgHeight = tileSize * gridHeight;
         this.addTextBubbles();
         this.setupControls();
         this.updateText();
@@ -46,10 +54,25 @@ class GameScene extends Phaser.Scene {
         this.buttonDown = this.add.sprite(buttonX, buttonY + 50, 'button-down').setInteractive().setDepth(4);
         this.buttonRight = this.add.sprite(buttonX + 50, buttonY, 'button-right').setInteractive().setDepth(4);
         this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(4);
-
-        this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(4);
-        this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
-
+        this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+        this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
+         // Create the translucent background and English text
+         this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'overlay').setScale(3).setAlpha(0.8);
+     
+        function handleMiddleButtonClick(scene) {
+            if (scene.isMiddleButtonCooldown) return;
+            toggleVisibility(scene);
+        
+            scene.isMiddleButtonCooldown = true;
+            setTimeout(() => {
+              scene.isMiddleButtonCooldown = false;
+            }, 500); // Adjust the delay as needed (500ms in this case)
+          }
+          function toggleVisibility(scene) {
+            // Toggle visibility of elements
+            scene.translucentBg.setVisible(!scene.translucentBg.visible);
+            scene.textEn.setVisible(!scene.textEn.visible); // Use textEn instead of keyEn
+        }
         this.buttonUp.on('pointerdown', () => {
             this.updateNarrativeTracker('increment');
             this.updateText(); // Call updateText() when buttonUp is clicked
@@ -110,8 +133,18 @@ class GameScene extends Phaser.Scene {
 
     addTextBubbles() {
         // Define your logic for adding text bubbles here
-        this.textGa = this.add.text(100, 100, '', { fontSize: '32px', fill: '#fff' });
-        this.textEn = this.add.text(100, 150, '', { fontSize: '32px', fill: '#fff' });
+        this.textGa = this.add.text(100, 50, '', {      fontSize: '24px',
+            fill: '#D8BFD8',
+            fontFamily: 'urchlo',
+            padding: { x: 10, y: 10 },
+            stroke: '#000000',
+            strokeThickness: 3 }).setDepth(9999);
+        this.textEn = this.add.text(100, 210, '', {   fontSize: '28px',
+            fill: 'lime',
+            fontFamily: 'Ubuntu',
+            padding: { x: 10, y: 10 },
+            stroke: '#000000',
+            strokeThickness: 3 }).setDepth(9998);
     }
 
     setupControls() {
@@ -155,7 +188,7 @@ class GameScene extends Phaser.Scene {
         this.textEn.setVisible(this.isOverlayVisible);
     }
     updateNarrativeTracker(direction) {
-        const maxTracker = 5;
+        const maxTracker = 7;
         if (direction === 'increment') {
             this.narrativeTracker = Math.min(maxTracker, this.narrativeTracker + 1);
         } else {
