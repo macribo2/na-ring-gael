@@ -22,15 +22,59 @@ const BallyGamBoy = () => {
   const phaserRef = useRef(null);
 
 
-
   const checkNarrativeTracker = () => {
     const trackerValue = localStorage.getItem('narrativeTracker');
     if (trackerValue && parseInt(trackerValue, 10) === 6) {
-        setShowNarrative(false);  // Close the narrative only when the tracker hits 5
-        localStorage.setItem('narrativeTracker', 0);  // Optionally reset the tracker
+      setShowNarrative(false);  // Close the narrative
+      localStorage.setItem('narrativeTracker', 0);  // Optionally reset the tracker
+  
+      // Access the Phaser scene and call sinkCreature
+      if (gameRef.current && gameRef.current.scene.scenes[0]) {
+        gameRef.current.scene.scenes[0].sinkCreature();  // Call sinkCreature inside the scene
+      }
     }
-};
-
+  };
+  
+  function createRipple(x, y) {
+    // Easing function (easeOutQuart)
+    const easeOutQuart = (t, b, c, d) => {
+      t = t / d - 1;
+      return -c * (t * t * t * t - 1) + b;
+    };
+  
+    // Function to create a ripple with specified style
+    const createThinRipple = (color, delay, depth) => {
+      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+      let progress = 0;
+      const maxRadius = 180;
+      const duration = 14000;  // Total duration of the effect
+  
+      const expandRipple = () => {
+        ripple.clear();
+        ripple.lineStyle(1, color, 1);  // Ensure style is applied each time
+        const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
+        ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
+        progress += 16;  // Increase time progress by the frame duration (~60 FPS)
+  
+        if (progress < duration) {
+          this.time.delayedCall(16, expandRipple);  // Call every 16ms (~60 FPS)
+        } else {
+          ripple.destroy();  // Destroy once the animation is complete
+        }
+      };
+  
+      expandRipple();  // Start the ripple animation
+    };
+  
+    // Create the first white ripple
+    createThinRipple(0xffffff, 0, -2);  // White ripple at depth -2
+  
+    // Create a second ripple after a delay (optional style modification)
+    this.time.delayedCall(50, () => {
+      createThinRipple(0x707070, 500, -1);  // Black ripple at depth -1
+    });
+  }
+  
 
 // Call this function periodically or on state updates
 useEffect(() => {
@@ -193,8 +237,38 @@ checkNarrativeTracker();
   }
 
   
+  let creature = null;
   function create() {
- 
+    let creature = null;
+
+      // Initialize a reference for the creature
+ // Define the sinkCreature function within the Phaser scene
+ this.sinkCreature = () => {
+  createRipple.call(this, 370, 560); // Adjust the coordinates as needed
+  
+  // Destroy the existing creature if it exists
+  if (this.creature) {
+    this.creature.destroy();
+  }
+  
+  // Create a new creature instance
+  this.creature = this.add.image(370, 550, 'lake-wizard')
+  .setAlpha(0.8)
+  .setScale(0.3)
+  .setDepth(59);
+  
+  this.tweens.add({
+    targets: this.creature,
+    alpha: 0,
+    y: '+=50',
+    duration: 2000,
+    ease: 'Power1',
+    onComplete: () => {
+      this.creature.destroy();  // Remove the creature after sinking
+      this.creature = null; // Clear the reference
+    }
+  });
+};
     this.rippleCount = 0; // Step 1: Initialize the counter
 
     const mapLayout = [
@@ -627,6 +701,82 @@ function update(time, delta) {
       return; // Wait until move delay is over
     }
 
+    let creature = null; // Global variable to hold the creature instance
+
+    function emergeCreature() {
+      if (creature) return; // If the creature already exists, don't create a new one
+    
+      // Create the first ripple with a delay of 1 second before showing the creature
+      this.time.delayedCall(1000, () => {
+        createRipple.call(this, 370, 560);
+        
+        // Create the creature instance
+        creature = this.add.image(370, 550, 'lake-wizard')
+          .setAlpha(0)     // Initially transparent
+          .setScale(0.2)   // Start with a small scale
+          .setDepth(-2);   // Set depth to appear above other objects
+    
+        // Animate the fade-in, zoom, and bobbing effect for the creature
+        this.tweens.add({
+          targets: creature,
+          alpha: 0.8,             // Fade in to near full opacity
+          scale: 0.3,             // Zoom in to final size
+          duration: 3400,         // Duration of the initial rise
+          ease: 'Power1',
+          onComplete: () => {
+            // Ripple once the creature rises
+            createRipple.call(this, 370, 560);
+            
+            // Bobbing effect
+            this.tweens.add({
+              targets: creature,
+              y: '+=4',          // Move 4 pixels up
+              yoyo: true,        // Move back down
+              repeat: -1,        // Repeat the bobbing indefinitely
+              duration: 4000,    // Duration of each bob cycle
+              ease: 'Sine.easeInOut'  // Smooth bobbing motion
+            });
+    
+            // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
+            this.time.delayedCall(2000, () => {
+              const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
+                .setAlpha(0)    // Initially transparent
+                .setScale(0.15) // Set desired size for the treasure
+                .setDepth(1);   // Ensure it appears above other objects
+    
+              // Fade in the treasure (lure)
+              this.tweens.add({
+                targets: lure,
+                alpha: 1,        // Fully visible
+                duration: 1000,  // Fade-in duration
+                ease: 'Power1'
+              });
+            }, [], this);  // 2-second delay after the creature appears
+          }
+        });
+    
+        this.time.delayedCall(4000, () => {
+          setShowNarrative(true);  // Show the narrative overlay
+        }, [], this);
+      }, [], this);
+    
+       // Command to hide the creature after 4 seconds
+       this.time.delayedCall(5000, () => {
+        // Animate the creature's disappearance
+        this.tweens.add({
+          targets: creature,
+          alpha: 0,        // Fade out to fully transparent
+          duration: 1000,  // Fade-out duration
+          ease: 'Power1',
+          onComplete: () => {
+            creature.destroy(); // Remove the creature from the scene
+            creature = null;    // Clear the reference to the creature
+          }
+        });
+      }, [], this);
+
+    }
+
     const tileSize = 32;
     const gridWidth = 25;
     const gridHeight = 18;
@@ -648,106 +798,9 @@ function update(time, delta) {
       createRipple.call(this, this.player.x, this.player.y);  // Make sure `this` is bound correctly
   }
 
-  function emergeMonster() {
-    // Create the first ripple with a delay of 1 second before showing the creature
-    
-    this.time.delayedCall(1000, () => {
-      createRipple.call(this, 370, 560);
-      // Add the creature's head image at the specified position (shifted 40px higher)
-      const creature = this.add.image(370, 550, 'lake-wizard')  
-        .setAlpha(0)     // Initially transparent
-        .setScale(0.2)   // Start with a small scale
-        .setDepth(-2)     // Set depth to appear above other objects
+
   
-      // Animate the fade-in, zoom, and bobbing effect for the creature
-      this.tweens.add({
-        targets: creature,
-        alpha: 0.8,             // Fade in to near full opacity
-        scale: 0.3,            // Zoom in to final size
-        duration: 3400,          // Duration of the initial rise
-        ease: 'Power1',   
-        depth:59,      
-        // Easing function for the rise
-        onComplete: () => {
-          // Ripple once the creature rises
-          createRipple.call(this, 390, 520);
-          
-          // Bobbing effect
-          this.tweens.add({
-            targets: creature,
-            y: '+=4',          // Move 4 pixels up
-            yoyo: true,        // Move back down
-            repeat: -1,        // Repeat the bobbing indefinitely
-            duration: 4000,    // Duration of each bob cycle
-            ease: 'Sine.easeInOut'  // Smooth bobbing motion
-          });
-  
-          // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
-          this.time.delayedCall(2000, () => {
-            const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
-              .setAlpha(0)    // Initially transparent
-              .setScale(0.15) // Set desired size for the treasure
-              .setDepth(1);   // Ensure it appears above other objects
-  
-            // Fade in the treasure (lure)
-            this.tweens.add({
-              targets: lure,
-              alpha: 1,        // Fully visible
-              duration: 1000,  // Fade-in duration
-              ease: 'Power1'
-            });
-          }, [], this);  // 2-second delay after the creature appears
-        }
-      });
-      this.time.delayedCall(4000, () => {
-        setShowNarrative(true);  // Show the narrative overlay
-    }, [], this);
-}, [], this);
-  
-  
-  }
-  
-  
-function createRipple(x, y) {
-    // Easing function (easeOutQuart)
-    const easeOutQuart = (t, b, c, d) => {
-      t = t / d - 1;
-      return -c * (t * t * t * t - 1) + b;
-    };
-  
-    // Function to create a ripple with specified style
-    const createThinRipple = (color, delay, depth) => {
-      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
-      let progress = 0;
-      const maxRadius = 180;
-      const duration = 14000;  // Total duration of the effect
-  
-      const expandRipple = () => {
-        ripple.clear();
-        ripple.lineStyle(1, color, 1);  // Ensure style is applied each time
-        const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
-        ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
-        progress += 16;  // Increase time progress by the frame duration (~60 FPS)
-  
-        if (progress < duration) {
-          this.time.delayedCall(16, expandRipple);  // Call every 16ms (~60 FPS)
-        } else {
-          ripple.destroy();  // Destroy once the animation is complete
-        }
-      };
-  
-      expandRipple();  // Start the ripple animation
-    };
-  
-    // Create the first white ripple
-    createThinRipple(0xffffff, 0, -2);  // White ripple at depth -2
-  
-    // Create a second ripple after a delay (optional style modification)
-    this.time.delayedCall(50, () => {
-      createThinRipple(0x707070, 500, -1);  // Black ripple at depth -1
-    });
-  }
-  
+
 
     // Initialize a flag in your class constructor or setup method
 this.isInWater = false;  // Flag to track if the player is in water
@@ -768,9 +821,9 @@ if (collision) {
 
       console.log('Updated Ripple Count:', this.rippleCount);
       
-      // Emerge the monster after the 4th ripple
+      // Emerge the creature after the 4th ripple
       if (this.rippleCount === 3) {
-        emergeMonster.call(this);  // Monster emerges after 4 ripples
+        emergeCreature.call(this);  // Creature emerges after 4 ripples
       }
 
       // Reset the flag after a delay (e.g., 500ms) to allow more ripples
@@ -877,6 +930,7 @@ if (interactiveObject) {
 // Move the player if there's no collision
 this.player.nextMove = nextMove;
 this.isMoving = true; 
+
 }
 
 function updateButtonPositions(scene) {

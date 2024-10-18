@@ -1,12 +1,12 @@
 [
   {
     "hero": {
-      "gae0": "Cé a corraíl an tuisce?",
-      "eng0": "Who stirred the water?",
-      "gae1":"Ór atá uait is dócha? \nFéach síos \nMá shínann tú lámh isteach...",
-"eng1": "You want gold probably? \nLook down \nIf you stretch a hand in...",
-"gae2":"...you won't?\n But see how it shines!",
-    "eng2": "...ní shínfaidh?\n Ach féach an lionra atá ar!",
+      "gae0": " ",
+      "eng0": " ",
+      "gae1":"Cuairteoir ag lorg ór is dócha? \nFéach síos \nMá shínann tú lámh isteach...",
+"eng1": "A visitor seeking gold probably? \nLook down \nIf you stretch a hand in...",
+"gae2": "...ní shínfaidh?\n Ach féach an lionra atá ar!",
+"eng2":"...you won't?\n But see how it shines!",
       "eng3":"Not gold?\nknowledge is what you seek then",
       "gae3":"Ní ór?\nfeasa atá á lorg agat mar sin",
       "eng4":"You'll find torches \nat the back of the cave",

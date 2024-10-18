@@ -20,10 +20,12 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('scene1-bg', '/phaser-resources/images/npcs/snake.png');
-        this.load.image('scene2-bg', '/phaser-resources/images/illustrations/goldInLake.png');
-        this.load.image('scene3-bg', 'phaser-resources/images/illustrations/torches.png');
-        this.load.image('scene4-bg', 'path/to/scene3-bg.png');
+        this.load.image('scene1-bg', '/phaser-resources/images/illustrations/snakeEmerge.png');
+        this.load.image('scene2-bg', 'phaser-resources/images/illustrations/snakeEmerge2.png');
+        this.load.image('scene3-bg', '/phaser-resources/images/illustrations/goldInLake.png');
+        this.load.image('scene4-bg', '/phaser-resources/images/illustrations/snakeEmerge3.png');
+        this.load.image('scene5-bg', '/phaser-resources/images/illustrations/torches.png');
+        this.load.image('scene6-bg', '/phaser-resources/images/illustrations/torches2.png');
         this.load.json('narrative1', './phaser-resources/text/narrative1.json');  // Ensure the path is correct
         this.load.image('overlay', '/phaser-resources/images/big-glass.png');
    
@@ -33,12 +35,11 @@ class GameScene extends Phaser.Scene {
         this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
         this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
         this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
+        this.load.audio('chirp', './phaser-resources/audio/text-message.ogg');
     }
 
     create() {
-        
-
-              
+          
     const tileSize = 32;
     const gridWidth = 25; // Number of tiles in width
     const gridHeight = 18; // Number of tiles in height
@@ -52,7 +53,6 @@ class GameScene extends Phaser.Scene {
         this.setShowNarrative = this.sys.settings.data.setShowNarrative;
     }
 
-
         const buttonX = this.sys.game.config.width - 150;
         const buttonY = this.sys.game.config.height / 2 + 50;
         this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(4);
@@ -62,7 +62,7 @@ class GameScene extends Phaser.Scene {
         this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
         this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
          // Create the translucent background and English text
-         this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'overlay').setScale(3).setAlpha(0.8);
+         this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'overlay').setScale(3).setAlpha(0.8).setVisible(false);
      
         function handleMiddleButtonClick(scene) {
             if (scene.isMiddleButtonCooldown) return;
@@ -138,6 +138,8 @@ class GameScene extends Phaser.Scene {
             'scene2-bg',
             'scene3-bg',
             'scene4-bg',  // Add more as needed
+            'scene5-bg',  // Add more as needed
+            'scene6-bg',  // Add more as needed
         ];
     
         // Assuming you've preloaded these background images
@@ -157,21 +159,35 @@ class GameScene extends Phaser.Scene {
     }
         
     addTextBubbles() {
-        // Define your logic for adding text bubbles here
-        this.textGa = this.add.text(100, 50, '', {      fontSize: '24px',
+        // Position for text bubbles
+        const textPositionY = 50;
+        const textPositionX = 100;
+    
+       
+        // Add Irish text with initial ellipsis
+        this.textGa = this.add.text(textPositionX, textPositionY, '...', {
+            fontSize: '24px',
             fill: '#D8BFD8',
             fontFamily: 'urchlo',
             padding: { x: 10, y: 10 },
             stroke: '#000000',
-            strokeThickness: 3 }).setDepth(9999);
-        this.textEn = this.add.text(100, 210, '', {   fontSize: '28px',
+            strokeThickness: 3
+        }).setDepth(9999);
+    
+        // Add English text below (or modify as needed)
+        this.textEn = this.add.text(textPositionX, textPositionY + 160, '', {
+            fontSize: '28px',
             fill: 'lime',
             fontFamily: 'Ubuntu',
             padding: { x: 10, y: 10 },
             stroke: '#000000',
-            strokeThickness: 3 }).setDepth(9998);
+            strokeThickness: 3
+        }).setDepth(998).setVisible(false);
+    
+   
     }
-
+    
+    
     setupControls() {
         // Your controls logic here
     }
@@ -189,14 +205,117 @@ class GameScene extends Phaser.Scene {
         const keyEn = `eng${this.narrativeTracker}`;
     
         if (currentNarrative[keyGa] && currentNarrative[keyEn]) {
-            this.textGa.setText(currentNarrative[keyGa]);
-            this.textEn.setText(currentNarrative[keyEn]);
+            // Play chirp sound when text appears
+            this.sound.play('chirp');
+    
+            // Fade out the existing background before updating the text and background
+            this.fadeOutBackground(() => {
+                // Set text after background fades out
+                this.textGa.setText(currentNarrative[keyGa]);
+                this.textEn.setText(currentNarrative[keyEn]);
+    
+                // Fade in the updated background after a short delay
+                this.time.delayedCall(100, () => {
+                    this.fadeInBackground();
+                });
+            });
+    
         } else {
             console.error(`No dialogue found for narrative tracker: ${this.narrativeTracker}`);
         }
+    }
     
-        // Ensure that updateGraphics() is called
-        this.updateGraphics();
+    fadeInBackground() {
+        const backgroundImages = [
+            'scene1-bg',
+            'scene2-bg',
+            'scene3-bg',
+            'scene4-bg',
+            'scene5-bg',
+            'scene6-bg',
+        ];
+    
+        const currentBackground = backgroundImages[this.narrativeTracker];
+    
+        // Create or update the background sprite and fade it in
+        if (this.backgroundSprite) {
+            this.backgroundSprite.setTexture(currentBackground);
+            this.tweens.add({
+                targets: this.backgroundSprite,
+                alpha: { from: 0, to: 1 },
+                duration: 500, // Fade in over 1 second
+                ease: 'Power2'
+            });
+        } else {
+            this.backgroundSprite = this.add.sprite(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                currentBackground
+            ).setOrigin(0.5, 0.5).setAlpha(0).setDepth(-1);
+    
+            this.tweens.add({
+                targets: this.backgroundSprite,
+                alpha: { from: 0, to: 1 },
+                duration: 500,
+                ease: 'Power2'
+            });
+        }
+    }
+    
+    fadeOutBackground(onComplete) {
+        if (this.backgroundSprite) {
+            // Fade out the current background
+            this.tweens.add({
+                targets: this.backgroundSprite,
+                alpha: { from: 1, to: 0 },
+                duration: 1000, // Fade out over 1 second
+                ease: 'Power2',
+                onComplete: onComplete, // Call the callback after fade out completes
+            });
+        } else {
+            // If no background exists, immediately call the onComplete function
+            onComplete();
+        }
+    }
+    
+    
+    fadeInBackground() {
+        const backgroundImages = [
+            'scene1-bg',
+            'scene2-bg',
+            'scene3-bg',
+            'scene4-bg',
+            'scene5-bg',
+            'scene6-bg',
+        ];
+    
+        const currentBackground = backgroundImages[this.narrativeTracker];
+    
+        // If the background sprite already exists, fade it in
+        if (this.backgroundSprite) {
+            this.backgroundSprite.setTexture(currentBackground);
+            this.tweens.add({
+                targets: this.backgroundSprite,
+                alpha: { from: 0, to: 1 },
+                duration: 1000, // Fade in over 1 second
+                ease: 'Power2'
+            });
+        } else {
+            // Create the background sprite with an initial alpha of 0
+            this.backgroundSprite = this.add.sprite(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                currentBackground
+            ).setOrigin(0.5, 0.5).setAlpha(0).setDepth(-1);
+    
+            // Fade in the sprite
+            this.tweens.add({
+                targets: this.backgroundSprite,
+                alpha: { from: 0, to: 1 },
+                duration: 1000,
+                ease: 'Power2'
+            });
+        }
     }
     
 
