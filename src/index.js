@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import LoadingScene from './components/LoadingScene';
 import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
@@ -26,16 +27,26 @@ import {Rings5} from './components/Rings/Rings5';
 
 const ChessLikeWrapper = () => {
   const [shouldRefresh, setShouldRefresh] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false); // State to track loading
+
 
   useEffect(() => {
+
+    
     // This effect runs once when the component mounts
     const timeoutId = setTimeout(() => {
+      setIsLoaded(true); // Set to true after 2 seconds to simulate loading
+
       // Set shouldRefresh to true after 2 seconds
       // setShouldRefresh(true);
     }, 2000);
 
     // Cleanup function to clear the timeout in case the component unmounts
     return () => clearTimeout(timeoutId);
+
+    if (!isLoaded) {
+      return <LoadingScene />; // Show loading scene until assets are loaded
+    }
   }, []); // Empty dependency array ensures that this effect runs only once
 
   return (
@@ -260,7 +271,6 @@ const ChessLikeWrapper = () => {
 <Route path="/munster/tipperary/rathsasseragh"component={GenericLocation}/>
 <Route path="/munster/tipperary/dungarvan"component={GenericLocation}/>
 <Route path="/munster/tipperary/nenagh"component={GenericLocation}/>
-
 
 
 
