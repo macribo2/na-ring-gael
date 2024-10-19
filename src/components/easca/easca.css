@@ -322,3 +322,31 @@ top: 60%;
 	}
   }
   
+
+  .options-menu {
+	transition: opacity 0.5s ease-out;
+  }
+  
+  .options-menu.fade-out {
+	opacity: 0;
+  }
+  .easca-input {
+	cursor: text; /* Ensures the cursor changes to text (I-beam) over the input */
+  }
+  
+  .easca-input::placeholder {
+	/* Custom styling for the placeholder cursor */
+	color: grey;
+  }
+  
+  .easca-input:focus {
+	border-color: #4A90E2; /* Custom border when focused */
+	outline: none;
+	caret-color: red; /* Change the color of the caret (blinking cursor) */
+  }
+	
+  .easca-input {
+	caret-color: red; /* Customize the color of the caret (blinking cursor) */
+	font-family: monospace; /* Optional: Set font to make the cursor stand out */
+  }
+  

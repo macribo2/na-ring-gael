@@ -24,6 +24,7 @@ export default class Easca extends React.Component {
       showEasca: true,
       showOptions: false,
     };
+    this.textareaRef = React.createRef(); // Create a ref for the textarea
 
     this.keyHeld = {}; // Object to track key hold state
   }
@@ -32,6 +33,17 @@ export default class Easca extends React.Component {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('showEasca', this.handleShowEasca);
+        // Focus the textarea on component mount
+        if (this.textareaRef.current) {
+          this.textareaRef.current.focus();
+        }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Focus the textarea when the state changes and the textarea is visible
+    if (this.state.showEasca && this.textareaRef.current) {
+      this.textareaRef.current.focus();
+    }
   }
 
   componentWillUnmount() {
@@ -80,28 +92,32 @@ export default class Easca extends React.Component {
   
   onKeyPress = (button) => {
     console.log("Button pressed", button);
-    
+  
     // Clear any existing timer before starting a new one
     if (this.state.holdTimer) {
       clearTimeout(this.state.holdTimer);
     }
-    
+  
     // Start a new timer for 1 second
     const timer = setTimeout(() => {
       this.showOptionsMenu(button); // Show options menu when button is held
     }, 1000); // Adjust hold time if needed
-    
+  
     // Store the timer in the state
     this.setState({ holdTimer: timer });
-    
+  
+    // Handle special cases like {space} to insert a space character
+    let newInput = button === '{space}' ? ' ' : button; 
+  
     // Check if the options menu is already shown to prevent adding the character
     if (!this.state.showOptions) {
       // Handle normal key press immediately (e.g., input normal character)
       this.setState(prevState => ({
-        input: prevState.input + button // Add the button to the input
+        input: prevState.input + newInput // Add the button to the input
       }));
     }
   };
+  
   
   handleOptionClick = (option) => {
     this.setState((prevState) => ({
@@ -116,8 +132,7 @@ export default class Easca extends React.Component {
   
   showOptionsMenu = (button) => {
     let options = [];
-
-    // Define additional options based on the pressed button
+  
     switch (button) {
       case 'a':
         options = ['á', 'Á', '7', 'A'];
@@ -149,13 +164,31 @@ export default class Easca extends React.Component {
       default:
         options = [];
     }
-
+  
     if (options.length > 0) {
-      this.setState({ options, showOptions: true }); // Show the options menu
+      this.setState({ options, showOptions: true });
+  
+      // Set a timer to auto-hide the options menu after 3 seconds
+      if (this.hideOptionsTimer) {
+        clearTimeout(this.hideOptionsTimer); // Clear any existing timer
+      }
+      this.hideOptionsTimer = setTimeout(() => {
+        this.setState({ showOptions: false, options: [] });
+      }, 3000); // 3 seconds
     }
   };
-
-
+  
+  // Ensure the timer is cleared when the component unmounts to prevent memory leaks
+  componentWillUnmount() {
+    if (this.hideOptionsTimer) {
+      clearTimeout(this.hideOptionsTimer);
+    }
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
+    window.removeEventListener('showEasca', this.handleShowEasca);
+  }
+  
+d
   handleShift = () => {
     this.setState({
       layoutName: this.state.layoutName === "shift" ? "easca" : "shift"
@@ -192,6 +225,8 @@ export default class Easca extends React.Component {
           <img src={consoleBg} alt="stone frame" id="console-bg" />
         </div>
         <textarea
+         ref={this.textareaRef} // Assign the ref to the textarea
+         spellCheck={false}
           maxLength="162"
           className="easca-input"
           value={this.state.input}
