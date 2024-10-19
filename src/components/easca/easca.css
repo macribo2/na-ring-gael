@@ -278,15 +278,17 @@ top: 60%;
 		display: flex;
 		justify-content: center; /* Center the buttons horizontally */
 		position: absolute; /* Position it absolutely */
-		top: 50%; /* Adjust this as needed */
-		left: 50%; /* Centering the menu */
+		top: 30%; /* Adjust this as needed */
+		left: 35%; /* Centering the menu */
 		z-index: 9900; /* Make sure it appears above other elements */
-		height:50px
+		height:50px;
+		background-color: rgba(0,0,0,0);
+		border: none;
 	  }
 	  
 	  .options-menu button {
-		background-color: darkblue; /* Dark blue background */
-		color: lightgray; /* Pale text color */
+		background-color: rgb(31, 183, 20); /* Dark blue background */
+		color: rgb(209, 212, 43); /* Pale text color */
 		border: none; /* Remove default border */
 		border-radius: 5px; /* Optional: add rounded corners */
 		padding: 10px 15px; /* Adjust padding for button size */

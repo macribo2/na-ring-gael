@@ -11,7 +11,6 @@ export default class Easca extends React.Component {
       layoutName: 'easca',
       holdTimer: null, // Timer to track button hold
       options: [], // State to store the options for the menu
-
       input: "",
       display: {
         '{space}': ' ',
@@ -26,8 +25,6 @@ export default class Easca extends React.Component {
       showOptions: false,
     };
 
-    this.longPressTimer = null;
-    this.holdTimer = null; // Timer for button hold
     this.keyHeld = {}; // Object to track key hold state
   }
 
@@ -43,6 +40,10 @@ export default class Easca extends React.Component {
     window.removeEventListener('showEasca', this.handleShowEasca);
   }
 
+  handleShowEasca = () => {
+    this.setState({ showEasca: true });
+  };
+
   handleKeyDown = (e) => {
     // If the key is already being held down, ignore the event
     if (this.keyHeld[e.key]) return;
@@ -52,66 +53,67 @@ export default class Easca extends React.Component {
 
     // Start the hold timer when any key is pressed
     this.holdTimer = setTimeout(() => {
-      alert("Button held for 3 seconds");
-    }, 3000);
-
-    // Add the key pressed to the input
-    this.setState(prevState => ({
-      input: prevState.input + e.key
-    }));
+      this.showOptionsMenu(e.key); // Show options menu when held
+    }, 1000); // Long press duration
   };
 
   handleKeyUp = (e) => {
     // Clear the hold timer when the button is released
     if (this.holdTimer) {
       clearTimeout(this.holdTimer);
+      this.setState({ holdTimer: null }); // Reset holdTimer in the state
     }
-
+  
+    // Check if the key was held down long enough to trigger options
+    const isKeyHeld = this.keyHeld[e.key];
+  
+    // Only add the key to the input if it wasn't held long enough to show options
+    if (!isKeyHeld && !this.state.showOptions) {
+      this.setState(prevState => ({
+        input: prevState.input + e.key // Add the normal key to the input
+      }));
+    }
+  
     // Reset the key hold state
     this.keyHeld[e.key] = false;
   };
-
-  handleShowEasca = () => {
-    this.setState({ showEasca: true });
-  };
-
-  handleOptionClick = (option) => {
-    this.setState((prevState) => ({
-      input: prevState.input + option,
-      showOptions: false
-    }));
-  };
-
-  onChange = input => {
-    this.setState({ input });
-  };
-
+  
   onKeyPress = (button) => {
     console.log("Button pressed", button);
- // Clear any existing timer before starting a new one
- if (this.state.holdTimer) {
-  clearTimeout(this.state.holdTimer);
-}
-
-// Start a new timer for 3 seconds
-const timer = setTimeout(() => {
-  this.showOptionsMenu(button); // Show options menu when button is held
-
-}, 2000);
-
-// Store the timer in the state
-this.setState({ holdTimer: timer });
-
-    if (button === "{shift}") {
-      this.handleShift();
-    } else if (button === "{alt}") {
-      this.handleAlt();
-    } else if (button === "{send}") {
-      this.handleSend();
-    } else {
-      this.restoreDefaultKeyboard();
+    
+    // Clear any existing timer before starting a new one
+    if (this.state.holdTimer) {
+      clearTimeout(this.state.holdTimer);
+    }
+    
+    // Start a new timer for 1 second
+    const timer = setTimeout(() => {
+      this.showOptionsMenu(button); // Show options menu when button is held
+    }, 1000); // Adjust hold time if needed
+    
+    // Store the timer in the state
+    this.setState({ holdTimer: timer });
+    
+    // Check if the options menu is already shown to prevent adding the character
+    if (!this.state.showOptions) {
+      // Handle normal key press immediately (e.g., input normal character)
+      this.setState(prevState => ({
+        input: prevState.input + button // Add the button to the input
+      }));
     }
   };
+  
+  handleOptionClick = (option) => {
+    this.setState((prevState) => ({
+      input: prevState.input.slice(0, -1) + option, // Replace last character with selected option
+      showOptions: false,
+      options: [] // Clear options
+    }));
+  
+    // Reset key hold state so that normal input resumes
+    Object.keys(this.keyHeld).forEach(key => this.keyHeld[key] = false);
+  };
+  
   showOptionsMenu = (button) => {
     let options = [];
 
@@ -120,45 +122,40 @@ this.setState({ holdTimer: timer });
       case 'a':
         options = ['á', 'Á', '7', 'A'];
         break;
-
-        case 'e':
-          options = ['é', 'É', 'E'];
-          break;
-          case 'i':
-        options = ['í', 'Í', 'I' ];
+      case 'e':
+        options = ['é', 'É', 'E'];
         break;
-        case 'o':
+      case 'i':
+        options = ['í', 'Í', 'I'];
+        break;
+      case 'o':
         options = ['ó', 'Ó', 'O'];
         break;
-        case 'u':
+      case 'u':
         options = ['ú', 'Ú', 'U'];
         break;
-        case 'f':
-        options = [ 'ḟ', 'fh', 'Fh', 'F'];
+      case 'f':
+        options = ['ḟ', 'fh', 'Fh', 'F'];
         break;
-        case 'g':
+      case 'g':
         options = ['ġ', 'gh', 'Gh', 'G'];
         break;
-        case 't':
-          options= ['ṫ','th']
-          break;
-          case 'm':
-            options= ['ṁ','mh']
+      case 't':
+        options = ['ṫ', 'th'];
+        break;
+      case 'm':
+        options = ['ṁ', 'mh'];
+        break;
       default:
         options = [];
     }
 
-    this.setState({ options, showOptions: true }); // Show the options menu
+    if (options.length > 0) {
+      this.setState({ options, showOptions: true }); // Show the options menu
+    }
   };
 
 
-  handleOptionClick = (option) => {
-    this.setState((prevState) => ({
-      input: prevState.input.slice(0, -1) + option, // Replace last character with selected option
-      showOptions: false,
-      options: [] // Clear options
-    }));
-  };
   handleShift = () => {
     this.setState({
       layoutName: this.state.layoutName === "shift" ? "easca" : "shift"
@@ -185,15 +182,6 @@ this.setState({ holdTimer: timer });
   closeEasca = () => {
     this.setState({ showEasca: false });
   };
-
-    // This gets triggered when a button is released or touch ends
-    onTouchEnd = () => {
-      // Clear the hold timer when touch ends
-      if (this.state.holdTimer) {
-        clearTimeout(this.state.holdTimer);
-        this.setState({ holdTimer: null });
-      }
-    };
 
   render() {
     if (!this.state.showEasca) return null;
@@ -237,12 +225,10 @@ this.setState({ holdTimer: timer });
             ]
           }}
 
-          disableButtonHold={true}  // Add this line
-    
+          disableButtonHold={true} // Disable button hold for the keyboard
         />
 
-
-{this.state.showOptions && (
+        {this.state.showOptions && (
           <div className="options-menu">
             {this.state.options.map(option => (
               <button key={option} onClick={() => this.handleOptionClick(option)}>

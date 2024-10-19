@@ -1,10 +1,8 @@
 import Overworld from '../../components/overworld/overworld';
 import MeteorShower from '../meteor-shower/meteor-shower';
 import coin1 from '../../audio/coin3.ogg'
-import shine from '../../images/a-btn.png'
 import React, { useState, Component, useEffect } from 'react';
 import Sparkles from 'react-sparkle'
-import radar3 from '../../audio/radar3.ogg'
 import SettingsMenu from '../../components/settings-menu/settings-menu'
 import glass from '../../images/big-glass.png';
 import dirpad from '../../images/dirpad.png';
@@ -12,9 +10,7 @@ import lens from '../../images/ciorcal-glass.png';
 import portrait from '../../images/vert-mode.png'
 import gradient from '../../images/gradient2.png';
 import darkGreenFields from '../../images/ciorcal-glass4.png';
-import { Link } from 'react-router-dom'
 import'./style.css'
-import tutorial0 from '../../images/tutorials/tutorial0.png';
 import avatar1 from '../../images/players/spéirbhean0.png';
 import avatar2 from '../../images/players/douglas.png';
 import avatar3 from '../../images/players/fianna0.png';
