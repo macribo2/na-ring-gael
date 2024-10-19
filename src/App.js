@@ -3,16 +3,22 @@ import MainView from './components/main-view/main-view';
 import './App.css';
 
 function App() {
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const loadAssets = async () => {
-            await new Promise(resolve => setTimeout(resolve, 3000)); // Simulated loading time
-            setIsLoading(false);
-        };
-
-        loadAssets();
-    }, []);
+	const [isLoading, setIsLoading] = useState(true);
+	const [loadingTime, setLoadingTime] = useState(0);
+  
+	useEffect(() => {
+		const startTime = Date.now();
+		
+		// Simulating asset loading
+		const loadAssets = async () => {
+		  await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading time
+		  setIsLoading(false);
+		  const endTime = Date.now();
+		  setLoadingTime(endTime - startTime);
+		};
+	
+		loadAssets();
+	  }, []);
 
     return (
         <div className="App">
