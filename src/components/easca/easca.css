@@ -342,11 +342,19 @@ top: 60%;
   .easca-input:focus {
 	border-color: #4A90E2; /* Custom border when focused */
 	outline: none;
-	caret-color: red; /* Change the color of the caret (blinking cursor) */
+	caret-color: lime; /* Change the color of the caret (blinking cursor) */
   }
 	
   .easca-input {
-	caret-color: red; /* Customize the color of the caret (blinking cursor) */
+	caret-shape:block;
+	caret-color: lime; /* Customize the color of the caret (blinking cursor) */
 	font-family: monospace; /* Optional: Set font to make the cursor stand out */
   }
+  .simple-keyboard .hg-button.pressed {
+	transition: border 0.3s ease;
+  }
   
+  .simple-keyboard .hg-button.pressed {
+	border: 8px solid orange;
+  }
+	

@@ -90,35 +90,71 @@ export default class Easca extends React.Component {
     this.keyHeld[e.key] = false;
   };
   
-  onKeyPress = (button) => {
-    console.log("Button pressed", button);
+onKeyPress = (button) => {
+  console.log("Button pressed", button);
+// Find the button element and add the pressed class
+const buttonElement = document.querySelector(`.hg-button[data-skbtn="${button}"]`);
+if (buttonElement) {
+  buttonElement.classList.add('pressed');
+}
+setTimeout(()=>{
+
+    // Remove 'pressed' class when the touch ends
+    const pressedButtons = document.querySelectorAll('.hg-button.pressed');
+    pressedButtons.forEach((button) => {
+      button.classList.remove('pressed');
+    });
+},100)
+if (button === "{shift}") {
+  // Call the handleShift method to toggle between layouts
+  this.handleShift();
+} 
+if (button === "{alt}") {
+  // Call the handleShift method to toggle between layouts
+  this.handleAlt();
+} 
+if (button === "{send}") {
+  // Call the handleShift method to toggle between layouts
+  this.handleSend();
+} 
+if (button === "{backspace}") {
+  // Call the handleShift method to toggle between layouts
+  this.handleBackspace();
+} 
+  // Clear any existing timer before starting a new one
+  if (this.state.holdTimer) {
+    clearTimeout(this.state.holdTimer);
+  }
+
+  // Start a new timer for 1 second
+  const timer = setTimeout(() => {
+    this.showOptionsMenu(button); // Show options menu when button is held
+  }, 1000); // Adjust hold time if needed
+
+  // Store the timer in the state
+  this.setState({ holdTimer: timer });
+
+  // Handle special cases like {space} to insert a space character
+  let newInput = button === '{space}' ? ' ' : button; 
   
-    // Clear any existing timer before starting a new one
-    if (this.state.holdTimer) {
-      clearTimeout(this.state.holdTimer);
-    }
+  // Check if the options menu is already shown to prevent adding the character
+  if(!["{shift}", "{alt}", "{backspace}","{send}","{enter}"].includes(button)) {
   
-    // Start a new timer for 1 second
-    const timer = setTimeout(() => {
-      this.showOptionsMenu(button); // Show options menu when button is held
-    }, 1000); // Adjust hold time if needed
-  
-    // Store the timer in the state
-    this.setState({ holdTimer: timer });
-  
-    // Handle special cases like {space} to insert a space character
-    let newInput = button === '{space}' ? ' ' : button; 
-  
-    // Check if the options menu is already shown to prevent adding the character
-    if (!this.state.showOptions) {
-      // Handle normal key press immediately (e.g., input normal character)
-      this.setState(prevState => ({
-        input: prevState.input + newInput // Add the button to the input
-      }));
-    }
-  };
-  
-  
+    // Handle normal key press immediately (e.g., input normal character)
+    this.setState(prevState => ({
+      input: prevState.input + newInput // Add the button to the input
+    }));
+  }
+};
+
+handleBackspace = () => {
+  this.setState((prevState) => ({
+    input: prevState.input.slice(0, -1) // Remove the last character from the input
+  }));
+};
+
+
+
   handleOptionClick = (option) => {
     this.setState((prevState) => ({
       input: prevState.input.slice(0, -1) + option, // Replace last character with selected option
@@ -135,32 +171,54 @@ export default class Easca extends React.Component {
   
     switch (button) {
       case 'a':
-        options = ['á', 'Á', '7', 'A'];
+        options = ['a','á', 'Á', '7', 'A'];
         break;
-      case 'e':
-        options = ['é', 'É', 'E'];
+        case 'b':
+          options = ['b', 'B', 'bh', 'ḃ'];
+          break;
+          case 'c':
+            options = ['c', 'C', 'ch', 'ċ'];
+            break;
+            case 'd':
+              options = ['d', 'D', 'dh', 'ḋ'];
+              break;
+              case 'e':
+                options = ['e','é', 'É', 'E'];
         break;
-      case 'i':
-        options = ['í', 'Í', 'I'];
+        case 'f':
+          options = ['f', 'F','ḟ', 'fh', 'Fh','Ḟ'];
+          break;
+        case 'g':
+          options = ['g','ġ', 'gh', 'G', 'Gh','Ġ'];
+          break;
+          case 'i':
+            options = ['i','í', 'Í', 'I'];
+            break;
+            case 'm':
+              options = ['m','ṁ','mh','M','Mh',];
+              break;
+        case 'o':
+          options = ['o','ó', 'Ó', 'O'];
         break;
-      case 'o':
-        options = ['ó', 'Ó', 'O'];
-        break;
+        case 'p':
+          options = ['p', 'P', 'ph', 'ṗ'];
+          break;
+          case 'r':
+            options = ['r', 'R', 'rh', 'ɼ'];
+            break;
+            case 's':
+              options = ['s', 'S', 'sh', 'ṡ'];
+              break;
+              case 't':
+                options = ['t', 'T', 'th', 'ṫ'];
+                break;
       case 'u':
-        options = ['ú', 'Ú', 'U'];
-        break;
-      case 'f':
-        options = ['ḟ', 'fh', 'Fh', 'F'];
-        break;
-      case 'g':
-        options = ['ġ', 'gh', 'Gh', 'G'];
+        options = ['u','ú', 'Ú', 'U'];
         break;
       case 't':
-        options = ['ṫ', 'th'];
+        options = ['t','ṫ', 'th','T','Ṫ'];
         break;
-      case 'm':
-        options = ['ṁ', 'mh'];
-        break;
+        
       default:
         options = [];
     }
@@ -188,7 +246,7 @@ export default class Easca extends React.Component {
     window.removeEventListener('showEasca', this.handleShowEasca);
   }
   
-d
+
   handleShift = () => {
     this.setState({
       layoutName: this.state.layoutName === "shift" ? "easca" : "shift"
@@ -215,6 +273,7 @@ d
   closeEasca = () => {
     this.setState({ showEasca: false });
   };
+
 
   render() {
     if (!this.state.showEasca) return null;
