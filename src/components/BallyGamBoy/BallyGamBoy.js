@@ -5,6 +5,7 @@ import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
+  const [showMessage, setShowMessage] = useState(false); // Show/hide message
 
   const [showNarrative, setShowNarrative] = useState(false); // Manage the visibility of Narrative1
 
@@ -75,6 +76,30 @@ const BallyGamBoy = () => {
     });
   }
   
+  const [message, setMessage] = useState("");
+
+// Function to handle message passed from Easca
+const handleSendMessage = (msg) => {
+  setMessage(msg); // Update the state with the new message
+
+  const messageElement = document.querySelector('.player-message');
+  messageElement.style.opacity = '0'; // Ensure it starts hidden
+  messageElement.classList.remove('visible'); // Remove the visible class initially
+
+  // Show message 1 second after send
+  setTimeout(() => {
+    messageElement.classList.add('visible'); // Add the visible class
+    messageElement.style.opacity = '1'; // Make the message visible
+  }, 1000); // 1-second delay
+
+  // Hide message after 4 seconds
+  setTimeout(() => {
+    messageElement.style.opacity = '0'; // Fade it out
+    setTimeout(() => {
+      messageElement.classList.remove('visible'); // Hide the bubble after fade out
+    }, 500); // Wait for the fade-out transition to complete
+  }, 5000); // 4 seconds after it appears
+};
 
 // Call this function periodically or on state updates
 useEffect(() => {
@@ -1024,10 +1049,8 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 <div className='touch-prompt'></div></div>
                     </>
             )}
-   {showEasca && <Easca />}
-   {
-    
-  }
+   {showEasca && <Easca onSendMessage={handleSendMessage} />}
+   <p className="player-message">{message}</p>
   </div>
     </>
   );

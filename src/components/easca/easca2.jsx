@@ -19,7 +19,8 @@ export default class Easca extends React.Component {
         '{alt}': 'ᵹ',
         '{shift}': '⇧',
         '{send}': 'seol',
-        '{mode}': '>_'
+        '{mode}': '>_',
+        '{code}':'<span>&lt;/&gt;</span>'
       },
       showEasca: true,
       showOptions: false,
@@ -36,6 +37,8 @@ export default class Easca extends React.Component {
         // Focus the textarea on component mount
         if (this.textareaRef.current) {
           this.textareaRef.current.focus();
+          this.textareaRef.current.blur();  // Immediately blur after focusing
+
         }
   
         window.addEventListener('touchstart', (e) => console.log('Touch started', e));
@@ -47,6 +50,8 @@ export default class Easca extends React.Component {
     // Focus the textarea when the state changes and the textarea is visible
     if (this.state.showEasca && this.textareaRef.current) {
       this.textareaRef.current.focus();
+      this.textareaRef.current.blur();  // Immediately blur after focusing
+
     }
   }
 
@@ -85,7 +90,7 @@ handleTouchStart = (button) => {
   this.holdTimer = setTimeout(() => {
     this.showOptionsMenu(button); // Show options menu after long press
     this.keyHeld[button] = false; // Reset hold state
-  }, 1000); // 1 second hold duration
+  }, 800); // 1 second hold duration
 };
 
 handleTouchEnd = (button) => {
@@ -259,11 +264,23 @@ handleOptionClick = (option) => {
       layoutName: this.state.layoutName === "alt" ? "easca" : "alt"
     });
   };
+handleCode= ()=>{
 
-  handleSend = () => {
-    const { input } = this.state;
-    localStorage.setItem('eascaInput', input);
-    this.setState({ input: "" });
+  this.setState({
+    layoutName: this.state.layoutName === "code" ? "easca" : "code"
+  });
+}
+
+
+handleSend = () => {
+  const { input } = this.state;
+  
+  if (this.props.onSendMessage) {
+    this.props.onSendMessage(input); // Pass the input to the parent component
+  }
+
+  // localStorage.setItem('eascaInput', input);
+  this.setState({ input: "" }); //  clear the input field
     this.closeEasca();
   };
 
@@ -281,6 +298,8 @@ handleOptionClick = (option) => {
         setTimeout(() => {
             buttonElement.classList.remove('pressed');
         }, 100);
+          // Focus on the textarea when a button is pressed
+
 
         // Handle special buttons first
         if (button === "{shift}") {
@@ -289,7 +308,12 @@ handleOptionClick = (option) => {
         } else if (button === "{alt}") {
             this.handleAlt();
             return; // Exit early to avoid adding this button to input
-        } else if (button === "{send}") {
+        } 
+       else if (button === "{code}") {
+        this.handleCode();
+        return; // Exit early to avoid adding this button to input
+    } 
+        else if (button === "{send}") {
             this.handleSend();
             return; // Exit early to avoid adding this button to input
         } else if (button === "{backspace}") {
@@ -331,11 +355,24 @@ handleOptionClick = (option) => {
             clearTimeout(this.holdTimer); // Clear hold timer on touchend
             this.holdTimer = null; // Clear hold timer reference
         }, { once: true }); // Use `{ once: true }` to ensure it runs only once
-    }
+        if (this.textareaRef.current) {
+          this.textareaRef.current.focus();
+          this.textareaRef.current.blur();  // Immediately blur after focusing
+
+        }
+      }
+      if (this.textareaRef.current) {
+        this.textareaRef.current.focus();
+        this.textareaRef.current.blur();  // Immediately blur after focusing
+
+      }
 };
 
 
   render() {
+    if (this.textareaRef.current) {
+      this.textareaRef.current.focus();
+    }
     if (!this.state.showEasca) return null;
 
     return (
@@ -344,17 +381,18 @@ handleOptionClick = (option) => {
           <img src={consoleBg} alt="stone frame" id="console-bg" />
         </div>
         <textarea
-    ref={this.textareaRef} // Assign the ref to the textarea
-    spellCheck={false}
-    maxLength="162"
-    className="easca-input"
-    contentEditable={false}
-    value={this.state.input}
-    placeholder={""}
-    onChange={e => this.onChange(e.target.value)}
-    readOnly={true} // Prevent phone keyboard from triggering
-    tabIndex="-1"  // Remove focus so that the native keyboard won't appear
+  ref={this.textareaRef} // Assign the ref to the textarea
+  spellCheck={false}
+  maxLength="162"
+  className="easca-input"
+  value={this.state.input}
+  placeholder={""}
+  disabled={true}  // Prevent phone keyboard from triggering
+  tabIndex="-1"    // Ensure it's not focusable
+  onFocus={(e) => e.preventDefault()}  // Prevent focusing
 />
+
+
         <Keyboard
           display={this.state.display}
           onChange={this.onChange}
@@ -368,20 +406,29 @@ handleOptionClick = (option) => {
               "e r t u i o p {backspace}",
               "a s d f g h l",
               "c b n m . ? {alt}",
-              "{shift} {space} {enter} {send}"
+              "{shift} {space} {code} {send}"
             ],
             shift: [
               "E R T U I O P {backspace}",
               "A S D F G H L",
               "C B N M , ! {alt}",
-              "{shift} {space} {enter} {send}"
+              "{shift} {space} {code} {send}"
             ],
             alt: [
-              "é q w ú í ó _ {backspace}",
-              "á _ _ _ _ y {mode}",
-              "_ _ z _ ⁊ x {alt}",
-              "{shift} {space} {enter} {send}"
+              "q w _ z _ _ _ {backspace}",
+              "_ _ _ _ j k {mode}",
+              "y x _ v _ _ {alt}",
+              "{shift} {space} {code} {send}"
+            ],
+
+            code: [
+              "_ _ _ _ _ _ _ {backspace}",
+              "_ _ _ ls _ _ {mode}",
+              "_ _ _ _ _ _ {alt}",
+              "{shift} {space} {code} {send}"
             ]
+
+            
           }}
 
           disableButtonHold={true} // Disable button hold for the keyboard
