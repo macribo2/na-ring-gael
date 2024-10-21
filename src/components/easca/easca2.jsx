@@ -37,7 +37,11 @@ export default class Easca extends React.Component {
         if (this.textareaRef.current) {
           this.textareaRef.current.focus();
         }
-  }
+  
+        window.addEventListener('touchstart', (e) => console.log('Touch started', e));
+        window.addEventListener('touchend', (e) => console.log('Touch ended', e));
+      
+      }
 
   componentDidUpdate(prevProps, prevState) {
     // Focus the textarea when the state changes and the textarea is visible
@@ -57,32 +61,73 @@ export default class Easca extends React.Component {
   };
 
   handleKeyDown = (e) => {
-    // If the key is already being held down, ignore the event
-    if (this.keyHeld[e.key]) return;
-
-    // Mark the key as held down
+    // Mark the key as being held down for key events
     this.keyHeld[e.key] = true;
-
-    // Start the hold timer when any key is pressed
-    this.holdTimer = setTimeout(() => {
-      this.showOptionsMenu(e.key); // Show options menu when held
-    }, 1000); // Long press duration
+  
+    // Directly handle key presses for keyboard input
+    if (!this.holdTimer) {
+      this.setState(prevState => ({
+        input: prevState.input + e.key // Add the normal key to the input immediately
+      }));
+    }
   };
+  
+handleTouchStart = (button) => {
+   console.log(`Touch start detected for button: ${button}`);
+ 
+  // If the button is already being held, ignore the event
+  if (this.keyHeld[button]) return;
 
+  // Mark the button as being held down
+  this.keyHeld[button] = true;
+
+  // Start the hold timer for touch interactions
+  this.holdTimer = setTimeout(() => {
+    this.showOptionsMenu(button); // Show options menu after long press
+    this.keyHeld[button] = false; // Reset hold state
+  }, 1000); // 1 second hold duration
+};
+
+handleTouchEnd = (button) => {
+  console.log("Touch ended on button: ", button);
+  if (this.holdTimer) {
+    clearTimeout(this.holdTimer);
+    this.holdTimer = null;
+
+    this.setState(prevState => ({
+      input: prevState.input + button
+    }));
+  }
+  this.keyHeld[button] = false;
+};
+  
+
+  onTouchEnd = (button) => {
+    // Call the touch end handler for touch devices
+    if (this.isTouchDevice()) {
+      this.handleTouchEnd(button);
+    }
+  };
+  
+  // Utility function to detect if the user is on a touch device
+  isTouchDevice = () => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  };
+  
   handleKeyUp = (e) => {
     // Clear the hold timer when the button is released
     if (this.holdTimer) {
       clearTimeout(this.holdTimer);
-      this.setState({ holdTimer: null }); // Reset holdTimer in the state
+      this.holdTimer = null;
     }
   
     // Check if the key was held down long enough to trigger options
     const isKeyHeld = this.keyHeld[e.key];
   
-    // Only add the key to the input if it wasn't held long enough to show options
+    // Only add the key to the input if the options menu was not shown
     if (!isKeyHeld && !this.state.showOptions) {
       this.setState(prevState => ({
-        input: prevState.input + e.key // Add the normal key to the input
+        input: prevState.input + e.key // Add the key to the input if it wasn't a long press
       }));
     }
   
@@ -90,63 +135,17 @@ export default class Easca extends React.Component {
     this.keyHeld[e.key] = false;
   };
   
-onKeyPress = (button) => {
-  console.log("Button pressed", button);
-// Find the button element and add the pressed class
-const buttonElement = document.querySelector(`.hg-button[data-skbtn="${button}"]`);
-if (buttonElement) {
-  buttonElement.classList.add('pressed');
-}
-setTimeout(()=>{
 
-    // Remove 'pressed' class when the touch ends
-    const pressedButtons = document.querySelectorAll('.hg-button.pressed');
-    pressedButtons.forEach((button) => {
-      button.classList.remove('pressed');
-    });
-},100)
-if (button === "{shift}") {
-  // Call the handleShift method to toggle between layouts
-  this.handleShift();
-} 
-if (button === "{alt}") {
-  // Call the handleShift method to toggle between layouts
-  this.handleAlt();
-} 
-if (button === "{send}") {
-  // Call the handleShift method to toggle between layouts
-  this.handleSend();
-} 
-if (button === "{backspace}") {
-  // Call the handleShift method to toggle between layouts
-  this.handleBackspace();
-} 
-  // Clear any existing timer before starting a new one
-  if (this.state.holdTimer) {
-    clearTimeout(this.state.holdTimer);
-  }
-
-  // Start a new timer for 1 second
-  const timer = setTimeout(() => {
-    this.showOptionsMenu(button); // Show options menu when button is held
-  }, 1000); // Adjust hold time if needed
-
-  // Store the timer in the state
-  this.setState({ holdTimer: timer });
-
-  // Handle special cases like {space} to insert a space character
-  let newInput = button === '{space}' ? ' ' : button; 
   
-  // Check if the options menu is already shown to prevent adding the character
-  if(!["{shift}", "{alt}", "{backspace}","{send}","{enter}"].includes(button)) {
+  onTouchEnd = () => {
+    alert();
+    // Clear the hold timer when touch ends (button is released before 1 second)
+    if (this.holdTimer) {
+      clearTimeout(this.holdTimer);
+      this.holdTimer = null;
+    }
+  };
   
-    // Handle normal key press immediately (e.g., input normal character)
-    this.setState(prevState => ({
-      input: prevState.input + newInput // Add the button to the input
-    }));
-  }
-};
-
 handleBackspace = () => {
   this.setState((prevState) => ({
     input: prevState.input.slice(0, -1) // Remove the last character from the input
@@ -273,7 +272,26 @@ handleBackspace = () => {
   closeEasca = () => {
     this.setState({ showEasca: false });
   };
-
+  onKeyPress = (button) => {
+    let holdTimer;
+  
+    // Start the timer when the button is pressed (on touchstart)
+    const buttonElement = document.querySelector(`.hg-button[data-skbtn="${button}"]`);
+    if (buttonElement) {
+      buttonElement.addEventListener('touchstart', () => {
+        // Start a timer to show the alert after 1500ms
+        holdTimer = setTimeout(() => {
+          this.showOptionsMenu(button); // Using arrow function to bind 'this' correctly
+        }, 1500);
+      });
+  
+      // Cancel the timer if the button is released (on touchend) before 1500ms
+      buttonElement.addEventListener('touchend', () => {
+        clearTimeout(holdTimer); // Clear the hold timer if released early
+      });
+    }
+  };
+  
 
   render() {
     if (!this.state.showEasca) return null;
@@ -284,18 +302,23 @@ handleBackspace = () => {
           <img src={consoleBg} alt="stone frame" id="console-bg" />
         </div>
         <textarea
-         ref={this.textareaRef} // Assign the ref to the textarea
-         spellCheck={false}
-          maxLength="162"
-          className="easca-input"
-          value={this.state.input}
-          placeholder={""}
-          onChange={e => this.onChange(e.target.value)}
-        />
+    ref={this.textareaRef} // Assign the ref to the textarea
+    spellCheck={false}
+    maxLength="162"
+    className="easca-input"
+    contentEditable={false}
+    value={this.state.input}
+    placeholder={""}
+    onChange={e => this.onChange(e.target.value)}
+    readOnly={true} // Prevent phone keyboard from triggering
+    tabIndex="-1"  // Remove focus so that the native keyboard won't appear
+/>
         <Keyboard
           display={this.state.display}
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
+          onKeyUp={this.handleKeyUp}  // Add this for handling key release
+          onTouchEnd={this.onTouchEnd}  // Make sure this handles touch end
           layoutName={this.state.layoutName}
           className="easca-2"
           layout={{
