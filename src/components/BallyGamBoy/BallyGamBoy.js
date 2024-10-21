@@ -360,7 +360,7 @@ checkNarrativeTracker();
     this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.background.setOrigin(0, 0);
   // Specify starting column and row
-const startColumn = 23; // Horizontal position on the grid (1-25)
+const startColumn = 20; // Horizontal position on the grid (1-25)
 const startRow = 16; // Vertical position on the grid (1-18)
 
 // Calculate the player's starting coordinates
