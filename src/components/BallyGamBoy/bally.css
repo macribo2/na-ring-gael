@@ -97,3 +97,28 @@ canvas{
  left:50%;   
 }
 
+.player-message {
+  position: absolute;
+  top: 15%; /* Position in the top half of the screen */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  max-width: 60%; /* Optional: control the width of the bubble */
+  padding: 20px 30px;
+  background-color: #f0f0f0; /* Light background for speech bubble */
+  border-radius: 20px; /* Rounded corners for bubble shape */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  font-size: 2.5em;
+  font-family: aonchlo;
+  color: #333; /* Text color */
+  text-align: center;
+  border: 2px solid #ccc; /* Optional border */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.5s ease-in-out; /* Smooth fading */
+  visibility: hidden; /* Hide the bubble initially */
+}
+
+.player-message.visible {
+  visibility: visible; /* Make it visible when needed */
+}
+
+

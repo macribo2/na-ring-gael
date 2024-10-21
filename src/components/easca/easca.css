@@ -47,7 +47,7 @@ padding-top:1%;
 padding-bottom:1%;		
 			margin:2px !important;
 	font-size: 1.5em !important;
-	background-color: rgb(45, 38, 46) !important;
+	background-color: rgb(69, 51, 72) !important;
 	color: goldenrod !important;
 border:1px solid black !important;	  
 		
@@ -174,9 +174,12 @@ top: 60%;
 
 }
 .hg-button, .hg-button.hg-button {
-	background-color: rgb(23, 0, 45) !important;
+	background-color: rgb(52, 12, 89) !important;
 	color: aliceblue !important;
   }
+  .hg-button span {
+    color: aliceblue !important;
+}
 .react-simple-keyboard{
 	top: 42%;
 	left: 2.5%;
@@ -355,6 +358,13 @@ top: 60%;
   }
   
   .simple-keyboard .hg-button.pressed {
-	border: 8px solid orange;
+	border: 3px solid rgb(251, 255, 28);
   }
 	
+  .hg-button {
+	/* Your existing button styles */
+	flex: 1 !important; /* Default button width */
+  }
+  .hg-button[data-skbtn="{space}"] {
+	flex: 2 !important; /* Make the space button twice as wide */
+  }
