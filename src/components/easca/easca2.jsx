@@ -153,14 +153,12 @@ handleBackspace = () => {
 };
 
 
-
-  handleOptionClick = (option) => {
-    this.setState((prevState) => ({
-      input: prevState.input.slice(0, -1) + option, // Replace last character with selected option
+handleOptionClick = (option) => {
+  this.setState((prevState) => ({
+      input: prevState.input + option, // Append selected option to input
       showOptions: false,
       options: [] // Clear options
-    }));
-  
+  }));
     // Reset key hold state so that normal input resumes
     Object.keys(this.keyHeld).forEach(key => this.keyHeld[key] = false);
   };
@@ -273,25 +271,69 @@ handleBackspace = () => {
     this.setState({ showEasca: false });
   };
   onKeyPress = (button) => {
-    let holdTimer;
-  
-    // Start the timer when the button is pressed (on touchstart)
+    let isLongPress = false; // Flag to track if it's a long press
     const buttonElement = document.querySelector(`.hg-button[data-skbtn="${button}"]`);
+
     if (buttonElement) {
-      buttonElement.addEventListener('touchstart', () => {
-        // Start a timer to show the alert after 1500ms
-        holdTimer = setTimeout(() => {
-          this.showOptionsMenu(button); // Using arrow function to bind 'this' correctly
-        }, 1500);
-      });
-  
-      // Cancel the timer if the button is released (on touchend) before 1500ms
-      buttonElement.addEventListener('touchend', () => {
-        clearTimeout(holdTimer); // Clear the hold timer if released early
-      });
+        buttonElement.classList.add('pressed');
+
+        // Remove 'pressed' class after 100ms for visual feedback effect
+        setTimeout(() => {
+            buttonElement.classList.remove('pressed');
+        }, 100);
+
+        // Handle special buttons first
+        if (button === "{shift}") {
+            this.handleShift();
+            return; // Exit early to avoid adding this button to input
+        } else if (button === "{alt}") {
+            this.handleAlt();
+            return; // Exit early to avoid adding this button to input
+        } else if (button === "{send}") {
+            this.handleSend();
+            return; // Exit early to avoid adding this button to input
+        } else if (button === "{backspace}") {
+            // Handle the backspace character
+            this.setState((prevState) => ({
+                input: prevState.input.slice(0, -1) // Remove last character
+            }));
+            this.holdTimer = null; // Clear hold timer
+            return; // Exit early to avoid adding this button to input
+        }
+
+        // Handle special cases like {space} to insert a space character
+        let newInput = button === '{space}' ? ' ' : button;
+
+        // Clear previous hold timer
+        if (this.holdTimer) {
+            clearTimeout(this.holdTimer);
+            this.holdTimer = null;
+        }
+
+        // Set holdTimer for specific buttons that should trigger options menu
+        if (["a", "e", "i", "o", "u", "c", "t", "s", "g", "d", "r"].includes(button)) {
+            // Start a new timer for showing the fada options menu
+            this.holdTimer = setTimeout(() => {
+                isLongPress = true; // Set the long press flag
+                this.showOptionsMenu(button); // Show options menu
+            }, 1000); // Adjust hold time if needed
+        }
+
+        // Handle touchend to add character to input
+        buttonElement.addEventListener('touchend', () => {
+            // Check if it was a long press or a normal press
+            if (!isLongPress) {
+                // Add character to output only if it's not a long press
+                this.setState((prevState) => ({
+                    input: prevState.input + newInput // Add the pressed key to the input
+                }));
+            }
+            clearTimeout(this.holdTimer); // Clear hold timer on touchend
+            this.holdTimer = null; // Clear hold timer reference
+        }, { once: true }); // Use `{ once: true }` to ensure it runs only once
     }
-  };
-  
+};
+
 
   render() {
     if (!this.state.showEasca) return null;
