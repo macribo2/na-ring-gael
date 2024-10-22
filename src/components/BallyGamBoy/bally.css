@@ -122,3 +122,8 @@ canvas{
 }
 
 
+
+
+body.easca-active * {
+  pointer-events: none;
+}

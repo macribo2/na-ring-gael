@@ -6,7 +6,7 @@ import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
   const [showMessage, setShowMessage] = useState(false); // Show/hide message
-
+  const [eascaActive, setEascaActive] = useState(false); 
   const [showNarrative, setShowNarrative] = useState(false); // Manage the visibility of Narrative1
 
   const toggleNarrative = () => {
@@ -14,7 +14,13 @@ const BallyGamBoy = () => {
   };
 
   const handleShowEasca = () => {
-    setShowEasca(true);
+    setShowEasca(true); // Show Easca keyboard
+    setEascaActive(true); // Mark Easca as active
+  };
+
+  const handleHideEasca = () => {
+    setShowEasca(false); // Hide Easca keyboard
+    setEascaActive(false); // Mark Easca as inactive
   };
   const [showEasca, setShowEasca] = useState(false); // 
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
@@ -90,7 +96,7 @@ const handleSendMessage = (msg) => {
   setTimeout(() => {
     messageElement.classList.add('visible'); // Add the visible class
     messageElement.style.opacity = '1'; // Make the message visible
-  }, 1000); // 1-second delay
+  }, 100); // 1-second delay
 
   // Hide message after 4 seconds
   setTimeout(() => {
@@ -98,7 +104,7 @@ const handleSendMessage = (msg) => {
     setTimeout(() => {
       messageElement.classList.remove('visible'); // Hide the bubble after fade out
     }, 500); // Wait for the fade-out transition to complete
-  }, 5000); // 4 seconds after it appears
+  }, 4000); // 4 seconds after it appears
 };
 
 // Call this function periodically or on state updates
@@ -306,8 +312,8 @@ checkNarrativeTracker();
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
         ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
-        ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
-        ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+        ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
+        ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
         ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
         ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
@@ -443,7 +449,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     }).setScrollFactor(0).setDepth(20);
   
     this.textForFade = this.add.text(200, 90, '', {
-      fontSize: '24px',
+      fontSize: '20px',
       fill: '#ffffff',
       fontFamily: 'urchlo',
       padding: { x: 10, y: 10 },
@@ -692,123 +698,123 @@ function playerStepsInWater(nextMove, interactiveMap) {
 let lastRippleTime = 0; // Track last ripple time
 
 function update(time, delta) {
-    const moveInterval = 50;
+  const moveInterval = 50;
 
-    // Clear the collision message after the duration
-    if (time > this.collisionMessageTimer) {
-      this.collisionText.setText('');
-      this.collisionTextEng.setText('');
-    }
+  // Clear the collision message after the duration
+  if (time > this.collisionMessageTimer) {
+    this.collisionText.setText('');
+    this.collisionTextEng.setText('');
+  }
 
-    // Handle player movement
-    if (this.isMoving) {
-      this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
-      this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
+  // Handle player movement
+  if (this.isMoving) {
+    this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
+    this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
 
-      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
-        this.player.x = this.player.nextMove.x;
-        this.player.y = this.player.nextMove.y;
-        this.isMoving = false;
-        this.moveDelay = time + moveInterval;
-             // Reset ripple flag when player finishes movement
-      rippleTriggered.current = false;
+    if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
+      this.player.x = this.player.nextMove.x;
+      this.player.y = this.player.nextMove.y;
+      this.isMoving = false;
+      this.moveDelay = time + moveInterval;
 
       // Reset ripple flag when player finishes movement
       rippleTriggered.current = false;
-        if (this.borderGraphics) {
-          this.borderGraphics.setVisible(false);
-        }
+
+      if (this.borderGraphics) {
+        this.borderGraphics.setVisible(false);
       }
-      return; // Exit early if still moving
     }
+    return; // Exit early if still moving
+  }
 
-    if (time < this.moveDelay) {
-      return; // Wait until move delay is over
-    }
+  if (time < this.moveDelay) {
+    return; // Wait until move delay is over
+  }
 
-    let creature = null; // Global variable to hold the creature instance
+  let creature = null; // Global variable to hold the creature instance
 
-    function emergeCreature() {
-      if (creature) return; // If the creature already exists, don't create a new one
-    
-      // Create the first ripple with a delay of 1 second before showing the creature
-      this.time.delayedCall(1000, () => {
-        createRipple.call(this, 370, 560);
-        
-        // Create the creature instance
-        creature = this.add.image(370, 550, 'lake-wizard')
-          .setAlpha(0)     // Initially transparent
-          .setScale(0.2)   // Start with a small scale
-          .setDepth(-2);   // Set depth to appear above other objects
-    
-        // Animate the fade-in, zoom, and bobbing effect for the creature
-        this.tweens.add({
-          targets: creature,
-          alpha: 0.8,             // Fade in to near full opacity
-          scale: 0.3,             // Zoom in to final size
-          duration: 3400,         // Duration of the initial rise
-          ease: 'Power1',
-          onComplete: () => {
-            // Ripple once the creature rises
-            createRipple.call(this, 370, 560);
-            
-            // Bobbing effect
+  function emergeCreature() {
+    if (creature) return; // If the creature already exists, don't create a new one
+
+    // Create the first ripple with a delay of 1 second before showing the creature
+    this.time.delayedCall(1000, () => {
+      createRipple.call(this, 370, 560);
+      
+      // Create the creature instance
+      creature = this.add.image(370, 550, 'lake-wizard')
+        .setAlpha(0)     // Initially transparent
+        .setScale(0.2)   // Start with a small scale
+        .setDepth(-2);   // Set depth to appear above other objects
+
+      // Animate the fade-in, zoom, and bobbing effect for the creature
+      this.tweens.add({
+        targets: creature,
+        alpha: 0.8,             // Fade in to near full opacity
+        scale: 0.3,             // Zoom in to final size
+        duration: 3400,         // Duration of the initial rise
+        ease: 'Power1',
+        onComplete: () => {
+          // Ripple once the creature rises
+          createRipple.call(this, 370, 560);
+          
+          // Bobbing effect
+          this.tweens.add({
+            targets: creature,
+            y: '+=4',          // Move 4 pixels up
+            yoyo: true,        // Move back down
+            repeat: -1,        // Repeat the bobbing indefinitely
+            duration: 4000,    // Duration of each bob cycle
+            ease: 'Sine.easeInOut'  // Smooth bobbing motion
+          });
+
+          // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
+          this.time.delayedCall(2000, () => {
+            const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
+              .setAlpha(0)    // Initially transparent
+              .setScale(0.15) // Set desired size for the treasure
+              .setDepth(1);   // Ensure it appears above other objects
+
+            // Fade in the treasure (lure)
             this.tweens.add({
-              targets: creature,
-              y: '+=4',          // Move 4 pixels up
-              yoyo: true,        // Move back down
-              repeat: -1,        // Repeat the bobbing indefinitely
-              duration: 4000,    // Duration of each bob cycle
-              ease: 'Sine.easeInOut'  // Smooth bobbing motion
+              targets: lure,
+              alpha: 1,        // Fully visible
+              duration: 1000,  // Fade-in duration
+              ease: 'Power1'
             });
-    
-            // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
-            this.time.delayedCall(2000, () => {
-              const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
-                .setAlpha(0)    // Initially transparent
-                .setScale(0.15) // Set desired size for the treasure
-                .setDepth(1);   // Ensure it appears above other objects
-    
-              // Fade in the treasure (lure)
-              this.tweens.add({
-                targets: lure,
-                alpha: 1,        // Fully visible
-                duration: 1000,  // Fade-in duration
-                ease: 'Power1'
-              });
-            }, [], this);  // 2-second delay after the creature appears
-          }
-        });
-    
-        this.time.delayedCall(4000, () => {
-          setShowNarrative(true);  // Show the narrative overlay
-        }, [], this);
+          }, [], this);  // 2-second delay after the creature appears
+        }
+      });
+
+      this.time.delayedCall(4000, () => {
+        setShowNarrative(true);  // Show the narrative overlay
       }, [], this);
-    
-       // Command to hide the creature after 4 seconds
-       this.time.delayedCall(5000, () => {
-        // Animate the creature's disappearance
-        this.tweens.add({
-          targets: creature,
-          alpha: 0,        // Fade out to fully transparent
-          duration: 1000,  // Fade-out duration
-          ease: 'Power1',
-          onComplete: () => {
-            creature.destroy(); // Remove the creature from the scene
-            creature = null;    // Clear the reference to the creature
-          }
-        });
-      }, [], this);
+    }, [], this);
 
-    }
+    // Command to hide the creature after 4 seconds
+    this.time.delayedCall(5000, () => {
+      // Animate the creature's disappearance
+      this.tweens.add({
+        targets: creature,
+        alpha: 0,        // Fade out to fully transparent
+        duration: 1000,  // Fade-out duration
+        ease: 'Power1',
+        onComplete: () => {
+          creature.destroy(); // Remove the creature from the scene
+          creature = null;    // Clear the reference to the creature
+        }
+      });
+    }, [], this);
+  }
 
-    const tileSize = 32;
-    const gridWidth = 25;
-    const gridHeight = 18;
-    let nextMove = { x: this.player.x, y: this.player.y };
-    let collisionMessage = '';
-    let collisionMessageEng = '';
+  const tileSize = 32;
+  const gridWidth = 25;
+  const gridHeight = 18;
+  let nextMove = { x: this.player.x, y: this.player.y };
+  let collisionMessage = '';
+  let collisionMessageEng = '';
 
+  // Check if Easca is active; if so, ignore directional input
+  if (!eascaActive) {
     // Determine the next move based on user input
     if (this.cursors.left.isDown) {
       nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
@@ -819,144 +825,120 @@ function update(time, delta) {
     } else if (this.cursors.down.isDown) {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
-    if (playerStepsInWater()) {
-      createRipple.call(this, this.player.x, this.player.y);  // Make sure `this` is bound correctly
   }
 
+  if (playerStepsInWater()) {
+    createRipple.call(this, this.player.x, this.player.y);  // Make sure `this` is bound correctly
+  }
 
-  
+  // Initialize a flag in your class constructor or setup method
+  this.isInWater = false;  // Flag to track if the player is in water
 
+  // Check for collision
+  const collision = checkCollision(nextMove, this.obstacles, tileSize);
+  if (collision) {
+    console.log('Ripple Count:', this.rippleCount);
 
-    // Initialize a flag in your class constructor or setup method
-this.isInWater = false;  // Flag to track if the player is in water
+    // Check if the player stepped in water (type 'g')
+    if (collision.type === 'rippleEffect') {
+      // Only increment ripple count if we haven't already triggered a ripple on this square
+      if (!this.rippleTriggered) {
+        createRipple.call(this, this.player.x, this.player.y);  // Trigger ripple
+        this.rippleCount++;  // Increment ripple count
+        this.rippleTriggered = true;  // Set flag to prevent multiple ripples
 
-// Check for collision
-// Check for collision
-const collision = checkCollision(nextMove, this.obstacles, tileSize);
-if (collision) {
-  console.log('Ripple Count:', this.rippleCount);
+        console.log('Updated Ripple Count:', this.rippleCount);
+        
+        // Emerge the creature after the 4th ripple
+        if (this.rippleCount === 3) {
+          emergeCreature.call(this);  // Creature emerges after 4 ripples
+        }
 
-  // Check if the player stepped in water (type 'g')
-  if (collision.type === 'rippleEffect') {
-    // Only increment ripple count if we haven't already triggered a ripple on this square
-    if (!this.rippleTriggered) {
-      createRipple.call(this, this.player.x, this.player.y);  // Trigger ripple
-      this.rippleCount++;  // Increment ripple count
-      this.rippleTriggered = true;  // Set flag to prevent multiple ripples
-
-      console.log('Updated Ripple Count:', this.rippleCount);
-      
-      // Emerge the creature after the 4th ripple
-      if (this.rippleCount === 3) {
-        emergeCreature.call(this);  // Creature emerges after 4 ripples
+        // Reset the flag after a delay (e.g., 500ms) to allow more ripples
+        this.time.delayedCall(500, () => {
+          this.rippleTriggered = false;  // Allow ripples again after delay
+        });
       }
+    } else {
+      this.rippleTriggered = false;  // Reset the flag when moving away from water
+    }
 
-      // Reset the flag after a delay (e.g., 500ms) to allow more ripples
-      this.time.delayedCall(500, () => {
-        this.rippleTriggered = false;  // Allow ripples again after delay
+    // Handle regular collision
+    if (collision.name && collision.nameEng) {
+      collisionMessage = collision.name;
+      collisionMessageEng = collision.nameEng;
+    }
+
+    // Show the say graphic (and handle other collision logic)
+    this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
+    this.sayGraphic.setAlpha(1);
+
+    // Fade out the say graphic
+    this.tweens.add({
+      targets: this.sayGraphic,
+      alpha: 0,
+      duration: 200,
+      ease: 'Linear'
+    });
+
+    // Show border around the collision square
+    const borderX = collision.x * tileSize;
+    const borderY = collision.y * tileSize;
+    this.borderGraphics.clear();
+    this.borderGraphics.setVisible(true);
+    const cornerRadius = 10; // Adjust this value for roundness
+
+    this.borderGraphics.strokeRoundedRect(borderX, borderY + 10, tileSize, tileSize, cornerRadius);
+
+    // Hide the border after a brief delay
+    this.time.delayedCall(200, () => {
+      this.borderGraphics.setVisible(false);
+    });
+
+    // Update textForFade only if it's not already fading
+    if (!this.isFading) {
+      this.textForFade.setText(collisionMessage);  // Set the text
+      this.textForFade.setAlpha(1);                // Make it fully visible
+      this.isFading = true;  // Lock the fading process to prevent updates
+
+      // Fade out the textForFade over 3 seconds
+      this.tweens.add({
+        targets: this.textForFade,
+        alpha: 0,
+        duration: 3000,  // 3 seconds fade
+        ease: 'Linear',
+        onComplete: () => {
+          this.isFading = false;  // Allow new collisions after fade-out
+        }
       });
     }
-  } else {
 
-    this.rippleTriggered = false;  // Reset the flag when moving away from water
-  }
+    // Update collision message for the English text as well
+    if (!this.isFadingEng) {
+      this.textForFadeEng.setText(collisionMessageEng);  // Set the text
+      this.textForFadeEng.setAlpha(1);                // Make it fully visible
+      this.isFadingEng = true;  // Lock the fading process to prevent updates
 
-  // Handle regular collision
-  if (collision.name && collision.nameEng) {
-    collisionMessage = collision.name;
-    collisionMessageEng = collision.nameEng;
-  }
-
-  // Show the say graphic (and handle other collision logic)
-  this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
-  this.sayGraphic.setAlpha(1);
-
-  // Fade out the say graphic
-  this.tweens.add({
-    targets: this.sayGraphic,
-    alpha: 0,
-    duration: 200,
-    ease: 'Linear'
-  });
-
-  // Show border around the collision square
-  const borderX = collision.x * tileSize;
-  const borderY = collision.y * tileSize;
-  this.borderGraphics.clear();
-  this.borderGraphics.setVisible(true);
-  this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
-
-  // Hide the border after a brief delay
-  this.time.delayedCall(200, () => {
-    this.borderGraphics.setVisible(false);
-  });
-
-  // Update textForFade only if it's not already fading
-  if (!this.isFading) {
-    this.textForFade.setText(collisionMessage);  // Set the text
-    this.textForFade.setAlpha(1);                // Make it fully visible
-    this.isFading = true;  // Lock the fading process to prevent updates
-
-    // Fade out the textForFade over 3 seconds
-    this.tweens.add({
-      targets: this.textForFade,
-      alpha: 0,
-      duration: 3000,  // 3 seconds fade
-      ease: 'Linear',
-      onComplete: () => {
-        this.isFading = false;  // Allow new collisions after fade-out
-      }
-    });
-  }
-
-  // Set the collision messages
-  this.collisionText.setText(collisionMessage);
-  this.collisionTextEng.setText(collisionMessageEng);
-  this.collisionMessageTimer = time + this.collisionMessageDuration;
-
-  return; // Exit early if there's a collision
-}
-
-// Check for non-blocking interactions
-const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
-if (interactiveObject) {
-
-    //exit area
-
-    if(interactiveObject.type==="exit"){
-        window.location.href = 'https://www.na-ring-gael.com/pucaloic';
+      // Fade out the textForFadeEng over 3 seconds
+      this.tweens.add({
+        targets: this.textForFadeEng,
+        alpha: 0,
+        duration: 3000,  // 3 seconds fade
+        ease: 'Linear',
+        onComplete: () => {
+          this.isFadingEng = false;  // Allow new collisions after fade-out
+        }
+      });
     }
-  // Check if the interactive object is of type 'water' (or whatever your specific type is)
-  let rippleCooldown = 5000; // 5 seconds cooldown
-  this.lastRippleTime = this.lastRippleTime || 0; // Ensure lastRippleTime is initialized
-  
-  if (interactiveObject.type === 'rippleEffect') { // Assuming 'g' is the type for water
-      // Set the water messages
-      this.collisionText.setText(interactiveObject.name || '');
-      this.collisionTextEng.setText(interactiveObject.nameEng || '');
-      
-      const currentTime = this.time.now; // Get the current time in milliseconds
-  
-      // Check if enough time has passed since the last ripple
-      if (currentTime - this.lastRippleTime >= rippleCooldown) {
-          createRipple.call(this, this.player.x, this.player.y); // Call ripple creation function
-          this.lastRippleTime = currentTime; // Update last ripple time
-      }
   }
-  else {
-    // Set messages for other interactive objects
-    this.collisionText.setText(interactiveObject.name);
-    this.collisionTextEng.setText(interactiveObject.nameEng);
+
+  // Set the player's next move only if there is no collision
+  if (!collision) {
+    this.player.nextMove = nextMove;
+    this.isMoving = true; // Start moving toward the next move position
   }
-  
-  this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
 
-// Move the player if there's no collision
-this.player.nextMove = nextMove;
-this.isMoving = true; 
-
-}
 
 function updateButtonPositions(scene) {
   const padding = 20;

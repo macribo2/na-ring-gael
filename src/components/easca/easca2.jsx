@@ -279,8 +279,9 @@ handleSend = () => {
     this.props.onSendMessage(input); // Pass the input to the parent component
   }
 
-  // localStorage.setItem('eascaInput', input);
-  this.setState({ input: "" }); //  clear the input field
+  this.setState({ input: "" }); // clear the input field
+    // localStorage.setItem('eascaInput', input);
+    this.setState({ input: "" });
     this.closeEasca();
   };
 
