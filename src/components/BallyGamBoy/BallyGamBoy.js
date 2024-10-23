@@ -295,29 +295,27 @@ checkNarrativeTracker();
   });
 };
     this.rippleCount = 0; // Step 1: Initialize the counter
-
     const mapLayout = [
-        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-        ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
-        ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-        ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
-        ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
-        ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
-        ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-        ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
-        ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
-        ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
-    
-    ];
-    
+      ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+      ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
+      ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
+      ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
+      ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
+  
+  ];    
     const obstacleMap = {
         'a': { type: 'noPic', nameEng: '\nI Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
         'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
@@ -443,7 +441,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     }).setScrollFactor(0).setDepth(20);
   
     this.textForFade = this.add.text(200, 90, '', {
-      fontSize: '24px',
+      fontSize: '20px',
       fill: '#ffffff',
       fontFamily: 'urchlo',
       padding: { x: 10, y: 10 },
@@ -540,14 +538,68 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
         scene.isMiddleButtonCooldown = false;
       }, 500); // Adjust the delay as needed (500ms in this case)
     }
-    function toggleVisibility(scene) {
-      // Toggle visibility of elements
-      scene.translucentBg.setVisible(!scene.translucentBg.visible);
-      scene.featherIcon.setVisible(!scene.featherIcon.visible);
-      scene.collisionTextEng.setVisible(!scene.collisionTextEng.visible);
-    }  
-  
-  
+ 
+let toggleTimer; // Declare a variable to store the timer ID
+
+function toggleVisibility(scene) {
+  if (!scene) return; // Ensure scene exists
+
+  // Check if the elements are defined before attempting to toggle visibility
+  if (scene.translucentBg && scene.featherIcon && scene.collisionTextEng) {
+    const isVisible = scene.translucentBg.visible;
+
+    // If the elements are not visible, show them
+    if (!isVisible) {
+      console.log('Starting timer to hide elements after a fewseconds.');
+      
+      // Make the elements visible and reset their alpha to 1 (fully visible)
+      scene.translucentBg.setVisible(true).setAlpha(0.6);
+      scene.featherIcon.setVisible(true).setAlpha(1);
+      scene.collisionTextEng.setVisible(true).setAlpha(1);
+
+      // Clear any existing timer before starting a new one
+      if (toggleTimer) {
+        clearTimeout(toggleTimer);
+      }
+
+      // Start a 5-second timer to fade out after 5 seconds
+      toggleTimer = setTimeout(() => {
+        console.log('Fading out elements over 3 seconds.');
+        
+        // Animate alpha from 1 to 0 over 3 seconds (fade out)
+        scene.tweens.add({
+          targets: [scene.translucentBg, scene.featherIcon, scene.collisionTextEng],
+          alpha: 0,        // Fade to completely invisible
+          duration: 3000,  // Over 3 seconds
+          onComplete: () => {
+            // After the fade-out is complete, hide the elements
+            scene.translucentBg.setVisible(false);
+            scene.featherIcon.setVisible(false);
+            scene.collisionTextEng.setVisible(false);
+            console.log('Elements hidden after fade-out.');
+          }
+        });
+      }, 1500);
+    } else {
+      // If elements are currently visible, clear the timer and stop the fading
+      console.log('Elements are visible, clearing the timer and stopping fade-out.');
+      if (toggleTimer) {
+        clearTimeout(toggleTimer);
+      }
+      // Stop any ongoing tweens (fading animations)
+      scene.tweens.killTweensOf([scene.translucentBg, scene.featherIcon, scene.collisionTextEng]);
+
+      // Immediately hide the elements
+      scene.translucentBg.setVisible(false);
+      scene.featherIcon.setVisible(false);
+      scene.collisionTextEng.setVisible(false);
+    }
+  } else {
+    console.error("Scene elements are not defined");
+  }
+}
+
+
   
     function handleButtonInput(direction) {
       if (direction === 'left') {
