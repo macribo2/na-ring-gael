@@ -432,21 +432,27 @@ const playerStartY = startRow * tileSize + tileSize / 2;
 
     
     this.collisionText = this.add.text(200, 90, '', {
-      fontSize: '20px',
-      fill: '#D8BFD8',
-      fontFamily: 'urchlo',
+      fontSize: '2.5em', // Larger font size
+      fill: '#333', // Text color
+      fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
+      // backgroundColor: '#f0f0f0', // Light background for speech bubble
       padding: { x: 10, y: 10 },
       stroke: '#000000',
-      strokeThickness: 3
+      strokeThickness: 1,
+      align: 'center', // Align the text to center
+      border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
   
     this.textForFade = this.add.text(200, 90, '', {
-      fontSize: '20px',
-      fill: '#ffffff',
-      fontFamily: 'urchlo',
+      fontSize: '2.5em', // Larger font size
+      fill: '#333', // Text color
+      fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
+      // backgroundColor: '#f0f0f0', // Light background for speech bubble
       padding: { x: 10, y: 10 },
       stroke: '#000000',
-      strokeThickness: 3
+      strokeThickness: 1,
+      align: 'center', // Align the text to center
+      border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
   
 
@@ -750,6 +756,7 @@ function update(time, delta) {
     if (time > this.collisionMessageTimer) {
       this.collisionText.setText('');
       this.collisionTextEng.setText('');
+      this.collisionText.setBackgroundColor(null);
     }
 
     // Handle player movement
@@ -872,7 +879,8 @@ function update(time, delta) {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
     if (playerStepsInWater()) {
-      createRipple.call(this, this.player.x, this.player.y);  // Make sure `this` is bound correctly
+      createRipple.call(this, this.player.x, this.player.y); 
+       // Make sure `this` is bound correctly
   }
 
 
@@ -890,6 +898,7 @@ if (collision) {
 
   // Check if the player stepped in water (type 'g')
   if (collision.type === 'rippleEffect') {
+    
     // Only increment ripple count if we haven't already triggered a ripple on this square
     if (!this.rippleTriggered) {
       createRipple.call(this, this.player.x, this.player.y);  // Trigger ripple
@@ -917,6 +926,8 @@ if (collision) {
   if (collision.name && collision.nameEng) {
     collisionMessage = collision.name;
     collisionMessageEng = collision.nameEng;
+    this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
+
   }
 
   // Show the say graphic (and handle other collision logic)
@@ -949,9 +960,11 @@ if (collision) {
     this.textForFade.setText(collisionMessage);  // Set the text
     this.textForFade.setAlpha(1);                // Make it fully visible
     this.isFading = true;  // Lock the fading process to prevent updates
-
+    this.textForFade.setBackgroundColor('#f0f0f0');
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
+      // backgroundColor: '#f0f0f0', // Light background for speech bubble
+
       targets: this.textForFade,
       alpha: 0,
       duration: 3000,  // 3 seconds fade
@@ -966,6 +979,12 @@ if (collision) {
   this.collisionText.setText(collisionMessage);
   this.collisionTextEng.setText(collisionMessageEng);
   this.collisionMessageTimer = time + this.collisionMessageDuration;
+
+// Check if the message text is empty and set background color accordingly
+if (collisionMessage === '' ) {
+  this.textForFade.setBackgroundColor('rgba(0, 0, 0, 0)');  // Set transparent background
+// alert()
+}
 
   return; // Exit early if there's a collision
 }
@@ -987,7 +1006,6 @@ if (interactiveObject) {
       // Set the water messages
       this.collisionText.setText(interactiveObject.name || '');
       this.collisionTextEng.setText(interactiveObject.nameEng || '');
-      
       const currentTime = this.time.now; // Get the current time in milliseconds
   
       // Check if enough time has passed since the last ripple
@@ -995,11 +1013,14 @@ if (interactiveObject) {
           createRipple.call(this, this.player.x, this.player.y); // Call ripple creation function
           this.lastRippleTime = currentTime; // Update last ripple time
       }
+      
   }
   else {
     // Set messages for other interactive objects
     this.collisionText.setText(interactiveObject.name);
     this.collisionTextEng.setText(interactiveObject.nameEng);
+    this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
+
   }
   
   this.collisionMessageTimer = time + this.collisionMessageDuration;
