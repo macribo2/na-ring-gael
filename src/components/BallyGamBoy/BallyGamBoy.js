@@ -931,12 +931,13 @@ if (collision) {
     ease: 'Linear'
   });
 
+  const cornerRadius = 10; 
   // Show border around the collision square
   const borderX = collision.x * tileSize;
   const borderY = collision.y * tileSize;
   this.borderGraphics.clear();
   this.borderGraphics.setVisible(true);
-  this.borderGraphics.strokeRect(borderX, borderY, tileSize, tileSize);
+  this.borderGraphics.strokeRoundedRect(borderX, borderY + 10, tileSize, tileSize, cornerRadius);
 
   // Hide the border after a brief delay
   this.time.delayedCall(200, () => {
