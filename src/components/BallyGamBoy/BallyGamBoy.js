@@ -317,11 +317,11 @@ checkNarrativeTracker();
   
   ];    
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: '\nI Cannot go that way', name: '\nNí féidir liom dul \nan treo sin' },
+        'a': { type: 'noPic', nameEng: '\nI Cannot go that way', name: 'Ní féidir liom dul \nan treo sin' },
         'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
         'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
         'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
-        'j': { type: 'noPic', nameEng: 'Flood mouth', name: '\nBéal Tuile' },
+        'j': { type: 'noPic', nameEng: 'Flood mouth', name: 'Béal Tuile' },
         'g': { type: 'rippleEffect', nameEng: '', name: '' },
            };
 
@@ -437,8 +437,6 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       // backgroundColor: '#f0f0f0', // Light background for speech bubble
       padding: { x: 10, y: 10 },
-      stroke: '#000000',
-      strokeThickness: 1,
       align: 'center', // Align the text to center
       border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
@@ -449,8 +447,6 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       // backgroundColor: '#f0f0f0', // Light background for speech bubble
       padding: { x: 10, y: 10 },
-      stroke: '#000000',
-      strokeThickness: 1,
       align: 'center', // Align the text to center
       border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
@@ -927,6 +923,11 @@ if (collision) {
     collisionMessage = collision.name;
     collisionMessageEng = collision.nameEng;
     this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
+     // Center the collision text locally
+     const textWidth = this.collisionText.width; // Get the updated width of the text
+     const canvasWidth = this.cameras.main.width; // Get canvas width
+     this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+ 
 
   }
 
@@ -961,6 +962,10 @@ if (collision) {
     this.textForFade.setAlpha(1);                // Make it fully visible
     this.isFading = true;  // Lock the fading process to prevent updates
     this.textForFade.setBackgroundColor('#f0f0f0');
+    const textWidth = this.textForFade.width; // Get the updated width of the text
+    const canvasWidth = this.cameras.main.width; // Get canvas width
+    this.textForFade.setX((canvasWidth - textWidth) / 2); // Center the text
+
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
       // backgroundColor: '#f0f0f0', // Light background for speech bubble
@@ -979,11 +984,12 @@ if (collision) {
   this.collisionText.setText(collisionMessage);
   this.collisionTextEng.setText(collisionMessageEng);
   this.collisionMessageTimer = time + this.collisionMessageDuration;
+  
 
 // Check if the message text is empty and set background color accordingly
 if (collisionMessage === '' ) {
   this.textForFade.setBackgroundColor('rgba(0, 0, 0, 0)');  // Set transparent background
-// alert()
+
 }
 
   return; // Exit early if there's a collision
@@ -1020,6 +1026,11 @@ if (interactiveObject) {
     this.collisionText.setText(interactiveObject.name);
     this.collisionTextEng.setText(interactiveObject.nameEng);
     this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
+    const textWidth = this.collisionText.width; // Get the updated width of the text
+    const canvasWidth = this.cameras.main.width; // Get canvas width
+    this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+
+
 
   }
   
