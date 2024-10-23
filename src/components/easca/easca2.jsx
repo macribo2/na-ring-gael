@@ -340,7 +340,7 @@ handleSend = () => {
             this.holdTimer = setTimeout(() => {
                 isLongPress = true; // Set the long press flag
                 this.showOptionsMenu(button); // Show options menu
-            }, 1000); // Adjust hold time if needed
+            }, 800); // Adjust hold time if needed
         }
 
         // Handle touchend to add character to input
