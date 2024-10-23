@@ -83,22 +83,31 @@ const handleSendMessage = (msg) => {
   setMessage(msg); // Update the state with the new message
 
   const messageElement = document.querySelector('.player-message');
+  const tailElement = document.createElement('div');
+  tailElement.className = 'tail';
+
   messageElement.style.opacity = '0'; // Ensure it starts hidden
   messageElement.classList.remove('visible'); // Remove the visible class initially
 
-  // Show message 1 second after send
+  // Append the tail to the message element
+  messageElement.appendChild(tailElement);
+
+  // Show message after send
   setTimeout(() => {
-    messageElement.classList.add('visible'); // Add the visible class
-    messageElement.style.opacity = '1'; // Make the message visible
-  }, 1000); // 1-second delay
+      messageElement.classList.add('visible'); // Add the visible class
+      messageElement.style.opacity = '1'; // Make the message visible
+      tailElement.style.opacity = '1'; // Make the tail visible
+  }, 300); // 1-second delay
 
   // Hide message after 4 seconds
   setTimeout(() => {
-    messageElement.style.opacity = '0'; // Fade it out
-    setTimeout(() => {
-      messageElement.classList.remove('visible'); // Hide the bubble after fade out
-    }, 500); // Wait for the fade-out transition to complete
-  }, 5000); // 4 seconds after it appears
+      messageElement.style.opacity = '0'; // Fade it out
+      tailElement.style.opacity = '0'; // Fade out the tail
+      setTimeout(() => {
+          messageElement.classList.remove('visible'); // Hide the bubble after fade out
+          messageElement.removeChild(tailElement); // Remove the tail after hiding
+      }, 500); // Wait for the fade-out transition to complete
+  }, 4000); // 4 seconds after it appears
 };
 
 // Call this function periodically or on state updates
@@ -328,9 +337,9 @@ checkNarrativeTracker();
            
     const interactiveMap = {
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'e': { type: 'noPic', nameEng: 'I stand upon a bridge', name: 'Seasaim ar droichead' },
-        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhainn' },
-        'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasaim sa sruthán' },
+        'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasain tú ar droichead' },
+        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhat' },
+        'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} 
@@ -433,9 +442,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     
     this.collisionText = this.add.text(200, 90, '', {
       fontSize: '2.5em', // Larger font size
-      fill: '#333', // Text color
+      fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
-      // backgroundColor: '#f0f0f0', // Light background for speech bubble
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
       border: '2px solid #ccc' // Optional border
@@ -443,9 +451,9 @@ const playerStartY = startRow * tileSize + tileSize / 2;
   
     this.textForFade = this.add.text(200, 90, '', {
       fontSize: '2.5em', // Larger font size
-      fill: '#333', // Text color
+      fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
-      // backgroundColor: '#f0f0f0', // Light background for speech bubble
+
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
       border: '2px solid #ccc' // Optional border
@@ -922,7 +930,6 @@ if (collision) {
   if (collision.name && collision.nameEng) {
     collisionMessage = collision.name;
     collisionMessageEng = collision.nameEng;
-    this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
      // Center the collision text locally
      const textWidth = this.collisionText.width; // Get the updated width of the text
      const canvasWidth = this.cameras.main.width; // Get canvas width
@@ -961,14 +968,12 @@ if (collision) {
     this.textForFade.setText(collisionMessage);  // Set the text
     this.textForFade.setAlpha(1);                // Make it fully visible
     this.isFading = true;  // Lock the fading process to prevent updates
-    this.textForFade.setBackgroundColor('#f0f0f0');
     const textWidth = this.textForFade.width; // Get the updated width of the text
     const canvasWidth = this.cameras.main.width; // Get canvas width
     this.textForFade.setX((canvasWidth - textWidth) / 2); // Center the text
 
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
-      // backgroundColor: '#f0f0f0', // Light background for speech bubble
 
       targets: this.textForFade,
       alpha: 0,
@@ -988,7 +993,6 @@ if (collision) {
 
 // Check if the message text is empty and set background color accordingly
 if (collisionMessage === '' ) {
-  this.textForFade.setBackgroundColor('rgba(0, 0, 0, 0)');  // Set transparent background
 
 }
 
@@ -1025,7 +1029,6 @@ if (interactiveObject) {
     // Set messages for other interactive objects
     this.collisionText.setText(interactiveObject.name);
     this.collisionTextEng.setText(interactiveObject.nameEng);
-    this.collisionText.setBackgroundColor('#f0f0f0');  // Light background color
     const textWidth = this.collisionText.width; // Get the updated width of the text
     const canvasWidth = this.cameras.main.width; // Get canvas width
     this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
@@ -1135,8 +1138,11 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     </>
             )}
    {showEasca && <Easca onSendMessage={handleSendMessage} />}
-   <p className="player-message">{message}</p>
-  </div>
+   <div className="player-message-container">
+                    <div className="player-message">{message}</div>
+                    <div className="tail" /> {/* Speech bubble tail */}
+                    </div>
+                    </div>
     </>
   );
 };

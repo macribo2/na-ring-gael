@@ -121,4 +121,17 @@ canvas{
   visibility: visible; /* Make it visible when needed */
 }
 
-
+.tail {
+  position: absolute; /* Position relative to the message bubble */
+  width: 0; /* No width, as it's a triangle */
+  height: 0; /* No height, as it's a triangle */
+  border-left: 10px solid transparent; /* Creates the left side of the triangle */
+  border-right: 10px solid transparent; /* Creates the right side of the triangle */
+  border-top: 10px solid #f0f0f0; /* Creates the top side of the triangle, matching the bubble color */
+  top: 100%; /* Positions the tail directly above the message bubble */
+  left: 50%; /* Center the tail horizontally */
+  transform: translateX(-50%); /* Adjust to center the tail */
+  opacity: 0; /* Start hidden */
+  transition: opacity 0.5s ease; /* Smooth transition for fading */
+  z-index: 0; /* Ensure the tail is behind the message bubble */
+}
