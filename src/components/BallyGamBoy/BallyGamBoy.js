@@ -5,6 +5,20 @@ import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
+
+  const [eascaActive, setEascaActive] = useState(false); 
+
+
+  const handleHideEasca = () => {
+    setShowEasca(false); // Hide Easca keyboard
+    setEascaActive(false); // Mark Easca as inactive
+    alert(eascaActive)
+  };
+
+  const handleShowEasca = () => {
+    setShowEasca(true); // Show Easca keyboard
+    setEascaActive(true); // Mark Easca as active
+  };
   const [showMessage, setShowMessage] = useState(false); // Show/hide message
 
   const [showNarrative, setShowNarrative] = useState(false); // Manage the visibility of Narrative1
@@ -13,9 +27,7 @@ const BallyGamBoy = () => {
       setShowNarrative(!showNarrative); // Toggle Narrative1 visibility
   };
 
-  const handleShowEasca = () => {
-    setShowEasca(true);
-  };
+ 
   const [showEasca, setShowEasca] = useState(false); // 
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
   const rippleTriggered = useRef(false);
@@ -166,6 +178,7 @@ useEffect(() => {
     gameRef.current = new Phaser.Game(config);
 
     window.addEventListener('showEasca', handleShowEasca);
+    window.addEventListener('hideEasca', handleHideEasca);
         
 
 
@@ -872,16 +885,20 @@ function update(time, delta) {
     let collisionMessage = '';
     let collisionMessageEng = '';
 
-    // Determine the next move based on user input
-    if (this.cursors.left.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.right.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.up.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    } else if (this.cursors.down.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    }
+// Check if Easca is active; if so, ignore directional input
+if (!eascaActive) {
+  // Determine the next move based on user input
+  if (this.cursors.left.isDown) {
+    nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+  } else if (this.cursors.right.isDown) {
+    nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
+  } else if (this.cursors.up.isDown) {
+    nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+  } else if (this.cursors.down.isDown) {
+    nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
+  }
+}
+
     if (playerStepsInWater()) {
       createRipple.call(this, this.player.x, this.player.y); 
        // Make sure `this` is bound correctly
