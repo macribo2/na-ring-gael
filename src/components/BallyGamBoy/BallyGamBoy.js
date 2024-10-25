@@ -286,23 +286,23 @@ checkNarrativeTracker();
   let creature = null;
   function create() {
     let creature = null;
-// ///let's try a wave effect
-// this.waves = [];
-// // Create 8 ripple lines
-// for (let i = 0; i < 8; i++) {
-//   let wave = this.add.graphics();
-//   wave.lineStyle(1, 0x5c7678, 1);  // 1px wide, white color
-//   wave.strokeRect(0, i * 70, this.scale.width / 2, 1); // 50% width, 1px height, evenly spaced
-//   wave.x = 500; 
-//   wave.setAlpha(0.5) // Position them centered horizontally (50% width)
-//   this.waves.push(wave);
-// }
+///let's try a wave effect
+this.waves = [];
+// Create 8 ripple lines
+for (let i = 0; i < 8; i++) {
+  let wave = this.add.graphics();
+  wave.lineStyle(1, 0x5c7678, 1);  // 1px wide, white color
+  wave.strokeRect(0, i * 70, this.scale.width / 2, 1); // 50% width, 1px height, evenly spaced
+  wave.x = 500; 
+  wave.setAlpha(0.5) // Position them centered horizontally (50% width)
+  this.waves.push(wave);
+}
 
-// this.waveSpeed = 3 ; // Speed at which the ripples scroll down
+this.waveSpeed = 3 ; // Speed at which the ripples scroll down
 
-//         // Variable to control choppy frame updates
-//         this.frameSkipCounter = 0;
-//         this.framesToSkip = 120; // Adjust this to control how choppy the effect should be
+        // Variable to control choppy frame updates
+        this.frameSkipCounter = 0;
+        this.framesToSkip = 120; // Adjust this to control how choppy the effect should be
    
       // Initialize a reference for the creature
  // Define the sinkCreature function within the Phaser scene
@@ -788,23 +788,25 @@ function playerStepsInWater(nextMove, interactiveMap) {
 let lastRippleTime = 0; // Track last ripple time
 
 function update(time, delta) {
+
+  
     const moveInterval = 50;
 
-    // //waves
-    // this.frameSkipCounter++;
-    // if (this.frameSkipCounter >= this.framesToSkip) {
+    //waves
+    this.frameSkipCounter++;
+    if (this.frameSkipCounter >= this.framesToSkip) {
 
-    //   this.waves.forEach((wave, index) => {
-    //     wave.y -= this.waveSpeed * 200 * (delta / 1000); // Move each wave up with bigger steps (multiplied by 2)
+      this.waves.forEach((wave, index) => {
+        wave.y -= this.waveSpeed * 200 * (delta / 1000); // Move each wave up with bigger steps (multiplied by 2)
 
 
-    //     if (wave.y < -30) { // Check if the wave has moved off the top of the screen
-    //       wave.y = this.scale.height; // Reposition wave to the bottom when it moves off the top
-    //     }
-    //   });
+        if (wave.y < -30) { // Check if the wave has moved off the top of the screen
+          wave.y = this.scale.height; // Reposition wave to the bottom when it moves off the top
+        }
+      });
     
-    //   this.frameSkipCounter = 0; // Reset the counter after movement
-    // }
+      this.frameSkipCounter = 0; // Reset the counter after movement
+    }
     
     if (time > this.collisionMessageTimer) {
       this.collisionText.setText('');
@@ -812,27 +814,50 @@ function update(time, delta) {
       this.collisionText.setBackgroundColor(null);
     }
 
-    // Handle player movement
     if (this.isMoving) {
+  
+      // Set initial value for bobCounter if it doesn't already exist
+      this.bobCounter = this.bobCounter || 0.0;
+    
+      // Update player.x to move smoothly towards nextMove.x
       this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
-      this.player.y = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
-
+    
+      // Calculate smooth movement toward nextMove.y without the bobbing effect
+      const baseY = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
+    
+      // Apply bobbing effect only if moving left or right
+      if (this.cursors.left.isDown || this.cursors.right.isDown) {
+        const arcAmplitude = 2; // Maximum height of arc
+        const arcFrequency = 0.4; // Frequency of the bobbing effect
+        this.bobCounter += arcFrequency; // Increment bobCounter for sine wave calculation
+    
+        // Calculate bobbing effect based on sine wave
+        const bobbingEffect = Math.sin(this.bobCounter) * arcAmplitude;
+    
+        // Combine forward movement with bobbing effect for Y position
+        this.player.y = baseY - bobbingEffect; // Bobbing occurs while moving forward
+      } else {
+        this.player.y = baseY; // Just move without bobbing if no directional input
+        this.bobCounter = 0; // Reset bobCounter to ensure clean motion when player stops
+      }
+    
+      // Check if player has reached the target position
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
         this.player.x = this.player.nextMove.x;
         this.player.y = this.player.nextMove.y;
         this.isMoving = false;
         this.moveDelay = time + moveInterval;
-             // Reset ripple flag when player finishes movement
-      rippleTriggered.current = false;
-
-      // Reset ripple flag when player finishes movement
-      rippleTriggered.current = false;
+        
+        // Reset ripple flag and hide borders if applicable
+        rippleTriggered.current = false;
         if (this.borderGraphics) {
           this.borderGraphics.setVisible(false);
         }
       }
+      
       return; // Exit early if still moving
     }
+    
 
     if (time < this.moveDelay) {
       return; // Wait until move delay is over
