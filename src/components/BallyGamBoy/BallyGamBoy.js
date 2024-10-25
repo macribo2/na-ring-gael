@@ -12,7 +12,7 @@ const BallyGamBoy = () => {
   const handleHideEasca = () => {
     setShowEasca(false); // Hide Easca keyboard
     setEascaActive(false); // Mark Easca as inactive
-    alert(eascaActive)
+    
   };
 
   const handleShowEasca = () => {
@@ -84,7 +84,7 @@ const BallyGamBoy = () => {
   
     // Create a second ripple after a delay (optional style modification)
     this.time.delayedCall(50, () => {
-      createThinRipple(0x707070, 500, -1);  // Black ripple at depth -1
+      createThinRipple(0x707070, 500, -2);  // Black ripple at depth -1
     });
   }
   
@@ -178,7 +178,6 @@ useEffect(() => {
     gameRef.current = new Phaser.Game(config);
 
     window.addEventListener('showEasca', handleShowEasca);
-    window.addEventListener('hideEasca', handleHideEasca);
         
 
 
@@ -287,7 +286,24 @@ checkNarrativeTracker();
   let creature = null;
   function create() {
     let creature = null;
+// ///let's try a wave effect
+// this.waves = [];
+// // Create 8 ripple lines
+// for (let i = 0; i < 8; i++) {
+//   let wave = this.add.graphics();
+//   wave.lineStyle(1, 0x5c7678, 1);  // 1px wide, white color
+//   wave.strokeRect(0, i * 70, this.scale.width / 2, 1); // 50% width, 1px height, evenly spaced
+//   wave.x = 500; 
+//   wave.setAlpha(0.5) // Position them centered horizontally (50% width)
+//   this.waves.push(wave);
+// }
 
+// this.waveSpeed = 3 ; // Speed at which the ripples scroll down
+
+//         // Variable to control choppy frame updates
+//         this.frameSkipCounter = 0;
+//         this.framesToSkip = 120; // Adjust this to control how choppy the effect should be
+   
       // Initialize a reference for the creature
  // Define the sinkCreature function within the Phaser scene
  this.sinkCreature = () => {
@@ -506,8 +522,8 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     });
   
     // Bind button interactions
-    this.buttonLeft.on('pointerdown', () => handleButtonInput.call(this, 'left'));
-    this.buttonRight.on('pointerdown', () => handleButtonInput.call(this, 'right'));
+    this.buttonLeft.on('pointerdown', () => {handleButtonInput.call(this, 'left'); this.player.setFlipX(true)});
+    this.buttonRight.on('pointerdown', () => {handleButtonInput.call(this, 'right'); this.player.setFlipX(false)});
     this.buttonUp.on('pointerdown', () => handleButtonInput.call(this, 'up'));
     this.buttonDown.on('pointerdown', () => handleButtonInput.call(this, 'down'));
   
@@ -529,6 +545,9 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     this.isMiddleButtonCooldown = false;
   
   
+    const lakeMask2 = this.add.sprite(500, 250, 'lakeMask').setDepth(-1) // Set depth so it's on top
+    .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
+    .setScale(6); // Scale the sprite up if necessary
 
     const lakeMask = this.add.sprite(0, 250, 'lakeMask')
     .setDepth(-9) // Set depth so it's on top
@@ -539,6 +558,8 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
   lakeMask.displayWidth = this.cameras.main.width;
   lakeMask.displayHeight = this.cameras.main.height;
 
+  lakeMask2.displayWidth = this.cameras.main.width;
+  lakeMask2.displayHeight = this.cameras.main.height;
 
  
 
@@ -769,7 +790,22 @@ let lastRippleTime = 0; // Track last ripple time
 function update(time, delta) {
     const moveInterval = 50;
 
-    // Clear the collision message after the duration
+    // //waves
+    // this.frameSkipCounter++;
+    // if (this.frameSkipCounter >= this.framesToSkip) {
+
+    //   this.waves.forEach((wave, index) => {
+    //     wave.y -= this.waveSpeed * 200 * (delta / 1000); // Move each wave up with bigger steps (multiplied by 2)
+
+
+    //     if (wave.y < -30) { // Check if the wave has moved off the top of the screen
+    //       wave.y = this.scale.height; // Reposition wave to the bottom when it moves off the top
+    //     }
+    //   });
+    
+    //   this.frameSkipCounter = 0; // Reset the counter after movement
+    // }
+    
     if (time > this.collisionMessageTimer) {
       this.collisionText.setText('');
       this.collisionTextEng.setText('');
@@ -1061,7 +1097,11 @@ if (interactiveObject) {
 this.player.nextMove = nextMove;
 this.isMoving = true; 
 
+
+
+
 }
+
 
 function updateButtonPositions(scene) {
   const padding = 20;
@@ -1160,6 +1200,31 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     <div className="tail" /> {/* Speech bubble tail */}
                     </div>
                     </div>
+    
+                    <div className="portrait-mode-text-container">
+
+<p className="menu portrait-mode-txt quote-1 ga">
+
+    Fead air fuar-luirg.
+
+</p>
+<p className="menu portrait-mode-txt quote-2">
+Whistling on cold track.
+</p>
+<p className="menu portrait-mode-txt quote-3">
+A wild goose chase - no scent.
+</p>
+
+<p className="menu portrait-mode-txt quote-4">
+
+↻ mobile landscape to continue 
+</p>
+<p className='portrait-mode-text'>
+
+<br/>
+    
+</p>
+</div>
     </>
   );
 };
