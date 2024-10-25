@@ -720,20 +720,20 @@ const toggleFullscreen = () => {
 
 
 // Modify the movePlayer function to handle collision and display the message
+// Modify the movePlayer function to handle collision and display the message
 async function movePlayer() {
-  // collisionMessageTimer.current = 100; // Update ref value without triggering a re-render
-  
-
   const tileSize = 32;
   const gridWidth = 25;
   const gridHeight = 18;
 
+  // Only allow movement if not already moving and enough time has passed
   if (!this.isMoving && this.time.now - this.lastMoveTime > this.moveDelay) {
-    this.isMoving = true;
-    this.lastMoveTime = this.time.now;
+    this.isMoving = true; // Start movement
+    this.lastMoveTime = this.time.now; // Update last move time
 
     let nextMove = { x: this.player.x, y: this.player.y };
 
+    // Determine the next move based on input
     if (this.cursors.left.isDown) {
       nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
     } else if (this.cursors.right.isDown) {
@@ -744,29 +744,24 @@ async function movePlayer() {
       nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
     }
 
-    // Check for obstacles here before applying the delay
+    // Check for obstacles before applying the delay
     const nextTileX = Math.floor(nextMove.x / tileSize);
     const nextTileY = Math.floor(nextMove.y / tileSize);
-
     const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
 
-    //deleting this if causes walk through first wall bug.
     if (obstacle) {
       // Show collision message
-
-      // Set the timer for how long the message should stay
       this.collisionMessageTimer = this.time.now + 3000; // Show for 3 seconds
-
-      this.isMoving = false;
-
+      this.isMoving = false; // Stop movement
       return; // Block movement and stop further execution
     }
 
     // Add delay before setting the new position
-    await delay(500);
+    await delay(500); // Move duration
 
+    // Update the player's position
     this.player.setPosition(nextMove.x, nextMove.y);
-    this.isMoving = false;
+    this.isMoving = false; // Movement is complete
   }
 }
 
