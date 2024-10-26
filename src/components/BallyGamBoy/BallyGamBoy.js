@@ -643,33 +643,84 @@ function toggleVisibility(scene) {
   }
 }
 
+let holdIntervalId = null;
+let tapTimeoutId = null; // For tap detection
+let isHolding = false; // To track if the button is being held
 
-  
-    function handleButtonInput(direction) {
-      if (direction === 'left') {
-        this.cursors.left.isDown = true;
-      } else if (direction === 'right') {
-        this.cursors.right.isDown = true;
-      } else if (direction === 'up') {
-        this.cursors.up.isDown = true;
-      } else if (direction === 'down') {
-        this.cursors.down.isDown = true;
-      }
-      movePlayer.call(this, direction); // Pass direction to movePlayer
+function handleButtonInput(direction) {
+  if (direction === 'left') {
+    this.cursors.left.isDown = true;
+
+    // If left button is not pressed yet, set a timeout for tap detection
+    if (!isHolding) {
+      tapTimeoutId = setTimeout(() => {
+        isHolding = true; // Mark as held
+        // Start logging every second if not already started
+        if (!holdIntervalId) {
+          holdIntervalId = setInterval(() => {
+            console.log('Left button is being held down.'); // Log every second
+          }, 1000);
+        }
+      }, 300); // Time threshold for a tap
     }
-    
-    function handleButtonInputRelease(direction) {
-      if (direction === 'left') {
-        this.cursors.left.isDown = false;
-      } else if (direction === 'right') {
-        this.cursors.right.isDown = false;
-      } else if (direction === 'up') {
-        this.cursors.up.isDown = false;
-      } else if (direction === 'down') {
-        this.cursors.down.isDown = false;
-      }
+  } else if (direction === 'right') {
+    this.cursors.right.isDown = true;
+
+    // If right button is not pressed yet, set a timeout for tap detection
+    if (!isHolding) {
+      tapTimeoutId = setTimeout(() => {
+        isHolding = true; // Mark as held
+        // Start logging every second if not already started
+        if (!holdIntervalId) {
+          holdIntervalId = setInterval(() => {
+            console.log('Right button is being held down.'); // Log every second
+          }, 1000);
+        }
+      }, 300); // Time threshold for a tap
     }
-    
+  } else if (direction === 'up') {
+    this.cursors.up.isDown = true;
+  } else if (direction === 'down') {
+    this.cursors.down.isDown = true;
+  }
+
+  movePlayer.call(this, direction); // Pass direction to movePlayer
+}
+
+function handleButtonInputRelease(direction) {
+  if (direction === 'left') {
+    this.cursors.left.isDown = false;
+
+    // Clear timeout and check if it was a tap
+    clearTimeout(tapTimeoutId);
+    if (!isHolding) {
+      alert('Left button tap detected!'); // Alert for tap
+    }
+
+    // Clear the interval when the button is released
+    clearInterval(holdIntervalId);
+    holdIntervalId = null; // Reset the interval ID
+    isHolding = false; // Reset hold status
+  } else if (direction === 'right') {
+    this.cursors.right.isDown = false;
+
+    // Clear timeout and check if it was a tap
+    clearTimeout(tapTimeoutId);
+    if (!isHolding) {
+      alert('Right button tap detected!'); // Alert for tap
+    }
+
+    // Clear the interval when the button is released
+    clearInterval(holdIntervalId);
+    holdIntervalId = null; // Reset the interval ID
+    isHolding = false; // Reset hold status
+  } else if (direction === 'up') {
+    this.cursors.up.isDown = false;
+  } else if (direction === 'down') {
+    this.cursors.down.isDown = false;
+  }
+}
+
  
 let buttonPressed = false;
 
