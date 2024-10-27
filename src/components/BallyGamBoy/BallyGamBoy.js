@@ -58,7 +58,7 @@ const BallyGamBoy = () => {
   
     // Function to create a ripple with specified style
     const createThinRipple = (color, delay, depth) => {
-      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(depth);
+      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(-10);
       let progress = 0;
       const maxRadius = 180;
       const duration = 14000;  // Total duration of the effect
@@ -242,23 +242,106 @@ useEffect(() => {
   function create() {
     let creature = null;
 ///let's try a wave effect
-this.waves = [];
+this.waves = []; // Array for visible waves
+this.blackWaves = []; // Array for black waves
+
 // Create 8 ripple lines
 for (let i = 0; i < 8; i++) {
+  // Create visible wave
   let wave = this.add.graphics();
-  wave.lineStyle(1, 0x5c7678, 1);  // 1px wide, white color
-  wave.strokeRect(0, i * 70, this.scale.width / 2, 1); // 50% width, 1px height, evenly spaced
-  wave.x = 500; 
-  wave.setAlpha(0.5) // Position them centered horizontally (50% width)
-  this.waves.push(wave);
+  wave.lineStyle(1, 0x5c7678, 1); // 1px wide, glistening wave color
+  wave.setAlpha(0.5); // Semi-transparent waves
+
+  wave.beginPath();
+  let prevY = i * 70; // Starting Y position for this wave
+
+  // Draw dotted lines with increased randomness
+  for (let x = 0; x <= this.scale.width / 2; x += Math.random() * 15 + 5) {
+    const randomOffset = (Math.random() * 20 - 10) + Math.sin(x * 0.2) * 5; // Random offset
+    const currentY = prevY + randomOffset; // Add random offset to previous Y
+
+    // Draw a short line segment to create the dotted effect
+    wave.moveTo(x, currentY);
+    wave.lineTo(x + Math.random() * 5 + 3, currentY);
+
+    prevY = currentY; // Update previous Y for the next point
+  }
+
+  wave.strokePath().setDepth(-6); // Render the wave
+  wave.x = 500; // Position them centered horizontally (50% width)
+  this.waves.push(wave); // Add visible wave to array
+
+  // Create black wave (invisible)
+  let blackWave = this.add.graphics().setDepth(-5);
+  blackWave.lineStyle(16, 0x211e27, 1); // Black color
+  blackWave.setAlpha(1); // Fully opaque
+
+  blackWave.beginPath();
+  prevY = i * 70; // Starting Y position for black wave
+
+  // Draw dotted lines for black waves with the same randomness
+  for (let x = 0; x <= this.scale.width / 2; x += Math.random() * 15 + 5) {
+    const randomOffset = (Math.random() * 20 - 10) + Math.sin(x * 0.2) * 5; // Random offset
+    const currentY = prevY + randomOffset; // Add random offset to previous Y
+
+    // Draw a short line segment for the black wave
+    blackWave.moveTo(x, currentY);
+    blackWave.lineTo(x + Math.random() * 10 + 23, currentY);
+
+    prevY = currentY; // Update previous Y for the next point
+  }
+
+  blackWave.strokePath(); // Render the black wave
+  blackWave.x = 500; // Position them centered horizontally
+  this.blackWaves.push(blackWave); // Add black wave to array
 }
 
-this.waveSpeed = 3 ; // Speed at which the ripples scroll down
+this.blackWaveSpeed = 0.1; // Slower speed at which the ripples scroll down
+this.waveSpeed = 0.2; // Slower speed at which the ripples scroll down
+this.frameSkipCounter = 0; // Variable to control choppy frame updates
+this.framesToSkip = 8; // Adjust this to control how choppy the effect should be
 
-        // Variable to control choppy frame updates
-        this.frameSkipCounter = 0;
-        this.framesToSkip = 120; // Adjust this to control how choppy the effect should be
-   
+// Update function to animate the waves
+function updateWaves(delta) {
+  this.frameSkipCounter++;
+
+  // Update waves only after skipping frames
+  if (this.frameSkipCounter >= this.framesToSkip) {
+    this.frameSkipCounter = 0; // Reset counter
+
+    // Update visible waves
+    this.waves.forEach((wave, index) => {
+      wave.clear(); // Clear previous frame
+      wave.lineStyle(1, 0x5c7678, 1); // Reset line style
+      wave.setAlpha(0.5); // Set transparency
+
+      wave.beginPath();
+      let prevY = index * 70; // Starting Y position
+
+      // Draw short segments to create a dotted effect
+      for (let x = 0; x <= this.scale.width / 2; x += 10) {
+        const randomOffset = Math.sin(x * 0.1 + this.time.now * 0.005) * 10; // Dynamic sine wave
+        const currentY = prevY + randomOffset; // Create varying heights
+
+        // Draw a short line segment instead of a full line
+        wave.moveTo(x, currentY); // Move to the starting point of the segment
+        wave.lineTo(x + 5, currentY); // Draw a short line segment (5px)
+        prevY = currentY; // Update previous Y for the next segment
+      }
+
+      wave.strokePath(); // Render the wave
+      wave.y += this.waveSpeed; // Move wave downward
+
+      // Reset if out of bounds
+      if (wave.y > this.scale.height) {
+        wave.y = -30; // Reset to the top
+      }
+    });
+
+  }
+}
+
+
       // Initialize a reference for the creature
  // Define the sinkCreature function within the Phaser scene
  this.sinkCreature = () => {
@@ -506,12 +589,12 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     this.isMiddleButtonCooldown = false;
   
   
-    const lakeMask2 = this.add.sprite(500, 250, 'lakeMask').setDepth(-1) // Set depth so it's on top
+    const lakeMask2 = this.add.sprite(500, 250, 'lakeMask').setDepth(-7) // Set depth so it's on top
     .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
     .setScale(6); // Scale the sprite up if necessary
 
     const lakeMask = this.add.sprite(0, 250, 'lakeMask')
-    .setDepth(-9) // Set depth so it's on top
+    .setDepth(-12) // Set depth so it's on top
     .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
     .setScale(6); // Scale the sprite up if necessary
 
@@ -755,7 +838,7 @@ let lastRippleTime = 0; // Track last ripple time
 function update(time, delta) {
 
   
-    const moveInterval = 50;
+    const moveInterval = 40;
 
     //waves
     this.frameSkipCounter++;
@@ -770,8 +853,17 @@ function update(time, delta) {
         }
       });
     
+      // Update black waves
+      this.blackWaves.forEach((blackWave, index) => {
+        blackWave.y += this.waveSpeed * 600 * (delta / 1000); // Move black wave downward
+        
+        if (blackWave.y > this.scale.height) { // Check if the black wave has moved off the bottom
+          blackWave.y = -30; // Reposition black wave to the top
+        }
+      });
       this.frameSkipCounter = 0; // Reset the counter after movement
     }
+
     
     if (time > this.collisionMessageTimer) {
       this.collisionText.setText('');
