@@ -7,6 +7,7 @@ import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
 
   const [eascaActive, setEascaActive] = useState(false); 
+  const [isHolding, setisHolding] = useState(false); 
 
 
   const handleHideEasca = () => {
@@ -33,7 +34,7 @@ const BallyGamBoy = () => {
   const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const phaserRef = useRef(null);
-
+  const isHoldingRef = useRef(isHolding);
 
   const checkNarrativeTracker = () => {
     const trackerValue = localStorage.getItem('narrativeTracker');
@@ -122,125 +123,79 @@ const handleSendMessage = (msg) => {
   }, 4000); // 4 seconds after it appears
 };
 
-// Call this function periodically or on state updates
 useEffect(() => {
-  const delayCheck = setTimeout(() => {
-    const interval = setInterval(checkNarrativeTracker, 1000);  // Check every second
-    return () => clearInterval(interval);
-}, 2000);  // Add a 2-second delay before starting the check
+  isHoldingRef.current = isHolding;
+  // Cleanup function for intervals
+  const clearAllIntervals = () => {
+    // clearInterval(checkNarrativeTrackerInterval);
+  };
 
+  // Logic for isHolding
+  if (isHolding) {
+    console.log('Handling isHolding state');
+    // Additional logic for when isHolding is true
+  }
+
+  return () => {
+    clearAllIntervals();
+  };
+}, [isHolding]);
+
+// Separate effect for managing the game instance
+useEffect(() => {
+  const config = {
+    type: Phaser.AUTO,
+    width: '100%',
+    height: '100%',
+    scale: {
+      mode: Phaser.Scale.ScaleModes.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+    },
+    scene: {
+      preload: preload,
+      create: create,
+      update: update,
+    },
+  };
+
+  // Create the Phaser game instance
+  gameRef.current = new Phaser.Game(config);
+
+  return () => {
+    if (gameRef.current) {
+      gameRef.current.destroy(true);
+      gameRef.current = null;
+    }
+  };
+}, []); // Only run on mount
+
+// Effect for localStorage management
+useEffect(() => {
   const trackerValue = localStorage.getItem('narrativeTracker');
-  // If there's no tracker value or if it's undefined, reset it to 0
   if (!trackerValue) {
-      localStorage.setItem('narrativeTracker', 0);
+    localStorage.setItem('narrativeTracker', 0);
   }
-    const interval = setInterval(checkNarrativeTracker, 1000);  // Poll every second
-    
-
-    if (!localStorage.getItem('narrativeTracker')) {
-      localStorage.setItem('narrativeTracker', 0);
-  }
-      // Define mapLayout, obstacleMap, and interactiveMap inside useEffect
-      const mapLayout = [
-     
-    ];
-
-    const obstacleMap = {
-        'a': { type: 'noPic', nameEng: 'A rock wall', name: 'balla na pluaise' },
-        'b': { type: 'noPic', nameEng: 'deep water', name: 'uisce domhain' },
-        'd': { type: 'noPic', nameEng: 'large rock', name: 'carraig mór' }
-    };
-//deleting this causes crash so ...
-    const interactiveMap = {
-      
-    };
-
-    const newObstacles = [];
-    const newInteractiveObjects = [];
-
-    // Configuration for Phaser game
-    const config = {
-      type: Phaser.AUTO,
-      width: '100%',  // Use percentage to adapt to screen width
-      height: '100%', // Use percentage to adapt to screen height
-      scale: {
-        mode: Phaser.Scale.ScaleModes.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-      },
-      scene: {
-        preload: preload,
-        create: create,
-        update: update
-      }
-    };
-    
-    // Create the Phaser game instance
-    gameRef.current = new Phaser.Game(config);
-
-    window.addEventListener('showEasca', handleShowEasca);
-        
-
-
-    mapLayout.forEach((row, rowIndex) => {
-      row.forEach((cell, colIndex) => {
-          const obstacle = obstacleMap[cell];
-          const interactive = interactiveMap[cell];
-          
-          if (obstacle && obstacle.type !== 'walkable') {
-              newObstacles.push({
-                  type: obstacle.type,
-                  x: colIndex,
-                  y: rowIndex,
-                  nameEng: obstacle.nameEng,
-                  name: obstacle.name
-              });
-          }
-
-          if (interactive) {
-              newInteractiveObjects.push({
-                  type: interactive.type,
-                  x: colIndex,
-                  y: rowIndex,
-                  nameEng: interactive.nameEng,
-                  name: interactive.name
-              });
-          }
-      });
-  });
 
   const handleStorageChange = (e) => {
     if (e.key === 'narrativeTracker') {
-        checkNarrativeTracker();
+      checkNarrativeTracker();
     }
-};
+  };
 
-// Add an event listener for localStorage changes
-window.addEventListener('storage', handleStorageChange);
+  window.addEventListener('storage', handleStorageChange);
 
-// Run the check once on component mount to hide the narrative if already at 5
-checkNarrativeTracker();
+  // Cleanup for storage change listener
+  return () => {
+    window.removeEventListener('storage', handleStorageChange);
+  };
+}, []); // Only run on mount
 
+// Set interval for narrative tracking on mount
+useEffect(() => {
+  const interval = setInterval(checkNarrativeTracker, 1000);
 
-
-    return () => {
-      if (gameRef.current) {
-        gameRef.current.destroy(true);
-        gameRef.current = null;
-      }
-      window.removeEventListener('showEasca', handleShowEasca);
-            
-      if (gameRef.current) {
-          gameRef.current.destroy(true);
-      }
-      window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
-      clearTimeout(delayCheck);
-    };
-
-
-
-
-  }, []);
+  return () => clearInterval(interval); // Clear interval on unmount
+}, []); // Only run on mount
 
   // Phaser scene methods
   function preload() {
@@ -520,7 +475,13 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     this.scale.on('resize', (gameSize, baseSize, displaySize, resolution) => {
       updateButtonPositions(this);
     });
-  
+    this.input.on('pointerdown', (pointer) => {
+      handleButtonInput.call(this, 'left'); // Example for left; adjust as needed
+    });
+    
+    this.input.on('pointerup', (pointer) => {
+      handleButtonInputRelease.call(this, 'left'); // Example for left; adjust as needed
+    });
     // Bind button interactions
     this.buttonLeft.on('pointerdown', () => {handleButtonInput.call(this, 'left'); this.player.setFlipX(true)});
     this.buttonRight.on('pointerdown', () => {handleButtonInput.call(this, 'right'); this.player.setFlipX(false)});
@@ -642,104 +603,65 @@ function toggleVisibility(scene) {
     console.error("Scene elements are not defined");
   }
 }
-
-let holdIntervalId = null;
-let tapTimeoutId = null; // For tap detection
-let isHolding = false; // To track if the button is being held
+let tapTimeoutId = null; // Timer ID for tap detection
+const tapThreshold = 500; // Time threshold for distinguishing tap vs. hold
 
 function handleButtonInput(direction) {
+  // Determine the pressed direction and set cursors accordingly
   if (direction === 'left') {
     this.cursors.left.isDown = true;
+    // Start the tap detection timer
+    tapTimeoutId = setTimeout(() => {
+setisHolding(true);      console.log('isHolding? '+isHolding);
+    }, tapThreshold);
 
-    // If left button is not pressed yet, set a timeout for tap detection
-    if (!isHolding) {
-      tapTimeoutId = setTimeout(() => {
-        isHolding = true; // Mark as held
-        // Start logging every second if not already started
-        if (!holdIntervalId) {
-          holdIntervalId = setInterval(() => {
-            console.log('Left button is being held down.'); // Log every second
-          }, 1000);
-        }
-      }, 300); // Time threshold for a tap
-    }
-  } else if (direction === 'right') {
+  } 
+  else if (direction === 'right') {
     this.cursors.right.isDown = true;
-
-    // If right button is not pressed yet, set a timeout for tap detection
-    if (!isHolding) {
-      tapTimeoutId = setTimeout(() => {
-        isHolding = true; // Mark as held
-        // Start logging every second if not already started
-        if (!holdIntervalId) {
-          holdIntervalId = setInterval(() => {
-            console.log('Right button is being held down.'); // Log every second
-          }, 1000);
-        }
-      }, 300); // Time threshold for a tap
-    }
-  } else if (direction === 'up') {
+    // Start the tap detection timer
+    tapTimeoutId = setTimeout(() => {
+      setisHolding(true);      console.log('isHolding? '+isHolding);
+      console.log('Right button is being held down.');
+    }, tapThreshold);
+  }
+  else if (direction === 'up') {
     this.cursors.up.isDown = true;
-  } else if (direction === 'down') {
+    // Start the tap detection timer
+    tapTimeoutId = setTimeout(() => {
+      setisHolding(true);      console.log('isHolding? '+isHolding);
+      console.log('up button is being held down.');
+    }, tapThreshold);
+  }
+  else if (direction === 'down') {
     this.cursors.down.isDown = true;
+    // Start the tap detection timer
+    tapTimeoutId = setTimeout(() => {
+      setisHolding(true);      console.log('isHolding? '+isHolding);
+      console.log('Right button is being held down.');
+    }, tapThreshold);
   }
 
-  movePlayer.call(this, direction); // Pass direction to movePlayer
+
+  // No movement is triggered here, we only check for tap/hold state
 }
 
 function handleButtonInputRelease(direction) {
-  if (direction === 'left') {
-    this.cursors.left.isDown = false;
-
-    // Clear timeout and check if it was a tap
+  if (direction === 'left' || direction === 'right'|| direction === 'up'|| direction === 'down') {
+    this.cursors[direction].isDown = false;
+    
+    // Clear the tap detection timer
     clearTimeout(tapTimeoutId);
+
     if (!isHolding) {
-      alert('Left button tap detected!'); // Alert for tap
+      console.log(`${direction} button tapped!`); // Log short tap
+    } else {
+      console.log(`${direction} button released!`); // Log hold
     }
 
-    // Clear the interval when the button is released
-    clearInterval(holdIntervalId);
-    holdIntervalId = null; // Reset the interval ID
-    isHolding = false; // Reset hold status
-  } else if (direction === 'right') {
-    this.cursors.right.isDown = false;
-
-    // Clear timeout and check if it was a tap
-    clearTimeout(tapTimeoutId);
-    if (!isHolding) {
-      alert('Right button tap detected!'); // Alert for tap
-    }
-
-    // Clear the interval when the button is released
-    clearInterval(holdIntervalId);
-    holdIntervalId = null; // Reset the interval ID
-    isHolding = false; // Reset hold status
-  } else if (direction === 'up') {
-    this.cursors.up.isDown = false;
-  } else if (direction === 'down') {
-    this.cursors.down.isDown = false;
-  }
+    // Reset holding state
+setisHolding(false)  }
 }
 
- 
-let buttonPressed = false;
-
-// Track the state of the mouse click
-let mousePressed = false;
-
-function setupMouseEvents() {
-  this.input.on('pointerdown', (pointer) => {
-    mousePressed = true;
-    // Optionally, handle visual feedback for mouse click start
-  });
-
-  this.input.on('pointerup', (pointer) => {
-    if (mousePressed) {
-      mousePressed = false;
-  
-    }
-  });
-}
   
 let isMoving = false; // Track if movement is ongoing
 
@@ -769,52 +691,49 @@ const toggleFullscreen = () => {
     }
 };
 
-
-// Modify the movePlayer function to handle collision and display the message
-// Modify the movePlayer function to handle collision and display the message
-async function movePlayer() {
+function movePlayer(direction, isHold) {
   const tileSize = 32;
-  const gridWidth = 25;
-  const gridHeight = 18;
+  let nextMove = { x: this.player.x, y: this.player.y };
 
-  // Only allow movement if not already moving and enough time has passed
-  if (!this.isMoving && this.time.now - this.lastMoveTime > this.moveDelay) {
-    this.isMoving = true; // Start movement
-    this.lastMoveTime = this.time.now; // Update last move time
+  // Set target position based on the direction
+  if (direction === 'left') {
+    nextMove.x -= tileSize;
+  } else if (direction === 'right') {
+    nextMove.x += tileSize;
+  } else if (direction === 'up') {
+    nextMove.y -= tileSize;
+  } else if (direction === 'down') {
+    nextMove.y += tileSize;
+  }
 
-    let nextMove = { x: this.player.x, y: this.player.y };
-
-    // Determine the next move based on input
-    if (this.cursors.left.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x - tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.right.isDown) {
-      nextMove.x = Phaser.Math.Clamp(this.player.x + tileSize, tileSize * 0.5, tileSize * (gridWidth - 0.5));
-    } else if (this.cursors.up.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y - tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    } else if (this.cursors.down.isDown) {
-      nextMove.y = Phaser.Math.Clamp(this.player.y + tileSize, tileSize * 0.5, tileSize * (gridHeight - 0.5));
-    }
-
-    // Check for obstacles before applying the delay
-    const nextTileX = Math.floor(nextMove.x / tileSize);
-    const nextTileY = Math.floor(nextMove.y / tileSize);
-    const obstacle = this.obstacles.find(o => o.x === nextTileX && o.y === nextTileY);
-
-    if (obstacle) {
-      // Show collision message
-      this.collisionMessageTimer = this.time.now + 3000; // Show for 3 seconds
-      this.isMoving = false; // Stop movement
-      return; // Block movement and stop further execution
-    }
-
-    // Add delay before setting the new position
-    await delay(500); // Move duration
-
-    // Update the player's position
-    this.player.setPosition(nextMove.x, nextMove.y);
-    this.isMoving = false; // Movement is complete
+  if (direction === 'up' || direction === 'down' || isHold) {
+    // Glide for up/down or hold
+    this.tweens.add({
+      targets: this.player,
+      x: nextMove.x,
+      y: nextMove.y,
+      duration: 200,
+      onComplete: () => {
+        if (this.cursors[direction].isDown && isHold) {
+          movePlayer.call(this, direction, true); // Repeat slide if holding
+        }
+      },
+    });
+  } else {
+    // Bobbing effect for taps on left/right
+    this.tweens.add({
+      targets: this.player,
+      x: nextMove.x,
+      y: nextMove.y - 5,
+      duration: 100,
+      yoyo: true,
+      onComplete: () => {
+        this.isMoving = false;
+      },
+    });
   }
 }
+
 
 function playerStepsInWater(nextMove, interactiveMap) {
     if (!nextMove || !interactiveMap) return false;  // Safeguard check
@@ -861,7 +780,7 @@ function update(time, delta) {
     }
 
     if (this.isMoving) {
-  
+      if (!isHoldingRef.current) { 
       // Set initial value for bobCounter if it doesn't already exist
       this.bobCounter = this.bobCounter || 0.0;
     
@@ -902,9 +821,51 @@ function update(time, delta) {
       }
       
       return; // Exit early if still moving
-    }
+    } else  if (isHoldingRef.current) { 
+      // Set initial value for bobCounter if it doesn't already exist
+      this.bobCounter = this.bobCounter || 0.0;
     
+      // Update player.x to move smoothly towards nextMove.x
+      this.player.x = Phaser.Math.Linear(this.player.x, this.player.nextMove.x, 0.2);
+    
+      // Calculate smooth movement toward nextMove.y without the bobbing effect
+      const baseY = Phaser.Math.Linear(this.player.y, this.player.nextMove.y, 0.2);
+    
+      // Apply bobbing effect only if moving left or right
+      if (this.cursors.left.isDown || this.cursors.right.isDown) {
+        const arcAmplitude = 0; // Maximum height of arc
+        const arcFrequency = 0; // Frequency of the bobbing effect
+        this.bobCounter += arcFrequency; // Increment bobCounter for sine wave calculation
+    
+        // Calculate bobbing effect based on sine wave
+        const bobbingEffect = Math.sin(this.bobCounter) * arcAmplitude;
+    
+        // Combine forward movement with bobbing effect for Y position
+        this.player.y = baseY - bobbingEffect; // Bobbing occurs while moving forward
+      } else {
+        this.player.y = baseY; // Just move without bobbing if no directional input
+        this.bobCounter = 0; // Reset bobCounter to ensure clean motion when player stops
+      }
+    
+      // Check if player has reached the target position
+      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, this.player.nextMove.x, this.player.nextMove.y) < 1) {
+        this.player.x = this.player.nextMove.x;
+        this.player.y = this.player.nextMove.y;
+        this.isMoving = false;
+        this.moveDelay = time + moveInterval;
+        
+        // Reset ripple flag and hide borders if applicable
+        rippleTriggered.current = false;
+        if (this.borderGraphics) {
+          this.borderGraphics.setVisible(false);
+        }
+      }
+      
+      return; // Exit early if still moving
+    }
+  }   
 
+    
     if (time < this.moveDelay) {
       return; // Wait until move delay is over
     }
