@@ -212,10 +212,12 @@ top: 60%;
 	position: fixed;
 	height: 100%;
 	width: 100%;
-	/* border: 5px solid orange; */
 	top:0;
 	left:0;
 	display: grid;
+	position: fixed;
+	z-index: 999;
+	pointer-events: auto;
 }
 
 #console-bg{
@@ -263,7 +265,6 @@ top: 60%;
 
 	  .options-menu {
 		position: absolute; /* Position it absolutely for better control */
-		bottom: 60px; /* Adjust as needed to position above the keyboard */
 		left: 50px; /* Adjust based on your layout */
 		background-color: rgba(255, 255, 255, 0.9);
 		border: 1px solid #ccc;
@@ -281,7 +282,7 @@ top: 60%;
 		display: flex;
 		justify-content: center; /* Center the buttons horizontally */
 		position: absolute; /* Position it absolutely */
-		top: 30%; /* Adjust this as needed */
+		top: 50%; /* Adjust this as needed */
 		left: 35%; /* Centering the menu */
 		z-index: 9900; /* Make sure it appears above other elements */
 		height:50px;
@@ -290,8 +291,8 @@ top: 60%;
 	  }
 	  
 	  .options-menu button {
-		background-color: rgb(31, 183, 20); /* Dark blue background */
-		color: rgb(209, 212, 43); /* Pale text color */
+		background-color: rgb(156, 6, 194); /* Dark blue background */
+		color: rgb(255, 240, 255); /* Pale text color */
 		border: none; /* Remove default border */
 		border-radius: 5px; /* Optional: add rounded corners */
 		padding: 10px 15px; /* Adjust padding for button size */

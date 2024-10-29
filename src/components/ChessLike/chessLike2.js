@@ -359,60 +359,62 @@ function switchHighlightedPuca() {
     
     // Add event listener to the left button
     this.buttonDown.on('pointerdown', () => {
-        if (!isManuallySettingPuca) {
-            // Set the flag to indicate that puca highlighting is being manually set
-            isManuallySettingPuca = true;
-            
-            // Set highlightedPuca to 1 to indicate the white puca
-            highlightedPuca = 1;
-            
-            // Update puca transparency based on highlightedPuca
-            pucaBlack.setAlpha(highlightedPuca === 0 ? 1 : 0.1);
-            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
-            
-            // Clear the existing timer event to prevent jitteriness
-            if (timerEvent) {
-                timerEvent.remove(false);
-            }
-            
-            // Schedule a delayed call to switch the highlighted puca back after 2 seconds
-            scene.time.delayedCall(10, () => {
-                // Revert to alternating puca highlights after 2 seconds
-                timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
-                // Reset the flag to indicate that puca highlighting is no longer being manually set
-                isManuallySettingPuca = false;
-            });
+        if (score===0) {
+            scene.tweens.add({
+                targets: tallBg,
+                y: tallBg.y - 60, // Move down by the height of 3 board squares
+                duration: 700, // Adjust the duration as needed
+                ease: 'Linear',
+                onComplete: () => {
+                    // Animation complete
+                    window.location.href = 'https://www.na-ring-gael.com/ballygamboy';
+                }})
+
         }
     });
  
-    // Add event listener to the left button
+
+     
     this.buttonUp.on('pointerdown', () => {
-        if (!isManuallySettingPuca) {
-            // Set the flag to indicate that puca highlighting is being manually set
-            isManuallySettingPuca = true;
-            
-            // Set highlightedPuca to 1 to indicate the white puca
-            highlightedPuca = 0;
-            
-            // Update puca transparency based on highlightedPuca
-            pucaBlack.setAlpha(highlightedPuca ===  0 ? 1 : 0.1);
-            pucaWhite.setAlpha(highlightedPuca === 1 ? 1 : 0.1);
-            
-            // Clear the existing timer event to prevent jitteriness
-            if (timerEvent) {
-                timerEvent.remove(false);
+                       
+        highlightedPuca = pucaBlack.alpha === 1 ? 1 : 0;
+        if (!isProcessing) { // Check if the function is already in progress
+            isProcessing = true; // Set flag to true while processing
+    
+            // Determine whether the correct puca was highlighted when the button was clicked
+            const isPosDisplayed = gaText.text === wordPairs[currentWordPairIndex].posGa;
+    
+            if (highlightedPuca === 0 && isPosDisplayed) {
+                // Player pressed the button when the correct puca was highlighted and the displayed word is positive
+                // Increment score, if you're tracking it
+    handleRightAnswer(scene)
+
+                // score++;
+                moveOnToNextWordPair();
+            } else if (highlightedPuca === 1 && !isPosDisplayed) {
+                // Player pressed the button when the correct puca was highlighted and the displayed word is negative
+                // Increment score, if you're tracking it
+                // score++;
+    handleRightAnswer(scene)
+
+                moveOnToNextWordPair();
+
+            } else {
+                // Player pressed the button when the wrong puca was highlighted or the displayed word is incorrect
+                setTimeout(() => {
+                    handleWrongAnswer(scene);
+
+                }, 500);
             }
-            
-            // Schedule a delayed call to switch the highlighted puca back after 2 seconds
-            scene.time.delayedCall(10, () => {
-                // Revert to alternating puca highlights after 2 seconds
-                timerEvent = scene.time.addEvent({ delay: 2000, callback: switchHighlightedPuca, callbackScope: this, loop: true });
-                // Reset the flag to indicate that puca highlighting is no longer being manually set
-                isManuallySettingPuca = false;
-            });
+    
+            // Reset flag after a short delay to allow next touch
+            setTimeout(() => {
+                isProcessing = false;
+            }, 500);
         }
     });
- 
+
+
    // Add event listener to the left button
    this.buttonRight.on('pointerdown', () => {
     if (!isManuallySettingPuca) {
@@ -533,7 +535,7 @@ function toggleOverlay() {
 
 
 // Create the image layer
-const tallBg = scene.add.image(centerX, scene.cameras.main.height-10, 'tallBg').setOrigin(0.50, 1).setScale(1.5).setDepth(-1);
+const tallBg = scene.add.image(centerX, scene.cameras.main.height+160, 'tallBg').setOrigin(0.50, 1).setScale(1.5).setDepth(-1);
 
 
 // Animate the image layer to slide down the screen
@@ -612,7 +614,7 @@ function handleRightAnswer(scene) {
       
 }//close  create()
 
-let latestTarget = 10;
+let latestTarget = 9;
 function update(scene) {
 
 //try 25
