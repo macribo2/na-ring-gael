@@ -7,6 +7,8 @@ import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
 
   const [eascaActive, setEascaActive] = useState(false); 
+  const [showEasca, setShowEasca] = useState(false); // 
+
   const [isHolding, setisHolding] = useState(false); 
 
 
@@ -29,7 +31,6 @@ const BallyGamBoy = () => {
   };
 
  
-  const [showEasca, setShowEasca] = useState(false); // 
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
   const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
@@ -60,8 +61,8 @@ const BallyGamBoy = () => {
     const createThinRipple = (color, delay, depth) => {
       const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(-10);
       let progress = 0;
-      const maxRadius = 180;
-      const duration = 14000;  // Total duration of the effect
+      const maxRadius = 195;
+      const duration = 11000;  // Total duration of the effect
   
       const expandRipple = () => {
         ripple.clear();
@@ -70,8 +71,8 @@ const BallyGamBoy = () => {
         ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
         progress += 16;  // Increase time progress by the frame duration (~60 FPS)
   
-        if (progress < duration) {
-          this.time.delayedCall(16, expandRipple);  // Call every 16ms (~60 FPS)
+        if (progress < duration ) {
+          this.time.delayedCall(32, expandRipple);  // Call every 16ms (~60 FPS)
         } else {
           ripple.destroy();  // Destroy once the animation is complete
         }
@@ -85,7 +86,7 @@ const BallyGamBoy = () => {
   
     // Create a second ripple after a delay (optional style modification)
     this.time.delayedCall(50, () => {
-      createThinRipple(0x707070, 500, -2);  // Black ripple at depth -1
+      createThinRipple(0x5c7678 , 500, -2);  // Black ripple at depth -1
     });
   }
   
@@ -124,6 +125,9 @@ const handleSendMessage = (msg) => {
 };
 
 useEffect(() => {
+  const showEascaListener = () => handleShowEasca();
+  window.addEventListener('showEasca', showEascaListener);
+
   isHoldingRef.current = isHolding;
   // Cleanup function for intervals
   const clearAllIntervals = () => {
@@ -138,6 +142,8 @@ useEffect(() => {
 
   return () => {
     clearAllIntervals();
+    window.removeEventListener('showEasca', showEascaListener);
+ 
   };
 }, [isHolding]);
 
@@ -210,9 +216,13 @@ useEffect(() => {
     this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
     this.load.image('greenRingLeft', '/phaser-resources/images/big-glass.png'); 
     this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
+    this.load.image('button-up-yellow', '/phaser-resources/images/ui/pad-u-yellow.png');
     this.load.image('button-down', '/phaser-resources/images/ui/pad-d.png');
     this.load.image('button-left', '/phaser-resources/images/ui/pad-l.png');
     this.load.image('button-right', '/phaser-resources/images/ui/pad-r.png');
+    this.load.image('button-down-yellow', '/phaser-resources/images/ui/pad-d-yellow.png');
+    this.load.image('button-left-yellow', '/phaser-resources/images/ui/pad-l-yellow.png');
+    this.load.image('button-right-yellow', '/phaser-resources/images/ui/pad-r-yellow.png');
     this.load.image('button-middle-lit', '/phaser-resources/images/ui/middle-a.png');
     this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
     this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
@@ -253,7 +263,7 @@ for (let i = 0; i < 8; i++) {
   wave.setAlpha(0.5); // Semi-transparent waves
 
   wave.beginPath();
-  let prevY = i * 70; // Starting Y position for this wave
+  let prevY = i * 90; // Starting Y position for this wave
 
   // Draw dotted lines with increased randomness
   for (let x = 0; x <= this.scale.width / 2; x += Math.random() * 15 + 5) {
@@ -316,7 +326,7 @@ function updateWaves(delta) {
       wave.setAlpha(0.5); // Set transparency
 
       wave.beginPath();
-      let prevY = index * 70; // Starting Y position
+      let prevY = index * 120; // Starting Y position
 
       // Draw short segments to create a dotted effect
       for (let x = 0; x <= this.scale.width / 2; x += 10) {
@@ -333,8 +343,8 @@ function updateWaves(delta) {
       wave.y += this.waveSpeed; // Move wave downward
 
       // Reset if out of bounds
-      if (wave.y > this.scale.height) {
-        wave.y = -30; // Reset to the top
+      if (wave.y > this.scale.height+200) {
+        wave.y = -200; // Reset to the top
       }
     });
 
@@ -393,7 +403,7 @@ function updateWaves(delta) {
   
   ];    
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: '\nI Cannot go that way', name: 'Ní féidir liom dul \nan treo sin' },
+        'a': { type: 'noPic', nameEng: '\nOne cannot go that way', name: 'Ní féidir dul \nan treo sin' },
         'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
         'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
         'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
@@ -405,7 +415,7 @@ function updateWaves(delta) {
     const interactiveMap = {
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
         'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasain tú ar droichead' },
-        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncád atá romhat' },
+        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
@@ -529,7 +539,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
 
        
     this.collisionMessageTimer = 0;
-    this.collisionMessageDuration = 2000; // Duration in milliseconds
+    this.collisionMessageDuration = 3500; // Duration in milliseconds
   
     drawGrid(this, tileSize, gridWidth, gridHeight);
   // Add this check before using `this.borderGraphics.clear()`
@@ -537,7 +547,10 @@ const playerStartY = startRow * tileSize + tileSize / 2;
 
     // Add and po/sition buttons
     this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
-    this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
+    this.buttonMiddle.on('pointerdown', () =>{ handleMiddleButtonClick(this)
+  this.buttonMiddle.setTexture('button-middle-lit'); // Swap to pressed texture
+
+    });
 
     this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(22).setScrollFactor(0);
     this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(22).setScrollFactor(0);
@@ -566,15 +579,53 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       handleButtonInputRelease.call(this, 'left'); // Example for left; adjust as needed
     });
     // Bind button interactions
-    this.buttonLeft.on('pointerdown', () => {handleButtonInput.call(this, 'left'); this.player.setFlipX(true)});
-    this.buttonRight.on('pointerdown', () => {handleButtonInput.call(this, 'right'); this.player.setFlipX(false)});
-    this.buttonUp.on('pointerdown', () => handleButtonInput.call(this, 'up'));
-    this.buttonDown.on('pointerdown', () => handleButtonInput.call(this, 'down'));
-  
-    this.buttonLeft.on('pointerup', () => handleButtonInputRelease.call(this, 'left'));
-    this.buttonRight.on('pointerup', () => handleButtonInputRelease.call(this, 'right'));
-    this.buttonUp.on('pointerup', () => handleButtonInputRelease.call(this, 'up'));
-    this.buttonDown.on('pointerup', () => handleButtonInputRelease.call(this, 'down'));
+// Handle button press with texture swap
+this.buttonLeft.on('pointerdown', () => { 
+  handleButtonInput.call(this, 'left'); 
+  this.buttonLeft.setTexture('button-left-yellow'); // Swap to pressed texture
+  this.player.setFlipX(true); 
+});
+this.buttonMiddle.on('pointerup', () => { 
+  setTimeout( ()=>{this.buttonMiddle.setTexture('button-middle')},800)
+});
+
+
+this.buttonRight.on('pointerdown', () => { 
+  handleButtonInput.call(this, 'right'); 
+  this.buttonRight.setTexture('button-right-yellow'); // Swap to pressed texture
+  this.player.setFlipX(false); 
+});
+
+this.buttonUp.on('pointerdown', () => { 
+  handleButtonInput.call(this, 'up'); 
+  this.buttonUp.setTexture('button-up-yellow'); // Swap to pressed texture
+});
+
+this.buttonDown.on('pointerdown', () => { 
+  handleButtonInput.call(this, 'down'); 
+  this.buttonDown.setTexture('button-down-yellow'); // Swap to pressed texture
+});
+
+// Handle button release and revert texture
+this.buttonLeft.on('pointerup', () => {
+  handleButtonInputRelease.call(this, 'left'); 
+  this.buttonLeft.setTexture('button-left'); // Revert to normal texture
+});
+
+this.buttonRight.on('pointerup', () => {
+  handleButtonInputRelease.call(this, 'right'); 
+  this.buttonRight.setTexture('button-right'); // Revert to normal texture
+});
+
+this.buttonUp.on('pointerup', () => {
+  handleButtonInputRelease.call(this, 'up'); 
+  this.buttonUp.setTexture('button-up'); // Revert to normal texture
+});
+
+this.buttonDown.on('pointerup', () => {
+  handleButtonInputRelease.call(this, 'down'); 
+  this.buttonDown.setTexture('button-down'); // Revert to normal texture
+});
   
      // Create the translucent background and English text
     this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
@@ -589,7 +640,7 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     this.isMiddleButtonCooldown = false;
   
   
-    const lakeMask2 = this.add.sprite(500, 250, 'lakeMask').setDepth(-7) // Set depth so it's on top
+    const lakeMask2 = this.add.sprite(470, 230, 'lakeMask').setDepth(-7) // Set depth so it's on top
     .setOrigin(0, 0) // Make sure it's positioned from the top-left corner
     .setScale(6); // Scale the sprite up if necessary
 
@@ -658,8 +709,9 @@ function toggleVisibility(scene) {
         scene.tweens.add({
           targets: [scene.translucentBg, scene.featherIcon, scene.collisionTextEng],
           alpha: 0,        // Fade to completely invisible
-          duration: 3000,  // Over 3 seconds
+          duration: 3500,  // Over 3 seconds
           onComplete: () => {
+
             // After the fade-out is complete, hide the elements
             scene.translucentBg.setVisible(false);
             scene.featherIcon.setVisible(false);
@@ -667,7 +719,7 @@ function toggleVisibility(scene) {
             console.log('Elements hidden after fade-out.');
           }
         });
-      }, 1500);
+      }, 3500);
     } else {
       // If elements are currently visible, clear the timer and stop the fading
       console.log('Elements are visible, clearing the timer and stopping fade-out.');
@@ -690,6 +742,7 @@ let tapTimeoutId = null; // Timer ID for tap detection
 const tapThreshold = 500; // Time threshold for distinguishing tap vs. hold
 
 function handleButtonInput(direction) {
+  
   // Determine the pressed direction and set cursors accordingly
   if (direction === 'left') {
     this.cursors.left.isDown = true;
@@ -848,7 +901,7 @@ function update(time, delta) {
         wave.y -= this.waveSpeed * 200 * (delta / 1000); // Move each wave up with bigger steps (multiplied by 2)
 
 
-        if (wave.y < -30) { // Check if the wave has moved off the top of the screen
+        if (wave.y < -150) { // Check if the wave has moved off the top of the screen
           wave.y = this.scale.height; // Reposition wave to the bottom when it moves off the top
         }
       });
@@ -1154,7 +1207,7 @@ if (collision) {
 
       targets: this.textForFade,
       alpha: 0,
-      duration: 3000,  // 3 seconds fade
+      duration: 4500,  // 3 seconds fade
       ease: 'Linear',
       onComplete: () => {
         this.isFading = false;  // Allow new collisions after fade-out
@@ -1295,7 +1348,9 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
     <>
     <div id="phaser-container" style={{ width: '800px', height: '480px' }}>
    
-    {showNarrative && (
+    {
+     showNarrative &&
+     (
                 <div style={{ width: '75vw', height: '75vh', margin: 'auto', position: 'relative' }}>
                     <Narrative1 setShowNarrative={setShowNarrative} />
                 </div>
@@ -1318,7 +1373,6 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
 <div className='touch-prompt'></div></div>
                     </>
             )}
-   {showEasca && <Easca onSendMessage={handleSendMessage} />}
    <div className="player-message-container">
                     <div className="player-message">{message}</div>
                     <div className="tail" /> {/* Speech bubble tail */}
@@ -1349,6 +1403,7 @@ A wild goose chase - no scent.
     
 </p>
 </div>
+{showEasca && <Easca onSendMessage={handleSendMessage} />}
     </>
   );
 };
