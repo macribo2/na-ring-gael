@@ -405,6 +405,8 @@ const Narrative1 = ({ setShowNarrative }) => {
     const gameRef = useRef(null);
 
     useEffect(() => {
+        let timeoutId;
+    
         const initializeGame = () => {
             const gameConfig = {
                 type: Phaser.AUTO,
@@ -412,32 +414,57 @@ const Narrative1 = ({ setShowNarrative }) => {
                 height: window.innerHeight,
                 parent: 'narrative-container',
                 scene: [GameScene],
-                backgroundColor: ' #191970', // Transparent background
-
-                // Pass setShowNarrative via the scene config
+                backgroundColor: '#191970',
                 sceneConfig: {
                     data: {
-                        setShowNarrative, // Passing the function here
+                        setShowNarrative,
                     },
                 },
             };
-
+    
             if (!gameRef.current) {
                 gameRef.current = new Phaser.Game(gameConfig);
+    
+                gameRef.current.events.on('shutdown', () => {
+                    const scene = gameRef.current.scene.scenes[0];
+                    if (scene) {
+                        if (scene.buttonRight) scene.buttonRight.destroy();
+                        if (scene.buttonLeft) scene.buttonLeft.destroy();
+                        if (scene.buttonUp) scene.buttonUp.destroy();
+                        if (scene.buttonDown) scene.buttonDown.destroy();
+                        if (scene.buttonMiddle) scene.buttonMiddle.destroy();
+                    }
+                });
             }
         };
-
+    
+        const setButtonTextureAfterDelay = () => {
+            timeoutId = setTimeout(() => {
+                if (
+                    gameRef.current &&
+                    gameRef.current.scene &&
+                    gameRef.current.scene.scenes[0] &&
+                    gameRef.current.scene.scenes[0].buttonRight
+                ) {
+                    gameRef.current.scene.scenes[0].buttonRight.setTexture('button-right');
+                }
+            }, 500);
+        };
+        
+    
         initializeGame();
-
+        setButtonTextureAfterDelay();
+    
         // Cleanup on unmount
         return () => {
+            clearTimeout(timeoutId); // Clear timeout to prevent errors
             if (gameRef.current) {
                 gameRef.current.destroy(true);
                 gameRef.current = null;
             }
         };
-    }, [setShowNarrative]); // Ensure to include setShowNarrative in dependency array
-
+    }, [setShowNarrative]);
+    
     return <div id="narrative-container"></div>;
 };
 
