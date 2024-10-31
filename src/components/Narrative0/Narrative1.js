@@ -51,14 +51,9 @@ class GameScene extends Phaser.Scene {
         const bgHeight = tileSize * gridHeight;
     
         this.addTextBubbles();
-        this.setupControls();
         this.updateText();
     
-        // Access the passed setShowNarrative function from settings
-        if (this.sys.settings.data && this.sys.settings.data.setShowNarrative) {
-            this.setShowNarrative = this.sys.settings.data.setShowNarrative;
-        }
-    
+          
         const buttonX = this.sys.game.config.width - 150;
         const buttonY = this.sys.game.config.height / 2 + 50;
         this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(4);
@@ -155,35 +150,18 @@ class GameScene extends Phaser.Scene {
         
     
         promptRightButton.call(this); // Call the function with the correct context
+
+         // Add cleanup on shutdown event
+         this.events.on('shutdown', () => {
+            if (this.buttonRight) this.buttonRight.destroy();
+            if (this.buttonLeft) this.buttonLeft.destroy();
+            if (this.buttonDown) this.buttonDown.destroy();
+            if (this.buttonUp) this.buttonUp.destroy();
+            if (this.buttonMiddle) this.buttonMiddle.destroy();
+        });
     }
     
-    updateText() {
-        const narrativeData = this.cache.json.get('narrative1');
-    
-        if (!narrativeData || !Array.isArray(narrativeData) || narrativeData.length === 0) {
-            console.error('Narrative data is empty or not loaded correctly.');
-            return;
-        }
-    
-        const currentNarrative = narrativeData[0][this.hero];
-        if (!currentNarrative) {
-            console.error(`No narrative found for hero: ${this.hero}`);
-            return;
-        }
-    
-        const keyGa = `gae${this.narrativeTracker}`;
-        const keyEn = `eng${this.narrativeTracker}`;
-    
-        if (currentNarrative[keyGa] && currentNarrative[keyEn]) {
-            this.textGa.setText(currentNarrative[keyGa]);
-            this.textEn.setText(currentNarrative[keyEn]);
-        } else {
-            console.error(`No dialogue found for narrative tracker: ${this.narrativeTracker}`);
-        }
-    
-        // Update graphics based on the narrativeTracker
-        this.updateGraphics();
-    }
+
     updateGraphics() {
         const backgroundImages = [
             'scene1-bg',
@@ -244,10 +222,7 @@ class GameScene extends Phaser.Scene {
     }
     
     
-    setupControls() {
-        // Your controls logic here
-    }
-
+   
     updateText() {
         const narrativeData = this.cache.json.get('narrative1');
     
@@ -335,45 +310,7 @@ class GameScene extends Phaser.Scene {
     }
     
     
-    fadeInBackground() {
-        const backgroundImages = [
-            'scene1-bg',
-            'scene2-bg',
-            'scene3-bg',
-            'scene4-bg',
-            'scene5-bg',
-            'scene6-bg',
-        ];
-    
-        const currentBackground = backgroundImages[this.narrativeTracker];
-    
-        // If the background sprite already exists, fade it in
-        if (this.backgroundSprite) {
-            this.backgroundSprite.setTexture(currentBackground);
-            this.tweens.add({
-                targets: this.backgroundSprite,
-                alpha: { from: 0, to: 1 },
-                duration: 1000, // Fade in over 1 second
-                ease: 'Power2'
-            });
-        } else {
-            // Create the background sprite with an initial alpha of 0
-            this.backgroundSprite = this.add.sprite(
-                this.cameras.main.width / 2,
-                this.cameras.main.height / 2,
-                currentBackground
-            ).setOrigin(0.5, 0.5).setAlpha(0).setDepth(-1);
-    
-            // Fade in the sprite
-            this.tweens.add({
-                targets: this.backgroundSprite,
-                alpha: { from: 0, to: 1 },
-                duration: 1000,
-                ease: 'Power2'
-            });
-        }
-    }
-    
+
 
     // Other methods...
 
@@ -414,27 +351,12 @@ const Narrative1 = ({ setShowNarrative }) => {
                 height: window.innerHeight,
                 parent: 'narrative-container',
                 scene: [GameScene],
-                backgroundColor: '#191970',
-                sceneConfig: {
-                    data: {
-                        setShowNarrative,
-                    },
-                },
+                backgroundColor: ' #191970', 
+                sceneConfig: { data: { setShowNarrative } },
             };
     
             if (!gameRef.current) {
                 gameRef.current = new Phaser.Game(gameConfig);
-    
-                gameRef.current.events.on('shutdown', () => {
-                    const scene = gameRef.current.scene.scenes[0];
-                    if (scene) {
-                        if (scene.buttonRight) scene.buttonRight.destroy();
-                        if (scene.buttonLeft) scene.buttonLeft.destroy();
-                        if (scene.buttonUp) scene.buttonUp.destroy();
-                        if (scene.buttonDown) scene.buttonDown.destroy();
-                        if (scene.buttonMiddle) scene.buttonMiddle.destroy();
-                    }
-                });
             }
         };
     
@@ -450,14 +372,12 @@ const Narrative1 = ({ setShowNarrative }) => {
                 }
             }, 500);
         };
-        
     
         initializeGame();
         setButtonTextureAfterDelay();
     
-        // Cleanup on unmount
         return () => {
-            clearTimeout(timeoutId); // Clear timeout to prevent errors
+            clearTimeout(timeoutId);
             if (gameRef.current) {
                 gameRef.current.destroy(true);
                 gameRef.current = null;

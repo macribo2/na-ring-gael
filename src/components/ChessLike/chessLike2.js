@@ -359,10 +359,10 @@ function switchHighlightedPuca() {
     
     // Add event listener to the left button
     this.buttonDown.on('pointerdown', () => {
-        if (score===0) {
+        if (score === 0) {
             scene.tweens.add({
-                targets: tallBg,
-                y: tallBg.y - 60, // Move down by the height of 3 board squares
+                targets: player,
+                y: player.y + 60, // Move down by the height of 3 board squares
                 duration: 700, // Adjust the duration as needed
                 ease: 'Linear',
                 onComplete: () => {

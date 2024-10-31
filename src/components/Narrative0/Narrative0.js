@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-
+import { useHistory } from 'react-router-dom';
 import './narrative.css';
 
 const Narrative0 = () => {
     const gameRef = useRef(null);
+    const appHistory = useHistory(); // Correct for react-router-dom v5
 
     useEffect(() => {
         const initializeGame = () => {
@@ -14,7 +15,6 @@ const Narrative0 = () => {
                 height: window.innerHeight,
                 parent: 'narrative-container',
                 scene: [GameScene],
-          
             };
 
             if (!gameRef.current) {
@@ -22,20 +22,26 @@ const Narrative0 = () => {
             }
         };
 
+        const handleNarrativeComplete = () => {
+            appHistory.push("/rings4"); // Navigate to the new route when narrative is complete
+        };
+
+        // Listen for custom narrativeComplete event
+        window.addEventListener('narrativeComplete', handleNarrativeComplete);
+
         initializeGame();
 
         // Cleanup on unmount
         return () => {
+            window.removeEventListener('narrativeComplete', handleNarrativeComplete);
             if (gameRef.current) {
                 gameRef.current.destroy(true);
                 gameRef.current = null;
             }
         };
-    }, []);
+    }, [appHistory]);
 
-    return (
-        <div id="narrative-container"></div>
-    );
+    return <div id="narrative-container"></div>;
 };
 
 class GameScene extends Phaser.Scene {
@@ -46,9 +52,10 @@ class GameScene extends Phaser.Scene {
         this.textGa = null;
         this.textEn = null;
         this.hero = localStorage.getItem('portrait');
-        this.graphics = null;}
+        this.graphics = null;
+    }
 
-
+ 
     preload() {
 
         // this.load.audio('threeRedHearts', './phaser-resources/audio/threeRedHearts.ogg');
@@ -75,30 +82,13 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-
-
-        
-        // if (!this.music) {
-        //     // Add the music if it doesn't already exist
-        //     this.music = this.sound.add('threeRedHearts', { loop: true });
-        // }
-
-        // // Check if the music is already playing
-        // if (!this.music.isPlaying) {
-        //     this.music.play();
-        // }
         this.updateNarrativeTracker();
-      // Add background spr
-      this.hero = parseInt(this.hero); // Convert to a number
+        this.hero = parseInt(this.hero); // Convert to a number
 
+        this.textGa = this.add.text(100, 100, '', { fontSize: '32px', color: '#ffffff' ,fontFamily:'aonchlo'});
+        this.textEn = this.add.text(100, 150, '', { fontSize: '32px', color: '#ffffff' });
 
-
-      // Initialize text objects
-      this.textGa = this.add.text(100, 100, '', { fontSize: '32px', color: '#ffffff' });
-      this.textEn = this.add.text(100, 150, '', { fontSize: '32px', color: '#ffffff' });
-
-      // Call updateText to initialize the text
-      this.updateText();   
+        this.updateText();   
         switch(this.hero){
             case 0: this.hero= "Niamh"; break;
             case 1: this.hero= "Niamh"; break;
@@ -119,13 +109,9 @@ class GameScene extends Phaser.Scene {
             this.textGa = this.add.text(30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'INFO56_0' });
             this.textEn = this.add.text(30, 200, firstEnText, { color: 'lime', fontFamily: 'ubuntu'});
             this.textGa.setFontSize(32);
-            // this.textGa.setOrigin(0);
             this.textGa.setDepth(19);
             this.textEn.setFontSize(32);
             this.textEn.setDepth(19);
-          
-
-
         } else {
             console.error('narrative data is empty or not loaded correctly.');
         }
@@ -151,45 +137,43 @@ class GameScene extends Phaser.Scene {
 
         this.buttonUp.on('pointerdown', () => {
             this.updateNarrativeTracker('increment');
-            this.updateText(); // Call updateText() when buttonUp is clicked
+            this.updateText();
         });
         
-
         this.buttonDown.on('pointerdown', () => {
             this.updateNarrativeTracker('decrement');
-            this.updateText(); // Call updateText() when buttonUp is clicked
+            this.updateText();
         });
         
         this.buttonLeft.on('pointerdown', () => {
             this.updateNarrativeTracker('decrement');
-            this.updateText(); // Call updateText() when buttonUp is clicked
+            this.updateText();
         });
         
         this.buttonRight.on('pointerdown', () => {
             this.updateNarrativeTracker('increment');
-            this.updateText(); // Call updateText() when buttonUp is clicked
+            this.updateText();
         });
-        
-
     }
+
     updateText = () => {
         if (this.narrativeTracker === 6) {
-            window.location.href = "https://www.na-ring-gael.com/rings4";
+            const narrativeCompleteEvent = new CustomEvent('narrativeComplete');
+            window.dispatchEvent(narrativeCompleteEvent); // Emit custom event on window
+            
             return;
         }
-
+    
         const narrativeData = this.cache.json.get('narrative0');
-
         if (Array.isArray(narrativeData) && narrativeData.length > 0) {
-            const narrative0 = narrativeData[0]; // Extract the first object from the array
-            const currentNarrative = narrative0[this.hero]; // Get the narrative for the hero
-
+            const narrative0 = narrativeData[0];
+            const currentNarrative = narrative0[this.hero];
+    
             if (currentNarrative) {
                 const key = `gae${this.narrativeTracker}`;
-
                 if (currentNarrative[key]) {
                     this.textGa.setText(currentNarrative[key]);
-                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]); // Replace 'gae' with 'eng'
+                    this.textEn.setText(currentNarrative[key.replace('gae', 'eng')]);
                 } else {
                     console.error(`No dialogue found for key: ${key}`);
                 }
@@ -199,64 +183,63 @@ class GameScene extends Phaser.Scene {
         } else {
             console.error('narrativeData is empty or not loaded correctly.');
         }
-    }
+    };
+    
+
     toggleOverlay() {
         this.overlay.setVisible(!this.overlay.visible);
     }
-  
 
     
-    
-    
-updateNarrativeTracker(direction) {
-    if (direction === 'increment') {
-        this.narrativeTracker = Math.min(6, this.narrativeTracker + 1); // Ensure narrativeTracker does not exceed 5
-    } else if (direction === 'decrement') {
-        this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
-    }
-    if (this.graphics) {
-        this.graphics.destroy(); // Clear previous image
-    }
-    
-    switch (this.narrativeTracker) {
-        case 0:
-            this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
-            break; 
-        case 1:
-            this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
-            break;
-
-        case 2:
-            this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
-            break;
-
-            case 3:
+    updateNarrativeTracker(direction) {
+        if (direction === 'increment') {
+            this.narrativeTracker = Math.min(6, this.narrativeTracker + 1); // Ensure narrativeTracker does not exceed 5
+        } else if (direction === 'decrement') {
+            this.narrativeTracker = Math.max(0, this.narrativeTracker - 1); // Ensure narrativeTracker does not go below 0
+        }
+        if (this.graphics) {
+            this.graphics.destroy(); // Clear previous image
+        }
+        
+        switch (this.narrativeTracker) {
+            case 0:
+                this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                break; 
+            case 1:
                 this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
                 break;
-                case 4:
-                    this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+    
+            case 2:
+                this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
+                break;
+    
+                case 3:
+                    this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
                     break;
-                    case 5:
-                        this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
+                    case 4:
+                        this.graphics = this.add.image(-150, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setFlipX(true).setDepth(-1);
                         break;
-                        case 6:
-                            this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setDepth(-1);
+                        case 5:
+                            this.graphics = this.add.image(100, 70, ''+this.hero).setOrigin(0, 0).setScale(4).setDepth(-1);
                             break;
-                                        
-
-
-
-
-
-
-
-        default:
-            // Hide the image if narrativeTracker exceeds 6
-            this.graphics = this.add.image(10, 150, 'placeholder-image').setVisible(false); // Adjust 'placeholder-image' accordingly
-            break;
-    }    // Now you can use this.narrativeTracker to update the text or any other functionality based on the current narrative index
-}
-
+                            case 6:
+                                this.graphics = this.add.image(-50, 120, 'panel-molly-0').setOrigin(0, 0).setScale(4).setDepth(-1);
+                                break;
+                                            
+    
+    
+    
+    
+    
+    
+    
+            default:
+                // Hide the image if narrativeTracker exceeds 6
+                this.graphics = this.add.image(10, 150, 'placeholder-image').setVisible(false); // Adjust 'placeholder-image' accordingly
+                break;
+        }    // Now you can use this.narrativeTracker to update the text or any other functionality based on the current narrative index
+    }
+    
 }
 
 export default Narrative0;
