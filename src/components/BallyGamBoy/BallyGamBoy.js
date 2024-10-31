@@ -5,7 +5,9 @@ import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 const BallyGamBoy = () => {
-
+  let hasInteractedWithSerpent = false; // To track if the player has interacted with the serpent
+  let hasTriggeredTSquare = false; // To track if the player has already triggered the "t" square
+  
   const [eascaActive, setEascaActive] = useState(false); 
   const [showEasca, setShowEasca] = useState(false); // 
 
@@ -384,8 +386,8 @@ function updateWaves(delta) {
     const mapLayout = [
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','t',' ',' ',' ','a'],
       ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
       ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
@@ -419,7 +421,10 @@ function updateWaves(delta) {
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
-        'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} 
+        'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        't':{type: 'illuminate', nameEng:'Illuminate',name:'Las Solas'} 
+
+
     };
 
     
@@ -665,7 +670,14 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     window.dispatchEvent(event);
   });
 }
+// Handle the collision with the "t" square
+function handleTSquareCollision(player, tSquare) {
+  if (hasInteractedWithSerpent && !hasTriggeredTSquare) {
+      alert("t!"); // Placeholder for your specific functions
 
+      hasTriggeredTSquare = true; // Prevent the alert from triggering again
+  }
+}
 
 
     function handleMiddleButtonClick(scene) {
@@ -1018,6 +1030,7 @@ function update(time, delta) {
     let creature = null; // Global variable to hold the creature instance
 
     function emergeCreature() {
+      hasInteractedWithSerpent = true;
       if (creature) return; // If the creature already exists, don't create a new one
     
       // Create the first ripple with a delay of 1 second before showing the creature
@@ -1234,7 +1247,9 @@ const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, ti
 if (interactiveObject) {
 
     //exit area
-
+    if(interactiveObject.type==="illuminate"){
+      handleTSquareCollision();
+  }
     if(interactiveObject.type==="exit"){
         window.location.href = 'https://www.na-ring-gael.com/pucaloic';
     }

@@ -5,10 +5,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import lensCap from '../../images/About1/ring2.png';
 import lensCap2 from '../../images/About1/ring2b.png';
 import empty from '../../images/empty.png';
-import ReactAudioPlayer from 'react-audio-player';
+
 import './rings1.css'
-import emerald from '../../images/stone-soup/misc_crystal_oldb.png';
-import pearl from '../../images/stone-soup/misc_crystal_old.png';
+import glassBg from '../../images/bg3.png'
+import emerald from '../../images/stone-soup/misc_crystal_old.png';
+import pearlShine from '../../images/stone-soup/misc_crystal_old2.png';
 import avatar1 from '../../images/players/niamh1.png';
 import avatar2 from '../../images/players/douglas-hunting.png';
 import avatar3 from '../../images/players/fianna0.png';
@@ -597,7 +598,11 @@ if (champID !== 25) {
 	
 //thumbStart is a hack to prevent side effect of making question text fade out when player is at location 'geaga'.
 	function thumbStart() {
+		promptPearlButton()
+
 		setShowDiv(true);
+		document.querySelector(".champion-portrait").classList.remove('champ-hide');
+
 		document.querySelector(".champion-portrait").classList.add('fade-in-champ');
 		document.querySelector(".button-mash-ring-4").classList.add('fade-in-champ');
 		document.querySelector(".names-i").classList.add('fade-in-champ');
@@ -1262,14 +1267,59 @@ if (rng === 2) {
 		'sallow',]
 }
 const [isVisible, setIsVisible] = useState(false); // Track visibility state
+let champPortrait = document.querySelector(".champion-portrait"); 
+const hasPromptedPearl = useRef(false);
+
+function promptPearlButton() {
+	if(!hasPromptedPearl.current){
+	const pearlImage = document.getElementById("blank");
+	
+	let toggle = true;
+	let count = 0;
+setTimeout(()=>{
+
+
+	const interval = setInterval(() => {
+		hasPromptedPearl.current = true;
+		if (count >= 5) { // End after three swaps
+			clearInterval(interval);
+			pearlImage.src = emerald; // Reset to original image
+			 pearlImage.classList.remove("image-fade-out"); // Ensure it is visible after flashing
+
+		} else {
+			pearlImage.src = toggle ? pearlShine: emerald;
+			toggle = !toggle;
+			count++;
+		}
+	}, 300); // Adjust delay to control the speed of swapping
+},1000)
+}
+
+}
 
 function handlePearl() {
+	let glassBg2 = document.querySelector(".glass-bg2"); 
+		// Check if the image has the champ-hide class
+		if (champPortrait && champPortrait.classList.contains('champ-hide')) {
+			return; // Exit if champ-hide class is present
+		}
+
+	const pearlImage = document.getElementById("blank");
+    
+    // Change the image source to a "clicked" version
+    pearlImage.src = pearlShine; // Replace with your alternate image source
+    
+    // Revert the image back after 300ms (or any desired time)
+    setTimeout(() => {
+        pearlImage.src = emerald;
+    }, 700);
 	const namesE = document.querySelector(".names-e");
 	// Check if the element exists
 	if (namesE) {
 		// Toggle the display using state
 		setIsVisible(!isVisible);
 		namesE.style.display = !isVisible ? 'block' : 'none';
+		glassBg2.style.display = !isVisible ? 'block' : 'none';
 	}
 }
 
@@ -1290,22 +1340,20 @@ return (
 			{ogHero && (
 				<img
 					src={ogHero === "1" ? avatar1 :
-						 ogHero === "2" ? avatar2 :
-						 ogHero === "3" ? avatar3 :
+						ogHero === "2" ? avatar2 :
+						ogHero === "3" ? avatar3 :
 						 ogHero === "4" ? avatar4 :
 						 ogHero === "5" ? avatar5 :
 						 ogHero === "6" ? avatar6 :
 						 ogHero === "7" ? avatar7 :
 						 ogHero === "8" ? avatar8 :
 						 ogHero === "9" ? avatar9 : empty}
-					className="og-hero"
-					alt="hero portrait"
-				/>
-			)}
+						 className="og-hero"
+						 alt="hero portrait"
+						 />
+						)}
 
-			<p className="names-e">
-				{namesInEnglish[Math.floor(value * 100) + round.current * 100]}
-			</p>
+			
 		</div>
 
 		<div className="input-elements-container-5"></div>
@@ -1336,6 +1384,11 @@ return (
 			<button
 				className="button-mash-ring-4"
 				onClick={() => {
+					// Check if the image has the champ-hide class
+					if (champPortrait && champPortrait.classList.contains('champ-hide')) {
+						return; // Exit if champ-hide class is present
+					}
+					
 					setShowDiv(false);
 					const championName = hname;
 					localStorage.setItem('champID', champID);
@@ -1352,14 +1405,8 @@ return (
 				onTouchEnd={props.proceedThroughQuiz}
 			>
 				<div className="circle">
-					<img src={champIcon} className="champion-portrait" alt="champion portrait" />
+					<img src={champIcon} className="champion-portrait champ-hide" alt="champion portrait" />
 				</div>
-			</button>
-		</div>
-
-		<div className="button-container" onClick={handlePearl}>
-			<button id="pearl" className='bob'>
-				<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
 			</button>
 		</div>
 
@@ -1371,6 +1418,19 @@ return (
 		<p x={100} y={100} className="names-i" textAnchor="middle" dy="0.3em" fontWeight="bold">
 			{namesInIrish[Math.floor(value * 100) + round.current * 100]}
 		</p>
+
+
+		<div className="button-container" onClick={handlePearl}>
+			<button id="pearl" className='bob'>
+				<img src={emerald} id="blank" alt="a crystal or precious stone toggle on off button" />
+			</button>
+		</div>
+
+<img src={glassBg} className="glass-bg2"/>
+
+<p className="names-e">
+				{namesInEnglish[Math.floor(value * 100) + round.current * 100]}
+			</p>
 	</>
 );
 }
