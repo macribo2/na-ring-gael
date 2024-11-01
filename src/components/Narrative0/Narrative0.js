@@ -57,9 +57,21 @@ class GameScene extends Phaser.Scene {
 
  
     preload() {
+        this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
+    
+        this.load.image('button-down', '/phaser-resources/images/ui/pad-d.png');
+        this.load.image('button-left', '/phaser-resources/images/ui/pad-l.png');
+        this.load.image('button-right', '/phaser-resources/images/ui/pad-r.png');
+        this.load.image('button-down-yellow', '/phaser-resources/images/ui/pad-d-yellow.png');
+        this.load.image('button-left-yellow', '/phaser-resources/images/ui/pad-l-yellow.png');
+        this.load.image('button-right-yellow', '/phaser-resources/images/ui/pad-r-yellow.png');
+        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
+        this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
+        this.load.image('overlay', '/phaser-resources/images/big-glass.png');
+
 
         // this.load.audio('threeRedHearts', './phaser-resources/audio/threeRedHearts.ogg');
-        
+        this.load.image('button-up-yellow', '/phaser-resources/images/ui/pad-u-yellow.png');
         this.load.image('Sirriam', './phaser-resources/images/players/alex.png');
         this.load.image('Fand', './phaser-resources/images/players/poet.png');
         this.load.image('Douglas_Hyde', './phaser-resources/images/players/douglas.png');
@@ -73,20 +85,22 @@ class GameScene extends Phaser.Scene {
         this.load.image('panel-molly-0', './phaser-resources/images/players/draoi0.gif');
         this.load.json('narrative0', './phaser-resources/text/narrative0.json');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
-        this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
-        this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
-        this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
-        this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
-        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
-        this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
     }
     
     create() {
+        const textures = ['button-right', 'button-right-yellow','button-right', 'button-right-yellow','button-right', 'button-right-yellow', ];
+       
         this.updateNarrativeTracker();
         this.hero = parseInt(this.hero); // Convert to a number
 
         this.textGa = this.add.text(100, 100, '', { fontSize: '32px', color: '#ffffff' ,fontFamily:'aonchlo'});
         this.textEn = this.add.text(100, 150, '', { fontSize: '32px', color: '#ffffff' });
+        const tileSize = 32;
+        const gridWidth = 25; // Number of tiles in width
+        const gridHeight = 18; // Number of tiles in height
+        const bgWidth = tileSize * gridWidth;
+        const bgHeight = tileSize * gridHeight;
+    
 
         this.updateText();   
         switch(this.hero){
@@ -106,12 +120,15 @@ class GameScene extends Phaser.Scene {
         if (narrative0) {
             const firstGaText = narrative0[0][this.hero].gae0;
             const firstEnText = narrative0[0][this.hero].eng0;
-            this.textGa = this.add.text(30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'INFO56_0' });
+            this.textGa = this.add.text(30, 20, firstGaText, { fill: '#ffffff', fontFamily: 'aonchlo' });
             this.textEn = this.add.text(30, 200, firstEnText, { color: 'lime', fontFamily: 'ubuntu'});
             this.textGa.setFontSize(32);
             this.textGa.setDepth(19);
             this.textEn.setFontSize(32);
             this.textEn.setDepth(19);
+        this.textEn.setVisible(false)
+
+
         } else {
             console.error('narrative data is empty or not loaded correctly.');
         }
@@ -122,9 +139,8 @@ class GameScene extends Phaser.Scene {
         glassbg.displayWidth = this.sys.game.config.width;
         glassbg.displayHeight = this.sys.game.config.height;
         this.overlay = this.add.container(0, 0);
-        this.overlay.setVisible(false);
+        this.overlay.setVisible(true);
         this.overlay.add([glassbg0, this.textEn]);
-
         const buttonX = this.sys.game.config.width - 150;
         const buttonY = this.sys.game.config.height / 2 + 50;
         this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(4);
@@ -133,29 +149,95 @@ class GameScene extends Phaser.Scene {
         this.buttonUp = this.add.sprite(buttonX, buttonY - 50, 'button-up').setInteractive().setDepth(4);
 
         this.buttonMiddle = this.add.sprite(buttonX, buttonY, 'button-middle').setInteractive().setDepth(4);
-        this.buttonMiddle.on('pointerdown', () => this.toggleOverlay());
-
+        this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
+    
         this.buttonUp.on('pointerdown', () => {
+            this.buttonUp.setTexture('button-up-yellow');
             this.updateNarrativeTracker('increment');
-            this.updateText();
+            this.updateText(); 
+            setTimeout(() => {
+                this.buttonUp.setTexture('button-up'); 
+            }, 500);
         });
+        function toggleVisibility(scene) {
+            // Toggle visibility of elements
+            scene.translucentBg.setVisible(!scene.translucentBg.visible);
+            scene.textEn.setVisible(!scene.textEn.visible); // Use textEn instead of keyEn
+        }
+        function handleMiddleButtonClick(scene) {
+            if (scene.isMiddleButtonCooldown) {return;}
+            toggleVisibility(scene);
+            scene.buttonMiddle.setTexture('button-middle-lit');
+            scene.isMiddleButtonCooldown = true;
+            setTimeout(() => {
+                scene.isMiddleButtonCooldown = false;
+            }, 100);
+        }
         
+        this.buttonMiddle.on('pointerup', () => { 
+            setTimeout(() => { this.buttonMiddle.setTexture('button-middle'); }, 800);
+        });
+// Create the translucent background and English text
+this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'overlay').setScale(3).setAlpha(0.8).setVisible(false);
+        
+   
+    
         this.buttonDown.on('pointerdown', () => {
+            this.buttonDown.setTexture('button-down-yellow');
             this.updateNarrativeTracker('decrement');
-            this.updateText();
+            this.updateText(); 
+            setTimeout(() => {
+                this.buttonDown.setTexture('button-down'); 
+            }, 500);
         });
-        
+    
         this.buttonLeft.on('pointerdown', () => {
+            this.buttonLeft.setTexture('button-left-yellow');
             this.updateNarrativeTracker('decrement');
-            this.updateText();
+            this.updateText(); 
+            setTimeout(() => {
+                this.buttonLeft.setTexture('button-left'); 
+            }, 500);
         });
-        
+    
         this.buttonRight.on('pointerdown', () => {
+            this.buttonRight.setTexture('button-right-yellow');
             this.updateNarrativeTracker('increment');
-            this.updateText();
+            this.updateText(); 
+        
+            // Use arrow function to maintain the context of 'this'
+            setTimeout(() => {
+                // Check if this.buttonRight still exists before trying to set the texture
+                if (this.buttonRight) {
+                    this.buttonRight.setTexture('button-right'); 
+                }
+            }, 500);
         });
-    }
-
+            // Function to prompt the right button
+            function promptRightButton() {
+                let index = 0; // Start with the first texture
+            
+                const changeTexture = () => {
+                    if (index < textures.length) {
+                        this.buttonRight.setTexture(textures[index]); // Change to the current texture
+                        index++; // Move to the next texture
+            
+                        // Set a timeout to change the texture again after 500ms
+                        setTimeout(changeTexture, 500); // No need to bind here since we're using arrow function
+                    } else {
+                        // Optionally revert to the original texture after the prompt
+                        if (this.buttonRight) {
+                            this.buttonRight.setTexture('button-right');
+                        }
+                    }
+                };
+            
+                changeTexture.call(this); // Start changing textures with the correct context
+            }
+            
+        
+            promptRightButton.call(this); // Call the function with the correct context
+        }
     updateText = () => {
         if (this.narrativeTracker === 6) {
             const narrativeCompleteEvent = new CustomEvent('narrativeComplete');
