@@ -262,17 +262,17 @@ body {
 .hints,
 .choice-ring-0-hint {
   pointer-events: none;
-  font-size: 1.5em;
+  font-size: 2em;
   position: fixed;
   top: 52%;
   left: 10%;
-  color: rgb(255, 244, 224);
+
   z-index: 1016;
   padding: 10px;
   width: 66%;
   text-shadow: -4px -4px 4px #000, 4px -4px 4px #000, -4px 4px 4px #000, 4px 4px 4px #000;
   
-  font-family: 'anaphora'
+  font-family: 'ubuntu'
 }
 
 #hints {
@@ -307,7 +307,7 @@ body {
   position:fixed;
   z-index: 9999;
   /* color: lightslategray; */
-  color: floralwhite;
+  color: lime;
   /* background-color: rgba(0,0,0,0.8); */
 }
 

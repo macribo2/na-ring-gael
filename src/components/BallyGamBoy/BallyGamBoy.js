@@ -4,6 +4,8 @@ import geaga1 from '../../images/go-full-screen-bg-0.png'; // Assuming wordPairs
 import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
+import portrait from '../../images/vert-bg3.png'
+
 const BallyGamBoy = () => {
   let hasInteractedWithSerpent = false; // To track if the player has interacted with the serpent
   let hasTriggeredTSquare = false; // To track if the player has already triggered the "t" square
@@ -252,6 +254,7 @@ useEffect(() => {
   
   let creature = null;
   function create() {
+
     let creature = null;
 ///let's try a wave effect
 this.waves = []; // Array for visible waves
@@ -422,7 +425,7 @@ function updateWaves(delta) {
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
-        't':{type: 'illuminate', nameEng:'Illuminate',name:'Las Solas'} 
+        't':{type: 'illuminate', nameEng:'',name:''} 
 
 
     };
@@ -548,10 +551,12 @@ const playerStartY = startRow * tileSize + tileSize / 2;
   
     drawGrid(this, tileSize, gridWidth, gridHeight);
   // Add this check before using `this.borderGraphics.clear()`
-
-
-    // Add and po/sition buttons
-    this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+  
+  
+  
+  // Add and po/sition buttons
+  this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+  gameRef.current.buttonMiddle = this.buttonMiddle; // Store reference for later use
     this.buttonMiddle.on('pointerdown', () =>{ handleMiddleButtonClick(this)
   this.buttonMiddle.setTexture('button-middle-lit'); // Swap to pressed texture
 
@@ -672,11 +677,45 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
 }
 // Handle the collision with the "t" square
 function handleTSquareCollision(player, tSquare) {
-  if (hasInteractedWithSerpent && !hasTriggeredTSquare) {
-      alert("t!"); // Placeholder for your specific functions
-
+  // if (hasInteractedWithSerpent && !hasTriggeredTSquare) {
+promptMiddleButton()  
       hasTriggeredTSquare = true; // Prevent the alert from triggering again
+  // }
+}
+
+
+// Function to prompt the middle button
+function promptMiddleButton() {
+  const textures = ['button-middle', 'button-middle-lit', 'button-middle', 'button-middle-lit']; // Texture cycle
+  let index = 0; // Start with the first texture
+
+  // Access buttonMiddle from gameRef.current
+  const buttonMiddle = gameRef.current.buttonMiddle;
+  if (gameRef.current) {
+    gameRef.current.buttonMiddle = buttonMiddle;
   }
+
+  if (!buttonMiddle) {
+    console.error("buttonMiddle is not defined in gameRef");
+    return;
+  }
+
+  // Function to change the texture in sequence
+  const changeTexture = () => {
+    if (index < textures.length) {
+      buttonMiddle.setTexture(textures[index]); // Set texture to current in sequence
+      index++; // Move to the next texture
+
+      // Set a timeout to change the texture again after 500ms
+      setTimeout(changeTexture, 500);
+    } else {
+      // Optionally revert to the original texture after the sequence
+      buttonMiddle.setTexture('button-middle');
+    }
+  };
+
+  // Start the texture changing sequence
+  changeTexture();
 }
 
 
@@ -1394,6 +1433,7 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     </div>
                     </div>
     
+<img id="portrait" rel="preload" src={ portrait}></img>
                     <div className="portrait-mode-text-container">
 
 <p className="menu portrait-mode-txt quote-1 ga">

@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { useHistory } from 'react-router-dom';
 import './narrative.css';
 
+
 const Narrative0 = () => {
     const gameRef = useRef(null);
     const appHistory = useHistory(); // Correct for react-router-dom v5
@@ -152,11 +153,15 @@ class GameScene extends Phaser.Scene {
         this.buttonMiddle.on('pointerdown', () => handleMiddleButtonClick(this));
     
         this.buttonUp.on('pointerdown', () => {
+    if (this.isCooldownActive) return; // 
+
             this.buttonUp.setTexture('button-up-yellow');
             this.updateNarrativeTracker('increment');
             this.updateText(); 
             setTimeout(() => {
                 this.buttonUp.setTexture('button-up'); 
+                this.isCooldownActive = false; // Reset cooldown after timeo
+
             }, 500);
         });
         function toggleVisibility(scene) {
@@ -183,24 +188,35 @@ this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.camer
    
     
         this.buttonDown.on('pointerdown', () => {
+    if (this.isCooldownActive) return; // 
+
             this.buttonDown.setTexture('button-down-yellow');
             this.updateNarrativeTracker('decrement');
             this.updateText(); 
             setTimeout(() => {
                 this.buttonDown.setTexture('button-down'); 
+                this.isCooldownActive = false; // Reset cooldown after timeo
+
             }, 500);
         });
     
         this.buttonLeft.on('pointerdown', () => {
+    if (this.isCooldownActive) return; // 
+
             this.buttonLeft.setTexture('button-left-yellow');
             this.updateNarrativeTracker('decrement');
             this.updateText(); 
             setTimeout(() => {
                 this.buttonLeft.setTexture('button-left'); 
+                this.isCooldownActive = false; // Reset cooldown after timeo
+
             }, 500);
         });
     
-        this.buttonRight.on('pointerdown', () => {
+       this.isCooldownActive = false;
+
+this.buttonRight.on('pointerdown', () => {
+    if (this.isCooldownActive) return; // 
             this.buttonRight.setTexture('button-right-yellow');
             this.updateNarrativeTracker('increment');
             this.updateText(); 
@@ -210,8 +226,17 @@ this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.camer
                 // Check if this.buttonRight still exists before trying to set the texture
                 if (this.buttonRight) {
                     this.buttonRight.setTexture('button-right'); 
+                    this.isCooldownActive = false; // Reset cooldown after timeo
                 }
             }, 500);
+        });
+
+
+     
+        this.events.on('shutdown', () => {
+            if (this.rightButtonTimeout) {
+                clearTimeout(this.rightButtonTimeout);
+            }
         });
             // Function to prompt the right button
             function promptRightButton() {

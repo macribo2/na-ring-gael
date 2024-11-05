@@ -95,7 +95,6 @@ class GameScene extends Phaser.Scene {
         // this.load.plugin('aonchlo', './phaser-resources/fonts/aonchlo.ttf');
         
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
-        this.load.audio('rabbitTown', './phaser-resources/audio/rabbitTown.ogg');
         let champID = localStorage.getItem('champID');
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/24c.png');
@@ -282,9 +281,7 @@ const bobTween2 = this.tweens.add({
        // Access and use the dialogues data here
    } else {
    }
-      const music = this.sound.add('rabbitTown',{ loop: true });
    
-      music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);
