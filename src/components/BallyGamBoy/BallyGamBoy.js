@@ -403,7 +403,7 @@ function updateWaves(delta) {
       ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ','t','k','e',' ',' ',' ',' ','x'],
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
   
   ];    
@@ -418,8 +418,9 @@ function updateWaves(delta) {
 
            
     const interactiveMap = {
+        ' ': { type: 'noPic', nameEng: '', name: '' },
         'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasain tú ar droichead' },
+        'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasann tú ar droichead' },
         'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
         'h': { type: 'noPic', nameEng: '', name: '' },
@@ -675,51 +676,56 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     window.dispatchEvent(event);
   });
 }
+
+let textureInterval = null; // Store the interval ID
+let isSwitching = false; // Flag to control Switching state
+
 // Handle the collision with the "t" square
 function handleTSquareCollision(player, tSquare) {
-  // if (hasInteractedWithSerpent && !hasTriggeredTSquare) {
-promptMiddleButton()  
-      hasTriggeredTSquare = true; // Prevent the alert from triggering again
-  // }
+    if (hasInteractedWithSerpent && !hasTriggeredTSquare) {
+  if (!isSwitching) { // Start Switching if not already
+    promptMiddleButton();  
+    isSwitching = true; // Set the flag to true
+      }
+      
+    }
 }
 
 
-// Function to prompt the middle button
 function promptMiddleButton() {
-  const textures = ['button-middle', 'button-middle-lit', 'button-middle', 'button-middle-lit']; // Texture cycle
+  const textures = ['button-middle', 'button-middle-lit'];
   let index = 0; // Start with the first texture
 
-  // Access buttonMiddle from gameRef.current
   const buttonMiddle = gameRef.current.buttonMiddle;
-  if (gameRef.current) {
-    gameRef.current.buttonMiddle = buttonMiddle;
-  }
-
+  
   if (!buttonMiddle) {
     console.error("buttonMiddle is not defined in gameRef");
     return;
   }
+  buttonMiddle.setTexture(textures[1]);
 
-  // Function to change the texture in sequence
-  const changeTexture = () => {
-    if (index < textures.length) {
-      buttonMiddle.setTexture(textures[index]); // Set texture to current in sequence
-      index++; // Move to the next texture
+ // Change the texture every 500ms
+ textureInterval = setInterval(() => {
+  buttonMiddle.setTexture(textures[index]);
+  index = (index + 1) % textures.length; // Toggle between textures
+}, 500);
 
-      // Set a timeout to change the texture again after 500ms
-      setTimeout(changeTexture, 500);
-    } else {
-      // Optionally revert to the original texture after the sequence
-      buttonMiddle.setTexture('button-middle');
-    }
-  };
-
-  // Start the texture changing sequence
-  changeTexture();
+}
+function stopSwitching() {
+  clearInterval(textureInterval); // Stop the texture switching
+  const buttonMiddle = gameRef.current.buttonMiddle;
+  if (buttonMiddle) {
+    buttonMiddle.setTexture('button-middle'); // Reset to original texture
+  }
+  isSwitching = false; // Reset the Switching state
 }
 
 
     function handleMiddleButtonClick(scene) {
+      if(isSwitching){
+        hasTriggeredTSquare = true;
+        stopSwitching()
+      }
       if (scene.isMiddleButtonCooldown) return;
       toggleVisibility(scene);
   
@@ -1285,10 +1291,15 @@ if (collisionMessage === '' ) {
 const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
 if (interactiveObject) {
 
-    //exit area
-    if(interactiveObject.type==="illuminate"){
-      handleTSquareCollision();
+  if(interactiveObject.type==="illuminate"){
+    handleTSquareCollision();
   }
+  if(interactiveObject.type==="noPic"){
+    stopSwitching();
+  }
+  
+  
+  //exit area
     if(interactiveObject.type==="exit"){
         window.location.href = 'https://www.na-ring-gael.com/pucaloic';
     }
