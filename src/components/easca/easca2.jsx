@@ -47,6 +47,10 @@ export default class Easca extends React.Component {
       }
 
   componentDidUpdate(prevProps, prevState) {
+        // If initialLayout prop has changed, update layoutName accordingly
+        if (this.props.initialLayout !== prevProps.initialLayout && this.props.initialLayout === 'code') {
+          this.setState({ layoutName: 'code' });
+        }
     // Focus the textarea when the state changes and the textarea is visible
     if (this.state.showEasca && this.textareaRef.current) {
       this.textareaRef.current.focus();

@@ -9,7 +9,8 @@ import portrait from '../../images/vert-bg3.png'
 const BallyGamBoy = () => {
   let hasInteractedWithSerpent = false; // To track if the player has interacted with the serpent
   let hasTriggeredTSquare = false; // To track if the player has already triggered the "t" square
-  
+  const [initialLayout, setInitialLayout] = useState("easca"); // Default to "easca"
+
   const [eascaActive, setEascaActive] = useState(false); 
   const [showEasca, setShowEasca] = useState(false); // 
 
@@ -725,6 +726,9 @@ function stopSwitching() {
       if(isSwitching){
         hasTriggeredTSquare = true;
         stopSwitching()
+        handleShowEasca() 
+        setInitialLayout('code'); // Set the initial easca layout to "code"
+
       }
       if (scene.isMiddleButtonCooldown) return;
       toggleVisibility(scene);
@@ -1469,7 +1473,7 @@ A wild goose chase - no scent.
     
 </p>
 </div>
-{showEasca && <Easca onSendMessage={handleSendMessage} />}
+{showEasca && <Easca onSendMessage={handleSendMessage} initialLayout={initialLayout}/>}
     </>
   );
 };
