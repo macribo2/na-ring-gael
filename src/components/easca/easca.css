@@ -369,7 +369,20 @@ top: 60%;
   .hg-button[data-skbtn="{space}"] {
 	flex: 2 !important; /* Make the space button twice as wide */
   }
-
-  .hg-button[data-skbtn="_"] {
-	color:orange;
+/* Easca-specific Flashing Key Style */
+@keyframes flash {
+	0% {
+	  opacity: 1;
+	}
+	50% {
+	  opacity: 0.5;
+	}
+	100% {
+	  opacity: 1;
+	}
+  }
+  
+  /* Class to apply flashing to ls key */
+  .flash-ls {
+	animation: flash 1s infinite;  /* Flashes every second */
   }

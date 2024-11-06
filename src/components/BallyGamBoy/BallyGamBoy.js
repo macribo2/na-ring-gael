@@ -100,7 +100,10 @@ const BallyGamBoy = () => {
 // Function to handle message passed from Easca
 const handleSendMessage = (msg) => {
   setMessage(msg); // Update the state with the new message
-
+  if (msg === "ls") {
+    alert("You sent the 'ls' command!");
+    return
+  }
   const messageElement = document.querySelector('.player-message');
   const tailElement = document.createElement('div');
   tailElement.className = 'tail';
