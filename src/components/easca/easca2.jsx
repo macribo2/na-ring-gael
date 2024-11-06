@@ -420,16 +420,16 @@ handleSend = () => {
               "{shift} {space} {code} {send}"
             ],
             alt: [
-              "q w _ z _ _ _ {backspace}",
-              "_ _ _ _ j k {mode}",
-              "y x _ v _ _ {alt}",
+              "q w   z   {backspace}",
+              "    j k ",
+              "y x   v  {alt}",
               "{shift} {space} {code} {send}"
             ],
 
             code: [
-              "_ _ _ _ _ _ _ {backspace}",
-              "_ _ _ ls _ _ {mode}",
-              "_ _ _ _ _ _ {alt}",
+              "       {backspace}",
+              "  ls    ",
+              "      {alt}",
               "{shift} {space} {code} {send}"
             ]
 
