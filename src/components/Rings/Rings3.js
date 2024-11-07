@@ -11,27 +11,11 @@ import pearl from '../../images/stone-soup/misc_crystal_old.png';
 import ironkey from '../../images/stone-soup/lord-iron-key2.png';
 import ReactAudioPlayer from 'react-audio-player';
 import spark0 from '../../audio/coin3.ogg';
-import blackripple from '../../images/blackripple.gif';
 import tutorial0 from '../../images/tutorials/tutorial0.png';
 
 import banba from './../../images/About1/banba_poster-0.png'
-import about0 from './../../images/About1/adaptive-icon.png'
 import brightland from './../../images/About1/ceist3.png'
-import gold from './../../images/gold.png'
-import about1 from './../../images/About1/fi.png'
-import about2 from './../../images/you-see.gif'
-import wisp from './../../images/color-square.gif'
-import about3 from './../../images/blinding-light.jpg'
-import about4 from './../../images/About1/ceist2.png'  //frog.gif'
 import lasta from './../../images/About1/lasta.png'  //frog.gif'
-import about5 from './../../images/About1/Daniel-Maclise.png'
-import about9 from './../../images/About1/computing.png'
-import circuits from './../../images/About1/computing.png'
-import binary from './../../images/About1/computing.png'
-import about6 from './../../images/field.png'
-import fieldCircle from './../../images/ciorcal-field.png'
-import passage from './../../images/overworld/passage.png'
-import circleBG from './../../images/ciorcal-glass-bg.png'
 import linucsLand from './../../images/About1/backgrounds/bg-linux-land.gif'
 import SampleHero from '../../images/About1/images/sample-hero.png'
 import {

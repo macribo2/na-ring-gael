@@ -8,6 +8,7 @@ import portrait from '../../images/vert-bg3.png'
 import TorchEmitters from './TorchEmitters';
 
 let torchEmitters = null;
+let backgroundLit;
 const BallyGamBoy = () => {
 
   const [isEmittersReady, setEmittersReady] = useState(false);
@@ -218,6 +219,7 @@ useEffect(() => {
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
     this.load.image('background', '/phaser-resources/images/background-elements/doonsheen.png');
+    this.load.image('background-lit', '/phaser-resources/images/background-elements/doonsheen-lit.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
     this.load.image('lakeMask', '/phaser-resources/images/background-elements/lakeMask.png'); // Load the tree image
@@ -242,6 +244,7 @@ useEffect(() => {
 
 
   function create() {
+  
   torchEmitters = new TorchEmitters(this, 702, 76, 608, 76);  // Initialize emitters
     console.log("Emitters initialized:", torchEmitters);
     
@@ -467,6 +470,7 @@ function updateWaves(delta) {
     this.rippleCreated = false; // Add this in your scene initialization
     this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.background.setOrigin(0, 0);
+    
   // Specify starting column and row
 const startColumn = 20; // Horizontal position on the grid (1-25)
 const startRow = 16; // Vertical position on the grid (1-18)
@@ -708,6 +712,7 @@ const handleSendMessage = (msg) => {
 function playerLightsTorches() {
   if (torchEmitters) {
     torchEmitters.activateEmitters();
+  //  this.background.setTexture('background-lit'); 
     console.log("Emitters activated!");
   } else {
     console.error("TorchEmitters instance is not defined!");

@@ -51,7 +51,6 @@ class GameScene extends Phaser.Scene {
 
     preload() {
 
-        // this.load.audio('threeRedHearts', './phaser-resources/audio/threeRedHearts.ogg');
         
         this.load.image('Sirriam', './phaser-resources/images/players/alex.png');
         this.load.image('Fand', './phaser-resources/images/players/poet.png');
@@ -80,7 +79,6 @@ class GameScene extends Phaser.Scene {
         
         // if (!this.music) {
         //     // Add the music if it doesn't already exist
-        //     this.music = this.sound.add('threeRedHearts', { loop: true });
         // }
 
         // // Check if the music is already playing
