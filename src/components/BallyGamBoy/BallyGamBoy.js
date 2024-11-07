@@ -5,8 +5,13 @@ import './bally.css'
 import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 import portrait from '../../images/vert-bg3.png'
+import TorchEmitters from './TorchEmitters';
 
+let torchEmitters = null;
 const BallyGamBoy = () => {
+
+  const [isEmittersReady, setEmittersReady] = useState(false);
+
   let hasInteractedWithSerpent = false; // To track if the player has interacted with the serpent
   let hasTriggeredTSquare = false; // To track if the player has already triggered the "t" square
   const [initialLayout, setInitialLayout] = useState("easca"); // Default to "easca"
@@ -97,40 +102,8 @@ const BallyGamBoy = () => {
   
   const [message, setMessage] = useState("");
 
-// Function to handle message passed from Easca
-const handleSendMessage = (msg) => {
-  setMessage(msg); // Update the state with the new message
-  if (msg === "ls") {
-    alert("You sent the 'ls' command!");
-    return
-  }
-  const messageElement = document.querySelector('.player-message');
-  const tailElement = document.createElement('div');
-  tailElement.className = 'tail';
 
-  messageElement.style.opacity = '0'; // Ensure it starts hidden
-  messageElement.classList.remove('visible'); // Remove the visible class initially
-
-  // Append the tail to the message element
-  messageElement.appendChild(tailElement);
-
-  // Show message after send
-  setTimeout(() => {
-      messageElement.classList.add('visible'); // Add the visible class
-      messageElement.style.opacity = '1'; // Make the message visible
-      tailElement.style.opacity = '1'; // Make the tail visible
-  }, 300); // 1-second delay
-
-  // Hide message after 4 seconds
-  setTimeout(() => {
-      messageElement.style.opacity = '0'; // Fade it out
-      tailElement.style.opacity = '0'; // Fade out the tail
-      setTimeout(() => {
-          messageElement.classList.remove('visible'); // Hide the bubble after fade out
-          messageElement.removeChild(tailElement); // Remove the tail after hiding
-      }, 500); // Wait for the fade-out transition to complete
-  }, 4000); // 4 seconds after it appears
-};
+  
 
 useEffect(() => {
   const showEascaListener = () => handleShowEasca();
@@ -174,6 +147,11 @@ useEffect(() => {
 
   // Create the Phaser game instance
   gameRef.current = new Phaser.Game(config);
+   // Listen for the custom event from Phaser when emitters are ready
+    gameRef.current.events.on('emittersReady', () => {
+      setEmittersReady(true);  // Set flag to true when emitters are initialized
+      console.log("Emitters are ready!");
+    });
 
   return () => {
     if (gameRef.current) {
@@ -235,6 +213,7 @@ useEffect(() => {
     this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
     this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');
     this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
+    this.load.image('spark', `/phaser-resources/images/sprites/spark.png`);
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
@@ -251,14 +230,21 @@ useEffect(() => {
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
     this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
 
-  
-
+    
+    
   }
-
+  
   
   let creature = null;
-  function create() {
 
+
+
+
+
+  function create() {
+  torchEmitters = new TorchEmitters(this, 702, 76, 608, 76);  // Initialize emitters
+    console.log("Emitters initialized:", torchEmitters);
+    
     let creature = null;
 ///let's try a wave effect
 this.waves = []; // Array for visible waves
@@ -391,9 +377,9 @@ function updateWaves(delta) {
 };
     this.rippleCount = 0; // Step 1: Initialize the counter
     const mapLayout = [
-      ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','x','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x',' ',' ',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','t',' ',' ',' ','a'],
       ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
       ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
@@ -407,7 +393,7 @@ function updateWaves(delta) {
       ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ','t','k','e',' ',' ',' ',' ','x'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
   
   ];    
@@ -679,8 +665,54 @@ this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScal
     const event = new Event('showEasca');
     window.dispatchEvent(event);
   });
+   this.game.events.emit('emittersReady');
 }
 
+// Function to handle message passed from Easca
+const handleSendMessage = (msg) => {
+  setMessage(msg); // Update the state with the new message
+    if (msg === "ls" && isEmittersReady) {
+      playerLightsTorches();
+    return
+    } else {
+      console.error("Emitters not ready yet!");
+    }
+  const messageElement = document.querySelector('.player-message');
+  const tailElement = document.createElement('div');
+  tailElement.className = 'tail';
+
+  messageElement.style.opacity = '0'; // Ensure it starts hidden
+  messageElement.classList.remove('visible'); // Remove the visible class initially
+
+  // Append the tail to the message element
+  messageElement.appendChild(tailElement);
+
+  // Show message after send
+  setTimeout(() => {
+      messageElement.classList.add('visible'); // Add the visible class
+      messageElement.style.opacity = '1'; // Make the message visible
+      tailElement.style.opacity = '1'; // Make the tail visible
+  }, 300); // 1-second delay
+
+  // Hide message after 4 seconds
+  setTimeout(() => {
+      messageElement.style.opacity = '0'; // Fade it out
+      tailElement.style.opacity = '0'; // Fade out the tail
+      setTimeout(() => {
+          messageElement.classList.remove('visible'); // Hide the bubble after fade out
+          messageElement.removeChild(tailElement); // Remove the tail after hiding
+      }, 500); // Wait for the fade-out transition to complete
+  }, 4000); // 4 seconds after it appears
+};
+
+function playerLightsTorches() {
+  if (torchEmitters) {
+    torchEmitters.activateEmitters();
+    console.log("Emitters activated!");
+  } else {
+    console.error("TorchEmitters instance is not defined!");
+  }
+}
 let textureInterval = null; // Store the interval ID
 let isSwitching = false; // Flag to control Switching state
 
