@@ -71,7 +71,6 @@ class GameScene extends Phaser.Scene {
         this.load.image('overlay', '/phaser-resources/images/big-glass.png');
 
 
-        // this.load.audio('threeRedHearts', './phaser-resources/audio/threeRedHearts.ogg');
         this.load.image('button-up-yellow', '/phaser-resources/images/ui/pad-u-yellow.png');
         this.load.image('Sirriam', './phaser-resources/images/players/alex.png');
         this.load.image('Fand', './phaser-resources/images/players/poet.png');
