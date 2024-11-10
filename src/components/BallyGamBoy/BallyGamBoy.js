@@ -192,6 +192,7 @@ useEffect(() => {
 
   // Phaser scene methods
   function preload() {
+    this.load.image('torches', '/phaser-resources/images/foreground-elements/torches.png');
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
     this.load.image('lake-wizard', '/phaser-resources/images/npcs/snake.png');
@@ -243,8 +244,8 @@ useEffect(() => {
 
 
 
+  const backgroundRef = React.useRef(null);
   function create() {
-  
   torchEmitters = new TorchEmitters(this, 702, 76, 608, 76);  // Initialize emitters
     console.log("Emitters initialized:", torchEmitters);
     
@@ -303,6 +304,7 @@ for (let i = 0; i < 8; i++) {
   blackWave.x = 500; // Position them centered horizontally
   this.blackWaves.push(blackWave); // Add black wave to array
 }
+this.torches = this.add.image(656, 102, 'torches').setDepth(1)
 
 this.blackWaveSpeed = 0.1; // Slower speed at which the ripples scroll down
 this.waveSpeed = 0.2; // Slower speed at which the ripples scroll down
@@ -380,17 +382,17 @@ function updateWaves(delta) {
 };
     this.rippleCount = 0; // Step 1: Initialize the counter
     const mapLayout = [
-      ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','x','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','t',' ',' ',' ','a'],
-      ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-      ['a','a','a',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
+      ['a','a','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x','x','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ','a',' ','a'],
+      ['a','a','a','a','a','a',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a','t','a',' ',' ','a'],
+      ['x',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
+      ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+      ['a','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
+      ['a',' ',' ','a',' ','a',' ',' ','a','a','a','a',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ',' ',' ','a','a',' ',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
+      ['a',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
       ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
@@ -468,9 +470,10 @@ function updateWaves(delta) {
     this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
     this.borderGraphics.setDepth(99); // Optional: Set depth if needed
     this.rippleCreated = false; // Add this in your scene initialization
-    this.background = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
-    this.background.setOrigin(0, 0);
+
     
+    backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
+    backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
 const startColumn = 20; // Horizontal position on the grid (1-25)
 const startRow = 16; // Vertical position on the grid (1-18)
@@ -677,6 +680,7 @@ const handleSendMessage = (msg) => {
   setMessage(msg); // Update the state with the new message
     if (msg === "ls" && isEmittersReady) {
       playerLightsTorches();
+      
     return
     } else {
       console.error("Emitters not ready yet!");
@@ -710,14 +714,26 @@ const handleSendMessage = (msg) => {
 };
 
 function playerLightsTorches() {
-  if (torchEmitters) {
-    torchEmitters.activateEmitters();
-  //  this.background.setTexture('background-lit'); 
-    console.log("Emitters activated!");
+
+
+  setTimeout(()=>{
+    if (torchEmitters) {
+      torchEmitters.activateEmitters();
+
+      if (backgroundRef.current) {
+          backgroundRef.current.setTexture('background-lit');
+      } else {
+          console.error("Background reference is not defined!");
+      }
+      console.log("Emitters activated!");
   } else {
-    console.error("TorchEmitters instance is not defined!");
+      console.error("TorchEmitters instance is not defined!");
   }
+
+  }, 1000)
+  
 }
+
 let textureInterval = null; // Store the interval ID
 let isSwitching = false; // Flag to control Switching state
 
@@ -1141,7 +1157,7 @@ function update(time, delta) {
           ease: 'Power1',
           onComplete: () => {
             // Ripple once the creature rises
-            createRipple.call(this, 370, 560);
+            // createRipple.call(this, 370, 560);
             
             // Bobbing effect
             this.tweens.add({
@@ -1513,7 +1529,7 @@ A wild goose chase - no scent.
     
 </p>
 </div>
-{showEasca && <Easca onSendMessage={handleSendMessage} initialLayout={initialLayout}/>}
+{showEasca && <Easca onSendMessage={handleSendMessage} initialLayout={initialLayout} />}
     </>
   );
 };
