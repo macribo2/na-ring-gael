@@ -277,6 +277,7 @@ handleCode= ()=>{
 
 
 handleSend = () => {
+  
   const { input } = this.state;
   
   if (this.props.onSendMessage) {

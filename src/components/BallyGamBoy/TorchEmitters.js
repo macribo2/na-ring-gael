@@ -32,8 +32,8 @@ export default class TorchEmitters {
 
     // Method to show both emitters
     activateEmitters() {
-        if (this.torch1Emitter) this.torch1Emitter.setVisible(true).setDepth(99);
-        if (this.torch2Emitter) this.torch2Emitter.setVisible(true).setDepth(99);
+        if (this.torch1Emitter) this.torch1Emitter.setVisible(true).setDepth(9);
+        if (this.torch2Emitter) this.torch2Emitter.setVisible(true).setDepth(9);
     }
 
     // Optionally add a method to hide the emitters again
