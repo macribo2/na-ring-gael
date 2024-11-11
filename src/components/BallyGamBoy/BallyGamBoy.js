@@ -10,6 +10,7 @@ import TorchEmitters from './TorchEmitters';
 let torchEmitters = null;
 let backgroundLit;
 const BallyGamBoy = () => {
+  let middleButtonRecentlyPressed = false
 
   const [isEmittersReady, setEmittersReady] = useState(false);
 
@@ -541,7 +542,17 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       align: 'center', // Align the text to center
       border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
-  
+   
+   
+    this.textForFadeEng = this.add.text(200, 160, '', {
+      fontSize: '16px',
+      fill: 'lime',
+      fontFamily: 'Ubuntu',
+      padding: { x: 10, y: 10 },
+      stroke: '#000000',
+      strokeThickness: 3,
+      align:'left'
+    }).setScrollFactor(0).setDepth(20)
 
        
     this.collisionMessageTimer = 0;
@@ -777,8 +788,10 @@ function stopSwitching() {
   isSwitching = false; // Reset the Switching state
 }
 
-
     function handleMiddleButtonClick(scene) {
+      middleButtonRecentlyPressed = true;
+      console.log('mbr'+middleButtonRecentlyPressed)
+    
       if(isSwitching){
         hasTriggeredTSquare = true;
         stopSwitching()
@@ -833,6 +846,9 @@ function toggleVisibility(scene) {
             scene.translucentBg.setVisible(false);
             scene.featherIcon.setVisible(false);
             scene.collisionTextEng.setVisible(false);
+            middleButtonRecentlyPressed = false;
+     console.log('mbr'+middleButtonRecentlyPressed)
+
             console.log('Elements hidden after fade-out.');
           }
         });
@@ -988,6 +1004,7 @@ function movePlayer(direction, isHold) {
 }
 
 
+
 function playerStepsInWater(nextMove, interactiveMap) {
     if (!nextMove || !interactiveMap) return false;  // Safeguard check
 
@@ -1006,9 +1023,14 @@ function playerStepsInWater(nextMove, interactiveMap) {
 let lastRippleTime = 0; // Track last ripple time
 
 function update(time, delta) {
+if(middleButtonRecentlyPressed){
+  this.textForFadeEng.setVisible(true) 
+}   else{
+  this.textForFadeEng.setVisible(false) 
+}
 
-  
-    const moveInterval = 40;
+
+ const moveInterval = 40;
 
     //waves
     this.frameSkipCounter++;
@@ -1314,6 +1336,11 @@ if (collision) {
   // Update textForFade only if it's not already fading
   if (!this.isFading) {
     this.textForFade.setText(collisionMessage);  // Set the text
+  this.textForFadeEng.setText(collisionMessageEng)
+
+  this.textForFadeEng.setText(collisionMessageEng)
+  this.textForFadeEng.setAlpha(1);                // Make it fully visible
+
     this.textForFade.setAlpha(1);                // Make it fully visible
     this.isFading = true;  // Lock the fading process to prevent updates
     const textWidth = this.textForFade.width; // Get the updated width of the text
@@ -1323,9 +1350,9 @@ if (collision) {
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
 
-      targets: this.textForFade,
+      targets: [this.textForFade, this.textForFadeEng],
       alpha: 0,
-      duration: 4500,  // 3 seconds fade
+      duration: 2500,  // 3 seconds fade
       ease: 'Linear',
       onComplete: () => {
         this.isFading = false;  // Allow new collisions after fade-out
