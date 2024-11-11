@@ -12,6 +12,7 @@ import Baile from './components/locations/baile';
 import ChessLike from './components/ChessLike/chessLike2';
 import PucaLoic2 from './components/ChessLike/chessLike3';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
+import BallyGamWest from './components/BallyGamBoy/BallyGamWest';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
 import FairyLand from './components/FairyLand/FairyLand';
 import BallyTown from './components/BallyTown/BallyTown';
@@ -89,6 +90,7 @@ const ChessLikeWrapper = () => {
 
       <Route path="/gameOver" component={GameOver} />
       <Route path="/ballygamboy" component={BallyGamBoy} />
+      <Route path="/ballygamwest" component={BallyGamWest} />
       <Route path="/ballygamboat" component={BallyGamBoat} />
       <Route path="/fairyland" component={FairyLand} />
       <Route path="/ballytown" component={BallyTown} />
