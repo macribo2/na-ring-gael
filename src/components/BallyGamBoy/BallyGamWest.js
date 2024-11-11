@@ -202,23 +202,23 @@ useEffect(() => {
 
 
     const mapLayout = [
-      ['a','a','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x','x','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ','a',' ','a'],
-      ['a','a','a','a','a','a',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a','t','a',' ',' ','a'],
-      ['x',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-      ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
-      ['a','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a',' ',' ','a','a','a','a',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
-      ['a',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
-      ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
   
   ];    
@@ -295,8 +295,8 @@ useEffect(() => {
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
-const startColumn = 20; // Horizontal position on the grid (1-25)
-const startRow = 16; // Vertical position on the grid (1-18)
+const startColumn = 23; // Horizontal position on the grid (1-25)
+const startRow = 12; // Vertical position on the grid (1-18)
 
 // Calculate the player's starting coordinates
 const playerStartX = startColumn * tileSize + tileSize / 2;
@@ -383,25 +383,56 @@ const playerStartY = startRow * tileSize + tileSize / 2;
   
   
   // Add and po/sition buttons
-  this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0);
+  this.buttonMiddle = this.add.sprite(0, 0, 'button-middle').setInteractive().setDepth(23).setScrollFactor(0).setAlpha(0);
   gameRef.current.buttonMiddle = this.buttonMiddle; // Store reference for later use
     this.buttonMiddle.on('pointerdown', () =>{ handleMiddleButtonClick(this)
   this.buttonMiddle.setTexture('button-middle-lit'); // Swap to pressed texture
 
     });
 
-    this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(22).setScrollFactor(0);
-    this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(22).setScrollFactor(0);
-    this.buttonRight = this.add.sprite(0, 0, 'button-right').setInteractive().setDepth(22).setScrollFactor(0);
-    this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(22).setScrollFactor(0);
+    this.buttonLeft = this.add.sprite(0, 0, 'button-left').setInteractive().setDepth(22).setScrollFactor(0).setAlpha(0);
+    this.buttonDown = this.add.sprite(0, 0, 'button-down').setInteractive().setDepth(22).setScrollFactor(0).setAlpha(0);
+    this.buttonRight = this.add.sprite(0, 0, 'button-right').setInteractive().setDepth(22).setScrollFactor(0).setAlpha(0);
+    this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(22).setScrollFactor(0).setAlpha(0);
   
     // Set up the camera
-    this.cameras.main.setZoom(2); // Zoom in 2x
-    this.cameras.main.startFollow(this.player, true); // Follow the player
-  
+    this.cameras.main.setZoom(2); 
+    // this.cameras.main.ignore([this.buttonLeft,this.buttonRight,this.buttonDown,this.buttonUp,this.buttonMiddle])
     // Set camera bounds to the size of the map
     this.cameras.main.setBounds(0, 0, bgWidth, bgHeight);
+   
+
+// Initially set the main camera to zoom level 2
+this.cameras.main.setZoom(2);
+this.cameras.main.startFollow(this.player, true,0.1,0.1); // Follow the player
+
+// Transition the camera zoom from 2 to 1 over 2 seconds
+this.tweens.add({
+    targets: this.cameras.main,
+    zoom: 1,
+    duration: 3000, // 2 seconds
+    ease: 'Cubic.easeIn',
+    onComplete: () => {
   
+        // After the zoom transition, fade in the directional pad elements
+        this.tweens.add({
+            targets: [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp], // All directional buttons
+            alpha: { from: 0, to: 1 },
+            duration: 1500, // 1.5 seconds fade-in
+            ease: 'Linear',
+
+            onStart: () => {
+
+                // Make sure buttons are initially invisible and only fade in after the zoom
+                [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp].forEach(button => {
+                    button.setAlpha(0).setVisible(true);
+                });
+            }
+        });
+    }
+});
+
+
     // Update button positions initially
     updateButtonPositions(this);
   
@@ -469,7 +500,7 @@ this.buttonDown.on('pointerup', () => {
     this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
      
 // Feather icon in the bottom left corner
-this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScale(0.3).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
+this.featherIcon = this.add.sprite(120, 230, 'featherIcon').setOrigin(0).setScale(0.6).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
     this.translucentBg.setDepth(9).setAlpha(0.4);
@@ -1011,20 +1042,20 @@ this.isMoving = true;
 
 function updateButtonPositions(scene) {
   const padding = 20;
-  const buttonSize = 50;
+  const buttonSize = 100;
   const screenWidth = scene.scale.width;
   const screenHeight = scene.scale.height;
 
-  const buttonX = screenWidth - padding - buttonSize-200;
-  const buttonY = screenHeight - padding - buttonSize-100;
+  const buttonX = screenWidth - padding - buttonSize-50;
+  const buttonY = screenHeight - padding - buttonSize;
 
 
   // Update positions
-  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
-  scene.buttonLeft.setPosition(buttonX - buttonSize / 2, buttonY).setScale(0.5);
-  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize / 2).setScale(0.5);
-  scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
-  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
+  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(1);
+  scene.buttonLeft.setPosition(buttonX - buttonSize / 2, buttonY).setScale(1);
+  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize / 2).setScale(1);
+  scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(1);
+  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(1);
 
 }
 
