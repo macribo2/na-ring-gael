@@ -595,10 +595,20 @@ if (champID !== 25) {
 	
 	const buttonMashRing4 = document.querySelector(".button-mash-ring-4");
 
-	
+	const [hasRunPearlPrompt, setHasRunPearlPrompt] = React.useState(false);
+
+React.useEffect(() => {
+  if (value !== 0.25 && !hasRunPearlPrompt) {
+    // Call pearlPrompt once
+    promptPearlButton();
+    setHasRunPearlPrompt(true); // Set to true after first run
+  }
+}, [value, hasRunPearlPrompt]); // Dependencies: run when `value` changes
+
+
 //thumbStart is a hack to prevent side effect of making question text fade out when player is at location 'geaga'.
 	function thumbStart() {
-		promptPearlButton()
+
 
 		setShowDiv(true);
 		document.querySelector(".champion-portrait").classList.remove('champ-hide');
