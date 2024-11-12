@@ -6,6 +6,7 @@ import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 import portrait from '../../images/vert-bg3.png'
 import TorchEmitters from './TorchEmitters';
+import { useLocation } from "react-router-dom";
 
 let torchEmitters = null;
 let backgroundLit;
@@ -13,17 +14,18 @@ const BallyGamBoy = () => {
   let middleButtonRecentlyPressed = false
 
   const [isEmittersReady, setEmittersReady] = useState(false);
-
+  
   let hasInteractedWithSerpent = false; // To track if the player has interacted with the serpent
   let hasTriggeredTSquare = false; // To track if the player has already triggered the "t" square
   const [initialLayout, setInitialLayout] = useState("easca"); // Default to "easca"
-
+  
   const [eascaActive, setEascaActive] = useState(false); 
   const [showEasca, setShowEasca] = useState(false); // 
-
+  
   const [isHolding, setisHolding] = useState(false); 
-
-
+  
+  const location = useLocation();
+  
   const handleHideEasca = () => {
     setShowEasca(false); // Hide Easca keyboard
     setEascaActive(false); // Mark Easca as inactive
@@ -476,12 +478,19 @@ function updateWaves(delta) {
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
-const startColumn = 20; // Horizontal position on the grid (1-25)
-const startRow = 16; // Vertical position on the grid (1-18)
 
-// Calculate the player's starting coordinates
-const playerStartX = startColumn * tileSize + tileSize / 2;
-const playerStartY = startRow * tileSize + tileSize / 2;
+  // Default startColumn and startRow
+  const defaultStartColumn = 20;
+  const defaultStartRow = 16;
+
+  // Use passed values if available, otherwise fall back to defaults
+  const startColumn = location.state && location.state.startColumn ? location.state.startColumn : defaultStartColumn;
+  const startRow = location.state && location.state.startRow ? location.state.startRow : defaultStartRow;
+
+  // Calculate player's starting coordinates
+  const playerStartX = startColumn * tileSize + tileSize / 2;
+  const playerStartY = startRow * tileSize + tileSize / 2;
+
 
     this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.4)
