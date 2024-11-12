@@ -205,23 +205,23 @@ useEffect(() => {
 
 
     const mapLayout = [
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
+      ['x',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
+      ['x',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
+      ['x',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
   
   ];    
@@ -243,7 +243,8 @@ useEffect(() => {
         'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
-        'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        'x':{type: 'exitSouthEast', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        'y':{type: 'exitNorthEast', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
         't':{type: 'illuminate', nameEng:'',name:''} 
 
 
@@ -297,12 +298,18 @@ useEffect(() => {
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
-const startColumn = 23; // Horizontal position on the grid (1-25)
-const startRow = 12; // Vertical position on the grid (1-18)
 
-// Calculate the player's starting coordinates
-const playerStartX = startColumn * tileSize + tileSize / 2;
-const playerStartY = startRow * tileSize + tileSize / 2;
+  // Default startColumn and startRow
+  const defaultStartColumn = 20;
+  const defaultStartRow = 16;
+
+  // Use passed values if available, otherwise fall back to defaults
+  const startColumn = location.state && location.state.startColumn ? location.state.startColumn : defaultStartColumn;
+  const startRow = location.state && location.state.startRow ? location.state.startRow : defaultStartRow;
+
+  // Calculate player's starting coordinates
+  const playerStartX = startColumn * tileSize + tileSize / 2;
+  const playerStartY = startRow * tileSize + tileSize / 2;
 
     this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.4)
@@ -334,7 +341,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
       // Add the translucent background and English text
     
     this.collisionTextEng = this.add.text(200, 160, '', {
-      fontSize: '16px',
+      fontSize: '32px',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -346,7 +353,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
 
     
     this.collisionText = this.add.text(200, 90, '', {
-      fontSize: '2.5em', // Larger font size
+      fontSize: '5em', // Larger font size
       fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
@@ -355,7 +362,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
     }).setScrollFactor(0).setDepth(20);
   
     this.textForFade = this.add.text(200, 90, '', {
-      fontSize: '2.5em', // Larger font size
+      fontSize: '5em', // Larger font size
       fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
 
@@ -366,7 +373,7 @@ const playerStartY = startRow * tileSize + tileSize / 2;
    
    
     this.textForFadeEng = this.add.text(200, 160, '', {
-      fontSize: '16px',
+      fontSize: '32px',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -1014,7 +1021,7 @@ if (interactiveObject) {
 
   
   //exit area
-    if(interactiveObject.type==="exit"){
+    if(interactiveObject.type==="exitSouthEast"){
       appHistory.push({
         pathname: "/ballygamboy",
         state: { startColumn: 2, startRow: 13 } // Send specific starting position
@@ -1022,6 +1029,14 @@ if (interactiveObject) {
   
     }
   
+  //exit area
+  if(interactiveObject.type==="exitNorthEast"){
+    appHistory.push({
+      pathname: "/ballygamboy",
+      state: { startColumn: 2, startRow: 5 } // Send specific starting position
+    });
+
+  }
 
     // Set messages for other interactive objects
     this.collisionText.setText(interactiveObject.name);

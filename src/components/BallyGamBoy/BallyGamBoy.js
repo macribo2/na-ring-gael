@@ -6,11 +6,20 @@ import Easca from '../easca/easca2';
 import Narrative1 from '../../components/Narrative0/Narrative1'
 import portrait from '../../images/vert-bg3.png'
 import TorchEmitters from './TorchEmitters';
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation  } from 'react-router-dom';
 
 let torchEmitters = null;
 let backgroundLit;
 const BallyGamBoy = () => {
+
+
+
+React.useEffect(() => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  }
+}, []);
+
   let middleButtonRecentlyPressed = false
 
   const [isEmittersReady, setEmittersReady] = useState(false);
@@ -109,6 +118,8 @@ const BallyGamBoy = () => {
 
   
 
+  const appHistory = useHistory(); // Correct for react-router-dom v5
+
 useEffect(() => {
   const showEascaListener = () => handleShowEasca();
   window.addEventListener('showEasca', showEascaListener);
@@ -130,7 +141,7 @@ useEffect(() => {
     window.removeEventListener('showEasca', showEascaListener);
  
   };
-}, [isHolding]);
+}, [isHolding, appHistory]);
 
 // Separate effect for managing the game instance
 useEffect(() => {
@@ -389,16 +400,16 @@ function updateWaves(delta) {
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ','a',' ','a'],
       ['a','a','a','a','a','a',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a','t','a',' ',' ','a'],
-      ['x',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-      ['x',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+      ['z',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
+      ['z',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
       ['a','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a',' ',' ','a','a','a','a',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a','a','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a',' ',' ',' ','a','a','a','a','a',' ',' ','a'],
       ['a','a','a','a',' ',' ',' ',' ','a','a','j','a','a','a',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
-      ['x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['y',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
+      ['y',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
@@ -424,6 +435,8 @@ function updateWaves(delta) {
         'h': { type: 'noPic', nameEng: '', name: '' },
         'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        'z':{type: 'exitNorthWest', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        'y':{type: 'exitSouthWest', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
         't':{type: 'illuminate', nameEng:'',name:''} 
 
 
@@ -1399,6 +1412,25 @@ if (interactiveObject) {
     if(interactiveObject.type==="exit"){
         window.location.href = 'https://www.na-ring-gael.com/pucaloic';
     }
+
+ //exit area
+ if(interactiveObject.type==="exitNorthWest"){
+  appHistory.push({
+    pathname: "/ballygamWest",
+    state: { startColumn: 23, startRow: 4 } // Send specific starting position
+  });
+
+}
+ 
+ //exit area
+ if(interactiveObject.type==="exitSouthWest"){
+  appHistory.push({
+    pathname: "/ballygamWest",
+    state: { startColumn: 23, startRow: 12 } // Send specific starting position
+  });
+
+}
+
   // Check if the interactive object is of type 'water' (or whatever your specific type is)
   let rippleCooldown = 5000; // 5 seconds cooldown
   this.lastRippleTime = this.lastRippleTime || 0; // Ensure lastRippleTime is initialized
@@ -1459,8 +1491,6 @@ function updateButtonPositions(scene) {
   scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 
 }
-
-
 // Helper function to check collision
 function checkCollision(nextMove, obstacles, tileSize) {
     return obstacles.find(obstacle => {
