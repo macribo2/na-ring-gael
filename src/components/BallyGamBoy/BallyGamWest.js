@@ -150,6 +150,7 @@ useEffect(() => {
 
   // Phaser scene methods
   function preload() {
+    this.load.image('fog', '/phaser-resources/images/foreground-elements/fog01.png');
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
     let champID = localStorage.getItem('champID');
@@ -202,22 +203,38 @@ useEffect(() => {
   const backgroundRef = React.useRef(null);
   function create() {
     
+// Inside the scene's create method
+this.fog = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog'); 
+this.fog.setOrigin(0, 0); // Set the origin to the top-left corner of the fog tile
+this.fog.setDepth(99).setAlpha(0.5).setScale(2); // Set the depth to ensure the fog is rendered above other objects
 
+this.fogSpeed = -0.1; // Adjust this value to control how fast the fog scrolls
+
+    this.graphics = this.add.graphics();
+    this.graphics.lineStyle(2, 0xffffff, 1); // White color with 2px line width
+
+    // Timer to generate random waves at intervals
+    this.time.addEvent({
+        delay: 100, // Interval between each wave (100ms for more frequent waves)
+        callback: this.generateRandomWave,
+        callbackScope: this,
+        loop: true
+    });
 
     const mapLayout = [
       ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
-      ['x',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
+      ['a',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','b',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
+      ['x',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','b',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','y'],
       ['x',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
-      ['x',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','a','b',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
+      ['x',' ',' ',' ',' ',' ',' ',' ','b',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'],
       ['x',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a'],
@@ -226,8 +243,8 @@ useEffect(() => {
   
   ];    
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: '\nOne cannot go that way', name: 'Ní féidir dul \nan treo sin' },
-        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
+        'a': { type: 'noPic', nameEng: '\nOne cannot go that way', name: 'Ní féidir dul \nan treo sin' },       
+        'b': { type: 'noPic', nameEng: 'one cannot go further that                                                                                                                                                             way', name: 'Ní féidir dul níos faide\n sa treo sin' },
         'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
         'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
         'j': { type: 'noPic', nameEng: 'Flood mouth', name: 'Béal Tuile' },
@@ -311,7 +328,7 @@ useEffect(() => {
   const playerStartX = startColumn * tileSize + tileSize / 2;
   const playerStartY = startRow * tileSize + tileSize / 2;
 
-    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
+    this.player = this.add.sprite(playerStartX, playerStartY, 'player').setFlipX(true); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.4)
     this.cursors = this.input.keyboard.createCursorKeys();
     // Ensure the player stays locked to the grid
@@ -352,7 +369,7 @@ useEffect(() => {
     
 
     
-    this.collisionText = this.add.text(200, 90, '', {
+    this.collisionText = this.add.text(200, 30, '', {
       fontSize: '5em', // Larger font size
       fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
@@ -361,7 +378,7 @@ useEffect(() => {
       border: '2px solid #ccc' // Optional border
     }).setScrollFactor(0).setDepth(20);
   
-    this.textForFade = this.add.text(200, 90, '', {
+    this.textForFade = this.add.text(200, 30, '', {
       fontSize: '5em', // Larger font size
       fill: '#f0f0f0', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
@@ -406,7 +423,6 @@ useEffect(() => {
   
     // Set up the camera
     this.cameras.main.setZoom(2); 
-    // this.cameras.main.ignore([this.buttonLeft,this.buttonRight,this.buttonDown,this.buttonUp,this.buttonMiddle])
     // Set camera bounds to the size of the map
     this.cameras.main.setBounds(0, 0, bgWidth, bgHeight);
    
@@ -415,32 +431,30 @@ useEffect(() => {
 this.cameras.main.setZoom(2);
 this.cameras.main.startFollow(this.player, true,0.1,0.1); // Follow the player
 
-// Transition the camera zoom from 2 to 1 over 2 seconds
 this.tweens.add({
-    targets: this.cameras.main,
-    zoom: 1,
-    duration: 3000, // 2 seconds
-    ease: 'Cubic.easeIn',
-    onComplete: () => {
-  
-        // After the zoom transition, fade in the directional pad elements
-        this.tweens.add({
-            targets: [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp], // All directional buttons
-            alpha: { from: 0, to: 1 },
-            duration: 1500, // 1.5 seconds fade-in
-            ease: 'Linear',
 
-            onStart: () => {
-
-                // Make sure buttons are initially invisible and only fade in after the zoom
-                [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp].forEach(button => {
-                    button.setAlpha(0).setVisible(true);
-                });
-            }
-        });
-    }
+   targets: this.cameras.main,
+  zoom: 1,
+  duration: 2000,
+  ease: Phaser.Math.Easing.Stepped,
+  easeParams: [8], // The number of steps you want
+  onUpdate: (tween, target) => {
+      // Logically "step" if needed, or just let it run
+  },
+  onComplete: () => {
+      this.tweens.add({
+          targets: [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp],
+          alpha: { from: 0, to: 1 },
+          duration: 1500,
+          ease: 'Linear',
+          onStart: () => {
+              [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp].forEach(button => {
+                  button.setAlpha(0).setVisible(true);
+              });
+          }
+      });
+  }
 });
-
 
     // Update button positions initially
     updateButtonPositions(this);
@@ -801,6 +815,7 @@ function movePlayer(direction, isHold) {
 
 
 function update(time, delta) {
+  this.fog.tilePositionX += this.fogSpeed; // Scroll the fog horizontally
 if(middleButtonRecentlyPressed){
   this.textForFadeEng.setVisible(true) 
 }   else{

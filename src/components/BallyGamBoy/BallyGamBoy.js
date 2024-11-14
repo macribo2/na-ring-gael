@@ -12,14 +12,49 @@ let torchEmitters = null;
 let backgroundLit;
 const BallyGamBoy = () => {
 
+  const [triggeredSingleUseEvents, setTriggeredSingleUseEvents] = useState(() => {
+    // Retrieve and parse stored events from localStorage, or initialize with an empty Set
+    const storedEvents = JSON.parse(localStorage.getItem('triggeredEvents') || '[]');
+    return new Set(storedEvents);
+  });
 
+  // Function to update the set and save to localStorage
+  const addTriggeredEvent = (event) => {
+    setTriggeredSingleUseEvents(prev => {
+      const updatedEvents = new Set(prev).add(event);
+      localStorage.setItem('triggeredEvents', JSON.stringify(Array.from(updatedEvents)));
+      return updatedEvents;
+    });
+  };
 
-React.useEffect(() => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  }
-}, []);
+  // Save to localStorage on unmount to ensure state is preserved
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('triggeredEvents', JSON.stringify(Array.from(triggeredSingleUseEvents)));
+    };
+  }, [triggeredSingleUseEvents]);
 
+  // Example usage in single-use event handling
+  const handleSingleUseEvent = (event) => {
+    if (!triggeredSingleUseEvents.has(event)) {
+      // Process the single-use event logic
+      addTriggeredEvent(event);
+    }
+  };
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      if (document.fullscreenElement) {
+        console.log('Fullscreen: true');
+      } else {
+        console.log('Fullscreen: false');
+      }
+    }, 1000); // Check every 1000ms (1 second)
+  
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
+
+  
   let middleButtonRecentlyPressed = false
 
   const [isEmittersReady, setEmittersReady] = useState(false);
@@ -398,10 +433,10 @@ function updateWaves(delta) {
     const mapLayout = [
       ['a','a','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x','x','a','a','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ','a',' ','a'],
-      ['a','a','a','a','a','a',' ',' ',' ','a',' ',' ',' ','a','a','a','a','a','a','a','t','a',' ',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','a','c','c',' ',' ',' ',' ',' ',' ','a',' ','a'],
+      ['a','a','a','a','a','a',' ',' ',' ','a',' ',' ',' ','a',' ',' ','a','a','a','a','t','a',' ',' ','a'],
       ['z',' ',' ',' ',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ','a'],
-      ['z',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','a','a','a',' ',' ','a',' ','a',' ',' ','a'],
+      ['z',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','a',' ','a','c','c','a',' ',' ','a',' ','a',' ',' ','a'],
       ['a','a','a','a',' ','a',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a',' ','a',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a',' ',' ','a','a','a','a',' ','a',' ',' ',' ','a','a','a',' ','a',' ',' ','a'],
       ['a',' ',' ','a',' ','a',' ','a',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ','a'],
@@ -412,70 +447,93 @@ function updateWaves(delta) {
       ['y',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','a',' ',' ',' ',' ',' ',' ','g','g','g','g','g','g',' ',' ','a',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ','a','a','a','a','a','a','d',' ',' ',' ',' ','g','g',' ',' ','a','a','a','a','a','a','a','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ',' ','k','e',' ',' ',' ',' ','x'],
+      ['a',' ',' ',' ',' ',' ',' ',' ','d',' ',' ',' ',' ','g',' ',' ',' ','r','k','e',' ',' ',' ','f','x'],
       ['a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a']   
   
   ];    
     const obstacleMap = {
         'a': { type: 'noPic', nameEng: '\nOne cannot go that way', name: 'Ní féidir dul \nan treo sin' },
-        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: '\nAill sa dorchadas\nní fheicim an bun' },
-        'c': { type: 'noPic', nameEng: '\nI don\'t trust those boxes', name: '\nNíl muinnín agam as\nnaboscaí sin' },
+        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: 'Aill sa dorchadas\nní fheicim an bun' },
+        'c': { type: 'noPic', nameEng: 'These boxes are rotten through and through', name: 'Tá na boscaí seo lofa tríd is tríḋ.' },
         'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
         'j': { type: 'noPic', nameEng: 'Flood mouth', name: 'Béal Tuile' },
         'g': { type: 'rippleEffect', nameEng: '', name: '' },
            };
 
            
-    const interactiveMap = {
+           
+           
+           
+           /*
+           IF AN EVENT SHOULD ONLY BE TRIGGERED ONCE IT GOES HERE
+           */
+          const singleUseEventMap = {
+            
+            'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
+  }
+  
+  const interactiveMap = {
+      'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasann tú ar droichead' },
         ' ': { type: 'noPic', nameEng: '', name: '' },
-        'r': { type: 'rubble', nameEng: 'Rubble', name: 'smionagar' },
-        'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasann tú ar droichead' },
-        'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
-        'f': { type: 'noPic', nameEng: 'I stand in the stream', name: 'Seasain tú sa sruthán' },
+        'f': { type: 'noPic', nameEng: 'the way out — up the steps', name: 'Seo an treo amach \n— suas na céimeanna' },
         'h': { type: 'noPic', nameEng: '', name: '' },
-        'i': { type: 'noPic', nameEng: 'it\'s pitch dark here', name: 'Tá sé dubh doracha anseo.' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
-        'z':{type: 'exitNorthWest', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
-        'y':{type: 'exitSouthWest', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
+        'z':{type: 'exitNorthWest', nameEng:' ',name:' '} ,
+        'y':{type: 'exitSouthWest', nameEng:' ',name:' '} ,
         't':{type: 'illuminate', nameEng:'',name:''} 
 
 
     };
 
-    
-    this.obstacles = [];
-    this.interactiveObjects = []; // New array for interactive objects
-    
-    mapLayout.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-            const obstacle = obstacleMap[cell];
-            const interactive = interactiveMap[cell];
-            
-            if (obstacle) {
-                if (obstacle.type !== 'walkable') { // Only add non-walkable obstacles
-                    this.obstacles.push({
-                        type: obstacle.type,
-                        x: colIndex,
-                        y: rowIndex,
-                        nameEng: obstacle.nameEng,
-                        name: obstacle.name
-                    });
-                }
-            }
-            
-            if (interactive) {
-                this.interactiveObjects.push({
-                    type: interactive.type,
+    // Initialize a set to track triggered single-use events
+// Initialize a set to track triggered single-use events
+this.triggeredSingleUseEvents = new Set();
+this.obstacles = [];
+this.interactiveObjects = []; // New array for interactive objects
+this.singleUseEvents = [];
+
+// Process the map layout
+mapLayout.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+        const obstacle = obstacleMap[cell];
+        const interactive = interactiveMap[cell];
+        const singleUseEvent = singleUseEventMap[cell];
+
+        if (obstacle) {
+            if (obstacle.type !== 'walkable') { // Only add non-walkable obstacles
+                this.obstacles.push({
+                    type: obstacle.type,
                     x: colIndex,
                     y: rowIndex,
-                    nameEng: interactive.nameEng,
-                    name: interactive.name
+                    nameEng: obstacle.nameEng,
+                    name: obstacle.name
                 });
             }
-        });
+        }
+
+        if (interactive) {
+            this.interactiveObjects.push({
+                type: interactive.type,
+                x: colIndex,
+                y: rowIndex,
+                nameEng: interactive.nameEng,
+                name: interactive.name
+            });
+        }
+
+        if (singleUseEvent) {
+            this.singleUseEvents.push({
+                type: singleUseEvent.type,
+                x: colIndex,
+                y: rowIndex,
+                nameEng: singleUseEvent.nameEng,
+                name: singleUseEvent.name
+            });
+        }
     });
-    
-      
+});
+
+
       
     const tileSize = 32;
     const gridWidth = 25; // Number of tiles in width
@@ -1463,9 +1521,43 @@ if (interactiveObject) {
   this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
 
+
+// Check for single-use events
+const singleUseEvent = checkInteraction(nextMove, this.singleUseEvents, tileSize);
+if (singleUseEvent) {
+  if (!this.triggeredSingleUseEvents.has(singleUseEvent)) {
+    // Mark this event as triggered
+    this.triggeredSingleUseEvents.add(singleUseEvent);
+    
+    
+    // Handle specific single-use event types
+    if (singleUseEvent.type === "noPic") {
+      // Handle rubble interaction
+      this.collisionText.setText(singleUseEvent.name || '');
+      const textWidth = this.collisionText.width; // Get the updated width of the text
+    const canvasWidth = this.cameras.main.width; // Get canvas width
+
+      this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+     
+      this.collisionTextEng.setText(singleUseEvent.nameEng || '');
+      
+      // Additional event logic can go here (e.g., special animations or effects)
+    }
+
+    
+
+    // Update collision message timer
+    this.collisionMessageTimer = time + this.collisionMessageDuration;
+  }
+  
+}
+
 // Move the player if there's no collision
 this.player.nextMove = nextMove;
 this.isMoving = true; 
+
+
+
 
 
 
