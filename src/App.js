@@ -25,7 +25,7 @@ function App() {
             {isLoading ? (
                 <div className="loading-container">
                     <div className="spinner"></div> {/* Spinner graphic */}
-                    <div className="loading-message">Please wait...</div>
+                    <div className="loading-message">Ag lódál...</div>
                 </div>
             ) : (
                 <MainView />
