@@ -52,6 +52,7 @@ export default function SettingsMenu(props) {
 ' '
 
 ];
+localStorage.clear();
 localStorage.setItem('score', 1);
 
   localStorage.setItem('isFirstCatch', null);
