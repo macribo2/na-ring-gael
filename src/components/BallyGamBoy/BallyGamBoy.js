@@ -12,11 +12,13 @@ let torchEmitters = null;
 let backgroundLit;
 const BallyGamBoy = () => {
 
-  const [triggeredSingleUseEvents, setTriggeredSingleUseEvents] = useState(() => {
-    // Retrieve and parse stored events from localStorage, or initialize with an empty Set
+  const [triggeredSingleUseEvents, setTriggeredSingleUseEvents] = useState(new Set());
+
+  // Load events from localStorage on mount
+  useEffect(() => {
     const storedEvents = JSON.parse(localStorage.getItem('triggeredEvents') || '[]');
-    return new Set(storedEvents);
-  });
+    setTriggeredSingleUseEvents(new Set(storedEvents));
+  }, []); // Run only once when the component mounts
 
   // Function to update the set and save to localStorage
   const addTriggeredEvent = (event) => {
@@ -34,13 +36,19 @@ const BallyGamBoy = () => {
     };
   }, [triggeredSingleUseEvents]);
 
-  // Example usage in single-use event handling
-  const handleSingleUseEvent = (event) => {
-    if (!triggeredSingleUseEvents.has(event)) {
-      // Process the single-use event logic
-      addTriggeredEvent(event);
+  const handleSingleUseEvent = (eventKey) => {
+    if (this.triggeredEvents.has(eventKey)) {
+        // Event has already been triggered, skip showing the message
+        return;
     }
-  };
+
+    // Show the message (replace this with your message display logic)
+    console.log(`Triggering event: ${eventKey}`);
+
+    // Add the event to the set and update localStorage
+    this.triggeredEvents.add(eventKey);
+    localStorage.setItem('triggeredEvents', JSON.stringify(Array.from(this.triggeredEvents)));
+};
   React.useEffect(() => {
     const interval = setInterval(() => {
       if (document.fullscreenElement) {
@@ -295,6 +303,8 @@ useEffect(() => {
 
   const backgroundRef = React.useRef(null);
   function create() {
+    this.triggeredEvents = new Set(JSON.parse(localStorage.getItem('triggeredEvents') || '[]'));
+
   torchEmitters = new TorchEmitters(this, 702, 76, 608, 76);  // Initialize emitters
     console.log("Emitters initialized:", torchEmitters);
     
@@ -487,7 +497,10 @@ function updateWaves(delta) {
 
     // Initialize a set to track triggered single-use events
 // Initialize a set to track triggered single-use events
-this.triggeredSingleUseEvents = new Set();
+// Initialize a set to track triggered single-use events
+this.triggeredSingleUseEvents = new Set(
+  JSON.parse(localStorage.getItem('triggeredSingleUseEvents') || '[]')
+);
 this.obstacles = [];
 this.interactiveObjects = []; // New array for interactive objects
 this.singleUseEvents = [];
@@ -521,14 +534,18 @@ mapLayout.forEach((row, rowIndex) => {
             });
         }
 
-        if (singleUseEvent) {
-            this.singleUseEvents.push({
-                type: singleUseEvent.type,
-                x: colIndex,
-                y: rowIndex,
-                nameEng: singleUseEvent.nameEng,
-                name: singleUseEvent.name
-            });
+            if (singleUseEvent) {
+            const eventKey = `${colIndex}-${rowIndex}`; // Unique key for this event
+            if (!this.triggeredSingleUseEvents.has(eventKey)) {
+                this.singleUseEvents.push({
+                    type: singleUseEvent.type,
+                    x: colIndex,
+                    y: rowIndex,
+                    nameEng: singleUseEvent.nameEng,
+                    name: singleUseEvent.name,
+                    key: eventKey
+                });
+              }
         }
     });
 });
@@ -1523,33 +1540,31 @@ if (interactiveObject) {
 
 
 // Check for single-use events
+// Check for single-use events
 const singleUseEvent = checkInteraction(nextMove, this.singleUseEvents, tileSize);
 if (singleUseEvent) {
-  if (!this.triggeredSingleUseEvents.has(singleUseEvent)) {
-    // Mark this event as triggered
-    this.triggeredSingleUseEvents.add(singleUseEvent);
-    
-    
-    // Handle specific single-use event types
-    if (singleUseEvent.type === "noPic") {
-      // Handle rubble interaction
-      this.collisionText.setText(singleUseEvent.name || '');
-      const textWidth = this.collisionText.width; // Get the updated width of the text
-    const canvasWidth = this.cameras.main.width; // Get canvas width
+    const eventKey = `${singleUseEvent.x}-${singleUseEvent.y}`; // Unique key for this event
 
-      this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
-     
-      this.collisionTextEng.setText(singleUseEvent.nameEng || '');
-      
-      // Additional event logic can go here (e.g., special animations or effects)
+    if (!this.triggeredSingleUseEvents.has(eventKey)) {
+        // Mark this event as triggered
+        this.triggeredSingleUseEvents.add(eventKey);
+
+        // Update localStorage with the newly triggered event
+        localStorage.setItem(
+            'triggeredSingleUseEvents',
+            JSON.stringify(Array.from(this.triggeredSingleUseEvents))
+        );
+
+        // Handle specific single-use event types
+        if (singleUseEvent.type === "noPic") {
+            // Display the event message
+            this.collisionText.setText(singleUseEvent.name || '');
+            const textWidth = this.collisionText.width; // Get the updated width of the text
+            const canvasWidth = this.cameras.main.width; // Get canvas width
+            this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+            this.collisionTextEng.setText(singleUseEvent.nameEng || '');
+        }
     }
-
-    
-
-    // Update collision message timer
-    this.collisionMessageTimer = time + this.collisionMessageDuration;
-  }
-  
 }
 
 // Move the player if there's no collision
