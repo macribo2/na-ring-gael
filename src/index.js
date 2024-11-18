@@ -22,6 +22,7 @@ import BallyMurphius from './components/BallyMurphius/BallyMurphius';
 import Kilcash from './components/locations/connacht/Galway/kilcash';
 import Cave0 from './components/locations/cave0';
 import Nagels from './components/locations/munster/Cork/nagles';
+import Arklow from './components/locations/leinster/Wicklow/arklow';
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
 import {Rings5} from './components/Rings/Rings5';
@@ -195,7 +196,7 @@ const ChessLikeWrapper = () => {
 <Route path="/leinster/wicklow/poll-a-puca"component={GenericLocation}/>     <Route path="/leinster/wicklow/grey-stones"component={GenericLocation}/>
 <Route path="/leinster/wicklow/shillelagh"component={GenericLocation}/>
 <Route path="/leinster/wicklow/donard"component={GenericLocation}/>
-<Route path="/leinster/wicklow/arklow"component={GenericLocation}/>
+<Route path="/leinster/wicklow/arklow"component={Arklow}/>
 <Route path="/leinster/wicklow/avoca"component={GenericLocation}/>
 <Route path="/ulster/antrim/rathlin"component={GenericLocation}/>
 <Route path="/ulster/antrim/dervock"component={GenericLocation}/>

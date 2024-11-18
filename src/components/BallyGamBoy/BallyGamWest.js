@@ -435,9 +435,9 @@ this.tweens.add({
 
    targets: this.cameras.main,
   zoom: 1,
-  duration: 2000,
+  duration: 1000,
   ease: Phaser.Math.Easing.Stepped,
-  easeParams: [8], // The number of steps you want
+  easeParams: [4], // The number of steps you want
   onUpdate: (tween, target) => {
       // Logically "step" if needed, or just let it run
   },
@@ -1062,7 +1062,6 @@ if (interactiveObject) {
 
 
 
-  
   this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
 
