@@ -131,19 +131,35 @@ const BallyGamBoy = () => {
       const duration = 11000;  // Total duration of the effect
   
       const expandRipple = () => {
+        // Ensure the ripple is cleared before starting
         ripple.clear();
-        ripple.lineStyle(1, color, 1);  // Ensure style is applied each time
-        const easedRadius = easeOutQuart(progress, 5, maxRadius - 5, duration);
-        ripple.strokeCircle(x, y, easedRadius);  // Draw the ripple with the eased radius
-        progress += 16;  // Increase time progress by the frame duration (~60 FPS)
-  
-        if (progress < duration ) {
-          this.time.delayedCall(32, expandRipple);  // Call every 16ms (~60 FPS)
-        } else {
-          ripple.destroy();  // Destroy once the animation is complete
-        }
-      };
-  
+        ripple.lineStyle(1, color, 1);  // Set line style
+        
+        // Set the starting radius and target radius for the ripple
+        const startRadius = 5;
+        const maxRadius = 140; // Max radius for the ripple
+        const duration = 2500;  // Total duration for the ripple expansion
+        const steps = 8;  // The number of steps you want the ripple to go through
+        
+        // Set up the tween for the ripple expansion with steps
+        this.tweens.add({
+            targets: { radius: startRadius },  // Animate a 'radius' property
+            radius: maxRadius,  // End value of the radius (target is max radius)
+            duration: duration,  // Total duration for the animation
+            ease: Phaser.Math.Easing.Stepped,  // Stepped easing function
+            easeParams: [steps],  // Define number of steps
+            onUpdate: (tween, target) => {
+                // Redraw the ripple as the radius changes, easing it step by step
+                ripple.clear();
+                ripple.lineStyle(1, color, 1);  // Reapply line style at each step
+                ripple.strokeCircle(x, y, target.radius);  // Draw the ripple with updated radius
+            },
+            onComplete: () => {
+                ripple.destroy();  // Destroy the ripple once the animation is done
+            }
+        });
+    };
+    
       expandRipple();  // Start the ripple animation
     };
   
@@ -367,7 +383,7 @@ this.torches = this.add.image(656, 102, 'torches').setDepth(1)
 
 this.blackWaveSpeed = 0.1; // Slower speed at which the ripples scroll down
 this.waveSpeed = 0.2; // Slower speed at which the ripples scroll down
-this.frameSkipCounter = 0; // Variable to control choppy frame updates
+this.frameSkipCounter = 4; // Variable to control choppy frame updates
 this.framesToSkip = 8; // Adjust this to control how choppy the effect should be
 
 // Update function to animate the waves
