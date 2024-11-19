@@ -290,7 +290,7 @@ useEffect(() => {
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
-    this.load.image('background', '/phaser-resources/images/background-elements/woodland-river-1.png');
+    this.load.image('background', '/phaser-resources/images/background-elements/arklow.png');
     this.load.image('background-lit', '/phaser-resources/images/background-elements/doonsheen-lit.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
@@ -452,33 +452,28 @@ function updateWaves(delta) {
 };
     this.rippleCount = 0; // Step 1: Initialize the counter
     const mapLayout = [
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a','a','a','a',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a',' ','c','c',' ','a','a','a','a','a','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' '],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
+      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c','c',' ',' ','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
   
   ];    
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: '\nOne cannot go that way', name: 'Ní féidir dul \nan treo sin' },
-        'b': { type: 'noPic', nameEng: '\nA cliff in the darkness\nI don\'t see the bottom', name: 'Aill sa dorchadas\nní fheicim an bun' },
-        'c': { type: 'noPic', nameEng: 'These boxes are rotten through and through', name: 'Tá na boscaí seo lofa tríd is tríḋ.' },
-        'd': { type: 'noPic', nameEng: '\ndeep water', name: '\nuisce doimhean' },
-        'j': { type: 'noPic', nameEng: 'Flood mouth', name: 'Béal Tuile' },
-        'g': { type: 'rippleEffect', nameEng: '', name: '' },
+        'a': { type: 'noPic', nameEng: 'A forest full \nof nettles & brambles. \nYou cannot go this way', name: 'neantóga 7 driseacha. \nNí féidir dul an treo seo.' },
+        'b': { type: 'noPic', nameEng: 'There is no way through the vegetation.', name: 'Níl bealach tríd an fásra.' },
+        'c': { type: 'noPic', nameEng: 'The estuary, deep and slow', name: 'An tInbhar, domhain agus mall.' },
            };
 
            
@@ -564,14 +559,13 @@ mapLayout.forEach((row, rowIndex) => {
 
       
     const tileSize = 32;
-    const gridWidth = 25; // Number of tiles in width
-    const gridHeight = 18; // Number of tiles in height
+    const gridWidth = 40; // Number of tiles in width
+    const gridHeight = 16; // Number of tiles in height
     const bgWidth = tileSize * gridWidth;
     const bgHeight = tileSize * gridHeight;
     // Initialize borderGraphics
     this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
     this.borderGraphics.setDepth(99); // Optional: Set depth if needed
-    this.rippleCreated = false; // Add this in your scene initialization
 
     
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
@@ -579,8 +573,8 @@ mapLayout.forEach((row, rowIndex) => {
   // Specify starting column and row
 
   // Default startColumn and startRow
-  const defaultStartColumn = 20;
-  const defaultStartRow = 16;
+  const defaultStartColumn = 30;
+  const defaultStartRow = 11;
 
   // Use passed values if available, otherwise fall back to defaults
   const startColumn = location.state && location.state.startColumn ? location.state.startColumn : defaultStartColumn;
@@ -620,8 +614,8 @@ mapLayout.forEach((row, rowIndex) => {
     this.sayGraphic.setDepth(8); // Ensure it is above other elements
       // Add the translucent background and English text
     
-    this.collisionTextEng = this.add.text(200, 160, '', {
-      fontSize: '16px',
+    this.collisionTextEng = this.add.text(100, 160, '', {
+      fontSize: '4em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -632,28 +626,27 @@ mapLayout.forEach((row, rowIndex) => {
     
 
     
-    this.collisionText = this.add.text(200, 90, '', {
-      fontSize: '2.5em', // Larger font size
-      fill: '#f0f0f0', // Text color
+    this.collisionText = this.add.text(200, -90, '', {
+      fontSize: '5em', // Larger font size
+      fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      border: '2px solid #ccc' // Optional border
+      backgroundColor: '#f5deb3' // Creamy parchment color (Background color)
     }).setScrollFactor(0).setDepth(20);
-  
-    this.textForFade = this.add.text(200, 90, '', {
-      fontSize: '2.5em', // Larger font size
-      fill: '#f0f0f0', // Text color
+    
+    this.textForFade = this.add.text(200, -90, '', {
+      fontSize: '5em', // Larger font size
+      fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
-
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      border: '2px solid #ccc' // Optional border
+      backgroundColor: '#f5deb3' // Same background color for consistency
     }).setScrollFactor(0).setDepth(20);
+    
    
-   
-    this.textForFadeEng = this.add.text(200, 160, '', {
-      fontSize: '16px',
+    this.textForFadeEng = this.add.text(100, 160, '', {
+      fontSize: '4em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -758,7 +751,7 @@ this.buttonDown.on('pointerup', () => {
     this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
      
 // Feather icon in the bottom left corner
-this.featherIcon = this.add.sprite(220, 230, 'featherIcon').setOrigin(0).setScale(0.3).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
+this.featherIcon = this.add.sprite(70, 230, 'featherIcon').setOrigin(0).setScale(0.6).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
     this.translucentBg.setDepth(9).setAlpha(0.4);
@@ -932,7 +925,7 @@ function toggleVisibility(scene) {
         scene.tweens.add({
           targets: [scene.translucentBg, scene.featherIcon, scene.collisionTextEng],
           alpha: 0,        // Fade to completely invisible
-          duration: 3500,  // Over 3 seconds
+          duration: 4000,  // Over 3 seconds
           onComplete: () => {
 
             // After the fade-out is complete, hide the elements
@@ -1325,8 +1318,8 @@ if(middleButtonRecentlyPressed){
     }
 
     const tileSize = 32;
-    const gridWidth = 25;
-    const gridHeight = 18;
+    const gridWidth = 40;
+    const gridHeight = 16;
     let nextMove = { x: this.player.x, y: this.player.y };
     let collisionMessage = '';
     let collisionMessageEng = '';
@@ -1361,33 +1354,6 @@ this.isInWater = false;  // Flag to track if the player is in water
 // Check for collision
 const collision = checkCollision(nextMove, this.obstacles, tileSize);
 if (collision) {
-  console.log('Ripple Count:', this.rippleCount);
-
-  // Check if the player stepped in water (type 'g')
-  if (collision.type === 'rippleEffect') {
-    
-    // Only increment ripple count if we haven't already triggered a ripple on this square
-    if (!this.rippleTriggered) {
-      createRipple.call(this, this.player.x, this.player.y);  // Trigger ripple
-      this.rippleCount++;  // Increment ripple count
-      this.rippleTriggered = true;  // Set flag to prevent multiple ripples
-
-      console.log('Updated Ripple Count:', this.rippleCount);
-      
-      // Emerge the creature after the 4th ripple
-      if (this.rippleCount === 3) {
-        emergeCreature.call(this);  // Creature emerges after 4 ripples
-      }
-
-      // Reset the flag after a delay (e.g., 500ms) to allow more ripples
-      this.time.delayedCall(500, () => {
-        this.rippleTriggered = false;  // Allow ripples again after delay
-      });
-    }
-  } else {
-
-    this.rippleTriggered = false;  // Reset the flag when moving away from water
-  }
 
   // Handle regular collision
   if (collision.name && collision.nameEng) {
@@ -1398,9 +1364,8 @@ if (collision) {
      const canvasWidth = this.cameras.main.width; // Get canvas width
      this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
  
-
   }
-
+  
   // Show the say graphic (and handle other collision logic)
   this.sayGraphic.setPosition(this.player.x, this.player.y - 50);
   this.sayGraphic.setAlpha(1);
@@ -1425,33 +1390,36 @@ if (collision) {
   this.time.delayedCall(200, () => {
     this.borderGraphics.setVisible(false);
   });
+// Update textForFade only if it's not already fading
+if (!this.isFading) {
+  this.textForFade.setText(collisionMessage);  // Set the text
+  this.textForFadeEng.setText(collisionMessageEng);
 
-  // Update textForFade only if it's not already fading
-  if (!this.isFading) {
-    this.textForFade.setText(collisionMessage);  // Set the text
-  this.textForFadeEng.setText(collisionMessageEng)
-
-  this.textForFadeEng.setText(collisionMessageEng)
+  this.textForFadeEng.setText(collisionMessageEng);
   this.textForFadeEng.setAlpha(1);                // Make it fully visible
+  this.textForFade.setAlpha(1);                // Make it fully visible
+  
+  this.isFading = true;  // Lock the fading process to prevent updates
 
-    this.textForFade.setAlpha(1);                // Make it fully visible
-    this.isFading = true;  // Lock the fading process to prevent updates
-    const textWidth = this.textForFade.width; // Get the updated width of the text
-    const canvasWidth = this.cameras.main.width; // Get canvas width
-    this.textForFade.setX((canvasWidth - textWidth) / 2); // Center the text
+  const textWidth = this.textForFade.width; // Get the updated width of the text
+  const canvasWidth = this.cameras.main.width; // Get canvas width
+  this.textForFade.setX((canvasWidth - textWidth) / 2); // Center the text
+  this.textForFade.setY(0); // Center the text
 
+  // Delay the fade out by a specified time (e.g., 2 seconds)
+  this.time.delayedCall(2000, () => { // 2000 ms delay before starting the fade
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
-
       targets: [this.textForFade, this.textForFadeEng],
       alpha: 0,
-      duration: 2500,  // 3 seconds fade
+      duration: 2500,  
       ease: 'Linear',
       onComplete: () => {
         this.isFading = false;  // Allow new collisions after fade-out
       }
     });
-  }
+  });
+}
 
   // Set the collision messages
   this.collisionText.setText(collisionMessage);
@@ -1459,12 +1427,11 @@ if (collision) {
   this.collisionMessageTimer = time + this.collisionMessageDuration;
   
 
-// Check if the message text is empty and set background color accordingly
-if (collisionMessage === '' ) {
 
-}
+   
 
   return; // Exit early if there's a collision
+
 }
 
 // Check for non-blocking interactions
