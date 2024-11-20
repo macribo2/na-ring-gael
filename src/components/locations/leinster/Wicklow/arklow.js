@@ -291,7 +291,7 @@ useEffect(() => {
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
     this.load.image('background', '/phaser-resources/images/background-elements/arklow.png');
-    this.load.image('background-lit', '/phaser-resources/images/background-elements/doonsheen-lit.png');
+    this.load.image('foreground', '/phaser-resources/images/foreground-elements/arklow-overlay.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
     this.load.image('lakeMask', '/phaser-resources/images/background-elements/lakeMask.png'); // Load the tree image
@@ -317,6 +317,10 @@ useEffect(() => {
 
   const backgroundRef = React.useRef(null);
   function create() {
+
+
+
+
     this.triggeredEvents = new Set(JSON.parse(localStorage.getItem('triggeredEvents') || '[]'));
 
     
@@ -452,29 +456,48 @@ function updateWaves(delta) {
 };
     this.rippleCount = 0; // Step 1: Initialize the counter
     const mapLayout = [
-      ['a','a','a','a',' ',' ',' ','a','a','a','a','a','a','a','a','a','a','a',' ','c','c',' ','a','a','a','a','a','a','a','a','a','a','a','a','a',' ',' ',' ',' ',' '],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ','a','a',' ','a','a','a','a','a',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ','a','a','a','a','a',' ',' ',' ',' ','a','a','a','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ','a','a','a','a','a',' ',' ',' ',' ','a','a','a','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a',' ','a','a','a','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a','a','a',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
-      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
-      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      ['a','i','j','k',' ',' ',' ','a','b','l','q','f','g','h','i','j','k','m',' ','c','c',' ','a','b','h','j','j','l','m','n','a','b','i','  a','a',' ',' ',' ',' ','a'],
+      ['l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','a',' ',' ',' ','m','l','k',' ',' ',' ',' ',' ','f','q','g','h',' ','n',' ','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ','a','b',' ','a','b','a','p','o',' ','c','c','n',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','g','a','a','a','j','a','a',' ','a','a'],
+      [' ',' ',' ',' ',' ','q','m','c','a','a',' ',' ',' ',' ','a','a','a','c',' ','k','q','f',' ','a','j','a','j','i','h','a','a','g','a','a',' ','k','a','b','a','a'],
+      [' ',' ',' ',' ',' ','f','g','a','a','a',' ',' ',' ',' ','a','a','a','c',' ',' ',' ','g','h','i',' ',' ','a','a','a','a','a',' ','h','a',' ','l','a','a','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ','h','i','a','a','a','a',' ','n','a','b','c',' ',' ',' ',' ',' ',' ',' ','k','b','a','a','a','f',' ',' ','i',' ',' ','m','n','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ','j','q','a','m',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ','l',' ','q','f','q',' ',' ',' ',' ',' ',' ',' ',' ','o','e'],
+      ['h','g','f',' ',' ',' ',' ',' ',' ',' ',' ','l',' ',' ',' ',' ',' ','c',' ',' ',' ',' ','d',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','p'],
+      ['a','a','q',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','h'],
+      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a','a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
-      ['a','a','a',' ',' ',' ',' ',' ',' ','a','a','a','a','a','a',' ',' ',' ','c','c','c',' ',' ','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      ['a','a','n','b','a','n','m',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      ['a','a','a',' ',' ',' ',' ',' ',' ','a','b','o','e','f','g',' ',' ',' ','c','c','c',' ',' ','a','h','i','j','k',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
   
   ];    
     const obstacleMap = {
-        'a': { type: 'noPic', nameEng: 'A forest full \nof nettles & brambles. \nYou cannot go this way', name: 'neantóga 7 driseacha. \nNí féidir dul an treo seo.' },
-        'b': { type: 'noPic', nameEng: 'There is no way through the vegetation.', name: 'Níl bealach tríd an fásra.' },
-        'c': { type: 'noPic', nameEng: 'The estuary, deep and slow', name: 'An tInbhar, domhain agus mall.' },
-           };
+      'c': { type: 'noPic', nameEng: 'The estuary, deep and slow', name: '             An abhain mór            ' },
+      'd': { type: 'noPic', nameEng: 'Castle',                     name: '               Caisleán               ' },
+        'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: '      Ní féidir dul an treo seo.      ' },
+  'b': { type: 'noPic', nameEng: 'Path obstructed.',               name: '         Tá an cosán blocáilte.       ' },
+  'f': { type: 'noPic', nameEng: 'Can’t go further.',              name: '        Ní féidir dul níos faide.     ' },
+  'g': { type: 'noPic', nameEng: 'Impassable terrain.',            name: '           Talamh dosháraithe.        ' },
+  'h': { type: 'noPic', nameEng: 'Thick undergrowth here.',        name: '           Fásra tiubh anseo.         ' },
+  'i': { type: 'noPic', nameEng: 'No way through here.',           name: '         Níl bealach tríd anseo.      ' },
+  'j': { type: 'noPic', nameEng: 'There is no path here.',         name: '           Níl aon cosán anseo.       ' },
+  'k': { type: 'noPic', nameEng: 'A wall of thorny branches.',     name: '        Balla géaga deilgneacha.      ' },
+  'l': { type: 'noPic', nameEng: 'You cannot go this way.',        name: '       Ní féidir dul an treo seo.     ' },
+  'm': { type: 'noPic', nameEng: 'The brambles block you.',        name: '      Cuireann driseacha bac ort.     ' },
+  'n': { type: 'noPic', nameEng: 'The path is impassable.',        name: '       Tá an cosán dosháraithe.       ' },
+  'o': { type: 'noPic', nameEng: 'No way here.',                   name: '              Níl slí anseo.          ' },
+  'p': { type: 'noPic', nameEng: 'No way ahead.',                  name: '            Níl slí romhat.           ' },
+  'q': { type: 'noPic', nameEng: 'Dense forest ahead.',            name: '        Foraois dhlúth romhat.        ' },
+  
+
+        'r': { type: 'noPic', nameEng: '', name: 'Arklow Dún Lochlanach \n       ró-dhlúth anseo.      ' },
+    
+      
+      
+      };
 
            
            
@@ -486,10 +509,10 @@ function updateWaves(delta) {
           const singleUseEventMap = {
             
             'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
+            'e': { type: 'noPic', nameEng: 'You stand upon a wide wooden bridge', name: 'Seasann tú ar droichead\n leathain aidhmead' },
   }
   
   const interactiveMap = {
-      'e': { type: 'noPic', nameEng: 'You stand upon a bridge', name: 'Seasann tú ar droichead' },
         ' ': { type: 'noPic', nameEng: '', name: '' },
         'f': { type: 'noPic', nameEng: 'the way out — up the steps', name: 'Seo an treo amach \n— suas na céimeanna' },
         'h': { type: 'noPic', nameEng: '', name: '' },
@@ -569,11 +592,13 @@ mapLayout.forEach((row, rowIndex) => {
 
     
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
+    this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(4);
+    this.foreground.setOrigin(0, 0);
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
 
   // Default startColumn and startRow
-  const defaultStartColumn = 11;
+  const defaultStartColumn = 35;
   const defaultStartRow = 11;
 
   // Use passed values if available, otherwise fall back to defaults
@@ -611,10 +636,10 @@ mapLayout.forEach((row, rowIndex) => {
     // Create a say graphic
     this.sayGraphic = this.add.sprite(0, 0, 'say');
     this.sayGraphic.setAlpha(0); // Initially invisible
-    this.sayGraphic.setDepth(8); // Ensure it is above other elements
+    this.sayGraphic.setDepth(89); // Ensure it is above other elements
       // Add the translucent background and English text
     
-    this.collisionTextEng = this.add.text(100, 160, '', {
+    this.collisionTextEng = this.add.text(20, 160, '', {
       fontSize: '4em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
@@ -627,25 +652,25 @@ mapLayout.forEach((row, rowIndex) => {
 
     
     this.collisionText = this.add.text(200, -90, '', {
-      fontSize: '5em', // Larger font size
+      fontSize: '4em', // Larger font size
       fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      backgroundColor: '#f5deb3' // Creamy parchment color (Background color)
+      backgroundColor: '#f5deb3', // Creamy parchment color (Background color)
     }).setScrollFactor(0).setDepth(20);
     
     this.textForFade = this.add.text(200, -90, '', {
-      fontSize: '5em', // Larger font size
+      fontSize: '4em', // Larger font size
       fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
       backgroundColor: '#f5deb3' // Same background color for consistency
     }).setScrollFactor(0).setDepth(20);
-    
+  
    
-    this.textForFadeEng = this.add.text(100, 160, '', {
+    this.textForFadeEng = this.add.text(20, 160, '', {
       fontSize: '4em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
@@ -785,7 +810,42 @@ this.featherIcon = this.add.sprite(70, 230, 'featherIcon').setOrigin(0).setScale
     window.dispatchEvent(event);
   });
    this.game.events.emit('emittersReady');
-}
+
+    // Set up the camera
+    this.cameras.main.setZoom(2); 
+    // Set camera bounds to the size of the map
+    this.cameras.main.setBounds(0, 0, bgWidth, bgHeight);
+   
+
+// Initially set the main camera to zoom level 2
+this.cameras.main.setZoom(2);
+this.cameras.main.startFollow(this.player, true,0.1,0.1); // Follow the player
+
+this.tweens.add({
+
+   targets: this.cameras.main,
+  zoom: 1,
+  duration: 2000,
+  ease: Phaser.Math.Easing.Stepped,
+  easeParams: [8], // The number of steps you want
+  onUpdate: (tween, target) => {
+      // Logically "step" if needed, or just let it run
+  },
+  onComplete: () => {
+      this.tweens.add({
+          targets: [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp],
+          alpha: { from: 0, to: 1 },
+          duration: 1500,
+          ease: 'Linear',
+          onStart: () => {
+              [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp].forEach(button => {
+                  button.setAlpha(0).setVisible(true);
+              });
+          }
+      });
+  }
+});
+  }
 
 // Function to handle message passed from Easca
 const handleSendMessage = (msg) => {
@@ -925,7 +985,7 @@ function toggleVisibility(scene) {
         scene.tweens.add({
           targets: [scene.translucentBg, scene.featherIcon, scene.collisionTextEng],
           alpha: 0,        // Fade to completely invisible
-          duration: 4000,  // Over 3 seconds
+          duration: 500,  // Over 3 seconds
           onComplete: () => {
 
             // After the fade-out is complete, hide the elements
@@ -958,7 +1018,7 @@ function toggleVisibility(scene) {
   }
 }
 let tapTimeoutId = null; // Timer ID for tap detection
-const tapThreshold = 500; // Time threshold for distinguishing tap vs. hold
+const tapThreshold = 300; // Time threshold for distinguishing tap vs. hold
 
 function handleButtonInput(direction) {
   
@@ -1407,7 +1467,7 @@ if (!this.isFading) {
   this.textForFade.setY(0); // Center the text
 
   // Delay the fade out by a specified time (e.g., 2 seconds)
-  this.time.delayedCall(3000, () => { // 2000 ms delay before starting the fade
+  this.time.delayedCall(2000, () => { // 2000 ms delay before starting the fade
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
       targets: [this.textForFade, this.textForFadeEng],
@@ -1503,7 +1563,6 @@ if (interactiveObject) {
 
 
 // Check for single-use events
-// Check for single-use events
 const singleUseEvent = checkInteraction(nextMove, this.singleUseEvents, tileSize);
 if (singleUseEvent) {
     const eventKey = `${singleUseEvent.x}-${singleUseEvent.y}`; // Unique key for this event
@@ -1521,11 +1580,28 @@ if (singleUseEvent) {
         // Handle specific single-use event types
         if (singleUseEvent.type === "noPic") {
             // Display the event message
+            this.collisionText.setY(0); // Creamy parchment color
+
+            this.collisionText.setBackgroundColor('#f5deb3'); // Creamy parchment color
             this.collisionText.setText(singleUseEvent.name || '');
+
             const textWidth = this.collisionText.width; // Get the updated width of the text
             const canvasWidth = this.cameras.main.width; // Get canvas width
             this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
             this.collisionTextEng.setText(singleUseEvent.nameEng || '');
+
+            this.time.delayedCall(2000, () => {
+              this.tweens.add({
+                  targets: this.collisionText,
+                  alpha: 0, // Fade out
+                  duration: 1000, // Duration of fade (1 second)
+                  ease: 'Linear',
+                  onComplete: () => {
+                      this.collisionText.setBackgroundColor('transparent'); // Reset background
+                      this.collisionText.setAlpha(1); // Make it visible again if necessary
+                  }
+              });
+          });
         }
     }
 }
@@ -1554,11 +1630,11 @@ function updateButtonPositions(scene) {
 
 
   // Update positions
-  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(1);
-  scene.buttonLeft.setPosition(buttonX - buttonSize, buttonY).setScale(1);
-  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize).setScale(1);
-  scene.buttonRight.setPosition(buttonX + buttonSize, buttonY).setScale(1);
-  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize).setScale(1);
+  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(1).setAlpha(0);
+  scene.buttonLeft.setPosition(buttonX - buttonSize, buttonY).setScale(1).setAlpha(0);
+  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize).setScale(1).setAlpha(0);
+  scene.buttonRight.setPosition(buttonX + buttonSize, buttonY).setScale(1).setAlpha(0);
+  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize).setScale(1).setAlpha(0);
 
 }
 // Helper function to check collision
