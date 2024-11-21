@@ -96,7 +96,6 @@ const Arklow = () => {
 
  
   const [collisionMessageTimer, setCollisionMessageTimer] = useState(0); // Declare state for the timer
-  const rippleTriggered = useRef(false);
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const phaserRef = useRef(null);
   const isHoldingRef = useRef(isHolding);
@@ -107,68 +106,10 @@ const Arklow = () => {
       setShowNarrative(false);  // Close the narrative
       localStorage.setItem('narrativeTracker', 0);  // Optionally reset the tracker
   
-      // Access the Phaser scene and call sinkCreature
-      if (gameRef.current && gameRef.current.scene.scenes[0]) {
-        gameRef.current.scene.scenes[0].sinkCreature();  // Call sinkCreature inside the scene
-      }
+    
     }
   };
-  
-  function createRipple(x, y) {
-    // Easing function (easeOutQuart)
-    const easeOutQuart = (t, b, c, d) => {
-      t = t / d - 1;
-      return -c * (t * t * t * t - 1) + b;
-    };
-  
-    // Function to create a ripple with specified style
-    const createThinRipple = (color, delay, depth) => {
-      const ripple = this.add.graphics({ lineStyle: { width: 1, color, alpha: 1 } }).setDepth(-10);
-      let progress = 0;
-      const maxRadius = 195;
-      const duration = 11000;  // Total duration of the effect
-  
-      const expandRipple = () => {
-        // Ensure the ripple is cleared before starting
-        ripple.clear();
-        ripple.lineStyle(1, color, 1);  // Set line style
-        
-        // Set the starting radius and target radius for the ripple
-        const startRadius = 5;
-        const maxRadius = 140; // Max radius for the ripple
-        const duration = 2500;  // Total duration for the ripple expansion
-        const steps = 8;  // The number of steps you want the ripple to go through
-        
-        // Set up the tween for the ripple expansion with steps
-        this.tweens.add({
-            targets: { radius: startRadius },  // Animate a 'radius' property
-            radius: maxRadius,  // End value of the radius (target is max radius)
-            duration: duration,  // Total duration for the animation
-            ease: Phaser.Math.Easing.Stepped,  // Stepped easing function
-            easeParams: [steps],  // Define number of steps
-            onUpdate: (tween, target) => {
-                // Redraw the ripple as the radius changes, easing it step by step
-                ripple.clear();
-                ripple.lineStyle(1, color, 1);  // Reapply line style at each step
-                ripple.strokeCircle(x, y, target.radius);  // Draw the ripple with updated radius
-            },
-            onComplete: () => {
-                ripple.destroy();  // Destroy the ripple once the animation is done
-            }
-        });
-    };
-    
-      expandRipple();  // Start the ripple animation
-    };
-  
-    // Create the first white ripple
-    createThinRipple(0xffffff, 0, -2);  // White ripple at depth -2
-  
-    // Create a second ripple after a delay (optional style modification)
-    this.time.delayedCall(50, () => {
-      createThinRipple(0x5c7678 , 500, -2);  // Black ripple at depth -1
-    });
-  }
+
   
   const [message, setMessage] = useState("");
 
@@ -264,6 +205,7 @@ useEffect(() => {
   // Phaser scene methods
   function preload() {
     this.load.image('torches', '/phaser-resources/images/foreground-elements/torches.png');
+    this.load.image('textBackground', '/phaser-resources/images/sprites/textBackground.png');
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
     this.load.image('lake-wizard', '/phaser-resources/images/npcs/snake.png');
@@ -302,159 +244,27 @@ useEffect(() => {
     this.load.image('treeWillow', '/phaser-resources/images/sprites/willow.png'); // Load the tree image
     this.load.image('stump', '/phaser-resources/images/sprites/empty.png'); // Load the tree image
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
-    this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
+    this.load.image('translucentBg', '/phaser-resources/images/background-elements/black.png'); // Replace with the path to your say image
 
     
     
   }
   
   
-  let creature = null;
 
 
 
 
-
+  const textBackgroundRef = React.useRef(null);
   const backgroundRef = React.useRef(null);
   function create() {
 
-
+const canvasWidth = this.cameras.main.width;
 
 
     this.triggeredEvents = new Set(JSON.parse(localStorage.getItem('triggeredEvents') || '[]'));
 
-    
-    let creature = null;
-///let's try a wave effect
-this.waves = []; // Array for visible waves
-this.blackWaves = []; // Array for black waves
-
-// Create 8 ripple lines
-for (let i = 0; i < 8; i++) {
-  // Create visible wave
-  let wave = this.add.graphics();
-  wave.lineStyle(1, 0x5c7678, 1); // 1px wide, glistening wave color
-  wave.setAlpha(0.5); // Semi-transparent waves
-
-  wave.beginPath();
-  let prevY = i * 90; // Starting Y position for this wave
-
-  // Draw dotted lines with increased randomness
-  for (let x = 0; x <= this.scale.width / 2; x += Math.random() * 15 + 5) {
-    const randomOffset = (Math.random() * 20 - 10) + Math.sin(x * 0.2) * 5; // Random offset
-    const currentY = prevY + randomOffset; // Add random offset to previous Y
-
-    // Draw a short line segment to create the dotted effect
-    wave.moveTo(x, currentY);
-    wave.lineTo(x + Math.random() * 5 + 3, currentY);
-
-    prevY = currentY; // Update previous Y for the next point
-  }
-
-  wave.strokePath().setDepth(-6); // Render the wave
-  wave.x = 500; // Position them centered horizontally (50% width)
-  this.waves.push(wave); // Add visible wave to array
-
-  // Create black wave (invisible)
-  let blackWave = this.add.graphics().setDepth(-5);
-  blackWave.lineStyle(16, 0x211e27, 1); // Black color
-  blackWave.setAlpha(1); // Fully opaque
-
-  blackWave.beginPath();
-  prevY = i * 70; // Starting Y position for black wave
-
-  // Draw dotted lines for black waves with the same randomness
-  for (let x = 0; x <= this.scale.width / 2; x += Math.random() * 15 + 5) {
-    const randomOffset = (Math.random() * 20 - 10) + Math.sin(x * 0.2) * 5; // Random offset
-    const currentY = prevY + randomOffset; // Add random offset to previous Y
-
-    // Draw a short line segment for the black wave
-    blackWave.moveTo(x, currentY);
-    blackWave.lineTo(x + Math.random() * 10 + 23, currentY);
-
-    prevY = currentY; // Update previous Y for the next point
-  }
-
-  blackWave.strokePath(); // Render the black wave
-  blackWave.x = 500; // Position them centered horizontally
-  this.blackWaves.push(blackWave); // Add black wave to array
-}
-
-this.blackWaveSpeed = 0.1; // Slower speed at which the ripples scroll down
-this.waveSpeed = 0.2; // Slower speed at which the ripples scroll down
-this.frameSkipCounter = 4; // Variable to control choppy frame updates
-this.framesToSkip = 8; // Adjust this to control how choppy the effect should be
-
-// Update function to animate the waves
-function updateWaves(delta) {
-  this.frameSkipCounter++;
-
-  // Update waves only after skipping frames
-  if (this.frameSkipCounter >= this.framesToSkip) {
-    this.frameSkipCounter = 0; // Reset counter
-
-    // Update visible waves
-    this.waves.forEach((wave, index) => {
-      wave.clear(); // Clear previous frame
-      wave.lineStyle(1, 0x5c7678, 1); // Reset line style
-      wave.setAlpha(0.5); // Set transparency
-
-      wave.beginPath();
-      let prevY = index * 120; // Starting Y position
-
-      // Draw short segments to create a dotted effect
-      for (let x = 0; x <= this.scale.width / 2; x += 10) {
-        const randomOffset = Math.sin(x * 0.1 + this.time.now * 0.005) * 10; // Dynamic sine wave
-        const currentY = prevY + randomOffset; // Create varying heights
-
-        // Draw a short line segment instead of a full line
-        wave.moveTo(x, currentY); // Move to the starting point of the segment
-        wave.lineTo(x + 5, currentY); // Draw a short line segment (5px)
-        prevY = currentY; // Update previous Y for the next segment
-      }
-
-      wave.strokePath(); // Render the wave
-      wave.y += this.waveSpeed; // Move wave downward
-
-      // Reset if out of bounds
-      if (wave.y > this.scale.height+200) {
-        wave.y = -200; // Reset to the top
-      }
-    });
-
-  }
-}
-
-
-      // Initialize a reference for the creature
- // Define the sinkCreature function within the Phaser scene
- this.sinkCreature = () => {
-  createRipple.call(this, 370, 560); // Adjust the coordinates as needed
-  
-  // Destroy the existing creature if it exists
-  if (this.creature) {
-    this.creature.destroy();
-  }
-  
-  // Create a new creature instance
-  this.creature = this.add.image(370, 550, 'lake-wizard')
-  .setAlpha(0.8)
-  .setScale(0.3)
-  .setDepth(59);
-  
-  this.tweens.add({
-    targets: this.creature,
-    alpha: 0,
-    y: '+=50',
-    duration: 2000,
-    ease: 'Power1',
-    onComplete: () => {
-      this.creature.destroy();  // Remove the creature after sinking
-      this.creature = null; // Clear the reference
-    }
-  });
-};
-    this.rippleCount = 0; // Step 1: Initialize the counter
+   
     const mapLayout = [
       ['a','i','j','k',' ',' ',' ','a','b','l','q','f','g','h','i','j','k','m',' ','c','c',' ','a','b','h','j','j','l','m','n','a','b','i','  a','a',' ',' ',' ',' ','a'],
       ['l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
@@ -475,22 +285,22 @@ function updateWaves(delta) {
   
   ];    
     const obstacleMap = {
-      'c': { type: 'noPic', nameEng: 'The estuary, deep and slow', name: '             An abhain mór            ' },
-      'd': { type: 'noPic', nameEng: 'Castle',                     name: '               Caisleán               ' },
-        'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: '      Ní féidir dul an treo seo.      ' },
-  'b': { type: 'noPic', nameEng: 'Path obstructed.',               name: '         Tá an cosán blocáilte.       ' },
-  'f': { type: 'noPic', nameEng: 'Can’t go further.',              name: '        Ní féidir dul níos faide.     ' },
-  'g': { type: 'noPic', nameEng: 'Impassable terrain.',            name: '           Talamh dosháraithe.        ' },
-  'h': { type: 'noPic', nameEng: 'Thick undergrowth here.',        name: '           Fásra tiubh anseo.         ' },
-  'i': { type: 'noPic', nameEng: 'No way through here.',           name: '         Níl bealach tríd anseo.      ' },
-  'j': { type: 'noPic', nameEng: 'There is no path here.',         name: '           Níl aon cosán anseo.       ' },
-  'k': { type: 'noPic', nameEng: 'A wall of thorny branches.',     name: '        Balla géaga deilgneacha.      ' },
-  'l': { type: 'noPic', nameEng: 'You cannot go this way.',        name: '       Ní féidir dul an treo seo.     ' },
-  'm': { type: 'noPic', nameEng: 'The brambles block you.',        name: '      Cuireann driseacha bac ort.     ' },
-  'n': { type: 'noPic', nameEng: 'The path is impassable.',        name: '       Tá an cosán dosháraithe.       ' },
-  'o': { type: 'noPic', nameEng: 'No way here.',                   name: '              Níl slí anseo.          ' },
-  'p': { type: 'noPic', nameEng: 'No way ahead.',                  name: '            Níl slí romhat.           ' },
-  'q': { type: 'noPic', nameEng: 'Dense forest ahead.',            name: '        Foraois dhlúth romhat.        ' },
+      'c': { type: 'noPic', nameEng: 'The small river', name: 'An Abhainn Beag' },
+      'd': { type: 'noPic', nameEng: 'Castle',                     name: 'Caisleán' },
+        'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: 'Ní féidir dul an treo seo.' },
+  'b': { type: 'noPic', nameEng: 'Path obstructed.',               name: 'Tá an cosán blocáilte.' },
+  'f': { type: 'noPic', nameEng: 'Can’t go further.',              name: 'Ní féidir dul níos faide.' },
+  'g': { type: 'noPic', nameEng: 'Impassable terrain.',            name: 'Talamh dosháraithe.' },
+  'h': { type: 'noPic', nameEng: 'Thick undergrowth here.',        name: 'Fásra tiubh anseo.' },
+  'i': { type: 'noPic', nameEng: 'No way through here.',           name: 'Níl bealach tríd anseo.' },
+  'j': { type: 'noPic', nameEng: 'There is no path here.',         name: 'Níl aon cosán anseo.' },
+  'k': { type: 'noPic', nameEng: 'A wall of thorny branches.',     name: 'Balla géaga deilgneacha.' },
+  'l': { type: 'noPic', nameEng: 'You cannot go this way.',        name: 'Ní féidir dul an treo seo.' },
+  'm': { type: 'noPic', nameEng: 'The brambles block you.',        name: 'Cuireann driseacha bac ort.' },
+  'n': { type: 'noPic', nameEng: 'The path is impassable.',        name: 'Tá an cosán dosháraithe.' },
+  'o': { type: 'noPic', nameEng: 'No way here.',                   name: 'Níl slí anseo.' },
+  'p': { type: 'noPic', nameEng: 'No way ahead.',                  name: 'Níl slí romhat.' },
+  'q': { type: 'noPic', nameEng: 'Dense forest ahead.',            name: 'Foraois dhlúth romhat.' },
   
 
         'r': { type: 'noPic', nameEng: '', name: 'Arklow Dún Lochlanach \n       ró-dhlúth anseo.      ' },
@@ -590,7 +400,13 @@ mapLayout.forEach((row, rowIndex) => {
     this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
     this.borderGraphics.setDepth(99); // Optional: Set depth if needed
 
-    
+    textBackgroundRef.current= this.add.image(0, 0, 'textBackground').setVisible(false)
+    .setOrigin(0, 0) // Align to top-left
+    .setScrollFactor(0)
+    .setDepth(19) // Slightly below the text
+    .setDisplaySize(canvasWidth, 100); // Fullscreen width, fixed height (adjust as needed)
+  // Add the background image
+
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
     this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(4);
     this.foreground.setOrigin(0, 0);
@@ -628,7 +444,7 @@ mapLayout.forEach((row, rowIndex) => {
       const sprite = this.add.sprite(obstacle.x * tileSize + tileSize / 2, obstacle.y * tileSize + tileSize / 2, obstacle.type === 'noPic' ? 'noPic' : obstacle.type);
       sprite.setName(obstacle.name);
   
-      if (obstacle.type === 'noPic'||'rippleEffect') {
+      if (obstacle.type === 'noPic') {
         sprite.setAlpha(0); // Make the sprite invisible
       }
     });
@@ -657,8 +473,12 @@ mapLayout.forEach((row, rowIndex) => {
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      backgroundColor: '#f5deb3', // Creamy parchment color (Background color)
+      // backgroundColor: '#f5deb3', // Creamy parchment color (Background color)
     }).setScrollFactor(0).setDepth(20);
+    
+
+
+
     
     this.textForFade = this.add.text(200, -90, '', {
       fontSize: '4em', // Larger font size
@@ -666,7 +486,7 @@ mapLayout.forEach((row, rowIndex) => {
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      backgroundColor: '#f5deb3' // Same background color for consistency
+      // backgroundColor: '#f5deb3' // Same background color for consistency
     }).setScrollFactor(0).setDepth(20);
   
    
@@ -998,7 +818,7 @@ function toggleVisibility(scene) {
             console.log('Elements hidden after fade-out.');
           }
         });
-      }, 3500);
+      }, 2500);
     } else {
       // If elements are currently visible, clear the timer and stop the fading
       console.log('Elements are visible, clearing the timer and stopping fade-out.');
@@ -1166,9 +986,10 @@ function playerStepsInWater(nextMove, interactiveMap) {
 
     return tile && tile.type === 'g';  // Return true if the tile type is 'g' (water)
 }
-let lastRippleTime = 0; // Track last ripple time
 
 function update(time, delta) {
+
+
 if(middleButtonRecentlyPressed){
   this.textForFadeEng.setVisible(true) 
 }   else{
@@ -1177,36 +998,12 @@ if(middleButtonRecentlyPressed){
 
 
  const moveInterval = 40;
-
-    //waves
-    this.frameSkipCounter++;
-    if (this.frameSkipCounter >= this.framesToSkip) {
-
-      this.waves.forEach((wave, index) => {
-        wave.y -= this.waveSpeed * 200 * (delta / 1000); // Move each wave up with bigger steps (multiplied by 2)
-
-
-        if (wave.y < -150) { // Check if the wave has moved off the top of the screen
-          wave.y = this.scale.height; // Reposition wave to the bottom when it moves off the top
-        }
-      });
-    
-      // Update black waves
-      this.blackWaves.forEach((blackWave, index) => {
-        blackWave.y += this.waveSpeed * 600 * (delta / 1000); // Move black wave downward
-        
-        if (blackWave.y > this.scale.height) { // Check if the black wave has moved off the bottom
-          blackWave.y = -30; // Reposition black wave to the top
-        }
-      });
-      this.frameSkipCounter = 0; // Reset the counter after movement
-    }
-
     
     if (time > this.collisionMessageTimer) {
       this.collisionText.setText('');
       this.collisionTextEng.setText('');
       this.collisionText.setBackgroundColor(null);
+      textBackgroundRef.current.setVisible(false);
     }
 
     if (this.isMoving) {
@@ -1243,8 +1040,7 @@ if(middleButtonRecentlyPressed){
         this.isMoving = false;
         this.moveDelay = time + moveInterval;
         
-        // Reset ripple flag and hide borders if applicable
-        rippleTriggered.current = false;
+      
         if (this.borderGraphics) {
           this.borderGraphics.setVisible(false);
         }
@@ -1284,11 +1080,7 @@ if(middleButtonRecentlyPressed){
         this.isMoving = false;
         this.moveDelay = time + moveInterval;
         
-        // Reset ripple flag and hide borders if applicable
-        rippleTriggered.current = false;
-        if (this.borderGraphics) {
-          this.borderGraphics.setVisible(false);
-        }
+   
       }
       
       return; // Exit early if still moving
@@ -1300,83 +1092,7 @@ if(middleButtonRecentlyPressed){
       return; // Wait until move delay is over
     }
 
-    let creature = null; // Global variable to hold the creature instance
-
-    function emergeCreature() {
-      hasInteractedWithSerpent = true;
-      if (creature) return; // If the creature already exists, don't create a new one
-    
-      // Create the first ripple with a delay of 1 second before showing the creature
-      this.time.delayedCall(1000, () => {
-        createRipple.call(this, 370, 560);
-        
-        // Create the creature instance
-        creature = this.add.image(370, 550, 'lake-wizard')
-          .setAlpha(0)     // Initially transparent
-          .setScale(0.2)   // Start with a small scale
-          .setDepth(-2);   // Set depth to appear above other objects
-    
-        // Animate the fade-in, zoom, and bobbing effect for the creature
-        this.tweens.add({
-          targets: creature,
-          alpha: 0.8,             // Fade in to near full opacity
-          scale: 0.3,             // Zoom in to final size
-          duration: 3400,         // Duration of the initial rise
-          ease: 'Power1',
-          onComplete: () => {
-            // Ripple once the creature rises
-            // createRipple.call(this, 370, 560);
-            
-            // Bobbing effect
-            this.tweens.add({
-              targets: creature,
-              y: '+=4',          // Move 4 pixels up
-              yoyo: true,        // Move back down
-              repeat: -1,        // Repeat the bobbing indefinitely
-              duration: 4000,    // Duration of each bob cycle
-              ease: 'Sine.easeInOut'  // Smooth bobbing motion
-            });
-    
-            // Delay before showing the treasure (lure) after creature rises (2 seconds delay)
-            this.time.delayedCall(2000, () => {
-              const lure = this.add.image(370, 600, 'lure')  // Adjust the y position as needed
-                .setAlpha(0)    // Initially transparent
-                .setScale(0.15) // Set desired size for the treasure
-                .setDepth(1);   // Ensure it appears above other objects
-    
-              // Fade in the treasure (lure)
-              this.tweens.add({
-                targets: lure,
-                alpha: 1,        // Fully visible
-                duration: 1000,  // Fade-in duration
-                ease: 'Power1'
-              });
-            }, [], this);  // 2-second delay after the creature appears
-          }
-        });
-    
-        this.time.delayedCall(4000, () => {
-          setShowNarrative(true);  // Show the narrative overlay
-        }, [], this);
-      }, [], this);
-    
-       // Command to hide the creature after 4 seconds
-       this.time.delayedCall(5000, () => {
-        // Animate the creature's disappearance
-        this.tweens.add({
-          targets: creature,
-          alpha: 0,        // Fade out to fully transparent
-          duration: 1000,  // Fade-out duration
-          ease: 'Power1',
-          onComplete: () => {
-            creature.destroy(); // Remove the creature from the scene
-            creature = null;    // Clear the reference to the creature
-          }
-        });
-      }, [], this);
-
-    }
-
+  
     const tileSize = 32;
     const gridWidth = 40;
     const gridHeight = 16;
@@ -1398,10 +1114,7 @@ if (!eascaActive) {
   }
 }
 
-    if (playerStepsInWater()) {
-      createRipple.call(this, this.player.x, this.player.y); 
-       // Make sure `this` is bound correctly
-  }
+ 
 
 
   
@@ -1423,7 +1136,7 @@ if (collision) {
      const textWidth = this.collisionText.width; // Get the updated width of the text
      const canvasWidth = this.cameras.main.width; // Get canvas width
      this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
- 
+      textBackgroundRef.current.setVisible(true);
   }
   
   // Show the say graphic (and handle other collision logic)
@@ -1467,15 +1180,17 @@ if (!this.isFading) {
   this.textForFade.setY(0); // Center the text
 
   // Delay the fade out by a specified time (e.g., 2 seconds)
-  this.time.delayedCall(2000, () => { // 2000 ms delay before starting the fade
+  this.time.delayedCall(2500, () => { // 2000 ms delay before starting the fade
     // Fade out the textForFade over 3 seconds
     this.tweens.add({
-      targets: [this.textForFade, this.textForFadeEng],
+      targets: [this.textForFade, this.textForFadeEng,],
       alpha: 0,
-      duration: 1000,  
+      duration: 300,  
       ease: 'Linear',
       onComplete: () => {
         this.isFading = false;  // Allow new collisions after fade-out
+        textBackgroundRef.current.setVisible(false);  // Hide the background image after the fade-out
+
       }
     });
   });
@@ -1529,24 +1244,6 @@ if (interactiveObject) {
 
 }
 
-  // Check if the interactive object is of type 'water' (or whatever your specific type is)
-  let rippleCooldown = 5000; // 5 seconds cooldown
-  this.lastRippleTime = this.lastRippleTime || 0; // Ensure lastRippleTime is initialized
-  
-  if (interactiveObject.type === 'rippleEffect') { // Assuming 'g' is the type for water
-      // Set the water messages
-      this.collisionText.setText(interactiveObject.name || '');
-      this.collisionTextEng.setText(interactiveObject.nameEng || '');
-      const currentTime = this.time.now; // Get the current time in milliseconds
-  
-      // Check if enough time has passed since the last ripple
-      if (currentTime - this.lastRippleTime >= rippleCooldown) {
-          createRipple.call(this, this.player.x, this.player.y); // Call ripple creation function
-          this.lastRippleTime = currentTime; // Update last ripple time
-      }
-      
-  }
-  else {
     // Set messages for other interactive objects
     this.collisionText.setText(interactiveObject.name);
     this.collisionTextEng.setText(interactiveObject.nameEng);
@@ -1556,7 +1253,7 @@ if (interactiveObject) {
 
 
 
-  }
+
   
   this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
@@ -1582,7 +1279,6 @@ if (singleUseEvent) {
             // Display the event message
             this.collisionText.setY(0); // Creamy parchment color
 
-            this.collisionText.setBackgroundColor('#f5deb3'); // Creamy parchment color
             this.collisionText.setText(singleUseEvent.name || '');
 
             const textWidth = this.collisionText.width; // Get the updated width of the text
@@ -1597,6 +1293,7 @@ if (singleUseEvent) {
                   duration: 1000, // Duration of fade (1 second)
                   ease: 'Linear',
                   onComplete: () => {
+                    textBackgroundRef.current.setVisible(false)
                       this.collisionText.setBackgroundColor('transparent'); // Reset background
                       this.collisionText.setAlpha(1); // Make it visible again if necessary
                   }
