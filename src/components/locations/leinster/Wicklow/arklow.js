@@ -204,6 +204,15 @@ useEffect(() => {
 
   // Phaser scene methods
   function preload() {
+
+    this.load.image('cloud0', '/phaser-resources/images/foreground-elements/cloud0.png');
+    this.load.image('cloud1', '/phaser-resources/images/foreground-elements/cloud1.png');
+    this.load.image('cloud2', '/phaser-resources/images/foreground-elements/cloud2.png');
+
+    this.load.image('bridge', '/phaser-resources/images/foreground-elements/bridge.png');
+    this.load.image('river0', '/phaser-resources/images/foreground-elements/river0.png');
+    this.load.image('river1', '/phaser-resources/images/foreground-elements/river1.png');
+    this.load.image('river2', '/phaser-resources/images/foreground-elements/river2.png');
     this.load.image('torches', '/phaser-resources/images/foreground-elements/torches.png');
     this.load.image('textBackground', '/phaser-resources/images/sprites/textBackground.png');
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
@@ -259,6 +268,39 @@ useEffect(() => {
   const backgroundRef = React.useRef(null);
   function create() {
 
+   // Create an array to store clouds
+   this.clouds = [];
+    // Create a few clouds with random starting positions
+    for (let i = 0; i < 3; i++) {
+      const cloud = this.add.sprite(Phaser.Math.Between(0, this.cameras.main.width), this.cameras.main.height+160, `cloud${Phaser.Math.Between(0, 2)}`);
+          cloud.setScale(3).setDepth(14); // Adjust size as necessary
+          cloud.setOrigin(0.5, 1);
+      this.clouds.push(cloud);
+  }
+
+      // Set up a timed event to animate the clouds
+      this.time.addEvent({
+        delay: 30, // Move every 30 ms (so it moves smoothly)
+        callback: moveClouds,
+        callbackScope: this,
+        loop: true // Repeats the function continuously
+    });
+    this.riverFrames = ['river0', 'river1', 'river2']; // Define a pattern
+    this.riverIndex = 0; // Start from the first frame
+
+      // Create a single river sprite at the desired position
+      this.river = this.add.sprite(596, 256, this.riverFrames[this.riverIndex]).setDepth(3); // Start with 'river0'
+      this.bridge = this.add.sprite(647, 55, 'bridge').setDepth(4); // Start with 'river0'
+      this.bridge = this.add.sprite(550, 390, 'bridge').setDepth(4); // Start with 'river0'
+
+      this.time.addEvent({
+        delay: 300, // Adjust for desired speed
+        callback: animateRiver,
+        callbackScope: this,
+        loop: true
+    });
+
+  
 const canvasWidth = this.cameras.main.width;
 
 
@@ -266,7 +308,7 @@ const canvasWidth = this.cameras.main.width;
 
    
     const mapLayout = [
-      ['a','i','j','k',' ',' ',' ','a','b','l','q','f','g','h','i','j','k','m',' ','c','c',' ','a','b','h','j','j','l','m','n','a','b','i','  a','a',' ',' ',' ',' ','a'],
+      ['a','i','j','k',' ',' ',' ','a','b','l','q','f','g','h','i','j','k','m',' ',' ','e',' ','a','b','h','j','j','l','m','n','a','b','i','  a','a',' ',' ',' ',' ','a'],
       ['l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
       [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
       [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
@@ -281,11 +323,11 @@ const canvasWidth = this.cameras.main.width;
       ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
       ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
       ['a','a','n','b','a','n','m',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
-      ['a','a','a',' ',' ',' ',' ',' ',' ','a','b','o','e','f','g',' ',' ',' ','c','c','c',' ',' ','a','h','i','j','k',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      ['a','a','a',' ',' ',' ',' ',' ',' ','a','b','o','l','f','g',' ',' ',' ','c','c','c',' ',' ','a','h','i','j','k',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
   
   ];    
     const obstacleMap = {
-      'c': { type: 'noPic', nameEng: 'The small river', name: 'An Abhainn Beag' },
+      'c': { type: 'noPic', nameEng: 'Avonmore - the big river', name: 'An Abhainn Mór' },
       'd': { type: 'noPic', nameEng: 'Castle',                     name: 'Caisleán' },
         'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: 'Ní féidir dul an treo seo.' },
   'b': { type: 'noPic', nameEng: 'Path obstructed.',               name: 'Tá an cosán blocáilte.' },
@@ -319,13 +361,11 @@ const canvasWidth = this.cameras.main.width;
           const singleUseEventMap = {
             
             'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
-            'e': { type: 'noPic', nameEng: 'You stand upon a wide wooden bridge', name: 'Seasann tú ar droichead\n leathain aidhmead' },
-  }
-  
-  const interactiveMap = {
+          }
+          
+          const interactiveMap = {
+    'e': { type: 'terrain', nameEng: 'a bridge', name: 'Droichead' },
         ' ': { type: 'noPic', nameEng: '', name: '' },
-        'f': { type: 'noPic', nameEng: 'the way out — up the steps', name: 'Seo an treo amach \n— suas na céimeanna' },
-        'h': { type: 'noPic', nameEng: '', name: '' },
         'x':{type: 'exit', nameEng:'exiting area...',name:'ag fágál an áit...'} ,
         'z':{type: 'exitNorthWest', nameEng:' ',name:' '} ,
         'y':{type: 'exitSouthWest', nameEng:' ',name:' '} ,
@@ -408,14 +448,14 @@ mapLayout.forEach((row, rowIndex) => {
   // Add the background image
 
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
-    this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(4);
+    this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(9);
     this.foreground.setOrigin(0, 0);
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
 
   // Default startColumn and startRow
   const defaultStartColumn = 35;
-  const defaultStartRow = 11;
+  const defaultStartRow = 1;
 
   // Use passed values if available, otherwise fall back to defaults
   const startColumn = location.state && location.state.startColumn ? location.state.startColumn : defaultStartColumn;
@@ -426,7 +466,7 @@ mapLayout.forEach((row, rowIndex) => {
   const playerStartY = startRow * tileSize + tileSize / 2;
 
 
-    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
+    this.player = this.add.sprite(playerStartX, playerStartY, 'player').setDepth(7); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.4)
     this.cursors = this.input.keyboard.createCursorKeys();
     // Ensure the player stays locked to the grid
@@ -462,7 +502,7 @@ mapLayout.forEach((row, rowIndex) => {
       padding: { x: 10, y: 10 },
       stroke: '#000000',
       strokeThickness: 3
-    }).setScrollFactor(0).setVisible(false).setDepth(19);
+    }).setScrollFactor(0).setVisible(false).setDepth(90);
 
     
 
@@ -474,7 +514,7 @@ mapLayout.forEach((row, rowIndex) => {
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
       // backgroundColor: '#f5deb3', // Creamy parchment color (Background color)
-    }).setScrollFactor(0).setDepth(20);
+    }).setScrollFactor(0).setDepth(90);
     
 
 
@@ -498,7 +538,7 @@ mapLayout.forEach((row, rowIndex) => {
       stroke: '#000000',
       strokeThickness: 3,
       align:'left'
-    }).setScrollFactor(0).setDepth(20)
+    }).setScrollFactor(0).setDepth(90)
 
        
     this.collisionMessageTimer = 0;
@@ -593,13 +633,13 @@ this.buttonDown.on('pointerup', () => {
 });
   
      // Create the translucent background and English text
-    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3);
+    this.translucentBg = this.add.tileSprite(this.cameras.main.width / 2, this.cameras.main.height / 2, bgWidth, bgHeight, 'translucentBg').setScale(3).setDepth(45);
      
 // Feather icon in the bottom left corner
 this.featherIcon = this.add.sprite(70, 230, 'featherIcon').setOrigin(0).setScale(0.6).setAlpha(1).setInteractive().setDepth(999).setVisible(false).setScrollFactor(0) ; // Make the sprite interactive
     //  this.translucentBg = this.add.sprite(800, this.cameras.main.height / 2, 'translucentBg');
      this.translucentBg.setVisible(false); // Initially hidden
-    this.translucentBg.setDepth(9).setAlpha(0.4);
+    this.translucentBg.setAlpha(0.4);
     
     // Timeout flag
     this.isMiddleButtonCooldown = false;
@@ -666,6 +706,27 @@ this.tweens.add({
   }
 });
   }
+
+
+// Function to move the clouds
+function moveClouds() {
+  this.clouds.forEach(cloud => {
+      cloud.x += 0.2; // Move cloud to the right slowly (adjust speed)
+
+      // If the cloud goes off-screen, reset to the left side
+      if (cloud.x > this.cameras.main.width+300) {
+          cloud.x = -cloud.width-300;
+          cloud.setTexture(`cloud${Phaser.Math.Between(0, 2)}`); // Randomly change cloud texture
+      }
+  });
+}
+function animateRiver() {
+  // Increment the index and wrap around if it exceeds the pattern length
+  this.riverIndex = (this.riverIndex + 1) % this.riverFrames.length;
+
+  // Update the texture of the river sprite
+  this.river.setTexture(this.riverFrames[this.riverIndex]);
+}
 
 // Function to handle message passed from Easca
 const handleSendMessage = (msg) => {
@@ -971,21 +1032,6 @@ function movePlayer(direction, isHold) {
 
 
 
-function playerStepsInWater(nextMove, interactiveMap) {
-    if (!nextMove || !interactiveMap) return false;  // Safeguard check
-
-    const tileX = Math.floor(nextMove.x / 32);  // Convert pixel position to grid position (assuming 32px per tile)
-    const tileY = Math.floor(nextMove.y / 32);
-
-    // Check if tileX and tileY are within the bounds of interactiveMap
-    if (tileY < 0 || tileY >= interactiveMap.length || tileX < 0 || tileX >= interactiveMap[0].length) {
-        return false;  // Out of bounds, so no water here
-    }
-
-    const tile = interactiveMap[tileY][tileX];  // Safely access the tile
-
-    return tile && tile.type === 'g';  // Return true if the tile type is 'g' (water)
-}
 
 function update(time, delta) {
 
@@ -1123,7 +1169,7 @@ if (!eascaActive) {
     // Initialize a flag in your class constructor or setup method
 this.isInWater = false;  // Flag to track if the player is in water
 
-// Check for collision
+
 // Check for collision
 const collision = checkCollision(nextMove, this.obstacles, tileSize);
 if (collision) {
@@ -1209,41 +1255,66 @@ if (!this.isFading) {
 
 }
 
+
+
 // Check for non-blocking interactions
 const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
 if (interactiveObject) {
 
-  if(interactiveObject.type==="illuminate"){
-    handleTSquareCollision();
-  }
-  if(interactiveObject.type==="noPic"){
-    stopSwitching();
-  }
-  
-  
-  //exit area
-    if(interactiveObject.type==="exit"){
-        window.location.href = 'https://www.na-ring-gael.com/pucaloic';
-    }
-
- //exit area
- if(interactiveObject.type==="exitNorthWest"){
-  appHistory.push({
-    pathname: "/ballygamWest",
-    state: { startColumn: 23, startRow: 4 } // Send specific starting position
-  });
-
-}
  
- //exit area
- if(interactiveObject.type==="exitSouthWest"){
-  appHistory.push({
-    pathname: "/ballygamWest",
-    state: { startColumn: 23, startRow: 12 } // Send specific starting position
-  });
+  if(interactiveObject.type==="terrain"){
+    collisionMessage = interactiveObject.name;
+    collisionMessageEng = interactiveObject.nameEng;
+     // Set the collision messages
+  this.collisionText.setText(collisionMessage);
+  this.collisionTextEng.setText(collisionMessageEng);
+  this.collisionMessageTimer = time + this.collisionMessageDuration;
+  // Update textForFade only if it's not already fading
+if (!this.isFading) {
+  this.textForFade.setText(collisionMessage);  // Set the text
+  this.textForFadeEng.setText(collisionMessageEng);
 
+  this.textForFadeEng.setText(collisionMessageEng);
+  this.textForFadeEng.setAlpha(1);                // Make it fully visible
+  this.textForFade.setAlpha(1);                // Make it fully visible
+  
+  this.isFading = true;  // Lock the fading process to prevent updates
+
+  const textWidth = this.textForFade.width; // Get the updated width of the text
+  const canvasWidth = this.cameras.main.width; // Get canvas width
+  this.textForFade.setX((canvasWidth - textWidth) / 2); // Center the text
+  this.textForFade.setY(0); // Center the text
+
+  // Delay the fade out by a specified time (e.g., 2 seconds)
+  this.time.delayedCall(2500, () => { // 2000 ms delay before starting the fade
+    // Fade out the textForFade over 3 seconds
+    this.tweens.add({
+      targets: [this.textForFade, this.textForFadeEng,],
+      alpha: 0,
+      duration: 300,  
+      ease: 'Linear',
+      onComplete: () => {
+        this.isFading = false;  // Allow new collisions after fade-out
+        textBackgroundRef.current.setVisible(false);  // Hide the background image after the fade-out
+
+      }
+    });
+  });
 }
 
+
+      textBackgroundRef.current.setVisible(true);
+
+
+  }
+  
+  
+
+
+
+
+
+  else {
     // Set messages for other interactive objects
     this.collisionText.setText(interactiveObject.name);
     this.collisionTextEng.setText(interactiveObject.nameEng);
@@ -1253,10 +1324,11 @@ if (interactiveObject) {
 
 
 
-
+  }
   
   this.collisionMessageTimer = time + this.collisionMessageDuration;
 }
+
 
 
 // Check for single-use events
@@ -1277,7 +1349,7 @@ if (singleUseEvent) {
         // Handle specific single-use event types
         if (singleUseEvent.type === "noPic") {
             // Display the event message
-            this.collisionText.setY(0); // Creamy parchment color
+            this.collisionText.setY(0); 
 
             this.collisionText.setText(singleUseEvent.name || '');
 
@@ -1285,8 +1357,8 @@ if (singleUseEvent) {
             const canvasWidth = this.cameras.main.width; // Get canvas width
             this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
             this.collisionTextEng.setText(singleUseEvent.nameEng || '');
-
-            this.time.delayedCall(2000, () => {
+            textBackgroundRef.current.setVisible(true);
+            this.time.delayedCall(3000, () => {
               this.tweens.add({
                   targets: this.collisionText,
                   alpha: 0, // Fade out
@@ -1296,6 +1368,7 @@ if (singleUseEvent) {
                     textBackgroundRef.current.setVisible(false)
                       this.collisionText.setBackgroundColor('transparent'); // Reset background
                       this.collisionText.setAlpha(1); // Make it visible again if necessary
+                      textBackgroundRef.current.setVisible(false);
                   }
               });
           });
