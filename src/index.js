@@ -23,6 +23,7 @@ import Kilcash from './components/locations/connacht/Galway/kilcash';
 import Cave0 from './components/locations/cave0';
 import Nagels from './components/locations/munster/Cork/nagles';
 import Arklow from './components/locations/leinster/Wicklow/arklow';
+import CrystalCaves0 from './components/locations/leinster/Wicklow/CrystalCaves0';
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
 import {Rings5} from './components/Rings/Rings5';
@@ -197,6 +198,7 @@ const ChessLikeWrapper = () => {
 <Route path="/leinster/wicklow/shillelagh"component={GenericLocation}/>
 <Route path="/leinster/wicklow/donard"component={GenericLocation}/>
 <Route path="/leinster/wicklow/arklow"component={Arklow}/>
+<Route path="/leinster/wicklow/CrystalCaves0"component={CrystalCaves0}/>
 <Route path="/leinster/wicklow/avoca"component={GenericLocation}/>
 <Route path="/ulster/antrim/rathlin"component={GenericLocation}/>
 <Route path="/ulster/antrim/dervock"component={GenericLocation}/>

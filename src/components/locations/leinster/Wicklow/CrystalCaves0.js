@@ -8,7 +8,8 @@ import portrait from '../../../../images/vert-bg3.png'
 import { useHistory, useLocation  } from 'react-router-dom';
 
 let backgroundLit;
-const Arklow = () => {
+const CrystalCaves0 = () => {
+
 
   const [triggeredSingleUseEvents, setTriggeredSingleUseEvents] = useState(new Set());
 
@@ -141,39 +142,6 @@ useEffect(() => {
   };
 }, [isHolding, appHistory]);
 
-// Separate effect for managing the game instance
-useEffect(() => {
-  const config = {
-    type: Phaser.AUTO,
-    width: '100%',
-    height: '100%',
-    scale: {
-      mode: Phaser.Scale.ScaleModes.FIT,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
-    },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update,
-    },
-  };
-
-  // Create the Phaser game instance
-  gameRef.current = new Phaser.Game(config);
-   // Listen for the custom event from Phaser when emitters are ready
-    gameRef.current.events.on('emittersReady', () => {
-      setEmittersReady(true);  // Set flag to true when emitters are initialized
-      console.log("Emitters are ready!");
-    });
-
-  return () => {
-    if (gameRef.current) {
-      gameRef.current.destroy(true);
-      gameRef.current = null;
-    }
-  };
-}, []); // Only run on mount
-
 // Effect for localStorage management
 useEffect(() => {
   const trackerValue = localStorage.getItem('narrativeTracker');
@@ -204,16 +172,8 @@ useEffect(() => {
 
   // Phaser scene methods
   function preload() {
+    this.load.image('particle', '/phaser-resources/images/sprites/particle.png'); // Add your particle texture here
 
-    this.load.image('cloud0', '/phaser-resources/images/foreground-elements/cloud0.png');
-    this.load.image('cloud1', '/phaser-resources/images/foreground-elements/cloud1.png');
-    this.load.image('cloud2', '/phaser-resources/images/foreground-elements/cloud2.png');
-
-    this.load.image('bridge', '/phaser-resources/images/foreground-elements/bridge.png');
-    this.load.image('river0', '/phaser-resources/images/foreground-elements/river0.png');
-    this.load.image('river1', '/phaser-resources/images/foreground-elements/river1.png');
-    this.load.image('river2', '/phaser-resources/images/foreground-elements/river2.png');
-    this.load.image('torches', '/phaser-resources/images/foreground-elements/torches.png');
     this.load.image('textBackground', '/phaser-resources/images/sprites/textBackground.png');
     this.load.image('featherIcon', '/phaser-resources/images/feather.png');
 
@@ -241,8 +201,7 @@ useEffect(() => {
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
     this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
-    this.load.image('background', '/phaser-resources/images/background-elements/arklow.png');
-    this.load.image('foreground', '/phaser-resources/images/foreground-elements/arklow-overlay.png');
+    this.load.image('background', '/phaser-resources/images/background-elements/crystal-caves-0.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
     this.load.image('tree', '/phaser-resources/images/sprites/tree34.png'); // Load the tree image
     this.load.image('lakeMask', '/phaser-resources/images/background-elements/lakeMask.png'); // Load the tree image
@@ -259,6 +218,36 @@ useEffect(() => {
     
   }
   
+useEffect(() => {
+    const config = {
+      type: Phaser.AUTO,
+      width: '100%',
+      height: '100%',
+      scale: {
+        mode: Phaser.Scale.ScaleModes.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update,
+      },
+    };
+  
+    // Save a reference to the original `create` method
+    const originalCreate = create;
+  
+    // Create the Phaser game instance
+    gameRef.current = new Phaser.Game(config);
+  
+    return () => {
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+        gameRef.current = null;
+      }
+    };
+  }, []); // Only run on mount
+  
   
 
 
@@ -268,38 +257,10 @@ useEffect(() => {
   const backgroundRef = React.useRef(null);
   function create() {
 
-   // Create an array to store clouds
-   this.clouds = [];
-    // Create a few clouds with random starting positions
-    for (let i = 0; i < 3; i++) {
-      const cloud = this.add.sprite(Phaser.Math.Between(0, this.cameras.main.width), this.cameras.main.height+160, `cloud${Phaser.Math.Between(0, 2)}`);
-          cloud.setScale(3).setDepth(14); // Adjust size as necessary
-          cloud.setOrigin(0.5, 1);
-      this.clouds.push(cloud);
-  }
 
-      // Set up a timed event to animate the clouds
-      this.time.addEvent({
-        delay: 30, // Move every 30 ms (so it moves smoothly)
-        callback: moveClouds,
-        callbackScope: this,
-        loop: true // Repeats the function continuously
-    });
-    this.riverFrames = ['river0', 'river1', 'river2']; // Define a pattern
-    this.riverIndex = 0; // Start from the first frame
+    gameRef.current.sceneRef = this;
 
-      // Create a single river sprite at the desired position
-      this.river = this.add.sprite(596, 256, this.riverFrames[this.riverIndex]).setDepth(3); // Start with 'river0'
-      this.bridge = this.add.sprite(647, 55, 'bridge').setDepth(4); // Start with 'river0'
-      this.bridge = this.add.sprite(550, 390, 'bridge').setDepth(4); // Start with 'river0'
-
-      this.time.addEvent({
-        delay: 300, // Adjust for desired speed
-        callback: animateRiver,
-        callbackScope: this,
-        loop: true
-    });
-
+    
   
 const canvasWidth = this.cameras.main.width;
 
@@ -308,22 +269,32 @@ const canvasWidth = this.cameras.main.width;
 
    
     const mapLayout = [
-      ['a','i','j','k',' ',' ',' ','a','b','l','q','f','g','h','i','j','k','m',' ',' ','e',' ','a','b','h','j','j','l','m','n','a','b','i','  a','a',' ',' ',' ',' ','a'],
-      ['l',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      [' ','x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','a',' ',' ',' ','m','l','k',' ',' ',' ',' ',' ','f','q','g','h',' ','n',' ','a','a'],
-      [' ',' ','t',' ',' ',' ',' ',' ','a','b',' ','a','b','a','p','o',' ','c','c','n',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','g','a','a','a','j','a','a',' ','a','a'],
-      [' ',' ','t',' ',' ','q','m','c','a','a',' ',' ',' ',' ','a','a','a','c',' ','k','q','f',' ','a','j','a','j','i','h','a','a','g','a','a',' ','k','a','b','a','a'],
-      [' ',' ',' ',' ',' ','f','g','a','a','a',' ',' ',' ',' ','a','a','a','c',' ',' ',' ','g','h','i',' ',' ','a','a','a','a','a',' ','h','a',' ','l','a','a','a','a'],
-      [' ',' ',' ',' ',' ',' ',' ','h','i','a','a','a','a',' ','n','a','b','c',' ',' ',' ',' ',' ',' ',' ','k','b','a','a','a','f',' ',' ','i',' ',' ','m','n','a','a'],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ','j','q','a','m',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ','l',' ','q','f','q',' ',' ',' ',' ',' ',' ',' ',' ','o','e'],
-      ['h','g','f',' ',' ',' ',' ',' ',' ',' ',' ','l',' ',' ',' ',' ',' ','c',' ',' ',' ',' ','d',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','p'],
-      ['a','a','q',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','h'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','e',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a'],
-      ['a','a','n','b','a','n','m',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
-      ['a','a','a',' ',' ',' ',' ',' ',' ','a','b','o','l','f','g',' ',' ',' ','c','c','c',' ',' ','a','h','i','j','k',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a'],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
   
   ];    
     const obstacleMap = {
@@ -432,8 +403,8 @@ mapLayout.forEach((row, rowIndex) => {
 
       
     const tileSize = 32;
-    const gridWidth = 40; // Number of tiles in width
-    const gridHeight = 16; // Number of tiles in height
+    const gridWidth = 18; // Number of tiles in width
+    const gridHeight = 25; // Number of tiles in height
     const bgWidth = tileSize * gridWidth;
     const bgHeight = tileSize * gridHeight;
     // Initialize borderGraphics
@@ -448,14 +419,14 @@ mapLayout.forEach((row, rowIndex) => {
   // Add the background image
 
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
-    this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(9);
-    this.foreground.setOrigin(0, 0);
+    // this.foreground = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'foreground').setDepth(9);
+    // this.foreground.setOrigin(0, 0);
     backgroundRef.current.setOrigin(0, 0);
   // Specify starting column and row
 
   // Default startColumn and startRow
   const defaultStartColumn = 4;
-  const defaultStartRow = 10;
+  const defaultStartRow = 4;
 
   // Use passed values if available, otherwise fall back to defaults
   const startColumn = location.state && location.state.startColumn ? location.state.startColumn : defaultStartColumn;
@@ -466,7 +437,61 @@ mapLayout.forEach((row, rowIndex) => {
   const playerStartY = startRow * tileSize + tileSize / 2;
 
 
-    this.player = this.add.sprite(playerStartX, playerStartY, 'player').setDepth(7); // Start near the center of the grid
+ // Create the player sprite
+ this.player = this.add.sprite(playerStartX, 160, 'player').setDepth(7)
+
+
+ this.playerFallAnimation = () => {
+  console.log('Player fall animation triggered');
+
+  // Create a temporary sprite for the fall
+  const tempPlayer = this.add.sprite(this.player.x, -8, 'player').setDepth(7);
+  this.player.setVisible(false); // Hide the actual player during fall
+  tempPlayer.setRotation(Phaser.Math.DegToRad(90)); // Sideways rotation
+
+  // Animate the fall
+  const fallTween = this.tweens.add({
+    targets: tempPlayer,
+    y: 160,
+    duration: 800,
+    ease: 'Bounce.easeOut',
+    onComplete: () => {
+      console.log('Fall complete, triggering splash');
+      
+      // Show the actual player again
+      if (tempPlayer) tempPlayer.destroy();
+      if (this.player) this.player.setVisible(true);
+    },
+  });
+
+  // Add the splash effect with timeout
+  setTimeout(() => {
+    const splashEmitter = this.add.particles(100, 100, 'particle', {
+      tint: [0x4acfff, 0x87cefa, 0xadd8e6], // Water-like colors
+      alpha: { start: 1, end: 0, ease: 'Sine.easeIn', duration: 800 },
+      gravityY: 300,
+      speed: { min: 50, max: 150 },
+      scale: { start: 1, end: 0.2, ease: 'Quad.easeOut' },
+      lifespan: 800,
+      quantity: 20,
+      angle: { min: 220, max: 320 }, // Splash upward and outward
+      blendMode: 'ADD',
+      maxParticles: 30,
+    }).setVisible(true);
+
+    // Position the splash at the player's landing spot
+    splashEmitter.setPosition(this.player.x, 160).setDepth(239);
+
+    // Cleanup the splash emitter after the splash completes
+    this.time.delayedCall(4800, () => {
+      if (splashEmitter) splashEmitter.destroy();
+    });
+
+  }, 150); // Delay the splash effect to match the fall animation timing
+};
+
+
+
     this.player.setOrigin(0.5, 0.4)
     this.cursors = this.input.keyboard.createCursorKeys();
     // Ensure the player stays locked to the grid
@@ -563,7 +588,7 @@ mapLayout.forEach((row, rowIndex) => {
     this.buttonUp = this.add.sprite(0, 0, 'button-up').setInteractive().setDepth(22).setScrollFactor(0);
   
     // Set up the camera
-    // this.cameras.main.setZoom(2); // Zoom in 2x
+    this.cameras.main.setZoom(2); // Zoom in 2x
     this.cameras.main.startFollow(this.player, true); // Follow the player
   
     // Set camera bounds to the size of the map
@@ -680,62 +705,20 @@ this.featherIcon = this.add.sprite(70, 230, 'featherIcon').setOrigin(0).setScale
 this.cameras.main.setZoom(2);
 this.cameras.main.startFollow(this.player, true,0.1,0.1); // Follow the player
 
-this.tweens.add({
 
-   targets: this.cameras.main,
-  zoom: 1,
-  duration: 1000,
-  ease: Phaser.Math.Easing.Stepped,
-  easeParams: [16], // The number of steps you want
-  onUpdate: (tween, target) => {
-      // Logically "step" if needed, or just let it run
-  },
-  onComplete: () => {
-      this.tweens.add({
-          targets: [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp],
-          alpha: { from: 0, to: 1 },
-          duration: 1000,
-          ease: 'Linear',
-          onStart: () => {
-              [this.buttonDown, this.buttonLeft, this.buttonMiddle, this.buttonRight, this.buttonUp].forEach(button => {
-                  button.setAlpha(0).setVisible(true);
-              });
-          }
-      });
-  }
-});
   }
 
 
-// Function to move the clouds
-function moveClouds() {
-  this.clouds.forEach(cloud => {
-      cloud.x += 0.2; // Move cloud to the right slowly (adjust speed)
-
-      // If the cloud goes off-screen, reset to the left side
-      if (cloud.x > this.cameras.main.width+300) {
-          cloud.x = -cloud.width-300;
-          cloud.setTexture(`cloud${Phaser.Math.Between(0, 2)}`); // Randomly change cloud texture
-      }
-  });
-}
-function animateRiver() {
-  // Increment the index and wrap around if it exceeds the pattern length
-  this.riverIndex = (this.riverIndex + 1) % this.riverFrames.length;
-
-  // Update the texture of the river sprite
-  this.river.setTexture(this.riverFrames[this.riverIndex]);
-}
 
 // Function to handle message passed from Easca
 const handleSendMessage = (msg) => {
   setMessage(msg); // Update the state with the new message
-    if (msg === "ls" && isEmittersReady) {
+    if (msg === "ls" ) {
       playerLightsTorches();
       
     return
     } else {
-      console.error("Emitters not ready yet!");
+  
     }
   const messageElement = document.querySelector('.player-message');
   const tailElement = document.createElement('div');
@@ -970,20 +953,31 @@ function delay(ms) {
 
 const [fullscreen, setFullscreen] = useState(false);
 
-
 const toggleFullscreen = () => {
-    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        const elem = document.documentElement;
-        const fullscreenPromise = elem.requestFullscreen ? elem.requestFullscreen() : elem.webkitRequestFullscreen(); // Safari
-        fullscreenPromise.then(() => {
-            setFullscreen(true);
-        });
-    } else {
-        const exitPromise = document.exitFullscreen ? document.exitFullscreen() : document.webkitExitFullscreen(); // Safari
-        exitPromise.then(() => {
-            setFullscreen(false);
-        });
-    }
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      const elem = document.documentElement;
+      const fullscreenPromise = elem.requestFullscreen
+          ? elem.requestFullscreen()
+          : elem.webkitRequestFullscreen();
+
+      fullscreenPromise.then(() => {
+          setFullscreen(true);
+
+          // Trigger player fall animation
+          if (gameRef.current && gameRef.current.sceneRef) {
+              console.log('Triggering playerFallAnimation...');
+              gameRef.current.sceneRef.playerFallAnimation();
+          } else {
+              console.error('Scene reference not found.');
+          }
+      });
+  } else {
+      const exitPromise = document.exitFullscreen
+          ? document.exitFullscreen()
+          : document.webkitExitFullscreen();
+
+      exitPromise.then(() => setFullscreen(false));
+  }
 };
 
 function movePlayer(direction, isHold) {
@@ -1137,10 +1131,9 @@ if(middleButtonRecentlyPressed){
       return; // Wait until move delay is over
     }
 
-  
     const tileSize = 32;
-    const gridWidth = 40;
-    const gridHeight = 16;
+    const gridWidth = 18; // Number of tiles in width
+    const gridHeight = 25; // Number of tiles in height
     let nextMove = { x: this.player.x, y: this.player.y };
     let collisionMessage = '';
     let collisionMessageEng = '';
@@ -1260,14 +1253,11 @@ if (!this.isFading) {
 const interactiveObject = checkInteraction(nextMove, this.interactiveObjects, tileSize);
 if (interactiveObject) {
   if(interactiveObject.type==="exit"){
-setTimeout(()=>{ 
 
-
-  appHistory.push({
-    pathname: "/leinster/wicklow/CrystalCaves0",
-    state: { startColumn: 4, startRow: 4 } // Send specific starting position
-  });
- },250)
+    appHistory.push({
+      pathname: "/CrystalCaves0",
+      state: { startColumn: 23, startRow: 4 } // Send specific starting position
+    });
   }
  
   if(interactiveObject.type==="terrain"){
@@ -1398,22 +1388,21 @@ this.isMoving = true;
 
 
 function updateButtonPositions(scene) {
-  const padding = 20;
-  const buttonSize = 50;
-  const screenWidth = scene.scale.width;
-  const screenHeight = scene.scale.height;
-
-  const buttonX = screenWidth - padding - buttonSize-100;
-  const buttonY = screenHeight - padding - buttonSize-50;
-
-
-  // Update positions
-  scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(1).setAlpha(0);
-  scene.buttonLeft.setPosition(buttonX - buttonSize, buttonY).setScale(1).setAlpha(0);
-  scene.buttonDown.setPosition(buttonX, buttonY + buttonSize).setScale(1).setAlpha(0);
-  scene.buttonRight.setPosition(buttonX + buttonSize, buttonY).setScale(1).setAlpha(0);
-  scene.buttonUp.setPosition(buttonX, buttonY - buttonSize).setScale(1).setAlpha(0);
-
+    const padding = 20;
+    const buttonSize = 50;
+    const screenWidth = scene.scale.width;
+    const screenHeight = scene.scale.height;
+  
+    const buttonX = screenWidth - padding - buttonSize-200;
+    const buttonY = screenHeight - padding - buttonSize-100;
+  
+  
+    // Update positions
+    scene.buttonMiddle.setPosition(buttonX, buttonY).setScale(0.5);
+    scene.buttonLeft.setPosition(buttonX - buttonSize / 2, buttonY).setScale(0.5);
+    scene.buttonDown.setPosition(buttonX, buttonY + buttonSize / 2).setScale(0.5);
+    scene.buttonRight.setPosition(buttonX + buttonSize / 2, buttonY).setScale(0.5);
+    scene.buttonUp.setPosition(buttonX, buttonY - buttonSize / 2).setScale(0.5);
 }
 // Helper function to check collision
 function checkCollision(nextMove, obstacles, tileSize) {
@@ -1524,4 +1513,4 @@ A wild goose chase - no scent.
   );
 };
 
-export default Arklow;
+export default CrystalCaves0;
