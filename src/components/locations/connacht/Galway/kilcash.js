@@ -125,7 +125,6 @@ class GameScene extends Phaser.Scene {
         let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', '/phaser-resources/text/kilcash.json');
-        this.load.audio('mecha', '/phaser-resources/audio/mecha.wav');
         this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
         this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', '/phaser-resources/images/map0.png');
@@ -228,8 +227,6 @@ this.textEn.setVisible(true);
             console.error('Dialogues data is empty or not loaded correctly.');
         }
     
-        const music = this.sound.add('mecha', { loop: true });
-        // music.play();
     
         // Add background sprite
         const background = this.add.sprite(0, 0, 'background').setOrigin(0);
