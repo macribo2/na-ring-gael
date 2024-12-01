@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import './narrative.css';
+import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
+
 
 // Define GameScene class before using it in the component
 class GameScene extends Phaser.Scene {
@@ -20,6 +22,9 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.plugin('rexTextTyping', RexTextTypingPlugin, true);
+
+          
         this.load.image('scene1-bg', '/phaser-resources/images/illustrations/snakeEmerge.png');
         this.load.image('scene2-bg', 'phaser-resources/images/illustrations/snakeEmerge2.png');
         this.load.image('scene3-bg', '/phaser-resources/images/illustrations/goldInLake.png');
@@ -42,6 +47,12 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        const typingPlugin = this.plugins.get('rexTextTyping');
+    if (typingPlugin) {
+        console.log('rexTextTyping plugin loaded successfully!');
+    } else {
+        console.error('rexTextTyping plugin still not found!');
+    }
         const textures = ['button-right', 'button-right-yellow','button-right', 'button-right-yellow','button-right', 'button-right-yellow', ];
         
         const tileSize = 32;
@@ -51,9 +62,9 @@ class GameScene extends Phaser.Scene {
         const bgHeight = tileSize * gridHeight;
     
         this.addTextBubbles();
+        // Initialize the typewriter effect plugin for both texts
+        this.typingEffectGa = this.plugins.get('rexTextTyping').add(this.textGa, { speed: 100 });
         this.updateText();
-    
-          
         const buttonX = this.sys.game.config.width - 150;
         const buttonY = this.sys.game.config.height / 2 + 50;
         this.buttonLeft = this.add.sprite(buttonX - 50, buttonY, 'button-left').setInteractive().setDepth(4);
@@ -207,7 +218,8 @@ class GameScene extends Phaser.Scene {
             fontFamily: 'aonchlo',
             padding: { x: 10, y: 10 },
         }).setDepth(9999).setLineSpacing(-300);
-    
+        // Initialize the typing effect for textGa
+      
         // Add English text below (or modify as needed)
         this.textEn = this.add.text(textPositionX, textPositionY + 160, '', {
             fontSize: '28px',
@@ -225,7 +237,12 @@ class GameScene extends Phaser.Scene {
    
     updateText() {
         const narrativeData = this.cache.json.get('narrative1');
-    
+        if (this.isTypingActive) {
+            console.warn('Typing effect already in progress; updateText blocked.');
+            return; // Prevent concurrent calls
+        }
+        console.trace('updateText called');    
+
         if (!narrativeData || !Array.isArray(narrativeData) || narrativeData.length === 0) {
             console.error('Narrative data is empty or not loaded correctly.');
             return;
@@ -234,24 +251,31 @@ class GameScene extends Phaser.Scene {
         const currentNarrative = narrativeData[0][this.hero];
         const keyGa = `gae${this.narrativeTracker}`;
         const keyEn = `eng${this.narrativeTracker}`;
-    
         if (currentNarrative[keyGa] && currentNarrative[keyEn]) {
             // Play chirp sound when text appears
             this.sound.play('chirp');
-    
+        
+            if (this.typingEffectGa.isTyping) {
+                console.warn('Typing effect is already in progress!');
+                return; // Prevent overwriting while typing
+            }
+        
             // Fade out the existing background before updating the text and background
             this.fadeOutBackground(() => {
-                // Set text after background fades out
+                // Update the text after background fades out
                 this.textGa.setText(currentNarrative[keyGa]);
                 this.textEn.setText(currentNarrative[keyEn]);
-    
+        
+                // Start typing effect after text is set
+                this.typingEffectGa.start(currentNarrative[keyGa]);
+        
                 // Fade in the updated background after a short delay
                 this.time.delayedCall(100, () => {
                     this.fadeInBackground();
                 });
             });
-    
-        } else {
+        }
+        else {
             console.error(`No dialogue found for narrative tracker: ${this.narrativeTracker}`);
         }
     }
@@ -331,7 +355,7 @@ class GameScene extends Phaser.Scene {
         localStorage.setItem('narrativeTracker', this.narrativeTracker);
     
         // Update the text bubbles, narrative, etc.
-        this.updateText();
+        // this.updateText();
     }
     
     

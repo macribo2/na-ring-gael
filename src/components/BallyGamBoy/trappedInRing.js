@@ -91,7 +91,6 @@ class GameScene extends Phaser.Scene {
         let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', './phaser-resources/text/dialogues.json');
-        this.load.audio('mecha', './phaser-resources/audio/mecha.wav');
         this.load.image('sparks', `./phaser-resources/images/spark_02.png`);
         this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', './phaser-resources/images/ghostTown2.png');
@@ -174,9 +173,6 @@ class GameScene extends Phaser.Scene {
        // Access and use the dialogues data here
    } else {
    }
-      const music = this.sound.add('mecha',{ loop: true });
-   
-      music.play();
 
     // Add background sprite
     const background = this.add.sprite(0, 0, 'background').setOrigin(0);

@@ -101,7 +101,6 @@ class GameScene extends Phaser.Scene {
         let champID = localStorage.getItem('champID');
         
         this.load.json('dialogues', '/phaser-resources/text/dunaree.json');
-        this.load.audio('mecha', '/phaser-resources/audio/mecha.wav');
         this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
         this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
         this.load.image('background', '/phaser-resources/images/background-elements/fields-and-sky.png');
@@ -192,7 +191,7 @@ this.textGa.setStroke('#000000', 6); // 6 is the thickness of the outline
             console.error('Dialogues data is empty or not loaded correctly.');
         }
     
-        const music = this.sound.add('mecha', { loop: true });
+        
         // music.play();
     
         // Add background sprite
