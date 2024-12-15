@@ -1,0 +1,2418 @@
+[
+  {
+    "nameEng": "birdlike",
+    "nameIrish": "Éanna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "seal",
+    "nameIrish": "Rónnad",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "not gentle",
+    "nameIrish": "Neasa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "church",
+    "nameIrish": "Cillian",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wolf",
+    "nameIrish": "Olcán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blackbird",
+    "nameIrish": "Lonán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strength",
+    "nameIrish": "Treasa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "chief, noble, best",
+    "nameIrish": "Sárnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "deer",
+    "nameIrish": "Osnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "steed",
+    "nameIrish": "Echna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "old, ancient",
+    "nameIrish": "Seanán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "musical sound",
+    "nameIrish": "Easnadh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sprite, elf",
+    "nameIrish": "Oillill",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "greenish, from a tribal name",
+    "nameIrish": "Uaithne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "poet, bard",
+    "nameIrish": "Bardán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "silk",
+    "nameIrish": "Síoda",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "western kingdom",
+    "nameIrish": "Iarfhlaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "iron",
+    "nameIrish": "Eirnín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "deer or ox",
+    "nameIrish": "Daimhín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wild creature, deer",
+    "nameIrish": "Fianait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "slender, subtle",
+    "nameIrish": "Tanaí",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sweetheart",
+    "nameIrish": "Leannán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "very tall",
+    "nameIrish": "Urard",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "light, brightness",
+    "nameIrish": "Lughaidh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "yew tree",
+    "nameIrish": "Iobhar",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Norse word for horse. Also means little rose.",
+    "nameIrish": "Róisín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wisdom, chief",
+    "nameIrish": "Conn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "brave in sword-fighting, valorous",
+    "nameIrish": "Cearbhall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "from Latin 'dove'",
+    "nameIrish": "Colmán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "faithful, pure, sincere",
+    "nameIrish": "Íonait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sea fair",
+    "nameIrish": "Muireann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "kernal or gorse",
+    "nameIrish": "Eithne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "full of goodness",
+    "nameIrish": "Deaglán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beauty or grace",
+    "nameIrish": "Caoimhe",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "seal",
+    "nameIrish": "Róinseach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "red king",
+    "nameIrish": "Ruaidhrí",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "bright swan",
+    "nameIrish": "Geiléis",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "honorable, proud",
+    "nameIrish": "Miach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "laurel bush",
+    "nameIrish": "Labhrás",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little abbot",
+    "nameIrish": "Abbán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "greenish, from a tribal name",
+    "nameIrish": "Uaine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lover of drink",
+    "nameIrish": "Ólchobhar",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "possibly, cloud-maker: Celtic god name",
+    "nameIrish": "Nuadha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "manly or valorous",
+    "nameIrish": "Fearghal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "grace, prosperity",
+    "nameIrish": "Rathnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "girl",
+    "nameIrish": "Laoise",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "elf",
+    "nameIrish": "Ailill",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "warrior",
+    "nameIrish": "Maolán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beauty of women",
+    "nameIrish": "Líobhan",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "flame",
+    "nameIrish": "Laisrén",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "malicious, hostile",
+    "nameIrish": "Fachtna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "silent",
+    "nameIrish": "Maon",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "from Norse, summer wanderer",
+    "nameIrish": "Somhairle",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "pure",
+    "nameIrish": "Neacht",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Victorious",
+    "nameIrish": "Buadhach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Thaddeus, Theodosius, Theophilus, poet",
+    "nameIrish": "Tadhg",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "born of the sea",
+    "nameIrish": "Muirín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "cloud or passionate, vehement",
+    "nameIrish": "Niall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "great",
+    "nameIrish": "Mór",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "radiance of the sun",
+    "nameIrish": "Aoibhegréine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lover of hounds",
+    "nameIrish": "Conchobhar",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "son of adze",
+    "nameIrish": "Mac Táil",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "red haired",
+    "nameIrish": "Rúadhán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "monk",
+    "nameIrish": "Mainchín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "golden princess",
+    "nameIrish": "Órlaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Life",
+    "nameIrish": "Éabha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "chatterer or daughter. Daughter of the royal\nstoryteller Fedlimid mac Daill, \nat the court of the king of Ulster",
+    "nameIrish": "Deirdre",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair-haired, white",
+    "nameIrish": "Fionnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "speaker",
+    "nameIrish": "Labhraidh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sorrowful",
+    "nameIrish": "Brónach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "drowsy",
+    "nameIrish": "Suanach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "placating, peacemaking",
+    "nameIrish": "Taichleach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little seal",
+    "nameIrish": "Rónán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sea battler",
+    "nameIrish": "Murchadh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "calf-herd",
+    "nameIrish": "Laoire",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little king",
+    "nameIrish": "Ríoghán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lady of abundance of sovereignty",
+    "nameIrish": "Tuilelaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "smith",
+    "nameIrish": "Gobnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "white ancient/fire",
+    "nameIrish": "Fionntán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sole strength or true choice",
+    "nameIrish": "Aonghus",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "storm, fury, violence",
+    "nameIrish": "Áinfean",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sorrowful",
+    "nameIrish": "Coinneach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wild boar",
+    "nameIrish": "Torcán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "iron",
+    "nameIrish": "Earnán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strong in battle",
+    "nameIrish": "Cathal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "smith",
+    "nameIrish": "Gobán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "daughter of a poet",
+    "nameIrish": "Deirbhile",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair and slender",
+    "nameIrish": "Caoilfhionn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blue/illustrious princess",
+    "nameIrish": "Gormlaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "friendly",
+    "nameIrish": "Fearchar",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "flame wine",
+    "nameIrish": "Lasairfhiona",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "flame, fire",
+    "nameIrish": "Daighre",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "very wonderful",
+    "nameIrish": "Ámhra",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hawk",
+    "nameIrish": "Séanait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "summery person",
+    "nameIrish": "Samhradhán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Lord",
+    "nameIrish": "Tighearnach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fierce pride",
+    "nameIrish": "Uallgarg",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beautiful radiance",
+    "nameIrish": "Aoibheann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "high spirited, festive",
+    "nameIrish": "Muirne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "grey lady",
+    "nameIrish": "Líadan",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sallow",
+    "nameIrish": "Órnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair shouldered",
+    "nameIrish": "Fionnghuala",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "gracious, kindly\t",
+    "nameIrish": "Suaibhseach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wealthy guardian",
+    "nameIrish": "Éamonn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "servant or devotee of St. Mary",
+    "nameIrish": "Maol Mhuire",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sharp-faced",
+    "nameIrish": "Brocc",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "world mighty",
+    "nameIrish": "Domhnall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "dark-haired one",
+    "nameIrish": "Teimhnín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "flame",
+    "nameIrish": "Daigh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "ambrose spirited",
+    "nameIrish": "Anamcha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "son of Ness (goddess name)",
+    "nameIrish": "Mac Nisse",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "born of song",
+    "nameIrish": "Aimhirghin",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blonde lady",
+    "nameIrish": "Finnseach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "thirsts for knowledge and goodness",
+    "nameIrish": "Íde",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "having land, wide-ruling",
+    "nameIrish": "Tíreachán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sun-goddess",
+    "nameIrish": "Grian",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "rushing, impetuous",
+    "nameIrish": "Robhartach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lord, master",
+    "nameIrish": "Muireadhach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "born of the yew",
+    "nameIrish": "Eoghan",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fellow hostage",
+    "nameIrish": "Comhghall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "bright, radiant",
+    "nameIrish": "Sorcha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "cloud or passionate, vehement",
+    "nameIrish": "Niallán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "servant of Jesus",
+    "nameIrish": "Mael Íosa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "warlike; fierce",
+    "nameIrish": "Treasach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little trapper",
+    "nameIrish": "Scannlán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beautiful, radiant",
+    "nameIrish": "Aoife",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "deer lover",
+    "nameIrish": "Osgar",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "bright headed",
+    "nameIrish": "Ceallach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "brown princess",
+    "nameIrish": "Dunfhlaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "proud; arrogant",
+    "nameIrish": "Uallach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Juno\t",
+    "nameIrish": "Úna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "foam-white complexioned",
+    "nameIrish": "Uainionn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Love, affection",
+    "nameIrish": "Searc",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hound of the plain",
+    "nameIrish": "Cúmhaí",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "ghostly frightening",
+    "nameIrish": "Scáthach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "paleness; whiteness",
+    "nameIrish": "Báine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "queenly",
+    "nameIrish": "Ríona",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little deer",
+    "nameIrish": "Osán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "milk-white, milk-like",
+    "nameIrish": "Lachtna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "grey servant",
+    "nameIrish": "Gormghiolla",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "great",
+    "nameIrish": "Mochta",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "My light",
+    "nameIrish": "Molaisse",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "milk-white, milk-like",
+    "nameIrish": "Lachtnán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "rock,  white, Gaulish World King.",
+    "nameIrish": "Ailbhe",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "ninne was the first word this saint spoke",
+    "nameIrish": "Moinnine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "abundance, flood",
+    "nameIrish": "Tóla",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "without injunction or envy",
+    "nameIrish": "Diarmaid",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "comely, beautiful",
+    "nameIrish": "Liamhain",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sea battler",
+    "nameIrish": "Muircheartach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fire",
+    "nameIrish": "Lasair",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "a place name in Co. Longford",
+    "nameIrish": "Teafa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "an early goddess, also Ireland",
+    "nameIrish": "Banbha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sun-traveller, nobleman second to the king",
+    "nameIrish": "Ánrothán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lightening",
+    "nameIrish": "Meallá",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "ghost, spirit",
+    "nameIrish": "Fionúir",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "curly-haired",
+    "nameIrish": "Cassair",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strength of a man",
+    "nameIrish": "Fearghus",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "the charioteer",
+    "nameIrish": "Cormac",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "battle lord",
+    "nameIrish": "Cathaír",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "servant of Christ",
+    "nameIrish": "Giolla Chríst",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "from Latin secondus",
+    "nameIrish": "Seachlann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "songful, poetic",
+    "nameIrish": "Laoidheach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beautiful birth",
+    "nameIrish": "Caoimhín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hound of the sea",
+    "nameIrish": "Murchú",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "quarrel, argue",
+    "nameIrish": "Scannal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sprite, elf",
+    "nameIrish": "Oilleóg",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "daughter of Fionn",
+    "nameIrish": "Dairinn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "grey, grey-blue",
+    "nameIrish": "Glaisne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "dark man",
+    "nameIrish": "Feardorcha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little lad",
+    "nameIrish": "Beagán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "royal poet",
+    "nameIrish": "Ríordán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "servant, devotee of St. Seachnall",
+    "nameIrish": "Maeleachlainn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blind",
+    "nameIrish": "Dallán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "dark foreigner",
+    "nameIrish": "Dubhgall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "prominent forehead",
+    "nameIrish": "Tuileach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "rough",
+    "nameIrish": "Garbhán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "dark-limbed, black-jointed",
+    "nameIrish": "Dubhaltach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "erinn daughter of Fionn",
+    "nameIrish": "Dáire",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "excellent, best",
+    "nameIrish": "Saraid",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "the God of fire whose names means fire.",
+    "nameIrish": "Aodhán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "good peace",
+    "nameIrish": "Síomha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "elevated place",
+    "nameIrish": "Teamhair",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "ancient",
+    "nameIrish": "Cian",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "battle-king",
+    "nameIrish": "Fiachra",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "traveller, wayfarer",
+    "nameIrish": "Séadhna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fawn",
+    "nameIrish": "Damhnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fire",
+    "nameIrish": "Aodh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "saint",
+    "nameIrish": "Naomh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Iar + Lug Celtic gods",
+    "nameIrish": "Iarlugh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blossom, bloom",
+    "nameIrish": "Scoithín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "radiant blossom",
+    "nameIrish": "Scoithniamh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hero, champion",
+    "nameIrish": "Ruarc",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "high goddess",
+    "nameIrish": "Bríghid",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "town crier, scholar",
+    "nameIrish": "Scolaí",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "princess of the people",
+    "nameIrish": "Tuathla",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "vain, reckless, foolish",
+    "nameIrish": "Baoth",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blossom, bloom",
+    "nameIrish": "Scoth",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Stoat",
+    "nameIrish": "Neasán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "radiant girl",
+    "nameIrish": "Luiseach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair",
+    "nameIrish": "Finnén",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Ulsterman",
+    "nameIrish": "Ultán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "noble princess",
+    "nameIrish": "Nárbhflaith",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "idle; inactive",
+    "nameIrish": "Tassach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "the timorous one",
+    "nameIrish": "Ádhamhnán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair, white",
+    "nameIrish": "Fionn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "dark; swarthy",
+    "nameIrish": "Gormán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "prudent fire",
+    "nameIrish": "Conlaodh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "black",
+    "nameIrish": "Ciarán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "of Naomh (saint)",
+    "nameIrish": "Naomhán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "small",
+    "nameIrish": "Beag",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "rose or horse",
+    "nameIrish": "Rós",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blossom, bloom",
+    "nameIrish": "Scothnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "jealousy",
+    "nameIrish": "Étaín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sweet, goodly",
+    "nameIrish": "Sadhbh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "charioteer or bearer",
+    "nameIrish": "Cairbre",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "delight, pleasure",
+    "nameIrish": "Áine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fiery red",
+    "nameIrish": "Ceara",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "bare",
+    "nameIrish": "Lomán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "God of Fire",
+    "nameIrish": "Aodnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "red-haired",
+    "nameIrish": "Rúadhnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "of the Sun",
+    "nameIrish": "Gráinne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hero, champion, warrior",
+    "nameIrish": "Áinle",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wantonness",
+    "nameIrish": "Téide",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fiery red",
+    "nameIrish": "Flann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wealth or abundance",
+    "nameIrish": "Ana",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Daughter of Fál (Ireland)",
+    "nameIrish": "Dearbhail",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "prompt, ready",
+    "nameIrish": "Éimhín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "raven or battle",
+    "nameIrish": "Fechín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "noble, good",
+    "nameIrish": "Muadhnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "brave or strong in conflict",
+    "nameIrish": "Breasal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little deer",
+    "nameIrish": "Oisín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little flower",
+    "nameIrish": "Bláthnaid",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "headland",
+    "nameIrish": "Ross",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "potent in prayers or charms",
+    "nameIrish": "Orthanach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "doer of evil deeds",
+    "nameIrish": "Ainbheartach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "battle-fury, warlike frenzy, Celtic war goddess",
+    "nameIrish": "Neamhain",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "beauty, radiance",
+    "nameIrish": "Éibhleann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Tully, ruler of the people",
+    "nameIrish": "Tuathal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Lad",
+    "nameIrish": "Ógán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "sallow",
+    "nameIrish": "Odhrán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fierce hound",
+    "nameIrish": "Onchú",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "health, from a Celtic goddess name",
+    "nameIrish": "Sláine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "noble queen",
+    "nameIrish": "Saorla",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "man from Desmond (Co. Cork)",
+    "nameIrish": "Deasmumhnach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Lord",
+    "nameIrish": "Tighearnán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "pointed",
+    "nameIrish": "Bearach",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Viking",
+    "nameIrish": "Lochlann",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "old, ancient",
+    "nameIrish": "Seanchán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "steed",
+    "nameIrish": "Marcán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "diminutive of Cu, meaning hound",
+    "nameIrish": "Cuán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "great",
+    "nameIrish": "Móirne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little proud, arrogant one",
+    "nameIrish": "Uallachán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "mountain man",
+    "nameIrish": "Sléibhín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wolf",
+    "nameIrish": "Conán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "freckled, speckled",
+    "nameIrish": "Breacán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little lad",
+    "nameIrish": "Gilleagán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blue black",
+    "nameIrish": "Dubhghlas",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wolf",
+    "nameIrish": "Faolán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": " sea-bright, sea-white",
+    "nameIrish": "Muirgheal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strong as a wolf",
+    "nameIrish": "Conall",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "brightness, radiance",
+    "nameIrish": "Niamh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hawk",
+    "nameIrish": "Séighín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "lightening",
+    "nameIrish": "Meallán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "she who intoxicates",
+    "nameIrish": "Meadhbh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Dionysus brown lord",
+    "nameIrish": "Donnchadh",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "cruel or fierce",
+    "nameIrish": "Lorcán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Noble",
+    "nameIrish": "Uasal",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "after Macha, goddess of Sovereignty",
+    "nameIrish": "Moncha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "modest, honorable, generous",
+    "nameIrish": "Fial",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "hawk-like, noble",
+    "nameIrish": "Sé",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "battler",
+    "nameIrish": "Cathán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair haired",
+    "nameIrish": "Fionnbharr",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "well-going",
+    "nameIrish": "Suibhne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "noble or high",
+    "nameIrish": "Brion",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Fionnuala (white shoulders)",
+    "nameIrish": "Nuala",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little sprite, elf",
+    "nameIrish": "Oillín",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "pilgrim",
+    "nameIrish": "Oilithir",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "little curly-haired one",
+    "nameIrish": "Cassán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "of Tuama",
+    "nameIrish": "Tómmán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair-haired",
+    "nameIrish": "Bairrfhionn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "art, craft",
+    "nameIrish": "Ealadha",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "fair lady",
+    "nameIrish": "Bébhinn",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "chief, noble, best",
+    "nameIrish": "Sárán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "freedom",
+    "nameIrish": "Saoirse",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Dark, dark-haired, little dark one; Black. \nA name beloved for millenia",
+    "nameIrish": "Ciara",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "radience, light",
+    "nameIrish": "Laoise ",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "goddess of love and beauty, patron of County Cork. Also, queen of the banshees",
+    "nameIrish": "Clíona",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "from uan 'lamb'. Of truth, beauty, and unity",
+    "nameIrish": "Úna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "There were at least nine Saint Eithnes",
+    "nameIrish": "Eithne",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "from the Latin Patricius, meaning of the patrician class",
+    "nameIrish": "Pádraig",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strong-willed warrior ",
+    "nameIrish": "Líam",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "birdlike",
+    "nameIrish": "Éanna",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "seal",
+    "nameIrish": "Rónnad",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "not gentle",
+    "nameIrish": "Neasa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "church",
+    "nameIrish": "Cillian",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "wolf",
+    "nameIrish": "Olcán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "blackbird",
+    "nameIrish": "Lonán",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "strength",
+    "nameIrish": "Treasa",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "chief, noble, best",
+    "nameIrish": "Sárnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "deer",
+    "nameIrish": "Osnait",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "servant of Patrick",
+    "nameIrish": "Giolla-Padraig",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  },
+  {
+    "nameEng": "Radiance, Áine, goddess of Summer",
+    "nameIrish": "Áine",
+    "strength": 1,
+    "bioEng": "Placeholder biography text.",
+    "bioGa": "Placeholder teacs.",
+    "equipment": []
+  }
+]

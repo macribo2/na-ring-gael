@@ -1,14 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import geaga1 from '../../../../images/go-full-screen-bg-0.png'; // Assuming wordPairs.js is in the same directory
-// import './bally.css'
+import './crystal-caves.css'
 import Easca from '../../../easca/easca2';
 import Narrative1 from '../../../../components/Narrative0/Narrative1'
 import portrait from '../../../../images/vert-bg3.png'
 import { useHistory, useLocation  } from 'react-router-dom';
 
+let charID = localStorage.getItem('champID') || '1'; // Default to '1' if no value is found
+
+// Dynamically construct the character image path
+let characterImage = `/phaser-resources/images/champions/${charID}.png`;
+console.log('Character Image Path:', characterImage);
+
 let backgroundLit;
+let c
 const CrystalCaves0 = () => {
+  const [showAnimation, setShowAnimation] = useState(true);
 
 
   const [triggeredSingleUseEvents, setTriggeredSingleUseEvents] = useState(new Set());
@@ -257,7 +265,11 @@ useEffect(() => {
   const backgroundRef = React.useRef(null);
   function create() {
 
-
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+      console.log(`${key}: ${value}`);
+  }
     gameRef.current.sceneRef = this;
 
     
@@ -269,78 +281,80 @@ const canvasWidth = this.cameras.main.width;
 
    
     const mapLayout = [
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+      ['a','a','a','a','a','a','a',' ',' ','a','a','a','a','a','a',' ',' ',' '],
+      ['a','a','a','a','a','a','a',' ',' ','k',' ','a','a',' ',' ',' ',' ',' '],
+      ['a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      ['a',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ','a',' ','a','a',' ',' '],
+      ['a',' ','d',' ','e','a','a','a','a','a','a',' ','a',' ',' ','j','a',' '],
+      ['a','c',' ',' ','e',' ',' ',' ',' ',' ','a',' ','a',' ',' ',' ','a',' '],
+      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
+      ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
+      ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
+      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' '],
+      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ','a','a','a',' ',' '],
+      ['a','a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ','d'],
+      ['a','a','a','a','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      ['a','a','a','a','b',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ','a','a'],
+      ['a','a','a','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ','a',' '],
+      ['a','a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','j','a',' ',' '],
+      ['a','a','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','i',' ',' ','a',' ',' '],
+      [' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','i',' ','a','a',' ',' ',' '],
+      [' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      [' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ','a',' ',' ',' ',' ',' ',' ',' ','a',' ',' ',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','a','a',' ',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','f',' ',' ',' ',' ','a',' ',' '],
+      [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','g','a',' ',' '],
+      [' ',' ',' ',' ',' ','a','a','a',' ',' ',' ',' ',' ',' ',' ','a','a','a'],
   
   ];    
     const obstacleMap = {
-      'c': { type: 'noPic', nameEng: 'Avonmore - the big river', name: 'An Abhainn Mór' },
-      'd': { type: 'noPic', nameEng: 'Castle',                     name: 'Caisleán' },
-        'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: 'Ní féidir dul an treo seo.' },
-  'b': { type: 'noPic', nameEng: 'Path obstructed.',               name: 'Tá an cosán blocáilte.' },
-  'f': { type: 'noPic', nameEng: 'Can’t go further.',              name: 'Ní féidir dul níos faide.' },
-  'g': { type: 'noPic', nameEng: 'Impassable terrain.',            name: 'Talamh dosháraithe.' },
-  'h': { type: 'noPic', nameEng: 'Thick undergrowth here.',        name: 'Fásra tiubh anseo.' },
-  'i': { type: 'noPic', nameEng: 'No way through here.',           name: 'Níl bealach tríd anseo.' },
-  'j': { type: 'noPic', nameEng: 'There is no path here.',         name: 'Níl aon cosán anseo.' },
-  'k': { type: 'noPic', nameEng: 'A wall of thorny branches.',     name: 'Balla géaga deilgneacha.' },
-  'l': { type: 'noPic', nameEng: 'You cannot go this way.',        name: 'Ní féidir dul an treo seo.' },
-  'm': { type: 'noPic', nameEng: 'The brambles block you.',        name: 'Cuireann driseacha bac ort.' },
-  'n': { type: 'noPic', nameEng: 'The path is impassable.',        name: 'Tá an cosán dosháraithe.' },
-  'o': { type: 'noPic', nameEng: 'No way here.',                   name: 'Níl slí anseo.' },
-  'p': { type: 'noPic', nameEng: 'No way ahead.',                  name: 'Níl slí romhat.' },
-  'q': { type: 'noPic', nameEng: 'Dense forest ahead.',            name: 'Foraois dhlúth romhat.' },
-  
-
-        'r': { type: 'noPic', nameEng: '', name: 'Arklow Dún Lochlanach \n       ró-dhlúth anseo.      ' },
+      'a': { type: 'noPic', nameEng: 'You cannot go this way',   name: 'Ní féidir dul an treo seo.' },
+      'l': { type: 'noPic', nameEng: 'You cannot go this way.',        name: 'Ní féidir dul an treo seo.' },
+      'm': { type: 'noPic', nameEng: 'The brambles block you.',        name: 'Cuireann driseacha bac ort.' },
+      'n': { type: 'noPic', nameEng: 'The path is impassable.',        name: 'Tá an cosán dosháraithe.' },
+      'o': { type: 'noPic', nameEng: 'No way here.',                   name: 'Níl slí anseo.' },
+      'p': { type: 'noPic', nameEng: 'No way ahead.',                  name: 'Níl slí romhat.' },
+      'q': { type: 'noPic', nameEng: 'Dense forest ahead.',            name: 'Foraois dhlúth romhat.' },
+      
+      
+      'r': { type: 'noPic', nameEng: '', name: 'Arklow Dún Lochlanach \n       ró-dhlúth anseo.      ' },
+      
+      
+      
+    };
     
+    
+    
+    
+    
+    /*
+    IF AN EVENT SHOULD ONLY BE TRIGGERED ONCE IT GOES HERE
+    */
+   const singleUseEventMap = {
+     
+     'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
+    }
+    
+    const interactiveMap = {
+      'b': { type: 'terrain', nameEng: 'a barrel',               name: 'Bairille' },
+      'c': { type: 'terrain', nameEng: 'a purple mushroom', name: 'Beacán corcra' },
+      'd': { type: 'terrain', nameEng: 'a glowing crystal',                     name: 'Criostal lonrach' },
+      'e': { type: 'terrain', nameEng: 'water', name: 'uisce' },
+      'f': { type: 'terrain', nameEng: 'a wooden sign, unreadable',              name: 'comhartha adhmaid doléite' },
+      'g': { type: 'terrain', nameEng: 'Impassable terrain.',            name: 'Talamh dosháraithe.' },
+      'h': { type: 'terrain', nameEng: 'Thick undergrowth here.',        name: 'Fásra tiubh anseo.' },
+      'i': { type: 'terrain', nameEng: 'Red mushroom',           name: 'Beacán dearg' },
+      'j': { type: 'terrain', nameEng: 'caveweed',         name: 'Fiail pluaise' },
+      'k': { type: 'terrain', nameEng: 'A wall of thorny branches.',     name: 'Balla géaga deilgneacha.' },
       
-      
-      };
-
-           
-           
-           
-           
-           /*
-           IF AN EVENT SHOULD ONLY BE TRIGGERED ONCE IT GOES HERE
-           */
-          const singleUseEventMap = {
-            
-            'k': { type: 'noPic', nameEng: 'Who knows what lies ahead', name: 'Cá bhfios \ncad atá romhat' },
-          }
-          
-          const interactiveMap = {
-    'e': { type: 'terrain', nameEng: 'a bridge', name: 'Droichead' },
-        ' ': { type: 'noPic', nameEng: '', name: '' },
+        
         'x':{type: 'exit', nameEng:'falling!',name:'ag titim!'} ,
         'z':{type: 'exitNorthWest', nameEng:' ',name:' '} ,
         'y':{type: 'exitSouthWest', nameEng:' ',name:' '} ,
-        't':{type: 'terrain', nameEng:'Mine Cursed! Keep out!',name:'Mianach mallaithe! Fan amach!'} 
+        't':{type: 'terrain', nameEng:'Mine Cursed! Keep out!',name:'Mianach mallaithe! Fan amach!'} ,
+        ' ': { type: 'noPic', nameEng: '', name: '' },
 
 
     };
@@ -411,11 +425,11 @@ mapLayout.forEach((row, rowIndex) => {
     this.borderGraphics = this.add.graphics(playerStartX, playerStartY, 'border');;
     this.borderGraphics.setDepth(99); // Optional: Set depth if needed
 
-    textBackgroundRef.current= this.add.image(0, 0, 'textBackground').setVisible(false)
+    textBackgroundRef.current= this.add.image(canvasWidth/4, 94, 'textBackground').setVisible(false)
     .setOrigin(0, 0) // Align to top-left
     .setScrollFactor(0)
     .setDepth(19) // Slightly below the text
-    .setDisplaySize(canvasWidth, 100); // Fullscreen width, fixed height (adjust as needed)
+    .setDisplaySize(canvasWidth, 100).setScale(0.5); // Fullscreen width, fixed height (adjust as needed)
   // Add the background image
 
     backgroundRef.current = this.add.tileSprite(0, 0, bgWidth, bgHeight, 'background');
@@ -425,7 +439,7 @@ mapLayout.forEach((row, rowIndex) => {
   // Specify starting column and row
 
   // Default startColumn and startRow
-  const defaultStartColumn = 4;
+  const defaultStartColumn = 3;
   const defaultStartRow = 4;
 
   // Use passed values if available, otherwise fall back to defaults
@@ -438,14 +452,14 @@ mapLayout.forEach((row, rowIndex) => {
 
 
  // Create the player sprite
- this.player = this.add.sprite(playerStartX, 160, 'player').setDepth(7)
+ this.player = this.add.sprite(playerStartX, playerStartY, 'player').setDepth(7)
 
 
  this.playerFallAnimation = () => {
   console.log('Player fall animation triggered');
 
   // Create a temporary sprite for the fall
-  const tempPlayer = this.add.sprite(this.player.x, -8, 'player').setDepth(7);
+  const tempPlayer = this.add.sprite(this.player.x, 50, 'player').setDepth(7);
   this.player.setVisible(false); // Hide the actual player during fall
   tempPlayer.setRotation(Phaser.Math.DegToRad(90)); // Sideways rotation
 
@@ -487,7 +501,7 @@ mapLayout.forEach((row, rowIndex) => {
       if (splashEmitter) splashEmitter.destroy();
     });
 
-  }, 150); // Delay the splash effect to match the fall animation timing
+  }, 250); // Delay the splash effect to match the fall animation timing
 };
 
 
@@ -521,7 +535,7 @@ mapLayout.forEach((row, rowIndex) => {
       // Add the translucent background and English text
     
     this.collisionTextEng = this.add.text(20, 160, '', {
-      fontSize: '4em',
+      fontSize: '2em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -532,21 +546,20 @@ mapLayout.forEach((row, rowIndex) => {
     
 
     
-    this.collisionText = this.add.text(200, -90, '', {
-      fontSize: '4em', // Larger font size
+    this.collisionText = this.add.text(0, 90, '', {
+      fontSize: '2em', // Larger font size
       fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
       align: 'center', // Align the text to center
-      // backgroundColor: '#f5deb3', // Creamy parchment color (Background color)
     }).setScrollFactor(0).setDepth(90);
     
 
 
 
     
-    this.textForFade = this.add.text(200, -90, '', {
-      fontSize: '4em', // Larger font size
+    this.textForFade = this.add.text(0, 90, '', {
+      fontSize: '2em', // Larger font size
       fill: 'black', // Text color
       fontFamily: 'aonchlo', // Use 'aonchlo' font for player text
       padding: { x: 10, y: 10 },
@@ -556,7 +569,7 @@ mapLayout.forEach((row, rowIndex) => {
   
    
     this.textForFadeEng = this.add.text(20, 160, '', {
-      fontSize: '4em',
+      fontSize: '2em',
       fill: 'lime',
       fontFamily: 'Ubuntu',
       padding: { x: 10, y: 10 },
@@ -1173,7 +1186,7 @@ if (collision) {
      // Center the collision text locally
      const textWidth = this.collisionText.width; // Get the updated width of the text
      const canvasWidth = this.cameras.main.width; // Get canvas width
-     this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+     this.collisionText.setX((canvasWidth - textWidth) / 3); // Center the text
       textBackgroundRef.current.setVisible(true);
   }
   
@@ -1318,7 +1331,7 @@ if (!this.isFading) {
     this.collisionTextEng.setText(interactiveObject.nameEng);
     const textWidth = this.collisionText.width; // Get the updated width of the text
     const canvasWidth = this.cameras.main.width; // Get canvas width
-    this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+    this.collisionText.setX((canvasWidth - textWidth) / 3); // Center the text
 
 
 
@@ -1353,7 +1366,7 @@ if (singleUseEvent) {
 
             const textWidth = this.collisionText.width; // Get the updated width of the text
             const canvasWidth = this.cameras.main.width; // Get canvas width
-            this.collisionText.setX((canvasWidth - textWidth) / 2); // Center the text
+            this.collisionText.setX((canvasWidth - textWidth) / 3); // Center the text
             this.collisionTextEng.setText(singleUseEvent.nameEng || '');
             textBackgroundRef.current.setVisible(true);
             this.time.delayedCall(3000, () => {
@@ -1475,6 +1488,15 @@ function checkInteraction(nextMove, interactiveObjects, tileSize) {
                     <div className='touch-prompt-container bally-rings fullscreen-image'>
 <div className='touch-prompt'></div>
 <div className='touch-prompt'></div></div>
+{showAnimation && (
+<>
+    <div className="cave-wall-parallax"></div>   {/* Parallax Left */}
+        <img src={characterImage} alt="character" className="character" />
+    <div className="cave-wall-parallax right"></div>  {/* Parallax Right */}
+    <div className="cave-wall left"></div>            {/* Main Left */}
+    <div className="cave-wall right"></div>           {/* Main Right */}
+        </>
+)}
                     </>
             )}
    <div className="player-message-container">
