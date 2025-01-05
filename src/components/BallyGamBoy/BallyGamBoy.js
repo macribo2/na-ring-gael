@@ -139,7 +139,7 @@ const BallyGamBoy = () => {
         const startRadius = 5;
         const maxRadius = 140; // Max radius for the ripple
         const duration = 2500;  // Total duration for the ripple expansion
-        const steps = 8;  // The number of steps you want the ripple to go through
+        const steps = 16;  // The number of steps you want the ripple to go through
         
         // Set up the tween for the ripple expansion with steps
         this.tweens.add({
@@ -316,7 +316,8 @@ useEffect(() => {
 
 
 
-
+  const collisionText = React.useRef(null);
+  const collisionTextEng = React.useRef(null);
   const backgroundRef = React.useRef(null);
   function create() {
     this.triggeredEvents = new Set(JSON.parse(localStorage.getItem('triggeredEvents') || '[]'));
@@ -398,7 +399,6 @@ function updateWaves(delta) {
     this.waves.forEach((wave, index) => {
       wave.clear(); // Clear previous frame
       wave.lineStyle(1, 0x5c7678, 1); // Reset line style
-      wave.setAlpha(0.5); // Set transparency
 
       wave.beginPath();
       let prevY = index * 120; // Starting Y position
@@ -510,6 +510,11 @@ function updateWaves(delta) {
 
 
     };
+// Text to show in this area when ls is input.
+// Text to show in this area when ls is input.
+const lsEng = "The torches cast light across the flooded keep. To the west, and southwest, you see  bridges. From the lake, you see glimmers from the creature's eyes, studying you.";
+const lsGae = "Caitheann na tóirsí solas treasna an dún tuilte. Siar, agus siar ó dheas, feiceann tú droichid. Ón loch, feicéann tú lonnair ó súile an créatúr, dod staidéir.";
+
 
     // Initialize a set to track triggered single-use events
 // Initialize a set to track triggered single-use events
@@ -804,6 +809,7 @@ const handleSendMessage = (msg) => {
   setMessage(msg); // Update the state with the new message
     if (msg === "ls" && isEmittersReady) {
       playerLightsTorches();
+     
       
     return
     } else {
@@ -839,7 +845,11 @@ const handleSendMessage = (msg) => {
 
 function playerLightsTorches() {
 
-
+  alert(this.lsGae)
+  if (collisionText.current) {
+  collisionText.current.setText(this.lsGae); }
+  if (collisionTextEng.current) {
+  collisionTextEng.current.setText(this.lsEng); }
   setTimeout(()=>{
     if (torchEmitters) {
       torchEmitters.activateEmitters();

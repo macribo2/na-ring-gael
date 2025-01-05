@@ -1,0 +1,34 @@
+.branches-portrait{
+/* display:none; */
+position:fixed;
+z-index: 9999;
+display: block;
+top:0;
+left:25%;
+height:100%;
+transform: scale(0.7);
+z-index: 12;
+}
+.branches-container{
+    position:fixed;
+    justify-content: center;
+    display:grid;
+    align-items: center;
+    z-index: 99;
+}
+
+.fenian-branches-container{
+    position: fixed;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+    top: 0;
+    left:0;
+    background-size: cover;
+    height: 100%;
+    width: 100%;    
+
+
+
+}
