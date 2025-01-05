@@ -27,7 +27,9 @@ import CrystalCaves0 from './components/locations/leinster/Wicklow/CrystalCaves0
 import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
 import {Rings5} from './components/Rings/Rings5';
+import {fenianBranches} from './components/Rings/fenianBranches';
 
+               
 const ChessLikeWrapper = () => {
   const [shouldRefresh, setShouldRefresh] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false); // State to track loading
@@ -86,6 +88,7 @@ const ChessLikeWrapper = () => {
            
       <Route path="/rings4" component={Rings4 } />
       <Route path="/rings5" component={Rings5 } />
+      <Route path="/rings8" component={fenianBranches } />
       <Route path="/baile" component={Baile } />
 
 

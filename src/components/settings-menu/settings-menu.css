@@ -900,40 +900,53 @@ transform: scale(1.5);
 	
 	.settings-button{
 		
-	}
-
-  .ironkeyportraitholder{
+	}.ironkeyportraitholder {
     position: fixed;
     z-index: 1;
-    justify-content: center;  
-  }
-
-  .ironkeyportraitholder-intro{
-    bottom:-10%;
-  }
-.ironkeyportraitholder-game-over{
-  animation: bounce 2s 131 steps(3);  
+    justify-content: center;
+    animation: bobWeave 8s infinite ease-in-out; /* Add animation */
 }
 
-	.iron-key-portrait{
-    position:fixed;
-    height:253px;
+.ironkeyportraitholder-intro {
+    bottom: -10%;
+}
+
+.ironkeyportraitholder-game-over {
+    animation: bounce 2s 131 steps(3), bobWeave 8s infinite ease-in-out;  
+}
+
+@keyframes bobWeave {
+    0% {
+        transform: translate(0, 0); /* Start at original position */
+    }
+    25% {
+        transform: translate(-2px, -2px); /* Slight up-left movement */
+    }
+    50% {
+        transform: translate(2px, 2px); /* Slight down-right movement */
+    }
+    75% {
+        transform: translate(-1px, 1px); /* Slight up-right movement */
+    }
+    100% {
+        transform: translate(0, 0); /* Back to original position */
+    }
+}
+
+.iron-key-portrait {
+    position: fixed;
+    height: 253px;
     left: 40%;
-    margin-top:47%;
+    margin-top: 47%;
     /* animation: advance 270s forwards steps(135), */
     /* fade-in-ik 26s forwards ease-in; */
-	  }
-    .iron-key-portrait-game-over{
-     
-      animation: advance 270s forwards steps(135),
-      fade-in-ik 26s forwards ease-in;
-      }
-@keyframes bounce {
-  0%{margin-top:0 } 
-  79%{margin-top:0 }
- 
-  80%{margin-top:-6px}
-  100%{margin-top:-6px} 
+    animation: bobWeave 8s infinite ease-in-out; /* Optional: Apply bob-weave to the portrait as well */
+}
+
+.iron-key-portrait-game-over {
+    animation: advance 270s forwards steps(135),
+               fade-in-ik 26s forwards ease-in,
+               bobWeave 8s infinite ease-in-out;
 }
 
 @keyframes eyes-in {

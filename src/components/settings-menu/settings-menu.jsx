@@ -4,202 +4,147 @@ import Easca from '../easca/easca2';
 import bg0 from '../../images/fog3.png';
 import eye1 from '../../images/gifs/suile0.gif';
 import eye2 from '../../images/gifs/suile3.gif';
-import React, { useEffect,useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import ironkey from '../../images/nrg-text.png';
 import keyface from '../../images/gifs/keyface.gif';
 import greyBG from '../../images/cut-scenes/rectanglesbg0.jpg';
-import nrg from '../../images/nrg.png'
+import nrg from '../../images/nrg.png';
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
 import distantHills from '../../images/newbg4town.png';
 import blurryBG from '../../images/newbg2.png';
-import History from '../history/history'
-import  Rings6 from '../Rings/Rings6';
-import deepBlue from '../../audio/switch2.ogg'
+import History from '../history/history';
+import Rings6 from '../Rings/Rings6';
 import GDPR from '../gdpr/gdpr';
-let lyricID = 0;
 
+export default function SettingsMenu(props) {
+    const [showHistory, setShowHist] = useState(false);
 
-    
+// Sparkle generation logic
+const generateSparkles = () => {
+    const lightHolder = document.getElementById('light-holder');
+    if (!lightHolder) return;
 
-const enterFullscreen = () => {
-	const element = document.documentElement;
-  
-	if (element.requestFullscreen) {
-	  element.requestFullscreen();
-	} else if (element.mozRequestFullScreen) {
-	  element.mozRequestFullScreen();
-	} else if (element.webkitRequestFullscreen) {
-	  if (element.webkitRequestFullscreen) {
-	    element.webkitRequestFullscreen(); // Try to request fullscreen directly
-	  } else if (element.webkitEnterFullscreen) {
-	    element.webkitEnterFullscreen(); // For older versions of iOS
-	  }
-	} else if (element.msRequestFullscreen) {
-	  element.msRequestFullscreen();
-	}
+    for (let i = 0; i < 100; i++) {
+        const light = document.createElement('div');
+        light.classList.add('light');
+
+        // Randomize initial positions
+        light.style.top = `${Math.random() * 100}%`;
+        light.style.left = `${Math.random() * 100}%`;
+
+        // Randomize animation duration
+        light.style.animationDuration = `${3 + Math.random() * 5}s`;
+
+        // Randomize initial scaling
+        const initialScale = Math.random() * 0.8 + 0.5; // Scale between 0.5 and 1.3
+        light.style.transform = `scale(${initialScale})`;
+
+        // Append to the holder
+        lightHolder.appendChild(light);
+    }
 };
 
-  export default function SettingsMenu(props) {
-	let lightStartX = [3, 10, 44, 99, 12, 18, 77, 89, 46, 54]
-	function setLightStartX() {
-		for (let i = 0; i < lightStartX.length; i++) { 
-// $("").animate()
-		}
-	 }
-	useEffect(() => {
-		    // Play the audio when the component first loads
-			const audioPlayer = document.getElementById('deepBlue');
-			if (audioPlayer) {
-				audioPlayer.play();
-			}
-		}, []); 
-	;
+useEffect(() => {
+    // Generate sparkles on mount
+    generateSparkles();
 
-	
-	const FullScreenComponent = () => {
-		const enterFullscreen = () => {
-		  const element = document.documentElement;
-	  
-		  if (element.requestFullscreen) {
-			element.requestFullscreen();
-		  } else if (element.mozRequestFullScreen) {
-			element.mozRequestFullScreen();
-		  } else if (element.webkitRequestFullscreen) {
-			element.webkitRequestFullscreen();
-		  } else if (element.msRequestFullscreen) {
-			element.msRequestFullscreen();
-		  }
-		};
-	  
-	}
-	
+    // Re-generate sparkles on window resize (optional, for dynamic adjustments)
+    const handleResize = () => generateSparkles();
+    window.addEventListener('resize', handleResize);
 
-	const handleAboutClick = () => {
-		const audioPlayer = document.getElementById('deepBlue');
-    
-    // Check if the audio player exists
-    if (audioPlayer) {
+    return () => {
+        window.removeEventListener('resize', handleResize);
+    };
+}, []);
 
-        // Play the audio
-        audioPlayer.play();
-    }
-		// Handle 'about' button click
-		setShowHist(true);
-		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
-	  };
+    useEffect(() => {
+  
+        // Generate sparkles automatically on mount
+        generateSparkles();
 
-	  const handleBeginClick = () => {
-		// Handle 'begin' button click
-		props.handleInputSelect('begin');
-		enterFullscreen(); // Ensure fullscreen is triggered by user interaction
-	  };
-	  // Define props to pass to the Narrative0 component
+        // Add click event listener for additional sparkles
+        const handleClick = () => {
+            generateSparkles();
+        };
 
+        document.addEventListener('click', handleClick);
 
-	const [showHistory, setShowHist] = useState(0);
-	let toggleIsOn = props.toggleIsOn
-	let isOn = props.isOn
-	 let tollDubh = [
-	
-		 'Taobh cùl an doras',
-		 'ní bheidh griann',
-		 'ní beidh bórd, ní beidh fíonn ',
-		 'Taobh cùl an doras ',
-		 'ní bheidh griann',
-		 'ní beidh bórd, ní beidh fíonn ',
-		 'Thainig sé',
-		 'treasna tonn',
-		 'Ó Thainig sé ',
-		 'Le eachaibh luath is iochar throm',
-		 'Thainig sé',
-		 'Thàinig seé, à Sasainn ann',
-		 `Le eachaibh luath is iochar throm`,
-		 `Ar eiginn ar n-eirigh as ar suain`,
-		 `Ar eiginn ar n-eirigh as ar suain`,
-		 `An Gaidheal 'sa leabaidh`,
-		 `An Gaidheal 'na shuain`,
-		 `Is ar eiginn ar n-eirigh`,
-		 'as ar suain',
-		 ' ',
-		 ' '];
-		 let elementClass;
-	
-let randLights = Math.floor(Math.random * 8)
+        // Cleanup event listener
+        return () => {
+            document.removeEventListener('click', handleClick);
+        };
+    }, []);
 
-		 let runrig = document.getElementById('runrig')
-	
-	var lid = localStorage.getItem('lyricID');
-	document.addEventListener('click',(e) =>
-	{
-	  // Get element class(es)
-		elementClass = e.target.className;
-		
-	  // If element has class(es)
-	  if (elementClass !== '') {
-	  }
-	  if (elementClass === '') {
-	  }
-	
-		//making each square of a 10x10 grid of squares a button that moves the player there, on touch.
-	
-		
-		
-	  // If element has no classes
-	  else {
-	  }
-	}
-	);
+    // Enter fullscreen mode
+    const enterFullscreen = () => {
+        const element = document.documentElement;
 
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    };
 
-	return <>
-	<div className="holder">
-		</div>
-					<div className='setting-menu'	onClick={() => props.handleInputSelect('gamepad')}>
-			<img rel="preload" src={bg0} className="settings-bg" alt="low intensity background  graphic, expect this to change sometimes." />
-			
-			<img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
-<div className="ironkeyportraitholder ironkeyportraitholder-intro">
-				<img rel="preload" src={nrg} className="nrg" alt="a hilltop." />
+    const handleAboutClick = () => {
+     
 
+        setShowHist(true);
+        enterFullscreen(); // Ensure fullscreen is triggered by user interaction
+    };
 
-				
-			</div>
+    const handleBeginClick = () => {
+        props.handleInputSelect('begin');
+        enterFullscreen();
+    };
 
+    const { toggleIsOn, isOn } = props;
 
-		
-			<img src={blurryBG} className = "blurry-bg" alt="hazy green grey" />
+    return (
+        <>
+            <div className="holder"></div>
+            <div className="setting-menu" onClick={() => props.handleInputSelect('gamepad')}>
+                <img rel="preload" src={bg0} className="settings-bg" alt="low intensity background graphic, expect this to change sometimes." />
+                <img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
+                <div className="ironkeyportraitholder ironkeyportraitholder-intro">
+                    <img rel="preload" src={nrg} className="nrg" alt="a hilltop." />
+                </div>
+                <img src={blurryBG} className="blurry-bg" alt="hazy green grey" />
+                <img rel="preload" id="iron-key-text" src={ironkey} alt="ironkey calligraphy" />
+            </div>
 
+            <div id="light-holder">
+                <div className="light light8"></div>
+                <div className="light light1"></div>
+                <div className="light light9"></div>
+                <div className="light light4"></div>
+                <div className="light light10"></div>
+            </div>
 
-
-			<img rel="preload" id="iron-key-text" src={ironkey} alt="ironkey calligraphy" />
-	
-	</div>
-		 
-	
-		
-		<div id="light-holder">
-			<div className="light light8"></div>
-			<div className="light light1"></div>
-			<div className="light light9"></div>
-			<div className="light light4"></div>
-			<div className="light light10"></div> 
-			
-		</div>
-<div className='menu-container'>
-			<button className="menu main-menu"
-			onClick={handleAboutClick}
-			>intro</button >
-			{showHistory === true ? <History isOn={isOn} toggleIsOn={toggleIsOn} onTouchStart={enterFullscreen} handleInputSelect={ props.handleInputSelect} />:null}
-			<button className="menu main-menu"
-			onClick={handleBeginClick}
-			>begin</button>
-<ReactAudioPlayer src={deepBlue} autoPlay={true} id='deepBlue' controls={false} />
-
-
-<GDPR/>
-		</div>
-		</>	
-		
-
+            <div className="menu-container">
+                <button className="menu main-menu" onClick={handleAboutClick}>
+                    intro
+                </button>
+                {showHistory && (
+                    <History
+                        isOn={isOn}
+                        toggleIsOn={toggleIsOn}
+                        onTouchStart={enterFullscreen}
+                        handleInputSelect={props.handleInputSelect}
+                    />
+                )}
+                <button className="menu main-menu" onClick={handleBeginClick}>
+                    begin
+                </button>
+               
+                <GDPR />
+            </div>
+        </>
+    );
 }
+	
