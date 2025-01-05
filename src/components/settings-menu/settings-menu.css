@@ -904,34 +904,14 @@ transform: scale(1.5);
     position: fixed;
     z-index: 1;
     justify-content: center;
-    animation: bobWeave 8s infinite ease-in-out; /* Add animation */
 }
 
 .ironkeyportraitholder-intro {
     bottom: -10%;
 }
 
-.ironkeyportraitholder-game-over {
-    animation: bounce 2s 131 steps(3), bobWeave 8s infinite ease-in-out;  
-}
 
-@keyframes bobWeave {
-    0% {
-        transform: translate(0, 0); /* Start at original position */
-    }
-    25% {
-        transform: translate(-2px, -2px); /* Slight up-left movement */
-    }
-    50% {
-        transform: translate(2px, 2px); /* Slight down-right movement */
-    }
-    75% {
-        transform: translate(-1px, 1px); /* Slight up-right movement */
-    }
-    100% {
-        transform: translate(0, 0); /* Back to original position */
-    }
-}
+
 
 .iron-key-portrait {
     position: fixed;
@@ -940,13 +920,11 @@ transform: scale(1.5);
     margin-top: 47%;
     /* animation: advance 270s forwards steps(135), */
     /* fade-in-ik 26s forwards ease-in; */
-    animation: bobWeave 8s infinite ease-in-out; /* Optional: Apply bob-weave to the portrait as well */
 }
 
 .iron-key-portrait-game-over {
     animation: advance 270s forwards steps(135),
                fade-in-ik 26s forwards ease-in,
-               bobWeave 8s infinite ease-in-out;
 }
 
 @keyframes eyes-in {
@@ -1157,3 +1135,42 @@ transform: scale(1.5);
     left: 0px;
     transform: scale(0.8);
   }
+
+
+
+  #iron-key-text {
+    position: fixed;
+    
+    /* z-index: 2; Ensure it's above other elements */
+    animation: tiltAndTurn 14s infinite alternate-reverse steps(8);
+
+}
+
+@keyframes tiltAndTurn {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) scale(0.6);
+  }
+  20% {
+    transform: rotateX(-5deg) rotateY(5deg) scale(0.6);
+  }
+  40% {
+    transform: rotateX(5deg) rotateY(-5deg) scale(0.6);
+  }
+  60% {
+    transform: rotateX(-3deg) rotateY(3deg) scale(0.65);
+  }
+  80% {
+    transform: rotateX(3deg) rotateY(-3deg) scale(0.65);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) scale(0.6);
+  }
+}
+
+#iron-key-text {
+  position: fixed;
+  z-index: 2; /* Ensure it's above other elements */
+  animation: tiltAndTurn 14s infinite alternate-reverse steps(8);
+  transform-origin: center; /* Make the tilt pivot from the center */
+}
+
