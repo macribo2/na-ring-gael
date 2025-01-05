@@ -25,20 +25,20 @@ const generateSparkles = () => {
     const lightHolder = document.getElementById('light-holder');
     if (!lightHolder) return;
 
-    for (let i = 0; i < 100; i++) {
+    // Clear existing sparkles to avoid buildup
+    lightHolder.innerHTML = '';
+
+    // Generate fewer sparkles
+    for (let i = 0; i < 30; i++) {
         const light = document.createElement('div');
         light.classList.add('light');
 
-        // Randomize initial positions
+        // Randomize positions
         light.style.top = `${Math.random() * 100}%`;
         light.style.left = `${Math.random() * 100}%`;
 
         // Randomize animation duration
-        light.style.animationDuration = `${3 + Math.random() * 5}s`;
-
-        // Randomize initial scaling
-        const initialScale = Math.random() * 0.8 + 0.5; // Scale between 0.5 and 1.3
-        light.style.transform = `scale(${initialScale})`;
+        light.style.animationDuration = `${5 + Math.random() * 5}s`;
 
         // Append to the holder
         lightHolder.appendChild(light);

@@ -22,7 +22,7 @@
 /* Generalized classes for light animation */
 .light {
     position: fixed;
-    height: 6px;
+    height: 3px;
     width: 6px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255, 242, 170, 1) 60%, transparent);
@@ -40,15 +40,16 @@
 
 /* Light holder container */
 #light-holder {
+  
     height: 100%;
-    width: 200%; /* Extra width for horizontal spread */
+    width: 130%;
     position: fixed;
-    top: 10%;
-    left: -50%;
-    z-index: 6050;
+    top: -15%;
+    left: -17%;
+    z-index: 6060;
     pointer-events: none;
     overflow: hidden;
-    transform: rotate(90deg); /* Adjust for desired effect */
+    /* border:4px saddlebrown; */
 }
 
 
