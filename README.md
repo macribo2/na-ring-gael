@@ -34,12 +34,13 @@ To run the game locally on your machine, follow these steps:
 6. Be sure to view in mobile landscape mode.
    
 ## Technologies Used
-
+- ChatGPT
 - React: JavaScript library for building user interfaces.
 - Phaser: Framework for creating 2D games using HTML5 and JavaScript.
 - JavaScript: Programming language used for game logic.
 - CSS: Styling language used for design and layout.
 
+hopefully eventually a Mongo Express "Not Only" SQL database
 ## Contributing
 
 Contributions to Na Ring Gael are welcome! If you'd like to contribute, please follow these steps:
