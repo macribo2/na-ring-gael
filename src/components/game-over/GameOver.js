@@ -1,4 +1,3 @@
-import '../settings-menu/settings-menu.css';
 import Easca from '../easca/easca2';
 import bg0 from '../../images/fog3.png';
 import eye1 from '../../images/gifs/suile0.gif';
@@ -33,7 +32,7 @@ const enterFullscreen = () => {
   }
 };
 
-export default function SettingsMenu(props) {
+export default function LandingPage(props) {
   const [fade, setFade] = useState('fade-in');
   const [showHistory, setShowHist] = useState(0);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
