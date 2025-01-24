@@ -1,0 +1,112 @@
+.fullscreen-image {z-index: 995;}
+
+.character {
+    position: fixed; /* Make it independent of parent containers */
+    top: -50%;
+    left: 50%;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    transform-origin: center center; /* Pivot for animations */
+    z-index: 997; /* Ensure it appears above everything else */
+    animation: zigZagFall 5s infinite steps(16) alternate-reverse;
+    pointer-events: none;
+    }
+    @keyframes zigZagFall {
+        0% {
+            transform: translate(-70%, -30%) scale(0.5) rotate(0deg);
+        }
+        
+        10% {
+            transform: translate(-20%, -15%) scale(0.5) rotate(80deg) ;
+        }
+        20% {
+            transform: translate(-70%, 30%) scale(0.3) rotate(360deg) ;
+        }
+        30% {
+            transform: translate(-20%, 45%) scale(0.5) rotate(-340deg);
+        }
+        40% {
+            transform: translate(-70%, 60%) scale(0.5) rotate(20deg) ;
+        }
+        
+        50% {
+            transform: translate(-20%, 80%) scale(0.2) rotate(100deg) ;
+        }
+        60% {
+            transform: translate(-70%, 100%) scale(0.5) rotate(-20deg) ;
+        }
+        70% {
+            transform: translate(-20%, 120%) scale(0.5) rotate(40deg) ;
+        }
+        
+        80% {
+            transform: translate(-70%, 70%) scale(0.3) rotate(0deg);
+        }
+        100% {
+            transform: translate(-20%, 130%) scale(0.2) rotate(1180deg) ;
+        }
+    }
+    .cave-wall {
+        position: fixed;
+        width: 20%; /* Adjust for desired wall thickness */
+        height: 200%; /* Long enough to fill the screen during animation */
+        background-repeat: repeat-y; /* Tile the background image vertically */
+        background-size: 100% auto; /* Ensure the image stretches horizontally */
+        animation: caveFlyUp 3s infinite linear;
+        z-index: 999 !important; /* Behind the character */
+        transform: scale(4) translateX(25%);
+    pointer-events: none;
+
+    }
+    
+    .cave-wall.left {
+        top: 0; /* Start at the top */
+        left: 0;
+        background: url('../../../../images/fullscreen-prompt-graphics/cavewall1.png') repeat-y;
+        background-position: 0 0; /* Initial position */
+    }
+    
+    .cave-wall.right {
+        top: 0; /* Start at the top */
+        right: 0;
+        background: url('../../../../images/fullscreen-prompt-graphics/cavewall0.png') repeat-y;
+        background-position: 0 0; /* Initial position */
+    }
+    
+    @keyframes caveFlyUp {
+        0% {
+            background-position: 0 0; /* Start at the top */
+        }
+        50% {
+            background-position: 0 -100%; /* Move the background up halfway */
+        }
+        100% {
+            background-position: 0 -200%; /* Move the background up fully */
+        }
+    }
+    .cave-wall-parallax {
+    pointer-events: none;
+
+        position: fixed;
+        width: 100%; /* Full width */
+        height: 200%; /* Ensure it fills the screen */
+        background-repeat: repeat-y; /* Repeat the background vertically */
+        background-size: auto 100%; /* Ensure the image repeats vertically and maintains its aspect ratio */
+        animation: caveFlyUpParallax 4s infinite linear; /* Slower animation */
+        z-index: 996 !important; /* Behind the main wall */
+        top: -50%; /* Start from the top of the screen */
+        background: url('../../../../images/fullscreen-prompt-graphics/cavewall1.png');
+        opacity: 0.1;
+    }
+    
+    /* Keyframe animation for the parallax cave wall (slower) */
+    @keyframes caveFlyUpParallax {
+        0% {
+            transform: translateY(50%) scale(4);
+        }
+        100% {
+            transform: translateY(-50%) scale(4); /* Ensure the image moves off the screen seamlessly */
+        }
+    }
+    
+    
