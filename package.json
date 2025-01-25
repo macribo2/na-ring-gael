@@ -17,7 +17,7 @@
     "normalize.css": "^8.0.1",
     "path": "^0.12.7",
     "phaser": "^3.70.0",
-    "phaser3-rex-plugins": "^1.80.11",
+    "phaser3-rex-plugins": "^1.80.12",
     "postcss-scss": "^4.0.4",
     "react": "^16.13.1",
     "react-audio-player": "^0.17.0",
