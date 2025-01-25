@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import LoadingScene from './components/LoadingScene';
 import './index.css';
 import { PlayerProvider } from'./components/player-context/playerContext'
 import App from './App';
@@ -50,7 +49,7 @@ const ChessLikeWrapper = () => {
     return () => clearTimeout(timeoutId);
 
     if (!isLoaded) {
-      return <LoadingScene />; // Show loading scene until assets are loaded
+      // return <LoadingScene />; // Show loading scene until assets are loaded
     }
   }, []); // Empty dependency array ensures that this effect runs only once
 
