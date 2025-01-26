@@ -65,12 +65,12 @@ class GameScene extends Phaser.Scene {
         this.load.image('panel-molly-0', './phaser-resources/images/players/draoi0.gif');
         this.load.json('narrative0', './phaser-resources/text/narrative0.json');
         this.load.image('glassbg0', './phaser-resources/images/big-glass.png');
-        this.load.image('button-up', './phaser-resources/images/ui/pad-u.png');
-        this.load.image('button-down', './phaser-resources/images/ui/pad-d.png');
-        this.load.image('button-left', './phaser-resources/images/ui/pad-l.png');
-        this.load.image('button-right', './phaser-resources/images/ui/pad-r.png');
-        this.load.image('button-middle-lit', './phaser-resources/images/ui/middle-a.png');
-        this.load.image('button-middle', './phaser-resources/images/ui/middle-b.png');
+        this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
+        this.load.image('button-down', '/phaser-resources/images/ui/pad-d.png');
+        this.load.image('button-left', '/phaser-resources/images/ui/pad-l.png');
+        this.load.image('button-right', '/phaser-resources/images/ui/pad-r.png');
+        this.load.image('button-middle-lit', '/phaser-resources/images/ui/middle-a.png');
+        this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
     }
     
     create() {

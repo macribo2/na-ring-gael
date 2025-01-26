@@ -1,10 +1,26 @@
 import Phaser from "phaser";
+import { EventEmitter } from './EventEmitter';
+
 class ChampionSelect2 extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
+    
     super(scene, x, y);
+
+
+
+
     const centerX = 50;
     const centerY = 50;
     const radius = 450;
+    const selectedSpriteKey = scene.data.get('selectedChampionSpriteKey');
+    // Ensure a valid sprite key is selected
+    if (selectedSpriteKey) {
+        // Set the sprite texture based on the selected champion
+        this.championSprite = scene.add.sprite(x, y+50, 'championSprites', selectedSpriteKey); 
+        this.add(this.championSprite).setDepth(40);  // Add it to the container
+      } else {
+        console.warn('No selected champion sprite key found!');
+      }
     this.numSpokes = 64; // Total number of spokes
     this.currentAngle = 0;
     this.background2 = null; // Declare background2 here
@@ -92,9 +108,9 @@ mottoEn:'One time out of nine times',
       },{
 
        notes:'',
-       mottoGa:'Cuimhníonn an crann',
+       mottoGa:'Bata agus bóthar',
 
-mottoEn:'The wood remembers.',
+mottoEn:'Stick and road',
         branchGa:'Sail Éille',
        branchEn:'Shillelagh',
       },{
@@ -102,15 +118,15 @@ mottoEn:'The wood remembers.',
        notes:'',
        mottoGa:'Neart',
 
-mottoEn:'plenty || strength',
+mottoEn:'plenty; strength',
         branchGa:'An Coire',
        branchEn:'of the Cauldron',
       },{
        
        notes:'',
-       mottoGa:'Tá slí soiléir\n ceilte ag na Duillí',
+       mottoGa:'Cómhghlan\n ceilte',
 
-mottoEn:'Hidden by the leaves, \nthere is a clear way',
+mottoEn:'Equally bright \nhidden',
         branchGa:'Ceilte ag na Duillóga',
        branchEn:'Hidden by the Leaves',
       },{
@@ -236,9 +252,9 @@ mottoEn:'The goose knows best',
 
 
        notes:'',
-       mottoGa:'Ní fhágfar faoin tíorán ná faoin tráill',
+       mottoGa:'Gan tíorán gan tráill',
 
-mottoEn:'Neither despot nor slave may dwell here',
+mottoEn:'No master no slave',
         branchGa:'Na Rogairí',
        branchEn:'The Rogues',
       },{
@@ -335,18 +351,18 @@ mottoEn:'Under land, under mountain, under street',
 
 
        notes:'',
-       mottoGa:'Glóir len a hainm',
+       mottoGa:'Lean an badb',
 
-mottoEn:'Glory in her name.',
-        branchGa:'Adhraightheora Morrígan',
-       branchEn:'Morrigin Worshipers',
+mottoEn:'Follow the crow',
+        branchGa:'Adharthí Morrígan',
+       branchEn:'Worshipers of the Phantom Queen',
       },{
        
 
 
 
        notes:'',
-       mottoGa:'Neart 7 ónóir',
+       mottoGa:'Neart agus ónóir',
 
 mottoEn:'Strength and honour',
         branchGa:'Na Geasaithe',
@@ -368,9 +384,9 @@ mottoEn:'Claws that rend',
 
 
        notes:'',
-       mottoGa:'I am the shield over every head',
+       mottoGa:'Am an scíath thar gach uile chinn',
 
-mottoEn:'Am an scíath far gach uile chinn',
+mottoEn:'I am the shield over every head',
         branchGa:'An Sciath',
        branchEn:'the Shield',
       },{
@@ -509,7 +525,7 @@ mottoEn:'Rare is the place...',
        notes:'',
        mottoGa:'Ar nós na gaoithe',
 
-mottoEn:'Ways of winds',
+mottoEn:'as the wind',
         branchGa:'Na Fáinleoga',
        branchEn:'The Swallows',
       },{
@@ -520,9 +536,9 @@ mottoEn:'Ways of winds',
        notes:'',
        mottoGa:'Is mé brí an dána',
 
-mottoEn:'I am a word of science | poetry | prophesy | the people | daring',
+mottoEn:'I am a word of science;  poetry;  prophesy;  daring',
         branchGa:'Na hEalaí',
-       branchEn:'of the Swans | of the Arts',
+       branchEn:'of the Swans;  of the Arts',
       },{
        
 
@@ -617,9 +633,9 @@ mottoEn:'Unity of the pack',
 
 
        notes:'',
-       mottoGa:'Ceangail ár gcroí le chéile',
+       mottoGa:'Ar aghaidh le chéile',
 
-mottoEn:'Bind our hearts together',
+mottoEn:'Onward together',
         branchGa:'Na Curacha',
        branchEn:'of the Skiffs',
       },{
@@ -631,8 +647,8 @@ mottoEn:'Bind our hearts together',
        mottoGa:'Ó 0 go 1',
 
 mottoEn:'From 0 to 1',
-     branchGa:  'foinse',
-       branchEn:'source',
+     branchGa:  'Na Foinse',
+       branchEn:'The sources',
    } 
        
        
@@ -640,7 +656,7 @@ mottoEn:'From 0 to 1',
        
 ]
     
-this.background = scene.add.sprite(0, 0, 'bg1'); 
+this.background = scene.add.sprite(0, 0, 'bg1').setDepth(10); 
 this.background.setOrigin(0, 0); 
 this.background.setDisplaySize(scene.scale.width, scene.scale.height);
 
@@ -652,7 +668,7 @@ this.background.setDisplaySize(scene.scale.width, scene.scale.height);
 
 
 // Create the sprite for the wheel
-this.wheel = scene.add.sprite(centerX, centerY, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0.5);
+this.wheel = scene.add.sprite(centerX, centerY, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0.5).setDepth(20);
 this.wheel.setDisplaySize(radius * 2, radius * 2);
 this.wheel.setInteractive();
 
@@ -670,19 +686,19 @@ this.wheel.setInteractive();
     this.nameTextGa = scene.add.text(550, 50, 'test', {
       font: '64px IrishPenny',
       fill: '#ffffff',
-}).setOrigin(0.5).setAlpha(0);
+}).setOrigin(0.5).setAlpha(0).setDepth(30);
 
 
 // Add subtitle text for mottoGa
 this.subtitleTextGa = scene.add.text(550,250, '', {
         font: '32px IrishPenny',
         fill: '#ffffff',
-}).setOrigin(0.5)
+}).setOrigin(0.5).setDepth(30);
 // Add subtitle text for mottoGa
 this.subtitleTextEn = scene.add.text( 550,350,'', {
         font: '25px ubuntu',
         fill: 'limegreen',
-}).setOrigin(0.5)
+}).setOrigin(0.5).setDepth(30);
 
 
 // Add text for the name
@@ -690,7 +706,7 @@ this.nameTextEn =scene.add.text(550, 150, '', {
         font: '25px ubuntu',
         fill: 'limegreen',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5)//.setAlpha(0).setVisible(false)
+    }).setOrigin(0.5).setDepth(30);//.setAlpha(0).setVisible(false)
     
     // Variables for tracking rotation and velocity
     this.rotationVelocity = 0;
@@ -716,7 +732,7 @@ this.nameTextEn =scene.add.text(550, 150, '', {
     this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false);
     this.background2.setOrigin(0, 0);
     this.background2.setDisplaySize(scene.scale.width, scene.scale.height);
-    this.background2.setAlpha(0); // Set initial alpha to 0
+    this.background2.setAlpha(0).setDepth(30); // Set initial alpha to 0
     
     
   }
@@ -728,7 +744,7 @@ this.nameTextEn =scene.add.text(550, 150, '', {
   }
   // Method to create a dynamic rainbow circle
   createRainbowCircle(scene, x, y, radius) {
-    this.rainbowCircle = scene.add.graphics().setAlpha(0);
+    this.rainbowCircle = scene.add.graphics().setAlpha(0).setDepth(20);;
     scene.events.on('update', () => {
       this.updateColorShiftCircle(x, y, radius);
     });
@@ -974,7 +990,7 @@ highlightSpokes() {
         const image = this.scene.add
           .image(75, 75, imageKey)
           .setAlpha(0)
-          .setDepth(15)
+          .setDepth(30)
           .setScale(0.3);
         this.branchImages.push(image);
       });
@@ -998,7 +1014,11 @@ highlightSpokes() {
       }
     }
   }
+
+
+
 }
+
 
 }
 
