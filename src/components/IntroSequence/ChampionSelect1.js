@@ -7,12 +7,12 @@ class ChampionSelect1 extends Phaser.GameObjects.Container {
       
     super(scene, x, y);
     this.displayedChampion = {spriteKey:'',gender:"", nameGa: '', nameEn: '' };
-    this.championImage = scene.add.image(0, 0, 'championSprites').setVisible(false)
+    this.championImage = scene.add.image(centerX, centerY, 'championSprites').setVisible(false)
     
 this.onComplete=onComplete;
 this.background2 = null; // Declare background2 here
-    const centerX = 50;
-    const centerY = 50;
+    const centerX = 100;
+    const centerY = 100;
     const radius = 450;
     this.numSpokes = 300; // Total number of spokes
     this.currentAngle = 0;
@@ -333,12 +333,12 @@ this.background = scene.add.sprite(0, 0, 'bg1');
 this.background.setOrigin(0, 0); 
 this.background.setDisplaySize(scene.scale.width, scene.scale.height);
   // Add the dynamic rainbow circle
-  this.createRainbowCircle(scene, 75, 75, 50);
+  this.createRainbowCircle(scene, centerX, centerY, 50);
 
 this.championSprite = scene.add.sprite(400, 300, 'championSprites').setVisible(false);
 
 // Create the sprite for the wheel
-this.wheel = scene.add.sprite(75,75, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0.5);
+this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0.5);
     this.wheel.setDisplaySize(radius * 2, radius * 2);
     this.wheel.setInteractive();
     
@@ -376,8 +376,8 @@ this.wheel = scene.add.sprite(75,75, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0
             onComplete: () => {
                 
                 // Change text properties (position, font size, etc.)
-                this.nameTextGa.setPosition(150, centerY + 110); // New position
-                
+                this.nameTextGa.setPosition(50,50); // New position
+            this.nameTextGa.setOrigin(0)
                 // Fade in the updated text
                 this.scene.tweens.add({
                     targets: this.nameTextGa,
@@ -459,7 +459,7 @@ this.wheel = scene.add.sprite(75,75, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0
     }).setAlpha(0).setDepth(30);
     
     // Add a sprite to display the champion image
-    this.championImage = scene.add.sprite(75, 75, 'defaultSprite').setVisible(false).setAlpha(0);
+    this.championImage = scene.add.sprite(centerX, centerY, 'defaultSprite').setVisible(false).setAlpha(0);
     this.championImage.setScale(2).setDepth(30); // Adjust size as needed
 
 
@@ -680,8 +680,8 @@ this.scene.time.delayedCall(0, () => {
       this.spokes = this.scene.add.graphics();
     }
   
-    const centerX = 50;
-    const centerY = 50;
+    const centerX = 100;
+    const centerY = 100;
     const radius = 450;
     const angleStep = (2 * Math.PI) / this.numSpokes;
     var sensorX = this.sensor && this.sensor.x !== undefined ? this.sensor.x : 0;

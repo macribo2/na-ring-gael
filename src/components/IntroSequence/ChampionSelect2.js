@@ -9,8 +9,8 @@ class ChampionSelect2 extends Phaser.GameObjects.Container {
 
 
 
-    const centerX = 50;
-    const centerY = 50;
+    const centerX = 100;
+    const centerY = 100;
     const radius = 450;
     const selectedSpriteKey = scene.data.get('selectedChampionSpriteKey');
     // Ensure a valid sprite key is selected
@@ -490,7 +490,7 @@ mottoEn:'Courage, Patience',
 
 
        notes:'',
-       mottoGa:'Búal leis na haingeal',
+       mottoGa:'Buail leis na haingil',
 
 mottoEn:'Strike with the angels',
         branchGa:'Lannairidhe',
@@ -501,7 +501,7 @@ mottoEn:'Strike with the angels',
 
 
        notes:'',
-       mottoGa:'Tóg gach rud \nFág tada',
+       mottoGa:'Tóg gach rud. \nFág tada.',
 
 mottoEn:'Take all \nleave nothing',
         branchGa:'na tArgthóirí',
@@ -647,7 +647,7 @@ mottoEn:'Onward together',
        mottoGa:'Ó 0 go 1',
 
 mottoEn:'From 0 to 1',
-     branchGa:  'Na Foinse',
+     branchGa:  'Na Foinsí',
        branchEn:'The sources',
    } 
        
@@ -726,7 +726,7 @@ this.nameTextEn =scene.add.text(550, 150, '', {
     
     
     // Add the dynamic rainbow circle
-    this.createRainbowCircle(scene, 75, 75, 50);
+    this.createRainbowCircle(scene, centerX, centerY, 50);
     
     
     this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false);
@@ -988,7 +988,7 @@ highlightSpokes() {
         const imageKey = `fortuna${index.toString().padStart(2, '0')}`;
         console.log(imageKey); // Ensure the image keys match
         const image = this.scene.add
-          .image(75, 75, imageKey)
+          .image(centerX, centerY, imageKey)
           .setAlpha(0)
           .setDepth(30)
           .setScale(0.3);
