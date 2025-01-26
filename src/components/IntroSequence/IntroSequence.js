@@ -14,7 +14,7 @@ class IntroSequence extends Phaser.Scene {
   
     this.characterSheet = {};
     this.textsGa = [
-        'Síos,    \nsíos,      \nsíos go doimhean...',
+        'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...\n     \n"Cé a tagann go ríocht an préamh?"',
         '                    "Is mise..."',
         // '"Scaoilfar aonarán, ar ais ar an saol. \nRoghnaigh féinnidh..."', 
@@ -470,9 +470,45 @@ this.ChampionSelect1.destroy(); // Then destroy it.
   if (this.currentStep === 3) {
     this.ChampionSelect1.fadeInBackground2();
   
+    if (this.currentStep === 3) {
+      this.ChampionSelect1.fadeInBackground2();
+    
+          // Fade out the current text
+          this.tweens.add({
+            targets: this.textObjectGa,
+            alpha: 0, // Fade out to alpha 0
+            duration: 1000, // Duration of 1 second
+            ease: 'Power1', // Smooth easing
+            onComplete: () => {
+                
+                // Change text properties (position, font size, etc.)
+                this.textObjectGa.setPosition(50, 150,); // New position
+            
+                // Fade in the updated text
+                this.tweens.add({
+                    targets: this.textObjectGa,
+                    alpha: 1, // Fade in to alpha 1
+                    duration: 1000, // Duration of 1 second
+                    ease: 'Power1', // Smooth easing
+                    onStart: () => {
+                        console.log("textObjectGa is fading back in.");
+                    },
+                    onComplete: () => {
+                        console.log("textObjectGa fully visible.");
+                    }
+                });
+            }
+        });
   
+      }}
 
-  }
+
+
+
+
+
+
+  
 
 
 if (this.currentStep === 4 && !this.ChampionSelect2) { //2

@@ -70,19 +70,17 @@ const LandingPage = () => {
       button.style.transition = 'opacity 0.5s ease'; // Smooth fade-out transition
     }
   
-    // Trigger start button functionality
     const scene = gameRef.current && gameRef.current.scene.getScene('LandingPageScene');
-    if (scene) {
-      console.log('Found the scene'); // Check if the scene is properly found
-      scene.cameras.main.fadeOut(500, 0, 0, 0); // Fade out the current scene
-      scene.cameras.main.once('camerafadeoutcomplete', () => {
+if (scene && scene.cameras && scene.cameras.main) {
+    console.log('Scene and camera are properly initialized.');
+    scene.cameras.main.fadeOut(500, 0, 0, 0); // Fade out the current scene
+    scene.cameras.main.once('camerafadeoutcomplete', () => {
         scene.scene.start('IntroSequence'); // Transition to IntroSequence
         scene.cameras.main.fadeIn(500, 0, 0, 0); // Fade in the new scene
-      });
-      console.log('Transition triggered');
-    } else {
-      console.log('Scene not found or gameRef not initialized');
-    }
+    });
+} else {
+    console.error('Scene or camera is not properly initialized.');
+}
   };
 
   return (
