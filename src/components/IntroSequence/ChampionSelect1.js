@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { EventEmitter } from './EventEmitter';
+
 
 class ChampionSelect1 extends Phaser.GameObjects.Container {
   constructor(scene, x, y, onComplete) {
@@ -6,6 +8,7 @@ class ChampionSelect1 extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.displayedChampion = {spriteKey:'',gender:"", nameGa: '', nameEn: '' };
     this.championImage = scene.add.image(0, 0, 'championSprites').setVisible(false)
+    
 this.onComplete=onComplete;
 this.background2 = null; // Declare background2 here
     const centerX = 50;
@@ -320,7 +323,7 @@ this.background2 = null; // Declare background2 here
 
   
 
-this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false);
+this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false).setDepth(15);
 this.background2.setOrigin(0, 0);
 this.background2.setDisplaySize(scene.scale.width, scene.scale.height);
 this.background2.setAlpha(0); // Set initial alpha to 0
@@ -354,20 +357,110 @@ this.wheel = scene.add.sprite(75,75, 'celt-ring').setOrigin(0.5, 0.5).setAlpha(0
     this.nameTextGa = scene.add.text(400, centerY + 110, 'test', {
       font: '64px IrishPenny',
       fill: '#ffffff',
-    }).setOrigin(0.5).setAlpha(0);
+    }).setOrigin(0.5).setAlpha(0).setDepth(30);;
     
     
-    
+  // Set up the event listener
+  EventEmitter.on('stepChanged', (newStep) => {
+    console.log(`ChampionSelect1 noticed step change: ${newStep}`);
+    if (newStep === 3) {
+
+
+      if (this.nameTextGa) {
+        // Fade out the current text
+        this.scene.tweens.add({
+            targets: this.nameTextGa,
+            alpha: 0, // Fade out to alpha 0
+            duration: 1000, // Duration of 1 second
+            ease: 'Power1', // Smooth easing
+            onComplete: () => {
+                
+                // Change text properties (position, font size, etc.)
+                this.nameTextGa.setPosition(150, centerY + 110); // New position
+                
+                // Fade in the updated text
+                this.scene.tweens.add({
+                    targets: this.nameTextGa,
+                    alpha: 1, // Fade in to alpha 1
+                    duration: 1000, // Duration of 1 second
+                    ease: 'Power1', // Smooth easing
+                    onStart: () => {
+                        console.log("nameTextGa is fading back in.");
+                    },
+                    onComplete: () => {
+                        console.log("nameTextGa fully visible.");
+                    }
+                });
+            }
+        });
+    } else {
+        console.warn("nameTextGa is not defined yet.");
+    }
+
+
+      this.scene.tweens.add({
+        targets: this.championImage,
+        y: this.championImage.y + 250, // Move down 250px
+        duration: 2000, // Duration of 2 seconds for walking effect
+        ease: 'Sine.easeInOut', // Smooth easing function
+        onStart: () => {
+            console.log("ChampionSprite started walking down.");
+        },
+        onComplete: () => {
+            console.log("ChampionSprite finished walking down.");
+        }
+    });
+
+         }
+
+         if (newStep === 4) {
+          if (this.nameTextGa) {
+              // Fade out the current text
+              this.scene.tweens.add({
+                  targets: this.nameTextGa,
+                  alpha: 0, // Fade out to alpha 0
+                  duration: 1000, // Duration of 1 second
+                  ease: 'Power1', // Smooth easing
+                  onComplete: () => {
+                      console.log("nameTextGa faded out.");
+                      
+                      // Change text properties (position, font size, etc.)
+                      this.nameTextGa.setFontSize(32); // Smaller font size
+                      this.nameTextGa.setPosition(150, 250); // New position
+                      this.nameTextGa.setAlpha(0.5); // New position
+                      
+                      // Fade in the updated text
+                      this.scene.tweens.add({
+                          targets: this.nameTextGa,
+                          alpha: 1, // Fade in to alpha 1
+                          duration: 1000, // Duration of 1 second
+                          ease: 'Power1', // Smooth easing
+                          onStart: () => {
+                              console.log("nameTextGa is fading back in.");
+                          },
+                          onComplete: () => {
+                              console.log("nameTextGa fully visible.");
+                          }
+                      });
+                  }
+              });
+          } else {
+              console.warn("nameTextGa is not defined yet.");
+          }
+      }
+
+
+  })
     // Add text for the name
      this.nameTextEn =scene.add.text(50, 450, '', {
       font: '25px ubuntu',
       fill: 'limegreen',
       wordWrap: { width: 600 },
-    }).setAlpha(0);
+    }).setAlpha(0).setDepth(30);
     
     // Add a sprite to display the champion image
     this.championImage = scene.add.sprite(75, 75, 'defaultSprite').setVisible(false).setAlpha(0);
-    this.championImage.setScale(2); // Adjust size as needed
+    this.championImage.setScale(2).setDepth(30); // Adjust size as needed
 
 
     // Variables for tracking rotation and velocity
@@ -653,6 +746,7 @@ this.scene.time.delayedCall(0, () => {
             .setInteractive()
             .on('pointerdown', () => {
               this.selectChampion(this.displayedChampion.nameGa);
+           
             });
         } else {
           this.championImage.setVisible(false);
@@ -662,6 +756,8 @@ this.scene.time.delayedCall(0, () => {
         this.championImage.setVisible(false);
       }
     }
+  
+
   }
   
 

@@ -3,15 +3,19 @@ import ControlSquare from '../ControlSquare/ControlSquare';
 import ChampionSelect1 from './ChampionSelect1'
 import ChampionSelect2 from './ChampionSelect2'
 
+
+import { EventEmitter } from './EventEmitter';
+
 class IntroSequence extends Phaser.Scene {
   constructor() {
     
     super({ key: 'IntroSequence' });
     this.currentStep = 0;
+  
     this.characterSheet = {};
     this.textsGa = [
         'Síos,    \nsíos,      \nsíos go doimhean...',
-        'Síos go plúis gan éag...\n     \n"Cé a tagann go ríocht an préamh?"',
+        'Síos i plúis gan éag...\n     \n"Cé a tagann go ríocht an préamh?"',
         '                    "Is mise..."',
         // '"Scaoilfar aonarán, ar ais ar an saol. \nRoghnaigh féinnidh..."', 
         '"Le cén géag dos na Fianna a bhainneann tú?"',
@@ -23,7 +27,7 @@ class IntroSequence extends Phaser.Scene {
       
       this.textsEn = [
         'Down, down \nfar far down...',
-        'Down to an endless cavern \n "Who has come to the kingdom of the root?"',
+        'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am ...',
         // '"One alone shall be released to the living world. \nchoose your champion..."',
         'With which branch of the Fianna do you belong?',
@@ -36,10 +40,89 @@ class IntroSequence extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('bg1', 'assets/images/bg1.png');
+    this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game
-      this.load.atlas('championSprites', 'assets/images/champions-test.png', 'assets/json/champions-test.json');
-  }
+      this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+      this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
+      this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
+      this.load.image('leftButtonDark', '/phaser-resources/images/ui/pad-l.png');
+      this.load.image('rightButtonDark', '/phaser-resources/images/ui/pad-r.png');
+      this.load.image('middleButtonDark', '/phaser-resources/images/ui/middle-b.png');
+      this.load.image('upButtonLit', '/phaser-resources/images/ui/pad-u-lit.png');
+      this.load.image('downButtonLit', '/phaser-resources/images/ui/pad-d-lit.png');
+      this.load.image('leftButtonLit', '/phaser-resources/images/ui/pad-l-lit.png');
+      this.load.image('rightButtonLit', '/phaser-resources/images/ui/pad-r-lit.png');
+      this.load.image('middleButtonLit', '/phaser-resources/images/ui/middle-a.png');
+  
+  
+      this.load.image('fortuna00', 'phaser-resources/images/o-fortuna/0.png');
+      this.load.image('fortuna01', 'phaser-resources/images/o-fortuna/1.png');
+      this.load.image('fortuna02', 'phaser-resources/images/o-fortuna/2.png');
+      this.load.image('fortuna03', 'phaser-resources/images/o-fortuna/3.png');
+      this.load.image('fortuna04', 'phaser-resources/images/o-fortuna/4.png');
+      this.load.image('fortuna05', 'phaser-resources/images/o-fortuna/5.png');
+      this.load.image('fortuna06', 'phaser-resources/images/o-fortuna/6.png');
+      this.load.image('fortuna07', 'phaser-resources/images/o-fortuna/7.png');
+      this.load.image('fortuna08', 'phaser-resources/images/o-fortuna/8.png');
+      this.load.image('fortuna09', 'phaser-resources/images/o-fortuna/9.png');
+      this.load.image('fortuna10', 'phaser-resources/images/o-fortuna/10.png');
+      this.load.image('fortuna11', 'phaser-resources/images/o-fortuna/11.png');
+      this.load.image('fortuna12', 'phaser-resources/images/o-fortuna/12.png');
+      this.load.image('fortuna13', 'phaser-resources/images/o-fortuna/13.png');
+      this.load.image('fortuna14', 'phaser-resources/images/o-fortuna/14.png');
+      this.load.image('fortuna15', 'phaser-resources/images/o-fortuna/15.png');
+      this.load.image('fortuna16', 'phaser-resources/images/o-fortuna/16.png');
+      this.load.image('fortuna17', 'phaser-resources/images/o-fortuna/17.png');
+      this.load.image('fortuna18', 'phaser-resources/images/o-fortuna/18.png');
+      this.load.image('fortuna19', 'phaser-resources/images/o-fortuna/19.png');
+      this.load.image('fortuna20', 'phaser-resources/images/o-fortuna/10.png');
+      this.load.image('fortuna21', 'phaser-resources/images/o-fortuna/21.png');
+      this.load.image('fortuna22', 'phaser-resources/images/o-fortuna/22.png');
+      this.load.image('fortuna23', 'phaser-resources/images/o-fortuna/23.png');
+      this.load.image('fortuna24', 'phaser-resources/images/o-fortuna/24.png');
+      this.load.image('fortuna25', 'phaser-resources/images/o-fortuna/25.png');
+      this.load.image('fortuna26', 'phaser-resources/images/o-fortuna/26.png');
+      this.load.image('fortuna27', 'phaser-resources/images/o-fortuna/27.png');
+      this.load.image('fortuna28', 'phaser-resources/images/o-fortuna/28.png');
+      this.load.image('fortuna29', 'phaser-resources/images/o-fortuna/29.png');
+      this.load.image('fortuna30', 'phaser-resources/images/o-fortuna/30.png');
+      this.load.image('fortuna31', 'phaser-resources/images/o-fortuna/31.png');
+      this.load.image('fortuna32', 'phaser-resources/images/o-fortuna/32.png');
+      this.load.image('fortuna33', 'phaser-resources/images/o-fortuna/33.png');
+      this.load.image('fortuna34', 'phaser-resources/images/o-fortuna/34.png');
+      this.load.image('fortuna35', 'phaser-resources/images/o-fortuna/35.png');
+      this.load.image('fortuna36', 'phaser-resources/images/o-fortuna/36.png');
+      this.load.image('fortuna37', 'phaser-resources/images/o-fortuna/37.png');
+      this.load.image('fortuna38', 'phaser-resources/images/o-fortuna/38.png');
+      this.load.image('fortuna39', 'phaser-resources/images/o-fortuna/39.png');
+      this.load.image('fortuna40', 'phaser-resources/images/o-fortuna/40.png');
+      this.load.image('fortuna41', 'phaser-resources/images/o-fortuna/41.png');
+      this.load.image('fortuna42', 'phaser-resources/images/o-fortuna/42.png');
+      this.load.image('fortuna43', 'phaser-resources/images/o-fortuna/43.png');
+      this.load.image('fortuna44', 'phaser-resources/images/o-fortuna/44.png');
+      this.load.image('fortuna45', 'phaser-resources/images/o-fortuna/45.png');
+      this.load.image('fortuna46', 'phaser-resources/images/o-fortuna/46.png');
+      this.load.image('fortuna47', 'phaser-resources/images/o-fortuna/47.png');
+      this.load.image('fortuna48', 'phaser-resources/images/o-fortuna/48.png');
+      this.load.image('fortuna49', 'phaser-resources/images/o-fortuna/49.png');
+      this.load.image('fortuna50', 'phaser-resources/images/o-fortuna/50.png');
+      this.load.image('fortuna51', 'phaser-resources/images/o-fortuna/51.png');
+      this.load.image('fortuna52', 'phaser-resources/images/o-fortuna/52.png');
+      this.load.image('fortuna53', 'phaser-resources/images/o-fortuna/53.png');
+      this.load.image('fortuna54', 'phaser-resources/images/o-fortuna/54.png');
+      this.load.image('fortuna55', 'phaser-resources/images/o-fortuna/55.png');
+      this.load.image('fortuna56', 'phaser-resources/images/o-fortuna/56.png');
+      this.load.image('fortuna57', 'phaser-resources/images/o-fortuna/57.png');
+      this.load.image('fortuna58', 'phaser-resources/images/o-fortuna/58.png');
+      this.load.image('fortuna59', 'phaser-resources/images/o-fortuna/59.png');
+      this.load.image('fortuna60', 'phaser-resources/images/o-fortuna/60.png');
+      this.load.image('fortuna61', 'phaser-resources/images/o-fortuna/61.png');
+      this.load.image('fortuna62', 'phaser-resources/images/o-fortuna/62.png');
+      this.load.image('fortuna63', 'phaser-resources/images/o-fortuna/63.png');
+  
+  
+  
+    }
 
   create() {
     this.particles = null; // Initialize particles as null
@@ -77,14 +160,14 @@ this.tweens.add({
       font: '32px IrishPenny',
       fill: '#ffffff',
       wordWrap: { width: 700 },
-    }).setDepth(10);
+    }).setDepth(10).setDepth(30);
 
 
     this.textObjectEn = this.add.text(50, 250, '', {
         font: '25px ubuntu',
         fill: 'limegreen',
         wordWrap: { width: 600 },
-      }).setVisible(false)
+      }).setVisible(false).setDepth(30);
   
     // Initialize typing effect using rexTextTyping
     this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
@@ -243,7 +326,7 @@ function showNextMessageWithTyping(newMessage) {
         
         // Set the previous message as the current one and start showing it
         this.currentStep--; // Move back to the previous step
-        
+        EventEmitter.emit('stepChanged', this.currentStep);
         if (this.currentStep >= 0) {
           // Slide the previous message down and fade it in
           this.tweens.add({
@@ -268,6 +351,7 @@ function showNextMessageWithTyping(newMessage) {
 
   this.controlSquare.rightButton.on('pointerdown', () => {
     this.currentStep++;
+    EventEmitter.emit('stepChanged', this.currentStep);
     if (this.currentStep < this.textsGa.length) {
       // Combine sweeping and typewriter effect
       showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
@@ -280,6 +364,7 @@ function showNextMessageWithTyping(newMessage) {
 
 this.controlSquare.upButton.on('pointerdown', () => {
     this.currentStep++;
+    EventEmitter.emit('stepChanged', this.currentStep);
     if (this.currentStep < this.textsGa.length) {
         // Combine sweeping and typewriter effect
         showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
@@ -360,10 +445,11 @@ if (this.currentStep === 1) {
 
   if (this.currentStep === 2 && !this.ChampionSelect1) {
     // Create the instance of ChampionSelect1 and pass a callback function
-    this.ChampionSelect1 = new ChampionSelect1(this, 250, 250, () => {
+    this.ChampionSelect1 = new ChampionSelect1(this, 250, 250,  this.currentStep,() => {
       // This callback will be executed when selectChampion is triggered
       
       this.currentStep= 3;
+      EventEmitter.emit('stepChanged', this.currentStep);
       this.textObjectGa.setText(this.textsGa[this.currentStep]);
       this.textObjectEn.setText(this.textsEn[this.currentStep]);
       // Use Phaser's Time event to delay the destruction of the object
@@ -384,19 +470,14 @@ this.ChampionSelect1.destroy(); // Then destroy it.
   if (this.currentStep === 3) {
     this.ChampionSelect1.fadeInBackground2();
   
-  }
-/*
+  
 
-   this.ChampionSelect1 = new ChampionSelect1(this, 250, 250, () => {
-      // Callback: Advance to the next step
-      this.currentStep++;
-      console.log('Character selected. Moving to step:', this.currentStep);
-    }).setDepth(5);
-*/
+  }
+
 
 if (this.currentStep === 4 && !this.ChampionSelect2) { //2
   // Create the instance only when needed
-  this.ChampionSelect2 = new ChampionSelect2(this, 250, 250).setDepth(5).setInteractive(true).setVisible(false);
+  this.ChampionSelect2 = new ChampionSelect2(this, 250, 250, this.currentStep).setDepth(5).setInteractive(true).setVisible(false);
       // Now you can safely access textures in the scene context
 console.log('Texture exists?', this.textures.exists('championSprites'));
 
@@ -410,6 +491,8 @@ if (this.currentStep===7){
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
 
 }
+
+
 }
 
 
