@@ -6,13 +6,13 @@ class ChampionSelect1 extends Phaser.GameObjects.Container {
   constructor(scene, x, y, onComplete) {
       
     super(scene, x, y);
+    const centerX = 100;
+    const centerY = 100;
     this.displayedChampion = {spriteKey:'',gender:"", nameGa: '', nameEn: '' };
     this.championImage = scene.add.image(centerX, centerY, 'championSprites').setVisible(false)
     
 this.onComplete=onComplete;
 this.background2 = null; // Declare background2 here
-    const centerX = 100;
-    const centerY = 100;
     const radius = 450;
     this.numSpokes = 300; // Total number of spokes
     this.currentAngle = 0;
@@ -356,104 +356,107 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     // Add text for the name
     this.nameTextGa = scene.add.text(400, centerY + 110, 'test', {
       font: '64px IrishPenny',
-      fill: '#ffffff',
+      fill: 'LavenderBlush',
     }).setOrigin(0.5).setAlpha(0).setDepth(30);;
     
     
-  // Set up the event listener
-  EventEmitter.on('stepChanged', (newStep) => {
-    console.log(`ChampionSelect1 noticed step change: ${newStep}`);
-    if (newStep === 3) {
+// Set up the event listener
+EventEmitter.on('stepChanged', (newStep) => {
+  console.log(`ChampionSelect1 noticed step change: ${newStep}`);
 
+  // Logic for Step 3
+  if (newStep === 3) {
+    if (this.nameTextGa) {
+      // Fade out the current text
+      this.scene.tweens.add({
+        targets: this.nameTextGa,
+        alpha: 0, // Fade out to alpha 0
+        duration: 1000, // Duration of 1 second
+        ease: 'Power1', // Smooth easing
+        onComplete: () => {
+          // Change text properties (position, font size, etc.)
+          this.nameTextGa.setPosition(50, 50); // New position
+          this.nameTextGa.setOrigin(0);
 
-      if (this.nameTextGa) {
-        // Fade out the current text
-        this.scene.tweens.add({
+          // Fade in the updated text
+          this.scene.tweens.add({
             targets: this.nameTextGa,
-            alpha: 0, // Fade out to alpha 0
+            alpha: 1, // Fade in to alpha 1
             duration: 1000, // Duration of 1 second
             ease: 'Power1', // Smooth easing
+            onStart: () => {
+              console.log("nameTextGa is fading back in.");
+            },
             onComplete: () => {
-                
-                // Change text properties (position, font size, etc.)
-                this.nameTextGa.setPosition(50,50); // New position
-            this.nameTextGa.setOrigin(0)
-                // Fade in the updated text
-                this.scene.tweens.add({
-                    targets: this.nameTextGa,
-                    alpha: 1, // Fade in to alpha 1
-                    duration: 1000, // Duration of 1 second
-                    ease: 'Power1', // Smooth easing
-                    onStart: () => {
-                        console.log("nameTextGa is fading back in.");
-                    },
-                    onComplete: () => {
-                        console.log("nameTextGa fully visible.");
-                    }
-                });
+              console.log("nameTextGa fully visible.");
             }
-        });
+          });
+        }
+      });
     } else {
-        console.warn("nameTextGa is not defined yet.");
+      console.warn("nameTextGa is not defined yet.");
     }
 
-
+    // Move the champion sprite down (walking effect)
+    if (this.championImage) {
       this.scene.tweens.add({
         targets: this.championImage,
         y: this.championImage.y + 250, // Move down 250px
         duration: 2000, // Duration of 2 seconds for walking effect
         ease: 'Sine.easeInOut', // Smooth easing function
         onStart: () => {
-            console.log("ChampionSprite started walking down.");
+          console.log("ChampionSprite started walking down.");
         },
         onComplete: () => {
-            console.log("ChampionSprite finished walking down.");
+          console.log("ChampionSprite finished walking down.");
         }
-    });
+      });
+    } else {
+      console.warn("championImage is not defined yet.");
+    }
+  }
 
-         }
+  // Logic for Step 4
+  if (newStep === 4) {
+    if (this.nameTextGa) {
+      // Fade out the current text
+      this.scene.tweens.add({
+        targets: this.nameTextGa,
+        alpha: 0, // Fade out to alpha 0
+        duration: 1000, // Duration of 1 second
+        ease: 'Power1', // Smooth easing
+        onComplete: () => {
+          console.log("nameTextGa faded out.");
 
-         if (newStep === 4) {
-          if (this.nameTextGa) {
-              // Fade out the current text
-              this.scene.tweens.add({
-                  targets: this.nameTextGa,
-                  alpha: 0, // Fade out to alpha 0
-                  duration: 1000, // Duration of 1 second
-                  ease: 'Power1', // Smooth easing
-                  onComplete: () => {
-                      console.log("nameTextGa faded out.");
-                      
-                      // Change text properties (position, font size, etc.)
-                      this.nameTextGa.setFontSize(32); // Smaller font size
-                      this.nameTextGa.setPosition(150, 250); // New position
-                      this.nameTextGa.setAlpha(0.5); // New position
-                      
-                      // Fade in the updated text
-                      this.scene.tweens.add({
-                          targets: this.nameTextGa,
-                          alpha: 1, // Fade in to alpha 1
-                          duration: 1000, // Duration of 1 second
-                          ease: 'Power1', // Smooth easing
-                          onStart: () => {
-                              console.log("nameTextGa is fading back in.");
-                          },
-                          onComplete: () => {
-                              console.log("nameTextGa fully visible.");
-                          }
-                      });
-                  }
-              });
-          } else {
-              console.warn("nameTextGa is not defined yet.");
-          }
-      }
+          // Change text properties (position, font size, etc.)
+          this.nameTextGa.setFontSize(32); // Smaller font size
+          this.nameTextGa.setPosition(150, 250); // New position
+          this.nameTextGa.setAlpha(0.5); // Adjust transparency
 
+          // Fade in the updated text
+          this.scene.tweens.add({
+            targets: this.nameTextGa,
+            alpha: 1, // Fade in to alpha 1
+            duration: 1000, // Duration of 1 second
+            ease: 'Power1', // Smooth easing
+            onStart: () => {
+              console.log("nameTextGa is fading back in.");
+            },
+            onComplete: () => {
+              console.log("nameTextGa fully visible.");
+            }
+          });
+        }
+      });
+    } else {
+      console.warn("nameTextGa is not defined yet.");
+    }
+  }
+});
 
-  })
     // Add text for the name
      this.nameTextEn =scene.add.text(50, 450, '', {
-      font: '25px ubuntu',
+      font: '25px IrishPenny',
       fill: 'limegreen',
       wordWrap: { width: 600 },
     }).setAlpha(0).setDepth(30);

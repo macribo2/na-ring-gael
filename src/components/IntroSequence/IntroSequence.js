@@ -11,7 +11,7 @@ class IntroSequence extends Phaser.Scene {
     
     super({ key: 'IntroSequence' });
     this.currentStep = 0;
-  
+  this.hasFaded = false;
     this.characterSheet = {};
     this.textsGa = [
         'Síos,    \nsíos,      \nsíos go doimhin...',
@@ -158,14 +158,14 @@ this.tweens.add({
     // Create text object
     this.textObjectGa = this.add.text(50, 50, '', {
       font: '32px IrishPenny',
-      fill: '#ffffff',
+      fill: 'LavenderBlush',
       wordWrap: { width: 700 },
     }).setDepth(10).setDepth(30);
 
 
     this.textObjectEn = this.add.text(50, 250, '', {
-        font: '25px ubuntu',
-        fill: 'limegreen',
+        font: '32px IrishPenny',
+        fill: 'OliveDrab',
         wordWrap: { width: 600 },
       }).setVisible(false).setDepth(30);
   
@@ -406,14 +406,13 @@ this.controlSquare.leftButton.on('pointerdown', () => {
   this.ChampionSelect2 = null
 
 
-  this.particles = this.add.particles(0, 0, 'fairyLight', {
+  this.particles = this.add.particles(0, 0, 'fairyLightBlur', {
     speed:{ min: 5, max: 30 },
     lifespan: 3000,
-    gravityY: -7100,
-    frequency:100,
+    gravityY: -5100,
+    frequency:200,
     scale: { start: 0.5, end: 1.2, ease: 'Linear' },
     alpha: { start: 0.8, end: 0, ease: 'Linear' },
-     angle: { min: 0, max: 360 }, 
      x: { min: 0, max: this.scale.width }, // Randomize starting x position
      y: this.scale.height+50, // Randomize starting y position
    
@@ -466,43 +465,43 @@ this.ChampionSelect1.destroy(); // Then destroy it.
   
     console.log('Texture exists?', this.textures.exists('championSprites'));
   }
+
+  console.log('Current step:', this.currentStep);
+  if (this.currentStep === 3 && !this.hasFaded) {
   
-  if (this.currentStep === 3) {
     this.ChampionSelect1.fadeInBackground2();
   
-    if (this.currentStep === 3) {
-      this.ChampionSelect1.fadeInBackground2();
-    
-          // Fade out the current text
+    // Fade out the current text
+    this.tweens.add({
+      targets: this.textObjectGa,
+      alpha: 0, // Fade out to alpha 0
+      duration: 300, // Duration of 0.3 seconds
+      ease: 'Power1', // Smooth easing
+      onComplete: () => {
+        // Change text properties (position, font size, etc.)
+        this.textObjectGa.setPosition(50, 150); // New position
+  
+        setTimeout(() => {
+          // Fade in the updated text
           this.tweens.add({
             targets: this.textObjectGa,
-            alpha: 0, // Fade out to alpha 0
+            alpha: 1, // Fade in to alpha 1
             duration: 1000, // Duration of 1 second
             ease: 'Power1', // Smooth easing
+            onStart: () => {
+              console.log("textObjectGa is fading back in.");
+            },
             onComplete: () => {
-                
-                // Change text properties (position, font size, etc.)
-                this.textObjectGa.setPosition(50, 150,); // New position
-            
-                // Fade in the updated text
-                this.tweens.add({
-                    targets: this.textObjectGa,
-                    alpha: 1, // Fade in to alpha 1
-                    duration: 1000, // Duration of 1 second
-                    ease: 'Power1', // Smooth easing
-                    onStart: () => {
-                        console.log("textObjectGa is fading back in.");
-                    },
-                    onComplete: () => {
-                        console.log("textObjectGa fully visible.");
-                    }
-                });
-            }
-        });
+              console.log("textObjectGa fully visible.");
+            },
+          });
+        }, 1500); // Delay before fading back in
+    this.hasFaded = true; // Set the flag to prevent repeated execution
+
+      },
+    });
+  }
   
-      }}
-
-
 
 
 
@@ -525,7 +524,8 @@ if (this.currentStep === 5) {
 
 if (this.currentStep===7){
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
-
+ // Use window.location to navigate without losing fullscreen
+ window.location.href = '/ballygamboy';
 }
 
 

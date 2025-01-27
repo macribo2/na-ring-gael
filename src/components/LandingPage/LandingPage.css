@@ -1,30 +1,51 @@
 
-  #iron-key-text {
-    position: fixed;
-    
-    /* z-index: 2; Ensure it's above other elements */
-    animation: tiltAndTurn 14s infinite alternate-reverse steps(8);
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: fixed;
+  top: -15%; /* Adjust for desired vertical position */
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 510;
+  pointer-events: none; /* Prevent accidental clicks on the container */
+}
 
+.title-text {
+  height: auto;
+  max-width: 80%; /* Prevent the image from becoming too large on larger screens */
+  animation: tiltAndTurn 14s infinite alternate-reverse steps(16);
+  background-image: url('../../images/iron-key2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: all; /* Allow clicking on the image */
+  cursor: pointer;
+  height: 400px;
+  width: 600px;
+  pointer-events: none; /* Prevent accidental clicks on the container */
 
-    }
+}
+
 @keyframes tiltAndTurn {
   0% {
-    transform: rotateX(0deg) rotateY(0deg) scale(0.6);
+    transform: rotateX(0deg) rotateY(0deg) scale(1.2);
   }
   20% {
-    transform: rotateX(-5deg) rotateY(5deg) scale(0.6);
+    transform: rotateX(-5deg) rotateY(5deg) scale(1.2);
   }
   40% {
-    transform: rotateX(5deg) rotateY(-5deg) scale(0.6);
+    transform: rotateX(5deg) rotateY(-5deg) scale(1.2);
   }
   60% {
-    transform: rotateX(-3deg) rotateY(3deg) scale(0.65);
+    transform: rotateX(-3deg) rotateY(3deg) scale(1.25);
   }
   80% {
-    transform: rotateX(3deg) rotateY(-3deg) scale(0.65);
+    transform: rotateX(3deg) rotateY(-3deg) scale(1.25);
   }
   100% {
-    transform: rotateX(0deg) rotateY(0deg) scale(0.6);
+    transform: rotateX(0deg) rotateY(0deg) scale(1.2);
   }
 }
 
@@ -43,7 +64,7 @@
   background-image: url('../../images/middle-c.png');
   background-repeat: no-repeat;
   transform-origin: 50% 50%;
-  scale: 1.4;
+  scale: 1.2;
 
 }
 

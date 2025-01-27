@@ -63,11 +63,16 @@ const LandingPage = () => {
         : document.webkitExitFullscreen(); // Safari
       exitPromise.then(() => setFullscreen(false));
     }
+    const title = document.querySelector('.title-text');
 
     const button = document.querySelector('.start-fullscreen-button');
     if (button) {
       button.style.opacity = 0; // Start fading the button
       button.style.transition = 'opacity 0.5s ease'; // Smooth fade-out transition
+    }
+    if (title) {
+      title.style.opacity = 0; // Start fading the button
+      title.style.transition = 'opacity 0.5s ease'; // Smooth fade-out transition
     }
   
     const scene = gameRef.current && gameRef.current.scene.getScene('LandingPageScene');
@@ -87,12 +92,18 @@ if (scene && scene.cameras && scene.cameras.main) {
     <>
       <div id="phaser-container" style={{ width: '100%', height: '100%', position: 'fixed', zIndex: 2 }} />
       {buttonVisible && (
-        <image
+        <image 
           className="start-fullscreen-button"
           onClick={toggleFullscreenAndStart}
         />
-        
       )}
+       {buttonVisible && (
+      <div className="title-container">
+        <div
+          className="title-text"
+        />
+      </div>
+    )}
     </>
   );
 };
@@ -103,10 +114,11 @@ const LandingPageScene = {
   preload() {
     this.load.image('fog', '/phaser-resources/images/foreground-elements/fog01.png');
     this.load.image('background', '/phaser-resources/images/bg0.png');
+    this.load.image('backgroundFar', '/phaser-resources/images/24d.png');
     this.load.image('celt-ring', '/phaser-resources/images/celt-ring.png');
     this.load.image('middle-c', '/phaser-resources/images/ui/middle-c.png');
-    this.load.image('title', '/phaser-resources/images/game-title.png');
     this.load.image('fairyLight', '/phaser-resources/images/fairyLight.png');
+    this.load.image('fairyLightBlur', '/phaser-resources/images/fairyLightBlur.png');
   },  
 
   create() {
@@ -116,7 +128,6 @@ const LandingPageScene = {
     this.fog = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog');
     this.fog.setOrigin(0, 0).setDepth(99).setAlpha(0.5).setScale(2);
 
-    const title = this.add.image(window.innerWidth * 1 / 2, window.innerHeight * 1 / 3, 'title').setScale(0.7);
       // Create a container to hold particles
    const particleContainer = this.add.container(0, 0);
 
