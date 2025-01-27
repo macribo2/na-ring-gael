@@ -683,30 +683,30 @@ this.wheel.setInteractive();
     // Add the square sensor
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
     // Add text for the name
-    this.nameTextGa = scene.add.text(550, 50, 'test', {
+    this.nameTextGa = scene.add.text(550, 50, '', {
       font: '64px IrishPenny',
-      fill: '#ffffff',
-}).setOrigin(0.5).setAlpha(0).setDepth(30);
+      fill: 'LavenderBlush',
+}).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 
 
 // Add subtitle text for mottoGa
 this.subtitleTextGa = scene.add.text(550,250, '', {
         font: '32px IrishPenny',
-        fill: '#ffffff',
-}).setOrigin(0.5).setDepth(30);
+        fill: 'LavenderBlush',
+}).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 // Add subtitle text for mottoGa
 this.subtitleTextEn = scene.add.text( 550,350,'', {
-        font: '25px ubuntu',
-        fill: 'limegreen',
-}).setOrigin(0.5).setDepth(30);
+        font: '32px IrishPenny',
+        fill: 'ForestGreen',
+}).setOrigin(0.5).setDepth(30).setAlpha(0)
 
 
 // Add text for the name
 this.nameTextEn =scene.add.text(550, 150, '', {
-        font: '25px ubuntu',
-        fill: 'limegreen',
+        font: '32px IrishPenny',
+        fill: 'ForestGreen',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(30);//.setAlpha(0).setVisible(false)
+    }).setOrigin(0.5).setDepth(30).setAlpha(0)
     
     // Variables for tracking rotation and velocity
     this.rotationVelocity = 0;
@@ -841,8 +841,8 @@ updateColorShiftCircle(x, y, radius) {
   dragWheel(pointer) {
     if (this.isDragging) {
       
-  this.nameTextGa.setAlpha(1)
-  this.nameTextEn.setAlpha(1)
+  this.nameTextGa.setAlpha(1).setVisible(true)
+  this.subtitleTextGa.setAlpha(1).setVisible(true)
   this.rainbowCircle.setAlpha(1)
 
       
@@ -902,6 +902,7 @@ updateColorShiftCircle(x, y, radius) {
 
                 // Update subtitle for mottoGa
                 this.subtitleTextEn.setText(currentBranch.mottoEn || '');
+                this.subtitleTextEn.setAlpha(1); // Show it once the wheel stops
 
 
                 // Update the image corresponding to the current branch
@@ -917,8 +918,8 @@ updateColorShiftCircle(x, y, radius) {
 }
 
 highlightSpokes() {
-  const centerX = 50;
-  const centerY = 50;
+  const centerX = 100;
+  const centerY = 100;
   const radius = 450;
   const angleStep = (2 * Math.PI) / this.numSpokes;
 
