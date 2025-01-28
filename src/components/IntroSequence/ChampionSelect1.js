@@ -8,7 +8,6 @@ class ChampionSelect1 extends Phaser.GameObjects.Container {
     super(scene, x, y);
     const centerX = 100;
     const centerY = 100;
-    this.displayedChampion = {spriteKey:'',gender:"", nameGa: '', nameEn: '' };
     this.championImage = scene.add.image(centerX, centerY, 'championSprites').setVisible(false)
     
 this.onComplete=onComplete;
@@ -317,11 +316,12 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'8.png',gender:"f", nameGa: 'Aoibheann', nameEn: 'beautiful radiance'}
 ,{spriteKey:'9.png',gender:"f", nameGa: 'Muirne', nameEn: 'high spirited, festive'}
 ,{spriteKey:'0.png',gender:"f", nameGa: 'Líadan', nameEn: 'grey lady'}
-,{spriteKey:'.png',gender:"", nameGa: 'Órnait', nameEn: 'sallow'}
+,{spriteKey:'1.png',gender:"", nameGa: 'Órnait', nameEn: 'sallow'}
   
 ]
 
   
+this.displayedChampion = JSON.parse(JSON.stringify(this.champions[0])); // Default to the first champion
 
 this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false).setDepth(15);
 this.background2.setOrigin(0, 0);
@@ -360,42 +360,77 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     }).setOrigin(0.5).setAlpha(0).setDepth(30);;
     
     
-// Set up the event listener
+ // Set up the event listener
 EventEmitter.on('stepChanged', (newStep) => {
   console.log(`ChampionSelect1 noticed step change: ${newStep}`);
-
-  // Logic for Step 3
   if (newStep === 3) {
-    if (this.nameTextGa) {
-      // Fade out the current text
-      this.scene.tweens.add({
-        targets: this.nameTextGa,
-        alpha: 0, // Fade out to alpha 0
-        duration: 1000, // Duration of 1 second
-        ease: 'Power1', // Smooth easing
-        onComplete: () => {
-          // Change text properties (position, font size, etc.)
-          this.nameTextGa.setPosition(50, 50); // New position
-          this.nameTextGa.setOrigin(0);
+    // Stop the spin and settle on the currently visible champion
+    this.rotationVelocity = 0; // Set velocity to 0 to stop spinning
+    this.isDragging = false;  // Ensure dragging isn't happening
+    this.dampingFactor = 1;   // Remove damping to instantly stop any residual motion
 
-          // Fade in the updated text
-          this.scene.tweens.add({
-            targets: this.nameTextGa,
-            alpha: 1, // Fade in to alpha 1
-            duration: 1000, // Duration of 1 second
-            ease: 'Power1', // Smooth easing
-            onStart: () => {
-              console.log("nameTextGa is fading back in.");
-            },
-            onComplete: () => {
-              console.log("nameTextGa fully visible.");
-            }
-          });
-        }
-      });
-    } else {
-      console.warn("nameTextGa is not defined yet.");
-    }
+    // Calculate the visible champion index based on the wheel's rotation
+    const numChampions = this.champions.length;
+    const rotationNormalized = this.wheel.rotation % (Math.PI * 2); // Normalize rotation to one full circle
+    const championAngle = (Math.PI * 2) / numChampions; // Angle per champion
+    const championIndex = Math.floor((rotationNormalized + championAngle / 2) / championAngle) % numChampions;
+
+    // Handle negative indices (due to modulo behavior in JavaScript)
+    this.currentChampionIndex = championIndex < 0 ? championIndex + numChampions : championIndex;
+
+    // Assign the displayed champion
+    this.displayedChampion = this.champions[this.currentChampionIndex];
+
+    // Log the selected champion for debugging
+    console.log("Selected Champion Data (Raw):", this.displayedChampion);
+
+    // Deep copy the selected champion to ensure no data is lost
+    const selectedChampionCopy = JSON.parse(JSON.stringify(this.displayedChampion));
+    console.log("Selected Champion Data (Deep Copy):", selectedChampionCopy);
+
+    // Stop any remaining motion and visually "snap" to the selected champion
+    this.wheel.rotation = this.currentChampionIndex * championAngle;
+
+    setTimeout(() => {
+      console.log("Spinning stopped. Selecting champion...");
+
+      if (this.displayedChampion) {
+        console.log("Selected Champion Data (Final):", this.displayedChampion);
+      } else {
+        console.error("No champion data found for the selected index.");
+      }
+
+      // Existing logic for fading out and repositioning `nameTextGa`
+      if (this.nameTextGa) {
+        this.scene.tweens.add({
+          targets: this.nameTextGa,
+          alpha: 0, // Fade out to alpha 0
+          duration: 1000, // Duration of 1 second
+          ease: "Power1", // Smooth easing
+          onComplete: () => {
+            // Change text properties (position, font size, etc.)
+            this.nameTextGa.setPosition(50, 50); // New position
+            this.nameTextGa.setOrigin(0);
+
+            // Fade in the updated text
+            this.scene.tweens.add({
+              targets: this.nameTextGa,
+              alpha: 1, // Fade in to alpha 1
+              duration: 1000, // Duration of 1 second
+              ease: "Power1", // Smooth easing
+              onStart: () => {
+                console.log("nameTextGa is fading back in.");
+              },
+              onComplete: () => {
+                console.log("nameTextGa fully visible.");
+              },
+            });
+          },
+        });
+      } else {
+        console.warn("nameTextGa is not defined yet.");
+      }
+    }, 100);
 
     // Move the champion sprite down (walking effect)
     if (this.championImage) {
@@ -403,57 +438,57 @@ EventEmitter.on('stepChanged', (newStep) => {
         targets: this.championImage,
         y: this.championImage.y + 250, // Move down 250px
         duration: 2000, // Duration of 2 seconds for walking effect
-        ease: 'Sine.easeInOut', // Smooth easing function
+        ease: "Sine.easeInOut", // Smooth easing function
         onStart: () => {
           console.log("ChampionSprite started walking down.");
         },
         onComplete: () => {
           console.log("ChampionSprite finished walking down.");
-        }
+        },
       });
     } else {
       console.warn("championImage is not defined yet.");
     }
   }
 
-  // Logic for Step 4
-  if (newStep === 4) {
-    if (this.nameTextGa) {
-      // Fade out the current text
-      this.scene.tweens.add({
-        targets: this.nameTextGa,
-        alpha: 0, // Fade out to alpha 0
-        duration: 1000, // Duration of 1 second
-        ease: 'Power1', // Smooth easing
-        onComplete: () => {
-          console.log("nameTextGa faded out.");
+         if (newStep === 4) {
+          if (this.nameTextGa) {
+              // Fade out the current text
+              this.scene.tweens.add({
+                  targets: this.nameTextGa,
+                  alpha: 0, // Fade out to alpha 0
+                  duration: 1000, // Duration of 1 second
+                  ease: 'Power1', // Smooth easing
+                  onComplete: () => {
+                      console.log("nameTextGa faded out.");
+                      
+                      // Change text properties (position, font size, etc.)
+                      this.nameTextGa.setFontSize(32); // Smaller font size
+                      this.nameTextGa.setPosition(150, 250); // New position
+                      this.nameTextGa.setAlpha(0.5); // New position
+                      
+                      // Fade in the updated text
+                      this.scene.tweens.add({
+                          targets: this.nameTextGa,
+                          alpha: 1, // Fade in to alpha 1
+                          duration: 1000, // Duration of 1 second
+                          ease: 'Power1', // Smooth easing
+                          onStart: () => {
+                              console.log("nameTextGa is fading back in.");
+                          },
+                          onComplete: () => {
+                              console.log("nameTextGa fully visible.");
+                          }
+                      });
+                  }
+              });
+          } else {
+              console.warn("nameTextGa is not defined yet.");
+          }
+      }
 
-          // Change text properties (position, font size, etc.)
-          this.nameTextGa.setFontSize(32); // Smaller font size
-          this.nameTextGa.setPosition(150, 250); // New position
-          this.nameTextGa.setAlpha(0.5); // Adjust transparency
 
-          // Fade in the updated text
-          this.scene.tweens.add({
-            targets: this.nameTextGa,
-            alpha: 1, // Fade in to alpha 1
-            duration: 1000, // Duration of 1 second
-            ease: 'Power1', // Smooth easing
-            onStart: () => {
-              console.log("nameTextGa is fading back in.");
-            },
-            onComplete: () => {
-              console.log("nameTextGa fully visible.");
-            }
-          });
-        }
-      });
-    } else {
-      console.warn("nameTextGa is not defined yet.");
-    }
-  }
-});
-
+  })
     // Add text for the name
      this.nameTextEn =scene.add.text(50, 450, '', {
       font: '25px IrishPenny',
@@ -653,9 +688,7 @@ updateColorShiftCircle(x, y, radius) {
    this.selectedCharacter = characterName;
     console.log(`Selected: ${characterName}`);
   
-    this.scene.characterSheet = {
-      name: characterName,
-    };
+  
   
     if (this.onComplete) {
       this.onComplete();
@@ -737,8 +770,20 @@ this.scene.time.delayedCall(0, () => {
         nameGa: displayedChampion.nameGa,
         nameEn: displayedChampion.nameEn,
         gender: displayedChampion.gender,
+        spriteKey: displayedChampion.spriteKey,
       };
-  
+      let characterSheet = {}
+   characterSheet.nameGa = displayedChampion.nameGa;
+   characterSheet.nameEn = displayedChampion.nameEn;
+   characterSheet.gender = displayedChampion.gender;
+   characterSheet.spriteKey = displayedChampion.spriteKey;
+
+// Save characterSheet to local storage
+localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+
+// Log the updated characterSheet for debugging
+console.log("Updated characterSheet and saved to local storage:", characterSheet);
+
       const textureExists = this.scene.textures.exists('championSprites');
       if (textureExists) {
         const spriteKey = `${displayedChampion.spriteKey}`;

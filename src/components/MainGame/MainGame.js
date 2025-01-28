@@ -3,6 +3,8 @@ import IntroSequence from '../IntroSequence/IntroSequence';
 class MainGame extends Phaser.Scene {
   constructor() {
     super({ key: 'MainGame' });  // Key for transitioning
+
+ 
   }
 
   preload() {

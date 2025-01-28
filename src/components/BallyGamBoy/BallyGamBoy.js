@@ -270,7 +270,6 @@ useEffect(() => {
 
     this.load.image('lake-wizard', '/phaser-resources/images/npcs/snake.png');
     this.load.image('lure',         '/phaser-resources/images/sprites/gold_pile_0.png');
-    let champID = localStorage.getItem('champID');
     this.load.image('fullscreen', '/phaser-resources/images/big-glass.png');
     this.load.image('geaga1', '/phaser-resources/images/big-glass.png');
 
@@ -291,7 +290,7 @@ useEffect(() => {
     this.load.image('spark', `/phaser-resources/images/sprites/spark.png`);
     this.load.image('sparks', `/phaser-resources/images/spark_02.png`);
     this.load.image('border', `/phaser-resources/images/spark_02.png`);
-    this.load.image('player', `/phaser-resources/images/champions/${champID}.png`);
+    
     this.load.image('background', '/phaser-resources/images/background-elements/doonsheen.png');
     this.load.image('background-lit', '/phaser-resources/images/background-elements/doonsheen-lit.png');
     this.load.image('rock', '/phaser-resources/images/sprites/rock.png'); // Load the rock image
@@ -306,20 +305,55 @@ useEffect(() => {
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
     this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
 
-    
+    this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
     
   }
   
   
-  let creature = null;
+//   let creature = null;
+  
+  
+// let player = null
+const collisionText = React.useRef(null);
+const collisionTextEng = React.useRef(null);
 
-
-
-
-  const collisionText = React.useRef(null);
-  const collisionTextEng = React.useRef(null);
   const backgroundRef = React.useRef(null);
-  function create() {
+  function create() {// Retrieve characterSheet from local storage
+    const characterSheetData = localStorage.getItem('characterSheet');
+    if (!characterSheetData) {
+      console.warn("No characterSheet found in local storage.");
+      return;
+    }
+  
+    const characterSheet = JSON.parse(characterSheetData);
+  
+    // Validate the texture exists
+    const textureExists = this.textures.exists('championSprites');
+    if (!textureExists) {
+      console.warn("Texture 'championSprites' does not exist. Please preload it.");
+      return;
+    }
+  
+    // Validate spriteKey
+    const spriteKey = characterSheet.spriteKey;
+    if (!spriteKey) {
+      console.warn("Invalid spriteKey in characterSheet.");
+      return;
+    }
+  
+    // Create the player sprite
+    this.player = this.add.sprite(400, 300, 'championSprites', spriteKey);
+    this.player
+      .setInteractive()
+      .on('pointerdown', () => {
+        console.log(`Champion selected: ${characterSheet.nameGa}`);
+        this.selectChampion(characterSheet.nameGa); // Assuming selectChampion is defined elsewhere
+      });
+  
+    // Log for debugging
+    console.log("Player sprite created:", this.player);
+  
+  
     this.triggeredEvents = new Set(JSON.parse(localStorage.getItem('triggeredEvents') || '[]'));
 
   torchEmitters = new TorchEmitters(this, 702, 76, 608, 76);  // Initialize emitters
@@ -601,7 +635,7 @@ mapLayout.forEach((row, rowIndex) => {
   const playerStartY = startRow * tileSize + tileSize / 2;
 
 
-    this.player = this.add.sprite(playerStartX, playerStartY, 'player'); // Start near the center of the grid
+    this.player = this.add.sprite(playerStartX, playerStartY, 'championSprites',spriteKey); // Start near the center of the grid
     this.player.setOrigin(0.5, 0.4)
     this.cursors = this.input.keyboard.createCursorKeys();
     // Ensure the player stays locked to the grid
