@@ -10,6 +10,8 @@ class IntroSequence extends Phaser.Scene {
   constructor() {
     
     super({ key: 'IntroSequence' });
+  this.championDiscovered = false; // Flag to track discovery
+
     this.currentStep = 0;
   this.hasFaded = false;
     this.characterSheet = {};
@@ -348,8 +350,22 @@ function showNextMessageWithTyping(newMessage) {
   
   
   
+  EventEmitter.on('championDiscovered', () => {
+    this.championDiscovered = true;
+    console.log('Champion has been discovered!');
+  });
 
+  this.events.on('championDiscovered', () => {
+    this.championDiscovered = true;
+    console.log("Champion discovered in IntroSequence!");
+  });
   this.controlSquare.rightButton.on('pointerdown', () => {
+
+      // Guard condition: Block progression if currentStep === 2 and champion is not discovered
+  if (this.currentStep === 2 && !this.championDiscovered) {
+    return; // Stop further execution
+  }
+
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
     if (this.currentStep < this.textsGa.length) {

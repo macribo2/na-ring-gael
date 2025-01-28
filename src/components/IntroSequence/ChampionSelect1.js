@@ -3,9 +3,11 @@ import { EventEmitter } from './EventEmitter';
 
 
 class ChampionSelect1 extends Phaser.GameObjects.Container {
+  
   constructor(scene, x, y, onComplete) {
-      
+    
     super(scene, x, y);
+    this.championDiscovered = false; // Initially, the champion is not discovered
     const centerX = 100;
     const centerY = 100;
     this.championImage = scene.add.image(centerX, centerY, 'championSprites').setVisible(false)
@@ -518,7 +520,15 @@ EventEmitter.on('stepChanged', (newStep) => {
     scene.events.on('update', this.updateWheel, this);
 
   }
+  // Example function when the champion is discovered
+  onChampionDiscovered() {
+    // Make the image visible
+    this.championDiscovered = true;
+    this.championImage.setAlpha(1);
 
+    // Emit a custom event to notify other scenes
+    EventEmitter.emit('championDiscovered');
+  }
     updateChampionSprite(spriteKey) {
     if (this.scene.textures.exists('championSprites') && spriteKey) {
       this.championImage.setTexture('championSprites', spriteKey).setVisible(true);
@@ -614,7 +624,7 @@ updateColorShiftCircle(x, y, radius) {
       this.nameTextEn.setAlpha(1)
       this.rainbowCircle.setAlpha(1)
       this.championImage.setAlpha(1)
-
+       this.onChampionDiscovered();
       const dy = pointer.y - this.startY;
       const deltaAngle = dy * this.dragSensitivity;
       this.currentAngle += deltaAngle;
