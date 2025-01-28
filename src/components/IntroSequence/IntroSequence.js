@@ -524,8 +524,9 @@ if (this.currentStep === 5) {
 
 if (this.currentStep===7){
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
- // Use window.location to navigate without losing fullscreen
- window.location.href = '/ballygamboy';
+  localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
+  window.location.href = '/ballygamboy';
+  
 }
 
 
