@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
 import { useHistory } from 'react-router-dom';
@@ -47,7 +48,15 @@ const LandingPage = () => {
       }
     };
   }, []);
-
+  useEffect(() => {
+    // Simulating loading time
+    setTimeout(() => {
+      // Fade out the mask
+      const mask = document.getElementById("mask");
+      mask.style.opacity = 0;
+    }, 1000); // Mask fades out after 3 seconds (adjust as necessary)
+  
+  }, []);
   // Toggle fullscreen and start
   const toggleFullscreenAndStart = () => {
     // Handle fullscreen toggle
@@ -91,21 +100,28 @@ if (scene && scene.cameras && scene.cameras.main) {
   return (
     <>
       <div id="phaser-container" style={{ width: '100%', height: '100%', position: 'fixed', zIndex: 2 }} />
+      
       {buttonVisible && (
-        <image 
-          className="start-fullscreen-button"
-          onClick={toggleFullscreenAndStart}
-        />
+        <>
+          <div className="start-button-container">
+            <image 
+              className="start-fullscreen-button"
+              src="../../images/middle-c.png"  // Add source for the button image
+              alt="Start Fullscreen"
+              onClick={toggleFullscreenAndStart}
+            />
+          </div>
+  
+          <div className="title-container">
+            <div className="title-text"></div>
+          </div>
+            {/* Full Screen Mask */}
+    <div id="mask"></div>
+        </>
       )}
-       {buttonVisible && (
-      <div className="title-container">
-        <div
-          className="title-text"
-        />
-      </div>
-    )}
     </>
   );
+  
 };
 
 const LandingPageScene = {
@@ -126,7 +142,10 @@ const LandingPageScene = {
     background.setDisplaySize(this.scale.width, this.scale.height);
 
     this.fog = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog');
-    this.fog.setOrigin(0, 0).setDepth(99).setAlpha(0.5).setScale(2);
+    this.fog.setOrigin(0, 0).setDepth(99).setAlpha(0.2).setScale(2);
+
+    this.fog2 = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog');
+    this.fog2.setOrigin(0, 0).setDepth(99).setAlpha(0.1).setScale(2);
 
       // Create a container to hold particles
    const particleContainer = this.add.container(0, 0);
@@ -176,12 +195,18 @@ const LandingPageScene = {
    });
  
 
+
   },
 
   update(time, delta) {
     if (this.fog) {
-      this.fog.tilePositionX += 0.5; // Scroll the fog horizontally
+      this.fog.tilePositionX += 0.3; // Scroll the fog horizontally
     }
+
+    if (this.fog2) {
+      this.fog2.tilePositionX += 0.5; // Scroll the fog horizontally
+    }
+
   },
 };
 

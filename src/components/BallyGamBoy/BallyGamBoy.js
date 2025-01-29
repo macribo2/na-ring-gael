@@ -1765,6 +1765,7 @@ A wild goose chase - no scent.
 {showEasca && <Easca onSendMessage={handleSendMessage} initialLayout={initialLayout} />}
     </>
   );
+
 };
 
 export default BallyGamBoy;

@@ -127,7 +127,10 @@ class IntroSequence extends Phaser.Scene {
     }
 
   create() {
-    this.particles = null; // Initialize particles as null
+      // Cooldown flag and timer
+  this.isCooldownActive = false;
+  this.cooldownDuration = 500; // 500ms cooldown
+  this.particles = null; // Initialize particles as null
 
 
     const background = this.add.image(0, 0, 'background'); // Position it at (0, 0)
@@ -360,64 +363,87 @@ function showNextMessageWithTyping(newMessage) {
     console.log("Champion discovered in IntroSequence!");
   });
   this.controlSquare.rightButton.on('pointerdown', () => {
-
-      // Guard condition: Block progression if currentStep === 2 and champion is not discovered
-  if (this.currentStep === 2 && !this.championDiscovered) {
-    return; // Stop further execution
-  }
-
+    // Check if cooldown is active
+    if (this.isCooldownActive) return;
+  
+    // Activate cooldown
+    this.isCooldownActive = true;
+  
+    // Guard condition: Block progression if currentStep === 2 and champion is not discovered
+    if (this.currentStep === 2 && !this.championDiscovered) {
+      this.isCooldownActive = false; // Reset cooldown
+      return; // Stop further execution
+    }
+  
+    // Increment step and emit event
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
+  
     if (this.currentStep < this.textsGa.length) {
       // Combine sweeping and typewriter effect
       showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
-      
-      
     } else {
-        this.scene.start('MainGame'); // Transition to main game
+      this.scene.start('MainGame'); // Transition to main game
     }
-});
+  
+    // Reset cooldown after the specified duration
+    this.time.delayedCall(this.cooldownDuration, () => {
+      this.isCooldownActive = false;
+    });
+  });
 
-this.controlSquare.upButton.on('pointerdown', () => {
+  this.controlSquare.upButton.on('pointerdown', () => {
+    if (this.isCooldownActive) return;
+  
+    this.isCooldownActive = true;
+  
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
+  
     if (this.currentStep < this.textsGa.length) {
-        // Combine sweeping and typewriter effect
-        showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
-        
-        
+      showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
     } else {
-        this.scene.start('MainGame'); // Transition to main game
+      this.scene.start('MainGame');
     }
-});
-
-// Set up pointerdown event for going back to the previous message
-this.controlSquare.downButton.on('pointerdown', () => {
+  
+    this.time.delayedCall(this.cooldownDuration, () => {
+      this.isCooldownActive = false;
+    });
+  });
+  
+  this.controlSquare.downButton.on('pointerdown', () => {
+    if (this.isCooldownActive) return;
+  
+    this.isCooldownActive = true;
+  
     if (this.currentStep > 0) {
-        // Move back and show previous message with fade-in and drop-down
-        showPreviousMessageWithDropDown.call(this);
-        
-        
-        
+      showPreviousMessageWithDropDown.call(this);
     } else {
-        // Handle scenario if the current step is the first message
-        console.log("Already at the first message");
-    }
-});
-// Set up pointerdown event for going back to the previous message
-this.controlSquare.leftButton.on('pointerdown', () => {
-    if (this.currentStep > 0) {
-        // Move back and show previous message with fade-in and drop-down
-        showPreviousMessageWithDropDown.call(this);
-        
-        
-
-    } else {
-      // Handle scenario if the current step is the first message
       console.log("Already at the first message");
     }
+  
+    this.time.delayedCall(this.cooldownDuration, () => {
+      this.isCooldownActive = false;
+    });
   });
- 
+  
+  this.controlSquare.leftButton.on('pointerdown', () => {
+    if (this.isCooldownActive) return;
+  
+    this.isCooldownActive = true;
+  
+    if (this.currentStep > 0) {
+      showPreviousMessageWithDropDown.call(this);
+    } else {
+      console.log("Already at the first message");
+    }
+  
+    this.time.delayedCall(this.cooldownDuration, () => {
+      this.isCooldownActive = false;
+    });
+  });
+
+
   this.ChampionSelect1 = null
   this.ChampionSelect2 = null
 
