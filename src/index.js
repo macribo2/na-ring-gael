@@ -49,8 +49,7 @@ const ChessLikeWrapper = () => {
     return () => clearTimeout(timeoutId);
 
     if (!isLoaded) {
-      // return <LoadingScene />; // Show loading scene until assets are loaded
-    }
+       }
   }, []); // Empty dependency array ensures that this effect runs only once
 
   return (

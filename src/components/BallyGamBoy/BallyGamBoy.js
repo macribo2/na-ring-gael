@@ -276,13 +276,13 @@ useEffect(() => {
     this.load.image('glassbg0', '/phaser-resources/images/big-glass.png');
     this.load.image('greenRingLeft', '/phaser-resources/images/big-glass.png'); 
     this.load.image('button-up', '/phaser-resources/images/ui/pad-u.png');
-    this.load.image('button-up-yellow', '/phaser-resources/images/ui/pad-u-yellow.png');
+    this.load.image('button-up-yellow', '/phaser-resources/images/ui/pad-u-lit.png');
     this.load.image('button-down', '/phaser-resources/images/ui/pad-d.png');
     this.load.image('button-left', '/phaser-resources/images/ui/pad-l.png');
     this.load.image('button-right', '/phaser-resources/images/ui/pad-r.png');
-    this.load.image('button-down-yellow', '/phaser-resources/images/ui/pad-d-yellow.png');
-    this.load.image('button-left-yellow', '/phaser-resources/images/ui/pad-l-yellow.png');
-    this.load.image('button-right-yellow', '/phaser-resources/images/ui/pad-r-yellow.png');
+    this.load.image('button-down-yellow', '/phaser-resources/images/ui/pad-d-lit.png');
+    this.load.image('button-left-yellow', '/phaser-resources/images/ui/pad-l-lit.png');
+    this.load.image('button-right-yellow', '/phaser-resources/images/ui/pad-r-lit.png');
     this.load.image('button-middle-lit', '/phaser-resources/images/ui/middle-a.png');
     this.load.image('button-middle', '/phaser-resources/images/ui/middle-b.png');
     this.load.image('pad-g', '/phaser-resources/images/ui/pad-g.png');

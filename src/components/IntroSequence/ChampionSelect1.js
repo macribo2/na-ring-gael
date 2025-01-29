@@ -364,7 +364,6 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     
  // Set up the event listener
 EventEmitter.on('stepChanged', (newStep) => {
-  console.log(`ChampionSelect1 noticed step change: ${newStep}`);
   if (newStep === 3) {
     // Stop the spin and settle on the currently visible champion
     this.rotationVelocity = 0; // Set velocity to 0 to stop spinning
@@ -384,20 +383,16 @@ EventEmitter.on('stepChanged', (newStep) => {
     this.displayedChampion = this.champions[this.currentChampionIndex];
 
     // Log the selected champion for debugging
-    console.log("Selected Champion Data (Raw):", this.displayedChampion);
 
     // Deep copy the selected champion to ensure no data is lost
     const selectedChampionCopy = JSON.parse(JSON.stringify(this.displayedChampion));
-    console.log("Selected Champion Data (Deep Copy):", selectedChampionCopy);
 
     // Stop any remaining motion and visually "snap" to the selected champion
     this.wheel.rotation = this.currentChampionIndex * championAngle;
 
     setTimeout(() => {
-      console.log("Spinning stopped. Selecting champion...");
 
       if (this.displayedChampion) {
-        console.log("Selected Champion Data (Final):", this.displayedChampion);
       } else {
         console.error("No champion data found for the selected index.");
       }
@@ -421,10 +416,8 @@ EventEmitter.on('stepChanged', (newStep) => {
               duration: 1000, // Duration of 1 second
               ease: "Power1", // Smooth easing
               onStart: () => {
-                console.log("nameTextGa is fading back in.");
               },
               onComplete: () => {
-                console.log("nameTextGa fully visible.");
               },
             });
           },
@@ -492,11 +485,11 @@ EventEmitter.on('stepChanged', (newStep) => {
 
   })
     // Add text for the name
-     this.nameTextEn =scene.add.text(50, 450, '', {
+     this.nameTextEn =scene.add.text(175, 310, '', {
       font: '25px IrishPenny',
       fill: 'limegreen',
       wordWrap: { width: 600 },
-    }).setAlpha(0).setDepth(30);
+    }).setAlpha(0).setDepth(30).setVisible(true);
     
     // Add a sprite to display the champion image
     this.championImage = scene.add.sprite(centerX, centerY, 'defaultSprite').setVisible(false).setAlpha(0);
@@ -520,11 +513,10 @@ EventEmitter.on('stepChanged', (newStep) => {
     scene.events.on('update', this.updateWheel, this);
 
   }
-  // Example function when the champion is discovered
-  onChampionDiscovered() {
+  // prevent moving to next section before player has noticed they can spin the wheel to choose champions.
+  onChampionsDiscovered() {
     // Make the image visible
     this.championDiscovered = true;
-    this.championImage.setAlpha(1);
 
     // Emit a custom event to notify other scenes
     EventEmitter.emit('championDiscovered');
@@ -624,7 +616,7 @@ updateColorShiftCircle(x, y, radius) {
       this.nameTextEn.setAlpha(1)
       this.rainbowCircle.setAlpha(1)
       this.championImage.setAlpha(1)
-       this.onChampionDiscovered();
+       this.onChampionsDiscovered();
       const dy = pointer.y - this.startY;
       const deltaAngle = dy * this.dragSensitivity;
       this.currentAngle += deltaAngle;
@@ -802,10 +794,7 @@ console.log("Updated characterSheet and saved to local storage:", characterSheet
             .setTexture('championSprites', spriteKey)
             .setVisible(true)
             .setInteractive()
-            .on('pointerdown', () => {
-              this.selectChampion(this.displayedChampion.nameGa);
            
-            });
         } else {
           this.championImage.setVisible(false);
         }

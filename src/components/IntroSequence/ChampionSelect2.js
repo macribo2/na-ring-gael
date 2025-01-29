@@ -68,9 +68,9 @@ mottoEn:'I am ocean wave',
       },{
 
        notes:'',
-       mottoGa:'Am an fráich torc',
+       mottoGa:'An fráich torc',
 
-mottoEn:'I am the fierceness of boars',
+mottoEn:'the fierceness of boars',
         branchGa:'Na Gnúsachán',
        branchEn:'The Grunters',
       },{
@@ -92,9 +92,9 @@ mottoEn:'we stand',
       },{
        
        notes:'',
-       mottoGa:'Am ard filidheachta',
+       mottoGa:'ard filidheachta',
 
-mottoEn:'I am a hill where poets walk \nI am the height of poetry',
+mottoEn:'the height of poetry',
         branchGa:'Na Filí',
        branchEn:'The Poets',
       },{
@@ -384,9 +384,9 @@ mottoEn:'Claws that rend',
 
 
        notes:'',
-       mottoGa:'Am an scíath thar gach uile chinn',
+       mottoGa:'an scíath thar gach uile chinn',
 
-mottoEn:'I am the shield over every head',
+mottoEn:'the shield over every head',
         branchGa:'An Sciath',
        branchEn:'the Shield',
       },{
@@ -547,7 +547,7 @@ mottoEn:'I am a word of science;  poetry;  prophesy;  daring',
        notes:'',
        mottoGa:'géillfidh tú, géillfidh tú, géillfidh tú',
 
-mottoEn:'You will yield, you will yield, you will yield',
+mottoEn:'You shall yield!\nyou shall yield!\nyou shall yield!',
         branchGa:'tae láidir',
        branchEn:'strong tea',
       },{
@@ -683,30 +683,30 @@ this.wheel.setInteractive();
     // Add the square sensor
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
     // Add text for the name
-    this.nameTextGa = scene.add.text(550, 50, '', {
+    this.nameTextGa = scene.add.text(this.scale.width*0.5,this.scale.height*0.05, '', {
       font: '64px IrishPenny',
       fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 
 
 // Add subtitle text for mottoGa
-this.subtitleTextGa = scene.add.text(550,250, '', {
+this.subtitleTextGa = scene.add.text(this.scale.width*0.5,this.scale.height*0.2 ,'', {
         font: '32px IrishPenny',
         fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 // Add subtitle text for mottoGa
-this.subtitleTextEn = scene.add.text( 550,350,'', {
-        font: '32px IrishPenny',
-        fill: 'ForestGreen',
-}).setOrigin(0.5).setDepth(30).setAlpha(0)
+this.subtitleTextEn = scene.add.text( this.scale.width*0.5,this.scale.height*0.25,'', {
+        font: '26px IrishPenny',
+        fill: 'plum',
+}).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false)
 
 
 // Add text for the name
-this.nameTextEn =scene.add.text(550, 150, '', {
-        font: '32px IrishPenny',
-        fill: 'ForestGreen',
+this.nameTextEn =scene.add.text(this.scale.width*0.5,this.scale.height*0.1, '', {
+        font: '26px IrishPenny',
+        fill: 'plum',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(30).setAlpha(0)
+    }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false)
     
     // Variables for tracking rotation and velocity
     this.rotationVelocity = 0;
@@ -736,11 +736,21 @@ this.nameTextEn =scene.add.text(550, 150, '', {
     
     
   }
+
+  //prevent forward progress until player has discovered the branches UI wheel
+  onBranchesDiscovered() {
+    // Make the image visible
+    this.branchesDiscovered = true;
+
+    // Emit a custom event to notify other scenes
+    EventEmitter.emit('branchesDiscovered');
+  }
   // Update the text based on the selected branch
   updateTextForBranch(selectedBranchIndex) {
           const branch = this.fenianBranches[selectedBranchIndex];
           this.nameTextGa.setText(branch.branchGa);
     this.nameTextEn.setText(branch.branchEn);
+
   }
   // Method to create a dynamic rainbow circle
   createRainbowCircle(scene, x, y, radius) {
@@ -844,6 +854,8 @@ updateColorShiftCircle(x, y, radius) {
   this.nameTextGa.setAlpha(1).setVisible(true)
   this.subtitleTextGa.setAlpha(1).setVisible(true)
   this.rainbowCircle.setAlpha(1)
+  this.onBranchesDiscovered();
+
 
       
       const dy = pointer.y - this.startY;
@@ -907,8 +919,23 @@ updateColorShiftCircle(x, y, radius) {
 
                 // Update the image corresponding to the current branch
                 if (this.branchImages[validIndex]) {
-                    this.branchImages[validIndex].setAlpha(0.8); // Show the image with some transparency
+                    this.branchImages[validIndex].setAlpha(0.8).setDepth(29); // Show the image with some transparency
                 }
+
+                    // Get the characterSheet from localStorage (or initialize an empty object if it doesn't exist)
+let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+
+// Update characterSheet with the chosen Fianna branch
+characterSheet.branchImage = this.branchImages[validIndex];
+characterSheet.branchGa = currentBranch.branchGa;
+characterSheet.branchEn = currentBranch.branchEn;
+characterSheet.mottoGa = currentBranch.mottoGa
+characterSheet.mottoEn = currentBranch.mottoEn
+
+// Save the updated characterSheet back to localStorage
+localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+
+console.log('Updated character sheet:', characterSheet);
             }
         }
     }
@@ -991,7 +1018,7 @@ highlightSpokes() {
         const image = this.scene.add
           .image(centerX, centerY, imageKey)
           .setAlpha(0)
-          .setDepth(30)
+          .setDepth(29)
           .setScale(0.3);
         this.branchImages.push(image);
       });

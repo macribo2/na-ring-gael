@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
-import molly from '../../images/draoi0.gif'
+import molly from '../../images/agnes.png'
 import Easca from '../easca/easca2';
 import './bally.css';
 import { useHistory } from 'react-router-dom';

@@ -1,12 +1,8 @@
 import Easca from '../easca/easca2';
 import bg0 from '../../images/fog3.png';
-import eye1 from '../../images/gifs/suile0.gif';
-import eye2 from '../../images/gifs/suile3.gif';
 import React, { useEffect, useState } from 'react';
 import ironkey from '../../images/iron-key.png';
-import keyface from '../../images/gifs/keyface.gif';
 import greyBG from '../../images/cut-scenes/rectanglesbg1.jpg';
-import lordIronkey from '../../images/gifs/keyface.gif';
 import ReactAudioPlayer from 'react-audio-player';
 import settingsBtnKeyboard from '../../images/settings/keyboard.png';
 import distantHills from '../../images/newbg4town.png';
@@ -91,7 +87,6 @@ localStorage.setItem('score', 1);
         <img rel="preload" src={bg0} className="settings-bg" alt="low intensity background graphic, expect this to change sometimes." />
         <img rel="preload" src={greyBG} className="grey-bg" alt="gloomy pixel bg." />
         <div className="ironkeyportraitholder ironkeyportraitholder-game-over ">
-          <img rel="preload" src={lordIronkey} className="iron-key-portrait iron-key-portrait-game-over" alt="lord iron key and his iron key." />
         </div>
         <img src={blurryBG} className="blurry-bg" alt="hazy green grey" />
         <img className="distant-hills" src={distantHills} alt="distant hills" />
