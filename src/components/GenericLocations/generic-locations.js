@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
-import molly from '../../images/draoi0.gif'
 
 import Easca from '../easca/easca2';
 // import './generic-location.css';
@@ -48,9 +47,7 @@ const GenericLocations = () => {
         <>
             <div id="ballygamboy-game-container"></div>;
             <div className="chess-like-frame-container">
-                <img src={molly} className="molly hidden" alt="black molly" />
-                {championName && <div className="question-text county-text">Cad a feiceann<br /> {championName}?</div>}
-            </div>
+                 </div>
             <div style={{fontFamily:"anaphora", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>
 
             <div style={{fontFamily:"aonchlo", position: "absolute", left:"-1000px", visibility:"hidden"}}>.</div>

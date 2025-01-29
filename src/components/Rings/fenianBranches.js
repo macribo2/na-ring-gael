@@ -16,7 +16,7 @@ import tutorial0 from '../../images/tutorials/tutorial0.png';
 import banba from './../../images/About1/banba_poster-0.png'
 import brightland from './../../images/About1/ceist3.png'
 import lasta from './../../images/About1/lasta.png'  //frog.gif'
-import linucsLand from './../../images/About1/backgrounds/bg-linux-land.gif'
+
 import SampleHero from '../../images/About1/images/sample-hero.png'
 
 import branch000 from '../../images/o-fortuna/0.png'
@@ -313,9 +313,9 @@ export function fenianBranches(props) {
 					<div className="about-pics-container">
 
 					<div className="linux-land-container">
-							<img className={value * 10 === 5 ? 'fade-in-slow' : 'hidden'} src={linucsLand} id="linux-land" alt="illustration placeholder" />
+							
 
-					<img className={value * 10 === 6 ? 'fade-out-slow ' : 'hidden'} src={linucsLand}  id="linux-land" alt="a distant castle in green fields" />
+					
 					<img className={value * 10 === 6 ? 'sample-hero  march-north'  : 'hidden'} src={SampleHero}  alt="little hero guy" />
 						</div>
 

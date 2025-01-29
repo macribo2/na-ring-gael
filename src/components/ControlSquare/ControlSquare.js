@@ -6,23 +6,23 @@ import Phaser from 'phaser';
 
     // Create the directional buttons (left, right, up, down) and the middle button
     const buttonSize = 40; // Size of each button
-    const middleButton = scene.add.sprite(x, y, 'middleButtonDark').setInteractive();
-    const upButton = scene.add.sprite(x, y - 60, 'upButtonDark').setInteractive(); // Up button above the middle
-    const downButton = scene.add.sprite(x, y + 60, 'downButtonDark').setInteractive(); // Down button below the middle
-    const leftButton = scene.add.sprite(x - 60, y, 'leftButtonDark').setInteractive(); // Left button to the left of the middle
-    const rightButton = scene.add.sprite(x + 60, y, 'rightButtonDark').setInteractive(); // Right button to the right of the middle
+    const middleButton0 = scene.add.sprite(x, y, 'middleButtonDark').setInteractive();
+    const upButton0 = scene.add.sprite(x, y - 60, 'upButtonDark').setInteractive(); // Up button above the middle
+    const downButton0 = scene.add.sprite(x, y + 60, 'downButtonDark').setInteractive(); // Down button below the middle
+    const leftButton0 = scene.add.sprite(x - 60, y, 'leftButtonDark').setInteractive(); // Left button to the left of the middle
+    const rightButton0 = scene.add.sprite(x + 60, y, 'rightButtonDark').setInteractive(); // Right button to the right of the middle
 
     // Add the buttons to the container first (they'll be rendered above the square)
-    this.add(middleButton);
-    this.add(upButton);
-    this.add(downButton);
-    this.add(leftButton);
-    this.add(rightButton);
-    this.middleButton = middleButton;
-    this.upButton = upButton;
-    this.downButton = downButton;
-    this.leftButton = leftButton;
-    this.rightButton = rightButton;
+    this.add(middleButton0);
+    this.add(upButton0);
+    this.add(downButton0);
+    this.add(leftButton0);
+    this.add(rightButton0);
+    this.middleButton0 = middleButton0;
+    this.upButton0 = upButton0;
+    this.downButton0 = downButton0;
+    this.leftButton0 = leftButton0;
+    this.rightButton0 = rightButton0;
 
 
     // Function to switch to the lit (pressed) version of the button
@@ -35,57 +35,76 @@ import Phaser from 'phaser';
       button.setTexture(buttonName); // Switch back to the normal texture (e.g., buttonUp)
     };
 
-    // Handle pointer events for each button
+// Cooldown flags for each button
+let middleButtonCooldown = false;
+let upButtonCooldown = false;
+let downButtonCooldown = false;
+let leftButtonCooldown = false;
+let rightButtonCooldown = false;
 
-    // When button is pressed (pointer down)
-    middleButton.on('pointerdown', () => {
-      setButtonLit(middleButton, 'middleButtonLit');
-    });
-    upButton.on('pointerdown', () => {
-      setButtonLit(upButton, 'upButtonLit');
-    });
-    downButton.on('pointerdown', () => {
-      setButtonLit(downButton, 'downButtonLit');
-    });
-    leftButton.on('pointerdown', () => {
-      setButtonLit(leftButton, 'leftButtonLit');
-    });
-    rightButton.on('pointerdown', () => {
-      setButtonLit(rightButton, 'rightButtonLit');
-    });
+// Function to handle button press with cooldown
+const handleButtonPress = (button, litClass, cooldownFlag) => {
+  if (cooldownFlag.value) return; // Ignore clicks during cooldown
+
+  setButtonLit(button, litClass);
+
+  cooldownFlag.value = true; // Activate cooldown
+
+  // Reset cooldown after 500ms
+  setTimeout(() => {
+    cooldownFlag.value = false;
+  }, 500);
+};
+
+// Event listeners for each button with cooldown
+middleButton0.on('pointerdown', () => {
+  handleButtonPress(middleButton0, 'middleButtonLit', { value: middleButtonCooldown });
+});
+upButton0.on('pointerdown', () => {
+  handleButtonPress(upButton0, 'upButtonLit', { value: upButtonCooldown });
+});
+downButton0.on('pointerdown', () => {
+  handleButtonPress(downButton0, 'downButtonLit', { value: downButtonCooldown });
+});
+leftButton0.on('pointerdown', () => {
+  handleButtonPress(leftButton0, 'leftButtonLit', { value: leftButtonCooldown });
+});
+rightButton0.on('pointerdown', () => {
+  handleButtonPress(rightButton0, 'rightButtonLit', { value: rightButtonCooldown });
+});
 
     // When button is released (pointer up)
-    middleButton.on('pointerup', () => {
-      resetButton(middleButton, 'middleButtonLit');
+    middleButton0.on('pointerup', () => {
+      resetButton(middleButton0, 'middleButtonLit');
     });
-    upButton.on('pointerup', () => {
-      resetButton(upButton, 'upButtonLit');
+    upButton0.on('pointerup', () => {
+      resetButton(upButton0, 'upButtonLit');
     });
-    downButton.on('pointerup', () => {
-      resetButton(downButton, 'downButtonLit');
+    downButton0.on('pointerup', () => {
+      resetButton(downButton0, 'downButtonLit');
     });
-    leftButton.on('pointerup', () => {
-      resetButton(leftButton, 'leftButtonLit');
+    leftButton0.on('pointerup', () => {
+      resetButton(leftButton0, 'leftButtonLit');
     });
-    rightButton.on('pointerup', () => {
-      resetButton(rightButton, 'rightButtonLit');
+    rightButton0.on('pointerup', () => {
+      resetButton(rightButton0, 'rightButtonLit');
     });
 
     // Handle pointer out (when the pointer is moved away from the button)
-    middleButton.on('pointerout', () => {
-      resetButton(middleButton, 'middleButtonDark');
+    middleButton0.on('pointerout', () => {
+      resetButton(middleButton0, 'middleButtonDark');
     });
-    upButton.on('pointerout', () => {
-      resetButton(upButton, 'upButtonDark');
+    upButton0.on('pointerout', () => {
+      resetButton(upButton0, 'upButtonDark');
     });
-    downButton.on('pointerout', () => {
-      resetButton(downButton, 'downButtonDark');
+    downButton0.on('pointerout', () => {
+      resetButton(downButton0, 'downButtonDark');
     });
-    leftButton.on('pointerout', () => {
-      resetButton(leftButton, 'leftButtonDark');
+    leftButton0.on('pointerout', () => {
+      resetButton(leftButton0, 'leftButtonDark');
     });
-    rightButton.on('pointerout', () => {
-      resetButton(rightButton, 'rightButtonDark');
+    rightButton0.on('pointerout', () => {
+      resetButton(rightButton0, 'rightButtonDark');
     });
     
     // Control square functionality...
@@ -223,11 +242,11 @@ import Phaser from 'phaser';
     };
 
     // Set up pointer events for each button
-    middleButton.on('pointerdown', (pointer) => startPress(pointer));
-    upButton.on('pointerdown', (pointer) => startPress(pointer));
-    downButton.on('pointerdown', (pointer) => startPress(pointer));
-    leftButton.on('pointerdown', (pointer) => startPress(pointer));
-    rightButton.on('pointerdown', (pointer) => startPress(pointer));
+    middleButton0.on('pointerdown', (pointer) => startPress(pointer));
+    upButton0.on('pointerdown', (pointer) => startPress(pointer));
+    downButton0.on('pointerdown', (pointer) => startPress(pointer));
+    leftButton0.on('pointerdown', (pointer) => startPress(pointer));
+    rightButton0.on('pointerdown', (pointer) => startPress(pointer));
 
     // Handle pointerup (both for buttons and control square dragging)
     const handlePointerUp = () => {
@@ -236,11 +255,11 @@ import Phaser from 'phaser';
     };
 
     // Listen for pointerup event on the whole container (or buttons themselves)
-    middleButton.on('pointerup', handlePointerUp);
-    upButton.on('pointerup', handlePointerUp);
-    downButton.on('pointerup', handlePointerUp);
-    leftButton.on('pointerup', handlePointerUp);
-    rightButton.on('pointerup', handlePointerUp);
+    middleButton0.on('pointerup', handlePointerUp);
+    upButton0.on('pointerup', handlePointerUp);
+    downButton0.on('pointerup', handlePointerUp);
+    leftButton0.on('pointerup', handlePointerUp);
+    rightButton0.on('pointerup', handlePointerUp);
 
     // Listen for pointerupoutside event (if pointer is released outside the container)
     this.on('pointerupoutside', handlePointerUp);

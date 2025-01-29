@@ -12,3 +12,17 @@
     animation: spin 1s linear infinite; /* Spin animation */
     margin: 0 auto; /* Center the spinner */
 }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+  }
+  
+  canvas {
+    display: block;
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+  

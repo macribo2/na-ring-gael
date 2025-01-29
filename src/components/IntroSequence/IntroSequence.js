@@ -11,7 +11,9 @@ class IntroSequence extends Phaser.Scene {
     
     super({ key: 'IntroSequence' });
   this.championDiscovered = false; // Flag to track discovery
-
+  this.branchesDiscovered = false; // Flag to track discovery
+this.nameGa="test";
+this.branchGa="test";
     this.currentStep = 0;
   this.hasFaded = false;
     this.characterSheet = {};
@@ -19,11 +21,11 @@ class IntroSequence extends Phaser.Scene {
         'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...\n     \n"Cé a tagann go ríocht an préamh?"',
         '                    "Is mise..."',
-        // '"Scaoilfar aonarán, ar ais ar an saol. \nRoghnaigh féinnidh..."', 
-        '"Le cén géag dos na Fianna a bhainneann tú?"',
+        '"Céarbh íad na fiann len ar ghaiscigh tú fadó?"',
         ' ',
-"Cad  a tógann anseo thú?",
-        '"A Crann na Bethadh, \ntá Tír na nÓg ionraithe!     \nScaoil ar ais go hÉireann mé, leis na fianna a bhailú chugainn!"',
+        "Cad  a tógann ós comhair na géaga thú " + this.nameGa + ", " + this.branchGa + "?",
+
+        '"A Crann na Bethadh, \ntá Tír na nÓg ionraithe!     \nScaoil ar ais go hÉireann mé, \n bailleoidh mé na fianna!"',
         ' '
       ];
       
@@ -31,11 +33,10 @@ class IntroSequence extends Phaser.Scene {
         'Down, down \nfar far down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am ...',
-        // '"One alone shall be released to the living world. \nchoose your champion..."',
-        'With which branch of the Fianna do you belong?',
+        'With which band were your deeds of yore?',
         '',
         'What brings you here?',
-        '"O Tree of Life, we are invaded! \nRelease me to Ireland, to summon champions!"',
+        '"O Tree of Life, we are invaded! \nRelease me to Ireland, \nI will summon champions!"',
         '',
       ];
       
@@ -132,10 +133,10 @@ class IntroSequence extends Phaser.Scene {
 
     const background = this.add.image(0, 0, 'background'); // Position it at (0, 0)
       // Set the image origin to the center of the image so it can be scaled properly
-      background.setOrigin(0, 0); // Set origin to the top-left corner
 
       // Scale the image to cover the entire screen
-      background.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
+      background.setOrigin(0).setDisplaySize(this.scale.width, this.scale.height);
+
       const backgroundDarken = this.add.image(0, 0, 'bg1'); // Position it at (0, 0)
       // Set the image origin to the center of the image so it can be scaled properly
       backgroundDarken.setOrigin(0, 0); // Set origin to the top-left corner
@@ -158,18 +159,18 @@ this.tweens.add({
   }
 });
     // Create text object
-    this.textObjectGa = this.add.text(50, 50, '', {
+    this.textObjectGa = this.add.text(this.scale.width*0.05,this.scale.height*0.1, '', {
       font: '32px IrishPenny',
       fill: 'LavenderBlush',
       wordWrap: { width: 700 },
-    }).setDepth(10).setDepth(30);
+    }).setDepth(10).setDepth(35);
 
 
-    this.textObjectEn = this.add.text(50, 250, '', {
-        font: '32px IrishPenny',
-        fill: 'OliveDrab',
+    this.textObjectEn = this.add.text(this.scale.width*0.05,this.scale.height*0.6 ,'', {
+        font: '26px IrishPenny',
+        fill: 'plum',
         wordWrap: { width: 600 },
-      }).setVisible(false).setDepth(30);
+      }).setVisible(true).setDepth(35).setAlpha(0);
   
     // Initialize typing effect using rexTextTyping
     this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
@@ -179,7 +180,7 @@ this.tweens.add({
     // Start typing effect on the first text
     this.typingEffect.start(this.textsGa[this.currentStep]).on('complete', () => {
       console.log('Typing complete');
-      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(10);
+      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(35);
 
       // Add logic to show next text or transition to next scene
     });
@@ -197,38 +198,38 @@ this.controlSquare.setAlpha(0).setDepth(50); // Start invisible
     this.add.existing(this.controlSquare); // Add to the scene
 
     // Ensure dir Buttons exists
-    if (!this.controlSquare.rightButton) {
+    if (!this.controlSquare.rightButton0) {
       console.error('ControlSquare does not have a rightButton defined!');
       return;
     }
 
-    if (!this.controlSquare.middleButton) {
+    if (!this.controlSquare.middleButton0) {
         console.error('ControlSquare does not have a middleButton defined!');
         return;
       }
 
-    if (!this.controlSquare.leftButton) {
+    if (!this.controlSquare.leftButton0) {
         console.error('ControlSquare does not have a leftButton defined!');
         return;
       }
 
 
-      if (!this.controlSquare.downButton) {
+      if (!this.controlSquare.downButton0) {
         console.error('ControlSquare does not have a downButton defined!');
         return;
       }
-      if (!this.controlSquare.upButton) {
+      if (!this.controlSquare.upButton0) {
           console.error('ControlSquare does not have a upButton defined!');
           return;
         }
 
     // Make the right button interactive
-    this.controlSquare.leftButton.setInteractive();
+    this.controlSquare.leftButton0.setInteractive();
 // Variable to track whether the translation is visible or not
 this.isTranslationVisible = false; // Start with the Irish version visible
 
 // Create the middle button to toggle translations
-this.controlSquare.middleButton.on('pointerdown', () => {
+this.controlSquare.middleButton0.on('pointerdown', () => {
     // Toggle the visibility of the English translation
     this.isTranslationVisible = !this.isTranslationVisible;
     
@@ -236,13 +237,13 @@ this.controlSquare.middleButton.on('pointerdown', () => {
     if (this.isTranslationVisible) {
         // Show English translation
         if (this.textObjectEn) {
-            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(10);
+            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(40);
         } else {
             console.error("textObjectEn is not defined. Ensure it is created before this point.");
         }
 
         if (this.subtitleTextEn) {
-            this.subtitleTextEn.setVisible(true).setAlpha(0.8).setDepth(10);
+            this.subtitleTextEn.setVisible(true).setAlpha(0.8).setDepth(40);
         } else {
             console.error("subtitleTextEn is not defined. Ensure it is created before this point.");
         }
@@ -339,7 +340,8 @@ function showNextMessageWithTyping(newMessage) {
             ease: 'Quad.easeOut',
             onComplete: () => {
               // Set the previous message text
-              this.textObjectGa.setText(this.textsGa[this.currentStep]);
+              this.textObjectGa.setText
+              (this.textsGa[this.currentStep]);
               this.textObjectEn.setText(this.textsEn[this.currentStep]);
             }
           });
@@ -354,18 +356,23 @@ function showNextMessageWithTyping(newMessage) {
     this.championDiscovered = true;
     console.log('Champion has been discovered!');
   });
-
+  EventEmitter.on('branchesDiscovered', () => {
+    this.branchesDiscovered = true;
+    console.log('Branches have been discovered!');
+  });
   this.events.on('championDiscovered', () => {
     this.championDiscovered = true;
     console.log("Champion discovered in IntroSequence!");
   });
-  this.controlSquare.rightButton.on('pointerdown', () => {
+  this.controlSquare.rightButton0.on('pointerdown', () => {
 
       // Guard condition: Block progression if currentStep === 2 and champion is not discovered
   if (this.currentStep === 2 && !this.championDiscovered) {
     return; // Stop further execution
   }
-
+  if (this.currentStep === 4 && !this.branchesDiscovered) {
+    return; // Stop further execution
+  }
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
     if (this.currentStep < this.textsGa.length) {
@@ -378,7 +385,7 @@ function showNextMessageWithTyping(newMessage) {
     }
 });
 
-this.controlSquare.upButton.on('pointerdown', () => {
+this.controlSquare.upButton0.on('pointerdown', () => {
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
     if (this.currentStep < this.textsGa.length) {
@@ -392,7 +399,7 @@ this.controlSquare.upButton.on('pointerdown', () => {
 });
 
 // Set up pointerdown event for going back to the previous message
-this.controlSquare.downButton.on('pointerdown', () => {
+this.controlSquare.downButton0.on('pointerdown', () => {
     if (this.currentStep > 0) {
         // Move back and show previous message with fade-in and drop-down
         showPreviousMessageWithDropDown.call(this);
@@ -405,7 +412,7 @@ this.controlSquare.downButton.on('pointerdown', () => {
     }
 });
 // Set up pointerdown event for going back to the previous message
-this.controlSquare.leftButton.on('pointerdown', () => {
+this.controlSquare.leftButton0.on('pointerdown', () => {
     if (this.currentStep > 0) {
         // Move back and show previous message with fade-in and drop-down
         showPreviousMessageWithDropDown.call(this);
@@ -495,13 +502,14 @@ this.ChampionSelect1.destroy(); // Then destroy it.
       ease: 'Power1', // Smooth easing
       onComplete: () => {
         // Change text properties (position, font size, etc.)
-        this.textObjectGa.setPosition(50, 150); // New position
+        this.textObjectGa.setPosition(this.scale.width*0.01,this.scale.height*0.75); // New position
   
         setTimeout(() => {
           // Fade in the updated text
           this.tweens.add({
             targets: this.textObjectGa,
-            alpha: 1, // Fade in to alpha 1
+            alpha: 0.6,
+            color:'lightgrey', // Fade in to alpha 1
             duration: 1000, // Duration of 1 second
             ease: 'Power1', // Smooth easing
             onStart: () => {
@@ -534,8 +542,24 @@ console.log('Texture exists?', this.textures.exists('championSprites'));
 
 }
 if (this.currentStep === 5) {
-  this.ChampionSelect2.fadeInBackground2();
+    let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
 
+    // Update the name and branch variables
+    this.nameGa = characterSheet.nameGa;
+    this.branchGa = characterSheet.branchGa;
+
+    // Dynamically update the text at the required step
+    this.textsGa[5] = `${this.nameGa}! \nCad  a tógann chuig na sean géaga seo arís,\n a ${this.nameGa} dhíl?`;
+    this.textsEn[5] = `${this.nameGa}!\nWhat brings you back to these old branches,\n faithful ${this.nameGa}?`;
+
+    // Update any text object showing the text if necessary
+    this.textObjectGa.setText(this.textsGa[this.currentStep]);
+    this.textObjectEn.setText(this.textsEn[this.currentStep]);
+
+    this.ChampionSelect2.fadeInBackground2();
+    this.textObjectGa.setDepth(35);
+    this.textObjectEn.setDepth(35);
+    this.textObjectGa.y = this.scale.height * 0.01;
 }
 
 if (this.currentStep===7){
