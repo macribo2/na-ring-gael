@@ -17,7 +17,7 @@ class IntroSequence extends Phaser.Scene {
     this.characterSheet = {};
     this.textsGa = [
         'Síos,    \nsíos,      \nsíos go doimhin...',
-        'Síos i plúis gan éag...\n     \n"Cé a tagann go ríocht an préamh?"',
+        'Síos i plúis gan éag...\n     \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
         // '"Scaoilfar aonarán, ar ais ar an saol. \nRoghnaigh féinnidh..."', 
         '"Le cén géag dos na Fianna a bhainneann tú?"',
@@ -225,13 +225,18 @@ this.controlSquare.setAlpha(0).setDepth(50); // Start invisible
           return;
         }
 
-    // Make the right button interactive
+    // Make the left button interactive
     this.controlSquare.leftButton.setInteractive();
 // Variable to track whether the translation is visible or not
 this.isTranslationVisible = false; // Start with the Irish version visible
 
 // Create the middle button to toggle translations
 this.controlSquare.middleButton.on('pointerdown', () => {
+   // Check if cooldown is active
+   if (this.isCooldownActive) return;
+   // Activate cooldown
+   this.isCooldownActive = true;
+  
     // Toggle the visibility of the English translation
     this.isTranslationVisible = !this.isTranslationVisible;
     
@@ -270,6 +275,10 @@ this.controlSquare.middleButton.on('pointerdown', () => {
         // Also toggle the visibility of the English name in ChampionSelect
         this.ChampionSelect1.toggleEnglishNameVisibility(this.isTranslationVisible);
     }
+      // Reset cooldown after the specified duration
+      this.time.delayedCall(this.cooldownDuration, () => {
+        this.isCooldownActive = false;
+      });
 });
 
 // Fade in ControlSquare and text
