@@ -19,7 +19,7 @@
   background-repeat: no-repeat;
   background-position: center;
   pointer-events: none;
-  animation: tiltAndTurn 24s infinite alternate-reverse steps(16);
+  animation: tiltAndTurn 24s infinite alternate-reverse ease-in-out;
 }
 
 @keyframes tiltAndTurn {

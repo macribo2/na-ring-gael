@@ -17,9 +17,8 @@ class IntroSequence extends Phaser.Scene {
     this.characterSheet = {};
     this.textsGa = [
         'Síos,    \nsíos,      \nsíos go doimhin...',
-        'Síos i plúis gan éag...\n     \n"Cé atá tagtha go ríocht an préamh?"',
+        'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
-        // '"Scaoilfar aonarán, ar ais ar an saol. \nRoghnaigh féinnidh..."', 
         '"Le cén géag dos na Fianna a bhainneann tú?"',
         ' ',
 "Cad  a tógann anseo thú?",
@@ -30,8 +29,7 @@ class IntroSequence extends Phaser.Scene {
       this.textsEn = [
         'Down, down \nfar far down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
-        '"I am ...',
-        // '"One alone shall be released to the living world. \nchoose your champion..."',
+        '"I am...',
         'With which branch of the Fianna do you belong?',
         '',
         'What brings you here?',
@@ -131,22 +129,85 @@ class IntroSequence extends Phaser.Scene {
   this.isCooldownActive = false;
   this.cooldownDuration = 500; // 500ms cooldown
   this.particles = null; // Initialize particles as null
-
-
-    const background = this.add.image(0, 0, 'background'); // Position it at (0, 0)
-      // Set the image origin to the center of the image so it can be scaled properly
-      background.setOrigin(0, 0); // Set origin to the top-left corner
-
-      // Scale the image to cover the entire screen
-      background.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
-      const backgroundDarken = this.add.image(0, 0, 'bg1'); // Position it at (0, 0)
-      // Set the image origin to the center of the image so it can be scaled properly
-      backgroundDarken.setOrigin(0, 0); // Set origin to the top-left corner
-
-      // Scale the image to cover the entire screen
-      backgroundDarken.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
-    backgroundDarken.setAlpha(0)
-
+  
+  const background = this.add.image(0, 0, 'backgroundFoggy'); // Position it at (0, 0)
+  // Set the image origin to the center of the image so it can be scaled properly
+  background.setOrigin(0, 0); // Set origin to the top-left corner
+  
+  // Scale the image to cover the entire screen
+  background.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
+  const backgroundDarken = this.add.image(0, 0, 'bg1'); // Position it at (0, 0)
+  // Set the image origin to the center of the image so it can be scaled properly
+  backgroundDarken.setOrigin(0, 0); // Set origin to the top-left corner
+  
+  // Scale the image to cover the entire screen
+  backgroundDarken.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
+  backgroundDarken.setAlpha(0);
+  const scrollSpeed = 300; // Initial speed (pixels per second)
+  const imageHeight = 740; // Image height
+  let slowingDown = false; // Track the slowing down state
+  
+  // Create a container for the scrolling images
+  const branchesContainer = this.add.container(this.scale.width / 2, 0);
+  
+  // Add two images for looping
+  const branches1 = this.add.image(0, 0, 'branches').setOrigin(0.5, 0);
+  const branches2 = this.add.image(0, imageHeight, 'branches').setOrigin(0.5, 0);
+  
+  // Create the final image (hidden initially)
+  const branches3 = this.add.image(0, imageHeight * 2, 'branches3').setOrigin(0.5, 0).setVisible(false);
+  
+  branchesContainer.add([branches1, branches2, branches3]);
+  
+  // Animate looping scroll
+  const scrollTween = this.tweens.add({
+    targets: branchesContainer,
+    y: `-=${imageHeight}`, // Move up by one image height
+    duration: (imageHeight / scrollSpeed) * 1000, // Control speed
+    ease: 'Linear',
+    repeat: -1,
+    onRepeat: () => {
+      if (slowingDown) return; // Don't reset loop if slowing down
+  
+      // Reset position for infinite loop if branchesContainer is fully out of view
+      if (branchesContainer.y <= -imageHeight) {
+        branchesContainer.y = 0;
+      }
+  
+      // Check for swap condition
+      if (this.currentStep === 1 && !slowingDown) {
+        slowingDown = true;
+        this.swapAndSlow(); // Call the method to swap and slow down
+      }
+    }
+  });
+  
+  // Function to swap an image and slow the movement properly
+  this.swapAndSlow = () => {
+    // Hide branches2 and show branches3
+    branches2.setVisible(false);
+    branches3.setVisible(true);
+  
+    // Move branches3 to the top of the screen (just below branches2)
+    branches3.y = imageHeight; // Ensure there's no gap, branches3 starts right where branches2 ends
+  
+    // Calculate the time it should take for branches3 to reach the top
+    const remainingDistance = imageHeight; // We want to stop when branches3 reaches the top of the screen
+  
+    // Stop the scrolling animation
+    this.tweens.add({
+      targets: branchesContainer,
+      y: `-=${remainingDistance}`, // Scroll the exact remaining distance
+      duration: (remainingDistance / scrollSpeed) * 1000, // Adjust duration based on remaining scroll
+      ease: 'Linear',
+      onComplete: () => {
+        console.log('Arrived at Geaga!');
+        // Stop the scroll animation and hold position
+        scrollTween.stop();
+      }
+    });
+  };
+  
     // Tween to fade in backgroundDarken
 this.tweens.add({
   targets: backgroundDarken,    // The object to animate
@@ -160,19 +221,19 @@ this.tweens.add({
       console.log("Fade-in completed");
   }
 });
-    // Create text object
-    this.textObjectGa = this.add.text(50, 50, '', {
+    // Create text object for narrative
+    this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
       font: '32px IrishPenny',
       fill: 'LavenderBlush',
-      wordWrap: { width: 700 },
+      wordWrap: { width:this.scale.width*0.8 },
     }).setDepth(10).setDepth(30);
 
 
-    this.textObjectEn = this.add.text(50, 250, '', {
-        font: '32px IrishPenny',
-        fill: 'OliveDrab',
-        wordWrap: { width: 600 },
-      }).setVisible(false).setDepth(30);
+    this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
+        font: '26px IrishPenny',
+        fill: 'plum',
+        wordWrap: { width: this.scale.width * 0.8},
+      }).setVisible(true).setDepth(145).setAlpha(0);
   
     // Initialize typing effect using rexTextTyping
     this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
@@ -182,7 +243,7 @@ this.tweens.add({
     // Start typing effect on the first text
     this.typingEffect.start(this.textsGa[this.currentStep]).on('complete', () => {
       console.log('Typing complete');
-      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(10);
+      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(140);
 
       // Add logic to show next text or transition to next scene
     });
@@ -244,7 +305,7 @@ this.controlSquare.middleButton.on('pointerdown', () => {
     if (this.isTranslationVisible) {
         // Show English translation
         if (this.textObjectEn) {
-            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(10);
+            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(140);
         } else {
             console.error("textObjectEn is not defined. Ensure it is created before this point.");
         }

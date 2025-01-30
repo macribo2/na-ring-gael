@@ -682,31 +682,31 @@ this.wheel.setInteractive();
 
     // Add the square sensor
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
-    // Add text for the name
-    this.nameTextGa = scene.add.text(550, 50, '', {
+    // Add text for the branch name
+    this.nameTextGa = scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.1, '', {
       font: '64px IrishPenny',
       fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 
 
+// Add text for the branch name
+this.nameTextEn =scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.25, '', {
+        font: '26px IrishPenny',
+        fill: 'plum',
+      wordWrap: { width: 600 },
+    }).setOrigin(0.5).setDepth(50).setAlpha(1).setVisible(true)
+
 // Add subtitle text for mottoGa
-this.subtitleTextGa = scene.add.text(550,250, '', {
+this.subtitleTextGa = scene.add.text(scene.scale.width * 0.5,scene.scale.height * 0.5, '', {
         font: '32px IrishPenny',
         fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
-// Add subtitle text for mottoGa
-this.subtitleTextEn = scene.add.text( 550,350,'', {
-        font: '32px IrishPenny',
-        fill: 'ForestGreen',
+// Add subtitle text for mottoEn
+this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.65,'', {
+        font: '26px IrishPenny',
+        fill: 'plum',
 }).setOrigin(0.5).setDepth(30).setAlpha(0)
 
-
-// Add text for the name
-this.nameTextEn =scene.add.text(550, 150, '', {
-        font: '32px IrishPenny',
-        fill: 'ForestGreen',
-      wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(30).setAlpha(0)
     
     // Variables for tracking rotation and velocity
     this.rotationVelocity = 0;

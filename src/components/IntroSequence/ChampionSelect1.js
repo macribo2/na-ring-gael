@@ -51,13 +51,13 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'31.png',gender:"", nameGa: 'Ross', nameEn: 'headland'}
 ,{spriteKey:'32.png',gender:"", nameGa: 'Orthanach', nameEn: 'potent in prayers or charms'}
 ,{spriteKey:'33.png',gender:"", nameGa: 'Ainbheartach', nameEn: 'doer of evil deeds'}
-,{spriteKey:'34.png',gender:"f", nameGa: 'Neamhain', nameEn: 'battle-fury, warlike frenzy, Celtic war goddess'}
+,{spriteKey:'34.png',gender:"f", nameGa: 'Neamhain', nameEn: 'battle-fury, warlike frenzy, \nCeltic war goddess'}
 ,{spriteKey:'35.png',gender:"f", nameGa: 'Éibhleann', nameEn: 'beauty, radiance'}
 ,{spriteKey:'36.png',gender:"", nameGa: 'Tuathal', nameEn: 'Tully, ruler of the people'}
 ,{spriteKey:'37.png',gender:"m", nameGa: 'Ógán', nameEn: 'Lad'}
 ,{spriteKey:'38.png',gender:"", nameGa: 'Odhrán', nameEn: 'sallow'}
 ,{spriteKey:'39.png',gender:"m", nameGa: 'Onchú', nameEn: 'fierce hound'}
-,{spriteKey:'40.png',gender:"f", nameGa: 'Sláine', nameEn: 'health, from a Celtic goddess name'}
+,{spriteKey:'40.png',gender:"f", nameGa: 'Sláine', nameEn: 'health, \nfrom a Celtic goddess name'}
 ,{spriteKey:'41.png',gender:"f", nameGa: 'Saorla', nameEn: 'noble queen'}
 ,{spriteKey:'42.png',gender:"m", nameGa: 'Deasmumhnach', nameEn: 'man from Desmond (Co. Cork)'}
 ,{spriteKey:'43.png',gender:"m", nameGa: 'Tighearnán', nameEn: 'Lord'}
@@ -83,7 +83,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'63.png',gender:"", nameGa: 'Donnchadh', nameEn: 'Dionysus brown lord'}
 ,{spriteKey:'64.png',gender:"", nameGa: 'Lorcán', nameEn: 'cruel or fierce'}
 ,{spriteKey:'65.png',gender:"", nameGa: 'Uasal', nameEn: 'Noble'}
-,{spriteKey:'66.png',gender:"f", nameGa: 'Moncha', nameEn: 'after Macha, goddess of Sovereignty'}
+,{spriteKey:'66.png',gender:"f", nameGa: 'Moncha', nameEn: 'after Macha, \ngoddess of Sovereignty'}
 ,{spriteKey:'67.png',gender:"", nameGa: 'Fial', nameEn: 'modest, honorable, generous'}
 ,{spriteKey:'68.png',gender:"", nameGa: 'Sé', nameEn: 'hawk-like, noble'}
 ,{spriteKey:'69.png',gender:"m", nameGa: 'Cathán', nameEn: 'battler'}
@@ -100,12 +100,12 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'80.png',gender:"f", nameGa: 'Bébhinn', nameEn: 'fair lady'}
 ,{spriteKey:'81.png',gender:"", nameGa: 'Sárán', nameEn: 'chief, noble, best'}
 ,{spriteKey:'82.png',gender:"", nameGa: 'Saoirse', nameEn: 'freedom'}
-,{spriteKey:'83.png',gender:"f", nameGa: 'Ciara', nameEn: 'Dark, dark-haired, little dark one; Black. \nA name beloved for millenia'}
+,{spriteKey:'83.png',gender:"f", nameGa: 'Ciara', nameEn: 'Dark, dark-haired, \nlittle dark one; Black.'}
 ,{spriteKey:'84.png',gender:"f", nameGa: 'Laoise ', nameEn: 'radience, light'}
-,{spriteKey:'85.png',gender:"f", nameGa: 'Clíona', nameEn: 'goddess of love and beauty, patron of County Cork. Also, queen of the banshees'}
-,{spriteKey:'86.png',gender:"f", nameGa: 'Úna', nameEn: "from uan 'lamb'. Of truth, beauty, and unity"}
+,{spriteKey:'85.png',gender:"f", nameGa: 'Clíona', nameEn: 'goddess of love and beauty, \npatron of County Cork. Also, queen of the banshees'}
+,{spriteKey:'86.png',gender:"f", nameGa: 'Úna', nameEn: "from uan 'lamb'. \nOf truth, beauty, and unity"}
 ,{spriteKey:'87.png',gender:"f", nameGa: 'Eithne', nameEn: 'There were at least nine Saint Eithnes'}
-,{spriteKey:'88.png',gender:"m", nameGa: 'Pádraig', nameEn: 'from the Latin Patricius, meaning of the patrician class'}
+,{spriteKey:'88.png',gender:"m", nameGa: 'Pádraig', nameEn: 'from the Latin Patricius, \nmeaning of the patrician class'}
 ,{spriteKey:'89.png',gender:"m", nameGa: 'Líam', nameEn: 'strong-willed warrior '}
 ,{spriteKey:'90.png',gender:"", nameGa: 'Éanna', nameEn: 'birdlike'}
 ,{spriteKey:'91.png',gender:"", nameGa: 'Rónnad', nameEn: 'seal'}
@@ -117,7 +117,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'97.png',gender:"", nameGa: 'Sárnait', nameEn: 'chief, noble, best'}
 ,{spriteKey:'98.png',gender:"", nameGa: 'Osnait', nameEn: 'deer'}
 ,{spriteKey:'99.png',gender:"", nameGa: 'Giolla-Padraig', nameEn: 'servant of Patrick'}
-,{spriteKey:'10.png',gender:"f", nameGa: 'Áine', nameEn: 'Radiance, Áine, goddess of Summer'}
+,{spriteKey:'10.png',gender:"f", nameGa: 'Áine', nameEn: 'Radiance, Áine, \ngoddess of Summer'}
 ,{spriteKey:'11.png',gender:"f", nameGa: 'Fionnghuala', nameEn: 'fair shouldered'}
 ,{spriteKey:'12.png',gender:"", nameGa: 'Suaibhseach', nameEn: 'gracious, kindly'}
 ,{spriteKey:'13.png',gender:"m", nameGa: 'Éamonn', nameEn: 'wealthy guardian'}
@@ -168,7 +168,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'58.png',gender:"", nameGa: 'Lasair', nameEn: 'fire'}
 ,{spriteKey:'59.png',gender:"", nameGa: 'Teafa', nameEn: 'a place name in Co. Longford'}
 ,{spriteKey:'60.png',gender:"f", nameGa: 'Banbha', nameEn: 'an early goddess, also Ireland'}
-,{spriteKey:'61.png',gender:"m", nameGa: 'Ánrothán', nameEn: 'sun-traveller, nobleman second to the king'}
+,{spriteKey:'61.png',gender:"m", nameGa: 'Ánrothán', nameEn: 'sun-traveller, \nnobleman second to the king'}
 ,{spriteKey:'62.png',gender:"", nameGa: 'Meallá', nameEn: 'lightening'}
 ,{spriteKey:'63.png',gender:"", nameGa: 'Fionúir', nameEn: 'ghost, spirit'}
 ,{spriteKey:'64.png',gender:"", nameGa: 'Cassair', nameEn: 'curly-haired'}
@@ -195,7 +195,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'85.png',gender:"", nameGa: 'Dubhaltach', nameEn: 'dark-limbed, black-jointed'}
 ,{spriteKey:'86.png',gender:"", nameGa: 'Dáire', nameEn: 'erinn daughter of Fionn'}
 ,{spriteKey:'87.png',gender:"", nameGa: 'Saraid', nameEn: 'excellent, best'}
-,{spriteKey:'88.png',gender:"", nameGa: 'Aodhán', nameEn: 'the God of fire whose names means fire.'}
+,{spriteKey:'88.png',gender:"", nameGa: 'Aodhán', nameEn: 'the God of fire \nwhose names means fire.'}
 ,{spriteKey:'89.png',gender:"", nameGa: 'Síomha', nameEn: 'good peace'}
 ,{spriteKey:'90.png',gender:"", nameGa: 'Teamhair', nameEn: 'elevated place'}
 ,{spriteKey:'91.png',gender:"", nameGa: 'Cian', nameEn: 'ancient'}
@@ -243,9 +243,9 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'43.png',gender:"", nameGa: 'Urard', nameEn: 'very tall'}
 ,{spriteKey:'44.png',gender:"", nameGa: 'Lughaidh', nameEn: 'light, brightness'}
 ,{spriteKey:'45.png',gender:"", nameGa: 'Iobhar', nameEn: 'yew tree'}
-,{spriteKey:'46.png',gender:"", nameGa: 'Róisín', nameEn: 'Norse word for horse. Also means little rose.'}
+,{spriteKey:'46.png',gender:"", nameGa: 'Róisín', nameEn: 'Norse word for horse. \nAlso means little rose.'}
 ,{spriteKey:'47.png',gender:"", nameGa: 'Conn', nameEn: 'wisdom, chief'}
-,{spriteKey:'48.png',gender:"", nameGa: 'Cearbhall', nameEn: 'brave in sword-fighting, valorous'}
+,{spriteKey:'48.png',gender:"", nameGa: 'Cearbhall', nameEn: 'brave in sword-fighting, \nvalorous'}
 ,{spriteKey:'49.png',gender:"", nameGa: 'Colmán', nameEn: "from Latin 'dove'"}
 ,{spriteKey:'50.png',gender:"", nameGa: 'Íonait', nameEn: 'faithful, pure, sincere'}
 ,{spriteKey:'51.png',gender:"", nameGa: 'Muireann', nameEn: 'sea fair'}
@@ -260,7 +260,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'60.png',gender:"", nameGa: 'Abbán', nameEn: 'little abbot'}
 ,{spriteKey:'61.png',gender:"", nameGa: 'Uaine', nameEn: 'greenish, from a tribal name'}
 ,{spriteKey:'62.png',gender:"", nameGa: 'Ólchobhar', nameEn: 'lover of drink'}
-,{spriteKey:'63.png',gender:"", nameGa: 'Nuadha', nameEn: 'possibly, cloud-maker: Celtic god name'}
+,{spriteKey:'63.png',gender:"", nameGa: 'Nuadha', nameEn: 'possibly, cloud-maker \nCeltic god name'}
 ,{spriteKey:'64.png',gender:"m", nameGa: 'Fearghal', nameEn: 'manly or valorous'}
 ,{spriteKey:'65.png',gender:"", nameGa: 'Rathnait', nameEn: 'grace, prosperity'}
 ,{spriteKey:'66.png',gender:"f", nameGa: 'Laoise', nameEn: 'girl'}
@@ -273,7 +273,7 @@ this.background2 = null; // Declare background2 here
 ,{spriteKey:'73.png',gender:"", nameGa: 'Somhairle', nameEn: 'from Norse, summer wanderer'}
 ,{spriteKey:'74.png',gender:"", nameGa: 'Neacht', nameEn: 'pure'}
 ,{spriteKey:'75.png',gender:"", nameGa: 'Buadhach', nameEn: 'Victorious'}
-,{spriteKey:'76.png',gender:"m", nameGa: 'Tadhg', nameEn: 'Thaddeus, Theodosius, Theophilus, poet'}
+,{spriteKey:'76.png',gender:"m", nameGa: 'Tadhg', nameEn: 'Thaddeus, Theodosius, \nTheophilus, poet'}
 ,{spriteKey:'77.png',gender:"", nameGa: 'Muirín', nameEn: 'born of the sea'}
 ,{spriteKey:'78.png',gender:"m", nameGa: 'Niall', nameEn: 'cloud or passionate, vehement'}
 ,{spriteKey:'79.png',gender:"", nameGa: 'Mór', nameEn: 'great'}
@@ -356,10 +356,16 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
     
     // Add text for the name
-    this.nameTextGa = scene.add.text(400, centerY + 110, 'test', {
+    this.nameTextGa = scene.add.text(scene.scale.width * 0.5, scene.scale.height * 0.5, 'test', {
       font: '64px IrishPenny',
       fill: 'LavenderBlush',
     }).setOrigin(0.5).setAlpha(0).setDepth(30);;
+       // Add text for the name
+     this.nameTextEn =scene.add.text(scene.scale.width * 0.2, scene.scale.height * 0.8, '', {
+      font: '26px IrishPenny',
+      fill: 'plum',
+      wordWrap: { width: 600 },
+    }).setAlpha(0).setDepth(135).setVisible(true);
     
     
  // Set up the event listener
@@ -409,9 +415,10 @@ EventEmitter.on('stepChanged', (newStep) => {
           alpha: 0, // Fade out to alpha 0
           duration: 1000, // Duration of 1 second
           ease: "Power1", // Smooth easing
+          font:'26px IrishPenny',
           onComplete: () => {
             // Change text properties (position, font size, etc.)
-            this.nameTextGa.setPosition(50, 50); // New position
+            this.nameTextGa.setPosition(scene.scale.width * 0.02, scene.scale.height * 0.6).setFontSize(26); // New position
             this.nameTextGa.setOrigin(0);
 
             // Fade in the updated text
@@ -438,7 +445,7 @@ EventEmitter.on('stepChanged', (newStep) => {
     if (this.championImage) {
       this.scene.tweens.add({
         targets: this.championImage,
-        y: this.championImage.y + 250, // Move down 250px
+        y:scene.scale.height * 0.8, // Move down 250px
         duration: 2000, // Duration of 2 seconds for walking effect
         ease: "Sine.easeInOut", // Smooth easing function
         onStart: () => {
@@ -453,6 +460,7 @@ EventEmitter.on('stepChanged', (newStep) => {
     }
   }
 
+
          if (newStep === 4) {
           if (this.nameTextGa) {
               // Fade out the current text
@@ -465,8 +473,8 @@ EventEmitter.on('stepChanged', (newStep) => {
                       console.log("nameTextGa faded out.");
                       
                       // Change text properties (position, font size, etc.)
-                      this.nameTextGa.setFontSize(32); // Smaller font size
-                      this.nameTextGa.setPosition(150, 250); // New position
+                      this.nameTextGa.setFontSize(26); // Smaller font size
+                      this.nameTextGa.setPosition(scene.scale.width * 0.02, scene.scale.height * 0.6); // New position
                       this.nameTextGa.setAlpha(0.5); // New position
                       
                       // Fade in the updated text
@@ -491,13 +499,7 @@ EventEmitter.on('stepChanged', (newStep) => {
 
 
   })
-    // Add text for the name
-     this.nameTextEn =scene.add.text(50, 450, '', {
-      font: '25px IrishPenny',
-      fill: 'limegreen',
-      wordWrap: { width: 600 },
-    }).setAlpha(0).setDepth(30);
-    
+ 
     // Add a sprite to display the champion image
     this.championImage = scene.add.sprite(centerX, centerY, 'defaultSprite').setVisible(false).setAlpha(0);
     this.championImage.setScale(2).setDepth(30); // Adjust size as needed
@@ -528,6 +530,7 @@ EventEmitter.on('stepChanged', (newStep) => {
 
     // Emit a custom event to notify other scenes
     EventEmitter.emit('championDiscovered');
+    
   }
     updateChampionSprite(spriteKey) {
     if (this.scene.textures.exists('championSprites') && spriteKey) {

@@ -129,7 +129,10 @@ const LandingPageScene = {
 
   preload() {
     this.load.image('fog', '/phaser-resources/images/foreground-elements/fog01.png');
-    this.load.image('background', '/phaser-resources/images/bg0.png');
+    this.load.image('background', '/phaser-resources/images/fog5.png');
+    this.load.image('backgroundFoggy', '/phaser-resources/images/fog4.png');
+    this.load.image('branches', '/phaser-resources/images/background-elements/branches.png');
+    this.load.image('branches3', '/phaser-resources/images/background-elements/branches2.png');
     this.load.image('backgroundFar', '/phaser-resources/images/24d.png');
     this.load.image('celt-ring', '/phaser-resources/images/celt-ring.png');
     this.load.image('middle-c', '/phaser-resources/images/ui/middle-c.png');
