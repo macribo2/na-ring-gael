@@ -84,6 +84,59 @@ const BallyGamBoy = () => {
     
   };
 
+
+  useEffect(() => {
+    let timeoutId;
+  
+    const handleResize = () => {
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+        gameRef.current = null;
+      }
+  
+      timeoutId = setTimeout(() => {
+        const newGame = new Phaser.Game({
+          type: Phaser.AUTO,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+          },
+          scene: {
+            preload,
+            create,
+            update,
+          },
+        });
+  
+        gameRef.current = newGame; // ✅ Assign before create() runs
+      }, 200);
+    };
+  
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+  
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
+  }, []);
+  
+  
+
+  window.addEventListener("resize", () => {
+    if (gameRef.current) {
+      gameRef.current.scale.resize(window.innerWidth, window.innerHeight);
+    }
+  });
+
+
+
+
+
+
   const handleShowEasca = () => {
     setShowEasca(true); // Show Easca keyboard
     setEascaActive(true); // Mark Easca as active
@@ -319,6 +372,19 @@ const collisionTextEng = React.useRef(null);
 
   const backgroundRef = React.useRef(null);
   function create() {// Retrieve characterSheet from local storage
+   
+    if (!gameRef.current) {
+      console.warn("Phaser gameRef.current is not available yet. Skipping button assignment.");
+      return; // Exit early to prevent errors
+    }
+  
+    this.buttonMiddle = this.add.sprite(0, 0, 'button-middle')
+      .setInteractive()
+      .setDepth(23)
+      .setScrollFactor(0);
+  
+    gameRef.current.buttonMiddle = this.buttonMiddle; // ✅ Now safe
+  
     const characterSheetData = localStorage.getItem('characterSheet');
     if (!characterSheetData) {
       console.warn("No characterSheet found in local storage.");
@@ -938,11 +1004,17 @@ function promptMiddleButton() {
 }
 function stopSwitching() {
   clearInterval(textureInterval); // Stop the texture switching
+
+  // Make sure the Phaser game instance exists before trying to access it
+  if (!gameRef.current) {
+    console.warn("Phaser game instance not available yet. Skipping stopSwitching.");
+    return; // Exit early to prevent errors
+  }
+
   const buttonMiddle = gameRef.current.buttonMiddle;
   if (buttonMiddle) {
     buttonMiddle.setTexture('button-middle'); // Reset to original texture
   }
-  isSwitching = false; // Reset the Switching state
 }
 
     function handleMiddleButtonClick(scene) {
@@ -1765,7 +1837,6 @@ A wild goose chase - no scent.
 {showEasca && <Easca onSendMessage={handleSendMessage} initialLayout={initialLayout} />}
     </>
   );
-
 };
 
 export default BallyGamBoy;
