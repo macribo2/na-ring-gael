@@ -125,6 +125,9 @@ class IntroSequence extends Phaser.Scene {
     }
 
   create() {
+
+    
+
       // Cooldown flag and timer
   this.isCooldownActive = false;
   this.cooldownDuration = 500; // 500ms cooldown
@@ -226,7 +229,7 @@ this.tweens.add({
       font: '32px IrishPenny',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
-    }).setDepth(10).setDepth(30);
+    }).setDepth(10).setDepth(70);
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
@@ -521,21 +524,54 @@ function showNextMessageWithTyping(newMessage) {
   this.particles = this.add.particles(0, 0, 'fairyLightBlur', {
     speed:{ min: 5, max: 30 },
     lifespan: 3000,
-    gravityY: -5100,
+    gravityY: -1200,
     frequency:200,
-    scale: { start: 0.5, end: 1.2, ease: 'Linear' },
-    alpha: { start: 0.8, end: 0, ease: 'Linear' },
+    scale: { start: 0.8, end: 1.4, ease: 'Linear' },
+    alpha: { start: 1, end: 0, ease: 'Linear' },
      x: { min: 0, max: this.scale.width }, // Randomize starting x position
-     y: this.scale.height+50, // Randomize starting y position
+     y: this.scale.height+70, // Randomize starting y position
    
     onEmit: (particle) => {
       // Smooth, unpredictable direction changes
       particle.body.acceleration.x = Math.sin(this.time.now / 2000) * 2; 
       particle.body.acceleration.y = Math.cos(this.time.now / 1500) * 3; 
   }}) 
-} 
+  this.fairylights = [];
+
+
+  for (let i = 0; i < 3; i++) {
+    let fairylight = this.add.image(
+        this.cameras.main.width / 2, // Start centered horizontally
+        this.cameras.main.height / 2 - (i * 100), // Spread them out vertically
+        'fairyLight'
+    );
+
+    fairylight.sineOffset = i * Math.PI / 2;  // Offset for variety
+    fairylight.baseY = fairylight.y;  // Store the original Y position
+    fairylight.frequencyX = 0.0003 + (i * 0.0002);  // Smooth horizontal swaying
+    fairylight.horizontalRange = 250 + (i * 50);  // Left-right range
+    fairylight.frequencyY = 0.0001 + (i * 0.00005);  // Slow vertical bobbing
+    fairylight.verticalRange = 140; // **Almost imperceptible bobbing**
+  // Add a flicker timer that updates opacity every 200-500ms
+
+    this.fairylights.push(fairylight);
+}
+
+
+  }
 
 update() {
+
+  this.fairylights.forEach(fairylight => {
+    // Smooth horizontal swaying
+    fairylight.x = this.cameras.main.width / 2 + 
+        Math.sin(this.time.now * fairylight.frequencyX + fairylight.sineOffset) * fairylight.horizontalRange;
+
+    // **Extremely subtle vertical bobbing**
+    fairylight.y = fairylight.baseY + 
+        Math.sin(this.time.now * fairylight.frequencyY + fairylight.sineOffset) * fairylight.verticalRange;
+});
+
 // Check for step and fade out the particles
 if (this.currentStep === 1) {
   // Reduce lifespan and fade out particles

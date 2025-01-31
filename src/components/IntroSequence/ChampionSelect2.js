@@ -44,7 +44,7 @@ mottoEn:'without fear',
       },
       {
                notes:'',
-       mottoGa:'ón fuil,\nmiseanch',
+       mottoGa:'ón fuil, miseanch',
 
 mottoEn:'from the blood, courage',
         branchGa:'An Cródh-linntighe',
@@ -198,7 +198,7 @@ mottoEn:'Beyond all light',
        notes:'',
        mottoGa:'Foghlaim, \nFoghlainn tú, \nFoghlainn sé nó sí...',
 
-mottoEn:'I plunder, you plunder, he or she plunders...',
+mottoEn:'I plunder, you plunder, \nhe or she plunders...',
         branchGa:'Foghlaithe',
        branchEn:'Marauders',
       },{
@@ -684,7 +684,7 @@ this.wheel.setInteractive();
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
     // Add text for the branch name
     this.nameTextGa = scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.1, '', {
-      font: '64px IrishPenny',
+      font: '32px IrishPenny',
       fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 
@@ -694,10 +694,10 @@ this.nameTextEn =scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.
         font: '26px IrishPenny',
         fill: 'plum',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(50).setAlpha(1).setVisible(true)
+    }).setOrigin(0.5).setDepth(50).setAlpha(1).setVisible(false)
 
 // Add subtitle text for mottoGa
-this.subtitleTextGa = scene.add.text(scene.scale.width * 0.5,scene.scale.height * 0.5, '', {
+this.subtitleTextGa = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.5, '', {
         font: '32px IrishPenny',
         fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
@@ -705,7 +705,7 @@ this.subtitleTextGa = scene.add.text(scene.scale.width * 0.5,scene.scale.height 
 this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.65,'', {
         font: '26px IrishPenny',
         fill: 'plum',
-}).setOrigin(0.5).setDepth(30).setAlpha(0)
+}).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false)
 
     
     // Variables for tracking rotation and velocity
@@ -717,7 +717,10 @@ this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height 
     this.dragSensitivity = 0.0005;
     
     // Pointer events
-    this.wheel.on('pointerdown', (pointer) => this.startDrag(pointer));
+    this.wheel.on('pointerdown', (pointer) => {this.startDrag(pointer)
+        this.nameTextEn.setVisible(true);
+    this.subtitleTextEn.setVisible(true);
+    });
     this.wheel.on('pointermove', (pointer) => this.dragWheel(pointer));
     this.wheel.on('pointerup', () => this.stopDrag());
     
@@ -863,6 +866,36 @@ updateColorShiftCircle(x, y, radius) {
     this.isDragging = false;
   }
   updateWheel() {
+
+  // Check if the wheel is still moving
+  if (Math.abs(this.rotationVelocity) > this.minVelocity) {
+        // Hide the text while the wheel is moving
+        this.subtitleTextGa.setAlpha(0).setVisible(false);
+        this.subtitleTextEn.setAlpha(0).setVisible(false);
+    } else {
+        // The wheel has stopped, fade in the text
+        this.subtitleTextGa.setVisible(true); // Set visible before tween
+        if (this.translationsEnabled) {  // Only show English if translations are on
+            this.subtitleTextEn.setVisible(true);
+        }
+
+        this.scene.tweens.add({
+            targets: this.subtitleTextGa,
+            alpha: 1, // Fully visible
+            duration: 1000, // 1 second fade-in
+            ease: 'Sine.easeInOut'
+        });
+
+        if (this.translationsEnabled) {
+            this.scene.tweens.add({
+                targets: this.subtitleTextEn,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Sine.easeInOut'
+            });
+        }
+    }
+
     if (!this.isDragging) {
         if (Math.abs(this.rotationVelocity) > this.minVelocity) {
             // Continue natural rotation with damping

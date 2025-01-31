@@ -452,6 +452,8 @@ EventEmitter.on('stepChanged', (newStep) => {
           console.log("ChampionSprite started walking down.");
         },
         onComplete: () => {
+          this.championImage.flipX = !this.championImage.flipX; // Flip horizontally
+
           console.log("ChampionSprite finished walking down.");
         },
       });
