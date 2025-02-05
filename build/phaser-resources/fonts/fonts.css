@@ -4,3 +4,9 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'dum1';
+    src: url('./dum1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -22,7 +22,7 @@ class IntroSequence extends Phaser.Scene {
         '"Le cén géag dos na Fianna a bhainneann tú?"',
         ' ',
 "Cad  a tógann anseo thú?",
-        '"A Crann na Bethadh, \ntá Tír na nÓg ionraithe!     \nScaoil ar ais go hÉireann mé, leis na fianna a bhailú chugainn!"',
+        '"A Crann na Bethadh, \ntá Tír na nÓg ionraithe!"',    '"Scaolfar ar ais ar an saol thú, leis na Fianna a bhailú!"',
         ' '
       ];
       
@@ -33,9 +33,9 @@ class IntroSequence extends Phaser.Scene {
         'With which branch of the Fianna do you belong?',
         '',
         'What brings you here?',
-        '"O Tree of Life, we are invaded! \nRelease me to Ireland, to summon champions!"',
-        '',
-      ];
+        '"O Tree of Life, we are invaded!"',
+        '"You shall be released to the land of the living, to summon the champions!"',
+              ];
       
   }
 
@@ -226,14 +226,14 @@ this.tweens.add({
 });
     // Create text object for narrative
     this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
-      font: '32px IrishPenny',
+      font: '32px dum1',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
     }).setDepth(10).setDepth(70);
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
-        font: '26px IrishPenny',
+        font: '26px dum1',
         fill: 'plum',
         wordWrap: { width: this.scale.width * 0.8},
       }).setVisible(true).setDepth(145).setAlpha(0);

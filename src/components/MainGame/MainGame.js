@@ -9,7 +9,6 @@ class MainGame extends Phaser.Scene {
 
   preload() {
 
-    // this.load.font('penny', 'phaser-resources/fonts/IrishPenny.ttf');
 
 
     this.load.image('celt-ring', '/phaser-resources/images/celt-ring.png');

@@ -14,12 +14,12 @@ const LandingPage = () => {
 
   // Phaser game initialization
   useEffect(() => {
+
     const config = {
       type: Phaser.AUTO,
       parent: 'phaser-container', // Attach the game canvas here
-             width: window.innerWidth, // Set width to match the window width
-         height: window.innerHeight, // Set height to match the window height
-         
+      width: window.innerWidth, // Set width to match the window width
+      height: window.innerHeight, // Set height to match the window height
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -35,7 +35,6 @@ const LandingPage = () => {
         ],
       },
     };
-
     // Create the Phaser game instance
     const game = new Phaser.Game(config);
     gameRef.current = game;

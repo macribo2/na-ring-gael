@@ -146,6 +146,8 @@ enText.setAlpha(1);
     
 
   function preload() {
+    this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+    
     this.load.image('tallBg', './phaser-resources/images/background-elements/tallBg0.png');
    
     this.load.image('glassbg', './phaser-resources/images/big-glass.png');
@@ -186,8 +188,24 @@ function create() {
     glassbg.displayWidth = this.sys.game.config.width;
     glassbg.displayHeight = this.sys.game.config.height;
     this.overlay.add(glassbg);
-
  
+    const characterSheetData = localStorage.getItem('characterSheet');
+    if (!characterSheetData) {
+      console.warn("No characterSheet found in local storage.");
+      return;
+    }
+  
+    const characterSheet = JSON.parse(characterSheetData);
+  
+    // Validate the texture exists
+    const textureExists = this.textures.exists('championSprites');
+    if (!textureExists) {
+      console.warn("Texture 'championSprites' does not exist. Please preload it.");
+      return;
+    }
+ 
+
+
     const enTextStyle = {
         fontSize: '4em',
         fontFamily: 'ubuntu',
@@ -284,9 +302,11 @@ overlay.add(enText);
         }
         
         // Add puca and player
-        const player = scene.add.image(centerX, centerY + 64, 'player').setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
         
-
+        
+    // Create the player sprite
+    const player = this.add.sprite(centerX, centerY + 64, 'championSprites', this.spriteKey).setScale(1.5).setOrigin(0.5, 0.5).setDepth(5);
+    
 scene.cameras.main.scrollY = 0;
 
 

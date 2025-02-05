@@ -35,6 +35,7 @@
     "react-simple-keyboard": "^3.5.47",
     "react-sparkle": "^1.0.9",
     "react-tsparticles": "^2.12.2",
+    "rot-js": "^2.2.1",
     "sass": "^1.57.1",
     "tsparticles": "^3.5.0",
     "url": "^0.11.0"
