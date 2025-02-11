@@ -4,20 +4,56 @@ import { useHistory } from 'react-router-dom';
 import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
-import ChampionSelect3 from '../IntroSequence/ChampionSelect3';
 import style from './LandingPage.css';
 
 const LandingPage = () => {
+
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const appHistory = useHistory(); // React Router hook for navigation
   
+  // Phaser game initialization
+  useEffect(() => {
+    const config = {
+      type: Phaser.AUTO,
+      parent: 'phaser-container', // Attach the game canvas here
+      width: window.innerWidth, // Set width to match the window width
+      height: window.innerHeight, // Set height to match the window height
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
+      scene: [LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
+      plugins: {
+        scene: [
+          {
+            key: 'rexTextTyping',
+            plugin: RexTextTypingPlugin,
+            mapping: 'rexTextTyping',
+          },
+        ],
+      },
+    };
+    
+    // Create the Phaser game instance
+    const game = new Phaser.Game(config);
+    gameRef.current = game;
 
+    // Cleanup Phaser instance on unmount
+    return () => {
+      if (gameRef.current) {
+        gameRef.current.destroy(true); // Cleanup Phaser instance on unmount
+        gameRef.current = null;
+      }
+    };
+  }, []);
 
   // Return the landing page component JSX
   return (
     <>
-      <div id="phaser-container"  />
-    </>
+      <div id="phaser-container" style={{ width: '100%', height: '100%', position: 'fixed', zIndex: 2 }} />
+    
+    
+       </>
   );
 };
 

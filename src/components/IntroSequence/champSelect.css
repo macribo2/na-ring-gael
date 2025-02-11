@@ -1,7 +1,13 @@
+
 #phaser-container {
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-    border:50px solid orange;
-  }
-  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;  /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #222; /* Optional: matches Phaser background */
+  overflow: hidden;
+}

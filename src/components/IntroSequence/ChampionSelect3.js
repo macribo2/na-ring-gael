@@ -10,15 +10,26 @@ const ChampionSelect3 = () => {
 
         const config = {
             type: Phaser.AUTO,
-            width: 400,
-            height: 400,
             parent: gameContainer.current,
-            backgroundColor: "#222", // Dark background
+            backgroundColor: "#222",
+            width: window.innerWidth,  
+            height: window.innerHeight, 
             scene: {
                 create: createScene,
             },
+            scale: {
+                mode: Phaser.Scale.RESIZE, // Allow resizing dynamically
+                autoCenter: Phaser.Scale.CENTER_BOTH, // Center the game
+            },
         };
-
+        
+        function createScene() {
+            const { width, height } = this.scale; // Get the current screen size
+        
+            const graphics = this.add.graphics();
+            graphics.fillStyle(0xffffff, 1); // White color
+            graphics.fillCircle(width / 2, height / 2, 50); // Centered circle
+        }
         // Initialize Phaser game
         phaserGame.current = new Phaser.Game(config);
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage/LandingPage';
 // import ChampionSelect1 from './components/LandingPage/LandingPage';
-import ChampionSelect3 from './components/IntroSequence/ChampionSelect3';
+// import ChampionSelect3 from './components/IntroSequence/ChampionSelect3';
 
 import './App.css';
 
@@ -31,8 +31,8 @@ function App() {
                     <div className="loading-message">Ag lódál...</div>
                 </div>
             ) : (
-                // <LandingPage />
-				<ChampionSelect3/>	
+                <LandingPage />
+				// <ChampionSelect3/>	
             )}
         </div>
     );

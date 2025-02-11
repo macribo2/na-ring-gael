@@ -17,7 +17,7 @@ class IntroSequence extends Phaser.Scene {
     this.characterSheet = {};
     this.textsGa = [
         'Síos,    \nsíos,      \nsíos go doimhin...',
-        'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
+        'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht \nan préamh?"',
         '                    "Is mise..."',
         '"Le cén géag dos na Fianna a bhainneann tú?"',
         ' ',
@@ -127,7 +127,12 @@ class IntroSequence extends Phaser.Scene {
   create() {
 
     
-
+    this.ChampionSelect1 = this.add.existing(new ChampionSelect1(this));
+    this.ChampionSelect1.setDepth(100);
+    console.log(this.ChampionSelect1.list + "ANSEO");
+    // alert(this.ChampionSelect1.list);
+    this.ChampionSelect1.setVisible(true).setAlpha(1);
+    
       // Cooldown flag and timer
   this.isCooldownActive = false;
   this.cooldownDuration = 500; // 500ms cooldown
@@ -329,7 +334,7 @@ this.controlSquare.middleButton.on('pointerdown', () => {
         }
     }
 
-    // Check if ChampionSelect1 exists before calling its method
+    // Check if ChampionSelect2 exists before calling its method
     if (this.ChampionSelect2) {
         // Also toggle the visibility of the English name in ChampionSelect
         this.ChampionSelect2.toggleEnglishNameVisibility(this.isTranslationVisible);
