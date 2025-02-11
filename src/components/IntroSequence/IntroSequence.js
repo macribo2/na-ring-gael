@@ -151,7 +151,7 @@ class IntroSequence extends Phaser.Scene {
   let slowingDown = false; // Track the slowing down state
   
   // Create a container for the scrolling images
-  const branchesContainer = this.add.container(this.scale.width / 2, 0);
+  const branchesContainer = this.add.container(this.scale.width / 2, 0).setAlpha(0.06);
   
   // Add two images for looping
   const branches1 = this.add.image(0, 0, 'branches').setOrigin(0.5, 0);
@@ -160,13 +160,13 @@ class IntroSequence extends Phaser.Scene {
   // Create the final image (hidden initially)
   const branches3 = this.add.image(0, imageHeight * 2, 'branches3').setOrigin(0.5, 0).setVisible(false);
   
-  branchesContainer.add([branches1, branches2, branches3]);
+  branchesContainer.add([branches1, branches2, branches3])
   
   // Animate looping scroll
   const scrollTween = this.tweens.add({
     targets: branchesContainer,
     y: `-=${imageHeight}`, // Move up by one image height
-    duration: (imageHeight / scrollSpeed) * 1000, // Control speed
+    duration: (imageHeight / scrollSpeed) * 9000, // Control speed
     ease: 'Linear',
     repeat: -1,
     onRepeat: () => {
@@ -226,14 +226,14 @@ this.tweens.add({
 });
     // Create text object for narrative
     this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
-      font: '32px dum1',
+      font: '40px dum1',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
     }).setDepth(10).setDepth(70);
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
-        font: '26px dum1',
+        font: '32px dum1',
         fill: 'plum',
         wordWrap: { width: this.scale.width * 0.8},
       }).setVisible(true).setDepth(145).setAlpha(0);
@@ -523,17 +523,17 @@ function showNextMessageWithTyping(newMessage) {
 
   this.particles = this.add.particles(0, 0, 'fairyLightBlur', {
     speed:{ min: 5, max: 30 },
-    lifespan: 3000,
-    gravityY: -1200,
-    frequency:200,
+    lifespan: 6000,
+    gravityY: -100,
+    frequency:9000,
     scale: { start: 0.8, end: 1.4, ease: 'Linear' },
     alpha: { start: 1, end: 0, ease: 'Linear' },
      x: { min: 0, max: this.scale.width }, // Randomize starting x position
-     y: this.scale.height+70, // Randomize starting y position
+     y: this.scale.height+270, // Randomize starting y position
    
     onEmit: (particle) => {
       // Smooth, unpredictable direction changes
-      particle.body.acceleration.x = Math.sin(this.time.now / 2000) * 2; 
+      particle.body.acceleration.x = Math.sin(this.time.now ) * 90; 
       particle.body.acceleration.y = Math.cos(this.time.now / 1500) * 3; 
   }}) 
   this.fairylights = [];

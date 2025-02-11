@@ -1,0 +1,7 @@
+#phaser-container {
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border:50px solid orange;
+  }
+  

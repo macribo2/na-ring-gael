@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage/LandingPage';
+// import ChampionSelect1 from './components/LandingPage/LandingPage';
+import ChampionSelect3 from './components/IntroSequence/ChampionSelect3';
+
 import './App.css';
 
 function App() {
@@ -28,7 +31,8 @@ function App() {
                     <div className="loading-message">Ag lódál...</div>
                 </div>
             ) : (
-                <LandingPage />
+                // <LandingPage />
+				<ChampionSelect3/>	
             )}
         </div>
     );
