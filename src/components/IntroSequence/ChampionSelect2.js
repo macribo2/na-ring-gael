@@ -124,10 +124,10 @@ mottoEn:'plenty; strength',
       },{
        
        notes:'',
-       mottoGa:'Cómhghlan\n ceilte',
+       mottoGa:'faoi na duillóga\n ónóir',
 
-mottoEn:'Equally bright \nhidden',
-        branchGa:'Ceilte ag na Duillóga',
+mottoEn:'under the leaves\n honour',
+        branchGa:'Ceilt Duillóga',
        branchEn:'Hidden by the Leaves',
       },{
 
@@ -536,7 +536,7 @@ mottoEn:'as the wind',
        notes:'',
        mottoGa:'Is mé brí an dána',
 
-mottoEn:'I am a word of science;  poetry;  prophesy;  daring',
+mottoEn:'I am a word of science;  \npoetry;  \nprophesy;  daring',
         branchGa:'Na hEalaí',
        branchEn:'of the Swans;  of the Arts',
       },{
@@ -600,9 +600,9 @@ mottoEn:'Envy as a crown',
 
 
        notes:'',
-       mottoGa:'test',
+       mottoGa:'níl cead leabhairt faoi',
 
-mottoEn:'',
+mottoEn:'it is forbidden to speak there-under',
         branchGa:'Na Plúise',
        branchEn:'of the caverns',
       },{
@@ -644,11 +644,11 @@ mottoEn:'Onward together',
 
 
        notes:'',
-       mottoGa:'Ó 0 go 1',
+       mottoGa:'thar muir thar tír thar lan',
 
-mottoEn:'From 0 to 1',
-     branchGa:  'Na Foinsí',
-       branchEn:'The sources',
+mottoEn:'over sea \nover land \nover lan',
+     branchGa:  'cód foinsí',
+       branchEn:'the sources',
    } 
        
        
@@ -694,13 +694,14 @@ this.nameTextEn =scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.
         font: '26px dum1',
         fill: 'plum',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(50).setAlpha(1).setVisible(false)
+    }).setOrigin(0.5).setDepth(50).setAlpha(0).setVisible(false)
 
 // Add subtitle text for mottoGa
 this.subtitleTextGa = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.5, '', {
         font: '32px dum1',
         fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
+
 // Add subtitle text for mottoEn
 this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.65,'', {
         font: '26px dum1',
@@ -1049,7 +1050,35 @@ highlightSpokes() {
     }
   }
 
-
+  if (this.currentStep === 6) {
+        // Get the character sheet from localStorage
+        let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
+      
+        // Ensure the characterSheet exists and has the necessary properties
+        if (characterSheet) {
+          // Assuming you have variables for branchGa and branchEn
+          this.branchGa = 'Some branch in Irish';  // Replace with actual value
+          this.branchEn = 'Some branch in English'; // Replace with actual value
+      
+          // Update the characterSheet with the new branch values
+          characterSheet.branchGa = this.branchGa;
+          characterSheet.branchEn = this.branchEn;
+      
+          // Save the updated characterSheet back to localStorage
+          localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+          // Update the texts based on the new branch values
+          this.textsGa[6] = `${this.nameGa} fiann na \n ${this.branchGa}.\n 'b ea.`;
+          this.textsEn[6] = `${this.nameGa}\n a fenian of \n  ${this.branchEn}.\n It was so.`;
+      
+          // Set the text objects accordingly
+          this.textObjectGa.setText(this.textsGa[this.currentStep]);
+          this.textObjectEn.setText(this.textsEn[this.currentStep]);
+        } else {
+          console.error('Character sheet is missing or corrupted');
+        }
+      }
+      
 
 }
 

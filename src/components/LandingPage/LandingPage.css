@@ -23,12 +23,12 @@
 }
 
 @keyframes tiltAndTurn {
-  0% { transform: rotateX(0deg) rotateY(0deg) scale(0.8); }
-  20% { transform: rotateX(-5deg) rotateY(5deg) scale(0.8); }
-  40% { transform: rotateX(5deg) rotateY(-5deg) scale(0.8); }
-  60% { transform: rotateX(-3deg) rotateY(3deg) scale(1); }
-  80% { transform: rotateX(3deg) rotateY(-3deg) scale(1); }
-  100% { transform: rotateX(0deg) rotateY(0deg) scale(0.8); }
+  0% { transform: rotateX(0deg) rotateY(0deg) scale(0.85);opacity: 0.1; }
+  20% { transform: rotateX(-5deg) rotateY(5deg) scale(0.85); opacity: 0.1; }
+  40% { transform: rotateX(5deg) rotateY(-5deg) scale(0.9);opacity: 0.2;  }
+  60% { transform: rotateX(-3deg) rotateY(3deg) scale(1);opacity: 0.3;  }
+  80% { transform: rotateX(3deg) rotateY(-3deg) scale(1);opacity: 0.3;  }
+  100% { transform: rotateX(0deg) rotateY(0deg) scale(0.85);opacity: 0.1;  }
 }
 
 .start-button-container {

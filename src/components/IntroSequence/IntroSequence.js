@@ -19,22 +19,23 @@ class IntroSequence extends Phaser.Scene {
         'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
-        '"Le cén géag dos na Fianna a bhainneann tú?"',
+        '"Faoi múinteacht na"',
         ' ',
-"Cad  a tógann anseo thú?",
-        '"A Crann na Bethadh, \ntá Tír na nÓg ionraithe!"',    '"Scaolfar ar ais ar an saol thú, leis na Fianna a bhailú!"',
-        ' '
+        "Is cuimhin liom.",
+        '"Inis dom"',
+        'Is cuimhin le géaga...'
+        
       ];
       
       this.textsEn = [
         'Down, down \nfar far down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am...',
-        'With which branch of the Fianna do you belong?',
+        'Under kinship of...',
         '',
-        'What brings you here?',
-        '"O Tree of Life, we are invaded!"',
-        '"You shall be released to the land of the living, to summon the champions!"',
+        'The branches recall',
+        '"Tell me"',
+        '"the branches recall"',
               ];
       
   }
@@ -160,13 +161,13 @@ class IntroSequence extends Phaser.Scene {
   // Create the final image (hidden initially)
   const branches3 = this.add.image(0, imageHeight * 2, 'branches3').setOrigin(0.5, 0).setVisible(false);
   
-  branchesContainer.add([branches1, branches2, branches3]);
+  branchesContainer.add([branches1, branches2, branches3]).setAlpha(0.2)
   
   // Animate looping scroll
   const scrollTween = this.tweens.add({
     targets: branchesContainer,
     y: `-=${imageHeight}`, // Move up by one image height
-    duration: (imageHeight / scrollSpeed) * 1000, // Control speed
+    duration: (imageHeight / scrollSpeed) * 9000, // Control speed
     ease: 'Linear',
     repeat: -1,
     onRepeat: () => {
@@ -210,7 +211,6 @@ class IntroSequence extends Phaser.Scene {
       }
     });
   };
-  
     // Tween to fade in backgroundDarken
 this.tweens.add({
   targets: backgroundDarken,    // The object to animate
@@ -356,7 +356,7 @@ this.tweens.add({
       const targetX = (this.cameras.main.width * 3) / 5; // 3/4 of the screen width
       this.tweens.add({
           targets: this.controlSquare,
-          x: targetX,
+          x: targetX - 10,
           
           duration: 700,
           ease: 'Sine.easeInOut',
@@ -523,9 +523,9 @@ function showNextMessageWithTyping(newMessage) {
 
   this.particles = this.add.particles(0, 0, 'fairyLightBlur', {
     speed:{ min: 5, max: 30 },
-    lifespan: 3000,
-    gravityY: -1200,
-    frequency:200,
+    lifespan: 2500,
+    gravityY: -110,
+    frequency:2600,
     scale: { start: 0.8, end: 1.4, ease: 'Linear' },
     alpha: { start: 1, end: 0, ease: 'Linear' },
      x: { min: 0, max: this.scale.width }, // Randomize starting x position
@@ -666,15 +666,61 @@ console.log('Texture exists?', this.textures.exists('championSprites'));
 
 }
 if (this.currentStep === 5) {
-  this.ChampionSelect2.fadeInBackground2();
+  let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
 
+  // Update the name and branch variables
+  this.nameGa = characterSheet.nameGa;
+  this.branchGa = characterSheet.branchGa;
+  this.branchEn = characterSheet.branchEn;
+
+  // Dynamically update the text at the required step
+  this.textsGa[5] = `\n\n\nIs cuimhin linn,\n ${this.nameGa} dhíl.`;
+  this.textsEn[5] = `We recall,\n faithful ${this.nameGa}.`;
+
+  // Update any text object showing the text if necessary
+  this.textObjectGa.setText(this.textsGa[this.currentStep]);
+  this.textObjectEn.setText(this.textsEn[this.currentStep]);
+
+  this.ChampionSelect2.fadeInBackground2();
+  this.textObjectGa.setDepth(35);
+  this.textObjectEn.setDepth(35);
+  this.textObjectGa.y = this.scale.height * 0.01;
+}
+if (this.currentStep === 6) {
+  // Retrieve character sheet from localStorage
+  let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
+
+  // Log characterSheet to verify structure
+  console.log('characterSheet:', characterSheet);
+
+  // Check if characterSheet exists and has the necessary properties
+  if (characterSheet && characterSheet.nameGa && characterSheet.branchGa && characterSheet.branchEn) {
+    // Update the name and branch variables
+    this.nameGa = characterSheet.nameGa;
+    this.branchGa = characterSheet.branchGa;
+    this.branchEn = characterSheet.branchEn;
+
+    // Log the values being set
+    console.log('nameGa:', this.nameGa);
+    console.log('branchGa:', this.branchGa);
+    console.log('branchEn:', this.branchEn);
+
+    // Dynamically update the text at the required step
+    this.textsGa[6] = `${this.nameGa} fiann na \n ${this.branchGa}.\n 'b ea.`;
+    this.textsEn[6] = `${this.nameGa}\n a fenian of \n  ${this.branchEn}.\n It was so.`;
+
+    // Now set the text for this step
+    this.textObjectGa.setText(this.textsGa[this.currentStep]);
+    this.textObjectEn.setText(this.textsEn[this.currentStep]);
+  } else {
+    console.error('Character sheet missing necessary properties');
+  }
 }
 
-if (this.currentStep===7){
+if (this.currentStep === 7) {
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
   localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
   window.location.href = '/ballygamboy';
-  
 }
 
 

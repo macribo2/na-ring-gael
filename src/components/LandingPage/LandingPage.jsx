@@ -6,6 +6,7 @@ import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import style from './LandingPage.css';
+import FastTravel1 from '../IntroSequence/FastTravel1';
 const LandingPage = () => {
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const [fullscreen, setFullscreen] = useState(false); // Track fullscreen state
@@ -24,7 +25,7 @@ const LandingPage = () => {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
+      scene: [ FastTravel1,LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
       plugins: {
         scene: [
           {
@@ -71,30 +72,40 @@ const LandingPage = () => {
         : document.webkitExitFullscreen(); // Safari
       exitPromise.then(() => setFullscreen(false));
     }
+  
+    // Fade out the title text
     const title = document.querySelector('.title-text');
-
-    const button = document.querySelector('.start-fullscreen-button');
-    if (button) {
-      button.style.opacity = 0; // Start fading the button
-      button.style.transition = 'opacity 0.5s ease'; // Smooth fade-out transition
-    }
     if (title) {
-      title.style.opacity = 0; // Start fading the button
-      title.style.transition = 'opacity 0.5s ease'; // Smooth fade-out transition
+      title.style.transition = 'opacity 0.5s ease-out'; // Smooth fade-out
+      title.style.opacity = '0'; // Start fade-out effect
+      setTimeout(() => {
+        title.style.display = 'none'; // Hide after transition
+      }, 500);
     }
   
-    const scene = gameRef.current && gameRef.current.scene.getScene('LandingPageScene');
-if (scene && scene.cameras && scene.cameras.main) {
-    console.log('Scene and camera are properly initialized.');
-    scene.cameras.main.fadeOut(500, 0, 0, 0); // Fade out the current scene
-    scene.cameras.main.once('camerafadeoutcomplete', () => {
-        scene.scene.start('IntroSequence'); // Transition to IntroSequence
-        scene.cameras.main.fadeIn(500, 0, 0, 0); // Fade in the new scene
-    });
-} else {
-    console.error('Scene or camera is not properly initialized.');
-}
+    // Fade out the button
+    const button = document.querySelector('.start-fullscreen-button');
+    if (button) {
+      button.style.transition = 'opacity 0.5s ease-out';
+      button.style.opacity = '0';
+      setTimeout(() => {
+        button.style.display = 'none';
+      }, 500);
+    }
+  
+    // Transition to the next scene
+    const scene = gameRef.current && gameRef.current.scene.getScene('FastTravel1')//('LandingPageScene');
+    if (scene && scene.cameras && scene.cameras.main) {
+      scene.cameras.main.fadeOut(500, 0, 0, 0); // Fade out the current scene
+      scene.cameras.main.once('camerafadeoutcomplete', () => {
+        scene.scene.start('IntroSequence'); // Switch to IntroSequence
+        scene.cameras.main.fadeIn(500, 0, 0, 0); // Fade in new scene
+      });
+    } else {
+      console.error('Scene or camera is not properly initialized.');
+    }
   };
+  
 
   return (
     <>
@@ -115,6 +126,7 @@ if (scene && scene.cameras && scene.cameras.main) {
             <div className="title-text"></div>
           </div>
             {/* Full Screen Mask */}
+            
     <div id="mask"></div>
         </>
       )}
