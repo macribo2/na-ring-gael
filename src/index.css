@@ -1,5 +1,12 @@
 @import-normalize;
-
+@font-face {
+  font-family: 'IrishPenny';
+  src: url('assets/fonts/IrishPenny.woff2') format('woff2'),
+       url('assets/fonts/IrishPenny.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 /*
 * Prefixed by https://autoprefixer.github.io
