@@ -112,6 +112,7 @@ export default class FastTravel1 extends Phaser.Scene {
     }
     this.updateSpoke();
   }
+
   updateSpoke() {
     const adjustedAngle = (this.wheel.angle % 360 + 360) % 360;
     const spokeIndex = Math.floor(adjustedAngle / this.anglePerSpoke);
@@ -186,7 +187,7 @@ handleSpokeAnimation(direction) {
     this.tweens.add({
         targets: this.gameMap,
         y: targetY,
-        duration: 100,
+        duration: 300,
         ease: 'Power1',
         onComplete: () => {
             // Keep the map at the new position until next transition
