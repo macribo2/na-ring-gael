@@ -6,6 +6,7 @@ import FastTravel1 from './components/IntroSequence/FastTravel1';
 function App() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [loadingTime, setLoadingTime] = useState(0);
+	const fastTravel = new FastTravel1();
 	useEffect(() => {
 		const startTime = Date.now();
 		
