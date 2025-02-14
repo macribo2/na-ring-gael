@@ -12,7 +12,7 @@ this.countyNames = [
   "tipperary", "limerick", "kerry", "clare", "galway", "mayo", "sligo",
   "donegal", "tyrone", "derry", "antrim", "down", "meath"
 ]; // 32 counties now
-
+this.baseRotation = 0;
     this.countyTracker = 0;
     this.isTransitioning = false; // Add transition lock
   }
@@ -104,11 +104,7 @@ this.countyNames = [
     this.spokeCount = 7;
     this.anglePerSpoke = 360 / this.spokeCount;
 
-    this.textDisplay = this.add.text(350, 50, 'Spoke: 0 | County: Meath', { 
-      fontSize: '24px', 
-      fill: '#ffffff' 
-    });
-
+ 
     // Input handling
     this.dragging = false;
     this.previousAngle = 0;
@@ -140,13 +136,22 @@ this.countyNames = [
     // Load the window graphic and center it
     this.add.image(width / 2, height / 2, 'ciorcal-light').setOrigin(0.5);
 
-    WebFont.load({
-      custom: {
-        families: ['IrishPenny'],
-        urls: ['assets/fonts/irish-penny.css']
-      }
-    });
-
+    const paddingRight = 20; // Match tooltip padding
+    const countyNameY = 50; // Position above tooltip
+  
+    this.countyNameGa = this.add.text(0, countyNameY, '', {
+      fontSize: '32px',
+      fontFamily: 'IrishPenny',
+      fill: '#ffffff',
+      backgroundColor: '#000000AA',
+      padding: { x: 20, y: 10 },
+      align: 'right'
+    })
+    .setOrigin(1, 0.5) // Right-aligned (1 = x origin, 0.5 = y origin)
+    .setDepth(2000) // Higher than tooltip's 1000
+    .setScrollFactor(0)
+    .setPosition(this.cameras.main.width - paddingRight, countyNameY);
+  
   }
 
 
@@ -177,6 +182,10 @@ this.countyNames = [
   }
 
   update() {
+
+    this.gameMap.rotation = this.baseRotation;
+this.gridContainer.rotation = this.baseRotation;
+
     if (!this.dragging) {
       this.wheel.angle += this.velocity;
       this.velocity *= 0.99;
@@ -184,75 +193,72 @@ this.countyNames = [
     }
     this.updateSpoke();
         // Sync grid rotation with the game map's rotation
-        this.gridContainer.rotation = this.gameMap.rotation;
       
   }
-
-
 
   handleCountyTransition(direction) {
     if (this.isTransitioning) return;
     
     this.isTransitioning = true;
     const newCounty = this.countyNames[this.countyTracker];
-  
-    // Store reference to old county data
-    const oldCountyData = this.countyData[this.countyNames[(this.countyTracker - 1 + 32) % 32]];
+    const { width: camWidth, height: camHeight } = this.cameras.main;
+    const gridSize = Math.min(camWidth, camHeight) * 0.8;
   
     // Set up new map
-    this.nextGameMap.setTexture(newCounty)
+    this.nextGameMap
+      .setTexture(newCounty)
+      .setDisplaySize(gridSize, gridSize)
+      .setPosition(camWidth/2, camHeight/2)
       .setAlpha(0)
-      .setRotation(this.gameMap.rotation);
+      .setRotation(this.baseRotation);
   
-    // Animate old map out
+    // Fade out current map while fading in new map
     this.tweens.add({
       targets: this.gameMap,
-      rotation: `+=${Phaser.Math.DegToRad(direction === 'down' ? 5 : -5)}`,
-      duration: 300,
-      ease: 'Power2'
+      alpha: 0,
+      duration: 500,
+      ease: 'Sine.easeInOut'
     });
   
-    // Animate new map in
     this.tweens.add({
       targets: this.nextGameMap,
-      rotation: `+=${Phaser.Math.DegToRad(direction === 'down' ? 5 : -5)}`,
       alpha: 1,
-      duration: 300,
-      ease: 'Power2',
+      duration: 500,
+      ease: 'Sine.easeInOut',
       onComplete: () => {
-        // Swap map references
+        // Swap references
         [this.gameMap, this.nextGameMap] = [this.nextGameMap, this.gameMap];
-        this.gameMap.setAlpha(1);
+        this.gameMap.setAlpha(1); // Reset alpha for next transition
+        this.nextGameMap.setAlpha(0).setTexture('meath'); // Reset next map
         
-        // Update grid with new county data
-        this.createDynamicGrid();
-        
-        // Reset transition lock
         this.isTransitioning = false;
-  
-        // Force highlight update
-        const currentAngle = (this.wheel.angle % 360 + 360) % 360;
-        const currentSpoke = Math.floor(currentAngle / this.anglePerSpoke);
-        this.highlightSquare(currentSpoke);
+        this.createDynamicGrid();
       }
     });
   
-    // Cleanup old grid data
-    if (oldCountyData) {
-      // Add any necessary cleanup for old county data
-    }
+    // Continue with rotation animation
+    const targetRotation = this.baseRotation + Phaser.Math.DegToRad(direction === 'down' ? 5 : -5);
+    this.tweens.add({
+      targets: this,
+      baseRotation: targetRotation,
+      duration: 500,
+      ease: 'Sine.easeInOut'
+    });
   }
 handleSpokeAnimation(direction) {
   // Rotate the gameMap by 5 degrees in place (clockwise or counter-clockwise)
-  const rotationAngle = direction === 'down' ? 5 : -5;  // 5 degrees in the direction of travel
-
+  const targetRotation = this.baseRotation + Phaser.Math.DegToRad(direction === 'down' ? 5 : -5);
+  
   this.tweens.add({
-    targets: this.gameMap,
-    rotation: `+=${Phaser.Math.DegToRad(rotationAngle)}`, // Rotate 5 degrees relative to current rotation
+    targets: this,
+    baseRotation: targetRotation,
     duration: 300,
-    ease: 'Power1'
-  });
-}
+    ease: 'Power1',
+    onUpdate: () => {
+      this.gameMap.rotation = this.baseRotation;
+      this.gridContainer.rotation = this.baseRotation;
+    }
+  });}
 
 updateSpoke() {
   const adjustedAngle = (this.wheel.angle % 360 + 360) % 360;
@@ -267,8 +273,10 @@ updateSpoke() {
       this.countyTracker = (this.countyTracker - 1 + 32) % 32;
     }
   }
+  const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
+  
 
-  this.textDisplay.setText(`Spoke: ${spokeIndex} | County: ${this.countyNames[this.countyTracker]}`);
+  this.countyNameGa.setText(`${currentCounty.irishName} `);
   this.highlightSquare(spokeIndex);
 
   // Handle transitions
@@ -320,25 +328,30 @@ updateSpoke() {
   showLocationTooltip(locationData) {
     if(this.currentTooltip) this.currentTooltip.destroy();
   
-    // Calculate fixed position based on camera dimensions
-    const fixedX = this.cameras.main.width * 0.65;
-    const fixedY = this.cameras.main.height * 0.05;
-  
+    const padding = 20; // Distance from right edge
+    const fixedY = 150; // Fixed vertical position
+    
     const style = {
       fontSize: '24px',
-      fontFamily: 'IrishPenny', // Make sure this font is loaded
+      fontFamily: 'IrishPenny',
       fill: '#ffffff',
       backgroundColor: '#000000AA',
       padding: { x: 20, y: 15 },
-      align: 'center'
+      align: 'right'
     };
   
-    this.currentTooltip = this.add.text(fixedX, fixedY, locationData.gaelic, style)
-      .setOrigin(0.5)
+    // Create text first to measure it
+    this.currentTooltip = this.add.text(0, 0, locationData.gaelic, style)
+      .setOrigin(1, 0.5) // Right-aligned origin (1 = right, 0.5 = vertical center)
       .setDepth(1000)
-      .setScrollFactor(0); // Important: stays fixed during camera movements
-  }
+      .setScrollFactor(0);
   
+    // Position at right edge minus padding
+    this.currentTooltip.setPosition(
+      this.cameras.main.width - padding,
+      fixedY
+    );
+  }
   // Updated highlightSquare method
   highlightSquare(spokeIndex) {
     const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
@@ -444,6 +457,9 @@ updateSpoke() {
         this.gridContainer.add(rect);
       });
     });
+ 
+  this.gridContainer.rotation = this.baseRotation;
+  this.gameMap.rotation = this.baseRotation;
   }
   
   getCoordinatesFromSpoke(spokeIndex) {

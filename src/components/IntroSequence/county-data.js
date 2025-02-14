@@ -6,6 +6,9 @@ export class CountyData {
     this.locations = config.locations;
     this.locationsEng = config.locationsEng;
     this.displayName = config.county;
+    this.irishName = config.county;  // Irish name from "county" key
+    this.englishName = config.co;    // English abbreviation from "co" key
+      
   }
 
   getLocation(index) {
