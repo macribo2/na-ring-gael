@@ -19,11 +19,11 @@ class IntroSequence extends Phaser.Scene {
         'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
-        '"Ba fianna thú, fado..."',
+        '"Ba fianna mé, fado..."',
         ' ',
         "Is cuimhin leis na géaga",
         'Bhí mé ag feitheamh i mbéillic na carraige. \n Ag ulmhú dán.',
-        'Chun breith ar an Púca...',
+        'Bhí orm breith ar Púca...',
 
         
       ];
@@ -36,7 +36,7 @@ class IntroSequence extends Phaser.Scene {
         '',
         'The branches recall',
         'I was waiting in the cavern beneath the rock. \n Preparing a poem.',
-        'To catch the phantom horse...',
+        'I had to catch a phantom...',
 
               ];
       
@@ -676,8 +676,8 @@ if (this.currentStep === 5) {
   this.branchEn = characterSheet.branchEn;
 
   // Dynamically update the text at the required step
-  this.textsGa[5] = `\n\n\nIs cuimhin linn, ${this.nameGa} dhíl.`;
-  this.textsEn[5] = `We recall,\n faithful ${this.nameGa}.`;
+  this.textsGa[5] = `\n\n\nIs cuimhin le Géaga, ${this.nameGa} dhíl.`;
+  this.textsEn[5] = `The branches recall,\n faithful ${this.nameGa}.`;
 
   // Update any text object showing the text if necessary
   this.textObjectGa.setText(this.textsGa[this.currentStep]);
@@ -687,6 +687,7 @@ if (this.currentStep === 5) {
   this.textObjectGa.setDepth(35);
   this.textObjectEn.setDepth(35);
   this.textObjectGa.y = this.scale.height * 0.01;
+  
 }
 if (this.currentStep === 6) {
   // Retrieve character sheet from localStorage
@@ -714,9 +715,14 @@ if (this.currentStep === 6) {
     // Now set the text for this step
     this.textObjectGa.setText(this.textsGa[this.currentStep]);
     this.textObjectEn.setText(this.textsEn[this.currentStep]);
+
+
   } else {
     console.error('Character sheet missing necessary properties');
   }
+  if (this.currentstep === 7) {
+   alert("7")
+}
 }
 
 if (this.currentStep === 8) {

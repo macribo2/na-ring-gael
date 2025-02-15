@@ -362,7 +362,7 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     }).setOrigin(0.5).setAlpha(0).setDepth(30);;
        // Add text for the name
      this.nameTextEn =scene.add.text(scene.scale.width * 0.2, scene.scale.height * 0.8, '', {
-      font: '26px dum1',
+      font: '32px dum1',
       fill: 'plum',
       wordWrap: { width: 600 },
     }).setAlpha(0).setDepth(135).setVisible(true);
@@ -415,7 +415,7 @@ EventEmitter.on('stepChanged', (newStep) => {
           alpha: 0, // Fade out to alpha 0
           duration: 1000, // Duration of 1 second
           ease: "Power1", // Smooth easing
-          font:'26px dum1',
+          font:'32px dum1',
           onComplete: () => {
             // Change text properties (position, font size, etc.)
             this.nameTextGa.setPosition(scene.scale.width * 0.02, scene.scale.height * 0.6).setFontSize(26); // New position
