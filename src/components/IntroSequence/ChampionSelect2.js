@@ -684,17 +684,17 @@ this.wheel.setInteractive();
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
     // Add text for the branch name
     this.nameTextGa = scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.1, '', {
-      font: '40px dum1',
+      font: '32px dum1',
       fill: 'LavenderBlush',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false);
 
 
 // Add text for the branch name
 this.nameTextEn =scene.add.text(scene.scale.width * 0.6, scene.scale.height * 0.25, '', {
-        font: '32px dum1',
+        font: '26px dum1',
         fill: 'plum',
       wordWrap: { width: 600 },
-    }).setOrigin(0.5).setDepth(50).setAlpha(0).setVisible(false)
+    }).setOrigin(0.5).setDepth(35).setAlpha(0).setVisible(false)
 
 // Add subtitle text for mottoGa
 this.subtitleTextGa = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.5, '', {
@@ -704,7 +704,7 @@ this.subtitleTextGa = scene.add.text(scene.scale.width * 0.6,scene.scale.height 
 
 // Add subtitle text for mottoEn
 this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height * 0.65,'', {
-        font: '32px dum1',
+        font: '26px dum1',
         fill: 'plum',
 }).setOrigin(0.5).setDepth(30).setAlpha(0).setVisible(false)
 
@@ -736,7 +736,7 @@ this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height 
     this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false);
     this.background2.setOrigin(0, 0);
     this.background2.setDisplaySize(scene.scale.width, scene.scale.height);
-    this.background2.setAlpha(0).setDepth(30); // Set initial alpha to 0
+    this.background2.setAlpha(0).setDepth(80); // Set initial alpha to 0
     
     
   }
@@ -1084,7 +1084,5 @@ highlightSpokes() {
 
 
 }
-
-
 
 export default ChampionSelect2;

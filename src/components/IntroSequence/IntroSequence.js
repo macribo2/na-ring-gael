@@ -22,8 +22,8 @@ class IntroSequence extends Phaser.Scene {
         '"Ba fianna mé, fado..."',
         ' ',
         "Is cuimhin leis na géaga",
-        'Bhí mé ag feitheamh i mbéillic na carraige. \n Ag ulmhú dán.',
-        'Bhí orm breith ar Púca...',
+        'Bhí fothain á glachadh agam ón baisteach\n  mbéillic na carraige.',
+        'Bhí mé ag ulmhú dán,\nchun breith ar an púca...',
 
         
       ];
@@ -35,8 +35,8 @@ class IntroSequence extends Phaser.Scene {
         'You were a fenian, long ago...',
         '',
         'The branches recall',
-        'I was waiting in the cavern beneath the rock. \n Preparing a poem.',
-        'I had to catch a phantom...',
+        'I was taking shelter from the rain \nin the cavern beneath the rock.',
+        'I was preparing a poem,\n to catch the phantom...',
 
               ];
       
@@ -231,14 +231,14 @@ this.tweens.add({
       font: '40px dum1',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
-    }).setDepth(10).setDepth(70);
+    }).setDepth(10).setDepth(44);
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
         font: '32px dum1',
         fill: 'plum',
         wordWrap: { width: this.scale.width * 0.8},
-      }).setVisible(true).setDepth(145).setAlpha(0);
+      }).setVisible(true).setDepth(45).setAlpha(0);
   
     // Initialize typing effect using rexTextTyping
     this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
@@ -248,7 +248,7 @@ this.tweens.add({
     // Start typing effect on the first text
     this.typingEffect.start(this.textsGa[this.currentStep]).on('complete', () => {
       console.log('Typing complete');
-      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(140);
+      this.textObjectEn.setText(this.textsEn[this.currentStep]).setDepth(47);
 
       // Add logic to show next text or transition to next scene
     });
@@ -262,7 +262,7 @@ const controlSquareX = screenWidth / 4;
 const controlSquareY = (screenHeight * 1/3) 
 
 this.controlSquare = new ControlSquare(this, controlSquareX, controlSquareY);
-this.controlSquare.setAlpha(0).setDepth(50); // Start invisible
+this.controlSquare.setAlpha(0).setDepth(950); // Start invisible
     this.add.existing(this.controlSquare); // Add to the scene
 
     // Ensure dir Buttons exists
@@ -310,7 +310,7 @@ this.controlSquare.middleButton.on('pointerdown', () => {
     if (this.isTranslationVisible) {
         // Show English translation
         if (this.textObjectEn) {
-            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(140);
+            this.textObjectEn.setVisible(true).setAlpha(0.8).setDepth(48);
         } else {
             console.error("textObjectEn is not defined. Ensure it is created before this point.");
         }
@@ -683,10 +683,10 @@ if (this.currentStep === 5) {
   this.textObjectGa.setText(this.textsGa[this.currentStep]);
   this.textObjectEn.setText(this.textsEn[this.currentStep]);
 
-  this.ChampionSelect2.fadeInBackground2();
-  this.textObjectGa.setDepth(35);
-  this.textObjectEn.setDepth(35);
+  this.textObjectGa.setDepth(135);
+  this.textObjectEn.setDepth(135)
   this.textObjectGa.y = this.scale.height * 0.01;
+  this.ChampionSelect2.fadeInBackground2();
   
 }
 if (this.currentStep === 6) {

@@ -365,7 +365,7 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
       font: '32px dum1',
       fill: 'plum',
       wordWrap: { width: 600 },
-    }).setAlpha(0).setDepth(135).setVisible(true);
+    }).setAlpha(0).setDepth(35).setVisible(true);
     
     
  // Set up the event listener
