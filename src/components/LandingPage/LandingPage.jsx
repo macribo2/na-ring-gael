@@ -6,7 +6,6 @@ import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import style from './LandingPage.css';
-import FastTravel1 from '../IntroSequence/FastTravel1';
 const LandingPage = () => {
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const [fullscreen, setFullscreen] = useState(false); // Track fullscreen state
@@ -25,7 +24,7 @@ const LandingPage = () => {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [ FastTravel1,LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
+      scene: [ LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
       plugins: {
         scene: [
           {
@@ -83,7 +82,17 @@ const LandingPage = () => {
       }, 500);
     }
   
-    // Fade out the button
+    // Fade out the button and touch prompts
+    const prompts = document.querySelectorAll('.touch-prompt');
+    if (prompts.length > 0) {
+      prompts.forEach(prompt => {
+        prompt.style.transition = 'opacity 0.5s ease-out';
+        prompt.style.opacity = '0';
+        setTimeout(() => {
+          prompt.style.display = 'none';
+        }, 500);
+      });
+    }
     const button = document.querySelector('.start-fullscreen-button');
     if (button) {
       button.style.transition = 'opacity 0.5s ease-out';
@@ -92,9 +101,9 @@ const LandingPage = () => {
         button.style.display = 'none';
       }, 500);
     }
-  
+
     // Transition to the next scene
-    const scene = gameRef.current && gameRef.current.scene.getScene('FastTravel1')//('LandingPageScene');
+    const scene = gameRef.current && gameRef.current.scene.getScene('LandingPageScene');
     if (scene && scene.cameras && scene.cameras.main) {
       scene.cameras.main.fadeOut(500, 0, 0, 0); // Fade out the current scene
       scene.cameras.main.once('camerafadeoutcomplete', () => {
@@ -113,7 +122,14 @@ const LandingPage = () => {
       
       {buttonVisible && (
         <>
-          <div className="start-button-container">
+          <div className="touch-prompt-container start-button-container  ">
+
+        
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div>
+<div className='touch-prompt'></div>
+                   
             <image 
               className="start-fullscreen-button"
               src="../../images/middle-c.png"  // Add source for the button image

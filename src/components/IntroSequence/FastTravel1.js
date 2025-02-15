@@ -18,6 +18,8 @@ this.baseRotation = 0;
   }
 
   preload() {
+    this.load.image('particle', '/phaser-resources/images/fairyLight.png'); // Use a small white circle image
+
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     this.load.json('countyData', './mapData.json');
     this.load.image('wheel', 'phaser-resources/images/ui/eight-point-wheel.png')
@@ -26,85 +28,142 @@ this.baseRotation = 0;
       this.load.image(county, `phaser-resources/images/countyMaps/${county}.png`);
     });
   }
-
   createDynamicGrid() {
-    // Destroy old grid if it exists
     if(this.gridContainer) this.gridContainer.destroy();
     
-    // Get current county data
     const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
-    
-    // Create container for grid
-    this.gridContainer = this.add.container(400, 300)
-      .setDepth(1)
-      .setAlpha(0.7);
-  
-    const cellSize = 20; // Smaller cells for 10x10 grid
-    const spacing = 2;
-    
-    currentCounty.mapData.forEach((row, y) => {
-      row.forEach((cellValue, x) => {
-        const color = this.getValueColor(cellValue);
-        const rect = this.add.rectangle(
-          x * (cellSize + spacing),
-          y * (cellSize + spacing),
-          cellSize,
-          cellSize,
-          color
-        ).setOrigin(0);
-        
-        this.gridContainer.add(rect);
-      });
-    });
-  
-    // Center the grid container
-    Phaser.Display.Align.In.Center(
-      this.gridContainer,
-      this.add.zone(400, 300, 800, 600)
-    );
-  }
-  
-  getValueColor(value) {
-    // Map values to colors based on your game's needs
-    if(value >= 30) return 0xFF0000; // Red for special locations
-    if(value > 5) return 0x00FF00;   // Green for pathways
-    return 0x555555;                 // Default gray
-  }
-
-  create() {
-    // Get screen dimensions
     const { width: camWidth, height: camHeight } = this.cameras.main;
-    const centerX = camWidth / 2;
-    const centerY = camHeight / 2;
-  
-    // Calculate max grid size (80% of smallest screen dimension)
     const gridSize = Math.min(camWidth, camHeight) * 0.8;
-  
-    // Initialize maps with responsive sizing
-    this.gameMap = this.add.image(centerX, centerY, 'meath')
-      .setOrigin(0.5)
-      .setDisplaySize(gridSize, gridSize);
-  
-    this.nextGameMap = this.add.image(centerX, centerY, 'meath')
-      .setOrigin(0.5)
-      .setAlpha(0)
-      .setDisplaySize(gridSize, gridSize);
+    const cols = currentCounty.mapData[0].length;
+    const rows = currentCounty.mapData.length;
+    const cellWidth = gridSize / cols;
+    const cellHeight = gridSize / rows;
 
+    this.gridContainer = this.add.container(camWidth/2, camHeight/2)
+        .setDepth(1)
+        .setAlpha(0.7);
+
+    currentCounty.mapData.forEach((row, y) => {
+        row.forEach((cellValue, x) => {
+            const color = this.getValueColor(cellValue);
+            const alpha = cellValue >= 30 ? 1 : 0.02; // Set opacity based on value
+            
+            const rect = this.add.rectangle(
+                (x * cellWidth) - gridSize/2 + cellWidth/2,
+                (y * cellHeight) - gridSize/2 + cellHeight/2,
+                cellWidth - 2,
+                cellHeight - 2,
+                color
+            )
+            .setAlpha(alpha)
+            .setData('originalValue', cellValue)
+            .setOrigin(0.5);
+
+            this.gridContainer.add(rect);
+        });
+    });
+}
+
+getValueColor(value) {
+    // Return colors with full opacity - we handle alpha separately
+    if(value >= 30) return 0xFF0000; // Red - special locations
+    if(value > 0) return 0x00FF00;   // Green - pathways
+    return 0x555555;                 // Gray - default
+}
+  create() {
+
+  
+    const { width, height } = this.cameras.main;
+    const centerX = width / 2;
+    const centerY = height / 2;
     
+    // Calculate sizes
+    const gridSize = Math.min(width, height) * 0.8;
+    const maskRadius = gridSize / 2 * 1.05; // 5% larger than grid radius
+    const backgroundSize = gridSize * 1.2; // 20% larger than grid
+
+    // Create main mask (circle that reveals content)
+    const gameMaskShape = this.make.graphics()
+        .fillStyle(0xffffff)
+        .fillCircle(centerX, centerY, maskRadius);
+    
+    const gameMask = gameMaskShape.createGeometryMask();
+
+    // Initialize game elements with mask
+    this.gameMap = this.add.image(centerX, centerY, 'meath')
+        .setDisplaySize(backgroundSize, backgroundSize)
+        .setOrigin(0.5)
+        .setMask(gameMask);
+
+    this.nextGameMap = this.add.image(centerX, centerY, 'meath')
+        .setDisplaySize(backgroundSize, backgroundSize)
+        .setOrigin(0.5)
+        .setAlpha(0)
+        .setMask(gameMask);
+
+    // Create overlay with inverse mask (darkens outside circle)
+    const overlayMaskShape = this.make.graphics()
+        .fillStyle(0xffffff)
+        .fillCircle(centerX, centerY, maskRadius-2);
+    
+    const overlayMask = overlayMaskShape.createGeometryMask();
+    overlayMask.invertAlpha = true; // Invert the mask
+
+    const overlay = this.add.graphics()
+        .fillStyle(0x000000)
+        .fillRect(0, 0, width, height)
+        .setDepth(74)
+        .setMask(overlayMask);
+
+    // Add ciorcal frame (matches mask exactly)
+    this.add.image(centerX, centerY, 'ciorcal-light')
+        .setDisplaySize(maskRadius * 2, maskRadius * 2)
+        .setOrigin(0.5)
+        .setDepth(100);
+
+    // Initialize grid container (centered within mask)
+    this.gridContainer = this.add.container(centerX, centerY)
+        .setDisplaySize(gridSize, gridSize)
+        .setDepth(1)
+        .setAlpha(0.7)
+        .setMask(gameMask);
+
+    // Load county data
     const rawData = this.cache.json.get('countyData');
     this.countyData = {};
     rawData.forEach(config => {
-      this.countyData[config.co] = new CountyData(config);
+        this.countyData[config.co] = new CountyData(config);
     });
 
+    // Set background color
     this.cameras.main.setBackgroundColor('#242424');
-    
 
-    this.wheel = this.add.image(0,0, 'wheel').setInteractive().setDepth(100).setScale(2);
+    // Create wheel
+    this.wheel = this.add.image(0, 0, 'wheel')
+        .setInteractive()
+        .setDepth(100)
+        .setScale(2);
+
+    // Spoke configuration
     this.spokeCount = 7;
     this.anglePerSpoke = 360 / this.spokeCount;
 
- 
+    // County name display
+    const paddingRight = 20;
+    const countyNameY = 50;
+    this.countyNameGa = this.add.text(0, countyNameY, '', {
+        fontSize: '32px',
+        fontFamily: 'IrishPenny',
+        fill: '#ffffff',
+        backgroundColor: '#000000AA',
+        padding: { x: 20, y: 10 },
+        align: 'right'
+    })
+    .setOrigin(1, 0.5)
+    .setDepth(2000)
+    .setScrollFactor(0)
+    .setPosition(width - paddingRight, countyNameY);
+
     // Input handling
     this.dragging = false;
     this.previousAngle = 0;
@@ -114,46 +173,35 @@ this.baseRotation = 0;
     this.input.on('pointerup', this.stopDrag, this);
     this.input.on('pointerupoutside', this.stopDrag, this);
 
-    // Create grid squares
+    // Create initial grid
     this.createDynamicGrid();
-  
-    const { width, height } = this.cameras.main;
 
-    // Create a black overlay covering the whole screen
-    const overlay = this.add.graphics();
-    overlay.fillStyle(0x000000, 0.7); // 70% opacity black
-    overlay.fillRect(0, 0, width, height);
-
-    // Create a circular mask (transparent area)
-    const maskShape = this.make.graphics();
-    maskShape.fillStyle(0xffffff); // White means visible in mask
-    maskShape.fillCircle(width / 2, height / 2, width * 0.3); // Scales with screen size
-
-    // Generate a mask from the circle
-    const mask = maskShape.createGeometryMask();
-    overlay.setMask(mask);
-
-    // Load the window graphic and center it
-    this.add.image(width / 2, height / 2, 'ciorcal-light').setOrigin(0.5);
-
-    const paddingRight = 20; // Match tooltip padding
-    const countyNameY = 50; // Position above tooltip
-  
-    this.countyNameGa = this.add.text(0, countyNameY, '', {
-      fontSize: '32px',
-      fontFamily: 'IrishPenny',
-      fill: '#ffffff',
-      backgroundColor: '#000000AA',
-      padding: { x: 20, y: 10 },
-      align: 'right'
-    })
-    .setOrigin(1, 0.5) // Right-aligned (1 = x origin, 0.5 = y origin)
-    .setDepth(2000) // Higher than tooltip's 1000
-    .setScrollFactor(0)
-    .setPosition(this.cameras.main.width - paddingRight, countyNameY);
-  
+    this.particles = this.add.particles('particle');
+        
+    // Create particle emitter
+    this.transitionEmitter = this.add.particles(
+  500, countyNameY,
+  'particle',
+  {
+      speed: { min: 50, max: 200 },
+      lifespan: 1,//000,
+      scale: { start: 0.5, end: 0, ease: 'Power2' },
+      alpha: { start: 0.8, end: 0 },
+      blendMode: 'ADD',
+      frequency: -1, // Single burst
+      quantity: 15,
+      emitZone: {
+          type: 'edge',
+          source: new Phaser.Geom.Circle(0, 0, 50),
+          quantity: 15
+      }
   }
+).setDepth(200).stop();
 
+// Apply mask to particles
+this.transitionEmitter.setMask(gameMask);
+
+  }
 
 
   startDrag(pointer) {
@@ -195,9 +243,23 @@ this.gridContainer.rotation = this.baseRotation;
         // Sync grid rotation with the game map's rotation
       
   }
-
   handleCountyTransition(direction) {
     if (this.isTransitioning) return;
+    
+    this.transitionEmitter
+        .setPosition(this.cameras.main.centerX, this.cameras.main.centerY)
+        .explode(15);
+    
+
+    
+    // Clear current highlight immediately
+    if(this.currentTooltip) {
+        this.currentTooltip.destroy();
+        this.currentTooltip = null;
+    }
+    
+    this.isTransitioning = true;
+;
     
     this.isTransitioning = true;
     const newCounty = this.countyNames[this.countyTracker];
@@ -207,7 +269,6 @@ this.gridContainer.rotation = this.baseRotation;
     // Set up new map
     this.nextGameMap
       .setTexture(newCounty)
-      .setDisplaySize(gridSize, gridSize)
       .setPosition(camWidth/2, camHeight/2)
       .setAlpha(0)
       .setRotation(this.baseRotation);
@@ -233,6 +294,7 @@ this.gridContainer.rotation = this.baseRotation;
         
         this.isTransitioning = false;
         this.createDynamicGrid();
+ 
       }
     });
   
@@ -261,6 +323,8 @@ handleSpokeAnimation(direction) {
   });}
 
 updateSpoke() {
+  if (this.isTransitioning) return; // Prevent updates during transitions
+    
   const adjustedAngle = (this.wheel.angle % 360 + 360) % 360;
   const spokeIndex = Math.floor(adjustedAngle / this.anglePerSpoke);
   const previousCounty = this.countyTracker;
@@ -354,6 +418,14 @@ updateSpoke() {
   }
   // Updated highlightSquare method
   highlightSquare(spokeIndex) {
+
+        // Clear previous highlights more aggressively
+        this.gridContainer.each(child => {
+          if(child instanceof Phaser.GameObjects.Rectangle) {
+              child.setFillStyle(this.getValueColor(child.getData('originalValue')));
+              child.setAlpha(child.getData('originalValue') >= 30 ? 1 : 0.02); // Reset alpha
+          }
+      });
     const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
     
     // Clear previous highlights
@@ -420,48 +492,7 @@ updateSpoke() {
     });}
 
 
-  createDynamicGrid() {
-    if(this.gridContainer) this.gridContainer.destroy();
-  
-    const { width: camWidth, height: camHeight } = this.cameras.main;
-    const centerX = camWidth / 2;
-    const centerY = camHeight / 2;
-    const gridSize = Math.min(camWidth, camHeight) * 0.8;
-  
-    const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
-    
-    this.gridContainer = this.add.container(centerX, centerY)
-      .setDepth(1)
-      .setAlpha(0.7);
-  
-    const cols = currentCounty.mapData[0].length;
-    const rows = currentCounty.mapData.length;
-    const cellWidth = gridSize / cols;
-    const cellHeight = gridSize / rows;
-  
-    currentCounty.mapData.forEach((row, y) => {
-      row.forEach((cellValue, x) => {
-        const xPos = (x * cellWidth) - gridSize/2 + cellWidth/2;
-        const yPos = (y * cellHeight) - gridSize/2 + cellHeight/2;
-  
-        const rect = this.add.rectangle(
-          xPos,
-          yPos,
-          cellWidth - 2,
-          cellHeight - 2,
-          this.getValueColor(cellValue)
-        )
-        .setOrigin(0.5)
-        .setData('originalValue', cellValue);
-  
-        this.gridContainer.add(rect);
-      });
-    });
- 
-  this.gridContainer.rotation = this.baseRotation;
-  this.gameMap.rotation = this.baseRotation;
-  }
-  
+
   getCoordinatesFromSpoke(spokeIndex) {
     const { width: camWidth, height: camHeight } = this.cameras.main;
     const gridSize = Math.min(camWidth, camHeight) * 0.8;

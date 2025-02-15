@@ -95,10 +95,6 @@ canvas{
   }
   
 
-.touch-prompt-container {
- top:50%;
- left:50%;   
-}
 
 .player-message {
   position: absolute;

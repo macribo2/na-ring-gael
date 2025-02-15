@@ -19,11 +19,12 @@ class IntroSequence extends Phaser.Scene {
         'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
-        '"Faoi múinteacht na"',
+        '"Ba fianna thú, fado..."',
         ' ',
-        "Is cuimhin liom.",
-        '"Inis dom"',
-        'Is cuimhin le géaga...'
+        "Is cuimhin leis na géaga",
+        'Bhí mé ag feitheamh i mbéillic na carraige. \n Ag ulmhú dán.',
+        'Chun breith ar an Púca...',
+
         
       ];
       
@@ -31,11 +32,12 @@ class IntroSequence extends Phaser.Scene {
         'Down, down \nfar far down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am...',
-        'Under kinship of...',
+        'You were a fenian, long ago...',
         '',
         'The branches recall',
-        '"Tell me"',
-        '"the branches recall"',
+        'I was waiting in the cavern beneath the rock. \n Preparing a poem.',
+        'To catch the phantom horse...',
+
               ];
       
   }
@@ -226,14 +228,14 @@ this.tweens.add({
 });
     // Create text object for narrative
     this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
-      font: '32px dum1',
+      font: '40px dum1',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
     }).setDepth(10).setDepth(70);
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
-        font: '26px dum1',
+        font: '32px dum1',
         fill: 'plum',
         wordWrap: { width: this.scale.width * 0.8},
       }).setVisible(true).setDepth(145).setAlpha(0);
@@ -674,7 +676,7 @@ if (this.currentStep === 5) {
   this.branchEn = characterSheet.branchEn;
 
   // Dynamically update the text at the required step
-  this.textsGa[5] = `\n\n\nIs cuimhin linn,\n ${this.nameGa} dhíl.`;
+  this.textsGa[5] = `\n\n\nIs cuimhin linn, ${this.nameGa} dhíl.`;
   this.textsEn[5] = `We recall,\n faithful ${this.nameGa}.`;
 
   // Update any text object showing the text if necessary
@@ -717,7 +719,7 @@ if (this.currentStep === 6) {
   }
 }
 
-if (this.currentStep === 7) {
+if (this.currentStep === 8) {
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
   localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
   window.location.href = '/ballygamboy';

@@ -115,7 +115,7 @@ left:0px;
 	@keyframes ripple {
 		to {
 			transform: scale(2);
-			opacity: 0;
+			opacity: 1;
 		}
 	}
 	
@@ -126,11 +126,10 @@ left:0px;
 		width: 100px;
 		height: 100px;
 		border-radius: 50%;
-		border: 2px solid #CFB53B;
-		animation: ripple 6.5s infinite;
+		
 	}
 	
-	.touch-prompt:nth-child(2) {
+	/* .touch-prompt:nth-child(2) {
 		animation-delay: 0.5s;
 	}
 	
@@ -140,14 +139,14 @@ left:0px;
 	
 	.touch-prompt:nth-child(4) {
 		animation-delay: 1.5s;
-	}
+	} */
 	.ga {
 		font-family:aonchlo;
 	}
 	/* Adjust the properties as needed */
 	
 
-	.touch-prompt-container {
+	/* .touch-prompt-container {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -158,7 +157,7 @@ left:0px;
 		align-items: center;
 	  pointer-events: none;
 
-	}
+	} */
 	.no-pointer-events{
 		pointer-events: none;
 	}
@@ -231,14 +230,5 @@ left:0px;
   }
   
   /* Optional: Adjust for mobile browser address bar, add extra padding if needed */
-  @media (max-width: 768px) { /* Adjust for smaller screens */
-    .touch-prompt-container {
-      top: calc(50vh +40px ); /* Offset slightly to account for browser bar */
-    }
-  }
-  
 
-.touch-prompt-container {
- top:50%;
- left:50%;   
-}
+  
