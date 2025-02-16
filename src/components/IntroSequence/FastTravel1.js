@@ -18,8 +18,7 @@ this.baseRotation = 0;
   }
 
   preload() {
-    this.load.image('particle', '/phaser-resources/images/fairyLight.png'); // Use a small white circle image
-
+this.load.image('chariot','phaser-resources/images/ritterB.png')
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     this.load.json('countyData', './mapData.json');
     this.load.image('wheel', 'phaser-resources/images/ui/eight-point-wheel.png')
@@ -51,8 +50,8 @@ this.baseRotation = 0;
             const rect = this.add.rectangle(
                 (x * cellWidth) - gridSize/2 + cellWidth/2,
                 (y * cellHeight) - gridSize/2 + cellHeight/2,
-                cellWidth - 2,
-                cellHeight - 2,
+                8,
+                8,
                 color
             )
             .setAlpha(alpha)
@@ -70,8 +69,12 @@ getValueColor(value) {
     if(value > 0) return 0x00FF00;   // Green - pathways
     return 0x555555;                 // Gray - default
 }
-  create() {
 
+create() {
+  this.player = this.add.sprite(0, 0, 'chariot')
+    .setOrigin(0.5, 0.5)
+    .setDepth(50)
+    .setVisible(true)
   
     const { width, height } = this.cameras.main;
     const centerX = width / 2;
@@ -139,10 +142,9 @@ getValueColor(value) {
     this.cameras.main.setBackgroundColor('#242424');
 
     // Create wheel
-    this.wheel = this.add.image(0, 0, 'wheel')
+    this.wheel = this.add.image(centerX, centerY, 'wheel')
         .setInteractive()
-        .setDepth(100)
-        .setScale(2);
+        .setDepth(81).setAlpha(0.2)
 
     // Spoke configuration
     this.spokeCount = 7;
@@ -151,6 +153,8 @@ getValueColor(value) {
     // County name display
     const paddingRight = 20;
     const countyNameY = 50;
+    const countyNameX = width - paddingRight;
+    
     this.countyNameGa = this.add.text(0, countyNameY, '', {
         fontSize: '32px',
         fontFamily: 'IrishPenny',
@@ -176,31 +180,13 @@ getValueColor(value) {
     // Create initial grid
     this.createDynamicGrid();
 
-    this.particles = this.add.particles('particle');
         
-    // Create particle emitter
-    this.transitionEmitter = this.add.particles(
-  500, countyNameY,
-  'particle',
-  {
-      speed: { min: 50, max: 200 },
-      lifespan: 1,//000,
-      scale: { start: 0.5, end: 0, ease: 'Power2' },
-      alpha: { start: 0.8, end: 0 },
-      blendMode: 'ADD',
-      frequency: -1, // Single burst
-      quantity: 15,
-      emitZone: {
-          type: 'edge',
-          source: new Phaser.Geom.Circle(0, 0, 50),
-          quantity: 15
-      }
-  }
-).setDepth(200).stop();
+// Calculate camera offset to align ciorcal-light with screen edges
+const cameraOffsetX = centerX - maskRadius; // This moves left edge to screen left
+const cameraOffsetY = centerY - maskRadius; // This moves top edge to screen top
 
-// Apply mask to particles
-this.transitionEmitter.setMask(gameMask);
-
+// Move the camera
+this.cameras.main.setScroll(cameraOffsetX, cameraOffsetY);
   }
 
 
@@ -230,50 +216,57 @@ this.transitionEmitter.setMask(gameMask);
   }
 
   update() {
-
-    this.gameMap.rotation = this.baseRotation;
-this.gridContainer.rotation = this.baseRotation;
-
     if (!this.dragging) {
       this.wheel.angle += this.velocity;
       this.velocity *= 0.99;
       if (Math.abs(this.velocity) < 0.05) this.velocity = 0;
     }
+    
+    // Continuous rotation sync
+    if (this.gridContainer) {
+      // this.player.setRotation(this.gridContainer.rotation);
+    }
+    
     this.updateSpoke();
-        // Sync grid rotation with the game map's rotation
-      
   }
   handleCountyTransition(direction) {
     if (this.isTransitioning) return;
     
-    this.transitionEmitter
-        .setPosition(this.cameras.main.centerX, this.cameras.main.centerY)
-        .explode(15);
-    
-
-    
+    this.isTransitioning = true;
+  
     // Clear current highlight immediately
     if(this.currentTooltip) {
-        this.currentTooltip.destroy();
-        this.currentTooltip = null;
+      this.currentTooltip.destroy();
+      this.currentTooltip = null;
     }
-    
-    this.isTransitioning = true;
-;
-    
-    this.isTransitioning = true;
+  
+    // Store current player position relative to grid
+    const relativeX = this.player.x - this.gridContainer.x;
+    const relativeY = this.player.y - this.gridContainer.y;
+  
+    // Transition logic
     const newCounty = this.countyNames[this.countyTracker];
     const { width: camWidth, height: camHeight } = this.cameras.main;
-    const gridSize = Math.min(camWidth, camHeight) * 0.8;
   
-    // Set up new map
     this.nextGameMap
       .setTexture(newCounty)
       .setPosition(camWidth/2, camHeight/2)
       .setAlpha(0)
       .setRotation(this.baseRotation);
   
-    // Fade out current map while fading in new map
+    const targetRotation = this.baseRotation + Phaser.Math.DegToRad(direction === 'down' ? 5 : -5);
+    
+    this.tweens.add({
+      targets: this,
+      baseRotation: targetRotation,
+      duration: 500,
+      ease: 'Sine.easeInOut',
+      onUpdate: () => {
+        // Keep player aligned during rotation
+        // this.player.setRotation(this.gridContainer.rotation);
+      }
+    });
+  
     this.tweens.add({
       targets: this.gameMap,
       alpha: 0,
@@ -287,24 +280,23 @@ this.gridContainer.rotation = this.baseRotation;
       duration: 500,
       ease: 'Sine.easeInOut',
       onComplete: () => {
-        // Swap references
         [this.gameMap, this.nextGameMap] = [this.nextGameMap, this.gameMap];
-        this.gameMap.setAlpha(1); // Reset alpha for next transition
-        this.nextGameMap.setAlpha(0).setTexture('meath'); // Reset next map
+        this.gameMap.setAlpha(1);
+        this.nextGameMap.setAlpha(0).setTexture('meath');
         
-        this.isTransitioning = false;
+        // Rebuild grid first
         this.createDynamicGrid();
- 
+        
+        // Update player position relative to new grid
+        this.player.setPosition(
+          this.gridContainer.x + relativeX,
+          this.gridContainer.y + relativeY
+        );
+        
+        // Force highlight update
+        this.isTransitioning = false;
+        this.highlightSquare(this.previousSpokeIndex);
       }
-    });
-  
-    // Continue with rotation animation
-    const targetRotation = this.baseRotation + Phaser.Math.DegToRad(direction === 'down' ? 5 : -5);
-    this.tweens.add({
-      targets: this,
-      baseRotation: targetRotation,
-      duration: 500,
-      ease: 'Sine.easeInOut'
     });
   }
 handleSpokeAnimation(direction) {
@@ -416,33 +408,55 @@ updateSpoke() {
       fixedY
     );
   }
-  // Updated highlightSquare method
   highlightSquare(spokeIndex) {
-
-        // Clear previous highlights more aggressively
-        this.gridContainer.each(child => {
-          if(child instanceof Phaser.GameObjects.Rectangle) {
-              child.setFillStyle(this.getValueColor(child.getData('originalValue')));
-              child.setAlpha(child.getData('originalValue') >= 30 ? 1 : 0.02); // Reset alpha
-          }
-      });
-    const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
-    
     // Clear previous highlights
     this.gridContainer.each(child => {
       if(child instanceof Phaser.GameObjects.Rectangle) {
         child.setFillStyle(this.getValueColor(child.getData('originalValue')));
+        child.setAlpha(child.getData('originalValue') >= 30 ? 1 : 0.02);
       }
     });
   
+    const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
     let foundLocation = false;
-    
-    currentCounty.mapData.forEach((row, rowY) => {
-      row.forEach((cellValue, colX) => {
+  
+    // Get current container transform matrix
+    const matrix = this.gridContainer.getWorldTransformMatrix();
+  
+    currentCounty.mapData.forEach((row, y) => {
+      row.forEach((cellValue, x) => {
         if(cellValue >= 30) {
           const index = cellValue - 30;
           if(index === spokeIndex) {
-            const rect = this.gridContainer.getAt(colX + rowY * row.length);
+            const rect = this.gridContainer.getAt(x + y * row.length);
+            
+            // Transform cell position using current matrix
+            const worldPos = matrix.transformPoint(rect.x, rect.y);
+            
+            // Tween to new position
+            this.tweens.add({
+              targets: this.player,
+              x: worldPos.x,
+              y: worldPos.y,
+              // rotation: this.gridContainer.rotation,
+              duration: 500,
+              ease: 'Power2',
+              onStart: () => {
+                this.player.setVisible(true);
+              },
+              onComplete: () => {
+                // Pulse animation after reaching destination
+                this.tweens.add({
+                  targets: this.player,
+                  scaleX: 1.1,
+                  scaleY: 1.1,
+                  duration: 150,
+                  yoyo: true,
+                  ease: 'Power2'
+                });
+              }
+            });
+  
             rect.setFillStyle(0xFFFF00);
             foundLocation = true;
             this.showLocationTooltip(currentCounty.getLocation(index));
@@ -451,48 +465,36 @@ updateSpoke() {
       });
     });
   
-    if(!foundLocation && this.currentTooltip) {
-      this.currentTooltip.destroy();
-      this.currentTooltip = null;
+    if(!foundLocation) {
+      if(this.currentTooltip) {
+        this.currentTooltip.destroy();
+        this.currentTooltip = null;
+      }
+      
+      // Safely get container center or use fallback values
+      let centerX = 0;
+      let centerY = 0;
+      
+      const bounds = this.gridContainer.getBounds();
+      if (bounds && bounds.centerX !== undefined && bounds.centerY !== undefined) {
+        centerX = bounds.centerX;
+        centerY = bounds.centerY;
+      } else {
+        centerX = this.gridContainer.x;
+        centerY = this.gridContainer.y;
+      }
+      
+      // Tween to center position
+      this.tweens.add({
+        targets: this.player,
+        x: centerX,
+        y: centerY,
+        // rotation: this.gridContainer.rotation,
+        duration: 500,
+        ease: 'Power2'
+      });
     }
   }
-  // Modified highlightSquare method
-  highlightSquare(spokeIndex) {
-    const currentCounty = this.countyData[this.countyNames[this.countyTracker]];
-    
-    // Clear previous highlights
-    this.gridContainer.each(child => {
-      if(child instanceof Phaser.GameObjects.Rectangle) {
-        child.setFillStyle(this.getValueColor(child.getData('originalValue')));
-      }
-    });
-  
-    currentCounty.mapData.forEach((row, rowY) => {
-      row.forEach((cellValue, colX) => {
-        if(cellValue >= 30) {
-          const index = cellValue - 30;
-          if(index === spokeIndex) {
-            const rect = this.gridContainer.getAt(colX + rowY * row.length);
-            rect.setFillStyle(0xFFFF00);
-            
-            // Convert grid position to screen coordinates
-            const worldPos = this.gridContainer.getLocalPoint(
-              rect.x,
-              rect.y
-            );
-            
-            this.showLocationTooltip(
-              currentCounty.getLocation(index),
-              this.gridContainer.x + worldPos.x,
-              this.gridContainer.y + worldPos.y
-            );
-          }
-        }
-      });
-    });}
-
-
-
   getCoordinatesFromSpoke(spokeIndex) {
     const { width: camWidth, height: camHeight } = this.cameras.main;
     const gridSize = Math.min(camWidth, camHeight) * 0.8;

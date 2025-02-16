@@ -5,12 +5,16 @@
   height: 70px;
   border-radius: 50%;
   border: 1px solid #418c6724;
-  animation: ripple 6.5s infinite ease-out;
+  animation: ripple 13s infinite ease-out;
   opacity: 0;
   animation-delay: 12s;
 
   
 }
+
+.touch-prompt-container {
+  pointer-events: none; }
+
 .title-container {
   display: flex;
   justify-content: center;
@@ -42,7 +46,11 @@
   80% { transform: rotateX(3deg) rotateY(-3deg) scale(1);opacity: 0.3;  }
   100% { transform: rotateX(0deg) rotateY(0deg) scale(0.85);opacity: 0.1;  }
 }
-
+canvas{
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+}
 .start-button-container {
   position: fixed;
   top: 55%;  /* Button at bottom 1/3 of the screen */
@@ -50,11 +58,12 @@
   width: 100% !important;
   display: grid;
   place-items: center; /* Centers content both horizontally and vertically */
-  z-index: 510;
+  z-index: 5105 !important;
   align-items: center;
 }
 
 .start-fullscreen-button {
+  pointer-events: all;
   width: 61px;
   height: 61px;
   background-image: url('../../images/middle-c.png');
@@ -71,8 +80,8 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 .start-fullscreen-button.hidden {

@@ -325,7 +325,7 @@ this.background2 = null; // Declare background2 here
   
 this.displayedChampion = JSON.parse(JSON.stringify(this.champions[0])); // Default to the first champion
 
-this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false).setDepth(15);
+this.background2 = scene.add.sprite(0, 0, 'bg1').setVisible(false).setDepth(15).setInteractive();
 this.background2.setOrigin(0, 0);
 this.background2.setDisplaySize(scene.scale.width, scene.scale.height);
 this.background2.setAlpha(0); // Set initial alpha to 0
@@ -524,7 +524,6 @@ EventEmitter.on('stepChanged', (newStep) => {
     scene.events.on('update', this.updateWheel, this);
 
   }
-  // Example function when the champion is discovered
   onChampionDiscovered() {
     // Make the image visible
     this.championDiscovered = true;

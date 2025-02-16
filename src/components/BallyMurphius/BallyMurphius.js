@@ -57,38 +57,3 @@ const BallyMurphius= () => {
 };
 
 export default BallyMurphius;
-
-/*
-const BallyMurphius = () => {
-  const gameRef = useRef(null);
-
-  useEffect(() => {
-    const initializeGame = () => {
-      try {
-        const config = {
-          // Your game configuration...
-        };
-  
-        gameRef.current = new Phaser.Game(config);
-      } catch (error) {
-        console.error('Error initializing game:', error);
-      }
-    };
-
-    // Preload, create, and update functions...
-
-    initializeGame();
-
-    return () => {
-      if (gameRef.current) {
-        gameRef.current.destroy(true);
-      }
-    };
-  }, []);
-
-  return <div id="bally-murphius-game-container"></div>;
-};
-
-export default BallyMurphius;
-
-*/

@@ -5,8 +5,9 @@ class ChampionSelect2 extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     
     super(scene, x, y);
-
-
+    this.scene = scene;
+    this.bandDiscovered = false; // Initially, the champion is not discovered
+    this.hasInteracted = false; // Add this flag
 
 
     const centerX = 100;
@@ -163,12 +164,13 @@ mottoEn:'wealth of kings, wealth of the Clan',
        branchEn:'The Cow',
       },{
        
-       notes:'',
-       mottoGa:'Feasa gach slí',
 
-mottoEn:'Knowledge of every way',
-        branchGa:'Na Fánaigh',
-       branchEn:'of the Wandering Warriors',
+        notes:'',
+        mottoGa:'Fánach an áit...',
+ 
+ mottoEn:'Rare is the place...',
+         branchGa:'Na Fánaigh',
+        branchEn:'Wanderers',
       },{
 
        notes:'',
@@ -512,11 +514,11 @@ mottoEn:'Take all \nleave nothing',
 
 
        notes:'',
-       mottoGa:'Fánach an áit...',
+       mottoGa:'do-chlaoidhte',
 
-mottoEn:'Rare is the place...',
-        branchGa:'Fánaigh',
-       branchEn:'Wanderers',
+mottoEn:'indefatigable',
+        branchGa:'Na Gabhláin',
+       branchEn:'The branches',
       },{
        
 
@@ -740,6 +742,14 @@ this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height 
     
     
   }
+  onbandDiscovered() {
+        //band discovered
+        this.bandDiscovered = true;
+        // Emit a custom event to notify other scenes
+        EventEmitter.emit('bandDiscovered');
+        
+      }
+
   // Update the text based on the selected branch
   updateTextForBranch(selectedBranchIndex) {
           const branch = this.fenianBranches[selectedBranchIndex];
@@ -843,8 +853,14 @@ updateColorShiftCircle(x, y, radius) {
   }
 
   dragWheel(pointer) {
-    if (this.isDragging) {
-      
+        if (this.isDragging) {
+                if (!this.hasInteracted) { // First interaction
+                  this.hasInteracted = true;
+                  // Reveal Irish text elements
+                  this.nameTextGa.setAlpha(1).setVisible(true);
+                  this.subtitleTextGa.setAlpha(1).setVisible(true);
+                  this.onbandDiscovered();
+                }
   this.nameTextGa.setAlpha(1).setVisible(true)
   this.subtitleTextGa.setAlpha(1).setVisible(true)
   this.rainbowCircle.setAlpha(1)
@@ -867,12 +883,16 @@ updateColorShiftCircle(x, y, radius) {
     this.isDragging = false;
   }
   updateWheel() {
-
+        if (!this.hasInteracted) { // Keep texts hidden until first interaction
+                this.nameTextGa.setVisible(false);
+                this.subtitleTextGa.setVisible(false);
+                return;
+              }
   // Check if the wheel is still moving
   if (Math.abs(this.rotationVelocity) > this.minVelocity) {
         // Hide the text while the wheel is moving
         this.subtitleTextGa.setAlpha(0).setVisible(false);
-        this.subtitleTextEn.setAlpha(0).setVisible(false);
+        // this.subtitleTextEn.setAlpha(0).setVisible(false);
     } else {
         // The wheel has stopped, fade in the text
         this.subtitleTextGa.setVisible(true); // Set visible before tween
@@ -949,6 +969,8 @@ updateColorShiftCircle(x, y, radius) {
 
     // Highlight spokes touching the sensor
     this.highlightSpokes();
+
+
 }
 
 highlightSpokes() {

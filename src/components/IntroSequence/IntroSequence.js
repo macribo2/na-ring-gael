@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import ControlSquare from '../ControlSquare/ControlSquare';
 import ChampionSelect1 from './ChampionSelect1'
 import ChampionSelect2 from './ChampionSelect2'
+import RippleManager from './rippleManager'
 
 
 import { EventEmitter } from './EventEmitter';
@@ -10,8 +11,9 @@ class IntroSequence extends Phaser.Scene {
   constructor() {
     
     super({ key: 'IntroSequence' });
+    this.bandDiscovered = false;
   this.championDiscovered = false; // Flag to track discovery
-
+this.isRaining = false;
     this.currentStep = 0;
   this.hasFaded = false;
     this.characterSheet = {};
@@ -128,7 +130,7 @@ class IntroSequence extends Phaser.Scene {
     }
 
   create() {
-
+    this.rippleManager = new RippleManager(this);
     
 
       // Cooldown flag and timer
@@ -163,7 +165,7 @@ class IntroSequence extends Phaser.Scene {
   // Create the final image (hidden initially)
   const branches3 = this.add.image(0, imageHeight * 2, 'branches3').setOrigin(0.5, 0).setVisible(false);
   
-  branchesContainer.add([branches1, branches2, branches3]).setAlpha(0.2)
+  branchesContainer.add([branches1, branches2, branches3]).setAlpha(0.28)
   
   // Animate looping scroll
   const scrollTween = this.tweens.add({
@@ -426,7 +428,10 @@ function showNextMessageWithTyping(newMessage) {
     });
   }
   
-  
+  EventEmitter.on('bandDiscovered', () => {
+    this.bandDiscovered = true;
+    console.log('band has been discovered!');
+  });  
   
   EventEmitter.on('championDiscovered', () => {
     this.championDiscovered = true;
@@ -436,6 +441,12 @@ function showNextMessageWithTyping(newMessage) {
   this.events.on('championDiscovered', () => {
     this.championDiscovered = true;
     console.log("Champion discovered in IntroSequence!");
+  });
+
+
+  this.events.on('bandDiscovered', () => {
+    this.bandDiscovered = true;
+    console.log("band discovered in IntroSequence!");
   });
   this.controlSquare.rightButton.on('pointerdown', () => {
     // Check if cooldown is active
@@ -449,6 +460,10 @@ function showNextMessageWithTyping(newMessage) {
       this.isCooldownActive = false; // Reset cooldown
       return; // Stop further execution
     }
+    if (this.currentStep === 4  && !this.bandDiscovered) {
+      this.isCooldownActive = false; // Reset cooldown
+      return; // Stop further execution
+    } 
   
     // Increment step and emit event
     this.currentStep++;
@@ -562,6 +577,18 @@ function showNextMessageWithTyping(newMessage) {
 
   }
 
+rainEffect1(){
+  
+  
+  if (this.isRaining){
+return
+  }
+  this.ripples = new RippleManager(this);
+  this.ripples.create();
+  this.isRaining = true;
+
+}
+
 update() {
 
   this.fairylights.forEach(fairylight => {
@@ -667,7 +694,10 @@ if (this.currentStep === 4 && !this.ChampionSelect2) { //2
 console.log('Texture exists?', this.textures.exists('championSprites'));
 
 }
-if (this.currentStep === 5) {
+
+
+
+if(this.currentStep === 5 ){
   let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
 
   // Update the name and branch variables
@@ -690,45 +720,13 @@ if (this.currentStep === 5) {
   
 }
 if (this.currentStep === 6) {
-  // Retrieve character sheet from localStorage
-  let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
-
-  // Log characterSheet to verify structure
-  console.log('characterSheet:', characterSheet);
-
-  // Check if characterSheet exists and has the necessary properties
-  if (characterSheet && characterSheet.nameGa && characterSheet.branchGa && characterSheet.branchEn) {
-    // Update the name and branch variables
-    this.nameGa = characterSheet.nameGa;
-    this.branchGa = characterSheet.branchGa;
-    this.branchEn = characterSheet.branchEn;
-
-    // Log the values being set
-    console.log('nameGa:', this.nameGa);
-    console.log('branchGa:', this.branchGa);
-    console.log('branchEn:', this.branchEn);
-
-    // Dynamically update the text at the required step
-    this.textsGa[6] = `${this.nameGa} fiann na \n ${this.branchGa}.\n 'b ea.`;
-    this.textsEn[6] = `${this.nameGa}\n a fenian of \n  ${this.branchEn}.\n It was so.`;
-
-    // Now set the text for this step
-    this.textObjectGa.setText(this.textsGa[this.currentStep]);
-    this.textObjectEn.setText(this.textsEn[this.currentStep]);
-
-
-  } else {
-    console.error('Character sheet missing necessary properties');
-  }
-  if (this.currentstep === 7) {
-   alert("7")
-}
+ this.rainEffect1()
 }
 
-if (this.currentStep === 8) {
+if (this.currentStep === 7) {
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
   localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
-  window.location.href = '/ballygamboy';
+  window.location.href = '/pucaloic';
 }
 
 

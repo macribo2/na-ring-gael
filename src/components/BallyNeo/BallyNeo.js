@@ -1,57 +1,41 @@
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
+import FastTravel1 from '../IntroSequence/FastTravel1';
 
 const BallyNeo = () => {
-  const gameRef = useRef(null);
+  const gameRef = useRef(null); // Reference for Phaser game instance
 
   useEffect(() => {
     const initializeGame = () => {
       const config = {
         type: Phaser.AUTO,
         width: window.innerWidth, // Set width to match the window width
-    height: window.innerHeight, // Set height to match the window height
-    
-        scene: {
-          preload: preload,
-          create: create,
-          update: update,
-        },
+        height: window.innerHeight, // Set height to match the window height
+        
+        scene: [FastTravel1], // Add the scene here (No need to create an instance of FastTravel1 manually)
+        
         scale: {
           mode: Phaser.Scale.RESIZE, // Resize the game to fill the entire screen
           autoCenter: Phaser.Scale.CENTER_BOTH, // Center the game horizontally and vertically
         },
       };
 
+      // Initialize Phaser game
       gameRef.current = new Phaser.Game(config);
     };
 
-    // Define scene methods
-    function preload() {
-      this.load.image('background', './phaser-resources/images/placeholders/Sample_interior.png');
-    }
-
-    function create() {
-      // Create the background sprite and set its size to match the game's canvas
-      const background = this.add.sprite(0, 0, 'background').setOrigin(0);
-      background.displayWidth = this.sys.game.config.width;
-      background.displayHeight = this.sys.game.config.height;
-    }
-
-    function update() {
-      // Update game logic here
-    }
-
+    // Initialize the game
     initializeGame();
 
+    // Cleanup function to destroy Phaser game when component unmounts
     return () => {
       if (gameRef.current) {
-        gameRef.current.destroy(true);
+        gameRef.current.destroy(true); // Ensure the game is destroyed properly when component is removed
       }
     };
-  }, []);
+  }, []); // Empty dependency array ensures the game is initialized only once
 
-  return <div id="bally-neo-game-container">
-</div>;
+  return <div id="bally-neo-game-container" />; // Game container, no need to render FastTravel1 here
 };
 
 export default BallyNeo;

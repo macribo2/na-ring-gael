@@ -113,6 +113,8 @@ const LandingPage = () => {
     } else {
       console.error('Scene or camera is not properly initialized.');
     }
+
+    
   };
   
 
