@@ -10,6 +10,7 @@ import GameOver from './components/game-over/GameOver';
 import Baile from './components/locations/baile';
 import ChessLike from './components/ChessLike/chessLike2';
 import PucaLoic2 from './components/ChessLike/chessLike3';
+import PucaChase0 from './components/pucaChase/pucaChase0';
 import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy-with-rot';
 import BallyGamWest from './components/BallyGamBoy/BallyGamWest';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
@@ -57,6 +58,15 @@ const ChessLikeWrapper = () => {
     <>
       <PlayerProvider>
         <Switch>
+        <Route path="/pucachase0" render={() => (
+            <>
+              <PucaChase0 />
+              {shouldRefresh && <PucaChase0 />}
+            </>
+
+          )}
+           />
+
           <Route path="/pucaloic" render={() => (
             <>
               <ChessLike />

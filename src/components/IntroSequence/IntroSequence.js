@@ -3,6 +3,7 @@ import ControlSquare from '../ControlSquare/ControlSquare';
 import ChampionSelect1 from './ChampionSelect1'
 import ChampionSelect2 from './ChampionSelect2'
 import RippleManager from './rippleManager'
+import PucaChase0 from '../pucaChase/pucaChase0'
 
 
 import { EventEmitter } from './EventEmitter';
@@ -724,9 +725,10 @@ if (this.currentStep === 6) {
 }
 
 if (this.currentStep === 7) {
+  this.scene.start('PucaChase0');  // Transition directly to the next scene
+
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
   localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
-  window.location.href = '/pucaloic';
 }
 
 

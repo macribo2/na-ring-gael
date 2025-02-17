@@ -6,6 +6,7 @@ import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import style from './LandingPage.css';
+import PucaChase0 from '../pucaChase/pucaChase0';
 const LandingPage = () => {
   const gameRef = useRef(null); // Reference to hold the Phaser game instance
   const [fullscreen, setFullscreen] = useState(false); // Track fullscreen state
@@ -24,7 +25,7 @@ const LandingPage = () => {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [ LandingPageScene, IntroSequence, MainGame], 
+      scene: [ LandingPageScene, IntroSequence, MainGame, PucaChase0], 
       plugins: {
         scene: [
           {
