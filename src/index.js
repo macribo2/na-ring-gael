@@ -10,7 +10,7 @@ import GameOver from './components/game-over/GameOver';
 import Baile from './components/locations/baile';
 import ChessLike from './components/ChessLike/chessLike2';
 import PucaLoic2 from './components/ChessLike/chessLike3';
-import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy';
+import BallyGamBoy from './components/BallyGamBoy/BallyGamBoy-with-rot';
 import BallyGamWest from './components/BallyGamBoy/BallyGamWest';
 import BallyGamBoat from './components/BallyGamBoat/BallyGamBoat';
 import FairyLand from './components/FairyLand/FairyLand';

@@ -49,7 +49,6 @@
 canvas{
   position: fixed;
   z-index: 2;
-  pointer-events: none;
 }
 .start-button-container {
   position: fixed;
@@ -63,7 +62,6 @@ canvas{
 }
 
 .start-fullscreen-button {
-  pointer-events: all;
   width: 61px;
   height: 61px;
   background-image: url('../../images/middle-c.png');
@@ -147,4 +145,21 @@ html, body, #phaser-container, canvas {
   border: 1px solid #e9ee8ab0 !important;
   width: 670px !important;
   height: 670px!important;
+}
+/* Force button above all Phaser elements */
+.start-button-container {
+  position: relative;
+  z-index: 2147483647 !important; /* Max z-index value */
+  pointer-events: auto !important;
+}
+
+/* Contain Phaser canvas z-index */
+#phaser-container {
+  position: fixed;
+  z-index: 0 !important;
+  pointer-events: none;
+}
+
+#phaser-container canvas {
+  pointer-events: auto !important;
 }

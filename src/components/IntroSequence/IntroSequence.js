@@ -34,7 +34,7 @@ this.isRaining = false;
         'Down, down \nfar far down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am...',
-        'You were a fenian, long ago...',
+        'I was a fenian, long ago...',
         '',
         'The branches recall',
         'I was taking shelter from the rain \nin the cavern beneath the rock.',

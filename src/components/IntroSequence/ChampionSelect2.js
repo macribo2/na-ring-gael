@@ -441,10 +441,10 @@ mottoEn:'By the luck in our caps',
 
 
        notes:'',
-       mottoGa:'i ngleacht go cruinn',
+       mottoGa:'cruinneas',
 
-mottoEn:'Swing true',
-        branchGa:'ó Treabh an Tua Orga',
+mottoEn:'accuracy',
+        branchGa:'Treabh an Tua Orga',
        branchEn:'Golden Axe Tribe',
       },{
        

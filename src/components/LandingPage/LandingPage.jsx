@@ -24,7 +24,7 @@ const LandingPage = () => {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [ LandingPageScene, IntroSequence, MainGame], // Include LandingPageScene instead of LandingPage
+      scene: [ LandingPageScene, IntroSequence, MainGame], 
       plugins: {
         scene: [
           {
@@ -57,6 +57,18 @@ const LandingPage = () => {
   
   }, []);
   // Toggle fullscreen and start
+
+  // In LandingPage component
+const [buttonMounted, setButtonMounted] = useState(false);
+
+useEffect(() => {
+  const phaserInitTimer = setTimeout(() => {
+    setButtonMounted(true);
+  }, 100); // 100ms delay after Phaser init
+  
+  return () => clearTimeout(phaserInitTimer);
+}, []);
+
   const toggleFullscreenAndStart = () => {
     // Handle fullscreen toggle
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -114,7 +126,7 @@ const LandingPage = () => {
       console.error('Scene or camera is not properly initialized.');
     }
 
-    
+
   };
   
 
@@ -122,7 +134,7 @@ const LandingPage = () => {
     <>
       <div id="phaser-container" style={{ width: '100%', height: '100%', position: 'fixed', zIndex: 2 }} />
       
-      {buttonVisible && (
+      {buttonVisible && buttonMounted &&(
         <>
           <div className="touch-prompt-container start-button-container  ">
 
@@ -173,8 +185,8 @@ const LandingPageScene = {
     const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
     background.setDisplaySize(this.scale.width, this.scale.height);
 
-    this.fog = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog');
-    this.fog.setOrigin(0, 0).setDepth(99).setAlpha(0.2).setScale(2);
+    this.fog = this.add.tileSprite(0, this.cameras.main.height - 450, 1024, 512, 'fog');
+    this.fog.setOrigin(0, 0).setDepth(99).setAlpha(0.2).setScale(3);
 
     this.fog2 = this.add.tileSprite(0, this.cameras.main.height - 400, 1024, 512, 'fog');
     this.fog2.setOrigin(0, 0).setDepth(99).setAlpha(0.1).setScale(2);
