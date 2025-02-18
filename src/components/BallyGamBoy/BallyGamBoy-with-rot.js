@@ -144,12 +144,12 @@ class DungeonScene extends Phaser.Scene {
 // Tile type to frame mapping
 getTileFrame(tileValue, x, y) {
   const variants = {
-    0: {
+    0: { // Floor tiles
       center: [21, 22, 23, 41, 42, 43, 61, 62, 63],
       north: [1, 2, 3],
       south: [81, 82, 83],
-      west: [20,30,40],
-      east: [24,34,44],
+      west: [20, 30, 40],
+      east: [24, 34, 44],
       corners: {
         nw: 0,
         ne: 4,
@@ -157,19 +157,50 @@ getTileFrame(tileValue, x, y) {
         se: 84
       }
     },
-    1: [201],
+    1: { // Wall tiles
+      center: [91], // Center wall tiles
+      north: [101,102,103],  // North edge wall tiles
+      south: [91], // South edge wall tiles
+      west: [91], // West edge wall tiles
+      east: [91], // East edge wall tiles
+      corners: {
+        nw: 101, // North-West corner wall tile
+        ne: 101, // North-East corner wall tile
+        sw: 91, // South-West corner wall tile
+        se: 91  // South-East corner wall tile
+      }
+    },
     2: 6,
     3: 7
   };
 
-  // Handle non-floor tiles first
-  if (tileValue !== 0) {
-    return Array.isArray(variants[tileValue]) 
-      ? Phaser.Math.RND.pick(variants[tileValue])
-      : variants[tileValue];
+  
+
+  // Handle non-floor tiles first (Walls)
+  if (tileValue === 1) {
+    // Check surrounding wall structure
+    const isNorthEdge = y > 0 && this.map[x][y - 1] !== 1;
+    const isSouthEdge = y < this.map[0].length - 1 && this.map[x][y + 1] !== 1;
+    const isWestEdge = x > 0 && this.map[x - 1][y] !== 1;
+    const isEastEdge = x < this.map.length - 1 && this.map[x + 1][y] !== 1;
+
+    // Check corners first
+    if (isNorthEdge && isWestEdge) return variants[1].corners.nw;
+    if (isNorthEdge && isEastEdge) return variants[1].corners.ne;
+    if (isSouthEdge && isWestEdge) return variants[1].corners.sw;
+    if (isSouthEdge && isEastEdge) return variants[1].corners.se;
+
+    // Check edges
+    if (isNorthEdge) return Phaser.Math.RND.pick(variants[1].north);
+    if (isSouthEdge) return Phaser.Math.RND.pick(variants[1].south);
+    if (isWestEdge) return Phaser.Math.RND.pick(variants[1].west);
+    if (isEastEdge) return Phaser.Math.RND.pick(variants[1].east);
+
+    // Default to center tile
+    return Phaser.Math.RND.pick(variants[1].center);
   }
 
-  // Get room information
+  // Existing floor tile logic
   const roomId = this.roomMap[x][y];
   if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor
 
@@ -203,6 +234,8 @@ getTileFrame(tileValue, x, y) {
   if (isWestEdge) return variants[0].west[0];
   if (isEastEdge) return variants[0].east[0];
 
+
+  
   // Default to center tile
   return Phaser.Math.RND.pick(variants[0].center);
 }
@@ -212,18 +245,24 @@ createTile(x, y) {
 
   const tileValue = this.map[x][y];
   const frame = this.getTileFrame(tileValue, x, y);
+  const isCorridor = this.roomMap[x][y] === -1;
 
+  // Create main tile
   const tile = this.add.sprite(x * this.tileSize, y * this.tileSize, 'dungeon_tiles', frame)
     .setOrigin(0)
     .setDepth(tileValue === 1 ? 1 : 0);
 
-  // Optional: Add debug text
-  // if (this.debugGraphics.visible) {
-  //   this.add.text(x * this.tileSize, y * this.tileSize, `${x},${y}\n${frame}`, {
-  //     fontSize: '8px',
-  //     color: '#ff0000'
-  //   }).setOrigin(0);
-  // }
+  // Add corridor bottom edge if applicable
+  if (isCorridor && tileValue === 0) {
+    const belowY = y + 1;
+    if (belowY < this.map[0].length && this.map[x][belowY] === 1) {
+      this.add.sprite(x * this.tileSize, belowY * this.tileSize, 'dungeon_tiles', 101)
+        .setOrigin(0)
+        .setDepth(0.9); // Just below wall depth
+    }
+  }
+
+  this.tiles.add(tile);
 }
   create() {
     this.tiles = this.add.group();
@@ -370,6 +409,8 @@ createTile(x, y) {
         top: room.getTop(),
         bottom: room.getBottom()
       };
+
+      
     
       // Visualize room center
       const centerX = (bounds.left + bounds.right) * 0.5 * this.tileSize;
