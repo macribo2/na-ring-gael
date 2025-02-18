@@ -39,6 +39,8 @@ class PlayerEntity extends GameEntity {
     super(x, y, GameEntity.ENTITY_TYPES.PLAYER);
     this.speed = 20;
     this.inputResolver = null;
+
+
   }
 
   // Add this method to resolve input promise
@@ -114,20 +116,24 @@ class PhaserEntity {
 class DungeonScene extends Phaser.Scene {
   constructor() {
     super({ key: 'Dungeon' });
+    this.roomMap = []; // 2D array tracking room IDs
+    this.rooms = [];    // Store room references
     this.tileSize = 32;
     this.entities = [];
     this.scheduler = new ROT.Scheduler.Simple();
     this.engine = new ROT.Engine(this.scheduler);
     this.tiles = null; // Explicit initialization
+  
+  
   }
 
   preload() {
     // Load tilesheet with 32x32 frames arranged in grid
-    this.load.spritesheet('dungeon_tiles', '/phaser-resources/images/dungeon_tiles_2.png', {
+    this.load.spritesheet('dungeon_tiles', '/phaser-resources/images/rotjs/dungeon_tiles_2.png', {
       frameWidth: 32,
       frameHeight: 32,
-      margin: 1,
-      spacing: 2
+      margin: 0,
+      spacing: 0
     });
     
     this.load.spritesheet('player', '/phaser-resources/images/champions/32.png', {
@@ -135,47 +141,92 @@ class DungeonScene extends Phaser.Scene {
       frameHeight: 32
     });
   }
-  getTileFrame(tileValue) {
-    const variants = {
-      0: [0, 1, 2],       // Corridor floors
-      1: [3, 4, 5],       // Walls
-      2: [6, 7, 8],       // Room floors
-      3: [9],             // Special tiles (e.g., water)
-      4: [10]             // Other features (e.g., chests)
-    };
-  
-    if (tileValue in variants) {
-      const options = variants[tileValue];
-      return Array.isArray(options) 
-        ? Phaser.Math.RND.pick(options) 
-        : options;
-    }
-    return 0; // Fallback to corridor floor
-  }
-createTile(x, y) {
-  const tileValue = this.map[x][y];
-  const frame = this.getTileFrame(tileValue);
-  
-  // Validate coordinates
-  if (x >= this.map.length || y >= this.map[0].length) {
-    console.warn(`Out-of-bounds tile at ${x},${y}`);
-    return;
+// Tile type to frame mapping
+getTileFrame(tileValue, x, y) {
+  const variants = {
+    0: {
+      center: [21, 22, 23, 41, 42, 43, 61, 62, 63],
+      north: [1, 2, 3],
+      south: [81, 82, 83],
+      west: [20,30,40],
+      east: [24,34,44],
+      corners: {
+        nw: 0,
+        ne: 4,
+        sw: 80,
+        se: 84
+      }
+    },
+    1: [201],
+    2: 6,
+    3: 7
+  };
+
+  // Handle non-floor tiles first
+  if (tileValue !== 0) {
+    return Array.isArray(variants[tileValue]) 
+      ? Phaser.Math.RND.pick(variants[tileValue])
+      : variants[tileValue];
   }
 
-  const tile = this.add.sprite(
-    x * this.tileSize,
-    y * this.tileSize,
-    'dungeon_tiles',
-    frame
-  ).setOrigin(0);
+  // Get room information
+  const roomId = this.roomMap[x][y];
+  if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor
 
-  // Depth based on actual map value
-  tile.setDepth(tileValue === 1 ? 1 : 0);
-  this.tiles.add(tile);
+  const room = this.rooms[roomId];
+  const bounds = {
+    left: room.getLeft(),
+    right: room.getRight(),
+    top: room.getTop(),
+    bottom: room.getBottom()
+  };
+
+  // Check if tile is on room edge
+  const isNorthEdge = y === bounds.top;
+  const isSouthEdge = y === bounds.bottom;
+  const isWestEdge = x === bounds.left;
+  const isEastEdge = x === bounds.right;
+
+  // Check corners first
+  if (isNorthEdge) {
+    if (isWestEdge) return variants[0].corners.nw;
+    if (isEastEdge) return variants[0].corners.ne;
+    return Phaser.Math.RND.pick(variants[0].north);
+  }
+  
+  if (isSouthEdge) {
+    if (isWestEdge) return variants[0].corners.sw;
+    if (isEastEdge) return variants[0].corners.se;
+    return Phaser.Math.RND.pick(variants[0].south);
+  }
+
+  if (isWestEdge) return variants[0].west[0];
+  if (isEastEdge) return variants[0].east[0];
+
+  // Default to center tile
+  return Phaser.Math.RND.pick(variants[0].center);
 }
 
+createTile(x, y) {
+  if (x < 0 || y < 0 || x >= this.map.length || y >= this.map[0].length) return;
 
+  const tileValue = this.map[x][y];
+  const frame = this.getTileFrame(tileValue, x, y);
+
+  const tile = this.add.sprite(x * this.tileSize, y * this.tileSize, 'dungeon_tiles', frame)
+    .setOrigin(0)
+    .setDepth(tileValue === 1 ? 1 : 0);
+
+  // Optional: Add debug text
+  // if (this.debugGraphics.visible) {
+  //   this.add.text(x * this.tileSize, y * this.tileSize, `${x},${y}\n${frame}`, {
+  //     fontSize: '8px',
+  //     color: '#ff0000'
+  //   }).setOrigin(0);
+  // }
+}
   create() {
+    this.tiles = this.add.group();
     this.generateDungeon();
     this.drawMap(); 
     this.setupFOV();
@@ -190,28 +241,24 @@ createTile(x, y) {
     .setDepth(1000)
     .setVisible(false);
 
-  this.input.keyboard.on('keydown-D', () => {
-    this.debugGraphics.visible = !this.debugGraphics.visible;
-    this.debugGraphics.clear();
-    
-    if (this.debugGraphics.visible) {
-      this.debugGraphics.lineStyle(1, 0xff0000);
-      for (let x = 0; x < this.map.length; x++) {
-        for (let y = 0; y < this.map[x].length; y++) {
-          if (this.map[x][y] === 1) {
-            this.debugGraphics.fillStyle(0xff0000, 0.3);
-            this.debugGraphics.fillRect(
-              x * this.tileSize,
-              y * this.tileSize,
-              this.tileSize,
-              this.tileSize
-            );
-          }
-        }
+    this.input.keyboard.on('keydown-D', () => {
+      this.debugGraphics.visible = !this.debugGraphics.visible;
+      this.debugGraphics.clear();
+      
+      if (this.debugGraphics.visible) {
+        // Draw room numbers
+        this.dungeon.getRooms().forEach((room, index) => {
+          const [x, y] = room.getCenter(); // ROT.js returns an array
+          // const x = room.getCenterX() * this.tileSize;
+          // const y = room.getCenterY() * this.tileSize;
+          this.add.text(x, y, `Room ${index}`, { 
+            fontSize: '12px',
+            color: '#ffffff',
+            backgroundColor: '#000000'
+          }).setOrigin(0.5);
+        });
       }
-    }
-  });
-
+    });
   
   }
   
@@ -255,6 +302,18 @@ createTile(x, y) {
     // Verify map integrity
     console.log('ROT.js Map Sample:', 
       this.map.slice(0, 5).map(col => col.slice(0, 5)));
+    // Initialize room map
+    this.roomMap = Array.from({ length: mapWidth }, () => 
+      Array(mapHeight).fill(-1)
+    );
+  
+    // Store rooms and mark their areas
+    this.rooms = this.dungeon.getRooms();
+    this.rooms.forEach((room, roomId) => {
+      room.create((x, y) => {
+        this.roomMap[x][y] = roomId;
+      });
+    });
   
   
   // Post-generation check
@@ -267,55 +326,56 @@ createTile(x, y) {
 
   console.log(`Map Stats - Walls: ${wallCount}, Floors: ${floorCount}`);
   console.assert(wallCount > 0 && floorCount > 0, "Invalid map generation");
+    }
 
+    drawMap() {
+      this.tiles = this.add.group();
+    
+      // Draw corridors first
+      this.dungeon.getCorridors().forEach(corridor => {
+        corridor.create((x, y) => this.createTile(x, y));
+      });
+    
+      // Draw rooms on top of corridors
+      this.dungeon.getRooms().forEach(room => {
+        // Draw floor
+        room.create((x, y) => this.createTile(x, y));
+        
+        // Draw walls (new addition)
+        this.createWallsAroundRoom(room);
+      });
+    }
 
-  // After initial map creation, mark room floors
-  this.dungeon.getRooms().forEach(room => {
-    room.getDoors((x, y) => { // Mark door positions
-      this.map[x][y] = 4; // Special door tile
-    });
-
-    // Iterate through entire room area
-    for (let x = room.getLeft(); x <= room.getRight(); x++) {
-      for (let y = room.getTop(); y <= room.getBottom(); y++) {
-        if (this.map[x][y] === 0) { // Only modify floor tiles
-          this.map[x][y] = 2; // Mark as room floor
-        }
+    createWallsAroundRoom(room) {
+      const { x, y, width, height } = room;
+      
+      // Horizontal walls
+      for (let xi = x - 1; xi <= x + width; xi++) {
+        this.createTile(xi, y - 1); // Top wall
+        this.createTile(xi, y + height); // Bottom wall
+      }
+    
+      // Vertical walls
+      for (let yi = y; yi < y + height; yi++) {
+        this.createTile(x - 1, yi); // Left wall
+        this.createTile(x + width, yi); // Right wall
       }
     }
-  });
-}
 
-
-drawMap() {
-  this.tiles = this.add.group();
-
-  // Draw corridors first (as basic floors)
-  this.dungeon.getCorridors().forEach(corridor => {
-    corridor.create((x, y) => {
-      if (this.map[x][y] === 0) this.createTile(x, y);
-    });
-  });
-
-  // Draw rooms on top
-  this.dungeon.getRooms().forEach(room => {
-    const { x, y, width, height } = room;
-    this.createRoom(x, y, width, height);
-  });
-}
-
-
-
-createRoom(x, y, w, h) {
-  for (let xi = x; xi < x + w; xi++) {
-    for (let yi = y; yi < y + h; yi++) {
-      // Only create tiles where map indicates room floors
-      if (this.map[xi][yi] === 2) {
-        this.createTile(xi, yi);
-      }
+    createRoom(room) {
+      // Get proper bounds from ROT.js room object
+      const bounds = {
+        left: room.getLeft(),
+        right: room.getRight(),
+        top: room.getTop(),
+        bottom: room.getBottom()
+      };
+    
+      // Visualize room center
+      const centerX = (bounds.left + bounds.right) * 0.5 * this.tileSize;
+      const centerY = (bounds.top + bounds.bottom) * 0.5 * this.tileSize;
+      this.add.circle(centerX, centerY, 5, 0xff0000).setDepth(1000);
     }
-  }
-}
   setupFOV() {
     this.fov = new ROT.FOV.PreciseShadowcasting((x, y) => {
       return this.map[x] && this.map[x][y] === 0;

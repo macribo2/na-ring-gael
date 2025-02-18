@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { AUTO } from 'phaser';
 import ControlSquare from '../ControlSquare/ControlSquare';
 import RippleManager from '../IntroSequence/rippleManager'
 
@@ -8,37 +8,49 @@ class PucaChase0 extends Phaser.Scene {
   constructor() {
     
     super({ key: 'PucaChase0' });
+    this.width= window.innerWidth; // Set width to match the window width
+    this.height=window.innerHeight; // Set height to match the window height
 this.isRaining = false;
     this.currentStep = 0;
     this.characterSheet = {};
     this.textsGa = [
-        'lorem dúthlán ',
-        'lorem le breith ar púca',
-        'lorem ipsum',
-        'lorem fenian lorem bough',
-        ' ',
-        "Is cuimhin leis na géaga",
-        'Bhí fothain á glachadh agam ón baisteach\n  mbéillic na carraige.',
+        'Níl sé éasca breith ar púca.',
+        'Chaithfaidh tú fanacht sochar. ',
+        'Créitúr cúthalacha íad...',
+        'ach fiosrach!',
+        'Is brea leo dánta agus ceistanna tomhas',
+        "Sin mar a dulaim íad.",
         'Bhí mé ag ulmhú dán,\nchun breith ar an púca...',
 
         
       ];
       
       this.textsEn = [
-        'Down, down \nfar far down...',
-        'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
-        '"I am...',
-        'I was a fenian, long ago...',
-        '',
-        'The branches recall',
-        'I was taking shelter from the rain \nin the cavern beneath the rock.',
+        'It isn\'t easy to catch a pooka',
+        'One must be still',
+        'They are shy creatures...',
+        'but curious!',
+        'They love poems and riddles',
+        'That\'s how I ensnare them.',
         'I was preparing a poem,\n to catch the phantom...',
 
-              ];
+    ];
+    let horseBlack, horseWhite;
+    this.xPosition1 = 0;
+    this.xPosition2 = 200;
+    this.yPosition1 = 200;
+    this.yPosition2 = 200;
       
+  }
+  destroy() {
+    // Clean up or stop the ripple effect
+    this.scene.tweens.killAll(); // Stop all active tweens
+    // Add any additional cleanup logic, like stopping animations or removing objects
   }
 
   preload() {
+    this.load.image('twoHorses', 'phaser-resources/images/npcs/pooka2.png');
+
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game
       this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
@@ -58,8 +70,23 @@ this.isRaining = false;
     }
 
   create() {
+    const texture = this.textures.get('twoHorses').getSourceImage();
+const originalWidth = texture.width;
+const originalHeight = texture.height;
+
+// Calculate the new height to maintain aspect ratio
+const newWidth = this.width; // Full width of the screen
+const newHeight = (newWidth / originalWidth) * originalHeight; // Keep aspect ratio
+
+// Adjust the starting Y position (further up)
+const startY = -100; // Moves it even further up
+
     this.rippleManager = new RippleManager(this);
-    
+    this.twoHorses = this.add.image(this.width / 2, startY, 'twoHorses')
+    .setDisplaySize(newWidth, newHeight) // Maintain aspect ratio
+    .setAlpha(0) // Initially invisible
+    .setDepth(20); // Keep it on top
+
 
       // Cooldown flag and timer
   this.isCooldownActive = false;
@@ -77,7 +104,7 @@ this.isRaining = false;
   
   // Scale the image to cover the entire screen
   backgroundDarken.setDisplaySize(this.scale.width, this.scale.height); // Stretch to the full screen size
-  backgroundDarken.setAlpha(0);
+  backgroundDarken.setAlpha(1);
   const scrollSpeed = 300; // Initial speed (pixels per second)
   const imageHeight = 740; // Image height
   let slowingDown = false; // Track the slowing down state
@@ -113,11 +140,11 @@ this.isRaining = false;
     const screenHeight = this.scale.height;
 
 // Center horizontally and position in the bottom third
-const controlSquareX = screenWidth / 4;
+const controlSquareX = 350;
 const controlSquareY = (screenHeight * 1/3) 
 
 this.controlSquare = new ControlSquare(this, controlSquareX, controlSquareY);
-this.controlSquare.setAlpha(0).setDepth(950); // Start invisible
+this.controlSquare.setAlpha(1).setDepth(950); // Start invisible
     this.add.existing(this.controlSquare); // Add to the scene
 
     // Ensure dir Buttons exists
@@ -323,21 +350,49 @@ function showNextMessageWithTyping(newMessage) {
 
   }
 
-rainEffect1(){
-  
-  
-  if (this.isRaining){
-return
-  }
-  this.ripples = new RippleManager(this);
-  this.ripples.create();
-  this.isRaining = true;
-
+  rainEffect1() {
+    if (this.isRaining || this.currentStep === 3) {
+        return; // Don't create ripples if we are at step 3
+    }
+    this.ripples = new RippleManager(this);
+    this.ripples.create();
+    this.isRaining = true;
 }
+
 
 update() {
+if (this.currentStep === 0) {
+ this.rainEffect1()
+}
+
+if (this.currentStep === 2) {
+    // Fade in both images
+    this.tweens.add({
+        targets: this.twoHorses,
+        alpha: 1,      // Fade to fully visible
+        duration: 2000,  // Time for the fade-in effect (2 seconds)
+        ease: 'Linear',  // Easing function for the fade
+    });
+}
+
+if (this.currentStep === 4 && !this.stepHandled) {
+    this.stepHandled = true; // Prevent re-triggering
+
+    this.tweens.add({
+        targets: this.twoHorses,
+        y: this.height, // Aligns top edge with the top of the screen
+        duration: 1200, 
+        ease: 'Sine.easeInOut',
+        onComplete: () => {
+            this.ripples.hide()
+         }
+    });
 
 }
+
+}
+
+
 
 
 

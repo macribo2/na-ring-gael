@@ -130,6 +130,16 @@ class RippleManager {
         });
         this.activeRipples = 0;
     }
+    hide() {
+        console.log('Hiding ripples...');
+        this.ripplePool.forEach(ripple => {
+            ripple.setAlpha(0);
+            ripple.setVisible(false);
+        });
+        
+        // Reset the ripple manager or clear the pool
+        this.ripplePool = [];
+    }
 }
 
 export default RippleManager;
