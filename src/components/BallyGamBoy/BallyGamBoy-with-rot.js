@@ -142,103 +142,7 @@ class DungeonScene extends Phaser.Scene {
     });
   }
 // Tile type to frame mapping
-getTileFrame(tileValue, x, y) {
-  const variants = {
-    0: { // Floor tiles
-      center: [21, 22, 23, 41, 42, 43, 61, 62, 63],
-      north: [1, 2, 3],
-      south: [81, 82, 83],
-      west: [20, 30, 40],
-      east: [24, 34, 44],
-      corners: {
-        nw: 0,
-        ne: 4,
-        sw: 80,
-        se: 84
-      }
-    },
-    1: { // Wall tiles
-      center: [91], // Center wall tiles
-      north: [101,102,103],  // North edge wall tiles
-      south: [91], // South edge wall tiles
-      west: [91], // West edge wall tiles
-      east: [91], // East edge wall tiles
-      corners: {
-        nw: 101, // North-West corner wall tile
-        ne: 101, // North-East corner wall tile
-        sw: 91, // South-West corner wall tile
-        se: 91  // South-East corner wall tile
-      }
-    },
-    2: 6,
-    3: 7
-  };
 
-  
-
-  // Handle non-floor tiles first (Walls)
-  if (tileValue === 1) {
-    // Check surrounding wall structure
-    const isNorthEdge = y > 0 && this.map[x][y - 1] !== 1;
-    const isSouthEdge = y < this.map[0].length - 1 && this.map[x][y + 1] !== 1;
-    const isWestEdge = x > 0 && this.map[x - 1][y] !== 1;
-    const isEastEdge = x < this.map.length - 1 && this.map[x + 1][y] !== 1;
-
-    // Check corners first
-    if (isNorthEdge && isWestEdge) return variants[1].corners.nw;
-    if (isNorthEdge && isEastEdge) return variants[1].corners.ne;
-    if (isSouthEdge && isWestEdge) return variants[1].corners.sw;
-    if (isSouthEdge && isEastEdge) return variants[1].corners.se;
-
-    // Check edges
-    if (isNorthEdge) return Phaser.Math.RND.pick(variants[1].north);
-    if (isSouthEdge) return Phaser.Math.RND.pick(variants[1].south);
-    if (isWestEdge) return Phaser.Math.RND.pick(variants[1].west);
-    if (isEastEdge) return Phaser.Math.RND.pick(variants[1].east);
-
-    // Default to center tile
-    return Phaser.Math.RND.pick(variants[1].center);
-  }
-
-  // Existing floor tile logic
-  const roomId = this.roomMap[x][y];
-  if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor
-
-  const room = this.rooms[roomId];
-  const bounds = {
-    left: room.getLeft(),
-    right: room.getRight(),
-    top: room.getTop(),
-    bottom: room.getBottom()
-  };
-
-  // Check if tile is on room edge
-  const isNorthEdge = y === bounds.top;
-  const isSouthEdge = y === bounds.bottom;
-  const isWestEdge = x === bounds.left;
-  const isEastEdge = x === bounds.right;
-
-  // Check corners first
-  if (isNorthEdge) {
-    if (isWestEdge) return variants[0].corners.nw;
-    if (isEastEdge) return variants[0].corners.ne;
-    return Phaser.Math.RND.pick(variants[0].north);
-  }
-  
-  if (isSouthEdge) {
-    if (isWestEdge) return variants[0].corners.sw;
-    if (isEastEdge) return variants[0].corners.se;
-    return Phaser.Math.RND.pick(variants[0].south);
-  }
-
-  if (isWestEdge) return variants[0].west[0];
-  if (isEastEdge) return variants[0].east[0];
-
-
-  
-  // Default to center tile
-  return Phaser.Math.RND.pick(variants[0].center);
-}
 
 createTile(x, y) {
   if (x < 0 || y < 0 || x >= this.map.length || y >= this.map[0].length) return;
@@ -493,6 +397,99 @@ createTile(x, y) {
       this.player.light.y = this.player.sprite.y;
       this.updateFOV();
     }
+  }
+  getTileFrame(tileValue, x, y) {
+    const variants = {
+      0: { // Floor tiles
+        center: [21, 22, 23, 41, 42, 43, 61, 62, 63],
+        north: [1, 2, 3],
+        south: [81, 82, 83],
+        west: [20, 30, 40],
+        east: [24, 34, 44],
+        corners: {
+          nw: 0,
+          ne: 4,
+          sw: 80,
+          se: 84
+        }
+      },
+      1: { // Wall tiles
+        center: [91], // Center wall tiles
+        north: [101,102,103],  // North edge wall tiles
+        south: [91], // South edge wall tiles
+        west: [91], // West edge wall tiles
+        east: [91], // East edge wall tiles
+        corners: {
+          nw: 101, // North-West corner wall tile
+          ne: 101, // North-East corner wall tile
+          sw: 91, // South-West corner wall tile
+          se: 91  // South-East corner wall tile
+        }
+      },
+      2: 6,
+      3: 7
+    };
+  
+    // Handle non-floor tiles first (Walls)
+    if (tileValue === 1) {
+      // Check surrounding wall structure
+      const isNorthEdge = y > 0 && this.map[x][y - 1] !== 1;
+      const isSouthEdge = y < this.map[0].length - 1 && this.map[x][y + 1] !== 1;
+      const isWestEdge = x > 0 && this.map[x - 1][y] !== 1;
+      const isEastEdge = x < this.map.length - 1 && this.map[x + 1][y] !== 1;
+  
+      // Check corners first
+      if (isNorthEdge && isWestEdge) return variants[1].corners.nw;
+      if (isNorthEdge && isEastEdge) return variants[1].corners.ne;
+      if (isSouthEdge && isWestEdge) return variants[1].corners.sw;
+      if (isSouthEdge && isEastEdge) return variants[1].corners.se;
+  
+      // Check edges
+      if (isNorthEdge) return Phaser.Math.RND.pick(variants[1].north);
+      if (isSouthEdge) return Phaser.Math.RND.pick(variants[1].south);
+      if (isWestEdge) return Phaser.Math.RND.pick(variants[1].west);
+      if (isEastEdge) return Phaser.Math.RND.pick(variants[1].east);
+  
+      // Default to center tile
+      return Phaser.Math.RND.pick(variants[1].center);
+    }
+  
+    // Existing floor tile logic
+    const roomId = this.roomMap[x][y];
+    if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor
+  
+    const room = this.rooms[roomId];
+    const bounds = {
+      left: room.getLeft(),
+      right: room.getRight(),
+      top: room.getTop(),
+      bottom: room.getBottom()
+    };
+  
+    // Check if tile is on room edge
+    const isNorthEdge = y === bounds.top;
+    const isSouthEdge = y === bounds.bottom;
+    const isWestEdge = x === bounds.left;
+    const isEastEdge = x === bounds.right;
+  
+    // Check corners first
+    if (isNorthEdge) {
+      if (isWestEdge) return variants[0].corners.nw;
+      if (isEastEdge) return variants[0].corners.ne;
+      return Phaser.Math.RND.pick(variants[0].north);
+    }
+  
+    if (isSouthEdge) {
+      if (isWestEdge) return variants[0].corners.sw;
+      if (isEastEdge) return variants[0].corners.se;
+      return Phaser.Math.RND.pick(variants[0].south);
+    }
+  
+    if (isWestEdge) return variants[0].west[0];
+    if (isEastEdge) return variants[0].east[0];
+  
+    // Default to center tile
+    return Phaser.Math.RND.pick(variants[0].center);
   }
 
   updateFOV() {
