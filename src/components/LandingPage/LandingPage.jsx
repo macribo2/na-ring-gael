@@ -35,6 +35,7 @@ const LandingPage = () => {
           },
         ],
       },
+      
     };
     // Create the Phaser game instance
     const game = new Phaser.Game(config);

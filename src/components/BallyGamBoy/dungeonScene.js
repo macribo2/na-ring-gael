@@ -23,7 +23,8 @@ export default class DungeonScene extends Phaser.Scene {
       down: null
     };
     this.stairPositions = new Set(); // Track grid positions
-  
+    this.lastFOVUpdate = 0;
+    this.explored = null;
   }
   // Function to move to the next level
   moveToNextLevel() {
@@ -108,41 +109,50 @@ createTile(x, y) {
   this.tiles.add(tile);
 }
   create() {
+    const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+    
+    if (!this.renderer.pipelines.get('Light2D')) {
+        const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+        this.renderer.pipelines.add('Light2D', new Light2DPipeline(this.game));
+      }
+         // Set pipeline quality
+    
     this.tiles = this.add.group();
     this.generateDungeon();
     this.drawMap(); 
     this.setupFOV();
     this.createPlayer(); // Create player FIRST
-    this.setupLighting(); // Then setup lighting
     this.setupInput();
     this.engine.start();
-    
+    // this.renderer.pipelines.Light2D.setQuality(0.5);
+    // this.renderer.pipelines.Light2D.resolution = 2;
     const stairsDown = { type: 'stairs', direction: 'down' };  // Or define a more meaningful object
-const stairsUp = { type: 'stairs', direction: 'up' };
-
-  // Debug grid overlay
-  this.debugGraphics = this.add.graphics()
+    const stairsUp = { type: 'stairs', direction: 'up' };
+    
+    // Debug grid overlay
+    this.debugGraphics = this.add.graphics()
     .setDepth(1000)
     .setVisible(false);
-
+    
     this.input.keyboard.on('keydown-D', () => {
-      this.debugGraphics.visible = !this.debugGraphics.visible;
-      this.debugGraphics.clear();
-      
-      if (this.debugGraphics.visible) {
-        // Draw room numbers
-        this.dungeon.getRooms().forEach((room, index) => {
-          const [x, y] = room.getCenter(); // ROT.js returns an array
-          // const x = room.getCenterX() * this.tileSize;
-          // const y = room.getCenterY() * this.tileSize;
-          this.add.text(x, y, `Room ${index}`, { 
-            fontSize: '12px',
-            color: '#ffffff',
-            backgroundColor: '#000000'
-          }).setOrigin(0.5);
-        });
-      }
+        this.debugGraphics.visible = !this.debugGraphics.visible;
+        this.debugGraphics.clear();
+        
+        if (this.debugGraphics.visible) {
+            // Draw room numbers
+            this.dungeon.getRooms().forEach((room, index) => {
+                const [x, y] = room.getCenter(); // ROT.js returns an array
+                // const x = room.getCenterX() * this.tileSize;
+                // const y = room.getCenterY() * this.tileSize;
+                this.add.text(x, y, `Room ${index}`, { 
+                    fontSize: '12px',
+                    color: '#ffffff',
+                    backgroundColor: '#000000'
+                }).setOrigin(0.5);
+            });
+        }
     });
+    this.setupLighting(); // Then setup lighting
   
   }
   createStairsInRoom(room, type) {
@@ -199,21 +209,28 @@ const stairsUp = { type: 'stairs', direction: 'up' };
   console.log(`Created ${type} stairs at (${x}, ${y})`);
 
 }
-  setupLighting() {
-    this.lights.enable().setAmbientColor(0x555555);
-    
-    // Add null check for safety
+setupLighting() {
+ 
+   
+  
+    this.lights.enable().setAmbientColor(0x222222);
+  
+    // Create light source
     if (this.player) {
       this.player.light = this.lights.addLight(
         this.player.sprite.x,
         this.player.sprite.y,
-        200,
+        250,
         0xffffff,
         1.5
       );
     }
+  
+    // Enable lighting on all tiles
+    this.tiles.children.each(tile => {
+      tile.setPipeline('Light2D');
+    });
   }
-
   generateDungeon() {
 
     // Clear previous state FIRST
@@ -497,9 +514,23 @@ createEmergencyRooms() {
   }
   update() {
     if (this.player) {
-      this.player.light.x = this.player.sprite.x;
-      this.player.light.y = this.player.sprite.y;
-      this.updateFOV();
+      // Smooth light movement
+      this.player.light.x = Phaser.Math.Linear(
+        this.player.light.x, 
+        this.player.sprite.x, 
+        0.2
+      );
+      this.player.light.y = Phaser.Math.Linear(
+        this.player.light.y, 
+        this.player.sprite.y, 
+        0.2
+      );
+      
+      // Update FOV more efficiently
+      if (Date.now() - this.lastFOVUpdate > 100) {
+        this.updateFOV();
+        this.lastFOVUpdate = Date.now();
+      }
     }
   }
   getTileFrame(tileValue, x, y) {
@@ -597,22 +628,45 @@ createEmergencyRooms() {
   }
 
   updateFOV() {
-    if (!this.tiles) return; // Early exit if no tiles
+    if (!this.tiles || !this.player) return;
+  
+    // Store explored areas
+    if (!this.explored) {
+      this.explored = Array.from({ length: this.map.length }, () => 
+        Array(this.map[0].length).fill(false)
+      );
+    }
   
     const [px, py] = [
       Math.floor(this.player.sprite.x / this.tileSize),
       Math.floor(this.player.sprite.y / this.tileSize)
     ];
-    
+  
+    // Reset visibility
+    this.tiles.getChildren().forEach(tile => {
+      const x = Math.floor(tile.x / this.tileSize);
+      const y = Math.floor(tile.y / this.tileSize);
+      if (this.explored[x][y]) {
+        tile.alpha = 0.5; // Half-visible for explored areas
+      } else {
+        tile.alpha = 0.0; // Completely hidden for unexplored
+      }
+    });
+  
+    // Compute new FOV
     this.fov.compute(px, py, 8, (x, y, r, visibility) => {
-      const tile = this.tiles.getChildren().find(t => 
-        Math.floor(t.x / this.tileSize) === x &&
-        Math.floor(t.y / this.tileSize) === y
-      );
-      if (tile) tile.alpha = Math.max(visibility, 0.3);
+      if (x >= 0 && y >= 0 && x < this.map.length && y < this.map[0].length) {
+        const tile = this.tiles.getChildren().find(t => 
+          Math.floor(t.x / this.tileSize) === x &&
+          Math.floor(t.y / this.tileSize) === y
+        );
+        if (tile) {
+          this.explored[x][y] = true;
+          tile.alpha = Math.min(visibility + 0.3, 1); // Smooth visibility
+        }
+      }
     });
   }
-
 
  
   setupInput() {

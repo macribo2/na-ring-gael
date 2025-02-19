@@ -19,21 +19,29 @@ const BallyGamBoy = () => {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [DungeonScene],
-      lighting: {
-        ambient: {
-          color: 0x333333,
-          intensity: 1
+      render: {
+        pixelArt: true,
+        antialias: false,
+        antialiasGL: false,
+        roundPixels: true,
+        powerPreference: "high-performance",
+        pipelines: {
+          Light2D: {
+            name: 'Light2D',
+            game: this, // Reference to game instance
+            renderer: null, // Will be auto-populated
+            topology: 6
+          }
         }
       },
+      scene: [DungeonScene],
       input: {
         keyboard: true,
         mouse: {
           preventDefaultWheel: false
         }
-      },
+      }
     };
-
     const game = new Phaser.Game(config);
     gameRef.current = game;
 
