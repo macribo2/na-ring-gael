@@ -16,6 +16,12 @@ export default class PhaserEntity {
         this.sprite.setInteractive();
         this.sprite.on('pointerdown', () => this.handleStairsInteraction());
       }
+      if (isStairsDown || isStairsUp) {
+        scene.physics.add.existing(this.sprite, true); // Create static body
+        this.sprite.body.setSize(16, 16);
+        this.sprite.body.setOffset(8, 16);
+      }
+
     }
     destroy() {
         if (this.sprite) {

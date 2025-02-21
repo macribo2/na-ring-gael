@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-
+// import { Room } from 'rot-js/lib/map/feature';
 import DungeonScene from './dungeonScene';
 
 
@@ -40,7 +40,13 @@ const BallyGamBoy = () => {
         mouse: {
           preventDefaultWheel: false
         }
-      }
+      },
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: { y: 0 },
+          debug: false // Set to true to see physics bodies
+        }}
     };
     const game = new Phaser.Game(config);
     gameRef.current = game;

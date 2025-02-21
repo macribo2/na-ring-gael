@@ -35,6 +35,8 @@ export class PlayerEntity extends GameEntity {
     super(x, y, GameEntity.ENTITY_TYPES.PLAYER);
     this.speed = 20;
     this.inputResolver = null;
+    this.onStairs = null; // 'up' or 'down' when on stairs
+
   }
 
   resolveInput() {

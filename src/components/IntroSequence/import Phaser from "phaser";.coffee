@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { EventEmitter } from './EventEmitter';
 
 
-class ChampionSelect1 extends Phaser.GameObjects.Container {
+class ActionMenu extends Phaser.GameObjects.Container {
   
   constructor(scene, x, y, onComplete) {
     
@@ -608,7 +608,7 @@ updateColorShiftCircle(x, y, radius) {
       
       this.spokes.lineStyle(1, 0xffffff, 0.3);
       this.spokes.beginPath();
-      this.spokes.moveTo(0, 0); // Draw relative to the graphics object's center
+      this.spokes.moveTo(0, 0); 
       this.spokes.lineTo(endX, endY);
       this.spokes.strokePath();
     }
@@ -825,4 +825,4 @@ console.log("Updated characterSheet and saved to local storage:", characterSheet
 
 }
 
-export default ChampionSelect1;
+export default ActionMenu;
