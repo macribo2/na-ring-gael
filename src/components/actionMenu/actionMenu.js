@@ -1,117 +1,171 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
+
 
 class ActionMenu extends Phaser.GameObjects.Container {
-    constructor(scene, x, y) {
-        super(scene, x, y);
-        const centerX = scene.scale.width / 2;
-        const centerY = scene.scale.height / 2;
-        const radius = 450;
-        this.numSpokes = 4;
-        this.currentAngle = 0;
-        this.choices = [
-            {spriteKey:'1.png', nameGa: 'Usáid na staighre',  nameEn: 'use the stairs'},
-            {spriteKey:'2.png', nameGa: 'Ná húsáid na staighre', nameEn: 'don\'t use the stairs'},
-            {spriteKey:'3.png', nameGa: 'Fan agus éist', nameEn: 'wait and listen'},
-            {spriteKey:'4.png', nameGa: 'Lig béic', nameEn: 'shout'}
-        ];
+  constructor(scene, x, y) {
+      super(scene, x, y);
 
-        this.scene = scene;
-        this.menuOpen = false;
-        this.displayedChoice = this.choices[0];
+      const centerX = scene.scale.width / 2;
+      const centerY = scene.scale.height / 2;
+      const radius = 450;
+      this.numSpokes = 4;
+      this.currentAngle = 0;
+      this.choices = [
+          {spriteKey:'1.png', nameGa: 'Usáid na staighre',  nameEn: 'use the stairs'},
+          {spriteKey:'2.png', nameGa: 'Ná húsáid na staighre', nameEn: 'don\'t use the stairs'},
+          {spriteKey:'3.png', nameGa: 'Fan agus éist', nameEn: 'wait and listen'},
+          {spriteKey:'4.png', nameGa: 'Lig béic', nameEn: 'shout'}
+      ];
 
-        // Background elements
-        this.background = scene.add.sprite(0, 0, 'bg1')
-            .setVisible(false)
-            .setDepth(111)
-            .setOrigin(0)
-            .setScrollFactor(0);
+      this.scene = scene;
+      this.menuOpen = false;
+      this.displayedChoice = this.choices[0];
+
+      // Background elements
+      this.background = scene.add.sprite(0, 0, 'bg1')
+          .setVisible(false)
+          .setDepth(111)
+          .setOrigin(0)
+          .setScrollFactor(0); // Keep background fixed
+
+      // Rainbow effect
+      this.createRainbowCircle(scene, centerX, centerY, 50);
+
+      // Wheel setup
+      this.wheel = scene.add.sprite(centerX, centerY, 'celt-ring')
+          .setOrigin(0.5)
+          .setAlpha(0.5)
+          .setVisible(false)
+          .setDepth(115)
+          .setDisplaySize(radius * 2, radius * 2)
+          .setInteractive()
+          .setScrollFactor(0); // Lock the wheel in place
+
+      // Spokes graphics
+      this.spokes = scene.add.graphics()
+          .setAlpha(0)
+          .setPosition(centerX, centerY)
+          .setScrollFactor(0); // Lock the spokes in place
+      this.drawSpokes(radius, this.numSpokes);
+
+      // Text elements
+
+
         
-        // Rainbow effect
-        this.createRainbowCircle(scene, centerX, centerY, 50);
-        
-        // Wheel setup
-        this.wheel = scene.add.sprite(centerX, centerY, 'celt-ring')
-            .setOrigin(0.5)
-            .setAlpha(0.5)
-            .setVisible(false)
-            .setDepth(115)
-            .setDisplaySize(radius * 2, radius * 2)
-            .setInteractive();
 
-        // Spokes graphics
-        this.spokes = scene.add.graphics()
-            .setAlpha(0)
-            .setPosition(centerX, centerY);
-        this.drawSpokes(radius, this.numSpokes);
+    // Add subjectal text
+    this.subjectTextGa = scene.add.text(
+      centerX,
+      centerY - 50,  // Position above wheel
+      'Feicim Staighre',
+      { 
+        font: '32px dum1',
+        fill: 'LavenderBlush',
+        align: 'center'
+      }
+    )
+    .setOrigin(0.5)
+    .setDepth(940)
+    .setScrollFactor(0).setVisible(false).setAlpha(1);
 
-        // Text elements
-        this.choiceTextGa = scene.add.text(centerX, centerY - 50, '', 
-            { font: '64px dum1', fill: 'LavenderBlush' })
-            .setOrigin(0.5)
-            .setDepth(130);
-            
-        this.choiceTextEn = scene.add.text(centerX, centerY + 50, '',
-            { font: '32px dum1', fill: 'plum', wordWrap: { width: 600 } })
-            .setOrigin(0.5)
-            .setDepth(135);
+    this.subjectTextEn = scene.add.text(
+      centerX,
+      centerY + 50,  // Position below Gaelic text
+      'I see stairs',
+      { 
+        font: '16px Arial',
+        fill: 'Plum',
+        align: 'center'
+      }
+    )
+    .setOrigin(0.5)
+    .setDepth(940)
+    .setScrollFactor(0).setVisible(false).setAlpha(1);;
 
-        // Physics properties
-        this.rotationVelocity = 0;
-        this.isDragging = false;
-        this.dampingFactor = 0.9995;
-        this.minVelocity = 0.0001;
-        this.friction = 0.995;
-        this.dragSensitivity = 0.0005;
+    // Add to container
+    this.add(this.subjectTextGa);
+    this.add(this.subjectTextEn);
+    this.scene.add.existing(this.subjectTextGa);
+    this.scene.add.existing(this.subjectTextEn);
 
-        // Event listeners
-        this.wheel.on('pointerdown', (pointer) => this.startDrag(pointer));
-        this.wheel.on('pointermove', (pointer) => this.dragWheel(pointer));
-        this.wheel.on('pointerup', () => this.stopDrag());
+      this.choiceTextGa = scene.add.text(centerX, centerY - 50, '', 
+          { font: '32px dum1', fill: 'LavenderBlush' })
+          .setOrigin(0.5)
+          .setDepth(930)
+          .setScrollFactor(0); // Lock text in place
+          
+      this.choiceTextEn = scene.add.text(centerX, centerY + 50, '',
+          { font: '16px dum1', fill: 'plum', wordWrap: { width: 600 } })
+          .setOrigin(0.5)
+          .setDepth(935)
+          .setScrollFactor(0); // Lock text in place
 
-        // Update loop
-        scene.events.on('update', this.updateWheel, this);
-        
-        this.setVisible(false);
-        scene.add.existing(this);
-   // Add confirmation button
-   this.confirmButton = scene.add.circle(centerX, centerY, 60, 0x4a4a4a, 0.8)
-   .setInteractive()
-   .setDepth(940)
-   .setVisible(true);
+      // Set scale to 1 for no zoom
+      this.setScale(1);
 
-this.buttonText = scene.add.text(centerX, centerY, 'Roghnaigh', 
-   { font: '24px Arial', fill: '#ffffff' })
-   .setOrigin(0.5)
-   .setDepth(141)
-   .setVisible(false);
+      // Physics properties
+      this.rotationVelocity = 0;
+      this.isDragging = false;
+      this.dampingFactor = 0.9995;
+      this.minVelocity = 0.0001;
+      this.friction = 0.995;
+      this.dragSensitivity = 0.0005;
 
-// Button events
-this.confirmButton.on('pointerdown', () => this.handleSelection());
-}
+      // Event listeners
+      this.wheel.on('pointerdown', (pointer) => this.startDrag(pointer));
+      this.wheel.on('pointermove', (pointer) => this.dragWheel(pointer));
+      this.wheel.on('pointerup', () => this.stopDrag());
 
-    open(entity, onChoice) {
-        this.menuOpen = true;
-        this.setVisible(true);
-        this.wheel.setVisible(true);
-        this.spokes.setAlpha(1);
-        this.rainbowCircle.setAlpha(1);
-        this.choiceTextGa.setAlpha(1);
-        this.choiceTextEn.setAlpha(1);
-        
-        // Store callback reference
-        this.onChoice = onChoice;
+      // Update loop
+      scene.events.on('update', this.updateWheel, this);
+
+      this.setVisible(false);
+      scene.add.existing(this);
+      
+      // Add confirmation button
+      this.confirmButton = scene.add.circle(centerX, centerY, 60, 0x4a4a4a, 0.8)
+          .setInteractive()
+          .setDepth(840)
+          .setVisible(false)
+          .setScrollFactor(0); // Lock button in place
+
+      this.buttonText = scene.add.text(centerX, centerY, '', 
+          { font: '24px Arial', fill: '#ffffff' })
+          .setOrigin(0.5)
+          .setDepth(141)
+          .setVisible(false)
+          .setScrollFactor(0).setVisible(true).setAlpha(1);; // Lock text in place
+
+      // Button events
+      this.confirmButton.on('pointerdown', () => this.handleSelection());
+
+
+
+
     }
 
-    close() {
-        this.menuOpen = false;
-        this.wheel.setVisible(false);
-        this.spokes.setAlpha(0);
-        this.rainbowCircle.setAlpha(0);
-        this.choiceTextGa.setAlpha(0);
-        this.choiceTextEn.setAlpha(0);
-        this.setVisible(false);
-    }
+  open(entity, onChoice) {
+      this.menuOpen = true;
+      this.setVisible(true);
+      this.wheel.setVisible(true);
+      this.spokes.setAlpha(1);
+      this.rainbowCircle.setAlpha(1);
+      this.choiceTextGa.setAlpha(1);
+      this.choiceTextEn.setAlpha(1);
+      
+      // Store callback reference
+      this.onChoice = onChoice;
+  }
 
+  close() {
+      this.menuOpen = false;
+      this.wheel.setVisible(false);
+      this.spokes.setAlpha(0);
+      this.rainbowCircle.setAlpha(0);
+      this.choiceTextGa.setAlpha(0);
+      this.choiceTextEn.setAlpha(0);
+      this.setVisible(false);
+  }
     // Modified stopDrag to handle selection
     stopDrag() {
         this.isDragging = false;
@@ -122,51 +176,58 @@ this.confirmButton.on('pointerdown', () => this.handleSelection());
         }
     }
 
-   
-      handleSelection() {
-        // Force immediate stop
-        this.rotationVelocity = 0;
-        this.isDragging = false;
-        
-        // Calculate exact current position
-        const angleStep = (2 * Math.PI) / this.numSpokes;
-        
-        // Get raw angle before any snapping
-        const rawAngle = Phaser.Math.Angle.Wrap(this.wheel.rotation);
-        
-        // Calculate precise selected index
-        const selectedIndex = Math.floor(((rawAngle + angleStep/2) % (2 * Math.PI)) / angleStep);
-        
-        // Snap to calculated position
-        this.currentAngle = selectedIndex * angleStep;
-        this.wheel.rotation = this.currentAngle;
-        this.spokes.rotation = this.currentAngle;
-        
-       // Process selection ONCE
-       this.processSelection();
+    handleSelection() {
+      // Force immediate stop
+      this.rotationVelocity = 0;
+      this.isDragging = false;
+      
+      // Calculate exact current position
+      
+      // Get raw angle before any snapping
+      const rawAngle = Phaser.Math.Angle.Wrap(this.wheel.rotation);
+      
+      // Calculate precise selected index with bounds checking
+      const angleStep = (2 * Math.PI) / this.numSpokes;
+      const normalizedAngle = (Phaser.Math.Angle.Wrap(this.wheel.rotation) + 2 * Math.PI) % (2 * Math.PI);
+      const selectedIndex = Math.round(normalizedAngle / angleStep) % this.numSpokes;
+      
+      
+      // Validate index before accessing array
+      if (selectedIndex < 0 || selectedIndex >= this.choices.length) {
+          console.error('Invalid selection index:', selectedIndex);
+          return;
+      }
+  
+      const choice = this.choices[selectedIndex];
+      
+      // Additional safety check
+      if (!choice) {
+          console.error('No choice found at index:', selectedIndex);
+          return;
+      }
+  
+      console.log('Final Selection:', selectedIndex, choice.nameEn);
+      this.processSelection(selectedIndex);  }
 
+
+      processSelection(selectedIndex) {  // Receive validated index
+        const choice = this.choices[selectedIndex];
+        
+        // Safety check (shouldn't be needed but added for robustness)
+        if (!choice) {
+            console.error('No choice found at index:', selectedIndex);
+            return;
+        }
+        
+        console.log('Final Selection:', selectedIndex, choice.nameEn);
+        alert(selectedIndex, choice.nameEn)
+        // Visual feedback and alert code...
     }
+ // Ensure scale is locked at 1 after the scene update
+ postUpdate() {
+  this.setScale(1); // Lock the scale of the ActionMenu container
+  console.log("ActionMenu Scale:", this.scale.x, this.scale.y);  // Log scale
 
-
-processSelection() {
-  const selectedIndex = this.getSelectedIndex();
-  const choice = this.choices[selectedIndex];
-  
-  console.log('Final Selection:', selectedIndex, choice.nameEn);
-  
-  // Visual feedback
-  this.scene.tweens.add({
-      targets: [this.confirmButton, this.buttonText],
-      scale: 0.8,
-      duration: 100,
-      yoyo: true
-  });
-
-  // Show alert and close
-  this.showAlert(`Selected: ${choice.nameEn}`, () => {
-      if(this.onChoice) this.onChoice(choice);
-      this.close();
-  });
 }
 
 
@@ -196,12 +257,14 @@ processSelection() {
             }
         });
     }
-
     getSelectedIndex() {
-        const angleStep = (2 * Math.PI) / this.numSpokes;
-        const normalizedAngle = Phaser.Math.Angle.Wrap(this.currentAngle);
-        return Math.floor((normalizedAngle + angleStep/2) / angleStep) % this.numSpokes;
-    }
+      const angleStep = (2 * Math.PI) / this.numSpokes;
+      const normalizedAngle = Phaser.Math.Angle.Wrap(this.wheel.rotation); // Normalize rotation
+      const index = Math.round(normalizedAngle / angleStep) % this.numSpokes;
+      
+      return (index + this.numSpokes) % this.numSpokes; // Ensure positive index
+  }
+  
 
     // Keep original physics-based updateWheel
     updateWheel() {
@@ -255,6 +318,14 @@ processSelection() {
       this.startY = pointer.y;
       this.previousAngle = this.currentAngle;
       this.rotationVelocity = 0;
+
+        // Fade out the subject text
+    this.scene.tweens.add({
+      targets: [this.subjectTextGa, this.subjectTextEn],
+      alpha: 0,  // Fully transparent
+      duration: 500,  // 0.5 seconds
+      ease: 'Linear'
+  });
     }
     
     dragWheel(pointer) {
@@ -325,21 +396,17 @@ processSelection() {
 highlightSpokes() {
   if (!this.scene) return;
 
-  // Use actual wheel center coordinates
   const centerX = this.wheel.x;
   const centerY = this.wheel.y;
   const radius = 450;
   const angleStep = (2 * Math.PI) / this.numSpokes;
 
-  // Calculate angle relative to wheel center
   let sensorAngle = Math.atan2(
       this.scene.input.activePointer.y - centerY,
       this.scene.input.activePointer.x - centerX
   );
-  
   sensorAngle = Phaser.Math.Angle.Wrap(sensorAngle - this.currentAngle);
 
-  // Rest of the method remains the same...
   const highlightingRange = Math.PI / (this.numSpokes * 2);
   let highlightedSpokeIndex = -1;
 
@@ -349,17 +416,15 @@ highlightSpokes() {
       const rotatedAngle = i * angleStep;
       let angleDifference = Phaser.Math.Angle.Wrap(sensorAngle - rotatedAngle);
 
-      // Visual drawing code remains the same...
-
       if (Math.abs(angleDifference) < highlightingRange) {
           highlightedSpokeIndex = i;
       }
   }
 
   if (highlightedSpokeIndex !== -1) {
-      const displayedChoice = this.choices[highlightedSpokeIndex];
-      this.choiceTextGa.setText(displayedChoice.nameGa);
-      this.choiceTextEn.setText(displayedChoice.nameEn);
+      this.displayedChoice = this.choices[highlightedSpokeIndex]; // Save choice for button press
+      this.choiceTextGa.setText(this.displayedChoice.nameGa);
+      this.choiceTextEn.setText(this.displayedChoice.nameEn);
   }
 }
 

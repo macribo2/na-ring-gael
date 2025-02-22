@@ -75,6 +75,9 @@ this.lastClickedTile = null;
   openActionMenu(direction) {
     this.actionMenu.background.setVisible(true);
     this.actionMenu.wheel.setVisible(true);
+    this.actionMenu.confirmButton.setVisible(true);
+    this.actionMenu.subjectTextEn.setVisible(true);
+    this.actionMenu.subjectTextGa.setVisible(true);
     
    
   }
@@ -236,13 +239,10 @@ create() {
 
   this.input.addPointer(1); // For multi-touch
   
-  // Add some zoom limits
-  this.minZoom = 1;
-  this.maxZoom = 3.5;
+ 
   this.cameras.main.setZoom(2.5); // Initial zoom level
 
-  this.input.on('pointermove', this.onPinchZoom, this);
-  this.input.on('pointerup', this.onPinchEnd, this);
+
 
   this.pathGroup = this.add.group(); // Create a new group for path elements
 
@@ -281,6 +281,13 @@ create() {
   });
 
   this.setupTouchInput(); 
+
+
+  this.events.on('update', () => {
+    if (this.actionMenu) {
+        this.actionMenu.postUpdate();  // Call the postUpdate method for ActionMenu
+    }
+});
 }
 
 createPlayer(characterSheet) {
@@ -325,30 +332,8 @@ createPlayer(characterSheet) {
   }
 }
 
-  onPinchZoom(pointer) {
-    // Only activate pinch zoom if two touches are detected
-    if (this.input.activePointer.isDown && this.input.pointer1.isDown) {
-      const pointer1 = this.input.pointer1;
-      const pointer2 = this.input.pointer2;
-      
-      const prevDistance = Phaser.Math.Distance.Between(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
-      const newDistance = Phaser.Math.Distance.Between(pointer.x, pointer.y, pointer2.x, pointer2.y);
-      
-      const zoomChange = newDistance / prevDistance;
-      
-      // Apply zoom change with limits
-      let newZoom = this.cameras.main.zoom * zoomChange;
-      newZoom = Phaser.Math.Clamp(newZoom, this.minZoom, this.maxZoom);
-      
-      this.cameras.main.setZoom(newZoom);
-    }}
 
 
-
-  onPinchEnd() {
-    // Optional: Handle pinch end if needed
-    console.log("Pinch zoom ended");
-  }
   setupTouchInput() {
     this.input.on('pointerdown', (pointer) => {
       // Convert to world coordinates first
@@ -708,6 +693,8 @@ createEmergencyRooms() {
       const centerY = (bounds.top + bounds.bottom) * 0.5 * this.tileSize;
       this.add.circle(centerX, centerY, 5, 0xff0000).setDepth(1000);
     }
+
+    
   setupFOV() {
     this.fov = new FOV.PreciseShadowcasting((x, y) => {
       return this.map[x] && this.map[x][y] === 0;
