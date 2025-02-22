@@ -8,6 +8,8 @@ export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'Dungeon' });
+this.lastClickedTile = null;
+
     this.pathGraphics = null; // Will hold our path drawing graphics
   this.currentPath = [];     // Stores calculated path tiles
   this.lastClickedTile = null; // For click handling
@@ -681,6 +683,12 @@ createEmergencyRooms() {
   }
   
   pathfindTo(targetX, targetY) {
+    // If clicked on the same tile, start moving player
+    if (this.lastClickedTile && this.lastClickedTile.x === targetX && this.lastClickedTile.y === targetY) {
+      this.movePlayerAlongPath();
+      return;
+    }
+  
     // Clear previous path
     this.currentPath = [];
     this.pathGraphics.clear();
@@ -691,7 +699,7 @@ createEmergencyRooms() {
   
     // Create A* instance
     const astar = new Path.AStar(
-      targetX, 
+      targetX,
       targetY,
       (x, y) => this.isWalkable(x, y),
       { topology: 4 } // 4-direction movement
@@ -707,10 +715,84 @@ createEmergencyRooms() {
       this.currentPath.shift();
     }
   
+    // Validate the path
+    if (!this.isPathValid()) {
+      console.log('Path is invalid');
+      return; // Exit if path is not valid
+    }
+  
+    // Store the clicked target tile for future movement
+    this.lastClickedTile = { x: targetX, y: targetY };
+  
     // Draw the path
     this.drawPath();
   }
-
+  
+  movePlayerAlongPath() {
+    // Check if there's a valid path to follow
+    if (this.currentPath.length === 0) return;
+  
+    // Clear any ongoing path drawing
+    this.pathGraphics.clear();
+  
+    // Move the player step by step
+    const moveNext = () => {
+      if (this.currentPath.length === 0) return;
+  
+      const nextTile = this.currentPath.shift(); // Get the next tile in the path
+      const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
+      const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
+  
+      // Move player sprite towards the target
+      this.player.sprite.x = targetX;
+      this.player.sprite.y = targetY;
+  
+      // If there are still more tiles to move to, schedule the next step
+      if (this.currentPath.length > 0) {
+        setTimeout(moveNext, 100); // 100ms delay between each movement
+      }
+    };
+  
+    moveNext();
+  }
+  
+  
+  isPathValid() {
+    // Loop through all tiles in the current path to validate each one
+    for (let i = 0; i < this.currentPath.length; i++) {
+      const tile = this.currentPath[i];
+      if (!this.isWalkable(tile.x, tile.y)) {
+        console.log(`Tile at (${tile.x}, ${tile.y}) is not walkable.`);
+        return false; // Return false if any tile is not walkable
+      }
+    }
+    return true; // Return true if all tiles are walkable
+  }
+  
+  drawPath() {
+    this.pathGraphics.clear();
+  
+    if (this.currentPath.length === 0) return;
+  
+    let previous = {
+      x: this.player.sprite.x + this.tileSize / 2,
+      y: this.player.sprite.y + this.tileSize / 2
+    };
+  
+    this.currentPath.forEach(tile => {
+      const x = tile.x * this.tileSize + this.tileSize / 2;
+      const y = tile.y * this.tileSize + this.tileSize / 2;
+  
+      // Draw line segment
+      this.pathGraphics.lineBetween(previous.x, previous.y, x, y);
+  
+      // Draw circle at node
+      this.pathGraphics.fillCircle(x, y, 5);
+  
+      previous = { x, y };
+    });
+  }
+  
   drawPath() {
     this.pathGraphics.clear();
     
