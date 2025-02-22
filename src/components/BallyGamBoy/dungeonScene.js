@@ -155,6 +155,8 @@ this.lastClickedTile = null;
   
 
   preload() {
+    this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+    
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
 
     this.load.image('bg1','/phaser-resources/images/bg2.png')
@@ -208,54 +210,145 @@ createTile(x, y) {
 
   this.tiles.add(tile);
 }
-  create() {
-    this.pathGroup = this.add.group(); // Create a new group for path elements
-
-    const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
-    
-    if (!this.renderer.pipelines.get('Light2D')) {
-        const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
-        this.renderer.pipelines.add('Light2D', new Light2DPipeline(this.game));
-      }
-         // Set pipeline quality
-    
-    this.tiles = this.add.group();
-    this.generateDungeon();
-    this.drawMap(); 
-    this.setupFOV();
-
-    this.createPlayer(); // Create player FIRST
-    this.setupInput();
-    this.engine.start();
-    // this.renderer.pipelines.Light2D.setQuality(0.5);
-    // this.renderer.pipelines.Light2D.resolution = 2;
-    const stairsDown = { type: 'stairs', direction: 'down' };  // Or define a more meaningful object
-    const stairsUp = { type: 'stairs', direction: 'up' };
-    
-  
-    this.setupLighting(); // Then setup lighting
-  
-    this.setupStairCollisions();  
-
-
-    this.actionMenu = new ActionMenu(this, this.cameras.main.width / 2, this.cameras.main.height / 2).setDepth(500);
-    this.add.existing(this.actionMenu);  // Add it to the scene
-    this.actionMenu.close(); // Ensure it's hidden initially
-    this.actionMenu.setVisible(false)
-
-    // Add this after camera setup
-    this.pathGraphics = this.add.graphics()
-    .setDepth(9999) // Draw above everything
-    .setDefaultStyles({
-      lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
-      fillStyle: { color: 0xFF0000, alpha: 0.5 }
-    });
-  
-  this.setupTouchInput(); // Add this line
-
-  
+create() {
+  const characterSheetData = localStorage.getItem('characterSheet');
+  if (!characterSheetData) {
+      console.warn("No characterSheet found in local storage.");
+      return;
   }
 
+  const characterSheet = JSON.parse(characterSheetData);
+  console.log("HEY " + characterSheet.spriteKey);
+
+  // Validate spriteKey
+  const spriteKey = characterSheet.spriteKey;
+  if (!spriteKey) {
+      console.warn("Invalid spriteKey in characterSheet.");
+      return;
+  }
+
+  // Validate the texture exists
+  const textureExists = this.textures.exists('championSprites');
+  if (!textureExists) {
+      console.warn("Texture 'championSprites' does not exist. Please preload it.");
+      return;
+  }
+
+  this.input.addPointer(1); // For multi-touch
+  
+  // Add some zoom limits
+  this.minZoom = 1;
+  this.maxZoom = 3.5;
+  this.cameras.main.setZoom(2.5); // Initial zoom level
+
+  this.input.on('pointermove', this.onPinchZoom, this);
+  this.input.on('pointerup', this.onPinchEnd, this);
+
+  this.pathGroup = this.add.group(); // Create a new group for path elements
+
+  const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+
+  if (!this.renderer.pipelines.get('Light2D')) {
+      const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+      this.renderer.pipelines.add('Light2D', new Light2DPipeline(this.game));
+  }
+
+  this.tiles = this.add.group();
+  this.generateDungeon();
+  this.drawMap(); 
+  this.setupFOV();
+
+  this.createPlayer(characterSheet); // Pass the characterSheet to the player creation function
+  this.setupInput();
+  this.engine.start();
+
+  const stairsDown = { type: 'stairs', direction: 'down' };
+  const stairsUp = { type: 'stairs', direction: 'up' };
+
+  this.setupLighting();
+  this.setupStairCollisions();
+
+  this.actionMenu = new ActionMenu(this, this.cameras.main.width / 2, this.cameras.main.height / 2).setDepth(500);
+  this.add.existing(this.actionMenu); 
+  this.actionMenu.close(); 
+  this.actionMenu.setVisible(false)
+
+  this.pathGraphics = this.add.graphics()
+  .setDepth(9999)
+  .setDefaultStyles({
+      lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
+      fillStyle: { color: 0xFF0000, alpha: 0.5 }
+  });
+
+  this.setupTouchInput(); 
+}
+
+createPlayer(characterSheet) {
+  const startRoom = this.dungeon.getRooms()[0];
+
+  // Get random walkable position within starting room
+  const getWalkablePosition = () => {
+      const x = Phaser.Math.Between(startRoom.getLeft() + 1, startRoom.getRight() - 1);
+      const y = Phaser.Math.Between(startRoom.getTop() + 1, startRoom.getBottom() - 1);
+      return this.map[x][y] === 0 ? [x, y] : getWalkablePosition();
+  };
+
+  const [x, y] = getWalkablePosition();
+
+  // Create player entity (no animation needed)
+  const gameEntity = new PlayerEntity(x, y);
+  
+  // Create Phaser entity with sprite from the atlas (no animations)
+  this.player = {};
+  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0'); // Default frame from the atlas
+
+  // Add physics body to player
+  this.physics.add.existing(this.player.sprite);
+  this.player.sprite.body.setSize(32, 32); // Match sprite size
+  this.player.sprite.body.setOffset(4, 8); // Center collision box
+
+  // Add to scheduler and setup camera
+  this.scheduler.add(gameEntity, true);
+  this.cameras.main.startFollow(this.player.sprite);
+  
+  // Set depth above other entities
+  this.player.sprite.setDepth(100).setScale(0.75);
+
+  console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
+
+  // After creating the player, update the sprite texture based on characterSheet data
+  const spriteKey = characterSheet.spriteKey;
+  if (spriteKey) {
+      this.player.sprite.setTexture('championSprites', spriteKey);  // Update the sprite texture
+  } else {
+      console.warn("No spriteKey found to update player texture.");
+  }
+}
+
+  onPinchZoom(pointer) {
+    // Only activate pinch zoom if two touches are detected
+    if (this.input.activePointer.isDown && this.input.pointer1.isDown) {
+      const pointer1 = this.input.pointer1;
+      const pointer2 = this.input.pointer2;
+      
+      const prevDistance = Phaser.Math.Distance.Between(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
+      const newDistance = Phaser.Math.Distance.Between(pointer.x, pointer.y, pointer2.x, pointer2.y);
+      
+      const zoomChange = newDistance / prevDistance;
+      
+      // Apply zoom change with limits
+      let newZoom = this.cameras.main.zoom * zoomChange;
+      newZoom = Phaser.Math.Clamp(newZoom, this.minZoom, this.maxZoom);
+      
+      this.cameras.main.setZoom(newZoom);
+    }}
+
+
+
+  onPinchEnd() {
+    // Optional: Handle pinch end if needed
+    console.log("Pinch zoom ended");
+  }
   setupTouchInput() {
     this.input.on('pointerdown', (pointer) => {
       // Convert to world coordinates first
@@ -622,64 +715,6 @@ createEmergencyRooms() {
     });
   }
 
-  createPlayer() {
-      const startRoom = this.dungeon.getRooms()[0];
-
-    // Get random walkable position within starting room
-    const getWalkablePosition = () => {
-      const x = Phaser.Math.Between(startRoom.getLeft() + 1, startRoom.getRight() - 1);
-      const y = Phaser.Math.Between(startRoom.getTop() + 1, startRoom.getBottom() - 1);
-      return this.map[x][y] === 0 ? [x, y] : getWalkablePosition();
-    };
-  
-    const [x, y] = getWalkablePosition();
-  
-    // Create player entity
-    const gameEntity = new PlayerEntity(x, y);
-    
-    // Create Phaser entity with animations
-    this.player = new PhaserEntity(
-      this,
-      x * this.tileSize,
-      y * this.tileSize,
-      'player', // Texture key from preloaded spritesheet
-      gameEntity,
-      true
-    );
-    // Add physics body to player
-    this.physics.add.existing(this.player.sprite);
-    this.player.sprite.body.setSize(32, 32); // Match sprite size
-    this.player.sprite.body.setOffset(4, 8); // Center collision box
-
-        
-    // Set up player animations
-    this.anims.create({
-      key: 'player_idle',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }), //end3 for idle
-      frameRate: 6,
-      repeat: -1
-    });
-  
-    this.anims.create({
-      key: 'player_move',
-      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
-      frameRate: 10,
-      repeat: 0
-    });
-  
-    // Start idle animation
-    this.player.sprite.play('player_idle');
-  
-    console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
-    
-    // Add to scheduler and setup camera
-    this.scheduler.add(gameEntity, true);
-    this.cameras.main.startFollow(this.player.sprite);
-    
-    // Set depth above other entities
-    this.player.sprite.setDepth(100);
-    
-  }
 
   isWalkable(x, y) {
     return this.map[x] && this.map[x][y] === 0;
@@ -762,8 +797,7 @@ createEmergencyRooms() {
         }
       });
   
-      // Play walking animation (if you have it)
-      this.player.sprite.anims.play('walk', true); // Assuming 'walk' is your walking animation key
+      
     };
   
     moveNext();
