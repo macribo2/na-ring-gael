@@ -155,6 +155,8 @@ this.lastClickedTile = null;
   
 
   preload() {
+    this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
+
     this.load.image('bg1','/phaser-resources/images/bg2.png')
     this.load.image('celt-ring','/phaser-resources/images/celt-ring.png')
 
@@ -207,6 +209,7 @@ createTile(x, y) {
   this.tiles.add(tile);
 }
   create() {
+    this.pathGroup = this.add.group(); // Create a new group for path elements
 
     const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
     
@@ -727,15 +730,16 @@ createEmergencyRooms() {
     // Draw the path
     this.drawPath();
   }
-  
   movePlayerAlongPath() {
+    this.clearPath(); // Clear the path once the player starts moving
+
     // Check if there's a valid path to follow
     if (this.currentPath.length === 0) return;
   
     // Clear any ongoing path drawing
     this.pathGraphics.clear();
   
-    // Move the player step by step
+    // Move the player step by step using tweens
     const moveNext = () => {
       if (this.currentPath.length === 0) return;
   
@@ -743,14 +747,23 @@ createEmergencyRooms() {
       const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
       const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
   
-      // Move player sprite towards the target
-      this.player.sprite.x = targetX;
-      this.player.sprite.y = targetY;
+      // Start tween to move the player to the next tile
+      this.tweens.add({
+        targets: this.player.sprite,
+        x: targetX,
+        y: targetY,
+        duration: 200, // Duration of each move (in milliseconds)
+        ease: 'Linear', // Smooth linear transition
+        onComplete: () => {
+          // Call moveNext again if there are more steps in the path
+          if (this.currentPath.length > 0) {
+            moveNext();
+          }
+        }
+      });
   
-      // If there are still more tiles to move to, schedule the next step
-      if (this.currentPath.length > 0) {
-        setTimeout(moveNext, 100); // 100ms delay between each movement
-      }
+      // Play walking animation (if you have it)
+      this.player.sprite.anims.play('walk', true); // Assuming 'walk' is your walking animation key
     };
   
     moveNext();
@@ -770,7 +783,8 @@ createEmergencyRooms() {
   }
   
   drawPath() {
-    this.pathGraphics.clear();
+    // Clear previous path first
+    this.pathGroup.clear(true, true);
   
     if (this.currentPath.length === 0) return;
   
@@ -779,47 +793,44 @@ createEmergencyRooms() {
       y: this.player.sprite.y + this.tileSize / 2
     };
   
-    this.currentPath.forEach(tile => {
+    // Loop through the current path and add images one by one with a fade-in effect
+    this.currentPath.forEach((tile, index) => {
       const x = tile.x * this.tileSize + this.tileSize / 2;
       const y = tile.y * this.tileSize + this.tileSize / 2;
   
-      // Draw line segment
-      this.pathGraphics.lineBetween(previous.x, previous.y, x, y);
+      // Draw line segment connecting path nodes
+      // this.pathGraphics.lineBetween(previous.x, previous.y, x, y);
   
-      // Draw circle at node
-      this.pathGraphics.fillCircle(x, y, 5);
+      // Add knotwork image at the path node
+      const knotworkImage = this.add.image(x, y, 'knotwork')
+        .setOrigin(0.5, 0.5)
+        .setScale(0.5)
+        .setAlpha(0);  // Start with the image invisible
+  
+      // Add the knotwork image to pathGroup for management
+      this.pathGroup.add(knotworkImage);
+  
+      // Fade in the image with a tween
+      this.tweens.add({
+        targets: knotworkImage,
+        alpha: 1,    // Fade to fully visible
+        duration: 200 + index * 100,  // Stagger the fade-in slightly
+        ease: 'Linear',
+        onComplete: () => {
+          // Optionally, you can run logic after each image finishes fading in
+        }
+      });
   
       previous = { x, y };
     });
   }
   
-  drawPath() {
-    this.pathGraphics.clear();
-    
-    if (this.currentPath.length === 0) return;
-  
-    let previous = {
-      x: this.player.sprite.x + this.tileSize/2,
-      y: this.player.sprite.y + this.tileSize/2
-    };
-  
-    this.currentPath.forEach(tile => {
-      const x = tile.x * this.tileSize + this.tileSize/2;
-      const y = tile.y * this.tileSize + this.tileSize/2;
-      
-      // Draw line segment
-      this.pathGraphics.lineBetween(previous.x, previous.y, x, y);
-      
-      // Draw circle at node
-      this.pathGraphics.fillCircle(x, y, 5);
-      
-      previous = { x, y };
-    });
+  // Call this to clear the path images
+  clearPath() {
+    // Clear all images in the path group after tweening is complete
+    this.pathGroup.clear(true, true); // Clear pathGroup after all images fade in
   }
-
-
-
-
+  
   update() {
     if (this.player) {
       // Smooth light movement
