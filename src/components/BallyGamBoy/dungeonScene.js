@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Map } from 'rot-js';
+import { Map , Path} from 'rot-js';
 import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
 import { GameEntity, PlayerEntity } from './entities';
@@ -8,6 +8,9 @@ export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'Dungeon' });
+    this.pathGraphics = null; // Will hold our path drawing graphics
+  this.currentPath = [];     // Stores calculated path tiles
+  this.lastClickedTile = null; // For click handling
     this.stairGroup = null; // Add this in the constructor
     this.levelCache = new window.Map([]); // Stores generated levels
     this.currentLevel = 1;
@@ -202,14 +205,6 @@ createTile(x, y) {
   this.tiles.add(tile);
 }
   create() {
-     // Enable physics debugger
-  // this.physics.world.createDebugGraphic();
-  
-  // Toggle debug with D key
-  // this.debugGraphics = this.add.graphics()
-  //   .setDepth(10000)
-  //   .setVisible(false);
-  //   this.physics.world.setBoundsCollision(true, true, true, true);
 
     const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
     
@@ -243,6 +238,30 @@ createTile(x, y) {
     this.actionMenu.close(); // Ensure it's hidden initially
     this.actionMenu.setVisible(false)
 
+    // Add this after camera setup
+    this.pathGraphics = this.add.graphics()
+    .setDepth(9999) // Draw above everything
+    .setDefaultStyles({
+      lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
+      fillStyle: { color: 0xFF0000, alpha: 0.5 }
+    });
+  
+  this.setupTouchInput(); // Add this line
+
+  
+  }
+
+  setupTouchInput() {
+    this.input.on('pointerdown', (pointer) => {
+      // Convert to world coordinates first
+      const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+      
+      // Then to tile coordinates
+      const tileX = Math.floor(worldPoint.x / this.tileSize);
+      const tileY = Math.floor(worldPoint.y / this.tileSize);
+      
+      this.pathfindTo(tileX, tileY);
+    });
   }
   createStairsInRoom(room, type) {
     
@@ -654,11 +673,71 @@ createEmergencyRooms() {
     
     // Set depth above other entities
     this.player.sprite.setDepth(100);
-  
-
-
-  
+    
   }
+
+  isWalkable(x, y) {
+    return this.map[x] && this.map[x][y] === 0;
+  }
+  
+  pathfindTo(targetX, targetY) {
+    // Clear previous path
+    this.currentPath = [];
+    this.pathGraphics.clear();
+  
+    // Get player's grid position
+    const playerTileX = Math.floor(this.player.sprite.x / this.tileSize);
+    const playerTileY = Math.floor(this.player.sprite.y / this.tileSize);
+  
+    // Create A* instance
+    const astar = new Path.AStar(
+      targetX, 
+      targetY,
+      (x, y) => this.isWalkable(x, y),
+      { topology: 4 } // 4-direction movement
+    );
+  
+    // Compute path
+    astar.compute(playerTileX, playerTileY, (x, y) => {
+      this.currentPath.push({ x, y });
+    });
+  
+    // Remove starting position
+    if (this.currentPath.length > 0) {
+      this.currentPath.shift();
+    }
+  
+    // Draw the path
+    this.drawPath();
+  }
+
+  drawPath() {
+    this.pathGraphics.clear();
+    
+    if (this.currentPath.length === 0) return;
+  
+    let previous = {
+      x: this.player.sprite.x + this.tileSize/2,
+      y: this.player.sprite.y + this.tileSize/2
+    };
+  
+    this.currentPath.forEach(tile => {
+      const x = tile.x * this.tileSize + this.tileSize/2;
+      const y = tile.y * this.tileSize + this.tileSize/2;
+      
+      // Draw line segment
+      this.pathGraphics.lineBetween(previous.x, previous.y, x, y);
+      
+      // Draw circle at node
+      this.pathGraphics.fillCircle(x, y, 5);
+      
+      previous = { x, y };
+    });
+  }
+
+
+
+
   update() {
     if (this.player) {
       // Smooth light movement
