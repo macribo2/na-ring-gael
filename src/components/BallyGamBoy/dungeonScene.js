@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Map,Path } from 'rot-js';
+import { Map } from 'rot-js';
 import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
 import { GameEntity, PlayerEntity } from './entities';
@@ -8,7 +8,6 @@ export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'Dungeon' });
-    this.path = []; // Initialize path array
     this.stairGroup = null; // Add this in the constructor
     this.levelCache = new window.Map([]); // Stores generated levels
     this.currentLevel = 1;
@@ -40,11 +39,6 @@ export default class DungeonScene extends Phaser.Scene {
 
 
   setupStairCollisions() {
-
-    if (!this.player ||  !this.player.sprite) {
-      console.error("Player not initialized when setting up stair collisions!");
-      return;
-    }
     // Create a physics group for stairs
     if (!this.stairGroup) {
       this.stairGroup = this.physics.add.staticGroup();
@@ -208,23 +202,14 @@ createTile(x, y) {
   this.tiles.add(tile);
 }
   create() {
-      // Add debug graphics
-  this.debugGraphics = this.add.graphics();
+     // Enable physics debugger
+  // this.physics.world.createDebugGraphic();
   
-  // Enable debug input
-  this.input.keyboard.on('keydown-D', () => {
-    this.drawDebugPath();
-  });
-
-  this.debugText = this.add.text(10, 10, '', { 
-    fontSize: '16px', 
-    fill: '#fff' 
-  });
-    const canvas = this.sys.game.canvas; // Get the canvas reference
-    canvas.addEventListener('touchstart', this.handleTouch.bind(this), false); // Bind `this` context to handleTouch
-    
-    this.setupTouchInput();
-    
+  // Toggle debug with D key
+  // this.debugGraphics = this.add.graphics()
+  //   .setDepth(10000)
+  //   .setVisible(false);
+  //   this.physics.world.setBoundsCollision(true, true, true, true);
 
     const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
     
@@ -237,18 +222,20 @@ createTile(x, y) {
     this.tiles = this.add.group();
     this.generateDungeon();
     this.drawMap(); 
-    this.createPlayer(); // Create player FIRST
     this.setupFOV();
-    this.setupInput();
-    this.setupStairCollisions();  
-    this.setupLighting(); // Then setup lighting
 
+    this.createPlayer(); // Create player FIRST
+    this.setupInput();
     this.engine.start();
+    // this.renderer.pipelines.Light2D.setQuality(0.5);
+    // this.renderer.pipelines.Light2D.resolution = 2;
     const stairsDown = { type: 'stairs', direction: 'down' };  // Or define a more meaningful object
     const stairsUp = { type: 'stairs', direction: 'up' };
     
   
+    this.setupLighting(); // Then setup lighting
   
+    this.setupStairCollisions();  
 
 
     this.actionMenu = new ActionMenu(this, this.cameras.main.width / 2, this.cameras.main.height / 2).setDepth(500);
@@ -257,278 +244,6 @@ createTile(x, y) {
     this.actionMenu.setVisible(false)
 
   }
-
-
-  drawDebugPath() {
-    this.debugGraphics.clear();
-    
-    // Draw walkable grid
-    for (let y = 0; y < this.map.length; y++) {
-      for (let x = 0; x < this.map[y].length; x++) {
-        if (!this.isWalkable(x, y)) {
-          this.debugGraphics.fillStyle(0xff0000, 0.3);
-          this.debugGraphics.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
-        }
-      }
-    }}
-
-  setupTouchInput() {
-    this.input.on('pointerdown', (pointer) => {
-      const tileX = Math.floor(pointer.worldX / this.tileSize);
-      const tileY = Math.floor(pointer.worldY / this.tileSize);
-      console.log('Tile Coordinates:', tileX, tileY); // Log to check
-      this.pathfindTo(tileX, tileY); // Trigger pathfinding when a touch is detected
-    });
-  }
-  isWalkable(x, y) {
-    // First check array bounds
-    if (y < 0 || x < 0 || y >= this.map.length || x >= this.map[0].length) {
-      return false;
-    }
-    console.log(`Walkability check at ${x},${y}:`, 
-      (this.map[y] && this.map[y][x] !== undefined && this.map[y][x] === 0) 
-      ? "PASS" 
-      : "BLOCKED");
-    // Then check tile value
-    return this.map[y][x] === 0; // Verify your map uses 0 for walkable
-  }
-
-  drawDebugPath() {
-    this.debugGraphics.clear();
-    
-    // Draw walkable tiles
-    for (let y = 0; y < this.map.length; y++) {
-      for (let x = 0; x < this.map[y].length; x++) {
-        if (this.isWalkable(x, y)) {
-          this.debugGraphics.fillStyle(0x00ff00, 0.3);
-          this.debugGraphics.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
-        }
-      }
-    }
-  }
-// Remove triggerPathfinding and update handleTouch:
-handleTouch(event) {
-  event.preventDefault();
-  const touch = event.touches[0];
-  const rect = event.target.getBoundingClientRect();
-  
-  // Get pixel coordinates relative to game world
-  const worldX = touch.pageX - rect.left + this.cameras.main.scrollX;
-  const worldY = touch.pageY - rect.top + this.cameras.main.scrollY;
-  
-  // Convert to tile coordinates
-  const tileX = Math.floor(worldX / this.tileSize);
-  const tileY = Math.floor(worldY / this.tileSize);
-  
-  this.pathfindTo(tileX, tileY);
-
-  this.debugGraphics.fillStyle(0xff0000, 0.5);
-  this.debugGraphics.fillRect(tileX * this.tileSize, tileY * this.tileSize, this.tileSize, this.tileSize);
-  
-  this.pathfindTo(tileX, tileY);
-}
-get playerTile() {
-  if (!this.player || !this.player.sprite) return { x: -1, y: -1 };
-  
-  return {
-    x: Math.floor(this.player.sprite.x / this.tileSize),
-    y: Math.floor(this.player.sprite.y / this.tileSize)
-  };
-
-  
-}
-
-  triggerPathfinding(targetX, targetY) {
-    // Clear previous path
-    this.path = [];
-  
-    // Check if target is walkable
-    if (!this.isWalkable(targetX, targetY)) {
-      console.log("Target is unwalkable");
-      return;
-    }
-  
-    // Get player's tile position using the getter
-    const playerTile = this.playerTile; // <-- This uses the getter
-  
-    const astar = new Path.AStar(
-      targetX,
-      targetY,
-      (x, y) => this.isWalkable(x, y),
-      {
-        topology: 8, // Allow diagonal movement
-        heuristic: Path.AStar.heuristics.DIAGONAL
-      }
-    );
-  
-    // Clear previous path
-    this.path.length = 0;
-  
-    // Compute path from player's CURRENT position
-    astar.compute(
-      this.playerTile.x,
-      this.playerTile.y,
-      (x, y) => this.path.push({x, y})
-    );
-  
-    // Remove starting position if present
-    if (this.path.length > 0 && 
-        this.path[0].x === this.playerTile.x && 
-        this.path[0].y === this.playerTile.y) {
-      this.path.shift();
-    }
-  
-    // Debug: Draw path
-    this.debugGraphics.lineStyle(2, 0xff0000);
-    this.path.forEach((tile, index) => {
-      const x = tile.x * this.tileSize + this.tileSize/2;
-      const y = tile.y * this.tileSize + this.tileSize/2;
-      if (index === 0) this.debugGraphics.moveTo(x, y);
-      else this.debugGraphics.lineTo(x, y);
-    });
-    
-    this.path.shift();
-    this.moveAlongPath(this.path);
-  }
-
-  pathfindTo(targetX, targetY) {
-
-      // Validate player position
-  if (this.playerTile.x < 0 || this.playerTile.y < 0) {
-    console.error("Invalid player position");
-    return;
-  }
-
-  // Validate target coordinates
-  if (targetX < 0 || targetY < 0 || 
-      targetX >= this.dungeonWidth || 
-      targetY >= this.dungeonHeight) {
-    console.error("Target out of bounds");
-    return;
-  }
-
-    console.log(`Pathfinding from ${this.playerTile.x},${this.playerTile.y} to ${targetX},${targetY}`);
-    
-    // Clear previous path
-    this.path = [];
-  
-    // Validate coordinates
-    if (
-      targetX < 0 || targetX >= this.map[0].length ||
-      targetY < 0 || targetY >= this.map.length
-    ) {
-      console.log("Target out of bounds");
-      return;
-    }
-  
-    if (!this.isWalkable(targetX, targetY)) {
-      console.log("Target is unwalkable");
-      return;
-    }
-  
-    try {
-      const astar = new Path.AStar(
-        targetX,
-        targetY,
-        (x, y) => this.isWalkable(x, y),
-        { topology: 4 } // Use 4-directional movement
-      );
-  
-      astar.compute(
-        this.playerTile.x,
-        this.playerTile.y,
-        (x, y) => this.path.push({ x, y })
-      );
-  
-      // Remove starting position if needed
-      if (this.path.length > 0 && 
-          this.path[0].x === this.playerTile.x && 
-          this.path[0].y === this.playerTile.y) {
-        this.path.shift();
-      }
-  
-      console.log("Path:", this.path);
-      
-      if (this.path.length > 0) {
-        this.moveAlongPath(this.path);
-      } else {
-        console.log("No path found");
-      }
-    } catch (error) {
-      console.error("Pathfinding error:", error);
-    }
-  
-    console.log("Pathfinding details:");
-    console.log("Start:", this.playerTile);
-    console.log("Target:", {x: targetX, y: targetY});
-    console.log("Walkable check:", this.isWalkable(targetX, targetY));
-    console.log("Map snippet (3x3 around target):");
-    for (let dy = -1; dy <= 1; dy++) {
-      let row = [];
-      for (let dx = -1; dx <= 1; dx++) {
-        row.push(
-          (this.map[targetY + dy] && 
-          this.map[targetY + dy][targetX + dx] !== undefined) 
-            ? this.map[targetY + dy][targetX + dx] 
-            : "X"
-        );
-      }
-      console.log(row.join(" "));
-    }
-  
-  }
-  moveAlongPath(path) {
-    let stepIndex = 0;
-    
-    const moveStep = () => {
-      if (
-        !this.player || 
-        !this.player.sprite || 
-        !this.player.sprite.body
-      ) {
-        return;
-      }
-      if (stepIndex >= path.length) {
-        this.player.sprite.body.stop();
-        this.engine.unlock();
-        return;
-      }
-  
-      const target = path[stepIndex];
-      const destX = target.x * this.tileSize + this.tileSize/2;
-      const destY = target.y * this.tileSize + this.tileSize/2;
-  
-      // Calculate direction
-      const angle = Phaser.Math.Angle.Between(
-        this.player.sprite.x,
-        this.player.sprite.y,
-        destX,
-        destY
-      );
-  
-      // Set velocity
-      this.player.sprite.body.velocity.x = Math.cos(angle) * 150;
-      this.player.sprite.body.velocity.y = Math.sin(angle) * 150;
-  
-      // Check if reached current step
-      const distance = Phaser.Math.Distance.Between(
-        this.player.sprite.x,
-        this.player.sprite.y,
-        destX,
-        destY
-      );
-  
-      if (distance < 5) {
-        stepIndex++;
-      }
-  
-      this.time.delayedCall(50, moveStep);
-    };
-  
-    this.engine.lock();
-    moveStep();
-  }
-
   createStairsInRoom(room, type) {
     
     
@@ -616,56 +331,49 @@ setupLighting() {
       tile.setPipeline('Light2D');
     });
   }
-
   generateDungeon() {
-    // Use level-specific seed
-    const seed = Date.now() + this.currentLevel;
-    RNG.setSeed(seed);
-  
-    // Generate fresh dungeon config
-    const config = {
+
+
+      // Use level-specific seed
+  const seed = Date.now() + this.currentLevel;
+  RNG.setSeed(seed);
+
+  // Generate fresh dungeon config based on depth
+  const config = {
       roomWidth: [4 + this.currentLevel, 8 + this.currentLevel],
       corridorLength: [3, 5 + Math.floor(this.currentLevel/2)],
       dugPercentage: 0.3 + (this.currentLevel * 0.05),
       roomCount: [3 + this.currentLevel, 6 + this.currentLevel]
     };
-  
-    // Create dungeon with proper dimensions
-    const dungeon = new Map.Digger(this.dungeonWidth, this.dungeonHeight, config);
-    
-    // Initialize map correctly [y][x]
-    const map = Array.from({ length: this.dungeonHeight }, () => 
-      Array(this.dungeonWidth).fill(1)
-    );
-  
-    dungeon.create((x, y, wall) => {
-      if (y < map.length && x < map[y].length) {
-        map[y][x] = wall ? 1 : 0; // Proper [y][x] access
-      }
-    });
-  
-    // Store in cache
-    this.levelCache.set(this.currentLevel, {
-      map: map,
-      rooms: dungeon.getRooms(),
-      roomMap: this.createRoomMap(dungeon),
-      stairs: {
-        up: this.stairs.up,
-        down: this.stairs.down
-      }
-    });
-    const startRoom = dungeon.getRooms()[0];
-    let walkableCount = 0;
-    for (let x = startRoom.getLeft(); x <= startRoom.getRight(); x++) {
-      for (let y = startRoom.getTop(); y <= startRoom.getBottom(); y++) {
-        if (map[y][x] === 0) walkableCount++;
-      }
-    }
-    console.log(`Starting room has ${walkableCount} walkable tiles`);
-    
-    return this.levelCache.get(this.currentLevel);
-  
+  // Create and store dungeon
+  const dungeon = new Map.Digger(this.dungeonWidth, this.dungeonHeight, config);
+  const map = Array.from({ length: this.dungeonWidth }, () => 
+    Array(this.dungeonHeight).fill(1)
+);
+
+console.log(`Dungeon size: ${this.dungeonWidth} x ${this.dungeonHeight}`);
+dungeon.create((x, y, wall) => {
+  if (map[x] && map[x][y] !== undefined) {
+      map[x][y] = wall ? 1 : 0;
+  } else {
+      console.warn(`Skipping out-of-bounds tile: (${x}, ${y})`);
   }
+});
+
+  // Store in cache
+  this.levelCache.set(this.currentLevel, {
+    map: map,
+    rooms: dungeon.getRooms(),
+    roomMap: this.createRoomMap(dungeon),
+    stairs: {
+      up: this.stairs.up,
+      down: this.stairs.down
+    }
+  });
+
+  return this.levelCache.get(this.currentLevel);
+}
+
 createRoomMap(dungeon) {
   const roomMap = Array.from({ length: this.dungeonWidth }, () => 
     Array(this.dungeonHeight).fill(-1)
@@ -807,26 +515,32 @@ createRoomMap(dungeon) {
 
 }
 createEmergencyRooms() {
-  // Use ROT.js's built-in Room class
-  const ROTRoom = Map.Room;
+    // Use proper ROT.js feature constructor
+    const Room = Map.Room;
+    
+    // Clear existing rooms
+    this.dungeon._rooms = [];
   
-  // Create rooms using proper constructor
-  const safeRooms = [
-    new ROTRoom(5, 5, 8, 8),  // x1, y1, x2, y2
-    new ROTRoom(35, 35, 8, 8)
-  ];
-
-  // Ensure rooms have required properties
-  safeRooms.forEach(room => {
-    room.getLeft = () => room._x1;
-    room.getRight = () => room._x2;
-    room.getTop = () => room._y1;
-    room.getBottom = () => room._y2;
-  });
-
-  this.dungeon._rooms = safeRooms;
-  console.warn("Created emergency rooms:", safeRooms);
-}
+    // Create valid rooms with proper bounds
+    const safeRooms = [
+      new Room(5, 5, 8, 8),  // x, y, width, height
+      new Room(35, 35, 8, 8)
+    ];
+  
+    // Add to digger and update maps
+    safeRooms.forEach(room => {
+      this.dungeon._rooms.push(room);
+      room.create((x, y) => {
+        if (x >= 0 && y >= 0 && x < this.map.length && y < this.map[0].length) {
+          this.map[x][y] = 0;
+          this.roomMap[x][y] = this.dungeon._rooms.indexOf(room);
+        }
+      });
+    });
+  
+    // Update rooms reference
+    this.rooms = this.dungeon.getRooms();
+  }
     drawMap() {
       this.tiles = this.add.group();
     
@@ -883,86 +597,69 @@ createEmergencyRooms() {
 
     });
   }
+
   createPlayer() {
-    // Add null check for dungeon rooms
-    if (
-      !this.dungeon || 
-      !this.dungeon.getRooms || 
-      !this.dungeon.getRooms() || 
-      !this.dungeon.getRooms().length
-    ) {
-      console.error("No rooms in dungeon!");
-      return;
-    }
-    const startRoom = this.dungeon.getRooms()[0];
-    
-    // Add fallback position
-    const fallbackPosition = {
-      x: startRoom.getLeft() + 1,
-      y: startRoom.getTop() + 1
-    };
- // Ensure player is always initialized
- if (!this.player) {
-  console.warn("Using fallback player position");
-  this.player = new PhaserEntity(
-    this,
-    fallbackPosition.x * this.tileSize,
-    fallbackPosition.y * this.tileSize,
-    'player',
-    new PlayerEntity(fallbackPosition.x, fallbackPosition.y),
-    true
-  );
+      const startRoom = this.dungeon.getRooms()[0];
 
-   // Proper physics initialization
-   if (!this.player.sprite.body) {
-    this.physics.world.enable(this.player.sprite);
-  }
-
-  // Configure physics body
-  this.player.sprite.body
-    .setSize(this.tileSize, this.tileSize)
-    .setOffset(0, 0)
-    .setCollideWorldBounds(true);
-
-  console.log("Player physics initialized:", this.player.sprite.body);
-
-}  
-    // Get random walkable position within starting room with recursion guard
-    const getWalkablePosition = (attempts = 0) => {
-      // Safety check to prevent infinite recursion
-      if (attempts > 100) {
-        console.error("Could not find walkable position after 100 attempts");
-        return { x: startRoom.getLeft() + 1, y: startRoom.getTop() + 1 }; // Fallback position
-      }
-  
+    // Get random walkable position within starting room
+    const getWalkablePosition = () => {
       const x = Phaser.Math.Between(startRoom.getLeft() + 1, startRoom.getRight() - 1);
       const y = Phaser.Math.Between(startRoom.getTop() + 1, startRoom.getBottom() - 1);
-  
-      // Validate array bounds before access
-      if (y >= this.map.length || x >= this.map[0].length) {
-        console.warn(`Generated invalid coordinates: ${x},${y}`);
-        return getWalkablePosition(attempts + 1);
-      }
-  
-      // Check if position is walkable and within bounds
-      const walkable = this.map[y][x] === 0;
-      console.log(`Checking ${x},${y} - walkable: ${walkable} (attempt ${attempts + 1})`);
-  
-      return walkable ? { x, y } : getWalkablePosition(attempts + 1);
+      return this.map[x][y] === 0 ? [x, y] : getWalkablePosition();
     };
   
-    const { x, y } = getWalkablePosition();
+    const [x, y] = getWalkablePosition();
+  
+    // Create player entity
+    const gameEntity = new PlayerEntity(x, y);
     
+    // Create Phaser entity with animations
+    this.player = new PhaserEntity(
+      this,
+      x * this.tileSize,
+      y * this.tileSize,
+      'player', // Texture key from preloaded spritesheet
+      gameEntity,
+      true
+    );
+    // Add physics body to player
+    this.physics.add.existing(this.player.sprite);
+    this.player.sprite.body.setSize(32, 32); // Match sprite size
+    this.player.sprite.body.setOffset(4, 8); // Center collision box
+
+        
+    // Set up player animations
+    this.anims.create({
+      key: 'player_idle',
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }), //end3 for idle
+      frameRate: 6,
+      repeat: -1
+    });
+  
+    this.anims.create({
+      key: 'player_move',
+      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
+      frameRate: 10,
+      repeat: 0
+    });
+  
+    // Start idle animation
+    this.player.sprite.play('player_idle');
+  
+    console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
+    
+    // Add to scheduler and setup camera
+    this.scheduler.add(gameEntity, true);
+    this.cameras.main.startFollow(this.player.sprite);
+    
+    // Set depth above other entities
+    this.player.sprite.setDepth(100);
+  
+
+
+  
   }
   update() {
-
-  // Check if debug text exists before updating
-  if (this.debugText) {
-    this.debugText.setText([
-      `Player Tile: ${this.player ? `${this.playerTile.x},${this.playerTile.y}` : 'N/A'}`,
-      `Last Path: ${JSON.stringify(this.path)}`
-    ]);
-  }
     if (this.player) {
       // Smooth light movement
       this.player.light.x = Phaser.Math.Linear(
