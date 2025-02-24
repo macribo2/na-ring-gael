@@ -1,38 +1,20 @@
 {
     "stairsDown": {
-      "subjectGa": "Feicim staighre ag dul síos",
-      "subjectEn": "You see stairs going down",
+      "subjectGa": "Tagann tú go staighrí, a téann síos",
+      "subjectEn": "You come to stairs, which go down",
       "choices": [
         {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
-          "action": "useStairs"
-        }, {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
-          "action": "useStairs"
-        }, {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
-          "action": "useStairs"
-        }, {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
-          "action": "useStairs"
-        }, {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
-          "action": "useStairs"
-        }, {
-          "nameGa": "Teigh síos",
-          "nameEn": "Descend",
+          "nameGa": "Lean síos íad",
+          "nameEn": "follow them down",
           "action": "useStairs"
         },
         {
-          "nameGa": "Fan anseo",
-          "nameEn": "Stay here",
+          "nameGa": "Ná imigh síos go fóil",
+          "nameEn": "Don't go down yet",
           "action": "cancel"
         }
-      ]
+      ],
+      "graphic":"phaser-resources/images/rotjs/stairs-down.png"
+      
     }
   }

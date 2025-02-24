@@ -1,8 +1,11 @@
 import Phaser from "phaser";
 
 class ActionMenu extends Phaser.GameObjects.Container {
-  constructor(scene) {
+  constructor(scene, menuKey) {
     super(scene);
+    this.scene = scene;
+    this.menuKey = menuKey;
+
 
     if (!scene.cache.json.exists('menuContent')) {
       console.error('Menu data not loaded!');
@@ -11,53 +14,49 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     this.menuData = scene.cache.json.get('menuContent');
 
-    // Create overlay
-    this.overlay = scene.add.rectangle(400, 300, 800, 600, 0x000000, 0.7)
-      .setOrigin(0.5)
-      .setInteractive()
-      .setDepth(500)
-      .setVisible(false)
-      .setScrollFactor(0);
-
-    this.scene = scene;
+  this.overlay = scene.add.rectangle(
+  scene.cameras.main.centerX, 
+  scene.cameras.main.centerY,
+  scene.scale.width,
+  scene.scale.height,
+  0x000000,
+  0.8
+)
     // Add menu text
-    this.titleText = scene.add.text(400, 150, "", {
-      fontSize: "24px",
-      fill: "#ffffff",
+    
+        // Wheel
+        this.wheel = scene.add.sprite(scene.scale.width/2,scene.scale.height/2, 'celt-ring')
+          .setVisible(false)
+          .setDepth(1100)
+          .setInteractive({ draggable: true })
+          .setScrollFactor(0)
+          .setDisplaySize(400, 400);
+          this.scene.physics.add.existing(this.wheel);
+    // this.wheel.body.setAngularDamping(0.8);
+    
+        // Spokes container
+        this.spokesContainer = scene.add.container(scene.scale.width/2,scene.scale.height/2)
+          .setDepth(1599)
+          .setScrollFactor(0);
+    
+      
+          
+    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/2-100, "", {
+      fontSize: "64px",
+      fontFamily:'dum1, sans-serif',
+      fill: "LavenderBlush",
       align: "center",
       wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(600).setVisible(false).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
 
     // Current choice text (displayed when spinning)
-    this.choiceText = scene.add.text(400, 450, "", {
-      fontSize: "28px",
-      fill: "#ffffff",
+    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/2+100, "", {
+      fontSize: "32px",
+      fill: "LavenderBlush",
+      fontFamily:'dum1',
       align: "center",
       wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(600).setVisible(false).setScrollFactor(0);
-
-    // Wheel
-    this.wheel = scene.add.sprite(400, 300, 'celt-ring')
-      .setVisible(false)
-      .setDepth(1600)
-      .setInteractive({ draggable: true })
-      .setScrollFactor(0)
-      .setDisplaySize(400, 400);
-      this.scene.physics.add.existing(this.wheel);
-// this.wheel.body.setAngularDamping(0.8);
-
-    // Spokes container
-    this.spokesContainer = scene.add.container(400, 300)
-      .setDepth(1599)
-      .setScrollFactor(0);
-
-    // Button
-    this.button = scene.add.circle(400, 500, 40, 0xff0000)
-      .setInteractive()
-      .setDepth(600)
-      .setVisible(false)
-      .setScrollFactor(0);
-      
+    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
  
 
     // State variables
@@ -82,9 +81,29 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.scene.input.on('pointermove', this.dragWheel.bind(this));
     this.scene.input.on('pointerup', this.stopDrag.bind(this));
 
-    this.add([this.overlay, this.titleText, this.wheel, this.button, this.choiceText]);
     this.setVisible(false);
+
+    // Load the base button graphic from the atlas (from JSON)
+    this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'stairs_down_texture')
+    .setDepth(601)
+    .setScrollFactor(0).setScale(3)
+    .setInteractive();
     
+    // Load the frame overlay (from preload)
+    this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, 'ciorcal-light')
+    .setDepth(602) // Ensure it's above the base
+    .setScrollFactor(0)
+    .setScale(0.5);
+    
+    // Make sure both elements are properly grouped
+    this.buttonContainer = scene.add.container(0, 0, [this.buttonBase, this.buttonFrame])
+    .setDepth(600)
+    .setVisible(false)
+    .setScrollFactor(0)
+    .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
+    
+    
+    this.add([this.overlay, this.wheel,this.titleText, this.buttonBase, this.buttonFrame, this.choiceText]);
   }
 
   updateChoiceDisplay() {
@@ -94,7 +113,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
     // Make sure choices array has elements before trying to access
     if (this.choices && this.choices.length > 0) {
       // Update the choice text to reflect the current choice
-      this.choiceText.setText(this.choices[this.choiceCounter].nameEn);
+      this.choiceText.setText(this.choices[this.choiceCounter].nameGa);
     }
 
     
@@ -162,7 +181,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
     
     this.titleText.setVisible(true)
       .setAlpha(1)
-      .setText(data.subjectEn)
+      .setText(data.subjectGa)
       .setScrollFactor(0);
 
     this.choiceText.setVisible(true)
@@ -171,7 +190,8 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     this.overlay.setVisible(true);
     this.wheel.setVisible(true);
-    this.button.setVisible(true);
+    this.buttonFrame.setVisible(true);
+    this.buttonBase.setVisible(true);
     this.setVisible(true);
 
     // Create spokes for choices (physics setup happens inside)

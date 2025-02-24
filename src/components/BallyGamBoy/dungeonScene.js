@@ -42,6 +42,28 @@ this.lastClickedTile = null;
     
    
   }
+// Method to close the action menu
+closeActionMenu() {
+  console.log('Closing ActionMenu...');
+
+  // Reset the camera zoom to the original value (2.5 in your case)
+  this.cameras.main.zoom = 2.5;
+
+  // Hide all the ActionMenu elements (setVisible(false))
+  this.actionMenu.setVisible(false);
+  this.actionMenu.overlay.setVisible(false);
+  this.actionMenu.titleText.setVisible(false);
+  this.actionMenu.wheel.setVisible(false);
+  this.actionMenu.buttonFrame.setVisible(false);
+  this.actionMenu.buttonBase.setVisible(false);
+  this.actionMenu.choiceText.setVisible(false);
+
+  // Clear any existing physics or cleanup if necessary
+  this.actionMenu.spokeColliders.clear(true, true);
+
+  // Optionally reset the ActionMenu instance
+  // this.actionMenu = null; // or reinitialize if needed
+}
 
   setupStairCollisions() {
     // Clean up existing group
@@ -64,6 +86,7 @@ this.lastClickedTile = null;
       //   null,
       //   this
       // );
+      console.log('stairs going up')
     }
   
     // Handle down stairs
@@ -76,6 +99,7 @@ this.lastClickedTile = null;
       //   null,
       //   this
       // );
+      console.log('stairs going down')
 
     }
   }
@@ -121,6 +145,7 @@ handleDescendingStairCollision() {
 
   // Function to move to the next level
   moveToNextLevel() {
+    console.log("Moving to the next level!");
     // this.currentLevel++;
     // this.loadLevel();  // Reload or generate the new level
   }
@@ -128,6 +153,7 @@ handleDescendingStairCollision() {
   // Function to move to the previous level
   moveToPreviousLevel() {
     // if (this.currentLevel > 1) {
+      console.log("Moving to the previous level!");
     //   this.currentLevel--;
     //   this.loadLevel();  // Reload or generate the previous level
     // }
@@ -158,13 +184,14 @@ handleDescendingStairCollision() {
   
 
   preload() {
+    this.load.image('ciorcal-light', 'phaser-resources/images/ciorcal-glass-light.png')
+
     this.load.json('menuContent', 'phaser-resources/json/actionMenuContent.json');
     this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
-    
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
 
     this.load.image('bg1','/phaser-resources/images/bg2.png')
-    this.load.image('celt-ring','/phaser-resources/images/celt-ring.png')
+    this.load.image('celt-ring','/phaser-resources/images/ui/three-point-wheel.png')
 
       // Add stair textures
       this.load.spritesheet('stairs_down_texture', '/phaser-resources/images/rotjs/stairs-down.png', { frameWidth: 32, frameHeight: 32 });
@@ -219,27 +246,31 @@ create() {
   
   const characterSheetData = localStorage.getItem('characterSheet');
   if (!characterSheetData) {
+      console.warn("No characterSheet found in local storage.");
       return;
   }
 
   const characterSheet = JSON.parse(characterSheetData);
+  console.log("HEY " + characterSheet.spriteKey);
 
   // Validate spriteKey
   const spriteKey = characterSheet.spriteKey;
   if (!spriteKey) {
+      console.warn("Invalid spriteKey in characterSheet.");
       return;
   }
 
   // Validate the texture exists
   const textureExists = this.textures.exists('championSprites');
   if (!textureExists) {
+      console.warn("Texture 'championSprites' does not exist. Please preload it.");
       return;
   }
 
   this.input.addPointer(1); // For multi-touch
   
  
-  this.cameras.main.setZoom(1); // Initial zoom level
+  this.cameras.main.setZoom(2.5); // Initial zoom level
 
 
 
@@ -278,66 +309,75 @@ create() {
   this.setupTouchInput(); 
 
 
-  this.actionMenu = new ActionMenu(this);
-  this.add.existing(this.actionMenu); // Add to the scene, but stays hidden
-
+  console.log("ActionMenu instance:", this.actionMenu);
 
   // Collision check to trigger action menu
   this.physics.add.overlap(
     this.player.sprite, 
     this.stairs.down.sprite, 
     () => {
+      console.log('Stair collision detected!');
       this.showActionMenu('stairsDown'); // Open menu when colliding
     },
     null,
     this
   );
+  
+    this.actionMenu = new ActionMenu(this).setDepth(1000);
+    this.add.existing(this.actionMenu); // Add to the scene, but stays hidden
 
   if (!this.cache.json.exists('menuContent')) {
     throw new Error('Menu data failed to load');
   }
 
   if (typeof this.actionMenu.showMenu !== 'function') {
+    console.error('ActionMenu instance is missing showMenu method!');
   }
+
+
 }
 
 // Method to show action menu
 showActionMenu(menuKey) {
+  console.log(`showActionMenu called with key: ${menuKey}`);
 
   if (!this.actionMenu.menuData) {
+    console.error('Menu data is not loaded.');
     return;
   }
 
   const data = this.actionMenu.menuData[menuKey];
 
   if (!data || !data.choices || data.choices.length === 0) {
+    console.error(`showActionMenu called with invalid or empty objects array for key: ${menuKey}`);
     return;
   }
 
-  this.actionMenu.showMenu(menuKey); // Open menu
+  console.log('Valid menu data:', data);
 
+  // Smoothly zoom out when ActionMenu is shown
+  this.tweens.add({
+    targets: this.cameras.main,
+    zoom: 1,  // Zoom out to normal (1x) for the action menu
+    duration: 500, // Duration of the zoom effect
+    ease: 'Power2', // Smooth easing
+    onComplete: () => {
+      // Initialize ActionMenu once the zoom transition is complete
+      if (!this.actionMenu) {
+        this.actionMenu = new ActionMenu(this).setDepth(500);
+      }
 
-  this.actionMenu = new ActionMenu(this).setDepth(500);
-  
+      // Open menu after zoom out is complete
+      this.actionMenu.showMenu(menuKey);
+    }
+  });
+
   // Verify method exists
   if (typeof this.actionMenu.showMenu !== 'function') {
+    console.error('ActionMenu instance is missing showMenu method!');
   }
 }
 
-showActionMenu(menuKey) {
-  
-  if (!this.actionMenu.menuData) {
-      return;
-  }
-
-  const data = this.actionMenu.menuData[menuKey];
-
-  if (!data || !data.choices || data.choices.length === 0) {
-      return;
-  }
-
-  this.actionMenu.showMenu(menuKey);
-}
 
 createPlayer(characterSheet) {
   const startRoom = this.dungeon.getRooms()[0];
@@ -370,12 +410,14 @@ createPlayer(characterSheet) {
   // Set depth above other entities
   this.player.sprite.setDepth(100).setScale(0.75);
 
+  console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
 
   // After creating the player, update the sprite texture based on characterSheet data
   const spriteKey = characterSheet.spriteKey;
   if (spriteKey) {
       this.player.sprite.setTexture('championSprites', spriteKey);  // Update the sprite texture
   } else {
+      console.warn("No spriteKey found to update player texture.");
   }
 }
 
@@ -403,6 +445,7 @@ createPlayer(characterSheet) {
     room.getTop() < 0 || 
     room.getBottom() >= this.map[0].length
 ) {
+  console.error("Invalid room for stair placement");
   return;
 }
 
@@ -518,6 +561,8 @@ dungeon.create((x, y, wall) => {
 
   return this.levelCache.get(this.currentLevel);
 
+  console.log("Generating new dungeon for level:", this.currentLevel);
+  console.log("Tiles generated:", this.tiles.getChildren().length);
 }
 
 createRoomMap(dungeon) {
@@ -639,6 +684,8 @@ createRoomMap(dungeon) {
     cell === 1 ? wallCount++ : floorCount++;
   }));
 
+  console.log(`Map Stats - Walls: ${wallCount}, Floors: ${floorCount}`);
+  console.assert(wallCount > 0 && floorCount > 0, "Invalid map generation");
 
   // After generating rooms
   this.rooms = this.dungeon.getRooms();
@@ -776,6 +823,7 @@ createEmergencyRooms() {
   
     // Validate the path
     if (!this.isPathValid()) {
+      console.log('Path is invalid');
       return; // Exit if path is not valid
     }
   
@@ -829,6 +877,7 @@ createEmergencyRooms() {
     for (let i = 0; i < this.currentPath.length; i++) {
       const tile = this.currentPath[i];
       if (!this.isWalkable(tile.x, tile.y)) {
+        console.log(`Tile at (${tile.x}, ${tile.y}) is not walkable.`);
         return false; // Return false if any tile is not walkable
       }
     }
