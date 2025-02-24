@@ -4,6 +4,7 @@ import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
 import { GameEntity, PlayerEntity } from './entities';
 import PhaserEntity from './phaserEntity'
+import ControlSquare from '../ControlSquare/ControlSquare';
 export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
@@ -37,101 +38,99 @@ this.lastClickedTile = null;
     this.lastFOVUpdate = 0;
     this.explored = null;
   
-    this.actionMenu = null;  // Declare actionMenu
-
-  
-  }
-
-
-  setupStairCollisions() {
-    // Create a physics group for stairs
-    if (!this.stairGroup) {
-      this.stairGroup = this.physics.add.staticGroup();
-    }
-  
-    // Add existing stairs to group
-    if (this.stairs.up && this.stairs.up.sprite) {
-      this.stairGroup.add(this.stairs.up.sprite);
-    }
-    if (this.stairs.down && this.stairs.down.sprite) {
-      this.stairGroup.add(this.stairs.down.sprite);
-    }
-  
-    // Set up collision check
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.stairGroup,
-      (playerSprite, stairSprite) => {
-        console.log('Stair collision detected!');
-        const direction = stairSprite === this.stairs.up.sprite ? 'up' : 'down';
-  
-        // Open the action menu for the player to choose what to do with the stairs
-        this.openActionMenu(direction);
-      },
-      null,
-      this
-    );
-  }
-  openActionMenu(direction) {
-    this.actionMenu.background.setVisible(true);
-    this.actionMenu.wheel.setVisible(true);
-    this.actionMenu.confirmButton.setVisible(true);
-    this.actionMenu.subjectTextEn.setVisible(true);
-    this.actionMenu.subjectTextGa.setVisible(true);
+    
     
    
   }
-    
+
+  setupStairCollisions() {
+    // Clean up existing group
+    // if (this.stairGroup) {
+    //   this.stairGroup.clear(true, true);
+    // } else {
+    //   this.stairGroup = this.physics.add.staticGroup();
+    // }
+  
+    // // Clear existing overlaps
+    // this.physics.world.overlap(this.player.sprite, this.stairGroup);
+  
+    // Handle up stairs
+    if (this.stairs.up && this.stairs.up.sprite) {
+      // this.stairGroup.add(this.stairs.up.sprite);
+      // this.physics.add.overlap(
+      //   this.player.sprite,
+      //   this.stairs.up.sprite,
+      //   () => this.handleAscendingStairCollision(),
+      //   null,
+      //   this
+      // );
+    }
+  
+    // Handle down stairs
+    if (this.stairs.down && this.stairs.down.sprite) {
+      // this.stairGroup.add(this.stairs.down.sprite);
+      // this.physics.add.overlap(
+      //   this.player.sprite,
+      //   this.stairs.down.sprite,
+      //   () => this.handleDescendingStairCollision(),
+      //   null,
+      //   this
+      // );
+
+    }
+  }
+
+handleDescendingStairCollision() {
+
+}
   async handleStairTransition(direction) {
-    this.transitioning = true;
+    // this.transitioning = true;
     
-    // Properly pause the scheduler instead of stopping
-    if (this.engine && typeof this.engine.lock === 'function') {
-      this.engine.lock();
-    }
+    // // Properly pause the scheduler instead of stopping
+    // if (this.engine && typeof this.engine.lock === 'function') {
+    //   this.engine.lock();
+    // }
   
-    // Visual effects
-    this.cameras.main.fadeOut(500, 0, 0, 0);
+    // // Visual effects
+    // this.cameras.main.fadeOut(500, 0, 0, 0);
   
-    await new Promise(resolve => {
-      this.cameras.main.once('camerafadeoutcomplete', resolve);
-    });
+    // await new Promise(resolve => {
+    //   this.cameras.main.once('camerafadeoutcomplete', resolve);
+    // });
   
-    // Change level
-    this.currentLevel = direction === 'down' 
-      ? this.currentLevel + 1 
-      : Math.max(1, this.currentLevel - 1);
+    // // Change level
+    // this.currentLevel = direction === 'down' 
+    //   ? this.currentLevel + 1 
+    //   : Math.max(1, this.currentLevel - 1);
   
-    // Reload level
-    this.loadLevel();
+    // // Reload level
+    // this.loadLevel();
   
-    // Reset camera and restart scheduler
-    this.cameras.main.fadeIn(500);
-    this.transitioning = false;
+    // // Reset camera and restart scheduler
+    // this.cameras.main.fadeIn(500);
+    // this.transitioning = false;
     
-    if (this.engine && typeof this.engine.unlock === 'function') {
-      this.engine.unlock();
-    }
-    if (this.engine && typeof this.engine.start === 'function') {
-      this.engine.start();
-    }
+    // if (this.engine && typeof this.engine.unlock === 'function') {
+    //   this.engine.unlock();
+    // }
+    // if (this.engine && typeof this.engine.start === 'function') {
+    //   this.engine.start();
+    // }
   }
 
 
   // Function to move to the next level
   moveToNextLevel() {
-    console.log("Moving to the next level!");
-    this.currentLevel++;
-    this.loadLevel();  // Reload or generate the new level
+    // this.currentLevel++;
+    // this.loadLevel();  // Reload or generate the new level
   }
 
   // Function to move to the previous level
   moveToPreviousLevel() {
-    if (this.currentLevel > 1) {
-      console.log("Moving to the previous level!");
-      this.currentLevel--;
-      this.loadLevel();  // Reload or generate the previous level
-    }
+    // if (this.currentLevel > 1) {
+    //   this.currentLevel--;
+    //   this.loadLevel();  // Reload or generate the previous level
+    // }
   }
 
 
@@ -154,10 +153,12 @@ this.lastClickedTile = null;
     // Verify player position is within new bounds
     this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.mapWidth-1);
     this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.mapHeight-1);
+    this.scene.restart();
 }
   
 
   preload() {
+    this.load.json('menuContent', 'phaser-resources/json/actionMenuContent.json');
     this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
     
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
@@ -214,33 +215,31 @@ createTile(x, y) {
   this.tiles.add(tile);
 }
 create() {
+    
+  
   const characterSheetData = localStorage.getItem('characterSheet');
   if (!characterSheetData) {
-      console.warn("No characterSheet found in local storage.");
       return;
   }
 
   const characterSheet = JSON.parse(characterSheetData);
-  console.log("HEY " + characterSheet.spriteKey);
 
   // Validate spriteKey
   const spriteKey = characterSheet.spriteKey;
   if (!spriteKey) {
-      console.warn("Invalid spriteKey in characterSheet.");
       return;
   }
 
   // Validate the texture exists
   const textureExists = this.textures.exists('championSprites');
   if (!textureExists) {
-      console.warn("Texture 'championSprites' does not exist. Please preload it.");
       return;
   }
 
   this.input.addPointer(1); // For multi-touch
   
  
-  this.cameras.main.setZoom(2.5); // Initial zoom level
+  this.cameras.main.setZoom(1); // Initial zoom level
 
 
 
@@ -268,10 +267,6 @@ create() {
   this.setupLighting();
   this.setupStairCollisions();
 
-  this.actionMenu = new ActionMenu(this, this.cameras.main.width / 2, this.cameras.main.height / 2).setDepth(500);
-  this.add.existing(this.actionMenu); 
-  this.actionMenu.close(); 
-  this.actionMenu.setVisible(false)
 
   this.pathGraphics = this.add.graphics()
   .setDepth(9999)
@@ -283,11 +278,65 @@ create() {
   this.setupTouchInput(); 
 
 
-  this.events.on('update', () => {
-    if (this.actionMenu) {
-        this.actionMenu.postUpdate();  // Call the postUpdate method for ActionMenu
-    }
-});
+  this.actionMenu = new ActionMenu(this);
+  this.add.existing(this.actionMenu); // Add to the scene, but stays hidden
+
+
+  // Collision check to trigger action menu
+  this.physics.add.overlap(
+    this.player.sprite, 
+    this.stairs.down.sprite, 
+    () => {
+      this.showActionMenu('stairsDown'); // Open menu when colliding
+    },
+    null,
+    this
+  );
+
+  if (!this.cache.json.exists('menuContent')) {
+    throw new Error('Menu data failed to load');
+  }
+
+  if (typeof this.actionMenu.showMenu !== 'function') {
+  }
+}
+
+// Method to show action menu
+showActionMenu(menuKey) {
+
+  if (!this.actionMenu.menuData) {
+    return;
+  }
+
+  const data = this.actionMenu.menuData[menuKey];
+
+  if (!data || !data.choices || data.choices.length === 0) {
+    return;
+  }
+
+  this.actionMenu.showMenu(menuKey); // Open menu
+
+
+  this.actionMenu = new ActionMenu(this).setDepth(500);
+  
+  // Verify method exists
+  if (typeof this.actionMenu.showMenu !== 'function') {
+  }
+}
+
+showActionMenu(menuKey) {
+  
+  if (!this.actionMenu.menuData) {
+      return;
+  }
+
+  const data = this.actionMenu.menuData[menuKey];
+
+  if (!data || !data.choices || data.choices.length === 0) {
+      return;
+  }
+
+  this.actionMenu.showMenu(menuKey);
 }
 
 createPlayer(characterSheet) {
@@ -321,14 +370,12 @@ createPlayer(characterSheet) {
   // Set depth above other entities
   this.player.sprite.setDepth(100).setScale(0.75);
 
-  console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
 
   // After creating the player, update the sprite texture based on characterSheet data
   const spriteKey = characterSheet.spriteKey;
   if (spriteKey) {
       this.player.sprite.setTexture('championSprites', spriteKey);  // Update the sprite texture
   } else {
-      console.warn("No spriteKey found to update player texture.");
   }
 }
 
@@ -356,7 +403,6 @@ createPlayer(characterSheet) {
     room.getTop() < 0 || 
     room.getBottom() >= this.map[0].length
 ) {
-  console.error("Invalid room for stair placement");
   return;
 }
 
@@ -397,7 +443,6 @@ createPlayer(characterSheet) {
     .setPipeline('Light2D');
 
   this.stairPositions.add(`${x},${y}`);
-  console.log(`Created ${type} stairs at (${x}, ${y})`);
 
 }
 setupLighting() {
@@ -453,12 +498,10 @@ setupLighting() {
     Array(this.dungeonHeight).fill(1)
 );
 
-console.log(`Dungeon size: ${this.dungeonWidth} x ${this.dungeonHeight}`);
 dungeon.create((x, y, wall) => {
   if (map[x] && map[x][y] !== undefined) {
       map[x][y] = wall ? 1 : 0;
   } else {
-      console.warn(`Skipping out-of-bounds tile: (${x}, ${y})`);
   }
 });
 
@@ -474,6 +517,7 @@ dungeon.create((x, y, wall) => {
   });
 
   return this.levelCache.get(this.currentLevel);
+
 }
 
 createRoomMap(dungeon) {
@@ -538,12 +582,10 @@ createRoomMap(dungeon) {
     this.rooms = this.dungeon.getRooms();
     attempts++;
     
-    console.log(`Generation attempt ${attempts}: ${this.rooms.length} rooms`);
   } while (this.rooms.length < 2 && attempts < 5);
 
   if (this.rooms.length < 2) {
     // Fallback: Create emergency rooms
-    console.warn("Using emergency room creation");
     this.createEmergencyRooms();
   }
 
@@ -578,13 +620,7 @@ createRoomMap(dungeon) {
     // ... single room handling ...
   }
 
-    // Verify map integrity
-    console.log('ROT.js Map Sample:', 
-      this.map.slice(0, 5).map(col => col.slice(0, 5)));
-    // Initialize room map
-    this.roomMap = Array.from({ length: mapWidth }, () => 
-      Array(mapHeight).fill(-1)
-    );
+
   
     // Store rooms and mark their areas
     this.rooms = this.dungeon.getRooms();
@@ -603,8 +639,6 @@ createRoomMap(dungeon) {
     cell === 1 ? wallCount++ : floorCount++;
   }));
 
-  console.log(`Map Stats - Walls: ${wallCount}, Floors: ${floorCount}`);
-  console.assert(wallCount > 0 && floorCount > 0, "Invalid map generation");
 
   // After generating rooms
   this.rooms = this.dungeon.getRooms();
@@ -742,7 +776,6 @@ createEmergencyRooms() {
   
     // Validate the path
     if (!this.isPathValid()) {
-      console.log('Path is invalid');
       return; // Exit if path is not valid
     }
   
@@ -796,7 +829,6 @@ createEmergencyRooms() {
     for (let i = 0; i < this.currentPath.length; i++) {
       const tile = this.currentPath[i];
       if (!this.isWalkable(tile.x, tile.y)) {
-        console.log(`Tile at (${tile.x}, ${tile.y}) is not walkable.`);
         return false; // Return false if any tile is not walkable
       }
     }
@@ -853,6 +885,9 @@ createEmergencyRooms() {
   }
   
   update() {
+    if (this.actionMenu) {
+      this.actionMenu.update();
+    }
     if (this.player) {
       // Smooth light movement
       this.player.light.x = Phaser.Math.Linear(
@@ -1037,5 +1072,14 @@ createEmergencyRooms() {
       }
     });
   }
+// Add these new methods to your DungeonScene class
+handleAscendingStairCollision() {
+
+
+}
+
+handleDescendingStairCollision() {
+
+}
 
 }

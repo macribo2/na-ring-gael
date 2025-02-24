@@ -1,0 +1,38 @@
+{
+    "stairsDown": {
+      "subjectGa": "Feicim staighre ag dul síos",
+      "subjectEn": "You see stairs going down",
+      "choices": [
+        {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        }, {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        }, {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        }, {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        }, {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        }, {
+          "nameGa": "Teigh síos",
+          "nameEn": "Descend",
+          "action": "useStairs"
+        },
+        {
+          "nameGa": "Fan anseo",
+          "nameEn": "Stay here",
+          "action": "cancel"
+        }
+      ]
+    }
+  }
