@@ -1,7 +1,7 @@
 {
     "stairsDown": {
-      "subjectGa": "Tagann tú go staighrí, a téann síos",
-      "subjectEn": "You come to stairs, which go down",
+      "subjectGa": "Téann na staighre síos",
+      "subjectEn": "The stairs go down",
       "choices": [
         {
           "nameGa": "Lean síos íad",

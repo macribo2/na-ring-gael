@@ -40,25 +40,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
           .setScrollFactor(0);
     
       
-          
-    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/2-100, "", {
-      fontSize: "64px",
-      fontFamily:'dum1, sans-serif',
-      fill: "LavenderBlush",
-      align: "center",
-      wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
-
-    // Current choice text (displayed when spinning)
-    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/2+100, "", {
-      fontSize: "32px",
-      fill: "LavenderBlush",
-      fontFamily:'dum1',
-      align: "center",
-      wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
- 
-
+     
     // State variables
     this.isDragging = false;
     this.dragSensitivity = 0.005;
@@ -75,7 +57,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.choiceCounter = 0; // To keep track of current choice
     this.previousAngle = 0; // Track previous wheel angle for determining direction
     this.lastRotation = 0;  // Store last rotation for direction detection
-
+    
     // Event listeners
     this.wheel.on('pointerdown', this.startDrag.bind(this));
     this.scene.input.on('pointermove', this.dragWheel.bind(this));
@@ -93,17 +75,38 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, 'ciorcal-light')
     .setDepth(602) // Ensure it's above the base
     .setScrollFactor(0)
-    .setScale(0.5);
-    
+    .setScale(1.5);
+    this.titleHidden=false;
+    this.choicesVisible=false;
     // Make sure both elements are properly grouped
     this.buttonContainer = scene.add.container(0, 0, [this.buttonBase, this.buttonFrame])
     .setDepth(600)
     .setVisible(false)
     .setScrollFactor(0)
     .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
+       
+    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/5, "", {
+      fontSize: "64px",
+      fontFamily:'dum1, sans-serif',
+      fill: "LavenderBlush",
+      align: "center",
+      wordWrap: { width: 600 }
+    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+
+    // Current choice text (displayed when spinning)g
+    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/5, "", {
+      fontSize: "32px",
+      fill: "LavenderBlush",
+      fontFamily:'dum1',
+      align: "center",
+      wordWrap: { width: 600 }
+    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+ 
+  
     
-    
-    this.add([this.overlay, this.wheel,this.titleText, this.buttonBase, this.buttonFrame, this.choiceText]);
+    this.add([this.overlay, this.wheel, this.buttonBase, this.buttonFrame, this.titleText,this.choiceText]);
+  
+  
   }
 
   updateChoiceDisplay() {
@@ -134,7 +137,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
       
       // Create a spoke line (visual)
       const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xffffff)
-        .setLineWidth(3)
+        .setLineWidth(3).setAlpha(0)
         .setRotation(angle);
       
       this.spokesContainer.add(spoke);
@@ -185,7 +188,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
       .setScrollFactor(0);
 
     this.choiceText.setVisible(true)
-      .setAlpha(1)
+      .setAlpha(0)
       .setScrollFactor(0);
 
     this.overlay.setVisible(true);
@@ -240,6 +243,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
   }
   
   startDrag(pointer) {
+
     this.isDragging = true;
     this.startAngle = Phaser.Math.Angle.Between(
       400, 300, // Wheel center
@@ -251,6 +255,32 @@ class ActionMenu extends Phaser.GameObjects.Container {
     
     // Reset last rotation to current rotation for accurate direction detection
     this.lastRotation = this.wheel.rotation;
+    if (!this.titleHidden) {
+      this.titleHidden = true;
+      this.scene.tweens.add({
+          targets: this.titleText,
+          alpha: 0,
+          duration: 500,
+          ease: 'Linear',
+          onComplete: () => {
+              this.titleText.setVisible(false).setActive(false); // Fully disable
+          }
+      });
+  }
+  
+  if (!this.choicesVisible) {
+      this.choicesVisible = true;
+      this.scene.tweens.add({
+          targets: this.choiceText,
+          alpha: 1,
+          duration: 500,
+          ease: 'Linear',
+          onStart: () => {
+              this.choiceText.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
+          }
+      });
+  }
+  
   }
 
   decelerateWheel() {
@@ -318,7 +348,8 @@ updateSelection() {
     this.overlay.setVisible(false);
     this.titleText.setVisible(false);
     this.wheel.setVisible(false);
-    this.button.setVisible(false);
+    this.buttonFrame.setVisible(false);
+    this.buttonBase.setVisible(false);
     this.choiceText.setVisible(false);
     this.scene.input.setTopOnly(false);
     
