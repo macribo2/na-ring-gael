@@ -38,31 +38,137 @@ this.lastClickedTile = null;
     this.lastFOVUpdate = 0;
     this.explored = null;
   
-    
-    
    
   }
-// Method to close the action menu
+
+  stepBack() {
+    // Calculate the step back position using previous position
+    const stepX = this.player.previousGridX * this.tileSize + this.tileSize / 2;
+    const stepY = this.player.previousGridY * this.tileSize + this.tileSize / 2;
+    
+    // Move the player smoothly
+    this.tweens.add({
+      targets: this.player.sprite,
+      x: stepX,
+      y: stepY,
+      duration: 150,
+      ease: 'Power1',
+      onComplete: () => {
+        // Update player's grid position to the previous position
+        this.player.gridX = this.player.previousGridX;
+        this.player.gridY = this.player.previousGridY;
+        
+        // Update FOV after movement
+        if (this.updateFOV) {
+          this.updateFOV();
+        }
+      }
+    });
+    
+    return true; // Successfully stepped back
+  }
+  showActionMenu(menuKey) {
+    console.log(`showActionMenu called with key: ${menuKey}`);
+  
+    if (!this.actionMenu.menuData) {
+      console.error('Menu data is not loaded.');
+      return;
+    }
+  
+    const data = this.actionMenu.menuData[menuKey];
+  
+    if (!data || !data.choices || data.choices.length === 0) {
+      console.error(`showActionMenu called with invalid or empty objects array for key: ${menuKey}`);
+      return;
+    }
+    setTimeout(()=>{
+
+      this.stepBack();
+    },500)
+    console.log('Valid menu data:', data);
+  
+    // Smoothly zoom out when ActionMenu is shown
+    this.tweens.add({
+      targets: this.cameras.main,
+      zoom: 1,  // Zoom out to normal (1x) for the action menu
+      duration: 500, // Duration of the zoom effect
+      ease: 'Power2', // Smooth easing
+      onComplete: () => {
+        // Initialize ActionMenu once the zoom transition is complete
+        if (!this.actionMenu) {
+          this.actionMenu = new ActionMenu(this).setDepth(500);
+        }
+        
+        // Make sure all elements are visible again
+        const elements = [
+          this.actionMenu,
+          this.actionMenu.overlay,
+          this.actionMenu.titleText,
+          this.actionMenu.wheel,
+          this.actionMenu.buttonFrame,
+          this.actionMenu.buttonBase,
+          this.actionMenu.spokesContainer
+        ];
+        this.actionMenu.titleHidden=false;
+        this.actionMenu.choicesVisible=false;
+        elements.forEach(el => {
+          if (el) {
+            el.setVisible(true);
+            el.setAlpha(1); // Reset alpha since we faded it out
+          }
+        });
+  
+        // Open menu after zoom out is complete
+        this.actionMenu.showMenu(menuKey);
+      }
+    });
+  
+    // Verify method exists
+    if (typeof this.actionMenu.showMenu !== 'function') {
+      console.error('ActionMenu instance is missing showMenu method!');
+    }
+  }
+// to close the action menu
 closeActionMenu() {
   console.log('Closing ActionMenu...');
 
-  // Reset the camera zoom to the original value (2.5 in your case)
-  this.cameras.main.zoom = 2.5;
+  const elements = [
+    this.actionMenu,
+    this.actionMenu.overlay,
+    this.actionMenu.titleText,
+    this.actionMenu.wheel,
+    this.actionMenu.buttonFrame,
+    this.actionMenu.buttonBase,
+    this.actionMenu.choiceText,
+    this.actionMenu.spokesContainer
+  ];
 
-  // Hide all the ActionMenu elements (setVisible(false))
-  this.actionMenu.setVisible(false);
-  this.actionMenu.overlay.setVisible(false);
-  this.actionMenu.titleText.setVisible(false);
-  this.actionMenu.wheel.setVisible(false);
-  this.actionMenu.buttonFrame.setVisible(false);
-  this.actionMenu.buttonBase.setVisible(false);
-  this.actionMenu.choiceText.setVisible(false);
+  // Fade out UI elements first
+  this.tweens.add({
+    targets: elements,
+    alpha: 0,
+    duration: 500,
+    ease: 'Linear',
+    onComplete: () => {
+      // Hide all elements after fade
+      elements.forEach(el => el.setVisible(false));
 
-  // Clear any existing physics or cleanup if necessary
-  this.actionMenu.spokeColliders.clear(true, true);
+      const currentZoom = this.cameras.main.zoom;
 
-  // Optionally reset the ActionMenu instance
-  // this.actionMenu = null; // or reinitialize if needed
+      // Now apply the zoom with a relative value
+      this.tweens.add({
+        targets: this.cameras.main,
+        zoom: currentZoom * 2.5,  // Multiply current zoom for relative zooming
+        duration: 500,  
+        ease: 'Power2',
+        onStart: () => {
+          console.log('Starting camera zoom from:', currentZoom);
+        },
+        onComplete: () => {
+          console.log('Camera zoom complete');
+        }})
+    }
+  });
 }
 
   setupStairCollisions() {
@@ -322,61 +428,23 @@ create() {
     null,
     this
   );
+  let menuKey = 'defaultMenu';
+    
+    
+  this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
+  this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
   
-    this.actionMenu = new ActionMenu(this).setDepth(1000);
-    this.add.existing(this.actionMenu); // Add to the scene, but stays hidden
-
   if (!this.cache.json.exists('menuContent')) {
     throw new Error('Menu data failed to load');
   }
-
+  
   if (typeof this.actionMenu.showMenu !== 'function') {
     console.error('ActionMenu instance is missing showMenu method!');
   }
-
-
+  
+  
 }
 
-// Method to show action menu
-showActionMenu(menuKey) {
-  console.log(`showActionMenu called with key: ${menuKey}`);
-
-  if (!this.actionMenu.menuData) {
-    console.error('Menu data is not loaded.');
-    return;
-  }
-
-  const data = this.actionMenu.menuData[menuKey];
-
-  if (!data || !data.choices || data.choices.length === 0) {
-    console.error(`showActionMenu called with invalid or empty objects array for key: ${menuKey}`);
-    return;
-  }
-
-  console.log('Valid menu data:', data);
-
-  // Smoothly zoom out when ActionMenu is shown
-  this.tweens.add({
-    targets: this.cameras.main,
-    zoom: 1,  // Zoom out to normal (1x) for the action menu
-    duration: 500, // Duration of the zoom effect
-    ease: 'Power2', // Smooth easing
-    onComplete: () => {
-      // Initialize ActionMenu once the zoom transition is complete
-      if (!this.actionMenu) {
-        this.actionMenu = new ActionMenu(this).setDepth(500);
-      }
-
-      // Open menu after zoom out is complete
-      this.actionMenu.showMenu(menuKey);
-    }
-  });
-
-  // Verify method exists
-  if (typeof this.actionMenu.showMenu !== 'function') {
-    console.error('ActionMenu instance is missing showMenu method!');
-  }
-}
 
 
 createPlayer(characterSheet) {
@@ -396,8 +464,12 @@ createPlayer(characterSheet) {
   
   // Create Phaser entity with sprite from the atlas (no animations)
   this.player = {};
-  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0'); // Default frame from the atlas
-
+  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0');
+  this.player.gridX = x;
+  this.player.gridY = y;
+  this.player.facingDirection = { x: 0, y: -1 }; // Default facing up
+  this.player.previousGridX = x; // Initialize previous position to same as current
+  this.player.previousGridY = y;
   // Add physics body to player
   this.physics.add.existing(this.player.sprite);
   this.player.sprite.body.setSize(32, 32); // Match sprite size
@@ -835,7 +907,7 @@ createEmergencyRooms() {
   }
   movePlayerAlongPath() {
     this.clearPath(); // Clear the path once the player starts moving
-
+  
     // Check if there's a valid path to follow
     if (this.currentPath.length === 0) return;
   
@@ -849,6 +921,25 @@ createEmergencyRooms() {
       const nextTile = this.currentPath.shift(); // Get the next tile in the path
       const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
       const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
+      
+      // Save previous position before moving
+      this.player.previousGridX = this.player.gridX;
+      this.player.previousGridY = this.player.gridY;
+      
+      // Calculate direction to the next tile
+      const currentX = this.player.sprite.x;
+      const currentY = this.player.sprite.y;
+      
+      // Determine the primary direction of movement
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
+      
+      // Set facing direction based on the more significant axis of movement
+      if (Math.abs(dx) > Math.abs(dy)) {
+        this.player.facingDirection = { x: Math.sign(dx), y: 0 };
+      } else {
+        this.player.facingDirection = { x: 0, y: Math.sign(dy) };
+      }
   
       // Start tween to move the player to the next tile
       this.tweens.add({
@@ -858,20 +949,20 @@ createEmergencyRooms() {
         duration: 200, // Duration of each move (in milliseconds)
         ease: 'Linear', // Smooth linear transition
         onComplete: () => {
+          // Update player's grid position
+          this.player.gridX = nextTile.x;
+          this.player.gridY = nextTile.y;
+          
           // Call moveNext again if there are more steps in the path
           if (this.currentPath.length > 0) {
             moveNext();
           }
         }
       });
-  
-      
     };
   
     moveNext();
   }
-  
-  
   isPathValid() {
     // Loop through all tiles in the current path to validate each one
     for (let i = 0; i < this.currentPath.length; i++) {

@@ -12,6 +12,16 @@
           "nameGa": "Ná imigh síos go fóil",
           "nameEn": "Don't go down yet",
           "action": "cancel"
+        },
+        {
+          "nameGa": "Lean síos íad",
+          "nameEn": "follow them down",
+          "action": "useStairs"
+        },
+        {
+          "nameGa": "Ná imigh síos go fóil",
+          "nameEn": "Don't go down yet",
+          "action": "cancel"
         }
       ],
       "graphic":"phaser-resources/images/rotjs/stairs-down.png"

@@ -1,10 +1,11 @@
 import Phaser from "phaser";
 
 class ActionMenu extends Phaser.GameObjects.Container {
-  constructor(scene, menuKey) {
+  constructor(scene, menuKey, closeActionMenu) {
     super(scene);
     this.scene = scene;
     this.menuKey = menuKey;
+    this.closeActionMenu = closeActionMenu; // Store function reference
 
 
     if (!scene.cache.json.exists('menuContent')) {
@@ -37,7 +38,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
         // Spokes container
         this.spokesContainer = scene.add.container(scene.scale.width/2,scene.scale.height/2)
           .setDepth(1599)
-          .setScrollFactor(0);
+          .setScrollFactor(0).setVisible(true);
     
       
      
@@ -67,10 +68,13 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     // Load the base button graphic from the atlas (from JSON)
     this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'stairs_down_texture')
-    .setDepth(601)
-    .setScrollFactor(0).setScale(3)
-    .setInteractive();
-    
+    .setDepth(6001)
+    .setScrollFactor(0).setScale(8).setAlpha(0.6)
+    .setInteractive().on("pointerdown", () => {
+      if (this.closeActionMenu) {
+          this.closeActionMenu();
+      };})
+        
     // Load the frame overlay (from preload)
     this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, 'ciorcal-light')
     .setDepth(602) // Ensure it's above the base
@@ -95,7 +99,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     // Current choice text (displayed when spinning)g
     this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/5, "", {
-      fontSize: "32px",
+      fontSize: "64px",
       fill: "LavenderBlush",
       fontFamily:'dum1',
       align: "center",
@@ -137,10 +141,9 @@ class ActionMenu extends Phaser.GameObjects.Container {
       
       // Create a spoke line (visual)
       const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xffffff)
-        .setLineWidth(3).setAlpha(0)
-        .setRotation(angle);
+        .setLineWidth(3).setRotation(angle);
       
-      this.spokesContainer.add(spoke);
+      this.spokesContainer.add(spoke).setDepth(6000);
       
       // Create an invisible physics body along the spoke line
       const spokeX = Math.cos(angle) * 180; // Was 90
@@ -182,15 +185,18 @@ class ActionMenu extends Phaser.GameObjects.Container {
     
     const data = this.menuData[menuKey];
     
-    this.titleText.setVisible(true)
-      .setAlpha(1)
-      .setText(data.subjectGa)
-      .setScrollFactor(0);
-
+    if (!this.titleHidden) {
+      this.titleText.setVisible(true)
+                    .setAlpha(1)
+                    .setText(data.subjectGa)
+                    .setScrollFactor(0);
+  }
+  if (!this.choicesVisible) {
     this.choiceText.setVisible(true)
       .setAlpha(0)
       .setScrollFactor(0);
-
+  }
+  this.createSpokes(data.choices);
     this.overlay.setVisible(true);
     this.wheel.setVisible(true);
     this.buttonFrame.setVisible(true);
@@ -198,7 +204,6 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.setVisible(true);
 
     // Create spokes for choices (physics setup happens inside)
-    this.createSpokes(data.choices);
 
     // Reset rotation tracking
     this.lastRotation = this.wheel.rotation;
@@ -280,7 +285,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
           }
       });
   }
-  
+
   }
 
   decelerateWheel() {
