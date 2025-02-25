@@ -14,7 +14,6 @@ export default class PhaserEntity {
       // Add interaction when player reaches the stairs
       if (isStairsDown || isStairsUp) {
         this.sprite.setInteractive();
-        this.sprite.on('pointerdown', () => this.handleStairsInteraction());
       }
       if (isStairsDown || isStairsUp) {
         scene.physics.add.existing(this.sprite, true); // Create static body

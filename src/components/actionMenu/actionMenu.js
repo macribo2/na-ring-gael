@@ -72,14 +72,12 @@ class ActionMenu extends Phaser.GameObjects.Container {
     .setDepth(6001)
     .setScrollFactor(0).setScale(8).setAlpha(0.6)
     .setInteractive().on("pointerdown", () => {
-      if (this.menuData.choices.action==='goDownStairs') {
-          this.goDownStairs();
-          this.closeActionMenu();
-      }
-      if (this.menuData.choices.action==='cancel'){
-        this.closeActionMenu();
-
-      }
+      if (this.choices[this.choiceCounter].action === 'goDownStairs') {
+        this.scene.goDownStairs()
+        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+    } else if (this.choices[this.choiceCounter].action === 'cancel') {
+        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+    }
       ;})
         
     // Load the frame overlay (from preload)

@@ -6,7 +6,7 @@
         {
           "nameGa": "Lean síos íad",
           "nameEn": "follow them down",
-          "action": "useStairs"
+          "action": "goDownStairs"
         },
         {
           "nameGa": "Ná imigh síos go fóil",
