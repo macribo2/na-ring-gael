@@ -1078,7 +1078,8 @@ getTileFrame(tileValue, x, y) {
     }
   }
   
-
+  
+// Clean up generateDungeon to have a single, clear stair connection logic
 generateDungeon(previousDownStairs) {
   // Initialize core map properties first
   this.dungeonWidth = 40 + (this.currentLevel);
@@ -1239,29 +1240,48 @@ handleStairInteraction() {
       this.loadLevel(); // No need to pass stairs info when going up
     }
   }
-
 }
 
-// Update loadLevel to accept previous stairs info
 loadLevel(previousDownStairs) {
-  // Clear previous level entities
+  // Clear previous level entities INCLUDING OLD STAIRS
   this.tiles.clear(true, true);
   this.entities.forEach(e => e.destroy());
   this.entities = [];
   
-  // Regenerate with fresh dungeon instance, passing previous down stairs info
+  // Destroy old stairs explicitly
+  if (this.stairs.down) {
+    this.stairs.down.sprite.destroy(); // Remove old down stairs sprite
+    this.stairs.down = null;
+  }
+  if (this.stairs.up) {
+    this.stairs.up.sprite.destroy(); // Remove old up stairs sprite
+    this.stairs.up = null;
+  }
+
+  // Regenerate dungeon with fresh stairs
   this.generateDungeon(previousDownStairs);
   
+  // Re-register collision for NEW stairs
+  this.physics.add.overlap(
+    this.player.sprite, 
+    this.stairs.down.sprite, // Now references the NEWLY CREATED stairs
+    () => {
+      console.log('New level stair collision!');
+      this.showActionMenu('stairsDown');
+    },
+    null,
+    this
+  );
+
   // Draw the new level's tiles
   this.drawMap(); 
   this.setupLighting();
 
-  // In loadLevel() update player positioning:
+  // Player positioning logic (unchanged)
   if (this.stairs.up) {
     const stairGridX = Math.floor(this.stairs.up.sprite.x / this.tileSize);
     const stairGridY = Math.floor(this.stairs.up.sprite.y / this.tileSize);
     
-    // Find spawn position adjacent to UPSTAIRS (new level's entry point)
     const spawnPoint = this.findValidSpawn(stairGridX, stairGridY);
     
     if (spawnPoint) {
@@ -1269,17 +1289,13 @@ loadLevel(previousDownStairs) {
         spawnPoint.x * this.tileSize + this.tileSize/2,
         spawnPoint.y * this.tileSize + this.tileSize/2
       );
-      console.log("Spawned near UPSTAIRS at:", spawnPoint);
     }
   }
   
-  // Reset camera follow
+  // Reset camera
   this.cameras.main.startFollow(this.player.sprite);
   this.cameras.main.setZoom(1);
-
-  console.log('Player spawned at:', this.player.gridX, this.player.gridY);
 }
-
   // Fixed findValidSpawn method to avoid recursion
   findValidSpawn(startX, startY, maxRadius = 5) {
     // Spiral out from starting position
