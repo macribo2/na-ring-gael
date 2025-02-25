@@ -216,16 +216,14 @@ closeActionMenu() {
       // Hide all elements after fade
       elements.forEach(el => el.setVisible(false));
 
-      const currentZoom = this.cameras.main.zoom;
 
       // Now apply the zoom with a relative value
       this.tweens.add({
         targets: this.cameras.main,
-        zoom: currentZoom * 2.5,  // Multiply current zoom for relative zooming
+        zoom:  2.5,  // Multiply current zoom for relative zooming
         duration: 500,  
         ease: 'Power2',
         onStart: () => {
-          console.log('Starting camera zoom from:', currentZoom);
         },
         onComplete: () => {
           console.log('Camera zoom complete');
@@ -270,22 +268,17 @@ goDownStairs() {
     console.log("Up stairs:", this.stairs.up ? `(${this.stairs.up.x}, ${this.stairs.up.y})` : "None");
     console.log("Down stairs:", this.stairs.down ? `(${this.stairs.down.x}, ${this.stairs.down.y})` : "None");
 
-   // In goDownStairs():
-if (this.stairs.up) {
-  // Convert stair position to grid coordinates
-  const stairGridX = Math.floor(this.stairs.up.x / this.tileSize);
-  const stairGridY = Math.floor(this.stairs.up.y / this.tileSize);
-
-  // Find valid adjacent tile
-  const spawnPoint = this.findValidAdjacentTile(stairGridX, stairGridY);
+  // In goDownStairs() after transition:
+if (this.stairs.up && this.stairs.down) {
+  const distance = Phaser.Math.Distance.BetweenPoints(
+    this.stairs.up.sprite,
+    this.stairs.down.sprite
+  );
   
-  if (spawnPoint) {
-    this.player.sprite.setPosition(
-      spawnPoint.x * this.tileSize + this.tileSize/2,
-      spawnPoint.y * this.tileSize + this.tileSize/2
-    );
-    console.log("Placed player at connected upstairs position");
+  if (distance < 500) {
+    console.warn("Stairs too close! Up-Down distance:", distance);
   }
+
 }
 
 
@@ -304,13 +297,6 @@ if (this.stairs.up) {
     console.log("Transition complete");
     console.log("===== FINISHED GOING DOWN STAIRS =====");
   });
-}
-isValidStairPosition(x, y) {
-  return x >= 0 && 
-         y >= 0 && 
-         x < this.mapWidth && 
-         y < this.mapHeight && 
-         this.map[x][y] === 0;
 }
 
 findValidAdjacentTile(x, y) {
@@ -427,51 +413,6 @@ getTileInfo(x, y) {
   }
 
 
-createPlayer(characterSheet) {
-  const startRoom = this.dungeon.getRooms()[0];
-
-  // Get random walkable position within starting room
-  const getWalkablePosition = () => {
-      const x = Phaser.Math.Between(startRoom.getLeft() + 1, startRoom.getRight() - 1);
-      const y = Phaser.Math.Between(startRoom.getTop() + 1, startRoom.getBottom() - 1);
-      return this.map[x][y] === 0 ? [x, y] : getWalkablePosition();
-  };
-
-  const [x, y] = getWalkablePosition();
-
-  // Create player entity (no animation needed)
-  const gameEntity = new PlayerEntity(x, y);
-  
-  // Create Phaser entity with sprite from the atlas (no animations)
-  this.player = new PlayerEntity(this.startX, this.startY); // Example: initializing at some coordinates
-  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0');
-  this.player.gridX = x;
-  this.player.gridY = y;
-  this.player.facingDirection = { x: 0, y: -1 }; // Default facing up
-  this.player.previousGridX = x; // Initialize previous position to same as current
-  this.player.previousGridY = y;
-  // Add physics body to player
-  this.physics.add.existing(this.player.sprite);
-  this.player.sprite.body.setSize(32, 32); // Match sprite size
-  this.player.sprite.body.setOffset(4, 8); // Center collision box
-
-  // Add to scheduler and setup camera
-  this.scheduler.add(gameEntity, true);
-  this.cameras.main.startFollow(this.player.sprite);
-  
-  // Set depth above other entities
-  this.player.sprite.setDepth(100).setScale(0.75);
-
-  console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
-
-  // After creating the player, update the sprite texture based on characterSheet data
-  const spriteKey = characterSheet.spriteKey;
-  if (spriteKey) {
-      this.player.sprite.setTexture('championSprites', spriteKey);  // Update the sprite texture
-  } else {
-      console.warn("No spriteKey found to update player texture.");
-  }
-}
 
 
 
@@ -624,9 +565,7 @@ drawPath() {
 
     // Add knotwork image at the path node
     const knotworkImage = this.add.image(x, y, 'knotwork')
-      .setOrigin(0.5, 0.5)
-      .setScale(0.5)
-      .setAlpha(0);  // Start with the image invisible
+      .setAlpha(0).setOrigin(0.5,1.5);  // Start with the image invisible
 
     // Add the knotwork image to pathGroup for management
     this.pathGroup.add(knotworkImage);
@@ -675,14 +614,18 @@ update() {
       this.lastFOVUpdate = Date.now();
     }
   }
+  this.handleStairInteraction();
 }
 
 
 updateFOV() {
   if (!this.tiles || !this.player) return;
 
-  // Store explored areas
-  if (!this.explored) {
+  // Initialize explored array to match current map dimensions
+  if (!this.explored || 
+      this.explored.length !== this.map.length || 
+      this.explored[0].length !== this.map[0].length
+  ) {
     this.explored = Array.from({ length: this.map.length }, () => 
       Array(this.map[0].length).fill(false)
     );
@@ -693,32 +636,32 @@ updateFOV() {
     Math.floor(this.player.sprite.y / this.tileSize)
   ];
 
-  // Reset visibility
+  // Reset visibility with bounds checking
   this.tiles.getChildren().forEach(tile => {
     const x = Math.floor(tile.x / this.tileSize);
     const y = Math.floor(tile.y / this.tileSize);
-    if (this.explored[x][y]) {
-      tile.alpha = 0.5; // Half-visible for explored areas
+    
+    if (x >= 0 && y >= 0 && x < this.map.length && y < this.map[0].length) {
+      tile.alpha = this.explored[x][y] ? 0.5 : 0.0;
     } else {
-      tile.alpha = 0.0; // Completely hidden for unexplored
+      tile.alpha = 0.0; // Hide out-of-bounds tiles
     }
   });
 
-  // Compute new FOV
+  // Compute new FOV with bounds checking
   this.fov.compute(px, py, 8, (x, y, r, visibility) => {
     if (x >= 0 && y >= 0 && x < this.map.length && y < this.map[0].length) {
+      this.explored[x][y] = true;
       const tile = this.tiles.getChildren().find(t => 
         Math.floor(t.x / this.tileSize) === x &&
         Math.floor(t.y / this.tileSize) === y
       );
       if (tile) {
-        this.explored[x][y] = true;
-        tile.alpha = Math.min(visibility + 0.3, 1); // Smooth visibility
+        tile.alpha = Math.min(visibility + 0.3, 1);
       }
     }
   });
 }
-
 getTileFrame(tileValue, x, y) {
   const variants = {
     0: { // Floor tiles
@@ -992,7 +935,9 @@ getTileFrame(tileValue, x, y) {
 
   create() {
     
-  
+    this.keys = this.input.keyboard.addKeys({
+      interact: Phaser.Input.Keyboard.KeyCodes.E // Or your chosen key
+    });
     const characterSheetData = localStorage.getItem('characterSheet');
     if (!characterSheetData) {
         console.warn("No characterSheet found in local storage.");
@@ -1019,7 +964,7 @@ getTileFrame(tileValue, x, y) {
     this.input.addPointer(1); // For multi-touch
     
    
-    this.cameras.main.setZoom(2.5); // Initial zoom level
+    this.cameras.main.setZoom(1); // Initial zoom level
   
   
   
@@ -1086,43 +1031,319 @@ getTileFrame(tileValue, x, y) {
     
     
   }
+  createPlayer(characterSheet) {
+    const startRoom = this.dungeon.getRooms()[0];
   
+    // Get random walkable position within starting room
+    const getWalkablePosition = () => {
+      const x = Phaser.Math.Between(startRoom.getLeft() + 1, startRoom.getRight() - 1);
+      const y = Phaser.Math.Between(startRoom.getTop() + 1, startRoom.getBottom() - 1);
+      return this.map[x][y] === 0 ? [x, y] : getWalkablePosition();
+    };
   
-  loadLevel() {
-    // Clear previous level entities
-    this.tiles.clear(true, true);
-    this.entities.forEach(e => e.destroy());
-    this.entities = [];
-    
-    // Reset map dimensions (if using progressive levels)
-    this.mapWidth = 80 + (this.currentLevel * 2); // Example progression
-    this.mapHeight = 50 + (this.currentLevel * 2);
-    
-    // Force garbage collection (Phaser-specific)
-    this.game.renderer.snapshot(() => {});
-    
-    // Regenerate with fresh dungeon instance
-    this.generateDungeon();
-    
-    // Verify player position is within new bounds
-    this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.mapWidth-1);
-    this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.mapHeight-1);
-   
-  // Get previous down stairs before incrementing level
-  const previousDownStairs = this.stairConnections.get(
-    `${this.currentLevel}-down`
+    const [x, y] = getWalkablePosition();
+  
+    // ✅ Corrected: Ensure `scene` is passed to `PlayerEntity`
+    this.player = new PlayerEntity(this, x, y); 
+  
+    // ✅ Create Phaser sprite (linked to player entity)
+    this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0').setOrigin(0.5,0.9);
+  
+    // ✅ Store grid position in player entity
+    this.player.gridX = x;
+    this.player.gridY = y;
+    this.player.previousGridX = x; 
+    this.player.previousGridY = y;
+  
+    // ✅ Add physics body
+    this.physics.add.existing(this.player.sprite);
+    this.player.sprite.body.setSize(32, 32).setOffset(4, 8);
+  
+    // ✅ Add player to turn scheduler
+    this.scheduler.add(this.player, true);
+  
+    // ✅ Set camera to follow player
+    this.cameras.main.startFollow(this.player.sprite);
+  
+    // ✅ Set render order
+    this.player.sprite.setDepth(100).setScale(0.75);
+  
+    console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
+  
+    // ✅ Update player sprite based on character sheet
+    if (characterSheet.spriteKey) {
+      this.player.sprite.setTexture('championSprites', characterSheet.spriteKey);
+    } else {
+      console.warn("No spriteKey found to update player texture.");
+    }
+  }
+  
+
+generateDungeon(previousDownStairs) {
+  // Initialize core map properties first
+  this.dungeonWidth = 40 + (this.currentLevel);
+  this.dungeonHeight = 20 + (this.currentLevel);
+
+  // Initialize map arrays
+  this.map = Array.from({ length: this.dungeonWidth }, () => 
+    Array(this.dungeonHeight).fill(1)
+  );
+  this.roomMap = Array.from({ length: this.dungeonWidth }, () => 
+    Array(this.dungeonHeight).fill(-1)
   );
 
-  // Increment level AFTER getting previous stairs
-  this.currentLevel++;
+  // Create new dungeon instance
+  this.dungeon = new Map.Digger(
+    this.dungeonWidth,
+    this.dungeonHeight,
+    {
+      roomWidth: [4 + this.currentLevel, 8 + this.currentLevel],
+      corridorLength: [3, 5 + Math.floor(this.currentLevel/2)],
+      dugPercentage: 0.3 + (this.currentLevel * 0.05),
+      roomCount: [3 + this.currentLevel, 6 + this.currentLevel]
+    }
+  );
 
-  // Generate new level with previous stair info
-  this.generateDungeon(previousDownStairs);
+  // Generate base map
+  this.dungeon.create((x, y, wall) => {
+    if (x >= 0 && y >= 0 && x < this.dungeonWidth && y < this.dungeonHeight) {
+      this.map[x][y] = wall ? 1 : 0;
+    }
+  });
+
+  // Store and process rooms
+  this.rooms = this.dungeon.getRooms();
+  let roomId = 0;
+  
+  // Populate room map with valid rooms
+  this.rooms.forEach(room => {
+    if (!room || typeof room.create !== 'function') return;
+    
+    room.create((x, y) => {
+      if (x >= 0 && y >= 0 && x < this.dungeonWidth && y < this.dungeonHeight) {
+        this.roomMap[x][y] = roomId;
+      }
+    });
+    roomId++;
+  });
+
+  // Mark corridors in room map
+  this.dungeon.getCorridors().forEach(corridor => {
+    if (!corridor || typeof corridor.create !== 'function') return;
+    
+    corridor.create((x, y) => {
+      if (x >= 0 && y >= 0 && x < this.dungeonWidth && y < this.dungeonHeight) {
+        this.roomMap[x][y] = -1;
+      }
+    });
+  });
+
+  // Simplified stair connection logic
+  if (previousDownStairs) {
+    // Connect stairs between levels - create UP stairs at the position of the previous level's DOWN stairs
+    const upX = previousDownStairs.x;
+    const upY = previousDownStairs.y;
+    
+    if (this.isValidStairPosition(upX, upY)) {
+      this.createStairsAtPosition(upX, upY, 'up');
+      
+      // Find a different room for the DOWN stairs
+      const downRoom = this.findRoomForNewStairs();
+      if (downRoom) {
+        this.createStairsInRoom(downRoom, 'down');
+        console.log(`Connected stairs: Level ${this.currentLevel}`);
+        console.log(`Up @ ${upX},${upY} (from previous level's down)`);
+        console.log(`Down @ ${downRoom.centerX},${downRoom.centerY}`);
+      } else {
+        console.error("No valid room found for down stairs!");
+      }
+    } else {
+      console.error("Invalid up stair position from previous level!");
+      // Fallback: Create stairs in first two rooms
+      if (this.rooms.length >= 2) {
+        this.createStairsInRoom(this.rooms[0], 'up');
+        this.createStairsInRoom(this.rooms[1], 'down');
+      }
+    }
+  } else {
+    // Initial level generation - place stairs in first two rooms
+    if (this.rooms.length >= 2) {
+      this.createStairsInRoom(this.rooms[0], 'up');
+      this.createStairsInRoom(this.rooms[1], 'down');
+    }
+  }
+}
+
+// Make sure this method for checking stair positions is implemented properly
+isValidStairPosition(x, y) {
+  // Check if coordinates are within bounds
+  if (x < 0 || y < 0 || x >= this.dungeonWidth || y >= this.dungeonHeight) {
+    return false;
+  }
+  
+  // Check if position is walkable (not a wall)
+  return this.isWalkable(x, y);
+}
+
+// Add this method to handle player interactions with stairs
+handleStairInteraction() {
+  // Skip if no player or no stairs
+  if (!this.player || (!this.stairs.up && !this.stairs.down)) {
+    return;
+  }
+
+  const playerX = this.player.sprite.x;
+  const playerY = this.player.sprite.y;
+  let interactedStairs = null;
+
+  // Check if player is near up stairs
+  if (this.stairs.up) {
+    const upStairsX = this.stairs.up.sprite.x;
+    const upStairsY = this.stairs.up.sprite.y;
+    const distance = Phaser.Math.Distance.Between(playerX, playerY, upStairsX, upStairsY);
+    
+    if (distance < this.tileSize) {
+      interactedStairs = { type: 'up', x: Math.floor(upStairsX / this.tileSize), y: Math.floor(upStairsY / this.tileSize) };
+    }
+  }
+
+  // Check if player is near down stairs
+  if (this.stairs.down) {
+    const downStairsX = this.stairs.down.sprite.x;
+    const downStairsY = this.stairs.down.sprite.y;
+    const distance = Phaser.Math.Distance.Between(playerX, playerY, downStairsX, downStairsY);
+    
+    if (distance < this.tileSize) {
+      interactedStairs = { type: 'down', x: Math.floor(downStairsX / this.tileSize), y: Math.floor(downStairsY / this.tileSize) };
+    }
+  }
+
+  // Process stair interaction
+  if (interactedStairs && this.input.keyboard.checkDown(this.keys.interact, 500)) {
+    if (interactedStairs.type === 'down') {
+      // Save current down stairs info for connection
+      const previousDownStairs = {
+        x: interactedStairs.x,
+        y: interactedStairs.y,
+        level: this.currentLevel
+      };
+      
+      // Increment level and load new one
+      this.currentLevel++;
+      console.log(`Descending to level ${this.currentLevel}...`);
+      this.loadLevel(previousDownStairs);
+    } else if (interactedStairs.type === 'up' && this.currentLevel > 1) {
+      // Decrement level and load previous one
+      this.currentLevel--;
+      console.log(`Ascending to level ${this.currentLevel}...`);
+      this.loadLevel(); // No need to pass stairs info when going up
+    }
+  }
 
 }
+
+// Update loadLevel to accept previous stairs info
+loadLevel(previousDownStairs) {
+  // Clear previous level entities
+  this.tiles.clear(true, true);
+  this.entities.forEach(e => e.destroy());
+  this.entities = [];
   
+  // Regenerate with fresh dungeon instance, passing previous down stairs info
+  this.generateDungeon(previousDownStairs);
+  
+  // Draw the new level's tiles
+  this.drawMap(); 
+  this.setupLighting();
 
+  // In loadLevel() update player positioning:
+  if (this.stairs.up) {
+    const stairGridX = Math.floor(this.stairs.up.sprite.x / this.tileSize);
+    const stairGridY = Math.floor(this.stairs.up.sprite.y / this.tileSize);
+    
+    // Find spawn position adjacent to UPSTAIRS (new level's entry point)
+    const spawnPoint = this.findValidSpawn(stairGridX, stairGridY);
+    
+    if (spawnPoint) {
+      this.player.sprite.setPosition(
+        spawnPoint.x * this.tileSize + this.tileSize/2,
+        spawnPoint.y * this.tileSize + this.tileSize/2
+      );
+      console.log("Spawned near UPSTAIRS at:", spawnPoint);
+    }
+  }
+  
+  // Reset camera follow
+  this.cameras.main.startFollow(this.player.sprite);
+  this.cameras.main.setZoom(1);
 
+  console.log('Player spawned at:', this.player.gridX, this.player.gridY);
+}
+
+  // Fixed findValidSpawn method to avoid recursion
+  findValidSpawn(startX, startY, maxRadius = 5) {
+    // Spiral out from starting position
+    for (let r = 0; r <= maxRadius; r++) {
+      for (let x = -r; x <= r; x++) {
+        for (let y = -r; y <= r; y++) {
+          if (Math.abs(x) === r || Math.abs(y) === r) {
+            const checkX = startX + x;
+            const checkY = startY + y;
+            
+            if (this.isWalkable(checkX, checkY)) {
+              return {x: checkX, y: checkY};
+            }
+          }
+        }
+      }
+    }
+  
+    // If no valid position found, return null
+    console.warn("No valid spawn position found near stairs");
+    return null;
+  }
+
+// Add this new method to find spawn positions
+findValidSpawn(startX, startY, maxRadius = 5) {
+  // Spiral out from starting position
+  for (let r = 0; r <= maxRadius; r++) {
+    for (let x = -r; x <= r; x++) {
+      for (let y = -r; y <= r; y++) {
+        if (Math.abs(x) === r || Math.abs(y) === r) {
+          const checkX = startX + x;
+          const checkY = startY + y;
+          
+          if (this.isWalkable(checkX, checkY)) {
+            return {x: checkX, y: checkY};
+          }
+        }
+      }
+    }
+  }
+
+  // Position player near UP stairs (current level's entry point)
+  if (this.stairs.up) {
+    const stairPos = {
+      x: this.stairs.up.sprite.x,
+      y: this.stairs.up.sprite.y
+    };
+    
+    const spawnPoint = this.findValidSpawn(
+      Math.floor(stairPos.x / this.tileSize),
+      Math.floor(stairPos.y / this.tileSize)
+    );
+
+    if (spawnPoint) {
+      this.player.sprite.setPosition(
+        spawnPoint.x * this.tileSize + this.tileSize/2,
+        spawnPoint.y * this.tileSize + this.tileSize/2
+      );
+      console.log("Spawned near UP stairs:", spawnPoint);
+    }
+ 
+    this.cameras.main.centerOn(this.player.sprite.x, this.player.sprite.y);
+  return null;
+}}
 
 createTile(x, y) {
   if (x < 0 || y < 0 || x >= this.map.length || y >= this.map[0].length) return;
@@ -1133,15 +1354,14 @@ createTile(x, y) {
 
   // Create main tile
   const tile = this.add.sprite(x * this.tileSize, y * this.tileSize, 'dungeon_tiles', frame)
-    .setOrigin(0)
-    .setDepth(tileValue === 1 ? 1 : 0);
+    .setDepth(tileValue === 1 ? 1 : 0).setOrigin(0,0.5);
 
   // Add corridor bottom edge if applicable
   if (isCorridor && tileValue === 0) {
     const belowY = y + 1;
     if (belowY < this.map[0].length && this.map[x][belowY] === 1) {
       const edgeTile = this.add.sprite(x * this.tileSize, belowY * this.tileSize, 'dungeon_tiles', 101)
-        .setOrigin(0)
+        .setOrigin(0,0.5)
         .setDepth(0.9)
         .setPipeline('Light2D'); // Add pipeline here
         
@@ -1202,7 +1422,7 @@ createTile(x, y) {
   // Configure depth and lighting
   this.stairs[type].sprite
     .setDepth(10)
-    .setPipeline('Light2D');
+    .setPipeline('Light2D').setOrigin(0.5,0.5);
 
   this.stairPositions.add(`${x},${y}`);
   const stairData = {
@@ -1249,34 +1469,6 @@ isValidRoom(room) {
     room.getBottom() < this.mapHeight;
 }
 
-
-generateDungeon(previousDownStairs) {
-  // If no previous stairs, generate normally
-  if (!previousDownStairs) {
-    const rooms = this.dungeon.getRooms();
-    if (rooms.length >= 2) {
-      this.createStairsInRoom(rooms[0], 'down');
-      this.createStairsInRoom(rooms[1], 'up');
-    }
-    return;
-  }
-
-  // Otherwise connect stairs
-  const upX = previousDownStairs.x;
-  const upY = previousDownStairs.y;
-  
-  if (this.isValidStairPosition(upX, upY)) {
-    this.createStairsAtPosition(upX, upY, 'up');
-  } else {
-    console.warn("Previous stair position invalid, using random room");
-    const fallbackRoom = this.findRoomForNewStairs();
-    this.createStairsInRoom(fallbackRoom, 'up');
-  }
-
-  // Place new down stairs in different room
-  const downRoom = this.findRoomForNewStairs();
-  this.createStairsInRoom(downRoom, 'down');
-}
 createStairsAtPosition(x, y, type) {
   // Validate coordinates
   if (!this.isValidStairPosition(x, y)) {
@@ -1339,25 +1531,49 @@ placeGoldCoin(rooms) {
 
   console.log(`Gold coin placed at: (${coinX}, ${coinY})`);
 }
+drawMap() {
+  // Clear previous tiles first
+  this.tiles.clear(true, true);
+  
+  // Create new tile group
+  this.tiles = this.add.group();
 
-
-    drawMap() {
-      this.tiles = this.add.group();
-    
-      // Draw corridors first
-      this.dungeon.getCorridors().forEach(corridor => {
-        corridor.create((x, y) => this.createTile(x, y));
-      });
-    
-      // Draw rooms on top of corridors
-      this.dungeon.getRooms().forEach(room => {
-        // Draw floor
-        room.create((x, y) => this.createTile(x, y));
-        
-        // Draw walls (new addition)
-        this.createWallsAroundRoom(room);
-      });
+  // Draw floors first
+  for(let x = 0; x < this.map.length; x++) {
+    for(let y = 0; y < this.map[0].length; y++) {
+      if(this.map[x][y] === 0) {
+        this.createTile(x, y); 
+      }
     }
+  }
+
+  // Then draw walls on top
+  for(let x = 0; x < this.map.length; x++) {
+    for(let y = 0; y < this.map[0].length; y++) {
+      if(this.map[x][y] === 1) {
+        this.createTile(x, y);
+      }
+    }
+  }
+}
+
+    // drawMap() {
+    //   this.tiles = this.add.group();
+    
+    //   // Draw corridors first
+    //   this.dungeon.getCorridors().forEach(corridor => {
+    //     corridor.create((x, y) => this.createTile(x, y));
+    //   });
+    
+    //   // Draw rooms on top of corridors
+    //   this.dungeon.getRooms().forEach(room => {
+    //     // Draw floor
+    //     room.create((x, y) => this.createTile(x, y));
+        
+    //     // Draw walls (new addition)
+    //     this.createWallsAroundRoom(room);
+    //   });
+    // }
 
     createWallsAroundRoom(room) {
       const { x, y, width, height } = room;

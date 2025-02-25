@@ -18,307 +18,307 @@ this.background2 = null; // Declare background2 here
     this.numSpokes = 300; // Total number of spokes
     this.currentAngle = 0;
     this.champions = [
- {spriteKey:'1.png' ,gender:"", nameGa: 'Tassach',  nameEn: 'idle; inactive'}
-,{spriteKey:'2.png' ,gender:"", nameGa: 'Ádhamhnán', nameEn: 'the timorous one'}
-,{spriteKey:'3.png',gender:"", nameGa: 'Fionn', nameEn: 'fair, white'}
-,{spriteKey:'4.png',gender:"", nameGa: 'Gormán', nameEn: 'dark; swarthy'}
-,{spriteKey:'5.png',gender:"", nameGa: 'Conlaodh', nameEn: 'prudent fire'}
-,{spriteKey:'6.png',gender:"", nameGa: 'Ciarán', nameEn: 'black'}
-,{spriteKey:'7.png',gender:"", nameGa: 'Naomhán', nameEn: 'of Naomh (saint)'}
-,{spriteKey:'8.png',gender:"", nameGa: 'Beag', nameEn: 'small'}
-,{spriteKey:'9.png',gender:"", nameGa: 'Rós', nameEn: 'rose or horse'}
-,{spriteKey:'10.png' ,gender:"", nameGa: 'Scothnait', nameEn: 'blossom, bloom'}
-,{spriteKey:'11.png' ,gender:"", nameGa: 'Étaín', nameEn: 'jealousy'}
-,{spriteKey:'12.png',gender:"", nameGa: 'Sadhbh', nameEn: 'sweet, goodly'}
-,{spriteKey:'13.png',gender:"", nameGa: 'Cairbre', nameEn: 'charioteer or bearer'}
-,{spriteKey:'14.png' ,gender:"", nameGa: 'Áine', nameEn: 'delight, pleasure'}
-,{spriteKey:'15.png' ,gender:"", nameGa: 'Ceara', nameEn: 'fiery red'}
-,{spriteKey:'16.png',gender:"", nameGa: 'Lomán', nameEn: 'bare'}
-,{spriteKey:'17.png',gender:"", nameGa: 'Aodnait', nameEn: 'God of Fire'}
-,{spriteKey:'18.png' ,gender:"", nameGa: 'Rúadhnait', nameEn: 'red-haired'}
-,{spriteKey:'19.png' ,gender:"", nameGa: 'Gráinne', nameEn: 'of the Sun'}
-,{spriteKey:'20.png',gender:"", nameGa: 'Áinle', nameEn: 'hero, champion, warrior'}
-,{spriteKey:'21.png',gender:"", nameGa: 'Téide', nameEn: 'wantonness'}
-,{spriteKey:'22.png' ,gender:"", nameGa: 'Flann', nameEn: 'fiery red'}
-,{spriteKey:'23.png' ,gender:"", nameGa: 'Ana', nameEn: 'wealth or abundance'}
-,{spriteKey:'24.png',gender:"f", nameGa: 'Dearbhail', nameEn: 'Daughter of Fál (Ireland)'}
-,{spriteKey:'25.png',gender:"", nameGa: 'Éimhín', nameEn: 'prompt, ready'}
-,{spriteKey:'26.png',gender:"", nameGa: 'Fechín', nameEn: 'raven or battle'}
-,{spriteKey:'27.png',gender:"", nameGa: 'Muadhnait', nameEn: 'noble, good'}
-,{spriteKey:'28.png',gender:"", nameGa: 'Breasal', nameEn: 'brave or strong in conflict'}
-,{spriteKey:'29.png',gender:"", nameGa: 'Oisín', nameEn: 'little deer'}
-,{spriteKey:'30.png',gender:"", nameGa: 'Bláthnaid', nameEn: 'little flower'}
-,{spriteKey:'31.png',gender:"", nameGa: 'Ross', nameEn: 'headland'}
-,{spriteKey:'32.png',gender:"", nameGa: 'Orthanach', nameEn: 'potent in prayers or charms'}
-,{spriteKey:'33.png',gender:"", nameGa: 'Ainbheartach', nameEn: 'doer of evil deeds'}
-,{spriteKey:'34.png',gender:"f", nameGa: 'Neamhain', nameEn: 'battle-fury, warlike frenzy, \nCeltic war goddess'}
-,{spriteKey:'35.png',gender:"f", nameGa: 'Éibhleann', nameEn: 'beauty, radiance'}
-,{spriteKey:'36.png',gender:"", nameGa: 'Tuathal', nameEn: 'Tully, ruler of the people'}
-,{spriteKey:'37.png',gender:"m", nameGa: 'Ógán', nameEn: 'Lad'}
-,{spriteKey:'38.png',gender:"", nameGa: 'Odhrán', nameEn: 'sallow'}
-,{spriteKey:'39.png',gender:"m", nameGa: 'Onchú', nameEn: 'fierce hound'}
-,{spriteKey:'40.png',gender:"f", nameGa: 'Sláine', nameEn: 'health, \nfrom a Celtic goddess name'}
-,{spriteKey:'41.png',gender:"f", nameGa: 'Saorla', nameEn: 'noble queen'}
-,{spriteKey:'42.png',gender:"m", nameGa: 'Deasmumhnach', nameEn: 'man from Desmond (Co. Cork)'}
-,{spriteKey:'43.png',gender:"m", nameGa: 'Tighearnán', nameEn: 'Lord'}
-,{spriteKey:'44.png',gender:"", nameGa: 'Bearach', nameEn: 'pointed'}
-,{spriteKey:'45.png',gender:"", nameGa: 'Lochlann', nameEn: 'Viking'}
-,{spriteKey:'46.png',gender:"", nameGa: 'Seanchán', nameEn: 'old, ancient'}
-,{spriteKey:'47.png',gender:"", nameGa: 'Marcán', nameEn: 'steed'}
-,{spriteKey:'48.png',gender:"m", nameGa: 'Cuán', nameEn: 'diminutive of Cu, meaning hound'}
-,{spriteKey:'49.png',gender:"", nameGa: 'Móirne', nameEn: 'great'}
-,{spriteKey:'50.png',gender:"", nameGa: 'Uallachán', nameEn: 'little proud, arrogant one'}
-,{spriteKey:'51.png',gender:"m", nameGa: 'Sléibhín', nameEn: 'mountain man'}
-,{spriteKey:'52.png',gender:"", nameGa: 'Conán', nameEn: 'wolf'}
-,{spriteKey:'53.png',gender:"", nameGa: 'Breacán', nameEn: 'freckled, speckled'}
-,{spriteKey:'54.png',gender:"m", nameGa: 'Gilleagán', nameEn: 'little lad'}
-,{spriteKey:'55.png',gender:"m", nameGa: 'Dubhghlas', nameEn: 'blue black'}
-,{spriteKey:'56.png',gender:"", nameGa: 'Faolán', nameEn: 'wolf'}
-,{spriteKey:'57.png',gender:"", nameGa: 'Muirgheal', nameEn: ' sea-bright, sea-white'}
-,{spriteKey:'58.png',gender:"", nameGa: 'Conall', nameEn: 'strong as a wolf'}
-,{spriteKey:'59.png',gender:"f", nameGa: 'Niamh', nameEn: 'brightness, radiance'}
-,{spriteKey:'60.png',gender:"", nameGa: 'Séighín', nameEn: 'hawk'}
-,{spriteKey:'61.png',gender:"", nameGa: 'Meallán', nameEn: 'lightening'}
-,{spriteKey:'62.png',gender:"f", nameGa: 'Meadhbh', nameEn: 'she who intoxicates'}
-,{spriteKey:'63.png',gender:"", nameGa: 'Donnchadh', nameEn: 'Dionysus brown lord'}
-,{spriteKey:'64.png',gender:"", nameGa: 'Lorcán', nameEn: 'cruel or fierce'}
-,{spriteKey:'65.png',gender:"", nameGa: 'Uasal', nameEn: 'Noble'}
-,{spriteKey:'66.png',gender:"f", nameGa: 'Moncha', nameEn: 'after Macha, \ngoddess of Sovereignty'}
-,{spriteKey:'67.png',gender:"", nameGa: 'Fial', nameEn: 'modest, honorable, generous'}
-,{spriteKey:'68.png',gender:"", nameGa: 'Sé', nameEn: 'hawk-like, noble'}
-,{spriteKey:'69.png',gender:"m", nameGa: 'Cathán', nameEn: 'battler'}
-,{spriteKey:'70.png',gender:"", nameGa: 'Fionnbharr', nameEn: 'fair haired'}
-,{spriteKey:'71.png',gender:"", nameGa: 'Suibhne', nameEn: 'well-going'}
-,{spriteKey:'72.png',gender:"", nameGa: 'Brion', nameEn: 'noble or high'}
-,{spriteKey:'73.png',gender:"f", nameGa: 'Nuala', nameEn: 'Fionnuala (white shoulders)'}
-,{spriteKey:'74.png',gender:"", nameGa: 'Oillín', nameEn: 'little sprite, elf'}
-,{spriteKey:'75.png',gender:"", nameGa: 'Oilithir', nameEn: 'pilgrim'}
-,{spriteKey:'76.png',gender:"", nameGa: 'Cassán', nameEn: 'little curly-haired one'}
-,{spriteKey:'77.png',gender:"", nameGa: 'Tómmán', nameEn: 'of Tuama'}
-,{spriteKey:'78.png',gender:"", nameGa: 'Bairrfhionn', nameEn: 'fair-haired'}
-,{spriteKey:'79.png',gender:"", nameGa: 'Ealadha', nameEn: 'art, craft'}
-,{spriteKey:'80.png',gender:"f", nameGa: 'Bébhinn', nameEn: 'fair lady'}
-,{spriteKey:'81.png',gender:"", nameGa: 'Sárán', nameEn: 'chief, noble, best'}
-,{spriteKey:'82.png',gender:"", nameGa: 'Saoirse', nameEn: 'freedom'}
-,{spriteKey:'83.png',gender:"f", nameGa: 'Ciara', nameEn: 'Dark, dark-haired, \nlittle dark one; Black.'}
-,{spriteKey:'84.png',gender:"f", nameGa: 'Laoise ', nameEn: 'radience, light'}
-,{spriteKey:'85.png',gender:"f", nameGa: 'Clíona', nameEn: 'goddess of love and beauty, \npatron of County Cork. Also, queen of the banshees'}
-,{spriteKey:'86.png',gender:"f", nameGa: 'Úna', nameEn: "from uan 'lamb'. \nOf truth, beauty, and unity"}
-,{spriteKey:'87.png',gender:"f", nameGa: 'Eithne', nameEn: 'There were at least nine Saint Eithnes'}
-,{spriteKey:'88.png',gender:"m", nameGa: 'Pádraig', nameEn: 'from the Latin Patricius, \nmeaning of the patrician class'}
-,{spriteKey:'89.png',gender:"m", nameGa: 'Líam', nameEn: 'strong-willed warrior '}
-,{spriteKey:'90.png',gender:"", nameGa: 'Éanna', nameEn: 'birdlike'}
-,{spriteKey:'91.png',gender:"", nameGa: 'Rónnad', nameEn: 'seal'}
-,{spriteKey:'92.png',gender:"", nameGa: 'Neasa', nameEn: 'not gentle'}
-,{spriteKey:'93.png',gender:"m", nameGa: 'Cillian', nameEn: 'church'}
-,{spriteKey:'94.png',gender:"", nameGa: 'Olcán', nameEn: 'wolf'}
-,{spriteKey:'95.png',gender:"", nameGa: 'Lonán', nameEn: 'blackbird'}
-,{spriteKey:'96.png',gender:"", nameGa: 'Treasa', nameEn: 'strength'}
-,{spriteKey:'97.png',gender:"", nameGa: 'Sárnait', nameEn: 'chief, noble, best'}
-,{spriteKey:'98.png',gender:"", nameGa: 'Osnait', nameEn: 'deer'}
-,{spriteKey:'99.png',gender:"", nameGa: 'Giolla-Padraig', nameEn: 'servant of Patrick'}
-,{spriteKey:'10.png',gender:"f", nameGa: 'Áine', nameEn: 'Radiance, Áine, \ngoddess of Summer'}
-,{spriteKey:'11.png',gender:"f", nameGa: 'Fionnghuala', nameEn: 'fair shouldered'}
-,{spriteKey:'12.png',gender:"", nameGa: 'Suaibhseach', nameEn: 'gracious, kindly'}
-,{spriteKey:'13.png',gender:"m", nameGa: 'Éamonn', nameEn: 'wealthy guardian'}
-,{spriteKey:'14.png',gender:"", nameGa: 'Maol Mhuire', nameEn: 'servant or devotee of St. Mary'}
-,{spriteKey:'15.png',gender:"", nameGa: 'Brocc', nameEn: 'sharp-faced'}
-,{spriteKey:'16.png',gender:"m", nameGa: 'Domhnall', nameEn: 'world mighty'}
-,{spriteKey:'17.png',gender:"", nameGa: 'Teimhnín', nameEn: 'dark-haired one'}
-,{spriteKey:'18.png',gender:"", nameGa: 'Daigh', nameEn: 'flame'}
-,{spriteKey:'19.png',gender:"", nameGa: 'Anamcha', nameEn: 'ambrose spirited'}
-,{spriteKey:'20.png',gender:"m", nameGa: 'Mac Nisse', nameEn: 'son of Ness (goddess name)'}
-,{spriteKey:'21.png',gender:"m", nameGa: 'Aimhirghin', nameEn: 'born of song'}
-,{spriteKey:'22.png',gender:"f", nameGa: 'Finnseach', nameEn: 'blonde lady'}
-,{spriteKey:'23.png',gender:"", nameGa: 'Íde', nameEn: 'thirsts for knowledge and goodness'}
-,{spriteKey:'24.png',gender:"", nameGa: 'Tíreachán', nameEn: 'having land, wide-ruling'}
-,{spriteKey:'25.png',gender:"f", nameGa: 'Grian', nameEn: 'sun-goddess'}
-,{spriteKey:'26.png',gender:"", nameGa: 'Robhartach', nameEn: 'rushing, impetuous'}
-,{spriteKey:'27.png',gender:"m", nameGa: 'Muireadhach', nameEn: 'lord, master'}
-,{spriteKey:'28.png',gender:"m", nameGa: 'Eoghan', nameEn: 'born of the yew'}
-,{spriteKey:'29.png',gender:"", nameGa: 'Comhghall', nameEn: 'fellow hostage'}
-,{spriteKey:'30.png',gender:"f", nameGa: 'Sorcha', nameEn: 'bright, radiant'}
-,{spriteKey:'31.png',gender:"", nameGa: 'Niallán', nameEn: 'cloud or passionate, vehement'}
-,{spriteKey:'32.png',gender:"", nameGa: 'Mael Íosa', nameEn: 'servant of Jesus'}
-,{spriteKey:'33.png',gender:"", nameGa: 'Treasach', nameEn: 'warlike; fierce'}
-,{spriteKey:'34.png',gender:"", nameGa: 'Scannlán', nameEn: 'little trapper'}
-,{spriteKey:'35.png',gender:"f", nameGa: 'Aoife', nameEn: 'beautiful, radiant'}
-,{spriteKey:'36.png',gender:"m", nameGa: 'Osgar', nameEn: 'deer lover'}
-,{spriteKey:'37.png',gender:"", nameGa: 'Ceallach', nameEn: 'bright headed'}
-,{spriteKey:'38.png',gender:"f", nameGa: 'Dunfhlaith', nameEn: 'brown princess'}
-,{spriteKey:'39.png',gender:"", nameGa: 'Uallach', nameEn: 'proud; arrogant'}
-,{spriteKey:'40.png',gender:"", nameGa: 'Uainionn', nameEn: 'foam-white complexioned'}
-,{spriteKey:'41.png',gender:"", nameGa: 'Searc', nameEn: 'Love, affection'}
-,{spriteKey:'42.png',gender:"", nameGa: 'Cúmhaí', nameEn: 'hound of the plain'}
-,{spriteKey:'43.png',gender:"f", nameGa: 'Scáthach', nameEn: 'ghostly frightening'}
-,{spriteKey:'44.png',gender:"", nameGa: 'Báine', nameEn: 'paleness; whiteness'}
-,{spriteKey:'45.png',gender:"f", nameGa: 'Ríona', nameEn: 'queenly'}
-,{spriteKey:'46.png',gender:"", nameGa: 'Osán', nameEn: 'little deer'}
-,{spriteKey:'47.png',gender:"", nameGa: 'Lachtna', nameEn: 'milk-white, milk-like'}
-,{spriteKey:'48.png',gender:"", nameGa: 'Gormghiolla', nameEn: 'grey servant'}
-,{spriteKey:'49.png',gender:"", nameGa: 'Mochta', nameEn: 'great'}
-,{spriteKey:'50.png',gender:"", nameGa: 'Molaisse', nameEn: 'My light'}
-,{spriteKey:'51.png',gender:"", nameGa: 'Lachtnán', nameEn: 'milk-white, milk-like'}
-,{spriteKey:'52.png',gender:"", nameGa: 'Ailbhe', nameEn: 'rock,  white, Gaulish World King.'}
-,{spriteKey:'53.png',gender:"", nameGa: 'Moinnine', nameEn: 'ninne was the first word this saint spoke'}
-,{spriteKey:'54.png',gender:"", nameGa: 'Tóla', nameEn: 'abundance, flood'}
-,{spriteKey:'55.png',gender:"", nameGa: 'Diarmaid', nameEn: 'without injunction or envy'}
-,{spriteKey:'56.png',gender:"", nameGa: 'Liamhain', nameEn: 'comely, beautiful'}
-,{spriteKey:'57.png',gender:"", nameGa: 'Muircheartach', nameEn: 'sea battler'}
-,{spriteKey:'58.png',gender:"", nameGa: 'Lasair', nameEn: 'fire'}
-,{spriteKey:'59.png',gender:"", nameGa: 'Teafa', nameEn: 'a place name in Co. Longford'}
-,{spriteKey:'60.png',gender:"f", nameGa: 'Banbha', nameEn: 'an early goddess, also Ireland'}
-,{spriteKey:'61.png',gender:"m", nameGa: 'Ánrothán', nameEn: 'sun-traveller, \nnobleman second to the king'}
-,{spriteKey:'62.png',gender:"", nameGa: 'Meallá', nameEn: 'lightening'}
-,{spriteKey:'63.png',gender:"", nameGa: 'Fionúir', nameEn: 'ghost, spirit'}
-,{spriteKey:'64.png',gender:"", nameGa: 'Cassair', nameEn: 'curly-haired'}
-,{spriteKey:'65.png',gender:"m", nameGa: 'Fearghus', nameEn: 'strength of a man'}
-,{spriteKey:'66.png',gender:"m", nameGa: 'Cormac', nameEn: 'the charioteer'}
-,{spriteKey:'67.png',gender:"", nameGa: 'Cathaír', nameEn: 'battle lord'}
-,{spriteKey:'68.png',gender:"", nameGa: 'Giolla Chríst', nameEn: 'servant of Christ'}
-,{spriteKey:'69.png',gender:"", nameGa: 'Seachlann', nameEn: 'from Latin secondus'}
-,{spriteKey:'70.png',gender:"", nameGa: 'Laoidheach', nameEn: 'songful, poetic'}
-,{spriteKey:'71.png',gender:"m", nameGa: 'Caoimhín', nameEn: 'beautiful birth'}
-,{spriteKey:'72.png',gender:"", nameGa: 'Murchú', nameEn: 'hound of the sea'}
-,{spriteKey:'73.png',gender:"", nameGa: 'Scannal', nameEn: 'quarrel, argue'}
-,{spriteKey:'74.png',gender:"", nameGa: 'Oilleóg', nameEn: 'sprite, elf'}
-,{spriteKey:'75.png',gender:"f", nameGa: 'Dairinn', nameEn: 'daughter of Fionn'}
-,{spriteKey:'76.png',gender:"", nameGa: 'Glaisne', nameEn: 'grey, grey-blue'}
-,{spriteKey:'77.png',gender:"m", nameGa: 'Feardorcha', nameEn: 'dark man'}
-,{spriteKey:'78.png',gender:"m", nameGa: 'Beagán', nameEn: 'little lad'}
-,{spriteKey:'79.png',gender:"", nameGa: 'Ríordán', nameEn: 'royal poet'}
-,{spriteKey:'80.png',gender:"", nameGa: 'Maeleachlainn', nameEn: 'servant, devotee of St. Seachnall'}
-,{spriteKey:'81.png',gender:"", nameGa: 'Dallán', nameEn: 'blind'}
-,{spriteKey:'82.png',gender:"", nameGa: 'Dubhgall', nameEn: 'dark foreigner'}
-,{spriteKey:'83.png',gender:"", nameGa: 'Tuileach', nameEn: 'prominent forehead'}
-,{spriteKey:'84.png',gender:"", nameGa: 'Garbhán', nameEn: 'rough'}
-,{spriteKey:'85.png',gender:"", nameGa: 'Dubhaltach', nameEn: 'dark-limbed, black-jointed'}
-,{spriteKey:'86.png',gender:"", nameGa: 'Dáire', nameEn: 'erinn daughter of Fionn'}
-,{spriteKey:'87.png',gender:"", nameGa: 'Saraid', nameEn: 'excellent, best'}
-,{spriteKey:'88.png',gender:"", nameGa: 'Aodhán', nameEn: 'the God of fire \nwhose names means fire.'}
-,{spriteKey:'89.png',gender:"", nameGa: 'Síomha', nameEn: 'good peace'}
-,{spriteKey:'90.png',gender:"", nameGa: 'Teamhair', nameEn: 'elevated place'}
-,{spriteKey:'91.png',gender:"", nameGa: 'Cian', nameEn: 'ancient'}
-,{spriteKey:'92.png',gender:"m", nameGa: 'Fiachra', nameEn: 'battle-king'}
-,{spriteKey:'93.png',gender:"", nameGa: 'Séadhna', nameEn: 'traveller, wayfarer'}
-,{spriteKey:'94.png',gender:"", nameGa: 'Damhnait', nameEn: 'fawn'}
-,{spriteKey:'95.png',gender:"m", nameGa: 'Aodh', nameEn: 'fire'}
-,{spriteKey:'96.png',gender:"", nameGa: 'Naomh', nameEn: 'saint'}
-,{spriteKey:'97.png',gender:"", nameGa: 'Iarlugh', nameEn: 'Iar + Lug Celtic gods'}
-,{spriteKey:'98.png',gender:"", nameGa: 'Scoithín', nameEn: 'blossom, bloom'}
-,{spriteKey:'99.png',gender:"", nameGa: 'Scoithniamh', nameEn: 'radiant blossom'}
-,{spriteKey:'10.png',gender:"", nameGa: 'Ruarc', nameEn: 'hero, champion'}
-,{spriteKey:'11.png',gender:"f", nameGa: 'Bríghid', nameEn: 'high goddess'}
-,{spriteKey:'12.png',gender:"", nameGa: 'Scolaí', nameEn: 'town crier, scholar'}
-,{spriteKey:'13.png',gender:"f", nameGa: 'Tuathla', nameEn: 'princess of the people'}
-,{spriteKey:'14.png',gender:"", nameGa: 'Baoth', nameEn: 'vain, reckless, foolish'}
-,{spriteKey:'15.png',gender:"", nameGa: 'Scoth', nameEn: 'blossom, bloom'}
-,{spriteKey:'16.png',gender:"", nameGa: 'Neasán', nameEn: 'Stoat'}
-,{spriteKey:'17.png',gender:"f", nameGa: 'Luiseach', nameEn: 'radiant girl'}
-,{spriteKey:'18.png',gender:"", nameGa: 'Finnén', nameEn: 'fair'}
-,{spriteKey:'19.png',gender:"m", nameGa: 'Ultán', nameEn: 'Ulsterman'}
-,{spriteKey:'20.png',gender:"f", nameGa: 'Nárbhflaith', nameEn: 'noble princess'}
-,{spriteKey:'21.png',gender:"", nameGa: 'Éanna', nameEn: 'birdlike'}
-,{spriteKey:'22.png',gender:"", nameGa: 'Rónnad', nameEn: 'seal'}
-,{spriteKey:'23.png',gender:"", nameGa: 'Neasa', nameEn: 'not gentle'}
-,{spriteKey:'24.png',gender:"m", nameGa: 'Cillian', nameEn: 'church'}
-,{spriteKey:'25.png',gender:"", nameGa: 'Olcán', nameEn: 'wolf'}
-,{spriteKey:'26.png',gender:"", nameGa: 'Lonán', nameEn: 'blackbird'}
-,{spriteKey:'27.png',gender:"", nameGa: 'Treasa', nameEn: 'strength'}
-,{spriteKey:'28.png',gender:"", nameGa: 'Sárnait', nameEn: 'chief, noble, best'}
-,{spriteKey:'29.png',gender:"", nameGa: 'Osnait', nameEn: 'deer'}
-,{spriteKey:'30.png',gender:"", nameGa: 'Echna', nameEn: 'steed'}
-,{spriteKey:'31.png',gender:"", nameGa: 'Seanán', nameEn: 'old, ancient'}
-,{spriteKey:'32.png',gender:"", nameGa: 'Easnadh', nameEn: 'musical sound'}
-,{spriteKey:'33.png',gender:"", nameGa: 'Oillill', nameEn: 'sprite, elf'}
-,{spriteKey:'34.png',gender:"", nameGa: 'Uaithne', nameEn: 'greenish, from a tribal name'}
-,{spriteKey:'35.png',gender:"", nameGa: 'Bardán', nameEn: 'poet, bard'}
-,{spriteKey:'36.png',gender:"", nameGa: 'Síoda', nameEn: 'silk'}
-,{spriteKey:'37.png',gender:"", nameGa: 'Iarfhlaith', nameEn: 'western kingdom'}
-,{spriteKey:'38.png',gender:"", nameGa: 'Eirnín', nameEn: 'iron'}
-,{spriteKey:'39.png',gender:"", nameGa: 'Daimhín', nameEn: 'deer or ox'}
-,{spriteKey:'40.png',gender:"", nameGa: 'Fianait', nameEn: 'wild creature, deer'}
-,{spriteKey:'41.png',gender:"", nameGa: 'Tanaí', nameEn: 'slender, subtle'}
-,{spriteKey:'42.png',gender:"", nameGa: 'Leannán', nameEn: 'sweetheart'}
-,{spriteKey:'43.png',gender:"", nameGa: 'Urard', nameEn: 'very tall'}
-,{spriteKey:'44.png',gender:"", nameGa: 'Lughaidh', nameEn: 'light, brightness'}
-,{spriteKey:'45.png',gender:"", nameGa: 'Iobhar', nameEn: 'yew tree'}
-,{spriteKey:'46.png',gender:"", nameGa: 'Róisín', nameEn: 'Norse word for horse. \nAlso means little rose.'}
-,{spriteKey:'47.png',gender:"", nameGa: 'Conn', nameEn: 'wisdom, chief'}
-,{spriteKey:'48.png',gender:"", nameGa: 'Cearbhall', nameEn: 'brave in sword-fighting, \nvalorous'}
-,{spriteKey:'49.png',gender:"", nameGa: 'Colmán', nameEn: "from Latin 'dove'"}
-,{spriteKey:'50.png',gender:"", nameGa: 'Íonait', nameEn: 'faithful, pure, sincere'}
-,{spriteKey:'51.png',gender:"", nameGa: 'Muireann', nameEn: 'sea fair'}
-,{spriteKey:'52.png',gender:"f", nameGa: 'Eithne', nameEn: 'kernal or gorse'}
-,{spriteKey:'53.png',gender:"m", nameGa: 'Deaglán', nameEn: 'full of goodness'}
-,{spriteKey:'54.png',gender:"f", nameGa: 'Caoimhe', nameEn: 'beauty or grace'}
-,{spriteKey:'55.png',gender:"", nameGa: 'Róinseach', nameEn: 'seal'}
-,{spriteKey:'56.png',gender:"m", nameGa: 'Ruaidhrí', nameEn: 'red king'}
-,{spriteKey:'57.png',gender:"", nameGa: 'Geiléis', nameEn: 'bright swan'}
-,{spriteKey:'58.png',gender:"", nameGa: 'Miach', nameEn: 'honorable, proud'}
-,{spriteKey:'59.png',gender:"", nameGa: 'Labhrás', nameEn: 'laurel bush'}
-,{spriteKey:'60.png',gender:"", nameGa: 'Abbán', nameEn: 'little abbot'}
-,{spriteKey:'61.png',gender:"", nameGa: 'Uaine', nameEn: 'greenish, from a tribal name'}
-,{spriteKey:'62.png',gender:"", nameGa: 'Ólchobhar', nameEn: 'lover of drink'}
-,{spriteKey:'63.png',gender:"", nameGa: 'Nuadha', nameEn: 'possibly, cloud-maker \nCeltic god name'}
-,{spriteKey:'64.png',gender:"m", nameGa: 'Fearghal', nameEn: 'manly or valorous'}
-,{spriteKey:'65.png',gender:"", nameGa: 'Rathnait', nameEn: 'grace, prosperity'}
-,{spriteKey:'66.png',gender:"f", nameGa: 'Laoise', nameEn: 'girl'}
-,{spriteKey:'67.png',gender:"", nameGa: 'Ailill', nameEn: 'elf'}
-,{spriteKey:'68.png',gender:"", nameGa: 'Maolán', nameEn: 'warrior'}
-,{spriteKey:'69.png',gender:"", nameGa: 'Líobhan', nameEn: 'beauty of women'}
-,{spriteKey:'70.png',gender:"", nameGa: 'Laisrén', nameEn: 'flame'}
-,{spriteKey:'71.png',gender:"", nameGa: 'Fachtna', nameEn: 'malicious, hostile'}
-,{spriteKey:'72.png',gender:"", nameGa: 'Maon', nameEn: 'silent'}
-,{spriteKey:'73.png',gender:"", nameGa: 'Somhairle', nameEn: 'from Norse, summer wanderer'}
-,{spriteKey:'74.png',gender:"", nameGa: 'Neacht', nameEn: 'pure'}
-,{spriteKey:'75.png',gender:"", nameGa: 'Buadhach', nameEn: 'Victorious'}
-,{spriteKey:'76.png',gender:"m", nameGa: 'Tadhg', nameEn: 'Thaddeus, Theodosius, \nTheophilus, poet'}
-,{spriteKey:'77.png',gender:"", nameGa: 'Muirín', nameEn: 'born of the sea'}
-,{spriteKey:'78.png',gender:"m", nameGa: 'Niall', nameEn: 'cloud or passionate, vehement'}
-,{spriteKey:'79.png',gender:"", nameGa: 'Mór', nameEn: 'great'}
-,{spriteKey:'80.png',gender:"", nameGa: 'Aoibhegréine', nameEn: 'radiance of the sun'}
-,{spriteKey:'81.png',gender:"m", nameGa: 'Conchobhar', nameEn: 'lover of hounds'}
-,{spriteKey:'82.png',gender:"", nameGa: 'Mac Táil', nameEn: 'son of adze'}
-,{spriteKey:'83.png',gender:"", nameGa: 'Rúadhán', nameEn: 'red haired'}
-,{spriteKey:'84.png',gender:"", nameGa: 'Mainchín', nameEn: 'monk'}
-,{spriteKey:'85.png',gender:"f", nameGa: 'Órlaith', nameEn: 'golden princess'}
-,{spriteKey:'86.png',gender:"f", nameGa: 'Éabha', nameEn: 'Life'}
-,{spriteKey:'87.png',gender:"f", nameGa: 'Deirdre', nameEn: 'chatterer or daughter. Deirdre of the sorrows \envy of Queens'}
-,{spriteKey:'88.png',gender:"", nameGa: 'Fionnait', nameEn: 'fair-haired, white'}
-,{spriteKey:'89.png',gender:"", nameGa: 'Labhraidh', nameEn: 'speaker'}
-,{spriteKey:'90.png',gender:"f", nameGa: 'Brónach', nameEn: 'sorrowful'}
-,{spriteKey:'91.png',gender:"", nameGa: 'Suanach', nameEn: 'drowsy'}
-,{spriteKey:'92.png',gender:"", nameGa: 'Taichleach', nameEn: 'placating, peacemaking'}
-,{spriteKey:'93.png',gender:"m", nameGa: 'Rónán', nameEn: 'little seal'}
-,{spriteKey:'94.png',gender:"", nameGa: 'Murchadh', nameEn: 'sea battler'}
-,{spriteKey:'95.png',gender:"", nameGa: 'Laoire', nameEn: 'calf-herd'}
-,{spriteKey:'96.png',gender:"m", nameGa: 'Ríoghán', nameEn: 'little king'}
-,{spriteKey:'97.png',gender:"f", nameGa: 'Tuilelaith', nameEn: 'lady of abundance of sovereignty'}
-,{spriteKey:'98.png',gender:"m", nameGa: 'Gobnait', nameEn: 'smith'}
-,{spriteKey:'99.png',gender:"m", nameGa: 'Fionntán', nameEn: 'white ancient/fire'}
-,{spriteKey:'0.png',gender:"m", nameGa: 'Aonghus', nameEn: 'sole strength or true choice'}
-,{spriteKey:'1.png',gender:"", nameGa: 'Áinfean', nameEn: 'storm, fury, violence'}
-,{spriteKey:'2.png',gender:"", nameGa: 'Coinneach', nameEn: 'sorrowful'}
-,{spriteKey:'3.png',gender:"", nameGa: 'Torcán', nameEn: 'wild boar'}
-,{spriteKey:'4.png',gender:"", nameGa: 'Earnán', nameEn: 'iron'}
-,{spriteKey:'5.png',gender:"m", nameGa: 'Cathal', nameEn: 'strong in battle'}
-,{spriteKey:'6.png',gender:"m", nameGa: 'Gobán', nameEn: 'smith'}
-,{spriteKey:'7.png',gender:"f", nameGa: 'Deirbhile', nameEn: 'daughter of a poet'}
-,{spriteKey:'8.png',gender:"f", nameGa: 'Caoilfhionn', nameEn: 'fair and slender'}
-,{spriteKey:'9.png',gender:"", nameGa: 'Gormlaith', nameEn: 'blue/illustrious princess'}
-,{spriteKey:'0.png',gender:"", nameGa: 'Fearchar', nameEn: 'friendly'}
-,{spriteKey:'1.png',gender:"", nameGa: 'Lasairfhiona', nameEn: 'flame wine'}
-,{spriteKey:'2.png',gender:"", nameGa: 'Daighre', nameEn: 'flame, fire'}
-,{spriteKey:'3.png',gender:"", nameGa: 'Ámhra', nameEn: 'very wonderful'}
-,{spriteKey:'4.png',gender:"", nameGa: 'Séanait', nameEn: 'hawk'}
-,{spriteKey:'5.png',gender:"", nameGa: 'Samhradhán', nameEn: 'summery person'}
-,{spriteKey:'6.png',gender:"m", nameGa: 'Tighearnach', nameEn: 'Lord'}
-,{spriteKey:'7.png',gender:"", nameGa: 'Uallgarg', nameEn: 'fierce pride'}
-,{spriteKey:'8.png',gender:"f", nameGa: 'Aoibheann', nameEn: 'beautiful radiance'}
-,{spriteKey:'9.png',gender:"f", nameGa: 'Muirne', nameEn: 'high spirited, festive'}
-,{spriteKey:'0.png',gender:"f", nameGa: 'Líadan', nameEn: 'grey lady'}
-,{spriteKey:'1.png',gender:"", nameGa: 'Órnait', nameEn: 'sallow'}
+ {spriteKey:'001.png' ,gender:"", nameGa: 'Tassach',  nameEn: 'idle; inactive'}
+,{spriteKey:'002.png' ,gender:"", nameGa: 'Ádhamhnán', nameEn: 'the timorous one'}
+,{spriteKey:'003.png',gender:"", nameGa: 'Fionn', nameEn: 'fair, white'}
+,{spriteKey:'004.png',gender:"", nameGa: 'Gormán', nameEn: 'dark; swarthy'}
+,{spriteKey:'005.png',gender:"", nameGa: 'Conlaodh', nameEn: 'prudent fire'}
+,{spriteKey:'006.png',gender:"", nameGa: 'Ciarán', nameEn: 'black'}
+,{spriteKey:'007.png',gender:"", nameGa: 'Naomhán', nameEn: 'of Naomh (saint)'}
+,{spriteKey:'008.png',gender:"", nameGa: 'Beag', nameEn: 'small'}
+,{spriteKey:'009.png',gender:"", nameGa: 'Rós', nameEn: 'rose or horse'}
+,{spriteKey:'010.png' ,gender:"", nameGa: 'Scothnait', nameEn: 'blossom, bloom'}
+,{spriteKey:'011.png' ,gender:"", nameGa: 'Étaín', nameEn: 'jealousy'}
+,{spriteKey:'012.png',gender:"", nameGa: 'Sadhbh', nameEn: 'sweet, goodly'}
+,{spriteKey:'013.png',gender:"", nameGa: 'Cairbre', nameEn: 'charioteer or bearer'}
+,{spriteKey:'014.png' ,gender:"", nameGa: 'Áine', nameEn: 'delight, pleasure'}
+,{spriteKey:'015.png' ,gender:"", nameGa: 'Ceara', nameEn: 'fiery red'}
+,{spriteKey:'016.png',gender:"", nameGa: 'Lomán', nameEn: 'bare'}
+,{spriteKey:'017.png',gender:"", nameGa: 'Aodnait', nameEn: 'God of Fire'}
+,{spriteKey:'018.png' ,gender:"", nameGa: 'Rúadhnait', nameEn: 'red-haired'}
+,{spriteKey:'019.png' ,gender:"", nameGa: 'Gráinne', nameEn: 'of the Sun'}
+,{spriteKey:'020.png',gender:"", nameGa: 'Áinle', nameEn: 'hero, champion, warrior'}
+,{spriteKey:'021.png',gender:"", nameGa: 'Téide', nameEn: 'wantonness'}
+,{spriteKey:'022.png' ,gender:"", nameGa: 'Flann', nameEn: 'fiery red'}
+,{spriteKey:'023.png' ,gender:"", nameGa: 'Ana', nameEn: 'wealth or abundance'}
+,{spriteKey:'024.png',gender:"f", nameGa: 'Dearbhail', nameEn: 'Daughter of Fál (Ireland)'}
+,{spriteKey:'025.png',gender:"", nameGa: 'Éimhín', nameEn: 'prompt, ready'}
+,{spriteKey:'026.png',gender:"", nameGa: 'Fechín', nameEn: 'raven or battle'}
+,{spriteKey:'027.png',gender:"", nameGa: 'Muadhnait', nameEn: 'noble, good'}
+,{spriteKey:'028.png',gender:"", nameGa: 'Breasal', nameEn: 'brave or strong in conflict'}
+,{spriteKey:'029.png',gender:"", nameGa: 'Oisín', nameEn: 'little deer'}
+,{spriteKey:'030.png',gender:"", nameGa: 'Bláthnaid', nameEn: 'little flower'}
+,{spriteKey:'031.png',gender:"", nameGa: 'Ross', nameEn: 'headland'}
+,{spriteKey:'032.png',gender:"", nameGa: 'Orthanach', nameEn: 'potent in prayers or charms'}
+,{spriteKey:'033.png',gender:"", nameGa: 'Ainbheartach', nameEn: 'doer of evil deeds'}
+,{spriteKey:'034.png',gender:"f", nameGa: 'Neamhain', nameEn: 'battle-fury, warlike frenzy, \nCeltic war goddess'}
+,{spriteKey:'035.png',gender:"f", nameGa: 'Éibhleann', nameEn: 'beauty, radiance'}
+,{spriteKey:'036.png',gender:"", nameGa: 'Tuathal', nameEn: 'Tully, ruler of the people'}
+,{spriteKey:'037.png',gender:"m", nameGa: 'Ógán', nameEn: 'Lad'}
+,{spriteKey:'038.png',gender:"", nameGa: 'Odhrán', nameEn: 'sallow'}
+,{spriteKey:'039.png',gender:"m", nameGa: 'Onchú', nameEn: 'fierce hound'}
+,{spriteKey:'040.png',gender:"f", nameGa: 'Sláine', nameEn: 'health, \nfrom a Celtic goddess name'}
+,{spriteKey:'041.png',gender:"f", nameGa: 'Saorla', nameEn: 'noble queen'}
+,{spriteKey:'042.png',gender:"m", nameGa: 'Deasmumhnach', nameEn: 'man from Desmond (Co. Cork)'}
+,{spriteKey:'043.png',gender:"m", nameGa: 'Tighearnán', nameEn: 'Lord'}
+,{spriteKey:'044.png',gender:"", nameGa: 'Bearach', nameEn: 'pointed'}
+,{spriteKey:'045.png',gender:"", nameGa: 'Lochlann', nameEn: 'Viking'}
+,{spriteKey:'046.png',gender:"", nameGa: 'Seanchán', nameEn: 'old, ancient'}
+,{spriteKey:'047.png',gender:"", nameGa: 'Marcán', nameEn: 'steed'}
+,{spriteKey:'048.png',gender:"m", nameGa: 'Cuán', nameEn: 'diminutive of Cu, meaning hound'}
+,{spriteKey:'049.png',gender:"", nameGa: 'Móirne', nameEn: 'great'}
+,{spriteKey:'050.png',gender:"", nameGa: 'Uallachán', nameEn: 'little proud, arrogant one'}
+,{spriteKey:'051.png',gender:"m", nameGa: 'Sléibhín', nameEn: 'mountain man'}
+,{spriteKey:'052.png',gender:"", nameGa: 'Conán', nameEn: 'wolf'}
+,{spriteKey:'053.png',gender:"", nameGa: 'Breacán', nameEn: 'freckled, speckled'}
+,{spriteKey:'054.png',gender:"m", nameGa: 'Gilleagán', nameEn: 'little lad'}
+,{spriteKey:'055.png',gender:"m", nameGa: 'Dubhghlas', nameEn: 'blue black'}
+,{spriteKey:'056.png',gender:"", nameGa: 'Faolán', nameEn: 'wolf'}
+,{spriteKey:'057.png',gender:"", nameGa: 'Muirgheal', nameEn: ' sea-bright, sea-white'}
+,{spriteKey:'058.png',gender:"", nameGa: 'Conall', nameEn: 'strong as a wolf'}
+,{spriteKey:'059.png',gender:"f", nameGa: 'Niamh', nameEn: 'brightness, radiance'}
+,{spriteKey:'060.png',gender:"", nameGa: 'Séighín', nameEn: 'hawk'}
+,{spriteKey:'061.png',gender:"", nameGa: 'Meallán', nameEn: 'lightening'}
+,{spriteKey:'062.png',gender:"f", nameGa: 'Meadhbh', nameEn: 'she who intoxicates'}
+,{spriteKey:'063.png',gender:"", nameGa: 'Donnchadh', nameEn: 'Dionysus brown lord'}
+,{spriteKey:'064.png',gender:"", nameGa: 'Lorcán', nameEn: 'cruel or fierce'}
+,{spriteKey:'065.png',gender:"", nameGa: 'Uasal', nameEn: 'Noble'}
+,{spriteKey:'066.png',gender:"f", nameGa: 'Moncha', nameEn: 'after Macha, \ngoddess of Sovereignty'}
+,{spriteKey:'067.png',gender:"", nameGa: 'Fial', nameEn: 'modest, honorable, generous'}
+,{spriteKey:'068.png',gender:"", nameGa: 'Sé', nameEn: 'hawk-like, noble'}
+,{spriteKey:'069.png',gender:"m", nameGa: 'Cathán', nameEn: 'battler'}
+,{spriteKey:'070.png',gender:"", nameGa: 'Fionnbharr', nameEn: 'fair haired'}
+,{spriteKey:'071.png',gender:"", nameGa: 'Suibhne', nameEn: 'well-going'}
+,{spriteKey:'072.png',gender:"", nameGa: 'Brion', nameEn: 'noble or high'}
+,{spriteKey:'073.png',gender:"f", nameGa: 'Nuala', nameEn: 'Fionnuala (white shoulders)'}
+,{spriteKey:'074.png',gender:"", nameGa: 'Oillín', nameEn: 'little sprite, elf'}
+,{spriteKey:'075.png',gender:"", nameGa: 'Oilithir', nameEn: 'pilgrim'}
+,{spriteKey:'076.png',gender:"", nameGa: 'Cassán', nameEn: 'little curly-haired one'}
+,{spriteKey:'077.png',gender:"", nameGa: 'Tómmán', nameEn: 'of Tuama'}
+,{spriteKey:'078.png',gender:"", nameGa: 'Bairrfhionn', nameEn: 'fair-haired'}
+,{spriteKey:'079.png',gender:"", nameGa: 'Ealadha', nameEn: 'art, craft'}
+,{spriteKey:'080.png',gender:"f", nameGa: 'Bébhinn', nameEn: 'fair lady'}
+,{spriteKey:'081.png',gender:"", nameGa: 'Sárán', nameEn: 'chief, noble, best'}
+,{spriteKey:'082.png',gender:"", nameGa: 'Saoirse', nameEn: 'freedom'}
+,{spriteKey:'083.png',gender:"f", nameGa: 'Ciara', nameEn: 'Dark, dark-haired, \nlittle dark one; Black.'}
+,{spriteKey:'084.png',gender:"f", nameGa: 'Laoise ', nameEn: 'radience, light'}
+,{spriteKey:'085.png',gender:"f", nameGa: 'Clíona', nameEn: 'goddess of love and beauty, \npatron of County Cork. Also, queen of the banshees'}
+,{spriteKey:'086.png',gender:"f", nameGa: 'Úna', nameEn: "from uan 'lamb'. \nOf truth, beauty, and unity"}
+,{spriteKey:'087.png',gender:"f", nameGa: 'Eithne', nameEn: 'There were at least nine Saint Eithnes'}
+,{spriteKey:'088.png',gender:"m", nameGa: 'Pádraig', nameEn: 'from the Latin Patricius, \nmeaning of the patrician class'}
+,{spriteKey:'089.png',gender:"m", nameGa: 'Líam', nameEn: 'strong-willed warrior '}
+,{spriteKey:'090.png',gender:"", nameGa: 'Éanna', nameEn: 'birdlike'}
+,{spriteKey:'091.png',gender:"", nameGa: 'Rónnad', nameEn: 'seal'}
+,{spriteKey:'092.png',gender:"", nameGa: 'Neasa', nameEn: 'not gentle'}
+,{spriteKey:'093.png',gender:"m", nameGa: 'Cillian', nameEn: 'church'}
+,{spriteKey:'094.png',gender:"", nameGa: 'Olcán', nameEn: 'wolf'}
+,{spriteKey:'095.png',gender:"", nameGa: 'Lonán', nameEn: 'blackbird'}
+,{spriteKey:'096.png',gender:"", nameGa: 'Treasa', nameEn: 'strength'}
+,{spriteKey:'097.png',gender:"", nameGa: 'Sárnait', nameEn: 'chief, noble, best'}
+,{spriteKey:'098.png',gender:"", nameGa: 'Osnait', nameEn: 'deer'}
+,{spriteKey:'099.png',gender:"", nameGa: 'Giolla-Padraig', nameEn: 'servant of Patrick'}
+,{spriteKey:'110.png',gender:"f", nameGa: 'Áine', nameEn: 'Radiance, Áine, \ngoddess of Summer'}
+,{spriteKey:'111.png',gender:"f", nameGa: 'Fionnghuala', nameEn: 'fair shouldered'}
+,{spriteKey:'112.png',gender:"", nameGa: 'Suaibhseach', nameEn: 'gracious, kindly'}
+,{spriteKey:'113.png',gender:"m", nameGa: 'Éamonn', nameEn: 'wealthy guardian'}
+,{spriteKey:'114.png',gender:"", nameGa: 'Maol Mhuire', nameEn: 'servant or devotee of St. Mary'}
+,{spriteKey:'115.png',gender:"", nameGa: 'Brocc', nameEn: 'sharp-faced'}
+,{spriteKey:'116.png',gender:"m", nameGa: 'Domhnall', nameEn: 'world mighty'}
+,{spriteKey:'117.png',gender:"", nameGa: 'Teimhnín', nameEn: 'dark-haired one'}
+,{spriteKey:'118.png',gender:"", nameGa: 'Daigh', nameEn: 'flame'}
+,{spriteKey:'119.png',gender:"", nameGa: 'Anamcha', nameEn: 'ambrose spirited'}
+,{spriteKey:'120.png',gender:"m", nameGa: 'Mac Nisse', nameEn: 'son of Ness (goddess name)'}
+,{spriteKey:'121.png',gender:"m", nameGa: 'Aimhirghin', nameEn: 'born of song'}
+,{spriteKey:'122.png',gender:"f", nameGa: 'Finnseach', nameEn: 'blonde lady'}
+,{spriteKey:'123.png',gender:"", nameGa: 'Íde', nameEn: 'thirsts for knowledge and goodness'}
+,{spriteKey:'124.png',gender:"", nameGa: 'Tíreachán', nameEn: 'having land, wide-ruling'}
+,{spriteKey:'125.png',gender:"f", nameGa: 'Grian', nameEn: 'sun-goddess'}
+,{spriteKey:'126.png',gender:"", nameGa: 'Robhartach', nameEn: 'rushing, impetuous'}
+,{spriteKey:'127.png',gender:"m", nameGa: 'Muireadhach', nameEn: 'lord, master'}
+,{spriteKey:'128.png',gender:"m", nameGa: 'Eoghan', nameEn: 'born of the yew'}
+,{spriteKey:'129.png',gender:"", nameGa: 'Comhghall', nameEn: 'fellow hostage'}
+,{spriteKey:'130.png',gender:"f", nameGa: 'Sorcha', nameEn: 'bright, radiant'}
+,{spriteKey:'131.png',gender:"", nameGa: 'Niallán', nameEn: 'cloud or passionate, vehement'}
+,{spriteKey:'132.png',gender:"", nameGa: 'Mael Íosa', nameEn: 'servant of Jesus'}
+,{spriteKey:'133.png',gender:"", nameGa: 'Treasach', nameEn: 'warlike; fierce'}
+,{spriteKey:'134.png',gender:"", nameGa: 'Scannlán', nameEn: 'little trapper'}
+,{spriteKey:'135.png',gender:"f", nameGa: 'Aoife', nameEn: 'beautiful, radiant'}
+,{spriteKey:'136.png',gender:"m", nameGa: 'Osgar', nameEn: 'deer lover'}
+,{spriteKey:'137.png',gender:"", nameGa: 'Ceallach', nameEn: 'bright headed'}
+,{spriteKey:'138.png',gender:"f", nameGa: 'Dunfhlaith', nameEn: 'brown princess'}
+,{spriteKey:'139.png',gender:"", nameGa: 'Uallach', nameEn: 'proud; arrogant'}
+,{spriteKey:'140.png',gender:"", nameGa: 'Uainionn', nameEn: 'foam-white complexioned'}
+,{spriteKey:'141.png',gender:"", nameGa: 'Searc', nameEn: 'Love, affection'}
+,{spriteKey:'142.png',gender:"", nameGa: 'Cúmhaí', nameEn: 'hound of the plain'}
+,{spriteKey:'143.png',gender:"f", nameGa: 'Scáthach', nameEn: 'ghostly frightening'}
+,{spriteKey:'144.png',gender:"", nameGa: 'Báine', nameEn: 'paleness; whiteness'}
+,{spriteKey:'145.png',gender:"f", nameGa: 'Ríona', nameEn: 'queenly'}
+,{spriteKey:'146.png',gender:"", nameGa: 'Osán', nameEn: 'little deer'}
+,{spriteKey:'147.png',gender:"", nameGa: 'Lachtna', nameEn: 'milk-white, milk-like'}
+,{spriteKey:'148.png',gender:"", nameGa: 'Gormghiolla', nameEn: 'grey servant'}
+,{spriteKey:'149.png',gender:"", nameGa: 'Mochta', nameEn: 'great'}
+,{spriteKey:'150.png',gender:"", nameGa: 'Molaisse', nameEn: 'My light'}
+,{spriteKey:'151.png',gender:"", nameGa: 'Lachtnán', nameEn: 'milk-white, milk-like'}
+,{spriteKey:'152.png',gender:"", nameGa: 'Ailbhe', nameEn: 'rock,  white, Gaulish World King.'}
+,{spriteKey:'153.png',gender:"", nameGa: 'Moinnine', nameEn: 'ninne was the first word this saint spoke'}
+,{spriteKey:'154.png',gender:"", nameGa: 'Tóla', nameEn: 'abundance, flood'}
+,{spriteKey:'155.png',gender:"", nameGa: 'Diarmaid', nameEn: 'without injunction or envy'}
+,{spriteKey:'156.png',gender:"", nameGa: 'Liamhain', nameEn: 'comely, beautiful'}
+,{spriteKey:'157.png',gender:"", nameGa: 'Muircheartach', nameEn: 'sea battler'}
+,{spriteKey:'158.png',gender:"", nameGa: 'Lasair', nameEn: 'fire'}
+,{spriteKey:'159.png',gender:"", nameGa: 'Teafa', nameEn: 'a place name in Co. Longford'}
+,{spriteKey:'160.png',gender:"f", nameGa: 'Banbha', nameEn: 'an early goddess, also Ireland'}
+,{spriteKey:'161.png',gender:"m", nameGa: 'Ánrothán', nameEn: 'sun-traveller, \nnobleman second to the king'}
+,{spriteKey:'162.png',gender:"", nameGa: 'Meallá', nameEn: 'lightening'}
+,{spriteKey:'163.png',gender:"", nameGa: 'Fionúir', nameEn: 'ghost, spirit'}
+,{spriteKey:'164.png',gender:"", nameGa: 'Cassair', nameEn: 'curly-haired'}
+,{spriteKey:'165.png',gender:"m", nameGa: 'Fearghus', nameEn: 'strength of a man'}
+,{spriteKey:'166.png',gender:"m", nameGa: 'Cormac', nameEn: 'the charioteer'}
+,{spriteKey:'167.png',gender:"", nameGa: 'Cathaír', nameEn: 'battle lord'}
+,{spriteKey:'168.png',gender:"", nameGa: 'Giolla Chríst', nameEn: 'servant of Christ'}
+,{spriteKey:'169.png',gender:"", nameGa: 'Seachlann', nameEn: 'from Latin secondus'}
+,{spriteKey:'170.png',gender:"", nameGa: 'Laoidheach', nameEn: 'songful, poetic'}
+,{spriteKey:'171.png',gender:"m", nameGa: 'Caoimhín', nameEn: 'beautiful birth'}
+,{spriteKey:'172.png',gender:"", nameGa: 'Murchú', nameEn: 'hound of the sea'}
+,{spriteKey:'173.png',gender:"", nameGa: 'Scannal', nameEn: 'quarrel, argue'}
+,{spriteKey:'174.png',gender:"", nameGa: 'Oilleóg', nameEn: 'sprite, elf'}
+,{spriteKey:'175.png',gender:"f", nameGa: 'Dairinn', nameEn: 'daughter of Fionn'}
+,{spriteKey:'176.png',gender:"", nameGa: 'Glaisne', nameEn: 'grey, grey-blue'}
+,{spriteKey:'177.png',gender:"m", nameGa: 'Feardorcha', nameEn: 'dark man'}
+,{spriteKey:'178.png',gender:"m", nameGa: 'Beagán', nameEn: 'little lad'}
+,{spriteKey:'179.png',gender:"", nameGa: 'Ríordán', nameEn: 'royal poet'}
+,{spriteKey:'180.png',gender:"", nameGa: 'Maeleachlainn', nameEn: 'servant, devotee of St. Seachnall'}
+,{spriteKey:'181.png',gender:"", nameGa: 'Dallán', nameEn: 'blind'}
+,{spriteKey:'182.png',gender:"", nameGa: 'Dubhgall', nameEn: 'dark foreigner'}
+,{spriteKey:'183.png',gender:"", nameGa: 'Tuileach', nameEn: 'prominent forehead'}
+,{spriteKey:'184.png',gender:"", nameGa: 'Garbhán', nameEn: 'rough'}
+,{spriteKey:'185.png',gender:"", nameGa: 'Dubhaltach', nameEn: 'dark-limbed, black-jointed'}
+,{spriteKey:'186.png',gender:"", nameGa: 'Dáire', nameEn: 'erinn daughter of Fionn'}
+,{spriteKey:'187.png',gender:"", nameGa: 'Saraid', nameEn: 'excellent, best'}
+,{spriteKey:'188.png',gender:"", nameGa: 'Aodhán', nameEn: 'the God of fire \nwhose names means fire.'}
+,{spriteKey:'189.png',gender:"", nameGa: 'Síomha', nameEn: 'good peace'}
+,{spriteKey:'190.png',gender:"", nameGa: 'Teamhair', nameEn: 'elevated place'}
+,{spriteKey:'191.png',gender:"", nameGa: 'Cian', nameEn: 'ancient'}
+,{spriteKey:'192.png',gender:"m", nameGa: 'Fiachra', nameEn: 'battle-king'}
+,{spriteKey:'193.png',gender:"", nameGa: 'Séadhna', nameEn: 'traveller, wayfarer'}
+,{spriteKey:'194.png',gender:"", nameGa: 'Damhnait', nameEn: 'fawn'}
+,{spriteKey:'195.png',gender:"m", nameGa: 'Aodh', nameEn: 'fire'}
+,{spriteKey:'196.png',gender:"", nameGa: 'Naomh', nameEn: 'saint'}
+,{spriteKey:'197.png',gender:"", nameGa: 'Iarlugh', nameEn: 'Iar + Lug Celtic gods'}
+,{spriteKey:'198.png',gender:"", nameGa: 'Scoithín', nameEn: 'blossom, bloom'}
+,{spriteKey:'199.png',gender:"", nameGa: 'Scoithniamh', nameEn: 'radiant blossom'}
+,{spriteKey:'210.png',gender:"", nameGa: 'Ruarc', nameEn: 'hero, champion'}
+,{spriteKey:'211.png',gender:"f", nameGa: 'Bríghid', nameEn: 'high goddess'}
+,{spriteKey:'212.png',gender:"", nameGa: 'Scolaí', nameEn: 'town crier, scholar'}
+,{spriteKey:'213.png',gender:"f", nameGa: 'Tuathla', nameEn: 'princess of the people'}
+,{spriteKey:'214.png',gender:"", nameGa: 'Baoth', nameEn: 'vain, reckless, foolish'}
+,{spriteKey:'215.png',gender:"", nameGa: 'Scoth', nameEn: 'blossom, bloom'}
+,{spriteKey:'216.png',gender:"", nameGa: 'Neasán', nameEn: 'Stoat'}
+,{spriteKey:'217.png',gender:"f", nameGa: 'Luiseach', nameEn: 'radiant girl'}
+,{spriteKey:'218.png',gender:"", nameGa: 'Finnén', nameEn: 'fair'}
+,{spriteKey:'219.png',gender:"m", nameGa: 'Ultán', nameEn: 'Ulsterman'}
+,{spriteKey:'220.png',gender:"f", nameGa: 'Nárbhflaith', nameEn: 'noble princess'}
+,{spriteKey:'221.png',gender:"", nameGa: 'Éanna', nameEn: 'birdlike'}
+,{spriteKey:'222.png',gender:"", nameGa: 'Rónnad', nameEn: 'seal'}
+,{spriteKey:'223.png',gender:"", nameGa: 'Neasa', nameEn: 'not gentle'}
+,{spriteKey:'224.png',gender:"m", nameGa: 'Cillian', nameEn: 'church'}
+,{spriteKey:'225.png',gender:"", nameGa: 'Olcán', nameEn: 'wolf'}
+,{spriteKey:'226.png',gender:"", nameGa: 'Lonán', nameEn: 'blackbird'}
+,{spriteKey:'227.png',gender:"", nameGa: 'Treasa', nameEn: 'strength'}
+,{spriteKey:'228.png',gender:"", nameGa: 'Sárnait', nameEn: 'chief, noble, best'}
+,{spriteKey:'229.png',gender:"", nameGa: 'Osnait', nameEn: 'deer'}
+,{spriteKey:'230.png',gender:"", nameGa: 'Echna', nameEn: 'steed'}
+,{spriteKey:'231.png',gender:"", nameGa: 'Seanán', nameEn: 'old, ancient'}
+,{spriteKey:'232.png',gender:"", nameGa: 'Easnadh', nameEn: 'musical sound'}
+,{spriteKey:'233.png',gender:"", nameGa: 'Oillill', nameEn: 'sprite, elf'}
+,{spriteKey:'234.png',gender:"", nameGa: 'Uaithne', nameEn: 'greenish, from a tribal name'}
+,{spriteKey:'235.png',gender:"", nameGa: 'Bardán', nameEn: 'poet, bard'}
+,{spriteKey:'236.png',gender:"", nameGa: 'Síoda', nameEn: 'silk'}
+,{spriteKey:'237.png',gender:"", nameGa: 'Iarfhlaith', nameEn: 'western kingdom'}
+,{spriteKey:'238.png',gender:"", nameGa: 'Eirnín', nameEn: 'iron'}
+,{spriteKey:'239.png',gender:"", nameGa: 'Daimhín', nameEn: 'deer or ox'}
+,{spriteKey:'240.png',gender:"", nameGa: 'Fianait', nameEn: 'wild creature, deer'}
+,{spriteKey:'241.png',gender:"", nameGa: 'Tanaí', nameEn: 'slender, subtle'}
+,{spriteKey:'242.png',gender:"", nameGa: 'Leannán', nameEn: 'sweetheart'}
+,{spriteKey:'243.png',gender:"", nameGa: 'Urard', nameEn: 'very tall'}
+,{spriteKey:'244.png',gender:"", nameGa: 'Lughaidh', nameEn: 'light, brightness'}
+,{spriteKey:'245.png',gender:"", nameGa: 'Iobhar', nameEn: 'yew tree'}
+,{spriteKey:'246.png',gender:"", nameGa: 'Róisín', nameEn: 'Norse word for horse. \nAlso means little rose.'}
+,{spriteKey:'247.png',gender:"", nameGa: 'Conn', nameEn: 'wisdom, chief'}
+,{spriteKey:'248.png',gender:"", nameGa: 'Cearbhall', nameEn: 'brave in sword-fighting, \nvalorous'}
+,{spriteKey:'249.png',gender:"", nameGa: 'Colmán', nameEn: "from Latin 'dove'"}
+,{spriteKey:'250.png',gender:"", nameGa: 'Íonait', nameEn: 'faithful, pure, sincere'}
+,{spriteKey:'251.png',gender:"", nameGa: 'Muireann', nameEn: 'sea fair'}
+,{spriteKey:'252.png',gender:"f", nameGa: 'Eithne', nameEn: 'kernal or gorse'}
+,{spriteKey:'253.png',gender:"m", nameGa: 'Deaglán', nameEn: 'full of goodness'}
+,{spriteKey:'254.png',gender:"f", nameGa: 'Caoimhe', nameEn: 'beauty or grace'}
+,{spriteKey:'255.png',gender:"", nameGa: 'Róinseach', nameEn: 'seal'}
+,{spriteKey:'256.png',gender:"m", nameGa: 'Ruaidhrí', nameEn: 'red king'}
+,{spriteKey:'257.png',gender:"", nameGa: 'Geiléis', nameEn: 'bright swan'}
+,{spriteKey:'258.png',gender:"", nameGa: 'Miach', nameEn: 'honorable, proud'}
+,{spriteKey:'259.png',gender:"", nameGa: 'Labhrás', nameEn: 'laurel bush'}
+,{spriteKey:'260.png',gender:"", nameGa: 'Abbán', nameEn: 'little abbot'}
+,{spriteKey:'261.png',gender:"", nameGa: 'Uaine', nameEn: 'greenish, from a tribal name'}
+,{spriteKey:'262.png',gender:"", nameGa: 'Ólchobhar', nameEn: 'lover of drink'}
+,{spriteKey:'263.png',gender:"", nameGa: 'Nuadha', nameEn: 'possibly, cloud-maker \nCeltic god name'}
+,{spriteKey:'264.png',gender:"m", nameGa: 'Fearghal', nameEn: 'manly or valorous'}
+,{spriteKey:'265.png',gender:"", nameGa: 'Rathnait', nameEn: 'grace, prosperity'}
+,{spriteKey:'266.png',gender:"f", nameGa: 'Laoise', nameEn: 'girl'}
+,{spriteKey:'267.png',gender:"", nameGa: 'Ailill', nameEn: 'elf'}
+,{spriteKey:'268.png',gender:"", nameGa: 'Maolán', nameEn: 'warrior'}
+,{spriteKey:'269.png',gender:"", nameGa: 'Líobhan', nameEn: 'beauty of women'}
+,{spriteKey:'270.png',gender:"", nameGa: 'Laisrén', nameEn: 'flame'}
+,{spriteKey:'271.png',gender:"", nameGa: 'Fachtna', nameEn: 'malicious, hostile'}
+,{spriteKey:'272.png',gender:"", nameGa: 'Maon', nameEn: 'silent'}
+,{spriteKey:'273.png',gender:"", nameGa: 'Somhairle', nameEn: 'from Norse, summer wanderer'}
+,{spriteKey:'274.png',gender:"", nameGa: 'Neacht', nameEn: 'pure'}
+,{spriteKey:'275.png',gender:"", nameGa: 'Buadhach', nameEn: 'Victorious'}
+,{spriteKey:'276.png',gender:"m", nameGa: 'Tadhg', nameEn: 'Thaddeus, Theodosius, \nTheophilus, poet'}
+,{spriteKey:'277.png',gender:"", nameGa: 'Muirín', nameEn: 'born of the sea'}
+,{spriteKey:'278.png',gender:"m", nameGa: 'Niall', nameEn: 'cloud or passionate, vehement'}
+,{spriteKey:'279.png',gender:"", nameGa: 'Mór', nameEn: 'great'}
+,{spriteKey:'280.png',gender:"", nameGa: 'Aoibhegréine', nameEn: 'radiance of the sun'}
+,{spriteKey:'281.png',gender:"m", nameGa: 'Conchobhar', nameEn: 'lover of hounds'}
+,{spriteKey:'282.png',gender:"", nameGa: 'Mac Táil', nameEn: 'son of adze'}
+,{spriteKey:'283.png',gender:"", nameGa: 'Rúadhán', nameEn: 'red haired'}
+,{spriteKey:'284.png',gender:"", nameGa: 'Mainchín', nameEn: 'monk'}
+,{spriteKey:'285.png',gender:"f", nameGa: 'Órlaith', nameEn: 'golden princess'}
+,{spriteKey:'286.png',gender:"f", nameGa: 'Éabha', nameEn: 'Life'}
+,{spriteKey:'287.png',gender:"f", nameGa: 'Deirdre', nameEn: 'chatterer or daughter. Deirdre of the sorrows \envy of Queens'}
+,{spriteKey:'288.png',gender:"", nameGa: 'Fionnait', nameEn: 'fair-haired, white'}
+,{spriteKey:'289.png',gender:"", nameGa: 'Labhraidh', nameEn: 'speaker'}
+,{spriteKey:'290.png',gender:"f", nameGa: 'Brónach', nameEn: 'sorrowful'}
+,{spriteKey:'291.png',gender:"", nameGa: 'Suanach', nameEn: 'drowsy'}
+,{spriteKey:'292.png',gender:"", nameGa: 'Taichleach', nameEn: 'placating, peacemaking'}
+,{spriteKey:'293.png',gender:"m", nameGa: 'Rónán', nameEn: 'little seal'}
+,{spriteKey:'294.png',gender:"", nameGa: 'Murchadh', nameEn: 'sea battler'}
+,{spriteKey:'295.png',gender:"", nameGa: 'Laoire', nameEn: 'calf-herd'}
+,{spriteKey:'296.png',gender:"m", nameGa: 'Ríoghán', nameEn: 'little king'}
+,{spriteKey:'297.png',gender:"f", nameGa: 'Tuilelaith', nameEn: 'lady of abundance of sovereignty'}
+,{spriteKey:'298.png',gender:"m", nameGa: 'Gobnait', nameEn: 'smith'}
+,{spriteKey:'299.png',gender:"m", nameGa: 'Fionntán', nameEn: 'white ancient/fire'}
+,{spriteKey:'100.png',gender:"m", nameGa: 'Aonghus', nameEn: 'sole strength or true choice'}
+,{spriteKey:'101.png',gender:"", nameGa: 'Áinfean', nameEn: 'storm, fury, violence'}
+,{spriteKey:'102.png',gender:"", nameGa: 'Coinneach', nameEn: 'sorrowful'}
+,{spriteKey:'103.png',gender:"", nameGa: 'Torcán', nameEn: 'wild boar'}
+,{spriteKey:'104.png',gender:"", nameGa: 'Earnán', nameEn: 'iron'}
+,{spriteKey:'105.png',gender:"m", nameGa: 'Cathal', nameEn: 'strong in battle'}
+,{spriteKey:'106.png',gender:"m", nameGa: 'Gobán', nameEn: 'smith'}
+,{spriteKey:'107.png',gender:"f", nameGa: 'Deirbhile', nameEn: 'daughter of a poet'}
+,{spriteKey:'108.png',gender:"f", nameGa: 'Caoilfhionn', nameEn: 'fair and slender'}
+,{spriteKey:'109.png',gender:"", nameGa: 'Gormlaith', nameEn: 'blue/illustrious princess'}
+,{spriteKey:'200.png',gender:"", nameGa: 'Fearchar', nameEn: 'friendly'}
+,{spriteKey:'201.png',gender:"", nameGa: 'Lasairfhiona', nameEn: 'flame wine'}
+,{spriteKey:'202.png',gender:"", nameGa: 'Daighre', nameEn: 'flame, fire'}
+,{spriteKey:'203.png',gender:"", nameGa: 'Ámhra', nameEn: 'very wonderful'}
+,{spriteKey:'204.png',gender:"", nameGa: 'Séanait', nameEn: 'hawk'}
+,{spriteKey:'205.png',gender:"", nameGa: 'Samhradhán', nameEn: 'summery person'}
+,{spriteKey:'206.png',gender:"m", nameGa: 'Tighearnach', nameEn: 'Lord'}
+,{spriteKey:'207.png',gender:"", nameGa: 'Uallgarg', nameEn: 'fierce pride'}
+,{spriteKey:'208.png',gender:"f", nameGa: 'Aoibheann', nameEn: 'beautiful radiance'}
+,{spriteKey:'209.png',gender:"f", nameGa: 'Muirne', nameEn: 'high spirited, festive'}
+,{spriteKey:'300.png',gender:"f", nameGa: 'Líadan', nameEn: 'grey lady'}
+,{spriteKey:'301.png',gender:"", nameGa: 'Órnait', nameEn: 'sallow'}
   
 ]
 
