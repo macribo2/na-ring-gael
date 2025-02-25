@@ -358,7 +358,7 @@ useEffect(() => {
     this.load.image('say', '/phaser-resources/images/sprites/say.png'); // Replace with the path to your say image
     this.load.image('translucentBg', '/phaser-resources/images/background-elements/grey-bg.png'); // Replace with the path to your say image
 
-    this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+    this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
     
   }
   

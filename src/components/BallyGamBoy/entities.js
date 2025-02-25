@@ -36,7 +36,6 @@ export class PlayerEntity extends GameEntity {
     this.speed = 20;
     this.inputResolver = null;
     this.onStairs = null; // 'up' or 'down' when on stairs
-
   }
 
   resolveInput() {
@@ -60,4 +59,34 @@ export class PlayerEntity extends GameEntity {
       this.inputResolver = resolve;
     });
   }
+
+  // Add the move method here
+  move(dx, dy) {
+    this.gridX += dx;
+    this.gridY += dy;
+  
+    const newX = this.gridX * 32//TILE_SIZE;
+    const newY = this.gridY * 32//TILE_SIZE;
+  
+    console.log(`Player moving to: (${newX}, ${newY})`);
+  
+    this.scene.tweens.add({
+      targets: this.sprite,
+      x: newX,
+      y: newY,
+      duration: 150, // Adjust duration for speed
+      ease: 'Linear', // Smooth movement
+      onComplete: () => {
+        this.x = newX;
+        this.y = newY;
+      }
+    });
+  }
+  
+  updatePosition() {
+    if (this.sprite) {
+      this.sprite.setPosition(this.x, this.y);
+    }
+  }
+  
 }

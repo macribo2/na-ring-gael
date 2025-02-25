@@ -146,7 +146,7 @@ enText.setAlpha(1);
     
 
   function preload() {
-    this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+    this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
     
     this.load.image('tallBg', './phaser-resources/images/background-elements/tallBg0.png');
    

@@ -53,7 +53,7 @@ this.isRaining = false;
 
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game
-      this.load.atlas('championSprites', 'phaser-resources/images/champions-test.png', 'phaser-resources/json/champions-test.json');
+      this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
       this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
       this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
       this.load.image('leftButtonDark', '/phaser-resources/images/ui/pad-l.png');
