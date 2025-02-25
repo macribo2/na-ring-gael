@@ -1,11 +1,12 @@
 import Phaser from "phaser";
 
 class ActionMenu extends Phaser.GameObjects.Container {
-  constructor(scene, menuKey, closeActionMenu) {
+  constructor(scene, menuKey, closeActionMenu,goDownStairs) {
     super(scene);
     this.scene = scene;
     this.menuKey = menuKey;
     this.closeActionMenu = closeActionMenu; // Store function reference
+    this.goDownStairs = goDownStairs; // Store function reference
 
 
     if (!scene.cache.json.exists('menuContent')) {
@@ -71,9 +72,15 @@ class ActionMenu extends Phaser.GameObjects.Container {
     .setDepth(6001)
     .setScrollFactor(0).setScale(8).setAlpha(0.6)
     .setInteractive().on("pointerdown", () => {
-      if (this.closeActionMenu) {
+      if (this.menuData.choices.action==='goDownStairs') {
+          this.goDownStairs();
           this.closeActionMenu();
-      };})
+      }
+      if (this.menuData.choices.action==='cancel'){
+        this.closeActionMenu();
+
+      }
+      ;})
         
     // Load the frame overlay (from preload)
     this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, 'ciorcal-light')
