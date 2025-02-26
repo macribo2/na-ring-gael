@@ -78,8 +78,8 @@ export class PlayerEntity extends GameEntity {
       this.gridX = newGridX;
       this.gridY = newGridY;
     
-      const newX = this.gridX * 32; // TILE_SIZE
-      const newY = this.gridY * 32; // TILE_SIZE;
+      const newX = (this.gridX + 0.5) * 32; // Center of tile
+      const newY = (this.gridY + 0.5) * 32; // Center of tile
     
       console.log(`Player moving to: (${newX}, ${newY})`);
     
@@ -102,6 +102,7 @@ export class PlayerEntity extends GameEntity {
   updatePosition() {
     if (this.sprite) {
       this.sprite.setPosition(this.x, this.y);
+      
     }
   }
   

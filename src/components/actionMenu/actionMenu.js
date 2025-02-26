@@ -1,12 +1,13 @@
 import Phaser from "phaser";
 
 class ActionMenu extends Phaser.GameObjects.Container {
-  constructor(scene, menuKey, closeActionMenu,goDownStairs) {
+  constructor(scene, menuKey, closeActionMenu,goDownStairs,goUpStairs) {
     super(scene);
     this.scene = scene;
     this.menuKey = menuKey;
     this.closeActionMenu = closeActionMenu; // Store function reference
     this.goDownStairs = goDownStairs; // Store function reference
+    this.goUpStairs = goUpStairs; // Store function reference
 
 
     if (!scene.cache.json.exists('menuContent')) {
@@ -19,14 +20,17 @@ class ActionMenu extends Phaser.GameObjects.Container {
   this.overlay = scene.add.rectangle(
   scene.cameras.main.centerX, 
   scene.cameras.main.centerY,
-  scene.scale.width,
-  scene.scale.height,
-  0x000000,
-  0.8
+  scene.scale.width*2,
+  scene.scale.height*2,
+  0x004400,
+  0.1
 )
-    // Add menu text
     
-        // Wheel
+     // Get graphic key from JSON configuration
+     const graphicKey = this.menuData.graphic || 'default_fallback_texture'; // Add fallback
+
+          
+      // Wheel
         this.wheel = scene.add.sprite(scene.scale.width/2,scene.scale.height/2, 'celt-ring')
           .setVisible(false)
           .setDepth(1100)
@@ -67,45 +71,52 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     this.setVisible(false);
 
+
+    
+
     // Load the base button graphic from the atlas (from JSON)
-    this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'stairs_down_texture')
+    this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'default_button')
     .setDepth(6001)
-    .setScrollFactor(0).setScale(8).setAlpha(0.6)
+    .setScrollFactor(0).setScale(0.75).setAlpha(1)
     .setInteractive().on("pointerdown", () => {
       if (this.choices[this.choiceCounter].action === 'goDownStairs') {
         this.scene.goDownStairs()
         this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-    } else if (this.choices[this.choiceCounter].action === 'cancel') {
+    } else  if (this.choices[this.choiceCounter].action === 'goUpStairs') {
+      this.scene.goUpStairs()
+      this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+  }    
+    else if (this.choices[this.choiceCounter].action === 'cancel') {
         this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
     }
       ;})
         
-    // Load the frame overlay (from preload)
-    this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, 'ciorcal-light')
-    .setDepth(602) // Ensure it's above the base
-    .setScrollFactor(0)
-    .setScale(1.5);
-    this.titleHidden=false;
-    this.choicesVisible=false;
-    // Make sure both elements are properly grouped
-    this.buttonContainer = scene.add.container(0, 0, [this.buttonBase, this.buttonFrame])
+      
+    // this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, '')
+    // .setDepth(602) // Ensure it's above the base
+    // .setScrollFactor(0)
+    // .setScale(1.5);
+    // this.titleHidden=false;
+    // this.choicesVisible=false;
+    // // Make sure both elements are properly grouped
+    this.buttonContainer = scene.add.container(0, 0, [this.buttonBase,]) //this.buttonFrame])
     .setDepth(600)
     .setVisible(false)
     .setScrollFactor(0)
     .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
        
-    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/5, "", {
-      fontSize: "64px",
+    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/10, "", {
+      fontSize: "48px",
       fontFamily:'dum1, sans-serif',
       fill: "LavenderBlush",
       align: "center",
-      wordWrap: { width: 600 }
+      wordWrap: { width: 800 }
     }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
 
     // Current choice text (displayed when spinning)g
-    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/5, "", {
-      fontSize: "64px",
-      fill: "LavenderBlush",
+    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
+      fontSize: "32px",
+      fill: "gunmetal",
       fontFamily:'dum1',
       align: "center",
       wordWrap: { width: 600 }
@@ -113,9 +124,17 @@ class ActionMenu extends Phaser.GameObjects.Container {
  
   
     
-    this.add([this.overlay, this.wheel, this.buttonBase, this.buttonFrame, this.titleText,this.choiceText]);
+    this.add([this.overlay, this.wheel, this.buttonBase, this.titleText,this.choiceText]);
   
-  
+    this.scene.tweens.add({
+      targets: this.buttonBase,
+      alpha: { start: 1, to: 0.5, duration: 1500, yoyo: true, repeat: -1 }, // Fade between 1 (visible) and 0.5 (semi-transparent)
+      ease: 'Sine.easeInOut', // Smooth easing for a gentle fade
+      yoyo: true, // Makes the tween reverse (fade back in after fading out)
+      repeat: -1, // Loops indefinitely
+    });  
+
+
   }
 
   updateChoiceDisplay() {
@@ -183,32 +202,34 @@ class ActionMenu extends Phaser.GameObjects.Container {
   }
 
   showMenu(menuKey) {
+
+    
     if (!this.menuData[menuKey]) {
       console.error(`No data for menu key: ${menuKey}`);
       return;
     }
-    
-    const data = this.menuData[menuKey];
-    
-    if (!this.titleHidden) {
-      this.titleText.setVisible(true)
-                    .setAlpha(1)
-                    .setText(data.subjectGa)
-                    .setScrollFactor(0);
-  }
-  if (!this.choicesVisible) {
-    this.choiceText.setVisible(true)
-      .setAlpha(0)
-      .setScrollFactor(0);
-  }
-  this.createSpokes(data.choices);
-    this.overlay.setVisible(true);
-    this.wheel.setVisible(true);
-    this.buttonFrame.setVisible(true);
-    this.buttonBase.setVisible(true);
-    this.setVisible(true);
 
-    // Create spokes for choices (physics setup happens inside)
+    const data = this.menuData[menuKey];
+
+    // List of elements to fade in
+    const elements = [
+        this.overlay,
+        this.wheel,
+        this.buttonBase,
+        this.titleText,
+        this.choiceText
+    ];
+
+    if (!this.titleHidden) {
+        this.titleText.setText(data.subjectGa).setScrollFactor(0);
+    }
+
+    if (!this.choicesVisible) {
+        this.choiceText.setScrollFactor(0);
+    }
+
+    this.createSpokes(data.choices);
+    this.setVisible(true);
 
     // Reset rotation tracking
     this.lastRotation = this.wheel.rotation;
@@ -216,7 +237,22 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     this.scene.input.setTopOnly(true);
     this.overlay.setInteractive();
-  }
+
+    // Apply fade-in effect to each element
+    elements.forEach(element => {
+        if (element) {
+            element.setAlpha(0).setVisible(true); // Start invisible
+            this.scene.tweens.add({
+                targets: element,
+                alpha: 1, // Fade in
+                duration: 500, // Adjust speed of fade
+                ease: 'Power2'
+            });
+        }
+    });
+
+    this.wheel.setScale(0.75); // Set scale after visibility
+}
 
   updateSpokePositions() {
     // Get current wheel rotation
@@ -265,18 +301,6 @@ class ActionMenu extends Phaser.GameObjects.Container {
     
     // Reset last rotation to current rotation for accurate direction detection
     this.lastRotation = this.wheel.rotation;
-    if (!this.titleHidden) {
-      this.titleHidden = true;
-      this.scene.tweens.add({
-          targets: this.titleText,
-          alpha: 0,
-          duration: 500,
-          ease: 'Linear',
-          onComplete: () => {
-              this.titleText.setVisible(false).setActive(false); // Fully disable
-          }
-      });
-  }
   
   if (!this.choicesVisible) {
       this.choicesVisible = true;
@@ -358,13 +382,14 @@ updateSelection() {
     this.overlay.setVisible(false);
     this.titleText.setVisible(false);
     this.wheel.setVisible(false);
-    this.buttonFrame.setVisible(false);
     this.buttonBase.setVisible(false);
     this.choiceText.setVisible(false);
     this.scene.input.setTopOnly(false);
     
     // Clean up physics
   }
+
+  
 }
 
 export default ActionMenu;

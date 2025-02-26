@@ -1,30 +1,39 @@
 {
     "stairsDown": {
-      "subjectGa": "Téann na staighre síos",
+      "subjectGa": "An míann leat dul síos na staighre?",
       "subjectEn": "The stairs go down",
       "choices": [
         {
-          "nameGa": "Lean síos íad",
-          "nameEn": "follow them down",
+          "nameGa": "Is míann liom",
+          "nameEn": "I do intend it",
           "action": "goDownStairs"
         },
         {
-          "nameGa": "Ná imigh síos go fóil",
-          "nameEn": "Don't go down yet",
+          "nameGa": "Ní míann liom",
+          "nameEn": "I don't intend it",
           "action": "cancel"
+        }
+    
+      ],
+      "graphic":"stairs_down_texture"
+      
+    },
+    "stairsUp": {
+      "subjectGa": "An míann leat dul suas na staighre?",
+      "subjectEn": "Is it your intention to go up the stairs?",
+      "choices": [
+        {
+          "nameGa": "Is míann liom",
+          "nameEn": "I do intend it",
+          "action": "goUpStairs"
         },
         {
-          "nameGa": "Lean síos íad",
-          "nameEn": "follow them down",
-          "action": "goDownStairs"
-        },
-        {
-          "nameGa": "Ná imigh síos go fóil",
-          "nameEn": "Don't go down yet",
+          "nameGa": "Ní míann liom",
+          "nameEn": "I don't intend it",
           "action": "cancel"
         }
       ],
-      "graphic":"phaser-resources/images/rotjs/stairs-down.png"
+      "graphic":"stairs_up_texture"
       
     }
   }
