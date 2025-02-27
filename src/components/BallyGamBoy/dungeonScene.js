@@ -45,7 +45,7 @@ export default class DungeonScene extends Phaser.Scene {
   }
   create() {
 
-
+    this.particles = null; // Initialize particles as null
 
     // Maintain a percentage-based position
     const screenWidth = this.scale.width;
@@ -160,14 +160,31 @@ export default class DungeonScene extends Phaser.Scene {
     if (typeof this.actionMenu.showMenu !== 'function') {
       console.error('ActionMenu instance is missing showMenu method!');
     }
+    console.log("Create called. Checking if dustTexture exists...");
     
-    
+    // Initialize dustMotes array here if not already done
+    if (!this.dustMotes) {
+        this.dustMotes = [];
+        console.log("dustMotes array initialized.");
+    }
 
-
+    if (this.textures.exists('dustTexture')) {
+        console.log("dustTexture exists, creating dust motes.");
+        this.createDustMotes();
+    } else {
+        console.log("dustTexture not found.");
+        this.load.once('complete', () => {
+            console.log("Assets loaded, creating dust motes.");
+            this.createDustMotes();
+        });
+    }
     
 }
 
   preload() {
+    console.log("Loading dustTexture...");
+ 
+    this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
     this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
       this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
       this.load.image('leftButtonDark', '/phaser-resources/images/ui/pad-l.png');
@@ -206,6 +223,90 @@ export default class DungeonScene extends Phaser.Scene {
       frameHeight: 32
     });
   }
+  createDustMotes() {
+    console.log("Creating dust motes...");
+    this.dustMotes = [];
+
+    // Optional: Add a timer to continuously spawn dust motes over time
+    this.time.addEvent({
+        delay: 300, // New dust mote every 300ms (~3 per second)
+        callback: this.spawnDustMote,
+        callbackScope: this,
+        loop: true
+    });
+}
+
+spawnDustMote() {
+    // Randomize initial position on screen
+    let startX = Math.random() * this.cameras.main.width; // Random horizontal position
+    let startY = Math.random() * this.cameras.main.height;  // Random vertical position
+
+    let dustMote = this.add.image(startX, startY, 'dustTexture');
+    
+    // Set initial properties for each new dust mote
+    dustMote.alpha = 0; // Start invisible
+    dustMote.fadeSpeed = 0.005 + Math.random() * 0.005; // Slow random fade-in speed
+    dustMote.speedY = 0.005 + Math.random() * 0.02; // Slow vertical drift
+    dustMote.lifetime = 0; // Track lifetime for fade out
+    dustMote.setDepth(-1);
+    // Add to dust motes array
+    this.dustMotes.push(dustMote);
+
+    console.log(`Dust mote created at position: ${dustMote.x}, ${dustMote.y}`);
+}
+
+update(time, delta) {
+    if (this.dustMotes && this.dustMotes.length > 0) {
+        this.dustMotes.forEach((dustMote, index) => {
+            // Fade in as the mote ascends
+            if (dustMote.alpha < 1) {
+                dustMote.alpha += dustMote.fadeSpeed;  // Increase alpha to fade in
+            }
+
+            // Update Y position to move upwards
+            dustMote.y -= dustMote.speedY * delta;  // Vertical drift upwards
+
+            // Increase lifetime and fade out when it hits its max lifetime (around 4 seconds)
+            dustMote.lifetime += delta;
+            if (dustMote.lifetime > 4000) {  // After 4 seconds
+                this.dustMotes.splice(index, 1); // Remove it from the array
+                dustMote.destroy(); // Clean up the dust mote
+            }
+        });
+    }
+  if (this.playerHasMoved()) {
+    this.hasMoved = true;
+    // Update previous position after movement
+    this.player.previousGridX = this.player.gridX;
+    this.player.previousGridY = this.player.gridY;
+  }
+  if (this.actionMenu) {
+    this.actionMenu.update();
+  }
+  if (this.player) {
+    // Smooth light movement
+    this.player.light.x = Phaser.Math.Linear(
+      this.player.light.x, 
+      this.player.sprite.x, 
+      0.2
+    );
+    this.player.light.y = Phaser.Math.Linear(
+      this.player.light.y, 
+      this.player.sprite.y, 
+      0.2
+    );
+    
+    // Update FOV more efficiently
+    if (Date.now() - this.lastFOVUpdate > 100) {
+      this.updateFOV();
+      this.lastFOVUpdate = Date.now();
+    }
+  }
+  this.handleStairInteraction();
+}
+
+
+
 // Method to allow opening the ActionMenu if the player has moved
 canOpenActionMenu() {
   return this.hasMoved;
@@ -751,37 +852,7 @@ clearPath() {
   }, 500); // 500ms delay
 }
 
-update() {
-  if (this.playerHasMoved()) {
-    this.hasMoved = true;
-    // Update previous position after movement
-    this.player.previousGridX = this.player.gridX;
-    this.player.previousGridY = this.player.gridY;
-  }
-  if (this.actionMenu) {
-    this.actionMenu.update();
-  }
-  if (this.player) {
-    // Smooth light movement
-    this.player.light.x = Phaser.Math.Linear(
-      this.player.light.x, 
-      this.player.sprite.x, 
-      0.2
-    );
-    this.player.light.y = Phaser.Math.Linear(
-      this.player.light.y, 
-      this.player.sprite.y, 
-      0.2
-    );
-    
-    // Update FOV more efficiently
-    if (Date.now() - this.lastFOVUpdate > 100) {
-      this.updateFOV();
-      this.lastFOVUpdate = Date.now();
-    }
-  }
-  this.handleStairInteraction();
-}
+
 
 
 updateFOV() {
