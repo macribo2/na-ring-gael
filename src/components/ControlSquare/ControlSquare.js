@@ -1,12 +1,17 @@
 import Phaser from 'phaser';
 
  class ControlSquare extends Phaser.GameObjects.Container {
-  constructor(scene, x, y) {
+  constructor(scene, x, y,clearPathCallback) {
     super(scene, x, y);
+    scene.add.existing(this);
+    this.clearPathCallback = clearPathCallback; // Store the clearPath callback
 
+    // Center buttons within container
+    const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
+      .setOrigin(0.5, 0.5);
     // Create the directional buttons (left, right, up, down) and the middle button
     const buttonSize = 40; // Size of each button
-    const middleButton = scene.add.sprite(x, y, 'middleButtonDark').setInteractive();
+
     const upButton = scene.add.sprite(x, y - 60, 'upButtonDark').setInteractive(); // Up button above the middle
     const downButton = scene.add.sprite(x, y + 60, 'downButtonDark').setInteractive(); // Down button below the middle
     const leftButton = scene.add.sprite(x - 60, y, 'leftButtonDark').setInteractive(); // Left button to the left of the middle
@@ -39,25 +44,36 @@ import Phaser from 'phaser';
     // When button is pressed (pointer down)
     middleButton.on('pointerdown', () => {
       setButtonLit(middleButton, 'middleButtonLit');
+      if (this.clearPathCallback) {
+        this.clearPathCallback(); // Calls DungeonScene's clearPath method
+    }
     });
     upButton.on('pointerdown', () => {
       this.emit('control-action', 'up-down'); // Emit event
-
+      if (this.clearPathCallback) {
+        this.clearPathCallback(); // Calls DungeonScene's clearPath method
+    }
       setButtonLit(upButton, 'upButtonLit');
     });
     downButton.on('pointerdown', () => {
       this.emit('control-action', 'down-down'); // Emit event
-
+      if (this.clearPathCallback) {
+        this.clearPathCallback(); // Calls DungeonScene's clearPath method
+    }
       setButtonLit(downButton, 'downButtonLit');
     });
     leftButton.on('pointerdown', () => {
       this.emit('control-action', 'left-down'); // Emit event
-
+      if (this.clearPathCallback) {
+        this.clearPathCallback(); // Calls DungeonScene's clearPath method
+    }
       setButtonLit(leftButton, 'leftButtonLit');
     });
     rightButton.on('pointerdown', () => {
       this.emit('control-action', 'right-down'); // Emit event
-
+      if (this.clearPathCallback) {
+        this.clearPathCallback(); // Calls DungeonScene's clearPath method
+    }
       setButtonLit(rightButton, 'rightButtonLit');
     });
 

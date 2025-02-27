@@ -11,6 +11,8 @@ export default class DungeonScene extends Phaser.Scene {
     
     super({ key: 'Dungeon' });
     this.lastClickedTile = null;
+    this.shouldDrawPath = true;  // Flag to control whether the path should be drawn
+   
     this.hasMoved = false;
     this.pathGraphics = null; // Will hold our path drawing graphics
     this.currentPath = [];     // Stores calculated path tiles
@@ -42,6 +44,40 @@ export default class DungeonScene extends Phaser.Scene {
     
   }
   create() {
+
+
+
+    // Maintain a percentage-based position
+    const screenWidth = this.scale.width;
+    const screenHeight = this.scale.height;
+  
+    const percentX = 0.45; // % from the left
+    const percentY = 0.4; // % from the top
+  
+     
+
+  this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this))
+    .setScrollFactor(0)
+    .setScale(0.5)
+    .setDepth(788);
+
+
+          
+    this.controlSquare.on('control-action', (action) => {
+      if (!this.player) return;
+  
+      // Map control actions to direction vectors
+      const directions = {
+        'up-down': { dx: 0, dy: -1 },
+        'down-down': { dx: 0, dy: 1 },
+        'left-down': { dx: -1, dy: 0 },
+        'right-down': { dx: 1, dy: 0 }
+      };
+  
+      if (directions[action]) {
+        this.player.move(directions[action].dx, directions[action].dy);
+      }
+    }); 
   
     this.keys = this.input.keyboard.addKeys({
       interact: Phaser.Input.Keyboard.KeyCodes.E // Or your chosen key
@@ -125,30 +161,9 @@ export default class DungeonScene extends Phaser.Scene {
       console.error('ActionMenu instance is missing showMenu method!');
     }
     
-    // Maintain a percentage-based position
-    const screenWidth = this.scale.width;
-    const screenHeight = this.scale.height;
-  
-    const percentX = 0.45; // % from the left
-    const percentY = 0.4; // % from the top
-  
-       
-    this.controlSquare = new ControlSquare(this,screenWidth * percentX, screenHeight * percentY).setDepth(788).setScrollFactor(0).setScale(0.5)
-    this.controlSquare.on('control-action', (action) => {
-      if (!this.player) return;
-  
-      // Map control actions to direction vectors
-      const directions = {
-        'up-down': { dx: 0, dy: -1 },
-        'down-down': { dx: 0, dy: 1 },
-        'left-down': { dx: -1, dy: 0 },
-        'right-down': { dx: 1, dy: 0 }
-      };
-  
-      if (directions[action]) {
-        this.player.move(directions[action].dx, directions[action].dy);
-      }
-    }); 
+    
+
+
     
 }
 
@@ -561,6 +576,10 @@ isWalkable(x, y) {
 }
 
 pathfindTo(targetX, targetY) {
+  if (!this.shouldDrawPath) {
+    console.log('Path drawing is disabled.');
+    return;
+}
   // If clicked on the same tile, start moving player
   if (this.lastClickedTile && this.lastClickedTile.x === targetX && this.lastClickedTile.y === targetY) {
     this.movePlayerAlongPath();
@@ -718,8 +737,18 @@ drawPath() {
 
 // Call this to clear the path images
 clearPath() {
-  // Clear all images in the path group after tweening is complete
-  this.pathGroup.clear(true, true); // Clear pathGroup after all images fade in
+  // Stop drawing the path
+  this.shouldDrawPath = false;
+
+  // Clear path from the path group
+  console.log('Clearing path...');
+  this.pathGroup.clear(true, true); // Clears the pathGroup after all images fade in
+
+  // Optionally reset flag after a brief moment (e.g., 500ms)
+  setTimeout(() => {
+      this.shouldDrawPath = true;
+      console.log('Path drawing is re-enabled.');
+  }, 500); // 500ms delay
 }
 
 update() {
