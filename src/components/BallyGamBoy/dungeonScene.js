@@ -8,16 +8,14 @@ import ControlSquare from '../ControlSquare/ControlSquare';
 export default class DungeonScene extends Phaser.Scene {
   
   constructor() {
+    
     super({ key: 'Dungeon' });
     this.lastClickedTile = null;
-    this.spawnedPosition = null;
-    this.currentPosition = null;
     this.hasMoved = false;
     this.pathGraphics = null; // Will hold our path drawing graphics
-  this.currentPath = [];     // Stores calculated path tiles
-  this.lastClickedTile = null; // For click handling
+    this.currentPath = [];     // Stores calculated path tiles
+    this.lastClickedTile = null; // For click handling
     this.stairGroup = null; // Add this in the constructor
-    this.dungeonCache = new window.Map([]); // Stores generated levels
     this.currentLevel = 1;
     this.playerPositionHistory = new window.Map([]); // Remembers where player entered each level
     this.roomMap = []; // 2D array tracking room IDs
@@ -43,8 +41,129 @@ export default class DungeonScene extends Phaser.Scene {
     this.transitionDirection = null; // Track whether we're going "up" or "down"
     
   }
+  create() {
   
+    this.keys = this.input.keyboard.addKeys({
+      interact: Phaser.Input.Keyboard.KeyCodes.E // Or your chosen key
+    });
+    const characterSheetData = localStorage.getItem('characterSheet');
+    if (!characterSheetData) {
+      console.warn("No characterSheet found in local storage.");
+      return;
+    }
+    
+    const characterSheet = JSON.parse(characterSheetData);
+    console.log("HEY " + characterSheet.spriteKey);
+    
+    // Validate spriteKey
+    const spriteKey = characterSheet.spriteKey;
+    if (!spriteKey) {
+      console.warn("Invalid spriteKey in characterSheet.");
+      return;
+    }
+  
+    // Validate the texture exists
+    const textureExists = this.textures.exists('championSprites');
+    if (!textureExists) {
+      console.warn("Texture 'championSprites' does not exist. Please preload it.");
+      return;
+    }
+    
+    this.input.addPointer(1); // For multi-touch
+    
+    
+    this.cameras.main.setZoom(2); // Initial zoom level
+    
+    
+    
+    this.pathGroup = this.add.group(); // Create a new group for path elements
+    
+    const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+    
+    if (!this.renderer.pipelines.get('Light2D')) {
+      const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
+      this.renderer.pipelines.add('Light2D', new Light2DPipeline(this.game));
+    }
+    
+    this.tiles = this.add.group();
+    this.generateDungeon();
+    this.drawMap(); 
+    this.setupFOV();
+    
+    this.createPlayer(characterSheet); // Pass the characterSheet to the player creation function
+    this.setupInput();
+    this.engine.start();
+    
+    const stairsDown = { type: 'stairs', direction: 'down' };
+    const stairsUp = { type: 'stairs', direction: 'up' };
+    
+    this.setupLighting();
+    
+    
+    this.pathGraphics = this.add.graphics()
+    .setDepth(9999)
+    .setDefaultStyles({
+      lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
+      fillStyle: { color: 0xFF0000, alpha: 0.5 }
+    });
+    
+    this.setupTouchInput(); 
+    
+    
+    console.log("ActionMenu instance:", this.actionMenu);
+    
+    
+    let menuKey = 'defaultMenu';
+    
+    this.setupStairCollisions();
+    
+    this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
+    this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
+    
+    
+    if (typeof this.actionMenu.showMenu !== 'function') {
+      console.error('ActionMenu instance is missing showMenu method!');
+    }
+    
+    // Maintain a percentage-based position
+    const screenWidth = this.scale.width;
+    const screenHeight = this.scale.height;
+  
+    const percentX = 0.45; // % from the left
+    const percentY = 0.4; // % from the top
+  
+       
+    this.controlSquare = new ControlSquare(this,screenWidth * percentX, screenHeight * percentY).setDepth(788).setScrollFactor(0).setScale(0.5)
+    this.controlSquare.on('control-action', (action) => {
+      if (!this.player) return;
+  
+      // Map control actions to direction vectors
+      const directions = {
+        'up-down': { dx: 0, dy: -1 },
+        'down-down': { dx: 0, dy: 1 },
+        'left-down': { dx: -1, dy: 0 },
+        'right-down': { dx: 1, dy: 0 }
+      };
+  
+      if (directions[action]) {
+        this.player.move(directions[action].dx, directions[action].dy);
+      }
+    }); 
+    
+}
+
   preload() {
+    this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
+      this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
+      this.load.image('leftButtonDark', '/phaser-resources/images/ui/pad-l.png');
+      this.load.image('rightButtonDark', '/phaser-resources/images/ui/pad-r.png');
+      this.load.image('middleButtonDark', '/phaser-resources/images/ui/middle-b.png');
+      this.load.image('upButtonLit', '/phaser-resources/images/ui/pad-u-lit.png');
+      this.load.image('downButtonLit', '/phaser-resources/images/ui/pad-d-lit.png');
+      this.load.image('leftButtonLit', '/phaser-resources/images/ui/pad-l-lit.png');
+      this.load.image('rightButtonLit', '/phaser-resources/images/ui/pad-r-lit.png');
+      this.load.image('middleButtonLit', '/phaser-resources/images/ui/middle-a.png');
+  
     this.load.image('ciorcal-light', 'phaser-resources/images/ciorcal-glass-light.png')
     this.load.image('default_button', 'phaser-resources/images/ui/default-button.png')
   
@@ -112,6 +231,9 @@ canOpenActionMenu() {
       zoom: 1,  // Zoom out to normal (1x) for the action menu
       duration: 500, // Duration of the zoom effect
       ease: 'Power2', // Smooth easing
+      onUpdate: () => {
+        this.updateControlSquareScale(); // Adjust scale continuously during the zoom transition
+      },
       onComplete: () => {
         // Initialize ActionMenu once the zoom transition is complete
         if (!this.actionMenu) {
@@ -146,9 +268,6 @@ canOpenActionMenu() {
       console.error('ActionMenu instance is missing showMenu method!');
     }
   }
-doStairsExist() {
-  return (this.stairs.up && this.stairs.down);
-}
 
   setupLighting() {
  
@@ -205,6 +324,7 @@ closeActionMenu() {
     alpha: 0,
     duration: 500,
     ease: 'Linear',
+  
     onComplete: () => {
       // Hide all elements after fade
       elements.forEach(el => el.setVisible(false));
@@ -217,6 +337,9 @@ closeActionMenu() {
         duration: 500,  
         ease: 'Power2',
         onStart: () => {
+        },
+        onUpdate: () => {
+          this.updateControlSquareScale(); // Adjust scale continuously during the zoom transition
         },
         onComplete: () => {
           console.log('Camera zoom complete');
@@ -330,54 +453,11 @@ goUpStairs() {
 
 loadLevel() {
 
-    // Check if level exists in cache
-    if (this.dungeonCache[this.currentLevel]) {
-      console.log(`Loading cached level ${this.currentLevel}`);
-      this.dungeon = this.dungeonCache[this.currentLevel]; // Restore dungeon layout
-      this.stairs = this.dungeon.stairs; // Restore stairs positions
-    } else {
+ 
       console.log(`Generating new level ${this.currentLevel}`);
       this.generateDungeon(); // Generate new dungeon
-      this.dungeonCache[this.currentLevel] = {
-        layout: this.dungeon, // Store dungeon layout
-        stairs: { ...this.stairs } // Store stairs positions
-      };
-    }
-  const cachedLevel = this.dungeonCache[this.currentLevel];
+ 
 
-  if (cachedLevel) {
-    if (this.transitionDirection === 'down') {
-      // Going down - spawn near UPSTAIRS from previous level
-      if (cachedLevel.stairs.up) {
-        const stairX = cachedLevel.stairs.up.x;
-        const stairY = cachedLevel.stairs.up.y;
-        const spawnPoint = this.findValidSpawn(stairX, stairY);
-
-        if (spawnPoint) {
-          this.player.sprite.setPosition(
-            spawnPoint.x * this.tileSize + this.tileSize / 2,
-            spawnPoint.y * this.tileSize + this.tileSize / 2
-          );
-          console.log("Spawned near UPSTAIRS at:", spawnPoint);
-        }
-      }
-    } else if (this.transitionDirection === 'up') {
-      // Going up - spawn near DOWNSTAIRS from next level
-      if (cachedLevel.stairs.down) {
-        const stairX = cachedLevel.stairs.down.x;
-        const stairY = cachedLevel.stairs.down.y;
-        const spawnPoint = this.findValidSpawn(stairX, stairY);
-
-        if (spawnPoint) {
-          this.player.sprite.setPosition(
-            spawnPoint.x * this.tileSize + this.tileSize / 2,
-            spawnPoint.y * this.tileSize + this.tileSize / 2
-          );
-          console.log("Spawned near DOWNSTAIRS at:", spawnPoint);
-        }
-      }
-    }
-  }
 
   // Clear previous level entities INCLUDING OLD STAIRS
   this.tiles.clear(true, true);
@@ -416,29 +496,13 @@ this.stairs.up = null;
     stairGridY = Math.floor(this.stairs.down.sprite.y / this.tileSize);
   }
 
-  if (stairGridX !== undefined && stairGridY !== undefined) {
-    const spawnPoint = this.findValidSpawn(stairGridX, stairGridY);
-
-    if (spawnPoint) {
-      // Set initial position
-      this.player.sprite.setPosition(
-        spawnPoint.x * this.tileSize + this.tileSize / 2,
-        spawnPoint.y * this.tileSize + this.tileSize / 2
-      );
-
-      // Safety check: Ensure we're not standing on stairs
-      if (this.isStairPosition(spawnPoint.x, spawnPoint.y)) {
-        console.warn("Player spawned on stairs! Searching for safe tile...");
-        const safeSpot = this.findNearbySafeTile(spawnPoint.x, spawnPoint.y);
-        if (safeSpot) {
-          this.player.sprite.setPosition(
-            safeSpot.x * this.tileSize + this.tileSize / 2,
-            safeSpot.y * this.tileSize + this.tileSize / 2
-          );
-        }
-      }
+     if (stairGridX !== undefined && stairGridY !== undefined) {
+    // Set initial position directly on stairs
+    this.player.sprite.setPosition(
+      stairGridX * this.tileSize + this.tileSize / 2,
+      stairGridY * this.tileSize + this.tileSize / 2
+    );
     }
-  }
 
   // Reset camera
   this.cameras.main.startFollow(this.player.sprite);
@@ -470,82 +534,7 @@ getTileInfo(x, y) {
   }
   return "Unable to get tile info";
 }
-  getSpiralWalkableTiles(startX, startY, maxRadius) {
-    console.log(`===== SPIRAL SEARCH =====`);
-    console.log(`Starting search from: (${startX}, ${startY}) with max radius: ${maxRadius}`);
-    
-    const validTiles = [];
-    
-    // Check the starting point first
-    console.log(`Checking center tile (${startX}, ${startY})`);
-    if (this.isWalkable(startX, startY)) {
-      if (!this.isTileStairs(startX, startY)) {
-        console.log(`✅ Center tile (${startX}, ${startY}) is valid`);
-        validTiles.push({
-          x: startX,
-          y: startY,
-          distance: 0
-        });
-      } else {
-        console.log(`❌ Center tile (${startX}, ${startY}) is stairs - skipping`);
-      }
-    } else {
-      console.log(`❌ Center tile (${startX}, ${startY}) is not walkable`);
-    }
-    
-    // Search in expanding rings
-    for (let r = 1; r <= maxRadius; r++) {
-      console.log(`\nSearching radius ${r}...`);
-      let tilesFoundInThisRadius = 0;
-      
-      // Check tiles in a square ring at distance r
-      for (let x = -r; x <= r; x++) {
-        for (let y = -r; y <= r; y++) {
-          // Only check tiles exactly at distance r (forming a square perimeter)
-          if (Math.max(Math.abs(x), Math.abs(y)) === r) {
-            const checkX = startX + x;
-            const checkY = startY + y;
-            
-            console.log(`Checking tile (${checkX}, ${checkY})`);
-            
-            if (this.isWalkable(checkX, checkY)) {
-              if (!this.isTileStairs(checkX, checkY)) {
-                console.log(`✅ Tile (${checkX}, ${checkY}) is valid`);
-                validTiles.push({
-                  x: checkX,
-                  y: checkY,
-                  distance: Math.abs(x) + Math.abs(y) // Manhattan distance
-                });
-                tilesFoundInThisRadius++;
-              } else {
-                console.log(`❌ Tile (${checkX}, ${checkY}) is stairs - skipping`);
-              }
-            } else {
-              console.log(`❌ Tile (${checkX}, ${checkY}) is not walkable`);
-            }
-          }
-        }
-      }
-      
-      console.log(`Found ${tilesFoundInThisRadius} valid tiles at radius ${r}`);
-    }
-  
-    console.log(`\nTotal valid tiles found: ${validTiles.length}`);
-    
-    // Sort by distance from stairs
-    const sortedTiles = validTiles.sort((a, b) => a.distance - b.distance);
-    
-    if (sortedTiles.length > 0) {
-      console.log(`Closest tile is (${sortedTiles[0].x}, ${sortedTiles[0].y}) with distance ${sortedTiles[0].distance}`);
-    } else {
-      console.log(`No valid tiles found in search!`);
-    }
-    
-    console.log(`===== END SPIRAL SEARCH =====`);
-    
-    return sortedTiles;
-  }
-  
+ 
   // Helper function to check if a tile is stairs
   isTileStairs(x, y) {
     // Check if the coordinates match any of the stairs
@@ -1063,109 +1052,39 @@ createRoomMap(dungeon) {
       this.rooms = this.dungeon.getRooms();
     }
 
-  create() {
-    
-    this.keys = this.input.keyboard.addKeys({
-      interact: Phaser.Input.Keyboard.KeyCodes.E // Or your chosen key
-    });
-    const characterSheetData = localStorage.getItem('characterSheet');
-    if (!characterSheetData) {
-        console.warn("No characterSheet found in local storage.");
-        return;
-    }
-  
-    const characterSheet = JSON.parse(characterSheetData);
-    console.log("HEY " + characterSheet.spriteKey);
-  
-    // Validate spriteKey
-    const spriteKey = characterSheet.spriteKey;
-    if (!spriteKey) {
-        console.warn("Invalid spriteKey in characterSheet.");
-        return;
-    }
-  
-    // Validate the texture exists
-    const textureExists = this.textures.exists('championSprites');
-    if (!textureExists) {
-        console.warn("Texture 'championSprites' does not exist. Please preload it.");
-        return;
-    }
-  
-    this.input.addPointer(1); // For multi-touch
-    
-   
-    this.cameras.main.setZoom(2); // Initial zoom level
-  
-  
-  
-    this.pathGroup = this.add.group(); // Create a new group for path elements
-  
-    const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
-  
-    if (!this.renderer.pipelines.get('Light2D')) {
-        const Light2DPipeline = Phaser.Renderer.WebGL.Pipelines.Light2DPipeline;
-        this.renderer.pipelines.add('Light2D', new Light2DPipeline(this.game));
-    }
-  
-    this.tiles = this.add.group();
-    this.generateDungeon();
-    this.drawMap(); 
-    this.setupFOV();
-  
-    this.createPlayer(characterSheet); // Pass the characterSheet to the player creation function
-    this.setupInput();
-    this.engine.start();
-  
-    const stairsDown = { type: 'stairs', direction: 'down' };
-    const stairsUp = { type: 'stairs', direction: 'up' };
-  
-    this.setupLighting();
-  
-  
-    this.pathGraphics = this.add.graphics()
-    .setDepth(9999)
-    .setDefaultStyles({
-        lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
-        fillStyle: { color: 0xFF0000, alpha: 0.5 }
-    });
-  
-    this.setupTouchInput(); 
-  
-  
-    console.log("ActionMenu instance:", this.actionMenu);
-  
-      
-    let menuKey = 'defaultMenu';
-      
-    this.setupStairCollisions();
 
-    this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
-    this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
-    
-    if (!this.cache.json.exists('menuContent')) {
-      throw new Error('Menu data failed to load');
-    }
-    
-    if (typeof this.actionMenu.showMenu !== 'function') {
-      console.error('ActionMenu instance is missing showMenu method!');
-    }
-    
-    
+  updateControlSquareScale() {
+    const zoom = this.cameras.main.zoom;
+  
+    // Maintain a percentage-based position
+    const screenWidth = this.scale.width;
+    const screenHeight = this.scale.height;
+  
+    const percentX = 0.45; // % from the left
+    const percentY = 0.4; // % from the top
+  
+  
+    this.controlSquare.setPosition(screenWidth * percentX, screenHeight * percentY);
+    this.controlSquare.setScale(1 / zoom); // Counteract zoom effect
   }
-setupStairCollisions() {
-  // For downstairs
-  if (this.stairs.down) {
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.stairs.down.sprite,
-      () => {
-        console.log('Downstairs collision!');
-        this.openActionMenu('stairsDown');
-      },
-      null,
-      this
-    );
-  }
+  
+  setupStairCollisions() {
+    // For downstairs
+   
+    if (this.stairs.down) {
+      this.physics.add.overlap(
+        this.player.sprite,
+        this.stairs.down.sprite,
+        () => {
+          console.log('Downstairs collision!');
+          this.openActionMenu('stairsDown');
+        },
+        null,
+        this
+      );
+    }
+  
+  
 
   // For upstairs
   if (this.stairs.up) {
@@ -1209,7 +1128,7 @@ createPlayer(characterSheet) {
 
   // Add physics body for player
   this.physics.add.existing(this.player.sprite);
-  this.player.sprite.body.setSize(32, 32).setOffset(4, 8);
+  this.player.sprite.body.setSize(16, 16)
 
   // Add player to the turn scheduler
   this.scheduler.add(this.player, true);
@@ -1336,18 +1255,8 @@ generateDungeon(previousDownStairs) {
     console.log("Stairs already exist, skipping stair creation.");
   }
 
-  // Build level data for caching
-  const levelData = {
-    map: JSON.parse(JSON.stringify(this.map)), // Deep copy
-    roomMap: JSON.parse(JSON.stringify(this.roomMap)),
-    stairs: {
-      up: upStairsPos,
-      down: downStairsPos
-    },
-    entities: [] // Add your entity serialization logic here
-  };
 
-  this.dungeonCache[this.currentLevel] = levelData;
+ 
 }
 
 // Function to check if stairs already exist
@@ -1411,17 +1320,6 @@ handleStairInteraction() {
   }
 }
 
-loadCachedLevel(cachedLevel) {
-  // Load map, entities, stairs from cachedLevel
-  if (!this.doStairsExist()) {
-  this.stairs.up = cachedLevel.stairs.up;
-  this.stairs.down = cachedLevel.stairs.down;
-
-  // Position player near upstairs (which was downstairs in the lower level)
-  const spawnX = cachedLevel.stairs.up.x * this.tileSize;
-  const spawnY = cachedLevel.stairs.up.y * this.tileSize;
-  this.player.sprite.setPosition(spawnX, spawnY);
-}}
 
 calculateStairsDistance() {
   if (this.stairs.up && this.stairs.up.sprite && this.stairs.down && this.stairs.down.sprite) {
@@ -1447,77 +1345,7 @@ isStairPosition(x, y) {
   );
 }
 
-findNearbySafeTile(startX, startY, maxRadius = 5) {
-  // Spiral search pattern
-  const directions = [
-    {x: 0, y: -1},  // up
-    {x: 1, y: 0},   // right
-    {x: 0, y: 1},   // down
-    {x: -1, y: 0}   // left
-  ];
 
-  let radius = 1;
-  while (radius <= maxRadius) {
-    let x = startX - radius;
-    let y = startY - radius;
-    
-    // Check all tiles in spiral pattern
-    for (let side = 0; side < 4; side++) {
-      for (let i = 0; i < radius * 2; i++) {
-        // Stay within map bounds
-        if (x >= 0 && x < this.dungeonWidth && y >= 0 && y < this.dungeonHeight) {
-          // Check if floor tile and not a stair
-          if (this.map[x][y] === 0 && !this.isStairPosition(x, y)) {
-            return {x, y};
-          }
-        }
-        
-        // Move in current direction
-        x += directions[side].x;
-        y += directions[side].y;
-      }
-    }
-    
-    radius++;
-  }
-  
-  console.error("No safe tile found within radius", maxRadius);
-  return null;
-}
-findValidSpawn(stairX, stairY, maxAttempts = 8) {
-  const directions = [
-    {x: 0, y: -1}, // N
-    {x: 1, y: 0},  // E
-    {x: 0, y: 1},  // S
-    {x: -1, y: 0}, // W
-    {x: 1, y: -1}, // NE
-    {x: 1, y: 1},  // SE
-    {x: -1, y: 1}, // SW
-    {x: -1, y: -1} // NW
-  ];
-
-  // Check immediate neighbors first
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const dir = directions[attempt % directions.length];
-    const checkX = stairX + dir.x;
-    const checkY = stairY + dir.y;
-
-    if (this.isValidSpawnTile(checkX, checkY)) {
-      return {x: checkX, y: checkY};
-    }
-  }
-
-  // Fallback to spiral search if immediate neighbors fail
-  return this.findNearbySafeTile(stairX, stairY);
-}
-
-isValidSpawnTile(x, y) {
-  return x >= 0 && y >= 0 &&
-         x < this.dungeonWidth && 
-         y < this.dungeonHeight &&
-         this.map[x][y] === 0 &&
-         !this.isStairPosition(x, y);
-}
 createTile(x, y) {
   if (x < 0 || y < 0 || x >= this.map.length || y >= this.map[0].length) return;
 
@@ -1781,6 +1609,7 @@ drawMap() {
           try {
             // Ensure this.player is an instance of PlayerEntity
             if (this.player && typeof this.player.move === 'function') {
+              this.clearPath();
               await this.player.move(...direction); // Move the player
             } else {
               console.error('Player move method is undefined');

@@ -22,9 +22,9 @@ this.isRaining = false;
         'Síos,    \nsíos,      \nsíos go doimhin...',
         'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
         '                    "Is mise..."',
-        '"Ba fianna mé, fado..."',
+        '"Ba féinne mé, fado..."',
         ' ',
-        "Is cuimhin leis na géaga",
+        " ",
         'Bhí fothain á glachadh agam ón baisteach\n  mbéillic na carraige.',
         'Bhí mé ag ulmhú dán,\nchun breith ar an púca...',
 
@@ -37,7 +37,7 @@ this.isRaining = false;
         '"I am...',
         'I was a fenian, long ago...',
         '',
-        'The branches recall',
+        '',
         'I was taking shelter from the rain \nin the cavern beneath the rock.',
         'I was preparing a poem,\n to catch the phantom...',
 
@@ -705,11 +705,13 @@ if(this.currentStep === 5 ){
   this.nameGa = characterSheet.nameGa;
   this.branchGa = characterSheet.branchGa;
   this.branchEn = characterSheet.branchEn;
-
+setTimeout(()=>{
   // Dynamically update the text at the required step
   this.textsGa[5] = `\n\n\nIs cuimhin le Géaga, ${this.nameGa} dhíl.`;
   this.textsEn[5] = `The branches recall,\n faithful ${this.nameGa}.`;
 
+
+},1000)
   // Update any text object showing the text if necessary
   this.textObjectGa.setText(this.textsGa[this.currentStep]);
   this.textObjectEn.setText(this.textsEn[this.currentStep]);

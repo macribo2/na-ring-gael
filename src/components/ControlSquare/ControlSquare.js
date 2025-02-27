@@ -24,7 +24,6 @@ import Phaser from 'phaser';
     this.leftButton = leftButton;
     this.rightButton = rightButton;
 
-
     // Function to switch to the lit (pressed) version of the button
     const setButtonLit = (button, buttonName) => {
       button.setTexture(buttonName); // Switch to the "lit" texture (e.g., upButtonLit)
@@ -42,15 +41,23 @@ import Phaser from 'phaser';
       setButtonLit(middleButton, 'middleButtonLit');
     });
     upButton.on('pointerdown', () => {
+      this.emit('control-action', 'up-down'); // Emit event
+
       setButtonLit(upButton, 'upButtonLit');
     });
     downButton.on('pointerdown', () => {
+      this.emit('control-action', 'down-down'); // Emit event
+
       setButtonLit(downButton, 'downButtonLit');
     });
     leftButton.on('pointerdown', () => {
+      this.emit('control-action', 'left-down'); // Emit event
+
       setButtonLit(leftButton, 'leftButtonLit');
     });
     rightButton.on('pointerdown', () => {
+      this.emit('control-action', 'right-down'); // Emit event
+
       setButtonLit(rightButton, 'rightButtonLit');
     });
 
@@ -253,9 +260,19 @@ import Phaser from 'phaser';
       }
     });
     
-
+// // Add this after creating your buttons to see the hit areas
+// scene.input.enableDebug(middleButton, 0x00ff00);
+// scene.input.enableDebug(upButton, 0x00ff00);
+// scene.input.enableDebug(downButton, 0x00ff00);
+// scene.input.enableDebug(leftButton, 0x00ff00);
+// scene.input.enableDebug(rightButton, 0x00ff00);
     // Add this container to the scene
     scene.add.existing(this);
+    middleButton.setScrollFactor(0);
+upButton.setScrollFactor(0);
+downButton.setScrollFactor(0);
+leftButton.setScrollFactor(0);
+rightButton.setScrollFactor(0);
   }
 }
 

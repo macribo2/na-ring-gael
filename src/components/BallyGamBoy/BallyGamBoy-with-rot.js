@@ -13,8 +13,8 @@ const BallyGamBoy = () => {
     const config = {
       type: Phaser.AUTO,
       parent: 'phaser-container',
-      width: 800,
-      height: 480,
+      width: window.innerWidth,  // Use actual screen width
+      height: window.innerHeight, // Use actual screen height
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
