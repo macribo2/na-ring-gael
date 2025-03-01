@@ -17,9 +17,10 @@ class RippleManager {
         // Create a pool of ripples, but a smaller pool
         for (let i = 0; i < this.baseMaxRipples * 10; i++) { // Reduced pool size
             const ripple = this.scene.add.graphics()
-                .setDepth(999)
+                .setDepth(9099)
                 .setVisible(false)
-                .setActive(false);
+                .setActive(false)
+                .setScrollFactor(0);;
             this.ripplePool.push(ripple);
         }
 

@@ -5,11 +5,20 @@ import ActionMenu from '../actionMenu/actionMenu'
 import { GameEntity, PlayerEntity } from './entities';
 import PhaserEntity from './phaserEntity'
 import ControlSquare from '../ControlSquare/ControlSquare';
+
 export default class DungeonScene extends Phaser.Scene {
-  
+
   constructor() {
     
-    super({ key: 'Dungeon' });
+    super({ key: 'DungeonScene' });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('wasFullscreen') === 'true') {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log('Fullscreen failed:', err);
+        });
+      }
+    });
     this.lastClickedTile = null;
     this.shouldDrawPath = true;  // Flag to control whether the path should be drawn
    
@@ -43,6 +52,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.transitionDirection = null; // Track whether we're going "up" or "down"
     
   }
+  
   create() {
 
     this.particles = null; // Initialize particles as null

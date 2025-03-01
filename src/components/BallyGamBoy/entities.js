@@ -1,4 +1,5 @@
-// entities.js
+import { Inventory } from "./inventory";
+
 export class GameEntity {
   static ENTITY_TYPES = {
     PLAYER: 'player',
@@ -30,6 +31,25 @@ export class GameEntity {
   }
 }
 
+export class Item extends GameEntity {
+  constructor(x, y, name, description, type = GameEntity.ENTITY_TYPES.ITEM) {
+    super(x, y, type);
+    this.name = name;
+    this.description = description;
+  }
+
+  // Pick up the item
+  pickup(player) {
+    console.log(`${player.name} picked up ${this.name}`);
+    player.addToInventory(this);
+  }
+
+  // Use the item (for now, it just prints the item's name)
+  use(player) {
+    console.log(`${player.name} used ${this.name}`);
+    // Define behavior for item use here
+  }
+}
 export class PlayerEntity extends GameEntity {
   constructor(scene, x, y) {
     super(x, y, GameEntity.ENTITY_TYPES.PLAYER);
@@ -43,6 +63,26 @@ export class PlayerEntity extends GameEntity {
     this.lastMoveTime = 0; // Last movement time
 
     this.pendingInput = false; // Prevent multiple inputs in the same frame
+    this.name = "Tomás Tástál"
+    this.inventory = new Inventory();  // Use the Inventory class for the player's inventory
+
+
+  }
+
+  // Add an item to the player's inventory
+  addToInventory(item) {
+    this.inventory.push(item);
+    console.log(`${this.name} added ${item.name} to their inventory.`);
+  }
+
+  // Use the first item in the inventory
+  useItem() {
+    if (this.inventory.length > 0) {
+      const item = this.inventory[0];
+      item.use(this);
+    } else {
+      console.log("No items in inventory.");
+    }
   }
 
   resolveInput() {
@@ -126,5 +166,32 @@ export class PlayerEntity extends GameEntity {
     if (this.sprite) {
       this.sprite.setPosition(this.x, this.y);
     }
+  }
+}
+
+
+export class RedCent extends Item {
+  constructor(x, y) {
+    super(x, y, "Red Cent", "A worthless red cent. But it's worth something!", GameEntity.ENTITY_TYPES.ITEM);
+  }
+
+  // Override the pickup method to add the Red Cent to the player's inventory
+  pickup(player) {
+    super.pickup(player);
+    player.addToInventory(this);  // Add the Red Cent to the player's inventory
+    console.log(`${player.name} picked up a Red Cent.`);
+  }
+
+  // Override the use method for when the Red Cent is used
+  use(player) {
+    super.use(player);
+    console.log(`${player.name} used a Red Cent. Nothing special happens.`);
+  }
+
+  // Override the drop method for dropping the Red Cent
+  drop(player) {
+    super.drop(player);
+    player.removeFromInventory(this);  // Remove the Red Cent from the player's inventory
+    console.log(`${player.name} dropped the Red Cent.`);
   }
 }

@@ -3,7 +3,7 @@ import ControlSquare from '../ControlSquare/ControlSquare';
 import ChampionSelect1 from './ChampionSelect1'
 import ChampionSelect2 from './ChampionSelect2'
 import RippleManager from './rippleManager'
-import PucaChase0 from '../pucaChase/pucaChase0'
+import ballyGamBoy from '../BallyGamBoy/dungeonScene'
 
 
 import { EventEmitter } from './EventEmitter';
@@ -25,8 +25,8 @@ this.isRaining = false;
         '"Ba féinne mé, fado..."',
         ' ',
         " ",
-        'Bhí fothain á glachadh agam ón baisteach\n  mbéillic na carraige.',
-        'Bhí mé ag ulmhú dán,\nchun breith ar an púca...',
+        'Is cuimhin liom an báisteach...',
+        ' ',
 
         
       ];
@@ -657,7 +657,7 @@ this.ChampionSelect1.destroy(); // Then destroy it.
       ease: 'Power1', // Smooth easing
       onComplete: () => {
         // Change text properties (position, font size, etc.)
-        this.textObjectGa.setPosition(50, 150); // New position
+        this.textObjectGa.setPosition(50, 50); // New position
   
         setTimeout(() => {
           // Fade in the updated text
@@ -707,8 +707,8 @@ if(this.currentStep === 5 ){
   this.branchEn = characterSheet.branchEn;
 setTimeout(()=>{
   // Dynamically update the text at the required step
-  this.textsGa[5] = `\n\n\nIs cuimhin le Géaga, ${this.nameGa} dhíl.`;
-  this.textsEn[5] = `The branches recall,\n faithful ${this.nameGa}.`;
+  this.textsGa[5] = `\n\nAbar le Géaga faoi ${this.nameGa} dhíl.`;
+  this.textsEn[5] = `Tell Géaga about\n faithful ${this.nameGa}.`;
 
 
 },1000)
@@ -727,10 +727,10 @@ if (this.currentStep === 6) {
 }
 
 if (this.currentStep === 7) {
-  this.scene.start('PucaChase0');  // Transition directly to the next scene
-
+  // this.scene.start('ballyGamBoy');  // Transition directly to the next scene
   this.scene.stop('IntroSequence');  // Transition to IntroSequence scene
   localStorage.setItem('charactersheet', JSON.stringify(this.charactersheet));
+  window.location.href = '/ballygamboy';  // Uncomment if needed
 }
 
 

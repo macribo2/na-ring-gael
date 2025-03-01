@@ -449,6 +449,7 @@ EventEmitter.on('stepChanged', (newStep) => {
         duration: 2000, // Duration of 2 seconds for walking effect
         ease: "Sine.easeInOut", // Smooth easing function
         onStart: () => {
+          this.championImage.flipX =!this.championImage.flipX
           console.log("ChampionSprite started walking down.");
         },
         onComplete: () => {

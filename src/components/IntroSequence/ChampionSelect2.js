@@ -549,7 +549,7 @@ mottoEn:'I am a word of science;  \npoetry;  \nprophesy;  daring',
        notes:'',
        mottoGa:'géillfidh tú, géillfidh tú, géillfidh tú',
 
-mottoEn:'You will yield, you will yield, you will yield',
+mottoEn:'You will yield, you will yield, \nyou will yield',
         branchGa:'tae láidir',
        branchEn:'strong tea',
       },{

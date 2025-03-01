@@ -1,0 +1,39 @@
+{
+    "stairsDown": {
+      "subjectGa": "An míann leat dul síos na staighre?",
+      "subjectEn": "The stairs go down",
+      "choices": [
+        {
+          "nameGa": "Is míann liom",
+          "nameEn": "I do intend it",
+          "action": "goDownStairs"
+        },
+        {
+          "nameGa": "Ní míann liom",
+          "nameEn": "I don't intend it",
+          "action": "cancel"
+        }
+    
+      ],
+      "graphic":"stairs_down_texture"
+      
+    },
+    "stairsUp": {
+      "subjectGa": "An míann leat dul suas na staighre?",
+      "subjectEn": "Is it your intention to go up the stairs?",
+      "choices": [
+        {
+          "nameGa": "Is míann liom",
+          "nameEn": "I do intend it",
+          "action": "goUpStairs"
+        },
+        {
+          "nameGa": "Ní míann liom",
+          "nameEn": "I don't intend it",
+          "action": "cancel"
+        }
+      ],
+      "graphic":"stairs_up_texture"
+      
+    }
+  }

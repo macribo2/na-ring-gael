@@ -289,6 +289,48 @@ upButton.setScrollFactor(0);
 downButton.setScrollFactor(0);
 leftButton.setScrollFactor(0);
 rightButton.setScrollFactor(0);
+middleButton.setInteractive();
+
+this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras.main.height, 0x000000, 0.2)
+  .setOrigin(0)
+  .setScrollFactor(0)
+  .setDepth(100) // Make sure it's above other UI elements
+  .setVisible(false); // Start hidden
+
+ // Function to toggle the overlay
+ const toggleOverlay = () => {
+  if (!this.overlay) {
+    this.overlay = scene.add.graphics();
+    this.overlay.fillStyle(0x000000, 0.2); // Black color with 20% alpha
+    this.overlay.fillRect(0, 0, scene.cameras.main.width, scene.cameras.main.height);
+    this.overlay.setDepth(100); // Ensure it's on top of other elements
+  } else {
+    this.overlay.destroy();
+    this.overlay = null;
+  }
+};
+
+// Handle pointer events for middle button (to toggle overlay)
+middleButton.on('pointerdown', () => {
+  setButtonLit(middleButton, 'middleButtonLit');
+  toggleOverlay();  // Toggle the overlay
+  if (this.clearPathCallback) {
+    this.clearPathCallback(); // Calls DungeonScene's clearPath method
+  }
+});
+
+middleButton.on('pointerup', () => {
+  resetButton(middleButton, 'middleButtonDark');
+});
+
+middleButton.on('pointerout', () => {
+  resetButton(middleButton, 'middleButtonDark');
+});
+
+// Add to the scene and set scroll factors
+scene.add.existing(this);
+middleButton.setScrollFactor(0);
+
   }
 }
 

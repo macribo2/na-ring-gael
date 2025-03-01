@@ -1,55 +1,67 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
-// import { Room } from 'rot-js/lib/map/feature';
 import DungeonScene from './dungeonScene';
+import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
+import PucaChase0 from '../pucaChase/pucaChase0';
 
-
-
-// 3. React Component
 const BallyGamBoy = () => {
   const gameRef = useRef(null);
+  const [showPucaChase, setShowPucaChase] = useState(true);
 
   useEffect(() => {
+    if (gameRef.current) return; // Prevent multiple instances
+
     const config = {
       type: Phaser.AUTO,
       parent: 'phaser-container',
-      width: window.innerWidth,  // Use actual screen width
-      height: window.innerHeight, // Use actual screen height
+      width: window.innerWidth,
+      height: window.innerHeight,
+
       scale: {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: '100%',
+        height: '100%'
       },
+      // scale: {
+      //   mode: Phaser.Scale.FIT,
+      //   autoCenter: Phaser.Scale.CENTER_BOTH,
+      // },
       render: {
         pixelArt: true,
         antialias: false,
         antialiasGL: false,
         roundPixels: true,
-        powerPreference: "high-performance",
-        pipelines: {
-          Light2D: {
-            name: 'Light2D',
-            game: this, // Reference to game instance
-            renderer: null, // Will be auto-populated
-            topology: 6
-          }
-        }
+        powerPreference: 'high-performance',
       },
-      scene: [DungeonScene],
+      scene: [PucaChase0, DungeonScene], // ✅ Add PucaChase0 first
+      plugins: {
+        scene: [
+          {
+            key: 'rexTextTyping',
+            plugin: RexTextTypingPlugin,
+            mapping: 'rexTextTyping',
+          },
+        ],
+      },
       input: {
         keyboard: true,
         mouse: {
-          preventDefaultWheel: false
-        }
+          preventDefaultWheel: false,
+        },
       },
       physics: {
         default: 'arcade',
         arcade: {
           gravity: { y: 0 },
-          debug: false // Set to true to see physics bodies
-        }}
+          debug: false,
+        },
+      },
     };
-    const game = new Phaser.Game(config);
-    gameRef.current = game;
+
+    gameRef.current = new Phaser.Game(config);
+
+    // Switch to DungeonScene after 5 seconds
 
     return () => {
       if (gameRef.current) {
@@ -59,7 +71,7 @@ const BallyGamBoy = () => {
     };
   }, []);
 
-  return <div id="phaser-container" style={{ width: '100%', height: '100%' }} />;
+  return <div id="phaser-container" style={{ width: '100vw', height: '100vh' }} />;
 };
 
 export default BallyGamBoy;
