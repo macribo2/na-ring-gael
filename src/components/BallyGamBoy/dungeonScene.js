@@ -74,7 +74,7 @@ export default class DungeonScene extends Phaser.Scene {
   this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this))
     .setScrollFactor(0)
     .setScale(0.5)
-    .setDepth(788);
+    .setDepth(9788);
 
 
           

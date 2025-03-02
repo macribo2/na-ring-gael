@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-
+import TranslationManager from '../translationManager/translationManager'
  class ControlSquare extends Phaser.GameObjects.Container {
   constructor(scene, x, y,clearPathCallback) {
     super(scene, x, y);
@@ -8,7 +8,7 @@ import Phaser from 'phaser';
 
     // Center buttons within container
     const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
-      .setOrigin(0.5, 0.5);
+      .setOrigin(0.5, 0.5).setDepth(9999);
     // Create the directional buttons (left, right, up, down) and the middle button
     const buttonSize = 40; // Size of each button
 
@@ -303,7 +303,7 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
     this.overlay = scene.add.graphics();
     this.overlay.fillStyle(0x000000, 0.2); // Black color with 20% alpha
     this.overlay.fillRect(0, 0, scene.cameras.main.width, scene.cameras.main.height);
-    this.overlay.setDepth(100); // Ensure it's on top of other elements
+    this.overlay.setDepth(100).setScrollFactor(0); // Ensure it's on top of other elements
   } else {
     this.overlay.destroy();
     this.overlay = null;
@@ -314,6 +314,7 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
 middleButton.on('pointerdown', () => {
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();  // Toggle the overlay
+  TranslationManager.toggleTranslation();
   if (this.clearPathCallback) {
     this.clearPathCallback(); // Calls DungeonScene's clearPath method
   }
