@@ -21,12 +21,13 @@ export default class DungeonScene extends Phaser.Scene {
     });
     this.lastClickedTile = null;
     this.shouldDrawPath = true;  // Flag to control whether the path should be drawn
-   
+    this.hasPlayedInitialAnimation = localStorage.getItem('dungeonInitialAnimationPlayed');
+
     this.hasMoved = false;
     this.pathGraphics = null; // Will hold our path drawing graphics
     this.currentPath = [];     // Stores calculated path tiles
     this.lastClickedTile = null; // For click handling
-    this.stairGroup = null; // Add this in the constructor
+    this.stairGroup = null; // 
     this.currentLevel = 1;
     this.playerPositionHistory = new window.Map([]); // Remembers where player entered each level
     this.roomMap = []; // 2D array tracking room IDs
@@ -52,7 +53,11 @@ export default class DungeonScene extends Phaser.Scene {
     this.transitionDirection = null; // Track whether we're going "up" or "down"
     
   }
-  
+  init(data) {
+    // Receive transition data from previous scene
+    this.transitionFrom = data.fromScene || '';
+    this.transitionFlag = data.initialTransition || false;
+  }
   create() {
 
     this.particles = null; // Initialize particles as null
@@ -189,12 +194,103 @@ export default class DungeonScene extends Phaser.Scene {
         });
     }
     
+   // Only play if coming from PucaChase0 and hasn't played before
+  //  if (this.transitionFrom === 'PucaChase0' ) { //&& !this.hasPlayedInitialAnimation
+    this.playInitialAnimation();
+    // alert();
+    localStorage.setItem('dungeonInitialAnimationPlayed', 'true');
+  // }
+ }
+
+ playInitialAnimation() {
+  if (!this.player || !this.player.sprite) {
+    console.error("Player sprite is undefined in playInitialAnimation");
+    return;
+  }
+
+  // ⚡ STEP 2: Full-screen flash ⚡
+  const flash = this.add.rectangle(0, 0, this.width, this.height, 0xFFFFFF)
+      .setOrigin(0, 0)
+      .setAlpha(1)
+      .setDepth(9999)  // Flash on top
+      .setScrollFactor(0);
+
+  this.tweens.add({
+      targets: flash,
+      alpha: 0,
+      duration: 2450,
+      ease: 'Cubic.easeOut',
+      onComplete: () => flash.destroy()
+  });
+
+  // Start lying on their back (-90 degrees)
+  this.player.sprite.setAngle(-90);
+
+  // Add lightning effect (ensuring full screen coverage)
+  const lightning = this.add.image(0, 0, 'lightning'); // Position at (0, 0)
+  lightning.setOrigin(0, 0); // Set origin to top-left
+  lightning.setDisplaySize(this.scale.width, this.scale.height); // Scale to cover full screen
+  lightning.setDepth(9998); // Ensure lightning is rendered in front of the flash
+  lightning.setScrollFactor(0);
+
+  // Fade out both the lightning and darken background
+  this.tweens.add({
+    targets: [lightning],
+    alpha: 0, // Fade them out to 0 alpha
+    duration: 3000, // 3-second fade-out
+    ease: 'Cubic.easeOut', // Smooth easing for the fade-out
+    onComplete: () => {
+      // Destroy lightning and background after the fade-out is complete
+      lightning.destroy();
+    }
+  });
+
+  
+// Delay before springing up
+setTimeout(() => {
+  this.tweens.add({
+    targets: this.player.sprite, // Apply animation to sprite
+    angle: 0, // Stand upright
+    duration: 400, // Faster animation
+    ease: 'Back.easeOut', // Springy effect
+    onComplete: () => {
+      // Create the "Cá bhfuil mé?" text
+      const text = this.add.text(this.scale.width / 2, this.scale.height * 0.6, 'Cá bhfuil mé?', {
+        font: '16px aonchlo', // Make sure this font is loaded correctly
+        fill: 'lavenderBlush',
+        wordWrap: { width: this.scale.width * 0.8 },
+        align: 'center'
+      })
+      .setOrigin(0.5, 0.5)
+      .setAlpha(1)
+      .setDepth(10000) // Ensure it's on top of other elements
+      .setScrollFactor(0); // Keep text in place even if the camera moves
+
+      // Set timeout to fade out text after 2 seconds
+      setTimeout(() => {
+        this.tweens.add({
+          targets: text,
+          alpha: 0, // Fade out text
+          duration: 1000, // Fade duration
+          ease: 'Cubic.easeOut',
+          onComplete: () => {
+            // Destroy text after fade-out is complete
+            text.destroy();
+          }
+        });
+      }, 2000); // 2 seconds delay before starting fade-out
+    }
+  });
+}, 2000); // 2 seconds delay before the animation starts
+
 }
+
 
   preload() {
     console.log("Loading dustTexture...");
  
     this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
+    this.load.image('lightning', '/phaser-resources/images/lightning.png');
     this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
       this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
       this.load.image('leftButtonDark', '/phaser-resources/images/ui/pad-l.png');
@@ -1135,7 +1231,7 @@ createRoomMap(dungeon) {
 }
 
   createEmergencyRooms() {
-      // Use proper ROT.js feature constructor
+      // Use proper ROT.js feature 
       const Room = Map.Room;
       
       // Clear existing rooms
