@@ -59,7 +59,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.transitionFlag = data.initialTransition || false;
   }
   create() {
-
+    this.actionMenuActive = false; // Initially, the ActionMenu is not active
     this.particles = null; // Initialize particles as null
 
     // Maintain a percentage-based position
@@ -201,7 +201,19 @@ export default class DungeonScene extends Phaser.Scene {
     localStorage.setItem('dungeonInitialAnimationPlayed', 'true');
   // }
  }
+ openOptionsMenu() {
+  if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
+alert('options menu')
+  // // Logic for opening the new dial menu with options like game log, inventory, etc.
+  // console.log('Opening options menu...');
+  
+  // // Example of showing the dial
+  // this.dialMenu.setVisible(true);
+  // this.dialMenu.showOptions(['Game Log', 'Inventory', 'Character Sheet']); // Just an example
 
+  // // Optionally, set some background to blur or darken the screen for focus
+  // this.dialBackground.setVisible(true);
+}
  playInitialAnimation() {
   if (!this.player || !this.player.sprite) {
     console.error("Player sprite is undefined in playInitialAnimation");
@@ -419,7 +431,10 @@ canOpenActionMenu() {
 }
 
   openActionMenu(menuKey) {
+    this.actionMenuActive = true;  // Set to true when the ActionMenu is active
 
+    // When hiding the ActionMenu:
+    this.actionMenuActive = false; 
     if (this.canOpenActionMenu()) {
       console.log("Opening ActionMenu...");
       // Reset the hasMoved flag after opening the menu
@@ -529,7 +544,10 @@ canOpenActionMenu() {
 // to close the action menu
 closeActionMenu() {
   console.log('Closing ActionMenu...');
+  this.actionMenuActive = false;  // Set to true when the ActionMenu is active
 
+  // When hiding the ActionMenu:
+  this.actionMenuActive = false; 
   const elements = [
     this.actionMenu,
     this.actionMenu.overlay,

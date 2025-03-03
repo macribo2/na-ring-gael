@@ -35,6 +35,18 @@ class PucaChase0 extends Phaser.Scene {
     this.yPosition1 = 200;
     this.yPosition2 = 200;
     
+  
+  // Function to switch to the lit (pressed) version of the button
+  const setButtonLit = (button, buttonName) => {
+    button.setTexture(buttonName); // Switch to the "lit" texture (e.g., upButtonLit)
+  };
+
+  // Function to reset to the normal button state
+  const resetButton = (button, buttonName) => {
+    button.setTexture(buttonName); // Switch back to the normal texture (e.g., buttonUp)
+  };
+
+  
   }
   destroy() {
     // Clean up or stop the ripple effect
@@ -302,8 +314,23 @@ function showNextMessageWithTyping(newMessage) {
       }
     });
   }
+
+    // Function to switch to the lit (pressed) version of the button
+    const setButtonLit = (button, buttonName) => {
+      button.setTexture(buttonName); // Switch to the "lit" texture (e.g., upButtonLit)
+    };
+  
+    // Function to reset to the normal button state
+    const resetButton = (button, buttonName) => {
+      button.setTexture(buttonName); // Switch back to the normal texture (e.g., buttonUp)
+    };
+  
   // Create the middle button to toggle translations
 this.middleButton.on('pointerdown', () => {
+  setButtonLit(this.middleButton, 'middleButtonLit');
+    setTimeout(()=>{
+      resetButton(this.middleButton,'middleButtonDark')
+    },1000)
   // Check if cooldown is active
   if (this.isCooldownActive) return;
   // Activate cooldown
@@ -337,6 +364,11 @@ this.middleButton.on('pointerdown', () => {
 
 
 this.rightButton.on('pointerdown', () => {
+    setButtonLit(this.rightButton, 'rightButtonLit');
+    setTimeout(()=>{
+      resetButton(this.rightButton,'rightButtonDark')
+    },1000)
+
   if (this.isCooldownActive || this.currentStep >= 5) return; // Prevent input past step 5
 
   this.isCooldownActive = true;
@@ -361,7 +393,11 @@ this.rightButton.on('pointerdown', () => {
 
   this.upButton.on('pointerdown', () => {
     if (this.isCooldownActive) return;
-  
+    setButtonLit(this.upButton, 'upButtonLit');
+    setTimeout(()=>{
+      resetButton(this.upButton,'upButtonDark')
+    },1000)
+
     this.isCooldownActive = true;
   
     this.currentStep++;
@@ -386,7 +422,11 @@ this.rightButton.on('pointerdown', () => {
   
   this.downButton.on('pointerdown', () => {
     if (this.isCooldownActive) return;
-  
+    setButtonLit(this.downButton, 'downButtonLit');
+    setTimeout(()=>{
+      resetButton(this.downButton,'downButtonDark')
+    },1000)
+
     this.isCooldownActive = true;
   
     if (this.currentStep > 0) {
@@ -402,7 +442,11 @@ this.rightButton.on('pointerdown', () => {
   
   this.leftButton.on('pointerdown', () => {
     if (this.isCooldownActive) return;
-  
+    setButtonLit(this.leftButton, 'leftButtonLit');
+    setTimeout(()=>{
+      resetButton(this.leftButton,'leftButtonDark')
+    },1000)
+
     this.isCooldownActive = true;
   
     if (this.currentStep > 0) {

@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import TranslationManager from '../translationManager/translationManager'
  class ControlSquare extends Phaser.GameObjects.Container {
-  constructor(scene, x, y,clearPathCallback) {
+  constructor(scene, x, y,clearPathCallback,openOptionsMenu) {
     super(scene, x, y);
     scene.add.existing(this);
+    this.openOptionsMenu = openOptionsMenu
     this.clearPathCallback = clearPathCallback; // Store the clearPath callback
 
     // Center buttons within container
@@ -312,6 +313,9 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
 
 // Handle pointer events for middle button (to toggle overlay)
 middleButton.on('pointerdown', () => {
+  if (!this.actionMenuActive) {
+    openOptionsMenu.call(this); // Show the options menu
+}
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();  // Toggle the overlay
   TranslationManager.toggleTranslation();
