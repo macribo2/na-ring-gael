@@ -56,6 +56,11 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.numChoices = 0;
     this.choices = [];
     
+    this.isEnglish = false; // Add state for English toggle
+
+    // Listen for the toggleTranslation event
+    this.scene.events.on('toggleTranslation', this.onToggleTranslation, this);
+
     // Variables for spoke selection
     this.choiceIndex = 0;  // Current choice index
     this.spokeAngle = 0;   // Angle between spokes
@@ -105,16 +110,35 @@ class ActionMenu extends Phaser.GameObjects.Container {
     .setScrollFactor(0)
     .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
        
-    this.titleText = scene.add.text(scene.scale.width/2,scene.scale.height/10, "", {
-      fontSize: "48px",
+
+    this.titleTextEn = scene.add.text(scene.scale.width/2,scene.scale.height-40, "test!!!!!", {
+      fontSize: "32px",
       fontFamily:'dum1, sans-serif',
+      fill: "gunmetal",
+      align: "center",
+      wordWrap: { width: 800 }
+    }).setOrigin(0.5).setDepth(2600).setVisible(true).setScrollFactor(0);
+
+    this.titleTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/10, "", {
+      fontSize: "32px",
+      fontFamily:'aonchlo, sans-serif',
       fill: "LavenderBlush",
       align: "center",
       wordWrap: { width: 800 }
     }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
+  fontSize: "24px",
+  fill: "plum",
+  fontFamily:'dum1',
+  align: "center",
+  wordWrap: { width: 600 }
+}).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+
+
+
 
     // Current choice text (displayed when spinning)g
-    this.choiceText = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
+    this.choiceTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
       fontSize: "32px",
       fill: "gunmetal",
       fontFamily:'dum1',
@@ -123,9 +147,9 @@ class ActionMenu extends Phaser.GameObjects.Container {
     }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
  
   
-    
-    this.add([this.overlay, this.wheel, this.buttonBase, this.titleText,this.choiceText]);
   
+    
+    
     this.scene.tweens.add({
       targets: this.buttonBase,
       alpha: { start: 1, to: 0.5, duration: 1500, yoyo: true, repeat: -1 }, // Fade between 1 (visible) and 0.5 (semi-transparent)
@@ -133,10 +157,21 @@ class ActionMenu extends Phaser.GameObjects.Container {
       yoyo: true, // Makes the tween reverse (fade back in after fading out)
       repeat: -1, // Loops indefinitely
     });  
-
+    
+    this.add([this.overlay, this.wheel, this.buttonBase, this.titleTextGa,this.choiceTextGa,this.titleTextEn, this.choiceTextEn]);
+    this.scene.add.existing(this);
 
   }
+  onToggleTranslation() {
+    this.isEnglish = !this.isEnglish; // Toggle state
 
+    console.log("Toggling translation. isEnglish:", this.isEnglish);
+
+    // Toggle visibility based on the new state
+    this.titleTextEn.setVisible(this.isEnglish);
+    this.choiceTextEn.setVisible(this.isEnglish);
+}
+  
   updateChoiceDisplay() {
     // Ensure index stays within bounds
     this.choiceCounter = Phaser.Math.Wrap(this.choiceCounter, 0, this.numChoices);
@@ -144,7 +179,9 @@ class ActionMenu extends Phaser.GameObjects.Container {
     // Make sure choices array has elements before trying to access
     if (this.choices && this.choices.length > 0) {
       // Update the choice text to reflect the current choice
-      this.choiceText.setText(this.choices[this.choiceCounter].nameGa);
+      this.choiceTextGa.setText(this.choices[this.choiceCounter].nameGa);
+      this.choiceTextEn.setText(this.choices[this.choiceCounter].nameEn);
+
     }
 
     
@@ -216,16 +253,18 @@ class ActionMenu extends Phaser.GameObjects.Container {
         this.overlay,
         this.wheel,
         this.buttonBase,
-        this.titleText,
-        this.choiceText
+        this.titleTextGa,
+        this.choiceTextGa
     ];
 
     if (!this.titleHidden) {
-        this.titleText.setText(data.subjectGa).setScrollFactor(0);
+        this.titleTextGa.setText(data.subjectGa).setScrollFactor(0);
+        this.titleTextEn.setText(data.subjectEn).setScrollFactor(0);
     }
 
     if (!this.choicesVisible) {
-        this.choiceText.setScrollFactor(0);
+        this.choiceTextGa.setScrollFactor(0);
+        this.choiceTextEn.setScrollFactor(0);
     }
 
     this.createSpokes(data.choices);
@@ -305,12 +344,12 @@ class ActionMenu extends Phaser.GameObjects.Container {
   if (!this.choicesVisible) {
       this.choicesVisible = true;
       this.scene.tweens.add({
-          targets: this.choiceText,
+          targets: this.choiceTextGa,
           alpha: 1,
           duration: 500,
           ease: 'Linear',
           onStart: () => {
-              this.choiceText.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
+              this.choiceTextGa.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
           }
       });
   }
@@ -380,10 +419,12 @@ updateSelection() {
   hideMenu() {
     this.setVisible(false);
     this.overlay.setVisible(false);
-    this.titleText.setVisible(false);
+    this.titleTextGa.setVisible(false);
+    this.titleTextEn.setVisible(false);
     this.wheel.setVisible(false);
     this.buttonBase.setVisible(false);
-    this.choiceText.setVisible(false);
+    this.choiceTextGa.setVisible(false);
+    this.choiceTextEn.setVisible(false);
     this.scene.input.setTopOnly(false);
     
     // Clean up physics

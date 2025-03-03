@@ -8,7 +8,7 @@ class TranslationManager extends Phaser.Events.EventEmitter {
     toggleTranslation() {
       this.isEnglishVisible = !this.isEnglishVisible;
       this.emit('toggleTranslation', this.isEnglishVisible); // Notify all scenes
-      alert();
+     console.log('eng toggle- is vis?'+this.isEnglishVisible)
     }
   }
   

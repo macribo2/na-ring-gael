@@ -23,7 +23,7 @@ class PucaChase0 extends Phaser.Scene {
     this.textsEn = [
       'outside, was pouring ',
       'Devil the shelter I had\nin the cavern under the rock.',
-      'My fighting cloths? Soaked\nMy cloak? swimming',
+      'My armour? Soaked\nMy cloak? swimming',
       'Not long remained before the cave would be \nblack-flooded \nbut as they say...',
       '"not comfort but patience does catch the pooka"',
       'A chance! But suddenly - ',
@@ -152,7 +152,8 @@ console.log(this.textures.exists('pookacave')); // Should return true if loaded
   this.cooldownDuration = 500; // 500ms cooldown
   
   const backgroundDarken = this.add.image(0, 0, 'bg1'); // Position it at (0, 0)
-  // Set the image origin to the center of the image so it can be scaled properly
+  // Set the image origin to the center of the image so it can be sc    this.choiceTextGa.setVisible(!this.isEnglish);
+
   backgroundDarken.setOrigin(0, 0); // Set origin to the top-left corner
   
   // Scale the image to cover the entire screen
@@ -196,13 +197,11 @@ console.log(this.textures.exists('pookacave')); // Should return true if loaded
     const screenWidth = this.scale.width;
     const screenHeight = this.scale.height;
 
-const ControlSquare2X = 350;
-const ControlSquare2Y = 200;
 // Button positions
 const buttonSize = 65;
 const buttonSpacing = 0;
-const centerX = this.scale.width - 200; // Adjust for your layout
-const centerY = this.scale.height - 200;
+const centerX = this.scale.width *0.85; // Adjust for your layout
+const centerY = this.scale.height *0.7;
 
 // Load button graphics
 this.upButton = this.add.image(centerX, centerY - (buttonSize + buttonSpacing), 'upButtonDark').setInteractive().setDepth(200);
@@ -508,68 +507,89 @@ if (this.currentStep === 4) {
 
 
   }
-if (this.currentStep >= 5 && !this.stepHandled) {
-  this.stepHandled = true; // Prevent re-triggering
+  if (this.currentStep >= 5) {
+    console.log(`Step triggered: ${this.currentStep}, stepHandled: ${this.stepHandled}`);
 
-  this.tweens.add({
-      targets: this.pookacave2,
-      y: this.height,
-      duration: 1200,
-      ease: 'Sine.easeInOut',
-      onComplete: () => {
-          this.ripples.hide();
+    if (this.stepHandled) return; // Early exit if already handled
 
-          // ⚡ STEP 1: Generate a jagged lightning bolt ⚡
-          const bolt = this.add.graphics({ x: 0, y: 0 }).setDepth(10000);
-          drawLightningBolt.call(this, bolt); // <== Fix: Call with correct "this"
+    this.stepHandled = true; // Mark it immediately
 
-          // Flicker effect - appears for a split second
-          bolt.setAlpha(1);
-          setTimeout(() => bolt.setAlpha(0), 480);
+    // Use `this.once` to ensure this transition only happens once
+    this.once('puca_transition', () => {
+        console.log('Handling step 5 transition...');
 
-          // ⚡ STEP 2: Full-screen flash ⚡
-          const flash = this.add.rectangle(0, 0, this.width, this.height, 0xFFFFFF)
-              .setOrigin(0, 0)
-              .setAlpha(1)
-              .setDepth(9999)
-              .setScrollFactor(0);
+        this.tweens.add({
+            targets: this.pookacave2,
+            y: this.height,
+            duration: 1200,
+            ease: 'Sine.easeInOut',
+            onComplete: () => {
+                console.log('Tween complete, executing effects.');
 
-          this.tweens.add({
-              targets: flash,
-              alpha: 0,
-              duration: 1450,
-              ease: 'Cubic.easeOut',
-              onComplete: () => flash.destroy()
-          });
+                this.ripples.hide();
 
-          // ⚡ STEP 3: Intense shake ⚡
-          this.cameras.main.shake(400, 0.12, true);
+                // ⚡ STEP 1: Generate a jagged lightning bolt ⚡
+                const bolt = this.add.graphics({ x: 0, y: 0 }).setDepth(10000);
+                drawLightningBolt.call(this, bolt);
 
-          // ⚡ STEP 4: Thunder sound ⚡
-          if (this.thunder) {
-              this.thunder.play();
-          }
+                bolt.setAlpha(1);
+                setTimeout(() => bolt.setAlpha(0), 480);
 
-          // ⚡ STEP 5: Transition to DungeonScene ⚡
-          setTimeout(() => {
-              this.tweens.add({
-                  targets: this.cameras.main,
-                  alpha: 0,
-                  duration: 1000,
-                  ease: 'Sine.easeInOut',
-                  onComplete: () => {
-                      this.rainSound.stop();
-                      this.scene.switch('DungeonScene', { 
-                        initialTransition: true,
-                        fromScene: 'PucaChase0',
-                      
+                // ⚡ STEP 2: Full-screen flash ⚡
+                const flash = this.add.rectangle(0, 0, this.width, this.height, 0xFFFFFF)
+                    .setOrigin(0, 0)
+                    .setAlpha(1)
+                    .setDepth(9999)
+                    .setScrollFactor(0);
+
+                this.tweens.add({
+                    targets: flash,
+                    alpha: 0,
+                    duration: 1450,
+                    ease: 'Cubic.easeOut',
+                    onComplete: () => flash.destroy()
+                });
+
+                // ⚡ STEP 3: Intense shake ⚡
+                this.cameras.main.shake(400, 0.12, true);
+
+                // ⚡ STEP 4: Thunder sound ⚡
+                if (this.thunder) {
+                    this.thunder.play();
+                }
+
+                // ⚡ STEP 5: Transition to DungeonScene ⚡
+                setTimeout(() => {
+                    console.log('Starting transition to DungeonScene...');
+                    if (this.scene.isActive('DungeonScene')) {
+                        console.warn('DungeonScene already active! Aborting extra transitions.');
+                        return;
+                    }
+
+                    this.tweens.add({
+                        targets: this.cameras.main,
+                        alpha: 0,
+                        duration: 1000,
+                        ease: 'Sine.easeInOut',
+                        onComplete: () => {
+                            console.log('Scene switch triggered.');
+                            this.rainSound.stop();
+                            this.scene.switch('DungeonScene', { 
+                                initialTransition: true,
+                                fromScene: 'PucaChase0',
+                            });
+                        }
                     });
-                  }
-              });
-          }, 500);
-      }
-  });
+                }, 500);
+            }
+        });
+    });
+
+    // Fire the event
+    this.emit('puca_transition');
 }
+
+
 
 // ⚡ Function to draw a jagged lightning bolt (fixed)
 function drawLightningBolt(graphics) {

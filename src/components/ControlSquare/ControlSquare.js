@@ -315,6 +315,8 @@ middleButton.on('pointerdown', () => {
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();  // Toggle the overlay
   TranslationManager.toggleTranslation();
+  this.scene.events.emit('toggleTranslation');
+
   if (this.clearPathCallback) {
     this.clearPathCallback(); // Calls DungeonScene's clearPath method
   }
