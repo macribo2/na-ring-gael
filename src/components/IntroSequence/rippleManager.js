@@ -20,7 +20,7 @@ class RippleManager {
                 .setDepth(9099)
                 .setVisible(false)
                 .setActive(false)
-                .setScrollFactor(0);;
+                .setScrollFactor(0);
             this.ripplePool.push(ripple);
         }
 

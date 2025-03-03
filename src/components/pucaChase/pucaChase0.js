@@ -14,18 +14,18 @@ class PucaChase0 extends Phaser.Scene {
     this.currentStep = 0;
     this.characterSheet = {};
     this.textsGa = [
-      'Leasmuigh, bhí stealladh',
-      'Deabhail fothain a bhí agam \ni mbéillic na carraige',  
+      'Leasmuigh, bhí stealladh.',
+      'Deabhail fothain a bhí sa plúis',  
       'Mo chaith éadaigh? Súightighe.\nMo brat? Ag snámh.',
-      'Ní fada go mbéadh an plúis\ndubh-thuilte \nach mar a deirtar...','"Ní shoighne ach\nfoighne a breitheann ar púca"',
+      'Ní fada go mbéadh an plúis\nthuilte... ach foighne!','Diúltím mo carbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go feicim-',
       'Deis! Ach go toban - ',
     ];
     this.textsEn = [
-      'outside, was pouring ',
-      'Devil the shelter I had\nin the cavern under the rock.',
+      'outside, it poured',
+      'Devil the shelter was in the cave.',
       'My armour? Soaked\nMy cloak? swimming',
-      'Not long remained before the cave would be \nblack-flooded \nbut as they say...',
-      '"not comfort but patience does catch the pooka"',
+      'Not long before the cave would be \nflooded... but patience!',
+      'I refuse to push my own chariot - \na laughing stock!\nI\'ll stay here until I see-',
       'A chance! But suddenly - ',
       
     ];
@@ -120,7 +120,7 @@ const startY = -100; // Moves it even further up
     
   this.pookacave = this.add.sprite(this.width / 2, startY, 'pookacave')
     .setDisplaySize(newWidth, newHeight)  
-    .setAlpha(1)  // Initially visible
+    .setAlpha(0)  // Initially visible
     .setDepth(20); // Keep it on top
     this.pookacave2 = this.add.sprite(this.width / 2, startY, 'pookacave2')
     .setDisplaySize(newWidth, newHeight)  
@@ -336,20 +336,28 @@ this.middleButton.on('pointerdown', () => {
 });
 
 
-  this.rightButton.on('pointerdown', () => {
-    if (this.isCooldownActive) return;
-    this.isCooldownActive = true;
-    this.currentStep++;
-    if (this.currentStep < this.textsGa.length) {
+this.rightButton.on('pointerdown', () => {
+  if (this.isCooldownActive || this.currentStep >= 5) return; // Prevent input past step 5
+
+  this.isCooldownActive = true;
+  this.currentStep++;
+
+  if (this.currentStep < this.textsGa.length) {
       showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
-    } else {
+  } else {
       this.scene.start('MainGame');
-    }
-    this.time.delayedCall(this.cooldownDuration, () => {
+  }
+
+  this.time.delayedCall(this.cooldownDuration, () => {
       this.isCooldownActive = false;
-    });
   });
-  
+
+  // 🛑 Disable button interaction when step >= 5
+  if (this.currentStep >= 5) {
+      this.rightButton.disableInteractive(); // Disable the button
+      console.log('Button disabled to prevent rapid presses.');
+  }
+});
 
   this.upButton.on('pointerdown', () => {
     if (this.isCooldownActive) return;
@@ -367,6 +375,13 @@ this.middleButton.on('pointerdown', () => {
     this.time.delayedCall(this.cooldownDuration, () => {
       this.isCooldownActive = false;
     });
+
+
+  // 🛑 Disable button interaction when step >= 5
+  if (this.currentStep >= 5) {
+    this.rightButton.disableInteractive(); // Disable the button
+    console.log('Button disabled to prevent rapid presses.');
+}
   });
   
   this.downButton.on('pointerdown', () => {
@@ -447,6 +462,40 @@ this.middleButton.on('pointerdown', () => {
       .setInteractive()
       .on('click', () => this.toggleFullscreen());
   }
+
+  this.isWobbleActive = true; // Initially, the wobble is active
+
+  this.time.addEvent({
+    delay: 50,
+    loop: true,
+    callback: () => {
+        if (!this.isWobbleActive) return; // Skip the effect if not active
+
+        const offsetY = Math.sin(this.time.now * 0.005) * 5;  // Vertical bob
+        const offsetX = Math.cos(this.time.now * 0.003) * 3;  // Horizontal sway
+        const scaleOffset = 1 + Math.sin(this.time.now * 0.006) * 0.02; // Stretch effect
+
+        // Apply the wobble while keeping both images fullscreen
+        this.pookacave.setScale(2, 2); // Fullscreen size for pookacave
+        this.pookacave2.setScale(2, 2); // Fullscreen size for pookacave2
+
+        // Apply movement (wobble) to both images
+        this.pookacave.y = startY + offsetY;
+        this.pookacave.x = this.width / 2 + offsetX;
+
+        // Apply the same wobble to pookacave, but not to pookacave2 after step 5
+        if (this.currentStep < 5) {
+            this.pookacave2.y = startY + offsetY;  // Apply same wobble to pookacave2
+            this.pookacave2.x = this.width / 2 + offsetX; // Apply same sway to pookacave2
+        }
+    }
+});
+
+
+
+
+
+
 }
 
 
@@ -486,11 +535,20 @@ if (this.currentStep === 0) {
  this.rainEffect1()
 }
 
+if (this.currentStep === 1) {
+  this.tweens.add({
+      targets: this.pookacave,
+      alpha: 0.5,  // Fade in to fully visible
+      duration: 500,  // Adjust duration as needed (1500ms = 1.5s)
+      ease: 'Sine.easeInOut' // Smooth transition
+  });
+}
+
 if (this.currentStep === 4) {
     // Fade in both images
     this.tweens.add({
         targets: this.pookacave2,
-        alpha: 1,      // Fade to fully visible
+        alpha: 0.5,      // Fade to fully visible
         duration: 2000,  // Time for the fade-in effect (2 seconds)
         ease: 'Linear',  // Easing function for the fade
     });
@@ -514,8 +572,11 @@ if (this.currentStep === 4) {
 
     this.stepHandled = true; // Mark it immediately
 
+    // Disable wobble effect for pookacave2
+    this.isWobbleActive = false;
+
     // Use `this.once` to ensure this transition only happens once
-    this.once('puca_transition', () => {
+    this.events.once('puca_transition', () => {
         console.log('Handling step 5 transition...');
 
         this.tweens.add({
@@ -527,6 +588,12 @@ if (this.currentStep === 4) {
                 console.log('Tween complete, executing effects.');
 
                 this.ripples.hide();
+
+
+                // ⚡ STEP 5: Direct transition to DungeonScene (no fade) ⚡
+                setTimeout(() => {
+
+
 
                 // ⚡ STEP 1: Generate a jagged lightning bolt ⚡
                 const bolt = this.add.graphics({ x: 0, y: 0 }).setDepth(10000);
@@ -557,36 +624,30 @@ if (this.currentStep === 4) {
                 if (this.thunder) {
                     this.thunder.play();
                 }
+              
+              setTimeout(()=>{
 
-                // ⚡ STEP 5: Transition to DungeonScene ⚡
-                setTimeout(() => {
-                    console.log('Starting transition to DungeonScene...');
-                    if (this.scene.isActive('DungeonScene')) {
-                        console.warn('DungeonScene already active! Aborting extra transitions.');
-                        return;
-                    }
 
-                    this.tweens.add({
-                        targets: this.cameras.main,
-                        alpha: 0,
-                        duration: 1000,
-                        ease: 'Sine.easeInOut',
-                        onComplete: () => {
-                            console.log('Scene switch triggered.');
-                            this.rainSound.stop();
-                            this.scene.switch('DungeonScene', { 
-                                initialTransition: true,
-                                fromScene: 'PucaChase0',
-                            });
-                        }
-                    });
-                }, 500);
+                console.log('Direct scene switch to DungeonScene...');
+                if (this.scene.isActive('DungeonScene')) {
+                    console.warn('DungeonScene already active! Aborting extra transitions.');
+                    return;
+                }
+
+                this.scene.switch('DungeonScene', { 
+                    initialTransition: true,
+                    fromScene: 'PucaChase0',
+                });
+
+
+              },500)
+              }, 1500);
             }
         });
     });
 
     // Fire the event
-    this.emit('puca_transition');
+    this.events.emit('puca_transition');
 }
 
 
