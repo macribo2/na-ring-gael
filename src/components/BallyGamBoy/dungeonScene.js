@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { Map , Path} from 'rot-js';
 import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
+import OptionMenu from '../optionMenu/optionMenu'
 import { GameEntity, PlayerEntity } from './entities';
 import PhaserEntity from './phaserEntity'
 import ControlSquare from '../ControlSquare/ControlSquare';
@@ -71,12 +72,13 @@ export default class DungeonScene extends Phaser.Scene {
   
      
 
-  this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this))
+  this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this), this.openOptionMenu.bind(this), this.closeOptionMenu.bind(this)) 
     .setScrollFactor(0)
     .setScale(0.5)
     .setDepth(9788);
 
-
+    this.controlSquare.setActionMenuActive(this.actionMenuActive);
+ 
           
     this.controlSquare.on('control-action', (action) => {
       if (!this.player) return;
@@ -167,6 +169,7 @@ export default class DungeonScene extends Phaser.Scene {
     let menuKey = 'defaultMenu';
     
     this.setupStairCollisions();
+    this.OptionMenu = new OptionMenu(this, menuKey, this.closeActionMenu.bind(this));
     
     this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
     this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
@@ -197,19 +200,35 @@ export default class DungeonScene extends Phaser.Scene {
    // Only play if coming from PucaChase0 and hasn't played before
   //  if (this.transitionFrom === 'PucaChase0' ) { //&& !this.hasPlayedInitialAnimation
     this.playInitialAnimation();
-    // alert();
+    // 
+    // ;
     localStorage.setItem('dungeonInitialAnimationPlayed', 'true');
   // }
  }
- openOptionsMenu() {
+ openOptionMenu() {
+  if (this.actionMenuActive) return;
+  console.log('Opening OptionMenu:', this.OptionMenu); // Debugging
+  if (!this.OptionMenu) {
+    console.error('OptionMenu is null or undefined');
+    return;
+  }
+  this.OptionMenu.setVisible(true);
+  this.OptionMenu.setDepth(5000)
+  this.OptionMenu.setAlpha(1)
+  console.log('OptionMenu visibility:', this.OptionMenu.visible);
+console.log('OptionMenu alpha:', this.OptionMenu.alpha);
+console.log('OptionMenu depth:', this.OptionMenu.depth);
+console.log('OptionMenu position:', this.OptionMenu.x, this.OptionMenu.y);
+}
+closeOptionMenu() {
   if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
-alert('options menu')
-  // // Logic for opening the new dial menu with options like game log, inventory, etc.
-  // console.log('Opening options menu...');
+this.OptionMenu.setVisible(false)
+  // // Logic for opening the new dial menu with Option like game log, inventory, etc.
+  // console.log('Opening Option menu...');
   
   // // Example of showing the dial
   // this.dialMenu.setVisible(true);
-  // this.dialMenu.showOptions(['Game Log', 'Inventory', 'Character Sheet']); // Just an example
+  // this.dialMenu.showOption(['Game Log', 'Inventory', 'Character Sheet']); // Just an example
 
   // // Optionally, set some background to blur or darken the screen for focus
   // this.dialBackground.setVisible(true);
@@ -318,6 +337,7 @@ setTimeout(() => {
     this.load.image('default_button', 'phaser-resources/images/ui/default-button.png')
   
     this.load.json('menuContent', 'phaser-resources/json/actionMenuContent.json');
+    this.load.json('optionContent', 'phaser-resources/json/optionMenu.json');
     this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
   
@@ -431,8 +451,8 @@ canOpenActionMenu() {
 }
 
   openActionMenu(menuKey) {
-    this.actionMenuActive = true;  // Set to true when the ActionMenu is active
-
+    this.controlSquare.setActionMenuActive(true);  // Set it to active when the action menu is open
+ 
     // When hiding the ActionMenu:
     this.actionMenuActive = false; 
     if (this.canOpenActionMenu()) {
@@ -540,53 +560,52 @@ canOpenActionMenu() {
      });
    }
 
-
-// to close the action menu
-closeActionMenu() {
-  console.log('Closing ActionMenu...');
-  this.actionMenuActive = false;  // Set to true when the ActionMenu is active
-
-  // When hiding the ActionMenu:
-  this.actionMenuActive = false; 
-  const elements = [
-    this.actionMenu,
-    this.actionMenu.overlay,
-    this.actionMenu.titleText,
-    this.actionMenu.wheel,
-    this.actionMenu.buttonBase,
-    this.actionMenu.choiceText,
-    this.actionMenu.spokesContainer
-  ];
-
-  // Fade out UI elements first
-  this.tweens.add({
-    targets: elements,
-    alpha: 0,
-    duration: 500,
-    ease: 'Linear',
+   closeActionMenu() {
+    console.log('Closing ActionMenu...');
   
-    onComplete: () => {
-      // Hide all elements after fade
-      elements.forEach(el => el.setVisible(false));
-
-
-      // Now apply the zoom with a relative value
-      this.tweens.add({
-        targets: this.cameras.main,
-        zoom:  2,  // Multiply current zoom for relative zooming
-        duration: 500,  
-        ease: 'Power2',
-        onStart: () => {
-        },
-        onUpdate: () => {
-          this.updateControlSquareScale(); // Adjust scale continuously during the zoom transition
-        },
-        onComplete: () => {
-          console.log('Camera zoom complete');
-        }})
-    }
-  });
-}
+    this.controlSquare.setActionMenuActive(false);  // Set it to inactive when the action menu is closed
+  
+    const elements = [
+      this.actionMenu ? this.actionMenu : null,
+      this.actionMenu && this.actionMenu.overlay ? this.actionMenu.overlay : null,
+      this.actionMenu && this.actionMenu.titleText ? this.actionMenu.titleText : null,
+      this.actionMenu && this.actionMenu.wheel ? this.actionMenu.wheel : null,
+      this.actionMenu && this.actionMenu.buttonBase ? this.actionMenu.buttonBase : null,
+      this.actionMenu && this.actionMenu.choiceText ? this.actionMenu.choiceText : null,
+      this.actionMenu && this.actionMenu.spokesContainer ? this.actionMenu.spokesContainer : null
+    ];
+  
+    // Fade out UI elements first
+    this.tweens.add({
+      targets: elements.filter(el => el !== null),  // Filter out null elements
+      alpha: 0,
+      duration: 500,
+      ease: 'Linear',
+    
+      onComplete: () => {
+        // Only set visible for Phaser game objects
+        elements.forEach(el => {
+          if (el && typeof el.setVisible === 'function') {
+            el.setVisible(false);
+          }
+        });
+  
+        // Now apply the zoom with a relative value
+        this.tweens.add({
+          targets: this.cameras.main,
+          zoom: 2,  // Multiply current zoom for relative zooming
+          duration: 500,  
+          ease: 'Power2',
+          onUpdate: () => {
+            this.updateControlSquareScale(); // Adjust scale continuously during the zoom transition
+          },
+          onComplete: () => {
+            console.log('Camera zoom complete');
+          }
+        });
+      }
+    });
+  }
 goDownStairs() {
   this.clearPath();
   console.log("===== GOING DOWN STAIRS =====");

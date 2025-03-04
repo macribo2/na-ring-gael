@@ -19,27 +19,27 @@ this.isRaining = false;
   this.hasFaded = false;
     this.characterSheet = {};
     this.textsGa = [
-        'Síos,    \nsíos,      \nsíos go doimhin...',
-        'Síos i plúis gan éag...         \n"Cé atá tagtha go ríocht an préamh?"',
+        'Síos, Síos, níos faide síos:...',
+        'Síos i pluais gan éag... \n"Cé atá tagtha go ríocht na préimhe?"',
         '                    "Is mise..."',
-        '"Ba féinne mé, fado..."',
+        '"Ba fhínín mé, fadó..."',
         ' ',
         " ",
-        'Is cuimhin liom an báisteach...',
+        'Is cuimhin liom an bháisteach...',
         ' ',
 
         
       ];
       
       this.textsEn = [
-        'Down, down \nfar far down...',
+        'Down, down \nfurther down...',
         'Down in an endless cavern \n "Who has come to the kingdom of the root?"',
         '"I am...',
         'I was a fenian, long ago...',
-        '',
-        '',
-        'I was taking shelter from the rain \nin the cavern beneath the rock.',
-        'I was preparing a poem,\n to catch the phantom...',
+        ' ',
+        ' ',
+        'I remember the rain...',
+        ' ',
 
               ];
       

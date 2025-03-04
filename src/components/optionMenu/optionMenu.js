@@ -1,22 +1,10 @@
 import Phaser from "phaser";
 
-class ActionMenu extends Phaser.GameObjects.Container {
-  constructor(scene, menuKey, closeActionMenu,goDownStairs,goUpStairs) {
+class OptionsMenu extends Phaser.GameObjects.Container {
+  constructor(scene, closeOptionsMenu) {
     super(scene);
     this.scene = scene;
-    this.menuKey = menuKey;
-    this.closeActionMenu = closeActionMenu; // Store function reference
-    this.goDownStairs = goDownStairs; // Store function reference
-    this.goUpStairs = goUpStairs; // Store function reference
-
-
-    if (!scene.cache.json.exists('menuContent')) {
-      console.error('Menu data not loaded!');
-      return;
-    }
-
-    this.menuData = scene.cache.json.get('menuContent');
-
+    this.closeOptionsMenu = closeOptionsMenu; // Store function reference
   this.overlay = scene.add.rectangle(
   scene.cameras.main.centerX, 
   scene.cameras.main.centerY,
@@ -25,14 +13,16 @@ class ActionMenu extends Phaser.GameObjects.Container {
   0x004400,
   0.1
 )
-    
-     // Get graphic key from JSON configuration
-     const graphicKey = this.menuData.graphic || 'default_fallback_texture'; // Add fallback
+if (!scene.cache.json.exists('optionContent')) {
+  console.error('Menu data not loaded!');
+  return;
+}
 
-          
+this.menuData = scene.cache.json.get('optionContent');
+
       // Wheel
         this.wheel = scene.add.sprite(scene.scale.width/2,scene.scale.height/2, 'celt-ring')
-          .setVisible(false)
+          .setVisible(true)
           .setDepth(1100)
           .setInteractive({ draggable: true })
           .setScrollFactor(0)
@@ -53,8 +43,8 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.angularVelocity = 0;
     this.deceleration = 0.98;
     this.minVelocity = 0.001;
-    this.numChoices = 0;
-    this.choices = [];
+    this.numoptions = 0;
+    this.options = [];
     
     this.isEnglish = false; // Add state for English toggle
 
@@ -62,10 +52,10 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.scene.events.on('toggleTranslation', this.onToggleTranslation, this);
 
     // Variables for spoke selection
-    this.choiceIndex = 0;  // Current choice index
+    this.optionIndex = 0;  // Current option index
     this.spokeAngle = 0;   // Angle between spokes
     this.direction = 0;    // Rotation direction: 1 for clockwise, -1 for counter-clockwise
-    this.choiceCounter = 0; // To keep track of current choice
+    this.optionCounter = 0; // To keep track of current option
     this.previousAngle = 0; // Track previous wheel angle for determining direction
     this.lastRotation = 0;  // Store last rotation for direction detection
     
@@ -79,31 +69,25 @@ class ActionMenu extends Phaser.GameObjects.Container {
 
     
 
-    // Load the base button graphic from the atlas (from JSON)
+
     this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'default_button')
     .setDepth(6001)
     .setScrollFactor(0).setScale(0.75).setAlpha(1)
     .setInteractive().on("pointerdown", () => {
-      if (this.choices[this.choiceCounter].action === 'goDownStairs') {
-        this.scene.goDownStairs()
-        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-    } else  if (this.choices[this.choiceCounter].action === 'goUpStairs') {
-      this.scene.goUpStairs()
-      this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-  }    
-    else if (this.choices[this.choiceCounter].action === 'cancel') {
-        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-    }
+  //     if (this.options[this.optionCounter].action === 'goDownStairs') {
+  //       this.scene.goDownStairs()
+  //       this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+  //   } else  if (this.options[this.optionCounter].action === 'goUpStairs') {
+  //     this.scene.goUpStairs()
+  //     this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+  // }    
+  //   else if (this.options[this.optionCounter].action === 'cancel') {
+  //       this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
+  //   }
       ;})
         
       
-    // this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, '')
-    // .setDepth(602) // Ensure it's above the base
-    // .setScrollFactor(0)
-    // .setScale(1.5);
-    // this.titleHidden=false;
-    // this.choicesVisible=false;
-    // // Make sure both elements are properly grouped
+    
     this.buttonContainer = scene.add.container(0, 0, [this.buttonBase,]) //this.buttonFrame])
     .setDepth(600)
     .setVisible(false)
@@ -111,13 +95,13 @@ class ActionMenu extends Phaser.GameObjects.Container {
     .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
        
 
-    this.titleTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/6+10, "test!!!!!", {
+    this.titleTextEn = scene.add.text(scene.scale.width/2,scene.scale.height-40, "test!!!!!", {
       fontSize: "32px",
       fontFamily:'dum1, sans-serif',
-      fill: "darkorange",
+      fill: "gunmetal",
       align: "center",
       wordWrap: { width: 800 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0).setAlpha(0.7);
+    }).setOrigin(0.5).setDepth(2600).setVisible(true).setScrollFactor(0);
 
     this.titleTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/10, "", {
       fontSize: "32px",
@@ -126,9 +110,9 @@ class ActionMenu extends Phaser.GameObjects.Container {
       align: "center",
       wordWrap: { width: 800 }
     }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
-this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
+this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
   fontSize: "24px",
-  fill: "gunmetal",
+  fill: "plum",
   fontFamily:'dum1',
   align: "center",
   wordWrap: { width: 600 }
@@ -137,8 +121,8 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
 
 
 
-    // Current choice text (displayed when spinning)g
-    this.choiceTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
+    // Current option text (displayed when spinning)g
+    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
       fontSize: "32px",
       fill: "gunmetal",
       fontFamily:'dum1',
@@ -158,10 +142,11 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
       repeat: -1, // Loops indefinitely
     });  
     
-    this.add([this.overlay, this.wheel, this.buttonBase, this.titleTextGa,this.choiceTextGa,this.titleTextEn, this.choiceTextEn]);
+    this.add([this.overlay, this.wheel, this.buttonBase, this.titleTextGa,this.optionTextGa,this.titleTextEn, this.optionTextEn]);
     this.scene.add.existing(this);
 
   }
+
   onToggleTranslation() {
     this.isEnglish = !this.isEnglish; // Toggle state
 
@@ -169,18 +154,18 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
 
     // Toggle visibility based on the new state
     this.titleTextEn.setVisible(this.isEnglish);
-    this.choiceTextEn.setVisible(this.isEnglish);
+    this.optionTextEn.setVisible(this.isEnglish);
 }
   
-  updateChoiceDisplay() {
+  updateoptionDisplay() {
     // Ensure index stays within bounds
-    this.choiceCounter = Phaser.Math.Wrap(this.choiceCounter, 0, this.numChoices);
+    this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numoptions);
 
-    // Make sure choices array has elements before trying to access
-    if (this.choices && this.choices.length > 0) {
-      // Update the choice text to reflect the current choice
-      this.choiceTextGa.setText(this.choices[this.choiceCounter].nameGa);
-      this.choiceTextEn.setText(this.choices[this.choiceCounter].nameEn);
+    // Make sure options array has elements before trying to access
+    if (this.options && this.options.length > 0) {
+      // Update the option text to reflect the current option
+      this.optionTextGa.setText(this.options[this.optionCounter].nameGa);
+      this.optionTextEn.setText(this.options[this.optionCounter].nameEn);
 
     }
 
@@ -188,16 +173,16 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
     
   }
 
-  createSpokes(choices) {
+  createSpokes(options) {
     this.spokesContainer.removeAll(true);
   
-    this.choices = choices;
-    this.numChoices = choices.length;
+    this.options = options;
+    this.numoptions = options.length;
   
     // Calculate angle between spokes
-    this.spokeAngle = Phaser.Math.PI2 / this.numChoices;
+    this.spokeAngle = Phaser.Math.PI2 / this.numoptions;
   
-    choices.forEach((choice, index) => {
+    options.forEach((option, index) => {
       const angle = this.spokeAngle * index;
       
       // Create a spoke line (visual)
@@ -215,9 +200,9 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
 
     });
   
-    // Update choice display
-    this.choiceCounter = 0;
-    this.updateChoiceDisplay();
+    // Update option display
+    this.optionCounter = 0;
+    this.updateoptionDisplay();
   
 
   }
@@ -254,7 +239,7 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
         this.wheel,
         this.buttonBase,
         this.titleTextGa,
-        this.choiceTextGa
+        this.optionTextGa
     ];
 
     if (!this.titleHidden) {
@@ -262,12 +247,12 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
         this.titleTextEn.setText(data.subjectEn).setScrollFactor(0);
     }
 
-    if (!this.choicesVisible) {
-        this.choiceTextGa.setScrollFactor(0);
-        this.choiceTextEn.setScrollFactor(0);
+    if (!this.optionsVisible) {
+        this.optionTextGa.setScrollFactor(0);
+        this.optionTextEn.setScrollFactor(0);
     }
 
-    this.createSpokes(data.choices);
+    this.createSpokes(data.options);
     this.setVisible(true);
 
     // Reset rotation tracking
@@ -341,15 +326,15 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
     // Reset last rotation to current rotation for accurate direction detection
     this.lastRotation = this.wheel.rotation;
   
-  if (!this.choicesVisible) {
-      this.choicesVisible = true;
+  if (!this.optionsVisible) {
+      this.optionsVisible = true;
       this.scene.tweens.add({
-          targets: this.choiceTextGa,
+          targets: this.optionTextGa,
           alpha: 1,
           duration: 500,
           ease: 'Linear',
           onStart: () => {
-              this.choiceTextGa.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
+              this.optionTextGa.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
           }
       });
   }
@@ -381,38 +366,36 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
     this.updateSelection();
     
     // Visual feedback for current selection
-    const highlightAngle = this.getCurrentChoiceIndex() * this.spokeAngle;
-    // this.spokesContainer.getChildren().forEach((spoke, index) => {
-    //     spoke.setStrokeStyle(3, index === this.choiceCounter ? 0x00ff00 : 0xffffff);
-    // });
+    const highlightAngle = this.getCurrentoptionIndex() * this.spokeAngle;
+    
 }
-getCurrentChoiceIndex() {
+getCurrentoptionIndex() {
   // Get normalized rotation angle (0-2π)
   const normalizedRotation = Phaser.Math.Angle.Wrap(this.wheel.rotation);
   
   // Calculate index based on rotation
-  const rawIndex = Math.floor((normalizedRotation / (Math.PI * 2)) * this.numChoices);
+  const rawIndex = Math.floor((normalizedRotation / (Math.PI * 2)) * this.numoptions);
   
   // Ensure positive index within bounds
-  return (rawIndex + this.numChoices) % this.numChoices;
+  return (rawIndex + this.numoptions) % this.numoptions;
 }
 updateSelection() {
-  const newIndex = this.getCurrentChoiceIndex();
+  const newIndex = this.getCurrentoptionIndex();
   
   // Only update if index changed
-  if (newIndex !== this.choiceCounter) {
-      const delta = newIndex - this.choiceCounter;
+  if (newIndex !== this.optionCounter) {
+      const delta = newIndex - this.optionCounter;
       
       // Handle wrap-around cases
-      if (Math.abs(delta) > this.numChoices / 2) {
-          this.choiceCounter += (delta > 0) ? -1 : 1;
+      if (Math.abs(delta) > this.numoptions / 2) {
+          this.optionCounter += (delta > 0) ? -1 : 1;
       } else {
-          this.choiceCounter = newIndex;
+          this.optionCounter = newIndex;
       }
       
       // Keep within bounds
-      this.choiceCounter = (this.choiceCounter + this.numChoices) % this.numChoices;
-      this.updateChoiceDisplay();
+      this.optionCounter = (this.optionCounter + this.numoptions) % this.numoptions;
+      this.updateoptionDisplay();
   }
 }
 
@@ -423,8 +406,8 @@ updateSelection() {
     this.titleTextEn.setVisible(false);
     this.wheel.setVisible(false);
     this.buttonBase.setVisible(false);
-    this.choiceTextGa.setVisible(false);
-    this.choiceTextEn.setVisible(false);
+    this.optionTextGa.setVisible(false);
+    this.optionTextEn.setVisible(false);
     this.scene.input.setTopOnly(false);
     
     // Clean up physics
@@ -433,4 +416,4 @@ updateSelection() {
   
 }
 
-export default ActionMenu;
+export default OptionsMenu;

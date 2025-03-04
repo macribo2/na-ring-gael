@@ -23,12 +23,12 @@
       "subjectEn": "Is it your intention to go up the stairs?",
       "choices": [
         {
-          "nameGa": "Is míann liom",
+          "nameGa": "Is mian liom",
           "nameEn": "I do intend it",
           "action": "goUpStairs"
         },
         {
-          "nameGa": "Ní míann liom",
+          "nameGa": "Ní mian liom",
           "nameEn": "I don't intend it",
           "action": "cancel"
         }

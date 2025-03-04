@@ -14,11 +14,11 @@ class PucaChase0 extends Phaser.Scene {
     this.currentStep = 0;
     this.characterSheet = {};
     this.textsGa = [
-      'Leasmuigh, bhí stealladh.',
-      'Deabhail fothain a bhí sa plúis',  
-      'Mo chaith éadaigh? Súightighe.\nMo brat? Ag snámh.',
-      'Ní fada go mbéadh an plúis\nthuilte... ach foighne!','Diúltím mo carbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go feicim-',
-      'Deis! Ach go toban - ',
+      'lasmuigh, bhí sé ina stealladh báistí.',
+      'Deabhal fothain a bhí sa phluais',  
+      'Mo bhrat? Ar snámh.\nMo chathéide? báite.',
+      'Ní fada go mbéadh an phluais\nfaoi uisce... ach foighne!','Diúltaím mo charbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go feicim-',
+      'Deis! Ach go tobann - ',
     ];
     this.textsEn = [
       'outside, it poured',
@@ -509,33 +509,65 @@ this.rightButton.on('pointerdown', () => {
 
   this.isWobbleActive = true; // Initially, the wobble is active
 
-  this.time.addEvent({
+this.time.addEvent({
     delay: 50,
     loop: true,
     callback: () => {
-        if (!this.isWobbleActive) return; // Skip the effect if not active
+        if (!this.isWobbleActive) return; // Skip effect if not active
 
-        const offsetY = Math.sin(this.time.now * 0.005) * 5;  // Vertical bob
-        const offsetX = Math.cos(this.time.now * 0.003) * 3;  // Horizontal sway
-        const scaleOffset = 1 + Math.sin(this.time.now * 0.006) * 0.02; // Stretch effect
+        const offsetY = Math.sin(this.time.now * 0.005) * 2;  // Vertical bob
+        const offsetX = Math.cos(this.time.now * 0.003) * 2;  // Horizontal sway
 
-        // Apply the wobble while keeping both images fullscreen
-        this.pookacave.setScale(2, 2); // Fullscreen size for pookacave
-        this.pookacave2.setScale(2, 2); // Fullscreen size for pookacave2
+        // Slight scaling variation
+        const scaleFactorX = 1 + Math.sin(this.time.now * 0.05) * 0.05;
+        const scaleFactorY = 1 + Math.cos(this.time.now * 0.05) * 0.03;
 
-        // Apply movement (wobble) to both images
-        this.pookacave.y = startY + offsetY;
-        this.pookacave.x = this.width / 2 + offsetX;
+        // Ensure scaling doesn't shrink too much
+        this.pookacave.displayWidth = newWidth * scaleFactorX;
+        this.pookacave.displayHeight = newHeight * scaleFactorY;
 
-        // Apply the same wobble to pookacave, but not to pookacave2 after step 5
+        // Match exact position of pookacave2
+        this.pookacave.x = this.pookacave2.x + offsetX;
+        this.pookacave.y = this.pookacave2.y + offsetY;
+
+        // Keep pookacave2 at fullscreen size
+        this.pookacave2.setDisplaySize(newWidth, newHeight);
+
         if (this.currentStep < 5) {
-            this.pookacave2.y = startY + offsetY;  // Apply same wobble to pookacave2
-            this.pookacave2.x = this.width / 2 + offsetX; // Apply same sway to pookacave2
+            this.pookacave2.x += offsetX;
+            this.pookacave2.y += offsetY;
         }
     }
 });
 
+const scaleMultiplier = 1.1; // Increase size by 10%
 
+this.time.addEvent({
+    delay: 50,
+    loop: true,
+    callback: () => {
+        if (!this.isWobbleActive) return; // Skip effect if not active
+
+        const offsetY = Math.sin(this.time.now * 0.002) * 2;  // Vertical bob
+        const offsetX = Math.cos(this.time.now * 0.003) * 2;  // Horizontal sway
+
+        // Slight scaling variation
+        const scaleFactorX = 1 + Math.sin(this.time.now * 0.01) * 0.02;
+        const scaleFactorY = 1 + Math.cos(this.time.now * 0.009) * 0.02;
+
+        // Scale up the base size by 10%
+        const scaledWidth = newWidth * scaleMultiplier * scaleFactorX;
+        const scaledHeight = newHeight * scaleMultiplier * scaleFactorY;
+
+        // Apply identical transformation to both images
+        [this.pookacave, this.pookacave2].forEach(sprite => {
+            sprite.displayWidth = scaledWidth;
+            sprite.displayHeight = scaledHeight;
+            sprite.x = this.width / 2 + offsetX; // Keep both centered
+            sprite.y = startY + offsetY;
+        });
+    }
+});
 
 
 

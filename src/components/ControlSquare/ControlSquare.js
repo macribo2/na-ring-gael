@@ -1,12 +1,27 @@
 import Phaser from 'phaser';
 import TranslationManager from '../translationManager/translationManager'
  class ControlSquare extends Phaser.GameObjects.Container {
-  constructor(scene, x, y,clearPathCallback,openOptionsMenu) {
+ 
+  // Getter method to check actionMenuActive
+  getActionMenuActive() {
+    return this._actionMenuActive;
+  }
+  
+  // Setter method to update actionMenuActive
+  setActionMenuActive(actionMenuActive) {
+    this._actionMenuActive = actionMenuActive;
+  }
+ 
+  constructor(scene, x, y,clearPathCallback,openOptionMenu,closeOptionMenu,actionMenuActive) {
     super(scene, x, y);
     scene.add.existing(this);
-    this.openOptionsMenu = openOptionsMenu
+    this.openOptionMenu = openOptionMenu;
+    this.closeOptionMenu = closeOptionMenu;
     this.clearPathCallback = clearPathCallback; // Store the clearPath callback
+    this._actionMenuActive = false; // Initial action menu state
+    this.isOptionMenuOpen = false;
 
+   
     // Center buttons within container
     const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
       .setOrigin(0.5, 0.5).setDepth(9999);
@@ -42,13 +57,7 @@ import TranslationManager from '../translationManager/translationManager'
 
     // Handle pointer events for each button
 
-    // When button is pressed (pointer down)
-    middleButton.on('pointerdown', () => {
-      setButtonLit(middleButton, 'middleButtonLit');
-      if (this.clearPathCallback) {
-        this.clearPathCallback(); // Calls DungeonScene's clearPath method
-    }
-    });
+
     upButton.on('pointerdown', () => {
       this.emit('control-action', 'up-down'); // Emit event
       if (this.clearPathCallback) {
@@ -276,14 +285,7 @@ import TranslationManager from '../translationManager/translationManager'
         stopPress();  // Drop the control square if tapped
       }
     });
-    
-// // Add this after creating your buttons to see the hit areas
-// scene.input.enableDebug(middleButton, 0x00ff00);
-// scene.input.enableDebug(upButton, 0x00ff00);
-// scene.input.enableDebug(downButton, 0x00ff00);
-// scene.input.enableDebug(leftButton, 0x00ff00);
-// scene.input.enableDebug(rightButton, 0x00ff00);
-    // Add this container to the scene
+
     scene.add.existing(this);
     middleButton.setScrollFactor(0);
 upButton.setScrollFactor(0);
@@ -311,34 +313,25 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
   }
 };
 
-// Handle pointer events for middle button (to toggle overlay)
-middleButton.on('pointerdown', () => {
-  if (!this.actionMenuActive) {
-    openOptionsMenu.call(this); // Show the options menu
-}
-  setButtonLit(middleButton, 'middleButtonLit');
-  toggleOverlay();  // Toggle the overlay
-  TranslationManager.toggleTranslation();
-  this.scene.events.emit('toggleTranslation');
 
-  if (this.clearPathCallback) {
-    this.clearPathCallback(); // Calls DungeonScene's clearPath method
-  }
-});
 
-middleButton.on('pointerup', () => {
-  resetButton(middleButton, 'middleButtonDark');
-});
-
-middleButton.on('pointerout', () => {
-  resetButton(middleButton, 'middleButtonDark');
-});
-
+ 
 // Add to the scene and set scroll factors
 scene.add.existing(this);
 middleButton.setScrollFactor(0);
 
+middleButton.on('pointerdown', () => {
+  if (this.isOptionMenuOpen) {
+    this.closeOptionMenu();  
+    this.isOptionMenuOpen = false;  // Update AFTER closing
+  } else if (!this.getActionMenuActive()) {
+    this.openOptionMenu();  
+    this.isOptionMenuOpen = true;  // Update AFTER opening
   }
+})
+}
+
+
 }
 
 export default ControlSquare;
