@@ -109,20 +109,20 @@ this.menuData = scene.cache.json.get('optionContent');
       fill: "LavenderBlush",
       align: "center",
       wordWrap: { width: 800 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(6600).setVisible(false).setScrollFactor(0);
 this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
   fontSize: "24px",
   fill: "plum",
   fontFamily:'dum1',
   align: "center",
   wordWrap: { width: 600 }
-}).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+}).setOrigin(0.5).setDepth(6600).setVisible(false).setScrollFactor(0);
 
 
 
 
     // Current option text (displayed when spinning)g
-    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "", {
+    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "asdfs", {
       fontSize: "32px",
       fill: "gunmetal",
       fontFamily:'dum1',
@@ -157,21 +157,19 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
     this.optionTextEn.setVisible(this.isEnglish);
 }
   
-  updateoptionDisplay() {
-    // Ensure index stays within bounds
-    this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numoptions);
+updateoptionDisplay() {
+  // Ensure index stays within bounds
+  this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numoptions);
 
-    // Make sure options array has elements before trying to access
-    if (this.options && this.options.length > 0) {
+  // Make sure options array has elements before trying to access
+  if (this.options && this.options.length > 0) {
       // Update the option text to reflect the current option
-      this.optionTextGa.setText(this.options[this.optionCounter].nameGa);
-      this.optionTextEn.setText(this.options[this.optionCounter].nameEn);
-
-    }
-
-    
-    
+      this.optionTextGa.setText(this.options[this.optionCounter].optionGa);
+      this.optionTextEn.setText(this.options[this.optionCounter].optionEn);
+      this.optionTextGa.setVisible(true)
   }
+}
+
 
   createSpokes(options) {
     this.spokesContainer.removeAll(true);
