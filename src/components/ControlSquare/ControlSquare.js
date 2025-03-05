@@ -322,13 +322,23 @@ middleButton.setScrollFactor(0);
 
 middleButton.on('pointerdown', () => {
   if (this.isOptionMenuOpen) {
-    this.closeOptionMenu();  
-    this.isOptionMenuOpen = false;  // Update AFTER closing
+    this.closeOptionMenu();
+    this.isOptionMenuOpen = false;
   } else if (!this.getActionMenuActive()) {
-    this.openOptionMenu();  
-    this.isOptionMenuOpen = true;  // Update AFTER opening
+    this.openOptionMenu();
+    this.isOptionMenuOpen = true;  // Only update when we actually open the menu
   }
-})
+
+  setButtonLit(middleButton, 'middleButtonLit');
+  toggleOverlay();
+  TranslationManager.toggleTranslation();
+  this.scene.events.emit('toggleTranslation');
+
+  if (this.clearPathCallback) {
+      this.clearPathCallback();
+  }
+});
+
 }
 
 

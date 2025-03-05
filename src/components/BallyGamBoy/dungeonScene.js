@@ -16,7 +16,6 @@ export default class DungeonScene extends Phaser.Scene {
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('wasFullscreen') === 'true') {
         document.documentElement.requestFullscreen().catch(err => {
-          console.log('Fullscreen failed:', err);
         });
       }
     });
@@ -106,7 +105,6 @@ export default class DungeonScene extends Phaser.Scene {
     }
     
     const characterSheet = JSON.parse(characterSheetData);
-    console.log("HEY " + characterSheet.spriteKey);
     
     // Validate spriteKey
     const spriteKey = characterSheet.spriteKey;
@@ -163,36 +161,30 @@ export default class DungeonScene extends Phaser.Scene {
     this.setupTouchInput(); 
     
     
-    console.log("ActionMenu instance:", this.actionMenu);
     
     
     let menuKey = 'defaultMenu';
     
     this.setupStairCollisions();
-    this.OptionMenu = new OptionMenu(this, menuKey, this.closeActionMenu.bind(this));
-    
+    this.optionMenu = new OptionMenu(this, menuKey, this.closeOptionMenu.bind(this));
+    this.children.add(this.optionMenu); // Use this.children instead of this.add.existing()
+    this.optionMenu.setDepth(6000);
     this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
     this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
     
     
     if (typeof this.actionMenu.showMenu !== 'function') {
-      console.error('ActionMenu instance is missing showMenu method!');
     }
-    console.log("Create called. Checking if dustTexture exists...");
     
     // Initialize dustMotes array here if not already done
     if (!this.dustMotes) {
         this.dustMotes = [];
-        console.log("dustMotes array initialized.");
     }
 
     if (this.textures.exists('dustTexture')) {
-        console.log("dustTexture exists, creating dust motes.");
         this.createDustMotes();
     } else {
-        console.log("dustTexture not found.");
         this.load.once('complete', () => {
-            console.log("Assets loaded, creating dust motes.");
             this.createDustMotes();
         });
     }
@@ -207,35 +199,23 @@ export default class DungeonScene extends Phaser.Scene {
  }
  openOptionMenu() {
   if (this.actionMenuActive) return;
-  console.log('Opening OptionMenu:', this.OptionMenu); // Debugging
-  if (!this.OptionMenu) {
-    console.error('OptionMenu is null or undefined');
+  if (!this.optionMenu) {
     return;
   }
-  this.OptionMenu.setVisible(true);
-  this.OptionMenu.setDepth(5000)
-  this.OptionMenu.setAlpha(1)
-  console.log('OptionMenu visibility:', this.OptionMenu.visible);
-console.log('OptionMenu alpha:', this.OptionMenu.alpha);
-console.log('OptionMenu depth:', this.OptionMenu.depth);
-console.log('OptionMenu position:', this.OptionMenu.x, this.OptionMenu.y);
+  if (this.actionMenuActive || !this.optionMenu) return;
+
+  // Use the correct menu key that matches your JSON structure
+  this.optionMenu.showMenu('optionsMenu');
 }
 closeOptionMenu() {
-  if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
-this.OptionMenu.setVisible(false)
-  // // Logic for opening the new dial menu with Option like game log, inventory, etc.
-  // console.log('Opening Option menu...');
-  
-  // // Example of showing the dial
-  // this.dialMenu.setVisible(true);
-  // this.dialMenu.showOption(['Game Log', 'Inventory', 'Character Sheet']); // Just an example
+ // if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
+this.optionMenu.setVisible(false)
+this.optionMenu.spokesContainer.removeAll(true);
 
-  // // Optionally, set some background to blur or darken the screen for focus
-  // this.dialBackground.setVisible(true);
+
 }
  playInitialAnimation() {
   if (!this.player || !this.player.sprite) {
-    console.error("Player sprite is undefined in playInitialAnimation");
     return;
   }
 
@@ -318,7 +298,6 @@ setTimeout(() => {
 
 
   preload() {
-    console.log("Loading dustTexture...");
  
     this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
     this.load.image('lightning', '/phaser-resources/images/lightning.png');
@@ -362,7 +341,6 @@ setTimeout(() => {
     });
   }
   createDustMotes() {
-    console.log("Creating dust motes...");
     this.dustMotes = [];
 
     // Optional: Add a timer to continuously spawn dust motes over time
@@ -390,28 +368,58 @@ spawnDustMote() {
     // Add to dust motes array
     this.dustMotes.push(dustMote);
 
-    console.log(`Dust mote created at position: ${dustMote.x}, ${dustMote.y}`);
 }
 
 update(time, delta) {
-    if (this.dustMotes && this.dustMotes.length > 0) {
-        this.dustMotes.forEach((dustMote, index) => {
-            // Fade in as the mote ascends
-            if (dustMote.alpha < 1) {
+
+// Add these diagnostic logs at the start of the method
+console.log('Scene update method called');
+console.log('optionMenu exists:', !!this.optionMenu);
+
+if (this.dustMotes && this.dustMotes.length > 0) {
+  // ... existing dustMotes code ...
+}
+
+if (this.playerHasMoved()) {
+  // ... existing player moved code ...
+}
+
+if (this.actionMenu) {
+  this.actionMenu.update();
+}
+
+if (this.optionMenu) {
+  console.log('Attempting to call optionMenu update');
+  try {
+    console.log('Calling optionMenu update');
+    this.optionMenu.update();
+  } catch (error) {
+    console.error('Error in optionMenu update:', error);
+  }
+} else {
+  console.log('optionMenu is falsy');
+}
+
+
+
+  if (this.dustMotes && this.dustMotes.length > 0) {
+    this.dustMotes.forEach((dustMote, index) => {
+      // Fade in as the mote ascends
+      if (dustMote.alpha < 1) {
                 dustMote.alpha += dustMote.fadeSpeed;  // Increase alpha to fade in
-            }
-
-            // Update Y position to move upwards
-            dustMote.y -= dustMote.speedY * delta;  // Vertical drift upwards
-
-            // Increase lifetime and fade out when it hits its max lifetime (around 4 seconds)
-            dustMote.lifetime += delta;
-            if (dustMote.lifetime > 4000) {  // After 4 seconds
+              }
+              
+              // Update Y position to move upwards
+              dustMote.y -= dustMote.speedY * delta;  // Vertical drift upwards
+              
+              // Increase lifetime and fade out when it hits its max lifetime (around 4 seconds)
+              dustMote.lifetime += delta;
+              if (dustMote.lifetime > 4000) {  // After 4 seconds
                 this.dustMotes.splice(index, 1); // Remove it from the array
                 dustMote.destroy(); // Clean up the dust mote
             }
-        });
-    }
+          });
+        }
   if (this.playerHasMoved()) {
     this.hasMoved = true;
     // Update previous position after movement
@@ -420,6 +428,11 @@ update(time, delta) {
   }
   if (this.actionMenu) {
     this.actionMenu.update();
+  }
+  if (this.optionMenu) {
+    // alert('Calling optionMenu update');
+
+    this.optionMenu.update();
   }
   if (this.player) {
     // Smooth light movement
@@ -456,18 +469,14 @@ canOpenActionMenu() {
     // When hiding the ActionMenu:
     this.actionMenuActive = false; 
     if (this.canOpenActionMenu()) {
-      console.log("Opening ActionMenu...");
       // Reset the hasMoved flag after opening the menu
       this.hasMoved = false;
     } else {
-      console.log("ActionMenu can't open: Player hasn't moved yet.");
       return
     }
 
-    console.log(`openActionMenu called with key: ${menuKey}`);
   
     if (!this.actionMenu.menuData) {
-      console.error('Menu data is not loaded.');
       return;
     }
   
@@ -480,7 +489,6 @@ canOpenActionMenu() {
     setTimeout(()=>{
 
     },500)
-    console.log('Valid menu data:', data);
   
     // Smoothly zoom out when ActionMenu is shown
     this.tweens.add({
@@ -561,7 +569,6 @@ canOpenActionMenu() {
    }
 
    closeActionMenu() {
-    console.log('Closing ActionMenu...');
   
     this.controlSquare.setActionMenuActive(false);  // Set it to inactive when the action menu is closed
   
@@ -600,7 +607,6 @@ canOpenActionMenu() {
             this.updateControlSquareScale(); // Adjust scale continuously during the zoom transition
           },
           onComplete: () => {
-            console.log('Camera zoom complete');
           }
         });
       }
@@ -608,104 +614,77 @@ canOpenActionMenu() {
   }
 goDownStairs() {
   this.clearPath();
-  console.log("===== GOING DOWN STAIRS =====");
 
   // Prevent multiple transitions
   if (this.transitioning) {
-    console.log("Already transitioning, ignoring request");
     return;
   }
   this.transitioning = true;
   this.transitionDirection = 'down'; // Track direction
-  console.log("Starting level transition...");
 
   // Store the current level before transition for reference
   const previousLevel = this.currentLevel;
 
   // Fade out screen
   this.cameras.main.fadeOut(500, 0, 0, 0);
-  console.log("Camera fade out started");
 
   this.cameras.main.once('camerafadeoutcomplete', async () => {
-    console.log("Camera fade out complete");
     
     // Increase level (descending)
     this.currentLevel++;
-    console.log(`Moving from level ${previousLevel} to level ${this.currentLevel}`);
 
     // Reload or generate new level
-    console.log("Loading new level...");
     await this.loadLevel(); 
-    console.log("New level loaded");
 
     // Ensure proper stair positions
-    console.log("Stairs positions on new level:");
-    console.log("Upstairs:", this.stairs.up ? `(${this.stairs.up.x}, ${this.stairs.up.y})` : "None");
-    console.log("Downstairs:", this.stairs.down ? `(${this.stairs.down.x}, ${this.stairs.down.y})` : "None");
 
     // Update FOV for new position
     if (this.updateFOV) {
-      console.log("Updating field of view...");
       this.updateFOV();
     }
 
     // Fade back in
-    console.log("Starting camera fade in...");
     this.cameras.main.fadeIn(500);
 
     // Unlock the game loop after transition
     this.transitioning = false;
-    console.log("Transition complete");
-    console.log("===== FINISHED GOING DOWN STAIRS =====");
   });
 }
 
 goUpStairs() {
   this.clearPath();
-  console.log("===== GOING UP STAIRS =====");
 
   // Prevent multiple transitions
   if (this.transitioning) {
-    console.log("Already transitioning, ignoring request");
     return;
   }
   this.transitioning = true;
   this.transitionDirection = 'up';  // Track the transition direction
-  console.log("Starting level transition...");
 
   // Store the current level
   const previousLevel = this.currentLevel;
 
   // Fade out screen
   this.cameras.main.fadeOut(500, 0, 0, 0);
-  console.log("Camera fade out started");
 
   this.cameras.main.once('camerafadeoutcomplete', async () => {
-    console.log("Camera fade out complete");
 
     // Decrease level (going up means we are going to a higher level)
     this.currentLevel--;
-    console.log(`Moving from level ${previousLevel} to level ${this.currentLevel}`);
 
     // Reload or generate new level
-    console.log("Loading new level...");
     await this.loadLevel();
-    console.log("New level loaded");
 
     // Update FOV for new position
     if (this.updateFOV) {
-      console.log("Updating field of view...");
       this.updateFOV();
     }
 
     // Fade back in
-    console.log("Starting camera fade in...");
     this.cameras.main.fadeIn(500);
 
     // Unlock the game loop after transition
     this.transitioning = false;
-    console.log("Transition complete");
-    console.log("===== FINISHED GOING UP STAIRS =====");
   });
 }
 
@@ -713,7 +692,6 @@ goUpStairs() {
 loadLevel() {
 
  
-      console.log(`Generating new level ${this.currentLevel}`);
       this.generateDungeon(); // Generate new dungeon
  
 
@@ -801,7 +779,6 @@ getTileInfo(x, y) {
     const isDown = this.stairs.down && this.stairs.down.x === x && this.stairs.down.y === y;
     
     if (isUp || isDown) {
-      console.log(`Tile (${x}, ${y}) is ${isUp ? 'upstairs' : 'downstairs'}`);
       return true;
     }
     return false;
@@ -821,7 +798,6 @@ isWalkable(x, y) {
 
 pathfindTo(targetX, targetY) {
   if (!this.shouldDrawPath) {
-    console.log('Path drawing is disabled.');
     return;
 }
   // If clicked on the same tile, start moving player
@@ -858,7 +834,6 @@ pathfindTo(targetX, targetY) {
 
   // Validate the path
   if (!this.isPathValid()) {
-    console.log('Path is invalid');
     return; // Exit if path is not valid
   }
 
@@ -931,7 +906,6 @@ isPathValid() {
   for (let i = 0; i < this.currentPath.length; i++) {
     const tile = this.currentPath[i];
     if (!this.isWalkable(tile.x, tile.y)) {
-      console.log(`Tile at (${tile.x}, ${tile.y}) is not walkable.`);
       return false; // Return false if any tile is not walkable
     }
   }
@@ -985,13 +959,11 @@ clearPath() {
   this.shouldDrawPath = false;
 
   // Clear path from the path group
-  console.log('Clearing path...');
   this.pathGroup.clear(true, true); // Clears the pathGroup after all images fade in
 
   // Optionally reset flag after a brief moment (e.g., 500ms)
   setTimeout(() => {
       this.shouldDrawPath = true;
-      console.log('Path drawing is re-enabled.');
   }, 500); // 500ms delay
 }
 
@@ -1236,7 +1208,6 @@ createRoomMap(dungeon) {
       this.createStairsInRoom(this.rooms[1], 'up');
     }
   } else {
-    console.log("Stairs already exist, skipping stair creation.");
   }
 
   // Store rooms and mark their areas
@@ -1255,7 +1226,6 @@ createRoomMap(dungeon) {
     cell === 1 ? wallCount++ : floorCount++;
   }));
 
-  console.log(`Map Stats - Walls: ${wallCount}, Floors: ${floorCount}`);
   console.assert(wallCount > 0 && floorCount > 0, "Invalid map generation");
 
   // After generating rooms
@@ -1319,7 +1289,6 @@ createRoomMap(dungeon) {
         this.player.sprite,
         this.stairs.down.sprite,
         () => {
-          console.log('Downstairs collision!');
           this.openActionMenu('stairsDown');
         },
         null,
@@ -1335,7 +1304,6 @@ createRoomMap(dungeon) {
       this.player.sprite,
       this.stairs.up.sprite,
       () => {
-        console.log('Upstairs collision!');
         this.openActionMenu('stairsUp');
       },
       null,
@@ -1382,7 +1350,6 @@ createPlayer(characterSheet) {
   // Set render order and scale for the player sprite
   this.player.sprite.setDepth(100).setScale(0.75);
 
-  console.log('Player starts at:', x, y, 'Walkable:', this.map[x][y] === 0);
 
   // Update player sprite based on character sheet if provided
   if (characterSheet.spriteKey) {
@@ -1495,7 +1462,6 @@ generateDungeon(previousDownStairs) {
       }
     }
   } else {
-    console.log("Stairs already exist, skipping stair creation.");
   }
 
 
@@ -1507,12 +1473,8 @@ generateDungeon(previousDownStairs) {
 doStairsExist() {
   // Check if 'this.stairs' exists, then check 'up' and 'down'
   if (this.stairs) {
-    // alert("Stairs object exists");
-    // alert("Up Stairs: " + (this.stairs.up ? "Exists" : "Does not exist"));
-    // alert("Down Stairs: " + (this.stairs.down ? "Exists" : "Does not exist"));
     return this.stairs.up && this.stairs.down;
   } else {
-    // alert("Stairs object is null or undefined");
     return false;
   }
 }
@@ -1545,7 +1507,6 @@ handleStairInteraction() {
     const distance = Phaser.Math.Distance.Between(playerX, playerY, upStairsX, upStairsY);
 
     if (distance < this.tileSize) {
-      console.log("Player is near UP stairs");
       // Allow going up
     }
   }
@@ -1557,7 +1518,6 @@ handleStairInteraction() {
     const distance = Phaser.Math.Distance.Between(playerX, playerY, downStairsX, downStairsY);
 
     if (distance < this.tileSize) {
-      console.log("Player is near DOWN stairs");
       // Allow going down
     }
   }
@@ -1679,7 +1639,6 @@ createTile(x, y) {
   };
   // Store both types of stairs
   this.stairConnections.set(`${this.currentLevel}-${type}`, stairData);
-  console.log(`Created ${type} stairs at (${x},${y}) for level ${this.currentLevel}`);
 }
 }
 
@@ -1749,7 +1708,6 @@ createStairsAtPosition(x, y, type) {
 
   // Track position
   this.stairPositions.add(`${x},${y}`);
-  console.log(`Created ${type} stairs at (${x},${y})`);
 }
 }
 // Function to place a gold coin randomly within one of the rooms
@@ -1770,11 +1728,9 @@ placeGoldCoin(rooms) {
   // Make the coin interactive for pickup
   coin.setInteractive();
   coin.on('pointerdown', () => {
-      console.log("Gold coin collected!");
       coin.destroy(); // Destroy the coin after being collected
   });
 
-  console.log(`Gold coin placed at: (${coinX}, ${coinY})`);
 }
 drawMap() {
   // Clear previous tiles first
@@ -1846,7 +1802,6 @@ drawMap() {
       window.addEventListener("keydown", async (event) => {
         const direction = moves[event.key];
         if (direction) {
-          console.log(this.player); // Debugging: Check if player is correctly initialized
     
           this.engine.lock();  // Locking the engine for movement
           try {

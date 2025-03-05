@@ -1,28 +1,12 @@
 {
-      "options": [
-        {
-          "optionGa": "Trealamh",
-          "optionEn": "equipment"
-        },
-        {
-          "optionGa": "Caractéir",
-          "optionEn": "character"
-        },
-        {
-            "optionGa": "Logleabhair",
-            "optionEn": "logbook"
-          },
-          {
-            "optionGa": "Cainnte",
-            "optionEn": "speech"
-          },
-          {
-            "optionGa": "Roghachlár",
-            "optionEn": "options menu"
-          },
-          {
-            "optionGa": "",
-            "optionEn": ""
-          }
-      ]
+  "optionsMenu": {
+    "options": [
+      {"optionGa": "Trealamh", "optionEn": "equipment"},
+      {"optionGa": "Carachtéir", "optionEn": "character"},
+      {"optionGa": "Logleabhair", "optionEn": "logbook"},
+      {"optionGa": "Cainnte", "optionEn": "speech"},
+      {"optionGa": "Roghachlár", "optionEn": "options menu"},
+      {"optionGa": "", "optionEn": ""}
+    ]
   }
+}

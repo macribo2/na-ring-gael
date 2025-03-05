@@ -1,10 +1,10 @@
 import Phaser from "phaser";
 
-class OptionsMenu extends Phaser.GameObjects.Container {
-  constructor(scene, closeOptionsMenu) {
+class OptionMenu extends Phaser.GameObjects.Container {
+  constructor(scene, closeOptionMenu) {
     super(scene);
     this.scene = scene;
-    this.closeOptionsMenu = closeOptionsMenu; // Store function reference
+    this.closeOptionMenu = closeOptionMenu; // Store function reference
   this.overlay = scene.add.rectangle(
   scene.cameras.main.centerX, 
   scene.cameras.main.centerY,
@@ -43,7 +43,7 @@ this.menuData = scene.cache.json.get('optionContent');
     this.angularVelocity = 0;
     this.deceleration = 0.98;
     this.minVelocity = 0.001;
-    this.numoptions = 0;
+    this.numOptions = 0;
     this.options = [];
     
     this.isEnglish = false; // Add state for English toggle
@@ -109,7 +109,7 @@ this.menuData = scene.cache.json.get('optionContent');
       fill: "LavenderBlush",
       align: "center",
       wordWrap: { width: 800 }
-    }).setOrigin(0.5).setDepth(6600).setVisible(false).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(6600).setVisible(true).setScrollFactor(0);
 this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
   fontSize: "24px",
   fill: "plum",
@@ -128,7 +128,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
       fontFamily:'dum1',
       align: "center",
       wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(false).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(2600).setVisible(true).setScrollFactor(0);
  
   
   
@@ -147,64 +147,62 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
 
   }
 
-  onToggleTranslation() {
-    this.isEnglish = !this.isEnglish; // Toggle state
+  updateOptionDisplay() {
+    // Ensure optionCounter is within bounds
+    this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numOptions);
+    if (this.options && this.options.length > 0) {
+      const currentOption = this.options[this.optionCounter];
+      
+      // Update both Ga and En texts
+      if (currentOption.optionGa) {
+        this.optionTextGa.setText(currentOption.optionGa);
+        this.optionTextGa.setVisible(true);
+      }
+      
+      if (currentOption.optionEn) {
+        this.optionTextEn.setText(currentOption.optionEn);
+        this.optionTextEn.setVisible(this.isEnglish);
+      }
+    }}
+createSpokes(options) {
+  // Clear existing spokes
 
-    console.log("Toggling translation. isEnglish:", this.isEnglish);
+  
+  this.options = options;
+  this.numOptions = options.length;
 
-    // Toggle visibility based on the new state
-    this.titleTextEn.setVisible(this.isEnglish);
-    this.optionTextEn.setVisible(this.isEnglish);
+  // Calculate angle between spokes
+  this.spokeAngle = Phaser.Math.PI2 / this.numOptions;
+
+  options.forEach((option, index) => {
+    const angle = this.spokeAngle * index;
+    
+    // Create a spoke line (visual representation)
+    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000) // Changed color for visibility
+      .setLineWidth(3)
+      .setRotation(angle);
+    
+    this.spokesContainer.add(spoke).setDepth(6000);
+  });
+
+  // Reset to first option
+  this.optionCounter = 0;
+  this.updateOptionDisplay(); // Fixed typo here (capital 'O')
 }
-  
-updateoptionDisplay() {
-  // Ensure index stays within bounds
-  this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numoptions);
 
-  // Make sure options array has elements before trying to access
-  if (this.options && this.options.length > 0) {
-      // Update the option text to reflect the current option
-      this.optionTextGa.setText(this.options[this.optionCounter].optionGa);
-      this.optionTextEn.setText(this.options[this.optionCounter].optionEn);
-      this.optionTextGa.setVisible(true)
-  }
+
+
+
+onToggleTranslation() {
+  this.isEnglish = !this.isEnglish; // Toggle state
+
+  console.log("Toggling translation. isEnglish:", this.isEnglish);
+
+  // Toggle visibility based on the new state
+  this.titleTextEn.setVisible(this.isEnglish);
+  this.optionTextEn.setVisible(this.isEnglish);
 }
 
-
-  createSpokes(options) {
-    this.spokesContainer.removeAll(true);
-  
-    this.options = options;
-    this.numoptions = options.length;
-  
-    // Calculate angle between spokes
-    this.spokeAngle = Phaser.Math.PI2 / this.numoptions;
-  
-    options.forEach((option, index) => {
-      const angle = this.spokeAngle * index;
-      
-      // Create a spoke line (visual)
-      const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xffffff)
-        .setLineWidth(3).setRotation(angle);
-      
-      this.spokesContainer.add(spoke).setDepth(6000);
-      
-      // Create an invisible physics body along the spoke line
-      const spokeX = Math.cos(angle) * 180; // Was 90
-      const spokeY = Math.sin(angle) * 180;
-  
-      
-  
-
-    });
-  
-    // Update option display
-    this.optionCounter = 0;
-    this.updateoptionDisplay();
-  
-
-  }
-  
   getRotationDirection() {
     const currentAngle = this.wheel.rotation; // Use rotation in radians
     const previousAngle = this.previousAngle || currentAngle;
@@ -220,61 +218,39 @@ updateoptionDisplay() {
     return angularVelocity > 0 ? 1 : -1; // Use physics body velocity
     // return Math.sign(delta);
   }
-
   showMenu(menuKey) {
-
-    
-    if (!this.menuData[menuKey]) {
-      console.error(`No data for menu key: ${menuKey}`);
+    // 1. Check if menuData exists for this key
+    if (!this.menuData || !this.menuData[menuKey]) {
+      console.error(`Menu data not found for key: ${menuKey}`);
       return;
     }
-
-    const data = this.menuData[menuKey];
-
-    // List of elements to fade in
-    const elements = [
-        this.overlay,
-        this.wheel,
-        this.buttonBase,
-        this.titleTextGa,
-        this.optionTextGa
-    ];
-
-    if (!this.titleHidden) {
-        this.titleTextGa.setText(data.subjectGa).setScrollFactor(0);
-        this.titleTextEn.setText(data.subjectEn).setScrollFactor(0);
+  
+    // 2. Get the menu data
+    const menuData = this.menuData[menuKey];
+  
+    // 3. Check if options array exists
+    if (!menuData.options || !Array.isArray(menuData.options)) {
+      console.error(`Invalid options array in menu data for key: ${menuKey}`);
+      return;
     }
-
-    if (!this.optionsVisible) {
-        this.optionTextGa.setScrollFactor(0);
-        this.optionTextEn.setScrollFactor(0);
-    }
-
-    this.createSpokes(data.options);
+  
+    // Create spokes using the validated options array
+    this.createSpokes(menuData.options);
+        // Explicitly reset visibility
+        this.setVisible(true);
+        this.overlay.setVisible(true);
+        this.titleTextGa.setVisible(true);
+        this.titleTextEn.setVisible(this.isEnglish);
+        this.wheel.setVisible(true);
+        this.buttonBase.setVisible(true);
+        this.optionTextGa.setVisible(true);
+        this.optionTextEn.setVisible(this.isEnglish);
     this.setVisible(true);
-
-    // Reset rotation tracking
-    this.lastRotation = this.wheel.rotation;
-    this.direction = 0;
-
-    this.scene.input.setTopOnly(true);
-    this.overlay.setInteractive();
-
-    // Apply fade-in effect to each element
-    elements.forEach(element => {
-        if (element) {
-            element.setAlpha(0).setVisible(true); // Start invisible
-            this.scene.tweens.add({
-                targets: element,
-                alpha: 1, // Fade in
-                duration: 500, // Adjust speed of fade
-                ease: 'Power2'
-            });
-        }
-    });
-
-    this.wheel.setScale(0.75); // Set scale after visibility
-}
+    
+    // Set title texts if available
+    if (menuData.titleGa) this.titleTextGa.setText(menuData.titleGa);
+    if (menuData.titleEn) this.titleTextEn.setText(menuData.titleEn);
+  }
 
   updateSpokePositions() {
     // Get current wheel rotation
@@ -361,41 +337,32 @@ updateoptionDisplay() {
   }
 
   update() {
-    this.updateSelection();
+// alert(this.optionCounter)
+
+    // Correct method call with proper capitalization
+    const newIndex = this.getCurrentOptionIndex();
     
-    // Visual feedback for current selection
-    const highlightAngle = this.getCurrentoptionIndex() * this.spokeAngle;
-    
-}
-getCurrentoptionIndex() {
-  // Get normalized rotation angle (0-2π)
+    if (newIndex !== this.optionCounter) {
+      this.optionCounter = newIndex;
+      this.updateOptionDisplay(); // This should update both Ga and En texts
+    }
+  }
+getCurrentOptionIndex() {
+  // Ensure the wheel rotation is normalized and wrapped
   const normalizedRotation = Phaser.Math.Angle.Wrap(this.wheel.rotation);
   
-  // Calculate index based on rotation
-  const rawIndex = Math.floor((normalizedRotation / (Math.PI * 2)) * this.numoptions);
-  
-  // Ensure positive index within bounds
-  return (rawIndex + this.numoptions) % this.numoptions;
+  // Calculate index based on wheel rotation and spoke angle
+  return Math.floor(normalizedRotation / this.spokeAngle) % this.numOptions;
 }
 updateSelection() {
-  const newIndex = this.getCurrentoptionIndex();
-  
-  // Only update if index changed
+  const newIndex = this.getCurrentOptionIndex();
   if (newIndex !== this.optionCounter) {
-      const delta = newIndex - this.optionCounter;
-      
-      // Handle wrap-around cases
-      if (Math.abs(delta) > this.numoptions / 2) {
-          this.optionCounter += (delta > 0) ? -1 : 1;
-      } else {
-          this.optionCounter = newIndex;
-      }
-      
-      // Keep within bounds
-      this.optionCounter = (this.optionCounter + this.numoptions) % this.numoptions;
-      this.updateoptionDisplay();
+    this.optionCounter = newIndex;
+    this.updateOptionDisplay(); // Update text when index changes
   }
 }
+
+
 
   hideMenu() {
     this.setVisible(false);
@@ -414,4 +381,4 @@ updateSelection() {
   
 }
 
-export default OptionsMenu;
+export default OptionMenu;
