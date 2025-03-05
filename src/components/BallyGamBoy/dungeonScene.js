@@ -166,15 +166,7 @@ export default class DungeonScene extends Phaser.Scene {
     let menuKey = 'defaultMenu';
     
     this.setupStairCollisions();
-    this.optionMenu = new OptionMenu(this, menuKey, this.closeOptionMenu.bind(this));
-    this.children.add(this.optionMenu); // Use this.children instead of this.add.existing()
-    this.optionMenu.setDepth(6000);
-    this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
-    this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
-    
-    
-    if (typeof this.actionMenu.showMenu !== 'function') {
-    }
+   
     
     // Initialize dustMotes array here if not already done
     if (!this.dustMotes) {
@@ -196,8 +188,19 @@ export default class DungeonScene extends Phaser.Scene {
     // ;
     localStorage.setItem('dungeonInitialAnimationPlayed', 'true');
   // }
- }
+  this.optionMenu = new OptionMenu(this, menuKey, this.closeOptionMenu.bind(this));
+  this.children.add(this.optionMenu); // Use this.children instead of this.add.existing()
+  this.optionMenu.setDepth(5000);
+  this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
+  this.add.existing(this.actionMenu).setDepth(6000); // Add to the scene, but stays hidden
+  
+  
+  if (typeof this.actionMenu.showMenu !== 'function') {
+  } 
+}
  openOptionMenu() {
+   // Stop drawing the path
+   this.shouldDrawPath = false;
   if (this.actionMenuActive) return;
   if (!this.optionMenu) {
     return;
@@ -208,8 +211,11 @@ export default class DungeonScene extends Phaser.Scene {
   this.optionMenu.showMenu('optionsMenu');
 }
 closeOptionMenu() {
+  this.shouldDrawPath = true;
+
  // if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
-this.optionMenu.setVisible(false)
+ this.optionMenu.hideMenu();
+// this.optionMenu.setVisible(false)
 this.optionMenu.spokesContainer.removeAll(true);
 
 
@@ -299,6 +305,15 @@ setTimeout(() => {
 
   preload() {
  
+    this.load.image('character', '/phaser-resources/images/bg2.png');
+    this.load.image('settings', '/phaser-resources/images/bg2.png');
+    this.load.image('chat', '/phaser-resources/images/bg1.png');
+    this.load.image('inventory', '/phaser-resources/images/placeholders/inventory.png');
+    this.load.image('log', '/phaser-resources/images/placeholders/log.png');
+    this.load.image('other', '/phaser-resources/images/placeholders/other.png');
+
+    this.load.image('log', '/phaser-resources/images/placeholders/log.png');
+    this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
     this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
     this.load.image('lightning', '/phaser-resources/images/lightning.png');
     this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
@@ -321,7 +336,7 @@ setTimeout(() => {
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
   
     this.load.image('bg1','/phaser-resources/images/bg2.png')
-    this.load.image('celt-ring','/phaser-resources/images/ui/three-point-wheel.png')
+    this.load.image('celt-ring','/phaser-resources/images/ui/eight-point-wheel.png')
   
       // Add stair textures
       this.load.spritesheet('stairs_down_texture', '/phaser-resources/images/rotjs/stairs-down.png', { frameWidth: 32, frameHeight: 32 });

@@ -1,9 +1,41 @@
 import Phaser from "phaser";
+import InventoryMenu from "./inventoryMenu"; // Import the InventoryMenu
+import QuestMenu from "./questMenu"; 
+import CharacterMenu from "./characterMenu"; 
+import ChatMenu from "./chatMenu"; 
+import OtherMenu from "./otherMenu";
+import SettingsMenu from "./settingsMenu";
 
 class OptionMenu extends Phaser.GameObjects.Container {
   constructor(scene, closeOptionMenu) {
     super(scene);
     this.scene = scene;
+
+
+
+
+
+    this.characterMenu = new CharacterMenu(scene);
+    this.inventoryMenu = new InventoryMenu(scene);
+
+    this.questMenu = new QuestMenu(scene);
+    this.chatMenu = new ChatMenu(scene);
+    this.settingsMenu = new SettingsMenu(scene);
+    this.otherMenu = new OtherMenu(scene);
+    this.scene.add.existing(this.inventoryMenu);
+
+    this.scene.add.existing(this.otherMenu);
+    this.scene.add.existing(this.chatMenu);
+    this.scene.add.existing(this.questMenu);
+    this.scene.add.existing(this.characterMenu);
+
+
+
+
+
+
+
+
     this.closeOptionMenu = closeOptionMenu; // Store function reference
   this.overlay = scene.add.rectangle(
   scene.cameras.main.centerX, 
@@ -21,7 +53,7 @@ if (!scene.cache.json.exists('optionContent')) {
 this.menuData = scene.cache.json.get('optionContent');
 
       // Wheel
-        this.wheel = scene.add.sprite(scene.scale.width/2,scene.scale.height/2, 'celt-ring')
+        this.wheel = scene.add.sprite(scene.scale.width*0.7,scene.scale.height/4, 'celt-ring')
           .setVisible(true)
           .setDepth(1100)
           .setInteractive({ draggable: true })
@@ -31,7 +63,7 @@ this.menuData = scene.cache.json.get('optionContent');
     // this.wheel.body.setAngularDamping(0.8);
     
         // Spokes container
-        this.spokesContainer = scene.add.container(scene.scale.width/2,scene.scale.height/2)
+        this.spokesContainer = scene.add.container(scene.scale.width*0.7,scene.scale.height/4)
           .setDepth(1599)
           .setScrollFactor(0).setVisible(true);
     
@@ -70,46 +102,8 @@ this.menuData = scene.cache.json.get('optionContent');
     
 
 
-    this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'default_button')
-    .setDepth(6001)
-    .setScrollFactor(0).setScale(0.75).setAlpha(1)
-    .setInteractive().on("pointerdown", () => {
-  //     if (this.options[this.optionCounter].action === 'goDownStairs') {
-  //       this.scene.goDownStairs()
-  //       this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-  //   } else  if (this.options[this.optionCounter].action === 'goUpStairs') {
-  //     this.scene.goUpStairs()
-  //     this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-  // }    
-  //   else if (this.options[this.optionCounter].action === 'cancel') {
-  //       this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-  //   }
-      ;})
-        
       
-    
-    this.buttonContainer = scene.add.container(0, 0, [this.buttonBase,]) //this.buttonFrame])
-    .setDepth(600)
-    .setVisible(false)
-    .setScrollFactor(0)
-    .setInteractive(new Phaser.Geom.Circle(0, 0, 40), Phaser.Geom.Circle.Contains);
-       
-
-    this.titleTextEn = scene.add.text(scene.scale.width/2,scene.scale.height-40, "test!!!!!", {
-      fontSize: "32px",
-      fontFamily:'dum1, sans-serif',
-      fill: "gunmetal",
-      align: "center",
-      wordWrap: { width: 800 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(true).setScrollFactor(0);
-
-    this.titleTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/10, "", {
-      fontSize: "32px",
-      fontFamily:'aonchlo, sans-serif',
-      fill: "LavenderBlush",
-      align: "center",
-      wordWrap: { width: 800 }
-    }).setOrigin(0.5).setDepth(6600).setVisible(true).setScrollFactor(0);
+   
 this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
   fontSize: "24px",
   fill: "plum",
@@ -134,36 +128,201 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
   
     
     
-    this.scene.tweens.add({
-      targets: this.buttonBase,
-      alpha: { start: 1, to: 0.5, duration: 1500, yoyo: true, repeat: -1 }, // Fade between 1 (visible) and 0.5 (semi-transparent)
-      ease: 'Sine.easeInOut', // Smooth easing for a gentle fade
-      yoyo: true, // Makes the tween reverse (fade back in after fading out)
-      repeat: -1, // Loops indefinitely
-    });  
+ 
     
-    this.add([this.overlay, this.wheel, this.buttonBase, this.titleTextGa,this.optionTextGa,this.titleTextEn, this.optionTextEn]);
+    this.add([this.overlay, this.wheel,  this.optionTextGa, this.optionTextEn]);
     this.scene.add.existing(this);
 
   }
 
-  updateOptionDisplay() {
-    // Ensure optionCounter is within bounds
-    this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numOptions);
-    if (this.options && this.options.length > 0) {
-      const currentOption = this.options[this.optionCounter];
+// Revised crossfade function without using timeline
+crossfadeMenus(menuToHide, menuToShow, duration = 300) {
+  if (!menuToHide || !menuToShow) return;
+  
+  // Ensure both menus are visible during the transition
+  menuToShow.setVisible(true);
+  menuToHide.setVisible(true);
+  
+  // Start the new menu at alpha 0
+  menuToShow.setAlpha(0);
+  
+  // Fade in the new menu
+  this.scene.tweens.add({
+    targets: menuToShow,
+    alpha: 1,
+    duration: duration,
+    ease: 'Linear'
+  });
+  
+  // Simultaneously fade out the current menu
+  this.scene.tweens.add({
+    targets: menuToHide,
+    alpha: 0,
+    duration: duration,
+    ease: 'Linear',
+    onComplete: () => {
+      menuToHide.setVisible(false);
+    }
+  });
+}
+
+// The updateOptionDisplay function remains the same, except for removing timeline references
+updateOptionDisplay() {
+  // Ensure optionCounter is within bounds
+  this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numOptions);
+  console.log('YO OPTION COUNTER '+this.optionCounter);
+  
+  if (this.options && this.options.length > 0) {
+    const currentOption = this.options[this.optionCounter];
+    
+    // Update both Ga and En texts for the options
+    if (currentOption.optionGa) {
+      this.optionTextGa.setText(currentOption.optionGa);
+      this.optionTextGa.setVisible(true);
+    }
+    
+    if (currentOption.optionEn) {
+      this.optionTextEn.setText(currentOption.optionEn);
+      this.optionTextEn.setVisible(this.isEnglish);
+    }
+    
+    // Determine which menu to show based on optionCounter
+    let newMenuToShow = null;
+    switch (this.optionCounter) {
+      case 0: newMenuToShow = this.inventoryMenu; break;
+      case 1: newMenuToShow = this.characterMenu; break;
+      case 2: newMenuToShow = this.questMenu; break;
+      case 3: newMenuToShow = this.chatMenu; break;
+      case 4: newMenuToShow = this.settingsMenu; break;
+      case 5: newMenuToShow = this.otherMenu; break;
+    }
+    
+    // Find the currently active menu
+    let currentVisibleMenu = null;
+    if (this.isInventoryVisible) currentVisibleMenu = this.inventoryMenu;
+    else if (this.isCharacterVisible) currentVisibleMenu = this.characterMenu;
+    else if (this.isLogVisible) currentVisibleMenu = this.questMenu;
+    else if (this.isChatVisible) currentVisibleMenu = this.chatMenu;
+    else if (this.isSettingsVisible) currentVisibleMenu = this.settingsMenu;
+    else if (this.isOtherVisible) currentVisibleMenu = this.otherMenu;
+    
+    // Update visibility flags based on the option counter
+    this.isInventoryVisible = (this.optionCounter === 0);
+    this.isCharacterVisible = (this.optionCounter === 1);
+    this.isLogVisible = (this.optionCounter === 2);
+    this.isChatVisible = (this.optionCounter === 3);
+    this.isSettingsVisible = (this.optionCounter === 4);
+    this.isOtherVisible = (this.optionCounter === 5);
+    
+    // First time showing a menu
+    if (!currentVisibleMenu && newMenuToShow) {
+      newMenuToShow.setAlpha(1);
+      newMenuToShow.setVisible(true);
+    } 
+    // Crossfade between menus (only if they're different)
+    else if (currentVisibleMenu && newMenuToShow && currentVisibleMenu !== newMenuToShow) {
+      // Cancel any existing tweens on both menus to prevent conflicts
+      this.scene.tweens.killTweensOf(currentVisibleMenu);
+      this.scene.tweens.killTweensOf(newMenuToShow);
       
-      // Update both Ga and En texts
-      if (currentOption.optionGa) {
-        this.optionTextGa.setText(currentOption.optionGa);
-        this.optionTextGa.setVisible(true);
-      }
-      
-      if (currentOption.optionEn) {
-        this.optionTextEn.setText(currentOption.optionEn);
-        this.optionTextEn.setVisible(this.isEnglish);
-      }
-    }}
+      this.crossfadeMenus(currentVisibleMenu, newMenuToShow);
+    }
+  }
+}
+
+  
+  // Function to show the inventory menu (you can update this based on your implementation)
+  showInventoryMenu() {
+    // You can create or activate your InventoryMenu here
+    if (!this.inventoryMenu) {
+      // Create InventoryMenu if not already created
+      this.inventoryMenu = new InventoryMenu(this.scene);
+    }
+  
+    // Display the InventoryMenu
+    this.inventoryMenu.setVisible(true);
+    this.inventoryMenu.bringToTop(); // Ensure it's in front if there are other UI elements
+  }
+  /* this is "hide" in terms of spinning the optionmenu wheel: use 
+  this.inventorymenu.hideinventory() to actually hide the menu completely.*/
+  hideInventoryMenu() {
+    if (this.inventoryMenu) {
+      this.inventoryMenu.setVisible(false); // Hide the inventory menu when it's not needed
+    }
+  }
+
+
+
+  showQuestMenu() {
+    if (!this.questMenu) {
+      this.questMenu = new QuestMenu(this.scene);
+    }
+  
+    this.questMenu.setVisible(true);
+    this.questMenu.bringToTop(); 
+  }
+  hideQuestMenu() {
+    if (this.questMenu) {
+      this.questMenu.setVisible(false); 
+    }
+  }
+  showCharacterMenu() {
+    if (!this.characterMenu) {
+      this.characterMenu = new CharacterMenu(this.scene);
+    }
+  
+    this.characterMenu.setVisible(true);
+    this.characterMenu.bringToTop(); 
+  }
+  hideCharacterMenu() {
+    if (this.characterMenu) {
+      this.characterMenu.setVisible(false); 
+    }
+  }
+  showChatMenu() {
+    if (!this.chatMenu) {
+      this.chatMenu = new ChatMenu(this.scene);
+    }
+  
+    this.chatMenu.setVisible(true);
+    this.chatMenu.bringToTop(); 
+  }
+  hideChatMenu() {
+    if (this.chatMenu) {
+      this.chatMenu.setVisible(false); 
+    }
+  }
+  showSettingsMenu() {
+    if (!this.settingsMenu) {
+      this.settingsMenu = new SettingsMenu(this.scene);
+    }
+  
+    this.settingsMenu.setVisible(true);
+    this.settingsMenu.bringToTop();
+  }
+  hideSettingsMenu() {
+    if (this.settingsMenu) {
+      this.settingsMenu.setVisible(false);
+    }
+  }
+  showOtherMenu() {
+    if (!this.otherMenu) {
+      this.otherMenu = new OtherMenu(this.scene);
+    }
+  
+    this.otherMenu.setVisible(true);
+    this.otherMenu.bringToTop(); 
+  }
+  hideOtherMenu() {
+    if (this.otherMenu) {
+      this.otherMenu.setVisible(false);
+    }
+  }
+
+
+
+
+
 createSpokes(options) {
   // Clear existing spokes
 
@@ -178,7 +337,7 @@ createSpokes(options) {
     const angle = this.spokeAngle * index;
     
     // Create a spoke line (visual representation)
-    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000) // Changed color for visibility
+    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0.2) // Changed color for visibility
       .setLineWidth(3)
       .setRotation(angle);
     
@@ -199,7 +358,6 @@ onToggleTranslation() {
   console.log("Toggling translation. isEnglish:", this.isEnglish);
 
   // Toggle visibility based on the new state
-  this.titleTextEn.setVisible(this.isEnglish);
   this.optionTextEn.setVisible(this.isEnglish);
 }
 
@@ -239,17 +397,13 @@ onToggleTranslation() {
         // Explicitly reset visibility
         this.setVisible(true);
         this.overlay.setVisible(true);
-        this.titleTextGa.setVisible(true);
-        this.titleTextEn.setVisible(this.isEnglish);
+      
         this.wheel.setVisible(true);
-        this.buttonBase.setVisible(true);
+      
         this.optionTextGa.setVisible(true);
         this.optionTextEn.setVisible(this.isEnglish);
     this.setVisible(true);
     
-    // Set title texts if available
-    if (menuData.titleGa) this.titleTextGa.setText(menuData.titleGa);
-    if (menuData.titleEn) this.titleTextEn.setText(menuData.titleEn);
   }
 
   updateSpokePositions() {
@@ -266,25 +420,24 @@ onToggleTranslation() {
   dragWheel(pointer) {
     if (!this.isDragging) return;
   
-    // Get angle from pointer position
+    // Get angle from pointer position (center of the wheel is 400, 300)
     const currentAngle = Phaser.Math.Angle.Between(
       400, 300, // Wheel center
       pointer.x, pointer.y
     );
-    
-    // Calculate actual rotation delta
-    const delta = currentAngle - this.startAngle;
+  
+    // Calculate actual rotation delta and invert it
+    const delta = this.startAngle - currentAngle; // Invert the direction by switching startAngle and currentAngle
     
     // Update wheel rotation
     this.wheel.rotation = this.wheelStartRotation + delta;
     this.spokesContainer.rotation = this.wheel.rotation;
-    
+  
     // Update angular velocity based on actual rotation
     this.angularVelocity = delta - this.previousDelta;
     this.previousDelta = delta;
-  
-
   }
+  
   
   startDrag(pointer) {
 
@@ -367,14 +520,16 @@ updateSelection() {
   hideMenu() {
     this.setVisible(false);
     this.overlay.setVisible(false);
-    this.titleTextGa.setVisible(false);
-    this.titleTextEn.setVisible(false);
     this.wheel.setVisible(false);
-    this.buttonBase.setVisible(false);
     this.optionTextGa.setVisible(false);
     this.optionTextEn.setVisible(false);
     this.scene.input.setTopOnly(false);
-    
+    this.inventoryMenu.hideInventory();
+    this.characterMenu.hideCharacter()
+    this.chatMenu.hideChat()
+    this.questMenu.hideQuest()
+    this.otherMenu.hideOther()
+
     // Clean up physics
   }
 
