@@ -6,12 +6,14 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
     // Basic graphics for the inventory container placeholder
   // Check if the 'lightning' asset exists in the texture cache
-  if (scene.textures.exists('inventory')) {
-    this.background = scene.add.image(
+// Ensure background is added last
+if (scene.textures.exists('character')) {
+  this.background = scene.add.image(
       scene.cameras.main.centerX, 
       scene.cameras.main.centerY, 
       'character'
-    ).setDepth(1000).setScrollFactor(0);
+  ).setDepth(10000).setScrollFactor(0);
+
   } else {
   }
 

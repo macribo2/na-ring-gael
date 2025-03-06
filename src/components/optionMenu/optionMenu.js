@@ -53,12 +53,12 @@ if (!scene.cache.json.exists('optionContent')) {
 this.menuData = scene.cache.json.get('optionContent');
 
       // Wheel
-        this.wheel = scene.add.sprite(scene.scale.width*0.7,scene.scale.height/4, 'celt-ring')
+        this.wheel = scene.add.sprite(scene.scale.width*0.75,scene.scale.height/4, 'celt-ring')
           .setVisible(true)
-          .setDepth(1100)
+          .setDepth(6110)
           .setInteractive({ draggable: true })
           .setScrollFactor(0)
-          .setDisplaySize(400, 400);
+          .setDisplaySize(300, 300);
           this.scene.physics.add.existing(this.wheel);
     // this.wheel.body.setAngularDamping(0.8);
     
@@ -104,30 +104,32 @@ this.menuData = scene.cache.json.get('optionContent');
 
       
    
-this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, "Also Test", {
+this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20, "", {
   fontSize: "24px",
   fill: "plum",
   fontFamily:'dum1',
   align: "center",
   wordWrap: { width: 600 }
-}).setOrigin(0.5).setDepth(6600).setVisible(false).setScrollFactor(0);
+}).setOrigin(0.5).setDepth(6600).setVisible(false).setScrollFactor(0).setAlpha(0.6);
 
 
 
 
     // Current option text (displayed when spinning)g
-    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height/2, "asdfs", {
+    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height*0.3, "", {
       fontSize: "32px",
-      fill: "gunmetal",
-      fontFamily:'dum1',
+      fill: "lavender",
+      fontFamily:'IrishPenny',
       align: "center",
       wordWrap: { width: 600 }
-    }).setOrigin(0.5).setDepth(2600).setVisible(true).setScrollFactor(0);
+    }).setOrigin(0.5).setDepth(6620).setVisible(true).setScrollFactor(0).setAlpha(0.7);
  
   
-  
-    
-    
+    this.background = scene.add.image(
+      scene.cameras.main.centerX, 
+      scene.cameras.main.centerY, 
+      'other'
+    ).setDepth(4000).setScrollFactor(0).setVisible(false);
  
     
     this.add([this.overlay, this.wheel,  this.optionTextGa, this.optionTextEn]);
@@ -144,7 +146,7 @@ crossfadeMenus(menuToHide, menuToShow, duration = 300) {
   menuToHide.setVisible(true);
   
   // Start the new menu at alpha 0
-  menuToShow.setAlpha(0);
+  menuToShow.setAlpha(0).setDepth(6000);
   
   // Fade in the new menu
   this.scene.tweens.add({
@@ -240,7 +242,7 @@ updateOptionDisplay() {
     }
   
     // Display the InventoryMenu
-    this.inventoryMenu.setVisible(true);
+    this.inventoryMenu.setVisible(true).setDepth(6500);
     this.inventoryMenu.bringToTop(); // Ensure it's in front if there are other UI elements
   }
   /* this is "hide" in terms of spinning the optionmenu wheel: use 
@@ -258,7 +260,7 @@ updateOptionDisplay() {
       this.questMenu = new QuestMenu(this.scene);
     }
   
-    this.questMenu.setVisible(true);
+    this.questMenu.setVisible(true).setDepth(6500);
     this.questMenu.bringToTop(); 
   }
   hideQuestMenu() {
@@ -271,12 +273,12 @@ updateOptionDisplay() {
       this.characterMenu = new CharacterMenu(this.scene);
     }
   
-    this.characterMenu.setVisible(true);
+    this.characterMenu.setVisible(true).setDepth(6500);
     this.characterMenu.bringToTop(); 
   }
   hideCharacterMenu() {
     if (this.characterMenu) {
-      this.characterMenu.setVisible(false); 
+      this.characterMenu.setVisible(false).setDepth(6500); 
     }
   }
   showChatMenu() {
@@ -284,12 +286,12 @@ updateOptionDisplay() {
       this.chatMenu = new ChatMenu(this.scene);
     }
   
-    this.chatMenu.setVisible(true);
+    this.chatMenu.setVisible(true).setDepth(6500);
     this.chatMenu.bringToTop(); 
   }
   hideChatMenu() {
     if (this.chatMenu) {
-      this.chatMenu.setVisible(false); 
+      this.chatMenu.setVisible(false).setDepth(6500); 
     }
   }
   showSettingsMenu() {
@@ -297,7 +299,7 @@ updateOptionDisplay() {
       this.settingsMenu = new SettingsMenu(this.scene);
     }
   
-    this.settingsMenu.setVisible(true);
+    this.settingsMenu.setVisible(true).setDepth(6500);
     this.settingsMenu.bringToTop();
   }
   hideSettingsMenu() {
@@ -337,7 +339,7 @@ createSpokes(options) {
     const angle = this.spokeAngle * index;
     
     // Create a spoke line (visual representation)
-    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0.2) // Changed color for visibility
+    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0) // Changed color for visibility
       .setLineWidth(3)
       .setRotation(angle);
     
@@ -376,35 +378,7 @@ onToggleTranslation() {
     return angularVelocity > 0 ? 1 : -1; // Use physics body velocity
     // return Math.sign(delta);
   }
-  showMenu(menuKey) {
-    // 1. Check if menuData exists for this key
-    if (!this.menuData || !this.menuData[menuKey]) {
-      console.error(`Menu data not found for key: ${menuKey}`);
-      return;
-    }
-  
-    // 2. Get the menu data
-    const menuData = this.menuData[menuKey];
-  
-    // 3. Check if options array exists
-    if (!menuData.options || !Array.isArray(menuData.options)) {
-      console.error(`Invalid options array in menu data for key: ${menuKey}`);
-      return;
-    }
-  
-    // Create spokes using the validated options array
-    this.createSpokes(menuData.options);
-        // Explicitly reset visibility
-        this.setVisible(true);
-        this.overlay.setVisible(true);
-      
-        this.wheel.setVisible(true);
-      
-        this.optionTextGa.setVisible(true);
-        this.optionTextEn.setVisible(this.isEnglish);
-    this.setVisible(true);
-    
-  }
+
 
   updateSpokePositions() {
     // Get current wheel rotation
@@ -515,9 +489,49 @@ updateSelection() {
   }
 }
 
+showMenu(menuKey) {
+this.background.setVisible(true)
+  
+  // 1. Check if menuData exists for this key
+  if (!this.menuData || !this.menuData[menuKey]) {
+      console.error(`Menu data not found for key: ${menuKey}`);
+      return;
+  }
 
+  // 2. Get the menu data
+  const menuData = this.menuData[menuKey];
 
+  // 3. Check if options array exists
+  if (!menuData.options || !Array.isArray(menuData.options)) {
+      console.error(`Invalid options array in menu data for key: ${menuKey}`);
+      return;
+  }
+    
+  // Create spokes using the validated options array
+  this.createSpokes(menuData.options);
+  
+  // Set high depth values for all menu components
+  const baseDepth = 10000; // Higher than your background graphics
+  
+  this.setDepth(baseDepth);
+  this.overlay.setDepth(baseDepth);
+  this.wheel.setDepth(baseDepth + 1);
+  this.optionTextGa.setDepth(baseDepth + 2);
+  this.optionTextEn.setDepth(baseDepth + 2);
+  
+  // Make components visible
+  this.setVisible(true);
+  this.overlay.setVisible(true);
+  this.wheel.setVisible(true);
+  this.optionTextGa.setVisible(true);
+  this.optionTextEn.setVisible(this.isEnglish);
+  
+  // Optional: ensure menu input has priority
+  this.scene.input.setTopOnly(true);
+}
   hideMenu() {
+this.background.setVisible(false)
+
     this.setVisible(false);
     this.overlay.setVisible(false);
     this.wheel.setVisible(false);

@@ -7,10 +7,11 @@ class SettingsMenu extends Phaser.GameObjects.Container {
       // Check if the 'lightning' asset exists in the texture cache
       if (scene.textures.exists('settings')) {
         this.background = scene.add.image(
-          scene.cameras.main.centerX, 
-          scene.cameras.main.centerY, 
-          'settings'
-        ).setDepth(1000).setScrollFactor(0);
+            scene.cameras.main.centerX, 
+            scene.cameras.main.centerY, 
+            'settings'
+        ).setDepth(10000).setScrollFactor(0);
+    
       } else {
       }
   

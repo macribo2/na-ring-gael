@@ -10,7 +10,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
           scene.cameras.main.centerX, 
           scene.cameras.main.centerY, 
           'chat'
-        ).setDepth(1000).setScrollFactor(0);
+        ).setDepth(6000).setScrollFactor(0);
       } else {
       }
   

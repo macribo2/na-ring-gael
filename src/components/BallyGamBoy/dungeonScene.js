@@ -74,7 +74,7 @@ export default class DungeonScene extends Phaser.Scene {
   this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this), this.openOptionMenu.bind(this), this.closeOptionMenu.bind(this)) 
     .setScrollFactor(0)
     .setScale(0.5)
-    .setDepth(9788);
+    .setDepth(19788);
 
     this.controlSquare.setActionMenuActive(this.actionMenuActive);
  
@@ -152,7 +152,7 @@ export default class DungeonScene extends Phaser.Scene {
     
     
     this.pathGraphics = this.add.graphics()
-    .setDepth(9999)
+    .setDepth(999)
     .setDefaultStyles({
       lineStyle: { width: 3, color: 0x00FF00, alpha: 0.8 },
       fillStyle: { color: 0xFF0000, alpha: 0.5 }
@@ -187,8 +187,8 @@ export default class DungeonScene extends Phaser.Scene {
     // 
     // ;
     localStorage.setItem('dungeonInitialAnimationPlayed', 'true');
+    this.optionMenu = new OptionMenu(this, menuKey, this.closeOptionMenu.bind(this));
   // }
-  this.optionMenu = new OptionMenu(this, menuKey, this.closeOptionMenu.bind(this));
   this.children.add(this.optionMenu); // Use this.children instead of this.add.existing()
   this.optionMenu.setDepth(5000);
   this.actionMenu = new ActionMenu(this, menuKey, this.closeActionMenu.bind(this));
@@ -280,7 +280,7 @@ setTimeout(() => {
       })
       .setOrigin(0.5, 0.5)
       .setAlpha(1)
-      .setDepth(10000) // Ensure it's on top of other elements
+      .setDepth(1000) // Ensure it's on top of other elements
       .setScrollFactor(0); // Keep text in place even if the camera moves
 
       // Set timeout to fade out text after 2 seconds
@@ -444,11 +444,7 @@ if (this.optionMenu) {
   if (this.actionMenu) {
     this.actionMenu.update();
   }
-  if (this.optionMenu) {
-    // alert('Calling optionMenu update');
 
-    this.optionMenu.update();
-  }
   if (this.player) {
     // Smooth light movement
     this.player.light.x = Phaser.Math.Linear(
@@ -469,6 +465,15 @@ if (this.optionMenu) {
     }
   }
   this.handleStairInteraction();
+
+
+
+  if (this.optionMenu) {
+    // alert('Calling optionMenu update');
+
+    this.optionMenu.update();
+  }
+
 }
 
 
