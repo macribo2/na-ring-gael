@@ -1,7 +1,7 @@
 {
     "stairsDown": {
       "subjectGa": "An míann leat dul síos na staighre?",
-      "subjectEn": "The stairs go down",
+      "subjectEn": "Do you intend to go down the stairs?",
       "choices": [
         {
           "nameGa": "Is míann liom",

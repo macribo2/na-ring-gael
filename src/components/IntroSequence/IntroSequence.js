@@ -19,13 +19,13 @@ this.isRaining = false;
   this.hasFaded = false;
     this.characterSheet = {};
     this.textsGa = [
-        'Síos, Síos, níos faide síos:...',
+        'Síos, Síos, níos faide síos...',
         'Síos i pluais gan éag... \n"Cé atá tagtha go ríocht na préimhe?"',
         '                    "Is mise..."',
         '"Ba fhínín mé, fadó..."',
         ' ',
         " ",
-        'Is cuimhin liom an bháisteach...',
+        '\nIs cuimhin liom an bháisteach...',
         ' ',
 
         
@@ -46,6 +46,7 @@ this.isRaining = false;
   }
 
   preload() {
+    this.load.image('player-frame', 'phaser-resources/images/ciorcal-glass.png');
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game
       this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
@@ -133,7 +134,53 @@ this.isRaining = false;
   create() {
     this.rippleManager = new RippleManager(this);
     
+ // Create playerFrame, initially hidden (alpha 0)
+ this.playerFrame = this.add.sprite(100, 100, 'player-frame').setDepth(50).setAlpha(0);
+ this.playerFrame.setInteractive();
 
+ // Handle pointerdown event for the playerFrame
+ this.playerFrame.on('pointerdown', () => {
+   // Check if cooldown is active
+   if (this.isCooldownActive) return;
+
+   // Activate cooldown
+   this.isCooldownActive = true;
+
+   // Guard condition: Block progression if currentStep === 2 and champion is not discovered
+   if (this.currentStep === 2 && !this.championDiscovered) {
+     this.isCooldownActive = false; // Reset cooldown
+     return; // Stop further execution
+   }
+   if (this.currentStep === 4 && !this.bandDiscovered) {
+     this.isCooldownActive = false; // Reset cooldown
+     return; // Stop further execution
+   }
+
+   // Fade out the player frame when clicked
+   this.tweens.add({
+     targets: this.playerFrame,
+     alpha: 0, // Fade to 0 (invisible)
+     duration: 500, // Duration of the fade-out
+     ease: 'Quad.easeOut', // Ease function for smooth fading
+     onComplete: () => {
+       // Once the fade-out is complete, increment the step
+       this.currentStep++;
+       EventEmitter.emit('stepChanged', this.currentStep);
+
+       if (this.currentStep < this.textsGa.length) {
+         // Combine sweeping and typewriter effect
+         this.showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
+       } else {
+         this.scene.start('MainGame'); // Transition to main game
+       }
+
+       // Reset cooldown after the specified duration
+       this.time.delayedCall(this.cooldownDuration, () => {
+         this.isCooldownActive = false;
+       });
+     }
+   });
+ });
       // Cooldown flag and timer
   this.isCooldownActive = false;
   this.cooldownDuration = 500; // 500ms cooldown
@@ -372,26 +419,7 @@ this.tweens.add({
 
 // Assuming `this.textObjectGa` is the text displaying the current message
 
-// Function to show the next message with typewriting and sweeping transition
-function showNextMessageWithTyping(newMessage) {
-    // Animate the old text sliding up and fading out
-    this.tweens.add({
-        targets: this.textObjectGa,
-        y: this.textObjectGa.y - 100, // Move up by 50 pixels
-      alpha: 0, // Fade out
-      duration: 500, // Duration of the animation
-      ease: 'Quad.easeIn',
-      onComplete: () => {
-        // Once the animation is complete, reset the text object
-        this.textObjectGa.y += 100; // Move back to the original position
-        this.textObjectGa.alpha = 1; // Reset alpha for the new text
-        this.textObjectGa.setText(''); // Clear the text
-        
-        // Start the typing effect for the new message
-        this.typingEffect.start(newMessage);
-    }
-    });
-  }
+
   // Function to handle going back to the previous message with fade-in and drop-down
   function showPreviousMessageWithDropDown() {
       // Animate the current text sliding up and fading out
@@ -461,10 +489,40 @@ function showNextMessageWithTyping(newMessage) {
       this.isCooldownActive = false; // Reset cooldown
       return; // Stop further execution
     }
-    if (this.currentStep === 4  && !this.bandDiscovered) {
+  
+    if (this.currentStep === 4 && !this.bandDiscovered) {
       this.isCooldownActive = false; // Reset cooldown
       return; // Stop further execution
-    } 
+    }
+  
+    // Show and hide playerFrame depending on the currentStep
+    if (this.currentStep === 2 ) {
+      // Fade in the playerFrame if it isn't visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 0, // Fade in
+        duration: 500, // Duration of the fade-in
+        ease: 'Quad.easeOut', // Smooth fade-in effect
+      });
+
+      
+    } else if (this.currentStep === 3 ) {
+      // Fade out the playerFrame if it is visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 1, // Fade out
+        duration: 500, // Duration of the fade-out
+        ease: 'Quad.easeOut', // Smooth fade-out effect
+      });
+    }else if (this.currentStep === 4 ) {
+      // Fade out the playerFrame if it is visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 1, // Fade out
+        duration: 500, // Duration of the fade-out
+        ease: 'Quad.easeOut', // Smooth fade-out effect
+      });
+    }
   
     // Increment step and emit event
     this.currentStep++;
@@ -472,7 +530,7 @@ function showNextMessageWithTyping(newMessage) {
   
     if (this.currentStep < this.textsGa.length) {
       // Combine sweeping and typewriter effect
-      showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
+      this.showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
     } else {
       this.scene.start('MainGame'); // Transition to main game
     }
@@ -482,41 +540,72 @@ function showNextMessageWithTyping(newMessage) {
       this.isCooldownActive = false;
     });
   });
-
-  this.controlSquare.upButton.on('pointerdown', () => {
+  
+  this.controlSquare.downButton.on('pointerdown', () => {
+    // Check if cooldown is active
     if (this.isCooldownActive) return;
   
+    // Activate cooldown
     this.isCooldownActive = true;
   
+    // Guard condition: Block progression if currentStep === 2 and champion is not discovered
+    if (this.currentStep === 2 && !this.championDiscovered) {
+      this.isCooldownActive = false; // Reset cooldown
+      return; // Stop further execution
+    }
+  
+    if (this.currentStep === 4 && !this.bandDiscovered) {
+      this.isCooldownActive = false; // Reset cooldown
+      return; // Stop further execution
+    }
+  
+    // Show and hide playerFrame depending on the currentStep
+    if (this.currentStep === 2 ) {
+      // Fade in the playerFrame if it isn't visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 0, // Fade in
+        duration: 500, // Duration of the fade-in
+        ease: 'Quad.easeOut', // Smooth fade-in effect
+      });
+
+      
+    } else if (this.currentStep === 3 ) {
+      // Fade out the playerFrame if it is visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 1, // Fade out
+        duration: 500, // Duration of the fade-out
+        ease: 'Quad.easeOut', // Smooth fade-out effect
+      });
+    }else if (this.currentStep === 4 ) {
+      // Fade out the playerFrame if it is visible
+      this.tweens.add({
+        targets: this.playerFrame,
+        alpha: 1, // Fade out
+        duration: 500, // Duration of the fade-out
+        ease: 'Quad.easeOut', // Smooth fade-out effect
+      });
+    }
+  
+    // Increment step and emit event
     this.currentStep++;
     EventEmitter.emit('stepChanged', this.currentStep);
   
     if (this.currentStep < this.textsGa.length) {
-      showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
+      // Combine sweeping and typewriter effect
+      this.showNextMessageWithTyping.call(this, this.textsGa[this.currentStep]);
     } else {
-      this.scene.start('MainGame');
+      this.scene.start('MainGame'); // Transition to main game
     }
   
+    // Reset cooldown after the specified duration
     this.time.delayedCall(this.cooldownDuration, () => {
       this.isCooldownActive = false;
     });
   });
   
-  this.controlSquare.downButton.on('pointerdown', () => {
-    if (this.isCooldownActive) return;
-  
-    this.isCooldownActive = true;
-  
-    if (this.currentStep > 0) {
-      showPreviousMessageWithDropDown.call(this);
-    } else {
-      console.log("Already at the first message");
-    }
-  
-    this.time.delayedCall(this.cooldownDuration, () => {
-      this.isCooldownActive = false;
-    });
-  });
+
   
   this.controlSquare.leftButton.on('pointerdown', () => {
     if (this.isCooldownActive) return;
@@ -577,7 +666,26 @@ function showNextMessageWithTyping(newMessage) {
 
 
   }
-
+// Function to show the next message with typewriting and sweeping transition
+showNextMessageWithTyping(newMessage) {
+  // Animate the old text sliding up and fading out
+  this.tweens.add({
+      targets: this.textObjectGa,
+      y: this.textObjectGa.y - 100, // Move up by 50 pixels
+    alpha: 0, // Fade out
+    duration: 500, // Duration of the animation
+    ease: 'Quad.easeIn',
+    onComplete: () => {
+      // Once the animation is complete, reset the text object
+      this.textObjectGa.y += 100; // Move back to the original position
+      this.textObjectGa.alpha = 1; // Reset alpha for the new text
+      this.textObjectGa.setText(''); // Clear the text
+      
+      // Start the typing effect for the new message
+      this.typingEffect.start(newMessage);
+  }
+  });
+}
 rainEffect1(){
   
   
@@ -639,8 +747,13 @@ this.ChampionSelect1.destroy(); // Then destroy it.
       });
   
     }).setDepth(5).setInteractive(true).setVisible(false); // Initially hidden (setVisible(false))
-
-  
+    this.tweens.add({
+      targets: this.playerFrame,
+      alpha: 1, // Fade in
+      duration: 500, // Duration of the fade-in
+      ease: 'Quad.easeOut', // Smooth fade-in effect
+    });
+    
     console.log('Texture exists?', this.textures.exists('championSprites'));
   }
 
@@ -687,14 +800,21 @@ this.ChampionSelect1.destroy(); // Then destroy it.
 
   
 
+  if (this.currentStep === 4 && !this.ChampionSelect2) { // 2
+    // Create the instance only when needed
+    this.ChampionSelect2 = new ChampionSelect2(this, 250, 250, this.currentStep).setDepth(5).setInteractive(true).setVisible(false);
+  
+      this.tweens.add({
+      targets: this.playerFrame,
+      alpha: 1, // Fade in
+      duration: 500, // Duration of the fade-in
+      ease: 'Quad.easeOut', // Smooth fade-in effect
+    });
 
-if (this.currentStep === 4 && !this.ChampionSelect2) { //2
-  // Create the instance only when needed
-  this.ChampionSelect2 = new ChampionSelect2(this, 250, 250, this.currentStep).setDepth(5).setInteractive(true).setVisible(false);
-      // Now you can safely access textures in the scene context
-console.log('Texture exists?', this.textures.exists('championSprites'));
-
-}
+    // Now you can safely access textures in the scene context
+    console.log('Texture exists?', this.textures.exists('championSprites'));
+  }
+  
 
 
 
@@ -707,7 +827,7 @@ if(this.currentStep === 5 ){
   this.branchEn = characterSheet.branchEn;
 setTimeout(()=>{
   // Dynamically update the text at the required step
-  this.textsGa[5] = `\n\nAbar le Géaga faoi ${this.nameGa} dhíl.`;
+  this.textsGa[5] = `\n\nInis do Géaga faoi ${this.nameGa} dhíl.`;
   this.textsEn[5] = `Tell Géaga about\n faithful ${this.nameGa}.`;
 
 

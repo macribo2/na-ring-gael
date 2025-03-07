@@ -49,7 +49,7 @@ import TranslationManager from '../translationManager/translationManager'
     const setButtonLit = (button, buttonName) => {
       button.setTexture(buttonName); // Switch to the "lit" texture (e.g., upButtonLit)
     };
-
+ 
     // Function to reset to the normal button state
     const resetButton = (button, buttonName) => {
       button.setTexture(buttonName); // Switch back to the normal texture (e.g., buttonUp)
@@ -325,17 +325,21 @@ middleButton.on('pointerdown', () => {
     this.closeOptionMenu();
     this.isOptionMenuOpen = false;
   } else if (!this.getActionMenuActive()) {
-    this.openOptionMenu();
-    this.isOptionMenuOpen = true;  // Only update when we actually open the menu
-  }
+    if (this.openOptionMenu) {  // Only call it if it exists
+      this.openOptionMenu();
+      this.isOptionMenuOpen = true;
+    } else {
+      // If openOptionMenu doesn't exist, we must be in IntroSequence → Toggle translation instead
+      TranslationManager.toggleTranslation();
+      this.scene.events.emit('toggleTranslation');
+    }
+  } 
 
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();
-  TranslationManager.toggleTranslation();
-  this.scene.events.emit('toggleTranslation');
 
   if (this.clearPathCallback) {
-      this.clearPathCallback();
+    this.clearPathCallback();
   }
 });
 
