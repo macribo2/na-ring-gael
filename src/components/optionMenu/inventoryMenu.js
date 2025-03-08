@@ -3,7 +3,6 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   constructor(scene) {
     super(scene);
 
-    // Check if the 'lightning' asset exists in the texture cache
     if (scene.textures.exists('inventory')) {
       this.background = scene.add.image(
         scene.cameras.main.centerX, 

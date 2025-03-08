@@ -21,10 +21,10 @@ class OptionMenu extends Phaser.GameObjects.Container {
     this.questMenu = new QuestMenu(scene);
     this.chatMenu = new ChatMenu(scene);
     this.settingsMenu = new SettingsMenu(scene);
-    this.otherMenu = new OtherMenu(scene);
+    // this.otherMenu = new OtherMenu(scene);
     this.scene.add.existing(this.inventoryMenu);
 
-    this.scene.add.existing(this.otherMenu);
+    // this.scene.add.existing(this.otherMenu);
     this.scene.add.existing(this.chatMenu);
     this.scene.add.existing(this.questMenu);
     this.scene.add.existing(this.characterMenu);
@@ -37,14 +37,7 @@ class OptionMenu extends Phaser.GameObjects.Container {
 
 
     this.closeOptionMenu = closeOptionMenu; // Store function reference
-  this.overlay = scene.add.rectangle(
-  scene.cameras.main.centerX, 
-  scene.cameras.main.centerY,
-  scene.scale.width*2,
-  scene.scale.height*2,
-  0x004400,
-  0.1
-)
+
 if (!scene.cache.json.exists('optionContent')) {
   console.error('Menu data not loaded!');
   return;
@@ -53,7 +46,7 @@ if (!scene.cache.json.exists('optionContent')) {
 this.menuData = scene.cache.json.get('optionContent');
 
       // Wheel
-        this.wheel = scene.add.sprite(scene.scale.width*0.75,scene.scale.height/4, 'celt-ring')
+        this.wheel = scene.add.sprite(scene.scale.width*0.75,scene.scale.height*0.64, 'celt-ring')
           .setVisible(true)
           .setDepth(6110)
           .setInteractive({ draggable: true })
@@ -118,7 +111,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
     // Current option text (displayed when spinning)g
     this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height*0.3, "", {
       fontSize: "32px",
-      fill: "lavender",
+      fill: "gunmetal",
       fontFamily:'IrishPenny',
       align: "center",
       wordWrap: { width: 600 }
@@ -132,7 +125,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
     ).setDepth(4000).setScrollFactor(0).setVisible(false);
  
     
-    this.add([this.overlay, this.wheel,  this.optionTextGa, this.optionTextEn]);
+    this.add([ this.wheel,  this.optionTextGa, this.optionTextEn]);
     this.scene.add.existing(this);
 
   }
@@ -172,22 +165,35 @@ crossfadeMenus(menuToHide, menuToShow, duration = 300) {
 updateOptionDisplay() {
   // Ensure optionCounter is within bounds
   this.optionCounter = Phaser.Math.Wrap(this.optionCounter, 0, this.numOptions);
-  console.log('YO OPTION COUNTER '+this.optionCounter);
-  
+
   if (this.options && this.options.length > 0) {
     const currentOption = this.options[this.optionCounter];
-    
-    // Update both Ga and En texts for the options
+
     if (currentOption.optionGa) {
+      // Update text and ensure visibility
       this.optionTextGa.setText(currentOption.optionGa);
+      this.optionTextGa.setAlpha(1);
       this.optionTextGa.setVisible(true);
+
+      // Cancel any existing tween before starting a new one
+      this.scene.tweens.killTweensOf(this.optionTextGa);
+
+      // Fade out after 2 seconds
+      this.scene.time.delayedCall(2000, () => {
+        this.scene.tweens.add({
+          targets: this.optionTextGa,
+          alpha: 0, // Fade out
+          duration: 1000, // 1 second fade-out
+          ease: 'Linear'
+        });
+      });
     }
-    
+
     if (currentOption.optionEn) {
       this.optionTextEn.setText(currentOption.optionEn);
       this.optionTextEn.setVisible(this.isEnglish);
     }
-    
+
     // Determine which menu to show based on optionCounter
     let newMenuToShow = null;
     switch (this.optionCounter) {
@@ -196,9 +202,8 @@ updateOptionDisplay() {
       case 2: newMenuToShow = this.questMenu; break;
       case 3: newMenuToShow = this.chatMenu; break;
       case 4: newMenuToShow = this.settingsMenu; break;
-      case 5: newMenuToShow = this.otherMenu; break;
     }
-    
+
     // Find the currently active menu
     let currentVisibleMenu = null;
     if (this.isInventoryVisible) currentVisibleMenu = this.inventoryMenu;
@@ -206,8 +211,7 @@ updateOptionDisplay() {
     else if (this.isLogVisible) currentVisibleMenu = this.questMenu;
     else if (this.isChatVisible) currentVisibleMenu = this.chatMenu;
     else if (this.isSettingsVisible) currentVisibleMenu = this.settingsMenu;
-    else if (this.isOtherVisible) currentVisibleMenu = this.otherMenu;
-    
+
     // Update visibility flags based on the option counter
     this.isInventoryVisible = (this.optionCounter === 0);
     this.isCharacterVisible = (this.optionCounter === 1);
@@ -215,7 +219,7 @@ updateOptionDisplay() {
     this.isChatVisible = (this.optionCounter === 3);
     this.isSettingsVisible = (this.optionCounter === 4);
     this.isOtherVisible = (this.optionCounter === 5);
-    
+
     // First time showing a menu
     if (!currentVisibleMenu && newMenuToShow) {
       newMenuToShow.setAlpha(1);
@@ -223,10 +227,8 @@ updateOptionDisplay() {
     } 
     // Crossfade between menus (only if they're different)
     else if (currentVisibleMenu && newMenuToShow && currentVisibleMenu !== newMenuToShow) {
-      // Cancel any existing tweens on both menus to prevent conflicts
       this.scene.tweens.killTweensOf(currentVisibleMenu);
       this.scene.tweens.killTweensOf(newMenuToShow);
-      
       this.crossfadeMenus(currentVisibleMenu, newMenuToShow);
     }
   }
@@ -307,19 +309,7 @@ updateOptionDisplay() {
       this.settingsMenu.setVisible(false);
     }
   }
-  showOtherMenu() {
-    if (!this.otherMenu) {
-      this.otherMenu = new OtherMenu(this.scene);
-    }
-  
-    this.otherMenu.setVisible(true);
-    this.otherMenu.bringToTop(); 
-  }
-  hideOtherMenu() {
-    if (this.otherMenu) {
-      this.otherMenu.setVisible(false);
-    }
-  }
+
 
 
 
@@ -357,7 +347,6 @@ createSpokes(options) {
 onToggleTranslation() {
   this.isEnglish = !this.isEnglish; // Toggle state
 
-  console.log("Toggling translation. isEnglish:", this.isEnglish);
 
   // Toggle visibility based on the new state
   this.optionTextEn.setVisible(this.isEnglish);
@@ -488,10 +477,16 @@ updateSelection() {
     this.updateOptionDisplay(); // Update text when index changes
   }
 }
-
+updateControlSquareScale() {
+  const zoomLevel = this.scene.cameras.main.zoom;
+  this.scene.controlSquare.setScale(1 / zoomLevel); 
+}
 showMenu(menuKey) {
-this.background.setVisible(true)
-  
+  this.background.setVisible(true)
+  this.previousZoom = this.scene.cameras.main.zoom; // Store current zoom
+  this.scene.cameras.main.setZoom(1.5); // Reset to normal zoom
+  this.updateControlSquareScale(); // Adjust ControlSquare size
+
   // 1. Check if menuData exists for this key
   if (!this.menuData || !this.menuData[menuKey]) {
       console.error(`Menu data not found for key: ${menuKey}`);
@@ -514,15 +509,35 @@ this.background.setVisible(true)
   const baseDepth = 10000; // Higher than your background graphics
   
   this.setDepth(baseDepth);
-  this.overlay.setDepth(baseDepth);
   this.wheel.setDepth(baseDepth + 1);
   this.optionTextGa.setDepth(baseDepth + 2);
   this.optionTextEn.setDepth(baseDepth + 2);
   
   // Make components visible
   this.setVisible(true);
-  this.overlay.setVisible(true);
+  
+  // Initial wheel setup for animation
   this.wheel.setVisible(true);
+  this.wheel.setScale(0.1); // Start small
+  this.wheel.setAlpha(0.5); // Start semi-transparent
+  
+  // Kill any existing wheel tweens to prevent conflicts
+  this.scene.tweens.killTweensOf(this.wheel);
+  
+  // Add the entrance animation for the wheel
+  this.scene.tweens.add({
+    targets: this.wheel,
+    scale: 0.5,      // Grow to full size
+    alpha: 0.5,      // Fade to full opacity
+    rotation: '+=1', // Small rotation effect
+    duration: 2000, // Animation duration in ms
+    ease:'Circ.easeOut', // Elastic-like effect
+    onComplete: () => {
+      // Ensure full visibility after animation
+      this.wheel.setScale(0.5).setAlpha(0.5);
+    }
+  });
+  
   this.optionTextGa.setVisible(true);
   this.optionTextEn.setVisible(this.isEnglish);
   
@@ -531,9 +546,10 @@ this.background.setVisible(true)
 }
   hideMenu() {
 this.background.setVisible(false)
-
+if (this.previousZoom) {
+  this.scene.cameras.main.setZoom(this.previousZoom); // Restore zoom
+}
     this.setVisible(false);
-    this.overlay.setVisible(false);
     this.wheel.setVisible(false);
     this.optionTextGa.setVisible(false);
     this.optionTextEn.setVisible(false);
@@ -542,9 +558,8 @@ this.background.setVisible(false)
     this.characterMenu.hideCharacter()
     this.chatMenu.hideChat()
     this.questMenu.hideQuest()
-    this.otherMenu.hideOther()
-
-    // Clean up physics
+    // this.otherMenu.hideOther()
+    this.updateControlSquareScale(); // Restore ControlSquare size
   }
 
   

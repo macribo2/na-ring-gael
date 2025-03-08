@@ -3,16 +3,16 @@ import Phaser from "phaser";
 class InventoryMenu extends Phaser.GameObjects.Container {
   constructor(scene) {
     super(scene);
-
     // Check if the 'lightning' asset exists in the texture cache
-    if (scene.textures.exists('log')) {
+    if (scene.textures.exists('quest')) {
       this.background = scene.add.image(
         scene.cameras.main.centerX, 
         scene.cameras.main.centerY, 
-        'log'
+        'quest'
       ).setDepth(1000).setScrollFactor(0);
     } else {
     }
+    
 
     // Adding the background and text to the container
 
@@ -37,7 +37,10 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   // Method to hide the inventory menu
   hideQuest() {
     this.setVisible(false);
+    this.background.setVisible(false)
+    
   }
+  
 }
 
 export default InventoryMenu;

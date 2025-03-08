@@ -750,12 +750,7 @@ this.subtitleTextEn = scene.add.text(scene.scale.width * 0.6,scene.scale.height 
         
       }
 
-  // Update the text based on the selected branch
-  updateTextForBranch(selectedBranchIndex) {
-          const branch = this.fenianBranches[selectedBranchIndex];
-          this.nameTextGa.setText(branch.branchGa);
-    this.nameTextEn.setText(branch.branchEn);
-  }
+
   // Method to create a dynamic rainbow circle
   createRainbowCircle(scene, x, y, radius) {
     this.rainbowCircle = scene.add.graphics().setAlpha(0).setDepth(20);;
@@ -974,136 +969,122 @@ updateColorShiftCircle(x, y, radius) {
 }
 
 highlightSpokes() {
-  const centerX = 100;
-  const centerY = 100;
-  const radius = 450;
-  const angleStep = (2 * Math.PI) / this.numSpokes;
-
-  const sensorX = this.sensor.x;
-  const sensorY = this.sensor.y;
-  let sensorAngle = Math.atan2(sensorY - centerY, sensorX - centerX);
-  sensorAngle = Phaser.Math.Angle.Wrap(sensorAngle - this.currentAngle);
-
-  const highlightingRange = Math.PI / (this.numSpokes * 2);
-  let sensorTouched = false;
-  let highlightedSpokeIndex = -1; // Variable to track the highlighted spoke index
-
-  this.spokes.clear();
-
-  for (let i = 0; i < this.numSpokes; i++) {
-      const rotatedAngle = i * angleStep;
-      let angleDifference = Phaser.Math.Angle.Wrap(sensorAngle - rotatedAngle);
-
-      const endX = Math.cos(rotatedAngle) * radius;
-      const endY = Math.sin(rotatedAngle) * radius;
-
-      if (Math.abs(angleDifference) < highlightingRange) {
-          sensorTouched = true;
-          this.spokes.lineStyle(3, 0x003300, 1); // Green line for highlighted spoke
-          highlightedSpokeIndex = i; // Store the index of the highlighted spoke
-      } else {
-          this.spokes.lineStyle(1, 0xffffff, 0.3);
-      }
-
-      this.spokes.beginPath();
-      this.spokes.moveTo(0, 0);
-      this.spokes.lineTo(endX, endY);
-      this.spokes.strokePath();
-  }
-
-  if (sensorTouched) {
-      this.sensor.setFillStyle(0x000000); // Flash the sensor red
-      this.scene.time.delayedCall(50, () => {
-          this.sensor.setFillStyle(0x003300); // Reset sensor color to green
-      });
-  }
-
-  if (highlightedSpokeIndex !== -1) {
-    const branch = this.fenianBranches[highlightedSpokeIndex]; // Get the current branch
-    console.log(
-      'Highlighted spoke index:',
-      highlightedSpokeIndex,
-      branch.branchGa,
-      branch.branchEn,
-      this.branchImages[highlightedSpokeIndex]
-    );
-  
-    // Set the text of this.nameTextGa to the Irish name
-    this.nameTextGa.setText(branch.branchGa);
-    this.nameTextEn.setText(branch.branchEn);
-    this.subtitleTextGa.setText(branch.mottoGa);
-    this.subtitleTextEn.setText(branch.mottoEn);
-
-    // Hide all branch images by setting their alpha to 0
-    this.branchImages.forEach((image) => {
-      image.setAlpha(0);
-    });
-
-    // If branchImages haven't been initialized yet, add them
-    if (this.branchImages.length === 0) {
-      this.fenianBranches.forEach((_, index) => {
-        const imageKey = `fortuna${index.toString().padStart(2, '0')}`;
-        console.log(imageKey); // Ensure the image keys match
-        const image = this.scene.add
-          .image(centerX, centerY, imageKey)
-          .setAlpha(0)
-          .setDepth(30)
-          .setScale(0.3);
-        this.branchImages.push(image);
-      });
-    }
-
-    // Show the image corresponding to the current branch by setting its alpha to 1
-    if (this.branchImages[highlightedSpokeIndex]) {
-      this.branchImages[highlightedSpokeIndex].setAlpha(0.8);
-    }
-
-    // If the wheel has slowed down or stopped, fade out the image
-    if (Math.abs(this.rotationVelocity) <= 0.01) {
-      if (this.branchImages[highlightedSpokeIndex]) {
-        // Fade out the image smoothly
-        this.scene.tweens.add({
-          targets: this.branchImages[highlightedSpokeIndex],
-          alpha: 0, // Fade the image to 0
-          duration: 500, // Adjust duration to control the fade out speed
-          ease: 'Linear'
-        });
-      }
-    }
-  }
-
-  if (this.currentStep === 6) {
-        // Get the character sheet from localStorage
-        let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
+        const centerX = 100;
+        const centerY = 100;
+        const radius = 450;
+        const angleStep = (2 * Math.PI) / this.numSpokes;
       
-        // Ensure the characterSheet exists and has the necessary properties
-        if (characterSheet) {
-          // Assuming you have variables for branchGa and branchEn
-          this.branchGa = 'Some branch in Irish';  // Replace with actual value
-          this.branchEn = 'Some branch in English'; // Replace with actual value
+        const sensorX = this.sensor.x;
+        const sensorY = this.sensor.y;
+        let sensorAngle = Math.atan2(sensorY - centerY, sensorX - centerX);
+        sensorAngle = Phaser.Math.Angle.Wrap(sensorAngle - this.currentAngle);
       
-          // Update the characterSheet with the new branch values
-          characterSheet.branchGa = this.branchGa;
-          characterSheet.branchEn = this.branchEn;
+        const highlightingRange = Math.PI / (this.numSpokes * 2);
+        let sensorTouched = false;
+        let highlightedSpokeIndex = -1; // Variable to track the highlighted spoke index
       
-          // Save the updated characterSheet back to localStorage
-          localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+        this.spokes.clear();
       
-          // Update the texts based on the new branch values
-          this.textsGa[6] = `${this.nameGa} fiann na \n ${this.branchGa}.\n 'b ea.`;
-          this.textsEn[6] = `${this.nameGa}\n a fenian of \n  ${this.branchEn}.\n It was so.`;
+        for (let i = 0; i < this.numSpokes; i++) {
+          const rotatedAngle = i * angleStep;
+          let angleDifference = Phaser.Math.Angle.Wrap(sensorAngle - rotatedAngle);
       
-          // Set the text objects accordingly
-          this.textObjectGa.setText(this.textsGa[this.currentStep]);
-          this.textObjectEn.setText(this.textsEn[this.currentStep]);
-        } else {
-          console.error('Character sheet is missing or corrupted');
+          const endX = Math.cos(rotatedAngle) * radius;
+          const endY = Math.sin(rotatedAngle) * radius;
+      
+          if (Math.abs(angleDifference) < highlightingRange) {
+            sensorTouched = true;
+            this.spokes.lineStyle(3, 0x003300, 1); // Green line for highlighted spoke
+            highlightedSpokeIndex = i; // Store the index of the highlighted spoke
+          } else {
+            this.spokes.lineStyle(1, 0xffffff, 0.3);
+          }
+      
+          this.spokes.beginPath();
+          this.spokes.moveTo(0, 0);
+          this.spokes.lineTo(endX, endY);
+          this.spokes.strokePath();
+        }
+      
+        if (sensorTouched) {
+          this.sensor.setFillStyle(0x000000); // Flash the sensor red
+          this.scene.time.delayedCall(50, () => {
+            this.sensor.setFillStyle(0x003300); // Reset sensor color to green
+          });
+        }
+      
+        if (highlightedSpokeIndex !== -1) {
+          const branch = this.fenianBranches[highlightedSpokeIndex]; // Get the current branch
+          console.log(
+            'Highlighted spoke index:',
+            highlightedSpokeIndex,
+            branch.branchGa,
+            branch.branchEn,
+            this.branchImages[highlightedSpokeIndex]
+          );
+        
+          // Set the text of this.nameTextGa to the Irish name
+          this.nameTextGa.setText(branch.branchGa);
+          this.nameTextEn.setText(branch.branchEn);
+          this.subtitleTextGa.setText(branch.mottoGa);
+          this.subtitleTextEn.setText(branch.mottoEn);
+      
+          // Hide all branch images by setting their alpha to 0
+          this.branchImages.forEach((image) => {
+            image.setAlpha(0);
+          });
+      
+          // If branchImages haven't been initialized yet, add them
+          if (this.branchImages.length === 0) {
+            this.fenianBranches.forEach((_, index) => {
+              const imageKey = `fortuna${index.toString().padStart(2, '0')}`;
+              console.log(imageKey); // Ensure the image keys match
+              const image = this.scene.add
+                .image(centerX, centerY, imageKey)
+                .setAlpha(0)
+                .setDepth(30)
+                .setScale(0.3);
+              this.branchImages.push(image);
+            });
+          }
+      
+          // Show the image corresponding to the current branch by setting its alpha to 1
+          if (this.branchImages[highlightedSpokeIndex]) {
+            this.branchImages[highlightedSpokeIndex].setAlpha(0.8);
+          }
+      
+          // If the wheel has slowed down or stopped, fade out the image
+          if (Math.abs(this.rotationVelocity) <= 0.01) {
+            if (this.branchImages[highlightedSpokeIndex]) {
+              // Fade out the image smoothly
+              this.scene.tweens.add({
+                targets: this.branchImages[highlightedSpokeIndex],
+                alpha: 0, // Fade the image to 0
+                duration: 500, // Adjust duration to control the fade out speed
+                ease: 'Linear'
+              });
+            }
+          }
+      
+          // Update the localStorage character sheet with the new branch values
+          let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
+      
+          // If the characterSheet exists, update it with the new branch values
+          if (characterSheet) {
+            characterSheet.branchGa = branch.branchGa;
+            characterSheet.branchEn = branch.branchEn;
+            characterSheet.branchImage = `fortuna${highlightedSpokeIndex.toString().padStart(2, '0')}`; // Store the image key
+
+            // Save the updated characterSheet back to localStorage
+            localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+            console.log('Character sheet updated with branch info:', characterSheet);
+          } else {
+            console.error('No character sheet found in localStorage');
+          }
         }
       }
       
-
-}
-
 
 }
 

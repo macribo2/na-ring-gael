@@ -143,128 +143,128 @@ import TranslationManager from '../translationManager/translationManager'
     let dragStartTime = 0;
 
     // Function to handle continuous press logging and drag action
-    const logPressDuration = (pointer) => {
-      const pressDuration = (scene.time.now - pressStartTime) / 1000; // Duration in seconds
-      const deltaX = pointer.x - initialPointerX;
-      const deltaY = pointer.y - initialPointerY;
+  //   const logPressDuration = (pointer) => {
+  //     const pressDuration = (scene.time.now - pressStartTime) / 1000; // Duration in seconds
+  //     const deltaX = pointer.x - initialPointerX;
+  //     const deltaY = pointer.y - initialPointerY;
 
-      // Stop dragging if press duration exceeds max press duration (3 seconds)
-      if (pressDuration > maxPressDuration) {
-        console.log("Press duration exceeded max time. Stopping...");
-        stopPress(); // Stop if pressed too long
-      }
+  //     // Stop dragging if press duration exceeds max press duration (3 seconds)
+  //     if (pressDuration > maxPressDuration) {
+  //       console.log("Press duration exceeded max time. Stopping...");
+  //       stopPress(); // Stop if pressed too long
+  //     }
 
-      // Only start dragging after the press is long enough AND movement exceeds 50px
-      if (pressDuration >= pressDurationThreshold && (Math.abs(deltaX) > dragDistanceThreshold || Math.abs(deltaY) > dragDistanceThreshold)) {
-        if (!draggingControlSquare) {
-          draggingControlSquare = true;
-          console.log('Dragging control square...');
-          setTimeout(()=>{stopPress()
-            draggingControlSquare = false;
-          },1500)
-        }
+  //     // Only start dragging after the press is long enough AND movement exceeds 50px
+  //     if (pressDuration >= pressDurationThreshold && (Math.abs(deltaX) > dragDistanceThreshold || Math.abs(deltaY) > dragDistanceThreshold)) {
+  //       if (!draggingControlSquare) {
+  //         draggingControlSquare = true;
+  //         console.log('Dragging control square...');
+  //         setTimeout(()=>{stopPress()
+  //           draggingControlSquare = false;
+  //         },1500)
+  //       }
 
-        // Calculate new position for the control square
-        let newX = pointer.x - initialPointerX;
-        let newY = pointer.y - initialPointerY;
+  //       // Calculate new position for the control square
+  //       let newX = pointer.x - initialPointerX;
+  //       let newY = pointer.y - initialPointerY;
 
-        // Keep the control square within screen bounds (limit movement)
-        const sceneWidth = scene.cameras.main.width;
-        const sceneHeight = scene.cameras.main.height;
-        const controlSquareWidth = this.width;
-        const controlSquareHeight = this.height;
+  //       // Keep the control square within screen bounds (limit movement)
+  //       const sceneWidth = scene.cameras.main.width;
+  //       const sceneHeight = scene.cameras.main.height;
+  //       const controlSquareWidth = this.width;
+  //       const controlSquareHeight = this.height;
 
-        // Constrain the x and y positions to be within the screen bounds
-        newX = Phaser.Math.Clamp(newX, 0, sceneWidth - controlSquareWidth);
-        newY = Phaser.Math.Clamp(newY, 0, sceneHeight - controlSquareHeight);
+  //       // Constrain the x and y positions to be within the screen bounds
+  //       newX = Phaser.Math.Clamp(newX, 0, sceneWidth - controlSquareWidth);
+  //       newY = Phaser.Math.Clamp(newY, 0, sceneHeight - controlSquareHeight);
 
-        // Move the whole control square (all elements in the container)
-        this.setPosition(newX, newY);
+  //       // Move the whole control square (all elements in the container)
+  //       this.setPosition(newX, newY);
 
-        // Calculate velocity (speed) of the drag for inertia effect
-        const deltaTime = scene.time.now - dragStartTime; // Time since the last update
-        const deltaVX = pointer.x - lastPointerX;
-        const deltaVY = pointer.y - lastPointerY;
+  //       // Calculate velocity (speed) of the drag for inertia effect
+  //       const deltaTime = scene.time.now - dragStartTime; // Time since the last update
+  //       const deltaVX = pointer.x - lastPointerX;
+  //       const deltaVY = pointer.y - lastPointerY;
 
-        velocityX = deltaVX / deltaTime; // X velocity
-        velocityY = deltaVY / deltaTime; // Y velocity
+  //       velocityX = deltaVX / deltaTime; // X velocity
+  //       velocityY = deltaVY / deltaTime; // Y velocity
 
-        // Update last position and time for the next calculation
-        lastPointerX = pointer.x;
-        lastPointerY = pointer.y;
-        dragStartTime = scene.time.now;
+  //       // Update last position and time for the next calculation
+  //       lastPointerX = pointer.x;
+  //       lastPointerY = pointer.y;
+  //       dragStartTime = scene.time.now;
 
-        // Reset the drag timeout to restart the 500ms countdown whenever the drag is happening
-        clearTimeout(dragTimeout);
-        dragTimeout = setTimeout(() => {
-          stopPress(); // Stop the continuous logging after 500ms of inactivity
-        }, 500);
-      }
-    };
+  //       // Reset the drag timeout to restart the 500ms countdown whenever the drag is happening
+  //       clearTimeout(dragTimeout);
+  //       dragTimeout = setTimeout(() => {
+  //         stopPress(); // Stop the continuous logging after 500ms of inactivity
+  //       }, 500);
+  //     }
+  //   };
 
-    // Function to start tracking the press
-    const startPress = (pointer) => {
-      pressStartTime = scene.time.now; // Use Phaser's time system for better accuracy
-      initialPointerX = x;
-      initialPointerY = y;
-      lastPointerX = pointer.x;
-      lastPointerY = pointer.y;
-      dragStartTime = scene.time.now;
-      isPressLongEnough = false; // Reset the flag for press duration
+  //   // Function to start tracking the press
+  //   const startPress = (pointer) => {
+  //     pressStartTime = scene.time.now; // Use Phaser's time system for better accuracy
+  //     initialPointerX = x;
+  //     initialPointerY = y;
+  //     lastPointerX = pointer.x;
+  //     lastPointerY = pointer.y;
+  //     dragStartTime = scene.time.now;
+  //     isPressLongEnough = false; // Reset the flag for press duration
     
-      // Start an interval to log press duration and movement
-      pressInterval = scene.time.addEvent({
-        delay: 100, // Log every 100ms while pressed
-        callback: () => {
-          const pressDuration = (scene.time.now - pressStartTime) / 1000; 
-          console.log(`Press Duration: ${pressDuration}s`); // Log the press duration
-          if (pressDuration >= pressDurationThreshold) {  // 2-second hold required before enabling dragging
-            isPressLongEnough = true; // Enable drag after 2 seconds
-          }
-          logPressDuration(pointer); // Log press duration
-        },
-        loop: true
-      });
-    };
+  //     // Start an interval to log press duration and movement
+  //     pressInterval = scene.time.addEvent({
+  //       delay: 100, // Log every 100ms while pressed
+  //       callback: () => {
+  //         const pressDuration = (scene.time.now - pressStartTime) / 1000; 
+  //         console.log(`Press Duration: ${pressDuration}s`); // Log the press duration
+  //         if (pressDuration >= pressDurationThreshold) {  // 2-second hold required before enabling dragging
+  //           isPressLongEnough = true; // Enable drag after 2 seconds
+  //         }
+  //         logPressDuration(pointer); // Log press duration
+  //       },
+  //       loop: true
+  //     });
+  //   };
 
-    // Function to stop tracking the press and dragging
-    const stopPress = () => {
-      if (pressInterval) {
-        pressInterval.remove(); // Stop the continuous logging when the press ends
-        pressInterval = null;
-      }
-      draggingControlSquare = false; // Stop dragging the control square
-      console.log(`Button released. Final position of ControlSquare: ${this.x}, ${this.y}`);
-      clearTimeout(dragTimeout); // Clear the drag timeout when the pointer is released
+  //   // Function to stop tracking the press and dragging
+  //   const stopPress = () => {
+  //     if (pressInterval) {
+  //       pressInterval.remove(); // Stop the continuous logging when the press ends
+  //       pressInterval = null;
+  //     }
+  //     draggingControlSquare = false; // Stop dragging the control square
+  //     console.log(`Button released. Final position of ControlSquare: ${this.x}, ${this.y}`);
+  //     clearTimeout(dragTimeout); // Clear the drag timeout when the pointer is released
 
-      // Apply momentum/ inertia (simulate "fling") after release
-      if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
-        // Fling with velocity and ease out
-   // Fling with velocity and ease out
-   scene.tweens.add({
-    targets: this,
-    x: Phaser.Math.Clamp(this.x + velocityX * 200, 0, scene.cameras.main.width - this.width), // Clamp the fling X within bounds
-    y: Phaser.Math.Clamp(this.y + velocityY * 200, 0, scene.cameras.main.height - this.height), // Clamp the fling Y within bounds
-    duration:500, // Duration for the "fling" effect
-    ease: 'Cubic.Out', // Ease out to slow down
-    onComplete: () => {
-      velocityX = 0; // Stop velocity after fling completes
-      velocityY = 0;
-    }
-  });
-      }
-    };
+  //     // Apply momentum/ inertia (simulate "fling") after release
+  //     if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
+  //       // Fling with velocity and ease out
+  //  // Fling with velocity and ease out
+  //  scene.tweens.add({
+  //   targets: this,
+  //   x: Phaser.Math.Clamp(this.x + velocityX * 200, 0, scene.cameras.main.width - this.width), // Clamp the fling X within bounds
+  //   y: Phaser.Math.Clamp(this.y + velocityY * 200, 0, scene.cameras.main.height - this.height), // Clamp the fling Y within bounds
+  //   duration:500, // Duration for the "fling" effect
+  //   ease: 'Cubic.Out', // Ease out to slow down
+  //   onComplete: () => {
+  //     velocityX = 0; // Stop velocity after fling completes
+  //     velocityY = 0;
+  //   }
+  // });
+  //     }
+  //   };
 
     // Set up pointer events for each button
-    middleButton.on('pointerdown', (pointer) => startPress(pointer));
-    upButton.on('pointerdown', (pointer) => startPress(pointer));
-    downButton.on('pointerdown', (pointer) => startPress(pointer));
-    leftButton.on('pointerdown', (pointer) => startPress(pointer));
-    rightButton.on('pointerdown', (pointer) => startPress(pointer));
+    // middleButton.on('pointerdown', (pointer) => startPress(pointer));
+    // upButton.on('pointerdown', (pointer) => startPress(pointer));
+    // downButton.on('pointerdown', (pointer) => startPress(pointer));
+    // leftButton.on('pointerdown', (pointer) => startPress(pointer));
+    // rightButton.on('pointerdown', (pointer) => startPress(pointer));
 
     // Handle pointerup (both for buttons and control square dragging)
     const handlePointerUp = () => {
-      stopPress(); // Stop the continuous logging
+      // stopPress(); // Stop the continuous logging
       console.log('Pointer Up! Final position of ControlSquare: ', this.x, this.y);  // Show alert on pointer release
     };
 
@@ -282,7 +282,7 @@ import TranslationManager from '../translationManager/translationManager'
     this.on('pointerdown', (pointer) => {
       if (draggingControlSquare) {
         console.log("Tapped during drag, dropping control square...");
-        stopPress();  // Drop the control square if tapped
+        // stopPress();  // Drop the control square if tapped
       }
     });
 
@@ -302,15 +302,15 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
 
  // Function to toggle the overlay
  const toggleOverlay = () => {
-  if (!this.overlay) {
-    this.overlay = scene.add.graphics();
-    this.overlay.fillStyle(0x000000, 0.2); // Black color with 20% alpha
-    this.overlay.fillRect(0, 0, scene.cameras.main.width, scene.cameras.main.height);
-    this.overlay.setDepth(100).setScrollFactor(0); // Ensure it's on top of other elements
-  } else {
-    this.overlay.destroy();
-    this.overlay = null;
-  }
+  // if (!this.overlay) {
+  //   this.overlay = scene.add.graphics();
+  //   this.overlay.fillStyle(0x000000, 0.2); // Black color with 20% alpha
+  //   this.overlay.fillRect(0, 0, scene.cameras.main.width*2, scene.cameras.main.height*2);
+  //   this.overlay.setDepth(100).setScrollFactor(0); // Ensure it's on top of other elements
+  // } else {
+  //   this.overlay.destroy();
+  //   this.overlay = null;
+  // }
 };
 
 

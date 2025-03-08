@@ -305,12 +305,12 @@ setTimeout(() => {
 
   preload() {
  
-    this.load.image('character', '/phaser-resources/images/bg2.png');
-    this.load.image('settings', '/phaser-resources/images/bg2.png');
-    this.load.image('chat', '/phaser-resources/images/bg1.png');
-    this.load.image('inventory', '/phaser-resources/images/placeholders/inventory.png');
-    this.load.image('log', '/phaser-resources/images/placeholders/log.png');
-    this.load.image('other', '/phaser-resources/images/placeholders/other.png');
+    this.load.image('character', '/phaser-resources/images/placeholders/log0.png');
+    this.load.image('settings', '/phaser-resources/images/placeholders/log1.png');
+    this.load.image('chat', '/phaser-resources/images/placeholders/log2.png');
+    this.load.image('inventory', '/phaser-resources/images/placeholders/log3.png');
+    this.load.image('quest', '/phaser-resources/images/placeholders/log4.png');
+    this.load.image('other', '/phaser-resources/images/placeholders/log5.png');
 
     this.load.image('log', '/phaser-resources/images/placeholders/log.png');
     this.load.image('dustTexture', '/phaser-resources/images/dustTexture.png');
@@ -388,8 +388,6 @@ spawnDustMote() {
 update(time, delta) {
 
 // Add these diagnostic logs at the start of the method
-console.log('Scene update method called');
-console.log('optionMenu exists:', !!this.optionMenu);
 
 if (this.dustMotes && this.dustMotes.length > 0) {
   // ... existing dustMotes code ...
@@ -404,15 +402,11 @@ if (this.actionMenu) {
 }
 
 if (this.optionMenu) {
-  console.log('Attempting to call optionMenu update');
   try {
-    console.log('Calling optionMenu update');
     this.optionMenu.update();
   } catch (error) {
-    console.error('Error in optionMenu update:', error);
   }
 } else {
-  console.log('optionMenu is falsy');
 }
 
 

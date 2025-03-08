@@ -17,13 +17,13 @@ class PucaChase0 extends Phaser.Scene {
       'lasmuigh, bhí sé ina stealladh báistí.',
       'Deabhal fothain a bhí sa phluais',  
       'Mo bhrat? Ar snámh.\nMo chathéide? báite.',
-      'Ní fada go mbéadh an phluais\nfaoi uisce... ach foighne!','Diúltaím mo charbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go feicim-',
+      'Ní fada go mbéadh an phluais\nfaoi uisce... ach foighne!','Diúltaím mo charbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go bhfeicim-',
       'Deis! Ach go tobann - ',
     ];
     this.textsEn = [
       'outside, it poured',
       'Devil the shelter was in the cave.',
-      'My armour? Soaked\nMy cloak? swimming',
+      'My cloak? swimming\nMy armour? Drowned.',
       'Not long before the cave would be \nflooded... but patience!',
       'I refuse to push my own chariot - \na laughing stock!\nI\'ll stay here until I see-',
       'A chance! But suddenly - ',
@@ -765,6 +765,7 @@ function drawLightningBolt(graphics) {
   graphics.lineStyle(6, 0xFFFFFF, 1);
   graphics.beginPath();
   graphics.moveTo(startX, startY);
+  this.rainSound.stop();
 
   let prevX = startX;
   let prevY = startY;
