@@ -26,12 +26,16 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
   // Method to show the inventory menu
   showChat() {
+    if (this.background) {
+      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
+    }
     this.setVisible(true);
   }
 
   // Method to hide the inventory menu
   hideChat() {
     this.setVisible(false);
+    this.background.setAlpha(0)
   }
 }
 

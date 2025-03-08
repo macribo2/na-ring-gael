@@ -320,20 +320,27 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
 scene.add.existing(this);
 middleButton.setScrollFactor(0);
 
+middleButton.removeAllListeners('pointerdown'); // Prevent duplicates
 middleButton.on('pointerdown', () => {
+  console.log("actionMenuActive:", this.getActionMenuActive());
+
   if (this.isOptionMenuOpen) {
     this.closeOptionMenu();
     this.isOptionMenuOpen = false;
   } else if (!this.getActionMenuActive()) {
-    if (this.openOptionMenu) {  // Only call it if it exists
+    if (this.openOptionMenu) {
+      console.log("Opening Option Menu...");
+      console.log("openOptionMenu exists?", this.openOptionMenu);
+
+
       this.openOptionMenu();
       this.isOptionMenuOpen = true;
     } else {
-      // If openOptionMenu doesn't exist, we must be in IntroSequence → Toggle translation instead
+      console.log("openOptionMenu is undefined");
       TranslationManager.toggleTranslation();
       this.scene.events.emit('toggleTranslation');
     }
-  } 
+  }
 
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();

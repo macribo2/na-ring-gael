@@ -122,7 +122,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
       scene.cameras.main.centerX, 
       scene.cameras.main.centerY, 
       'other'
-    ).setDepth(4000).setScrollFactor(0).setVisible(false);
+    ).setDepth(2000).setScrollFactor(0).setVisible(false);
  
     
     this.add([ this.wheel,  this.optionTextGa, this.optionTextEn]);
@@ -130,37 +130,47 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
 
   }
 
-// Revised crossfade function without using timeline
-crossfadeMenus(menuToHide, menuToShow, duration = 300) {
-  if (!menuToHide || !menuToShow) return;
-  
-  // Ensure both menus are visible during the transition
-  menuToShow.setVisible(true);
-  menuToHide.setVisible(true);
-  
-  // Start the new menu at alpha 0
-  menuToShow.setAlpha(0).setDepth(6000);
-  
-  // Fade in the new menu
-  this.scene.tweens.add({
-    targets: menuToShow,
-    alpha: 1,
-    duration: duration,
-    ease: 'Linear'
-  });
-  
-  // Simultaneously fade out the current menu
-  this.scene.tweens.add({
-    targets: menuToHide,
-    alpha: 0,
-    duration: duration,
-    ease: 'Linear',
-    onComplete: () => {
-      menuToHide.setVisible(false);
-    }
-  });
-}
 
+  crossfadeMenus(menuToHide, menuToShow, duration = 300) {
+    if (!menuToHide || !menuToShow) return;
+    
+    // Ensure both menus are visible during the transition
+    menuToShow.setVisible(true);
+    menuToHide.setVisible(true);
+    
+    // Start the new menu at alpha 0
+    menuToShow.setAlpha(0).setDepth(6000);
+    
+    // Fade in the new menu
+    this.scene.tweens.add({
+      targets: menuToShow,
+      alpha: 1,
+      duration: duration,
+      ease: 'Linear',
+      onStart: () => {
+        // You can add any additional setup here if needed
+      }
+    });
+    
+    // Simultaneously fade out the current menu
+    this.scene.tweens.add({
+      targets: menuToHide,
+      alpha: 0,
+      duration: duration,
+      ease: 'Linear',
+      onComplete: () => {
+        // Hide the old menu and reset its alpha
+        menuToHide.setVisible(false);
+        menuToHide.setAlpha(0);
+  
+        // Reset the background to default when switching
+        if (menuToShow.background) {
+          menuToShow.background.setAlpha(1); // Ensure the background is at full opacity
+        }
+      }
+    });
+  }
+  
 // The updateOptionDisplay function remains the same, except for removing timeline references
 updateOptionDisplay() {
   // Ensure optionCounter is within bounds
@@ -482,10 +492,11 @@ updateControlSquareScale() {
   this.scene.controlSquare.setScale(1 / zoomLevel); 
 }
 showMenu(menuKey) {
-  this.background.setVisible(true)
-  this.previousZoom = this.scene.cameras.main.zoom; // Store current zoom
-  this.scene.cameras.main.setZoom(1.5); // Reset to normal zoom
-  this.updateControlSquareScale(); // Adjust ControlSquare size
+  this.background.setVisible(true);
+  
+  this.previousZoom = this.scene.cameras.main.zoom;
+  this.scene.cameras.main.setZoom(1.5);
+  this.updateControlSquareScale();
 
   // 1. Check if menuData exists for this key
   if (!this.menuData || !this.menuData[menuKey]) {
@@ -501,35 +512,34 @@ showMenu(menuKey) {
       console.error(`Invalid options array in menu data for key: ${menuKey}`);
       return;
   }
-    
+
   // Create spokes using the validated options array
   this.createSpokes(menuData.options);
-  
+
   // Set high depth values for all menu components
   const baseDepth = 10000; // Higher than your background graphics
-  
   this.setDepth(baseDepth);
   this.wheel.setDepth(baseDepth + 1);
   this.optionTextGa.setDepth(baseDepth + 2);
   this.optionTextEn.setDepth(baseDepth + 2);
-  
+
   // Make components visible
   this.setVisible(true);
-  
+
   // Initial wheel setup for animation
   this.wheel.setVisible(true);
   this.wheel.setScale(0.1); // Start small
   this.wheel.setAlpha(0.5); // Start semi-transparent
-  
+
   // Kill any existing wheel tweens to prevent conflicts
   this.scene.tweens.killTweensOf(this.wheel);
-  
+
   // Add the entrance animation for the wheel
   this.scene.tweens.add({
     targets: this.wheel,
     scale: 0.5,      // Grow to full size
     alpha: 0.5,      // Fade to full opacity
-    rotation: '+=1', // Small rotation effect
+    rotation: '+=0.2', // Small rotation effect
     duration: 2000, // Animation duration in ms
     ease:'Circ.easeOut', // Elastic-like effect
     onComplete: () => {
@@ -537,30 +547,61 @@ showMenu(menuKey) {
       this.wheel.setScale(0.5).setAlpha(0.5);
     }
   });
-  
+
+  // Option text visibility
   this.optionTextGa.setVisible(true);
   this.optionTextEn.setVisible(this.isEnglish);
-  
+
+  // Ensure background visibility is handled correctly (if needed)
+  if (this.background) {
+    this.background.setVisible(true);
+  }
+
   // Optional: ensure menu input has priority
   this.scene.input.setTopOnly(true);
 }
-  hideMenu() {
-this.background.setVisible(false)
-if (this.previousZoom) {
-  this.scene.cameras.main.setZoom(this.previousZoom); // Restore zoom
+
+hideMenu() {
+  // Ensure that the ControlSquare is reset first before anything else
+  this.updateControlSquareScale(); // Make sure the ControlSquare returns to its proper size
+
+  // Add the closing animation for the wheel (reverse of the opening animation)
+  this.scene.tweens.add({
+    targets: this.wheel,
+    scale: 0.1, // Shrink to initial size
+    alpha: 0,   // Fade out
+    rotation: '-=0.2', // Reverse the rotation effect
+    duration: 500,  // Animation duration (quicker)
+    ease: 'Circ.easeIn', // Smooth reverse effect
+    onComplete: () => {
+      // Ensure visibility is fully hidden after animation
+      this.wheel.setScale(0.1).setAlpha(0);
+
+      // Now hide the other components after the wheel animation completes
+      this.setVisible(false); // Hide all components
+      this.optionTextGa.setVisible(false);
+      this.optionTextEn.setVisible(false);
+      this.background.setVisible(false); // Hide background
+
+      // Optional: ensure menu input no longer has priority
+      this.scene.input.setTopOnly(false);
+
+      // Hide any additional menus or components
+      this.inventoryMenu.hideInventory();
+      this.characterMenu.hideCharacter();
+      this.chatMenu.hideChat();
+      this.questMenu.hideQuest();
+      this.settingsMenu.hideSettings();
+
+      if (this.previousZoom) {
+        this.scene.cameras.main.setZoom(this.previousZoom); // Restore zoom
+      }
+
+      this.updateControlSquareScale();
+    }
+  });
 }
-    this.setVisible(false);
-    this.wheel.setVisible(false);
-    this.optionTextGa.setVisible(false);
-    this.optionTextEn.setVisible(false);
-    this.scene.input.setTopOnly(false);
-    this.inventoryMenu.hideInventory();
-    this.characterMenu.hideCharacter()
-    this.chatMenu.hideChat()
-    this.questMenu.hideQuest()
-    // this.otherMenu.hideOther()
-    this.updateControlSquareScale(); // Restore ControlSquare size
-  }
+
 
   
 }

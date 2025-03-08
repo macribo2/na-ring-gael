@@ -28,12 +28,15 @@ class SettingsMenu extends Phaser.GameObjects.Container {
   // Method to show the settings menu
   showSettings() {
     this.setVisible(true);
+    if (this.background) {
+      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
+    }
   }
 
   // Method to hide the settings menu
   hideSettings() {
     this.setVisible(false);
-    this.background.setVisible(false)
+    this.background.setAlpha(0)
   }
 }
 

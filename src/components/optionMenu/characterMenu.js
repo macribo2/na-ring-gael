@@ -60,7 +60,7 @@ class CharacterMenu extends Phaser.GameObjects.Container {
   showCharacter() {
     this.setVisible(true);
     if (this.background) {
-      this.background.setVisible(true);  // Ensure the background is also visible
+      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
     }
   }
 
@@ -68,7 +68,7 @@ class CharacterMenu extends Phaser.GameObjects.Container {
   hideCharacter() {
     this.setVisible(false);
     if (this.background) {
-      this.background.setVisible(false);  // Hide the background as well
+      this.background.setAlpha(0);  // Hide the background as well
     }
   }
 }

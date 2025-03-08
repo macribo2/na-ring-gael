@@ -394,7 +394,7 @@ if (this.dustMotes && this.dustMotes.length > 0) {
 }
 
 if (this.playerHasMoved()) {
-  // ... existing player moved code ...
+  this.controlSquare.setActionMenuActive(false);  // Reset the action menu active state
 }
 
 if (this.actionMenu) {
@@ -1214,6 +1214,26 @@ createRoomMap(dungeon) {
       this.roomMap[x][y] = roomId;
     });
   });
+  
+// Ensure corridor entrances are marked as proper floor tiles
+for (let x = 1; x < mapWidth - 1; x++) {
+  for (let y = 1; y < mapHeight - 1; y++) {
+    if (this.map[x][y] === 0) { // Corridor tile
+      // Check if a neighbor is a room floor tile (not an edge)
+      const roomNeighbors = [
+        this.roomMap[x - 1][y], this.roomMap[x + 1][y],
+        this.roomMap[x][y - 1], this.roomMap[x][y + 1]
+      ].filter(id => id !== -1);
+
+      if (roomNeighbors.length > 0) {
+        // Set the corridor entry point as a room floor tile
+        this.map[x][y] = 0;
+        this.roomMap[x][y] = roomNeighbors[0]; // Assign to first valid room
+      }
+    }
+  }
+}
+
 
   // Only create stairs if they don't exist already
   if (!this.doStairsExist()) {

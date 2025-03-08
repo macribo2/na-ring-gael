@@ -5,8 +5,8 @@
       {"optionGa": "Carachtéir", "optionEn": "character"},
       {"optionGa": "Logleabhair", "optionEn": "logbook"},
       {"optionGa": "Cainnte", "optionEn": "speech"},
-      {"optionGa": "Roghachlár", "optionEn": "options menu"},
-      {"optionGa": "", "optionEn": ""}
+      {"optionGa": "Roghachlár", "optionEn": "options menu"}
+    
     ]
   }
 }
