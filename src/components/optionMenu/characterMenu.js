@@ -31,19 +31,27 @@ class CharacterMenu extends Phaser.GameObjects.Container {
       console.log('Character Data:', characterData);
 
       // Format the character data into a string for display
-      const characterSheetString = `${characterData.nameGa}\nna\n${characterData.branchGa}
+      const characterSheetString = 
+      `Ainm:  ${characterData.nameGa}\nCraobh:  ${characterData.branchGa}\nSláinte:  ${characterData.health}\nNeart:  ${characterData.strength}
          `; //${characterData.branchImage}
-
-      // Display the character data as text
-      const characterSheetText = scene.add.text(scene.scale.width *0.2, scene.scale.height * 0.2, characterSheetString, {
-        fontSize: '20px', // Adjust size to fit more text
-        fill: 'gunmetal',
-        fontFamily: 'Aonchlo',
-        wordWrap: { width: scene.scale.width * 0.8 }
-      }).setDepth(9500).setScrollFactor(0).setOrigin(0,0);
-
-      // Add the text to the container
-      this.add(characterSheetText);
+         const zoomLevel = this.scene.cameras.main.zoom;
+         
+         const characterSheetText = scene.add.text(
+          scene.scale.width * 0.2, 
+          scene.scale.height * 0.2, 
+          characterSheetString, 
+          {
+            fontSize: '46px', // Adjust size to fit more text
+            fill: '#2a3439',
+            fontFamily: 'aonchlo',
+            wordWrap: { width:800 }
+          }
+        ).setDepth(9500)
+          .setScrollFactor(0)
+          .setOrigin(0, 0)
+          .setScale(1 / zoomLevel); ;  // Ensure scale is reset
+        
+        this.add(characterSheetText);
 
     } else {
       console.log('No character data found!');

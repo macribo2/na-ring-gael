@@ -1067,7 +1067,8 @@ highlightSpokes() {
           }
       
           // Update the localStorage character sheet with the new branch values
-          let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
+          let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {}; // Ensures it's always an object
+
       
           // If the characterSheet exists, update it with the new branch values
           if (characterSheet) {

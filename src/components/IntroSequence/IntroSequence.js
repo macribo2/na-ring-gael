@@ -135,7 +135,7 @@ this.isRaining = false;
     this.rippleManager = new RippleManager(this);
     
  // Create playerFrame, initially hidden (alpha 0)
- this.playerFrame = this.add.sprite(100, 100, 'player-frame').setDepth(50).setAlpha(0);
+ this.playerFrame = this.add.sprite(100, 100, 'player-frame').setDepth(50).setAlpha(0).setScale(0.75);
  this.playerFrame.setInteractive();
 
  // Handle pointerdown event for the playerFrame

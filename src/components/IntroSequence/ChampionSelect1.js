@@ -792,7 +792,9 @@ this.scene.time.delayedCall(0, () => {
    characterSheet.nameEn = displayedChampion.nameEn;
    characterSheet.gender = displayedChampion.gender;
    characterSheet.spriteKey = displayedChampion.spriteKey;
-
+      characterSheet.strength= 10;
+      characterSheet.health= 10;
+      
 // Save characterSheet to local storage
 localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
 
