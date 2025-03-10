@@ -109,7 +109,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
 
 
     // Current option text (displayed when spinning)g
-    this.optionTextGa = scene.add.text(scene.scale.width/2,scene.scale.height*0.3, "", {
+    this.optionTextGa = scene.add.text(scene.scale.width*0.7,scene.scale.height*0.25, "", {
       fontSize: "32px",
       fill: "gunmetal",
       fontFamily:'IrishPenny',
@@ -131,46 +131,37 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
   }
 
 
-  crossfadeMenus(menuToHide, menuToShow, duration = 300) {
-    if (!menuToHide || !menuToShow) return;
-    
-    // Ensure both menus are visible during the transition
-    menuToShow.setVisible(true);
-    menuToHide.setVisible(true);
-    
-    // Start the new menu at alpha 0
-    menuToShow.setAlpha(0).setDepth(6000);
-    
-    // Fade in the new menu
-    this.scene.tweens.add({
-      targets: menuToShow,
-      alpha: 1,
-      duration: duration,
-      ease: 'Linear',
-      onStart: () => {
-        // You can add any additional setup here if needed
-      }
-    });
-    
-    // Simultaneously fade out the current menu
-    this.scene.tweens.add({
-      targets: menuToHide,
-      alpha: 0,
-      duration: duration,
-      ease: 'Linear',
-      onComplete: () => {
-        // Hide the old menu and reset its alpha
-        menuToHide.setVisible(false);
-        menuToHide.setAlpha(0);
+// Revised crossfade function without using timeline
+crossfadeMenus(menuToHide, menuToShow, duration = 300) {
+  if (!menuToHide || !menuToShow) return;
   
-        // Reset the background to default when switching
-        if (menuToShow.background) {
-          menuToShow.background.setAlpha(1); // Ensure the background is at full opacity
-        }
-      }
-    });
-  }
+  // Ensure both menus are visible during the transition
+  menuToShow.setVisible(true);
+  menuToHide.setVisible(true);
   
+  // Start the new menu at alpha 0
+  menuToShow.setAlpha(0).setDepth(6000);
+  
+  // Fade in the new menu
+  this.scene.tweens.add({
+    targets: menuToShow,
+    alpha: 1,
+    duration: duration,
+    ease: 'Linear'
+  });
+  
+  // Simultaneously fade out the current menu
+  this.scene.tweens.add({
+    targets: menuToHide,
+    alpha: 0,
+    duration: duration,
+    ease: 'Linear',
+    onComplete: () => {
+      menuToHide.setVisible(false);
+    }
+  });
+}
+
 // The updateOptionDisplay function remains the same, except for removing timeline references
 updateOptionDisplay() {
   // Ensure optionCounter is within bounds
@@ -321,35 +312,54 @@ updateOptionDisplay() {
   }
 
 
+  createSpokes(options) {
+    this.options = options;
+    this.numOptions = options.length;
 
+    // Set the angle per option to 35 degrees (converted to radians)
+    this.spokeAngle = Phaser.Math.DegToRad(35);
 
+    options.forEach((option, index) => {
+      const angle = this.spokeAngle * index;
+      
+      // Create a spoke line (visual representation)
+      const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0) // Changed color for visibility
+        .setLineWidth(3)
+        .setRotation(angle);
+      
+      this.spokesContainer.add(spoke).setDepth(6000);
+    });
 
+    // Reset to first option
+    this.optionCounter = 0;
+    this.updateOptionDisplay(); // Fixed typo here (capital 'O')
+  }
 
-createSpokes(options) {
-  // Clear existing spokes
+ 
+ 
+  createSpokes(options) {
+    this.options = options;
+    this.numOptions = options.length;
 
-  
-  this.options = options;
-  this.numOptions = options.length;
+    // Set the angle per option to 35 degrees (converted to radians)
+    this.spokeAngle = Phaser.Math.DegToRad(35);
 
-  // Calculate angle between spokes
-  this.spokeAngle = Phaser.Math.PI2 / this.numOptions;
+    options.forEach((option, index) => {
+      const angle = this.spokeAngle * index;
+      
+      // Create a spoke line (visual representation)
+      const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0) // Changed color for visibility
+        .setLineWidth(3)
+        .setRotation(angle);
+      
+      this.spokesContainer.add(spoke).setDepth(6000);
+    });
 
-  options.forEach((option, index) => {
-    const angle = this.spokeAngle * index;
-    
-    // Create a spoke line (visual representation)
-    const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0) // Changed color for visibility
-      .setLineWidth(3)
-      .setRotation(angle);
-    
-    this.spokesContainer.add(spoke).setDepth(6000);
-  });
+    // Reset to first option
+    this.optionCounter = 0;
+    this.updateOptionDisplay(); // Fixed typo here (capital 'O')
+  }
 
-  // Reset to first option
-  this.optionCounter = 0;
-  this.updateOptionDisplay(); // Fixed typo here (capital 'O')
-}
 
 
 
@@ -362,100 +372,69 @@ onToggleTranslation() {
   this.optionTextEn.setVisible(this.isEnglish);
 }
 
-  getRotationDirection() {
-    const currentAngle = this.wheel.rotation; // Use rotation in radians
-    const previousAngle = this.previousAngle || currentAngle;
-    let delta = currentAngle - previousAngle;
-    
-    // Adjust for full rotations (2π radians)
-    // delta = ((delta + Math.PI) % (Math.PI * 2)) - Math.PI;
-    
-    this.previousAngle = currentAngle;
-    // const angularVelocity = this.wheel.body?.angularVelocity ?? 0;
-    const angularVelocity = (this.wheel.body && this.wheel.body.angularVelocity) !== undefined ? this.wheel.body.angularVelocity : 0;
-
-    return angularVelocity > 0 ? 1 : -1; // Use physics body velocity
-    // return Math.sign(delta);
-  }
 
 
-  updateSpokePositions() {
-    // Get current wheel rotation
-    const rotation = this.wheel.rotation;
-    
+dragWheel(pointer) {
+  if (!this.isDragging) return;
 
-    
-    // Track rotation direction
-    this.getRotationDirection();
-  }
+  // Get angle from pointer position (center of the wheel is 400, 300)
+  const currentAngle = Phaser.Math.Angle.Between(
+    400, 300, // Wheel center
+    pointer.x, pointer.y
+  );
 
-  // Update dragWheel method to track proper rotation
-  dragWheel(pointer) {
-    if (!this.isDragging) return;
+  // Calculate actual rotation delta and invert it
+  const delta = this.startAngle - currentAngle; // Invert the direction by switching startAngle and currentAngle
   
-    // Get angle from pointer position (center of the wheel is 400, 300)
-    const currentAngle = Phaser.Math.Angle.Between(
-      400, 300, // Wheel center
-      pointer.x, pointer.y
-    );
-  
-    // Calculate actual rotation delta and invert it
-    const delta = this.startAngle - currentAngle; // Invert the direction by switching startAngle and currentAngle
-    
-    // Update wheel rotation
-    this.wheel.rotation = this.wheelStartRotation + delta;
-    this.spokesContainer.rotation = this.wheel.rotation;
-  
-    // Update angular velocity based on actual rotation
-    this.angularVelocity = delta - this.previousDelta;
-    this.previousDelta = delta;
-  }
-  
-  
-  startDrag(pointer) {
+  // Update wheel rotation
+  this.wheel.rotation = this.wheelStartRotation + delta;
+  this.spokesContainer.rotation = this.wheel.rotation;
 
-    this.isDragging = true;
-    this.startAngle = Phaser.Math.Angle.Between(
-      400, 300, // Wheel center
-      pointer.x, pointer.y
-    );
-    this.wheelStartRotation = this.wheel.rotation;
-    this.previousDelta = 0;
-    this.angularVelocity = 0;
-    
-    // Reset last rotation to current rotation for accurate direction detection
-    this.lastRotation = this.wheel.rotation;
-  
+  // Update angular velocity based on actual rotation
+  this.angularVelocity = delta - this.previousDelta;
+  this.previousDelta = delta;
+}
+
+startDrag(pointer) {
+  this.isDragging = true;
+  this.startAngle = Phaser.Math.Angle.Between(
+    400, 300, // Wheel center
+    pointer.x, pointer.y
+  );
+  this.wheelStartRotation = this.wheel.rotation;
+  this.previousDelta = 0;
+  this.angularVelocity = 0;
+  // Reset last rotation to current rotation for accurate direction detection
+  this.lastRotation = this.wheel.rotation;
+
   if (!this.optionsVisible) {
-      this.optionsVisible = true;
-      this.scene.tweens.add({
-          targets: this.optionTextGa,
-          alpha: 1,
-          duration: 500,
-          ease: 'Linear',
-          onStart: () => {
-              this.optionTextGa.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
-          }
-      });
+    this.optionsVisible = true;
+    this.scene.tweens.add({
+      targets: this.optionTextGa,
+      alpha: 1,
+      duration: 500,
+      ease: 'Linear',
+      onStart: () => {
+        this.optionTextGa.setAlpha(0).setVisible(true).setActive(true); // Ensure visibility
+      }
+    });
+  }
+}
+
+decelerateWheel() {
+  if (Math.abs(this.angularVelocity) < this.minVelocity) {
+    this.angularVelocity = 0;
+    return;
   }
 
+  this.angularVelocity *= this.deceleration;
+  this.wheel.rotation += this.angularVelocity;
+  this.spokesContainer.rotation = this.wheel.rotation;
+
+  if (Math.abs(this.angularVelocity) >= this.minVelocity) {
+    this.scene.time.delayedCall(16, () => this.decelerateWheel());
   }
-
-  decelerateWheel() {
-    if (Math.abs(this.angularVelocity) < this.minVelocity) {
-      this.angularVelocity = 0;
-      return;
-    }
-
-    this.angularVelocity *= this.deceleration;
-    this.wheel.rotation += this.angularVelocity;
-    this.spokesContainer.rotation = this.wheel.rotation;
-    
-
-    if (Math.abs(this.angularVelocity) >= this.minVelocity) {
-      this.scene.time.delayedCall(16, () => this.decelerateWheel());
-    }
-  }
+}
 
   stopDrag() {
     this.isDragging = false;
@@ -463,8 +442,6 @@ onToggleTranslation() {
   }
 
   update() {
-// alert(this.optionCounter)
-
     // Correct method call with proper capitalization
     const newIndex = this.getCurrentOptionIndex();
     
@@ -473,27 +450,28 @@ onToggleTranslation() {
       this.updateOptionDisplay(); // This should update both Ga and En texts
     }
   }
-getCurrentOptionIndex() {
-  // Ensure the wheel rotation is normalized and wrapped
-  const normalizedRotation = Phaser.Math.Angle.Wrap(this.wheel.rotation);
-  
-  // Calculate index based on wheel rotation and spoke angle
-  return Math.floor(normalizedRotation / this.spokeAngle) % this.numOptions;
-}
-updateSelection() {
-  const newIndex = this.getCurrentOptionIndex();
-  if (newIndex !== this.optionCounter) {
-    this.optionCounter = newIndex;
-    this.updateOptionDisplay(); // Update text when index changes
+
+  getCurrentOptionIndex() {
+    // Ensure the wheel rotation is normalized and wrapped
+    const normalizedRotation = Phaser.Math.Angle.Wrap(this.wheel.rotation);
+    
+    // Calculate index based on wheel rotation and spoke angle
+    return Math.floor(normalizedRotation / this.spokeAngle) % this.numOptions;
   }
-}
+
+  updateSelection() {
+    const newIndex = this.getCurrentOptionIndex();
+    if (newIndex !== this.optionCounter) {
+      this.optionCounter = newIndex;
+      this.updateOptionDisplay(); // Update text when index changes
+    }
+  }
 updateControlSquareScale() {
   const zoomLevel = this.scene.cameras.main.zoom;
   this.scene.controlSquare.setScale(1 / zoomLevel); 
 }
 showMenu(menuKey) {
   this.background.setVisible(true);
-  
   this.previousZoom = this.scene.cameras.main.zoom;
   this.scene.cameras.main.setZoom(1.5);
   this.updateControlSquareScale();
@@ -602,6 +580,23 @@ hideMenu() {
   });
 }
 
+getRotationDirection() {
+  const currentAngle = this.wheel.rotation; // Use rotation in radians
+  const previousAngle = this.previousAngle || currentAngle;
+  let delta = currentAngle - previousAngle;
+  
+  this.previousAngle = currentAngle;
+  const angularVelocity = (this.wheel.body && this.wheel.body.angularVelocity) !== undefined ? this.wheel.body.angularVelocity : 0;
+
+  return angularVelocity > 0 ? 1 : -1;
+}
+
+updateSpokePositions() {
+  // Get current wheel rotation
+  const rotation = this.wheel.rotation;
+  // Track rotation direction
+  this.getRotationDirection();
+}
 
   
 }

@@ -66,7 +66,13 @@ export class PlayerEntity extends GameEntity {
     this.name = "Tomás Tástál"
     this.inventory = new Inventory();  // Use the Inventory class for the player's inventory
 
+    // Menu state flag
+    this.isOptionMenuOpen = false;
 
+    // Listen for option menu state changes
+    this.scene.events.on('optionMenuState', (isOpen) => {
+      this.isOptionMenuOpen = isOpen;
+    });
   }
 
   // Add an item to the player's inventory
@@ -86,8 +92,8 @@ export class PlayerEntity extends GameEntity {
   }
 
   resolveInput() {
-    if (this.pendingInput) {
-      return; // Don't process if there's already a pending input
+    if (this.pendingInput || this.isOptionMenuOpen) {
+      return; // Don't process if there's already a pending input or menu is open
     }
 
     if (this.inputResolver) {
@@ -114,6 +120,8 @@ export class PlayerEntity extends GameEntity {
 
   // Move method with cooldown logic
   move(dx, dy) {
+    if (this.isOptionMenuOpen) return; // Don't move if menu is open
+
     const currentTime = this.scene.time.now;
 
     // Only process movement if enough time has passed (based on cooldown)

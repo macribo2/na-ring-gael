@@ -304,7 +304,7 @@ setTimeout(() => {
 
 
   preload() {
- 
+    this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
     this.load.image('character', '/phaser-resources/images/placeholders/log0.png');
     this.load.image('settings', '/phaser-resources/images/placeholders/log1.png');
     this.load.image('chat', '/phaser-resources/images/placeholders/log2.png');

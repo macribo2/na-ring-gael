@@ -17,12 +17,11 @@ import TranslationManager from '../translationManager/translationManager'
     scene.add.existing(this);
     this.openOptionMenu = openOptionMenu;
     this.closeOptionMenu = closeOptionMenu;
-    this.clearPathCallback = clearPathCallback; // Store the clearPath callback
-    this._actionMenuActive = false; // Initial action menu state
+    this.clearPathCallback = clearPathCallback; 
+    this._actionMenuActive = false; 
     this.isOptionMenuOpen = false;
 
    
-    // Center buttons within container
     const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
       .setOrigin(0.5, 0.5).setDepth(9999);
     // Create the directional buttons (left, right, up, down) and the middle button
@@ -57,35 +56,54 @@ import TranslationManager from '../translationManager/translationManager'
 
     // Handle pointer events for each button
 
-
     upButton.on('pointerdown', () => {
-      this.emit('control-action', 'up-down'); // Emit event
-      if (this.clearPathCallback) {
-        this.clearPathCallback(); // Calls DungeonScene's clearPath method
-    }
+      if (this.isOptionMenuOpen) {
+        this.highlightPreviousItem(); // Navigate up in the menu
+      } else {
+        this.emit('control-action', 'up-down'); // Move player up
+        if (this.clearPathCallback) {
+          this.clearPathCallback(); // Clear the path if needed
+        }
+      }
       setButtonLit(upButton, 'upButtonLit');
     });
+    
     downButton.on('pointerdown', () => {
-      this.emit('control-action', 'down-down'); // Emit event
-      if (this.clearPathCallback) {
-        this.clearPathCallback(); // Calls DungeonScene's clearPath method
-    }
+      if (this.isOptionMenuOpen) {
+        this.highlightNextItem(); // Navigate down in the menu
+      } else {
+        this.emit('control-action', 'down-down'); // Move player down
+        if (this.clearPathCallback) {
+          this.clearPathCallback(); // Clear the path if needed
+        }
+      }
       setButtonLit(downButton, 'downButtonLit');
     });
+    
     leftButton.on('pointerdown', () => {
-      this.emit('control-action', 'left-down'); // Emit event
-      if (this.clearPathCallback) {
-        this.clearPathCallback(); // Calls DungeonScene's clearPath method
-    }
+      if (this.isOptionMenuOpen) {
+        this.switchToPreviousMenu(); // Switch to the previous menu
+      } else {
+        this.emit('control-action', 'left-down'); // Move player left
+        if (this.clearPathCallback) {
+          this.clearPathCallback(); // Clear the path if needed
+        }
+      }
       setButtonLit(leftButton, 'leftButtonLit');
     });
+    
     rightButton.on('pointerdown', () => {
-      this.emit('control-action', 'right-down'); // Emit event
-      if (this.clearPathCallback) {
-        this.clearPathCallback(); // Calls DungeonScene's clearPath method
-    }
+      if (this.isOptionMenuOpen) {
+        this.switchToNextMenu(); // Switch to the next menu
+      } else {
+        this.emit('control-action', 'right-down'); // Move player right
+        if (this.clearPathCallback) {
+          this.clearPathCallback(); // Clear the path if needed
+        }
+      }
       setButtonLit(rightButton, 'rightButtonLit');
     });
+    
 
     // When button is released (pointer up)
     middleButton.on('pointerup', () => {
@@ -141,126 +159,6 @@ import TranslationManager from '../translationManager/translationManager'
     let lastPointerX = x;
     let lastPointerY = y;
     let dragStartTime = 0;
-
-    // Function to handle continuous press logging and drag action
-  //   const logPressDuration = (pointer) => {
-  //     const pressDuration = (scene.time.now - pressStartTime) / 1000; // Duration in seconds
-  //     const deltaX = pointer.x - initialPointerX;
-  //     const deltaY = pointer.y - initialPointerY;
-
-  //     // Stop dragging if press duration exceeds max press duration (3 seconds)
-  //     if (pressDuration > maxPressDuration) {
-  //       console.log("Press duration exceeded max time. Stopping...");
-  //       stopPress(); // Stop if pressed too long
-  //     }
-
-  //     // Only start dragging after the press is long enough AND movement exceeds 50px
-  //     if (pressDuration >= pressDurationThreshold && (Math.abs(deltaX) > dragDistanceThreshold || Math.abs(deltaY) > dragDistanceThreshold)) {
-  //       if (!draggingControlSquare) {
-  //         draggingControlSquare = true;
-  //         console.log('Dragging control square...');
-  //         setTimeout(()=>{stopPress()
-  //           draggingControlSquare = false;
-  //         },1500)
-  //       }
-
-  //       // Calculate new position for the control square
-  //       let newX = pointer.x - initialPointerX;
-  //       let newY = pointer.y - initialPointerY;
-
-  //       // Keep the control square within screen bounds (limit movement)
-  //       const sceneWidth = scene.cameras.main.width;
-  //       const sceneHeight = scene.cameras.main.height;
-  //       const controlSquareWidth = this.width;
-  //       const controlSquareHeight = this.height;
-
-  //       // Constrain the x and y positions to be within the screen bounds
-  //       newX = Phaser.Math.Clamp(newX, 0, sceneWidth - controlSquareWidth);
-  //       newY = Phaser.Math.Clamp(newY, 0, sceneHeight - controlSquareHeight);
-
-  //       // Move the whole control square (all elements in the container)
-  //       this.setPosition(newX, newY);
-
-  //       // Calculate velocity (speed) of the drag for inertia effect
-  //       const deltaTime = scene.time.now - dragStartTime; // Time since the last update
-  //       const deltaVX = pointer.x - lastPointerX;
-  //       const deltaVY = pointer.y - lastPointerY;
-
-  //       velocityX = deltaVX / deltaTime; // X velocity
-  //       velocityY = deltaVY / deltaTime; // Y velocity
-
-  //       // Update last position and time for the next calculation
-  //       lastPointerX = pointer.x;
-  //       lastPointerY = pointer.y;
-  //       dragStartTime = scene.time.now;
-
-  //       // Reset the drag timeout to restart the 500ms countdown whenever the drag is happening
-  //       clearTimeout(dragTimeout);
-  //       dragTimeout = setTimeout(() => {
-  //         stopPress(); // Stop the continuous logging after 500ms of inactivity
-  //       }, 500);
-  //     }
-  //   };
-
-  //   // Function to start tracking the press
-  //   const startPress = (pointer) => {
-  //     pressStartTime = scene.time.now; // Use Phaser's time system for better accuracy
-  //     initialPointerX = x;
-  //     initialPointerY = y;
-  //     lastPointerX = pointer.x;
-  //     lastPointerY = pointer.y;
-  //     dragStartTime = scene.time.now;
-  //     isPressLongEnough = false; // Reset the flag for press duration
-    
-  //     // Start an interval to log press duration and movement
-  //     pressInterval = scene.time.addEvent({
-  //       delay: 100, // Log every 100ms while pressed
-  //       callback: () => {
-  //         const pressDuration = (scene.time.now - pressStartTime) / 1000; 
-  //         console.log(`Press Duration: ${pressDuration}s`); // Log the press duration
-  //         if (pressDuration >= pressDurationThreshold) {  // 2-second hold required before enabling dragging
-  //           isPressLongEnough = true; // Enable drag after 2 seconds
-  //         }
-  //         logPressDuration(pointer); // Log press duration
-  //       },
-  //       loop: true
-  //     });
-  //   };
-
-  //   // Function to stop tracking the press and dragging
-  //   const stopPress = () => {
-  //     if (pressInterval) {
-  //       pressInterval.remove(); // Stop the continuous logging when the press ends
-  //       pressInterval = null;
-  //     }
-  //     draggingControlSquare = false; // Stop dragging the control square
-  //     console.log(`Button released. Final position of ControlSquare: ${this.x}, ${this.y}`);
-  //     clearTimeout(dragTimeout); // Clear the drag timeout when the pointer is released
-
-  //     // Apply momentum/ inertia (simulate "fling") after release
-  //     if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
-  //       // Fling with velocity and ease out
-  //  // Fling with velocity and ease out
-  //  scene.tweens.add({
-  //   targets: this,
-  //   x: Phaser.Math.Clamp(this.x + velocityX * 200, 0, scene.cameras.main.width - this.width), // Clamp the fling X within bounds
-  //   y: Phaser.Math.Clamp(this.y + velocityY * 200, 0, scene.cameras.main.height - this.height), // Clamp the fling Y within bounds
-  //   duration:500, // Duration for the "fling" effect
-  //   ease: 'Cubic.Out', // Ease out to slow down
-  //   onComplete: () => {
-  //     velocityX = 0; // Stop velocity after fling completes
-  //     velocityY = 0;
-  //   }
-  // });
-  //     }
-  //   };
-
-    // Set up pointer events for each button
-    // middleButton.on('pointerdown', (pointer) => startPress(pointer));
-    // upButton.on('pointerdown', (pointer) => startPress(pointer));
-    // downButton.on('pointerdown', (pointer) => startPress(pointer));
-    // leftButton.on('pointerdown', (pointer) => startPress(pointer));
-    // rightButton.on('pointerdown', (pointer) => startPress(pointer));
 
     // Handle pointerup (both for buttons and control square dragging)
     const handlePointerUp = () => {
@@ -321,20 +219,24 @@ scene.add.existing(this);
 middleButton.setScrollFactor(0);
 
 middleButton.removeAllListeners('pointerdown'); // Prevent duplicates
+// Notify PlayerEntity when the OptionMenu is opened or closed
 middleButton.on('pointerdown', () => {
   console.log("actionMenuActive:", this.getActionMenuActive());
 
   if (this.isOptionMenuOpen) {
     this.closeOptionMenu();
     this.isOptionMenuOpen = false;
+    // Notify PlayerEntity that the menu is closed
+    this.scene.events.emit('optionMenuState', false); // false means menu is closed
   } else if (!this.getActionMenuActive()) {
     if (this.openOptionMenu) {
       console.log("Opening Option Menu...");
       console.log("openOptionMenu exists?", this.openOptionMenu);
 
-
       this.openOptionMenu();
       this.isOptionMenuOpen = true;
+      // Notify PlayerEntity that the menu is open
+      this.scene.events.emit('optionMenuState', true); // true means menu is open
     } else {
       console.log("openOptionMenu is undefined");
       TranslationManager.toggleTranslation();
@@ -350,8 +252,34 @@ middleButton.on('pointerdown', () => {
   }
 });
 
+
 }
 
+
+
+
+
+// Switch to the next or previous menu
+switchToNextMenu() {
+console.log("Switching to next menu...");
+// Add your logic for switching to the next menu here
+}
+
+switchToPreviousMenu() {
+console.log("Switching to previous menu...");
+// Add your logic for switching to the previous menu here
+}
+
+// Highlight previous or next item in the current menu
+highlightPreviousItem() {
+console.log("Highlighting previous item...");
+// Add your logic for highlighting previous item here
+}
+
+highlightNextItem() {
+console.log("Highlighting next item...");
+// Add your logic for highlighting next item here
+}
 
 }
 
