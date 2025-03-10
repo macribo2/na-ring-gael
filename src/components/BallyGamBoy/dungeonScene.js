@@ -69,12 +69,20 @@ export default class DungeonScene extends Phaser.Scene {
     const percentX = 0.45; // % from the left
     const percentY = 0.4; // % from the top
   
-     
+     this.controlSquare = new ControlSquare(
+  this, 
+  screenWidth * 0.45, 
+  screenHeight * 0.38,
+  this.clearPath.bind(this), 
+  this.openOptionMenu.bind(this), 
+  this.closeOptionMenu.bind(this), 
+  false, // for actionMenuActive parameter (assuming false initially)
+  this.handleNextMenu.bind(this),
+  this.handlePreviousMenu.bind(this)
+) .setScrollFactor(0)
+.setScale(0.5)
+.setDepth(19788);
 
-  this.controlSquare = new ControlSquare(this, screenWidth * 0.45, screenHeight * 0.38,this.clearPath.bind(this), this.openOptionMenu.bind(this), this.closeOptionMenu.bind(this)) 
-    .setScrollFactor(0)
-    .setScale(0.5)
-    .setDepth(19788);
 
     this.controlSquare.setActionMenuActive(this.actionMenuActive);
  
@@ -197,6 +205,19 @@ export default class DungeonScene extends Phaser.Scene {
   
   if (typeof this.actionMenu.showMenu !== 'function') {
   } 
+}
+
+handlePreviousMenu() {
+  // Instead of calling isVisible(), check a property that indicates if the menu is open
+  if (this.optionMenu && this.optionMenu.visible) {  // Using the standard Phaser visible property
+    this.optionMenu.previousSubmenu();
+  }
+}
+
+handleNextMenu() {
+  if (this.optionMenu && this.optionMenu.visible) {
+    this.optionMenu.nextSubmenu();
+  }
 }
  openOptionMenu() {
    // Stop drawing the path

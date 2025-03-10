@@ -12,7 +12,7 @@ import TranslationManager from '../translationManager/translationManager'
     this._actionMenuActive = actionMenuActive;
   }
  
-  constructor(scene, x, y,clearPathCallback,openOptionMenu,closeOptionMenu,actionMenuActive) {
+  constructor(scene, x, y,clearPathCallback,openOptionMenu,closeOptionMenu,actionMenuActive, nextMenuFunc, prevMenuFunc) {
     super(scene, x, y);
     scene.add.existing(this);
     this.openOptionMenu = openOptionMenu;
@@ -20,6 +20,8 @@ import TranslationManager from '../translationManager/translationManager'
     this.clearPathCallback = clearPathCallback; 
     this._actionMenuActive = false; 
     this.isOptionMenuOpen = false;
+    this.nextMenuFunc = nextMenuFunc;
+    this.prevMenuFunc = prevMenuFunc;
 
    
     const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
@@ -258,18 +260,22 @@ middleButton.on('pointerdown', () => {
 
 
 
-
-// Switch to the next or previous menu
+// Then in your button handling methods
 switchToNextMenu() {
-console.log("Switching to next menu...");
-// Add your logic for switching to the next menu here
+  if (this.nextMenuFunc) {
+    this.nextMenuFunc();
+  } else {
+    console.log("Switching to next menu...");
+  }
 }
 
 switchToPreviousMenu() {
-console.log("Switching to previous menu...");
-// Add your logic for switching to the previous menu here
+  if (this.prevMenuFunc) {
+    this.prevMenuFunc();
+  } else {
+    console.log("Switching to previous menu...");
+  }
 }
-
 // Highlight previous or next item in the current menu
 highlightPreviousItem() {
 console.log("Highlighting previous item...");

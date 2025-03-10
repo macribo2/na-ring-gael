@@ -312,30 +312,7 @@ updateOptionDisplay() {
   }
 
 
-  createSpokes(options) {
-    this.options = options;
-    this.numOptions = options.length;
 
-    // Set the angle per option to 35 degrees (converted to radians)
-    this.spokeAngle = Phaser.Math.DegToRad(35);
-
-    options.forEach((option, index) => {
-      const angle = this.spokeAngle * index;
-      
-      // Create a spoke line (visual representation)
-      const spoke = this.scene.add.line(0, 0, 0, 0, 0, -180, 0xff0000).setAlpha(0) // Changed color for visibility
-        .setLineWidth(3)
-        .setRotation(angle);
-      
-      this.spokesContainer.add(spoke).setDepth(6000);
-    });
-
-    // Reset to first option
-    this.optionCounter = 0;
-    this.updateOptionDisplay(); // Fixed typo here (capital 'O')
-  }
-
- 
  
   createSpokes(options) {
     this.options = options;
@@ -598,7 +575,43 @@ updateSpokePositions() {
   this.getRotationDirection();
 }
 
+nextSubmenu() {
+  // Rotate the wheel clockwise to show next menu
+  const newRotation = this.wheel.rotation - this.spokeAngle; // Negative for clockwise
   
+  // Create a smooth animation for the rotation
+  this.scene.tweens.add({
+    targets: this.wheel,
+    rotation: newRotation,
+    duration: 300,
+    ease: 'Cubic.easeOut',
+    onComplete: () => {
+      // Ensure the rotation is properly wrapped and update the display
+      this.wheel.rotation = Phaser.Math.Angle.Wrap(newRotation);
+      this.optionCounter = this.getCurrentOptionIndex();
+      this.updateOptionDisplay();
+    }
+  });
+}
+
+previousSubmenu() {
+  // Rotate the wheel counter-clockwise to show previous menu
+  const newRotation = this.wheel.rotation + this.spokeAngle; // Positive for counter-clockwise
+  
+  // Create a smooth animation for the rotation
+  this.scene.tweens.add({
+    targets: this.wheel,
+    rotation: newRotation,
+    duration: 300,
+    ease: 'Cubic.easeOut',
+    onComplete: () => {
+      // Ensure the rotation is properly wrapped and update the display
+      this.wheel.rotation = Phaser.Math.Angle.Wrap(newRotation);
+      this.optionCounter = this.getCurrentOptionIndex();
+      this.updateOptionDisplay();
+    }
+  });
+}
 }
 
 export default OptionMenu;
