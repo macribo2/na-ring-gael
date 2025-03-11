@@ -7,13 +7,16 @@ export class GameEntity {
     ITEM: 'item'
   };
 
-  constructor(x, y, type) {
+  // Scene MUST be first parameter
+  constructor(scene, x, y, type) {
+    this.scene = scene; // Store scene reference
     this.x = x;
     this.y = y;
     this.type = type;
     this.energy = 0;
     this.speed = 10;
   }
+
 
   getSpeed() {
     return this.speed;
@@ -32,8 +35,9 @@ export class GameEntity {
 }
 
 export class Item extends GameEntity {
-  constructor(x, y, name, description, type = GameEntity.ENTITY_TYPES.ITEM) {
-    super(x, y, type);
+  // Now properly receives scene first
+  constructor(scene, x, y, name, description, type = GameEntity.ENTITY_TYPES.ITEM) {
+    super(scene, x, y, type); // Pass scene to parent
     this.name = name;
     this.description = description;
   }
@@ -52,7 +56,7 @@ export class Item extends GameEntity {
 }
 export class PlayerEntity extends GameEntity {
   constructor(scene, x, y) {
-    super(x, y, GameEntity.ENTITY_TYPES.PLAYER);
+    super(scene, x, y, GameEntity.ENTITY_TYPES.PLAYER);
     this.scene = scene;
     this.speed = 20;
     this.inputResolver = null;
@@ -79,6 +83,19 @@ export class PlayerEntity extends GameEntity {
   addToInventory(item) {
     this.inventory.push(item);
     console.log(`${this.name} added ${item.name} to their inventory.`);
+  }
+
+  // Check for nearby items and interact with them
+  interactWithItems() {
+    this.scene.entities.forEach(entity => {
+      if (entity instanceof RedCent) {
+        // Check if the player's position matches the item's position
+        if (Math.abs(this.x - entity.x) < this.tileSize && Math.abs(this.y - entity.y) < this.tileSize) {
+          entity.pickup(this);  // Pickup the Red Cent
+          console.log(`${this.name} interacted with the Red Cent.`);
+        }
+      }
+    });
   }
 
   // Use the first item in the inventory
@@ -159,6 +176,9 @@ export class PlayerEntity extends GameEntity {
             this.x = newX;
             this.y = newY;
             this.pendingInput = false; // Allow next input after movement is complete
+
+            // After moving, check for interactions with items
+            this.interactWithItems();
           }
         });
       } else {
@@ -177,10 +197,23 @@ export class PlayerEntity extends GameEntity {
   }
 }
 
-
 export class RedCent extends Item {
-  constructor(x, y) {
-    super(x, y, "Red Cent", "A worthless red cent. But it's worth something!", GameEntity.ENTITY_TYPES.ITEM);
+  constructor(scene, x, y) {
+    // Proper parameter order now matches parent class
+    super(scene, x, y, 
+      "Red Cent", 
+      "A worthless red cent. But it's worth something!"
+    );
+    
+    // Add visual representation for the Red Cent
+    this.sprite = this.scene.add.sprite(x, y, 'cent_texture').setDepth(9000);
+    
+    // Enable physics for the sprite
+    this.scene.physics.world.enable(this.sprite);
+    this.sprite.body.setCollideWorldBounds(true);  // Optional: prevents the Red Cent from going out of bounds
+    this.sprite.body.setImmovable(true);  // Optional: makes the Red Cent immovable
+
+    // Set additional properties for the Red Cent if needed (e.g., interactions)
   }
 
   // Override the pickup method to add the Red Cent to the player's inventory
@@ -203,3 +236,4 @@ export class RedCent extends Item {
     console.log(`${player.name} dropped the Red Cent.`);
   }
 }
+

@@ -122,7 +122,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
       scene.cameras.main.centerX, 
       scene.cameras.main.centerY, 
       'other'
-    ).setDepth(2000).setScrollFactor(0).setVisible(false);
+    ).setDepth(2000).setScrollFactor(0).setAlpha(0);
  
     
     this.add([ this.wheel,  this.optionTextGa, this.optionTextEn]);
@@ -131,7 +131,6 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
   }
 
 
-// Revised crossfade function without using timeline
 crossfadeMenus(menuToHide, menuToShow, duration = 300) {
   if (!menuToHide || !menuToShow) return;
   
@@ -448,7 +447,9 @@ updateControlSquareScale() {
   this.scene.controlSquare.setScale(1 / zoomLevel); 
 }
 showMenu(menuKey) {
-  this.background.setVisible(true);
+  if (this.background) {
+    this.background.setAlpha(1).setVisible(true);
+  }
   this.previousZoom = this.scene.cameras.main.zoom;
   this.scene.cameras.main.setZoom(1.5);
   this.updateControlSquareScale();
@@ -509,7 +510,7 @@ showMenu(menuKey) {
 
   // Ensure background visibility is handled correctly (if needed)
   if (this.background) {
-    this.background.setVisible(true);
+    this.background.setAlpha(1);
   }
 
   // Optional: ensure menu input has priority
@@ -536,7 +537,7 @@ hideMenu() {
       this.setVisible(false); // Hide all components
       this.optionTextGa.setVisible(false);
       this.optionTextEn.setVisible(false);
-      this.background.setVisible(false); // Hide background
+      this.background.setAlpha(0); // Hide background
 
       // Optional: ensure menu input no longer has priority
       this.scene.input.setTopOnly(false);

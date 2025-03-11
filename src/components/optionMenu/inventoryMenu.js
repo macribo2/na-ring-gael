@@ -25,7 +25,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   showInventory() {
     this.setVisible(true);
     if (this.background) {
-      this.background.setAlpha(1);  // Ensure the background is also visible
+      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
     }
   }
 

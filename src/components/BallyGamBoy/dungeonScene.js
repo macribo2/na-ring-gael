@@ -6,7 +6,7 @@ import OptionMenu from '../optionMenu/optionMenu'
 import { GameEntity, PlayerEntity } from './entities';
 import PhaserEntity from './phaserEntity'
 import ControlSquare from '../ControlSquare/ControlSquare';
-
+import populateDungeon from './populateDungeon'
 export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
@@ -205,6 +205,8 @@ export default class DungeonScene extends Phaser.Scene {
   
   if (typeof this.actionMenu.showMenu !== 'function') {
   } 
+    populateDungeon(this); // Call populateDungeon to add the Red Cent
+
 }
 
 handlePreviousMenu() {
@@ -722,12 +724,18 @@ goUpStairs() {
     this.transitioning = false;
   });
 }
-
+addEntity(entity) {
+  this.entities.push(entity);
+  // If the entity is a sprite or visual object, you could add it to the scene
+  if (entity.sprite) {
+    this.add.existing(entity.sprite);  // Adds the entity to the scene
+  }
+}
 
 loadLevel() {
 
- 
-      this.generateDungeon(); // Generate new dungeon
+  
+  this.generateDungeon(); // Generate new dungeon
  
 
 
@@ -1765,28 +1773,7 @@ createStairsAtPosition(x, y, type) {
   this.stairPositions.add(`${x},${y}`);
 }
 }
-// Function to place a gold coin randomly within one of the rooms
-placeGoldCoin(rooms) {
-  const randomRoom = Phaser.Utils.Array.GetRandom(rooms);
 
-  // Pick a random position inside the room
-  const coinX = Phaser.Math.Between(randomRoom.x, randomRoom.x + randomRoom.width - 1);
-  const coinY = Phaser.Math.Between(randomRoom.y, randomRoom.y + randomRoom.height - 1);
-
-  // Create the gold coin sprite at the random position
-  const coin = this.add.sprite(
-      coinX * this.tileSize + this.tileSize / 2,
-      coinY * this.tileSize + this.tileSize / 2,
-      'goldCoin'
-  );
-
-  // Make the coin interactive for pickup
-  coin.setInteractive();
-  coin.on('pointerdown', () => {
-      coin.destroy(); // Destroy the coin after being collected
-  });
-
-}
 drawMap() {
   // Clear previous tiles first
   this.tiles.clear(true, true);

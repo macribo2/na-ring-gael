@@ -26,7 +26,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
   // Method to show the inventory menu
   showOther() {
-    this.setVisible(true);
+    this.setVisible(true).setAlpha(1);
   }
 
   // Method to hide the inventory menu
