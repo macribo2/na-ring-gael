@@ -194,6 +194,17 @@ updateOptionDisplay() {
       this.optionTextEn.setVisible(this.isEnglish);
     }
 
+    // Store previous chat visibility state
+    const wasChatVisible = this.isChatVisible;
+
+    // Update visibility flags based on the option counter
+    this.isInventoryVisible = (this.optionCounter === 0);
+    this.isCharacterVisible = (this.optionCounter === 1);
+    this.isLogVisible = (this.optionCounter === 2);
+    this.isChatVisible = (this.optionCounter === 3);
+    this.isSettingsVisible = (this.optionCounter === 4);
+    this.isOtherVisible = (this.optionCounter === 5);
+
     // Determine which menu to show based on optionCounter
     let newMenuToShow = null;
     switch (this.optionCounter) {
@@ -206,19 +217,20 @@ updateOptionDisplay() {
 
     // Find the currently active menu
     let currentVisibleMenu = null;
-    if (this.isInventoryVisible) currentVisibleMenu = this.inventoryMenu;
-    else if (this.isCharacterVisible) currentVisibleMenu = this.characterMenu;
-    else if (this.isLogVisible) currentVisibleMenu = this.questMenu;
-    else if (this.isChatVisible) currentVisibleMenu = this.chatMenu;
-    else if (this.isSettingsVisible) currentVisibleMenu = this.settingsMenu;
+    if (this.isInventoryVisible && this.optionCounter !== 0) currentVisibleMenu = this.inventoryMenu;
+    else if (this.isCharacterVisible && this.optionCounter !== 1) currentVisibleMenu = this.characterMenu;
+    else if (this.isLogVisible && this.optionCounter !== 2) currentVisibleMenu = this.questMenu;
+    else if (this.isChatVisible && this.optionCounter !== 3) currentVisibleMenu = this.chatMenu;
+    else if (this.isSettingsVisible && this.optionCounter !== 4) currentVisibleMenu = this.settingsMenu;
 
-    // Update visibility flags based on the option counter
-    this.isInventoryVisible = (this.optionCounter === 0);
-    this.isCharacterVisible = (this.optionCounter === 1);
-    this.isLogVisible = (this.optionCounter === 2);
-    this.isChatVisible = (this.optionCounter === 3);
-    this.isSettingsVisible = (this.optionCounter === 4);
-    this.isOtherVisible = (this.optionCounter === 5);
+    // Handle chat activation/deactivation specially
+    if (!wasChatVisible && this.isChatVisible) {
+      // Chat wasn't visible but should be now - call showChat
+      this.chatMenu.showChat();
+    } else if (wasChatVisible && !this.isChatVisible) {
+      // Chat was visible but should be hidden now
+      this.chatMenu.hideChat();
+    }
 
     // First time showing a menu
     if (!currentVisibleMenu && newMenuToShow) {
@@ -230,6 +242,11 @@ updateOptionDisplay() {
       this.scene.tweens.killTweensOf(currentVisibleMenu);
       this.scene.tweens.killTweensOf(newMenuToShow);
       this.crossfadeMenus(currentVisibleMenu, newMenuToShow);
+      
+      // If we're transitioning to the chat menu, also call showChat
+      if (newMenuToShow === this.chatMenu && !wasChatVisible) {
+        this.chatMenu.showChat();
+      }
     }
   }
 }

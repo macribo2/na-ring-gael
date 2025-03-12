@@ -15,25 +15,31 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     }
 
     this.add([this.background]);
-   // Positioning the inventory in the upper right quadrant
-   let gridX = scene.cameras.main.width * 0.65; // Right side
-   let gridY = scene.cameras.main.height * 0.25; // Upper half
+   
+   let gridX = scene.cameras.main.width * 0.1;
+   let gridY = scene.cameras.main.height * 0.2;
 
     // Grid properties
-    this.slotSize = 32;
+    this.slotSize = 48;
     this.rows = 3;
-    this.cols = 4;
+    this.cols = 5;
     this.slots = []; // Store slot backgrounds for reference
+    let lightTea = Phaser.Display.Color.GetColor(210, 180, 140); // Opaque Tea-Stained Beige
+    let darkTea = Phaser.Display.Color.GetColor(139,101,69)
 
-    // Create inventory slots (12 total)
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        let x = scene.cameras.main.centerX - (this.cols / 2) * this.slotSize + col * this.slotSize;
-        let y = scene.cameras.main.centerY - (this.rows / 2) * this.slotSize + row * this.slotSize;
+  // Top-left offset (adjust as needed)
+let startX = scene.cameras.main.width * 0.25; // Small margin from left
+let startY = scene.cameras.main.height * 0.28; // Small margin from top
 
-        let slot = scene.add.rectangle(x, y, this.slotSize, this.slotSize, 0x444444)
-          .setDepth(1001)
-          .setStrokeStyle(1, 0xffffff).setScrollFactor(0);
+// Create inventory slots (12 total)
+for (let row = 0; row < this.rows; row++) {
+  for (let col = 0; col < this.cols; col++) {
+    let x = startX + col * this.slotSize;
+    let y = startY + row * this.slotSize;
+
+        let slot = scene.add.rectangle(x, y, this.slotSize, this.slotSize, darkTea)
+        .setDepth(1001)
+        .setStrokeStyle(1, lightTea).setAlpha(0.3).setScrollFactor(0);
         this.slots.push(slot);
         this.add(slot);
       }
@@ -76,6 +82,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
   hideInventory() {
     this.setVisible(false);
+    this.background.setAlpha(0)
   }
 }
 

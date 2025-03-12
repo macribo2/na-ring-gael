@@ -24,8 +24,7 @@ class SettingsMenu extends Phaser.GameObjects.Container {
       })
       .setInteractive()
       .setDepth(10000)
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
+      .setOrigin(0, 0).setAlpha(1).setScrollFactor(0)
       .setScale(1 / zoomLevel)
       .on('pointerdown', () => {
         if (this.scene.scale.isFullscreen) {
@@ -64,6 +63,7 @@ class SettingsMenu extends Phaser.GameObjects.Container {
   hideSettings() {
     this.setVisible(false);
     this.background.setAlpha(0);
+    this.fullscreenButton.setAlpha(0)
   }
 }
 
