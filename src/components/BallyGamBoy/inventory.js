@@ -1,10 +1,9 @@
 export class Inventory {
   constructor(size = 10) {
-    this.size = size; // Maximum number of items in inventory
-    this.items = [];  // List of items in inventory
+    this.size = size;
+    this.items = []; // Stores objects like { name: 'Red Cent', texture: 'redCent', slot: 4 }
   }
 
-  // Add an item to the inventory
   addItem(item) {
     if (this.items.length < this.size) {
       this.items.push(item);
@@ -14,22 +13,13 @@ export class Inventory {
     }
   }
 
-  // Remove an item from the inventory
   removeItem(item) {
-    const index = this.items.indexOf(item);
+    const index = this.items.findIndex(i => i.name === item.name);
     if (index !== -1) {
       this.items.splice(index, 1);
       console.log(`${item.name} removed from inventory.`);
     } else {
       console.log(`${item.name} is not in the inventory.`);
     }
-  }
-
-  // Display the current inventory
-  showInventory() {
-    console.log("Current Inventory:");
-    this.items.forEach(item => {
-      console.log(`- ${item.name}`);
-    });
   }
 }

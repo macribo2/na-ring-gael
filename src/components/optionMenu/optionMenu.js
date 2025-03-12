@@ -122,7 +122,7 @@ this.optionTextEn = scene.add.text(scene.scale.width/2,scene.scale.height*0.3+20
       scene.cameras.main.centerX, 
       scene.cameras.main.centerY, 
       'other'
-    ).setDepth(2000).setScrollFactor(0).setAlpha(0);
+    ).setDepth(900).setScrollFactor(0).setAlpha(0);
  
     
     this.add([ this.wheel,  this.optionTextGa, this.optionTextEn]);
@@ -448,7 +448,7 @@ updateControlSquareScale() {
 }
 showMenu(menuKey) {
   if (this.background) {
-    this.background.setAlpha(1).setVisible(true);
+    this.background.setAlpha(0).setVisible(true);
   }
   this.previousZoom = this.scene.cameras.main.zoom;
   this.scene.cameras.main.setZoom(1.5);
@@ -473,7 +473,7 @@ showMenu(menuKey) {
   this.createSpokes(menuData.options);
 
   // Set high depth values for all menu components
-  const baseDepth = 10000; // Higher than your background graphics
+  const baseDepth = 10000; 
   this.setDepth(baseDepth);
   this.wheel.setDepth(baseDepth + 1);
   this.optionTextGa.setDepth(baseDepth + 2);
@@ -508,13 +508,13 @@ showMenu(menuKey) {
   this.optionTextGa.setVisible(true);
   this.optionTextEn.setVisible(this.isEnglish);
 
-  // Ensure background visibility is handled correctly (if needed)
   if (this.background) {
     this.background.setAlpha(1);
   }
 
   // Optional: ensure menu input has priority
   this.scene.input.setTopOnly(true);
+  this.showInventoryMenu()
 }
 
 hideMenu() {
@@ -537,7 +537,7 @@ hideMenu() {
       this.setVisible(false); // Hide all components
       this.optionTextGa.setVisible(false);
       this.optionTextEn.setVisible(false);
-      this.background.setAlpha(0); // Hide background
+      this.background.setAlpha(0); 
 
       // Optional: ensure menu input no longer has priority
       this.scene.input.setTopOnly(false);

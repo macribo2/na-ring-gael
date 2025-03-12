@@ -45,15 +45,22 @@ export default function populateDungeon(dungeon) {
 
     if (player) {
         dungeon.physics.add.overlap(
-            player.sprite,           // Player sprite
-            redCent.sprite,          // Red Cent sprite
-            () => {                  // Callback on overlap
-                alert("You have collided with the Red Cent!");
+            player.sprite,        
+            redCent.sprite,       
+            () => {               
+                if (!redCent.pickedUp) {  // ✅ Prevent multiple pickups
+                    redCent.pickedUp = true;
+                    console.log("Before pickup:", player.inventory.items);
+                    redCent.pickup(player);
+                    console.log("After pickup:", player.inventory.items);
+                    
+                    // Optional: Remove Red Cent after pickup
+                    redCent.sprite.destroy();
+                }
             },
             null,
             dungeon
         );
-    } else {
-        console.warn("No player found in the dungeon.");
     }
+    
 }

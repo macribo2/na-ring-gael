@@ -41,17 +41,25 @@ export class Item extends GameEntity {
     this.name = name;
     this.description = description;
   }
-
-  // Pick up the item
   pickup(player) {
-    console.log(`${player.name} picked up ${this.name}`);
-    player.addToInventory(this);
+    if (!this.pickedUp) {  // ✅ Prevent multiple pickups
+        this.pickedUp = true;
+        super.pickup(player);  // ✅ Only call the parent method once
+        console.log(`${player.name} picked up a Red Cent.`);
+    }
+}
+
+  // Override the use method for when the Red Cent is used
+  use(player) {
+    super.use(player);
+    console.log(`${player.name} used a Red Cent. Nothing special happens.`);
   }
 
-  // Use the item (for now, it just prints the item's name)
-  use(player) {
-    console.log(`${player.name} used ${this.name}`);
-    // Define behavior for item use here
+  // Override the drop method for dropping the Red Cent
+  drop(player) {
+    super.drop(player);
+    player.removeFromInventory(this);  // Remove the Red Cent from the player's inventory
+    console.log(`${player.name} dropped the Red Cent.`);
   }
 }
 export class PlayerEntity extends GameEntity {
@@ -79,11 +87,19 @@ export class PlayerEntity extends GameEntity {
     });
   }
 
-  // Add an item to the player's inventory
   addToInventory(item) {
-    this.inventory.push(item);
-    console.log(`${this.name} added ${item.name} to their inventory.`);
-  }
+    if (this.inventory.items.length < this.inventory.size) {
+        this.inventory.addItem(item);
+        console.log(`${item.name} added to inventory.`);
+
+        // ✅ Update the inventory menu
+        if (this.inventoryMenu) {
+            this.inventoryMenu.updateInventory();
+        }
+    } else {
+        console.log("Inventory full. Cannot pick up item.");
+    }
+}
 
   // Check for nearby items and interact with them
   interactWithItems() {
@@ -206,7 +222,7 @@ export class RedCent extends Item {
     );
     
     // Add visual representation for the Red Cent
-    this.sprite = this.scene.add.sprite(x, y, 'cent_texture').setDepth(9000);
+    this.sprite = this.scene.add.sprite(x, y, 'redCent').setDepth(9000);
     
     // Enable physics for the sprite
     this.scene.physics.world.enable(this.sprite);

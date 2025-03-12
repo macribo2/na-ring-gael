@@ -327,7 +327,9 @@ setTimeout(() => {
 
 
   preload() {
+    this.load.audio('coin', '/phaser-resources/audio/coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
+    this.load.image('redCent', '/phaser-resources/images/items/redCent.png');
     this.load.image('character', '/phaser-resources/images/placeholders/log0.png');
     this.load.image('settings', '/phaser-resources/images/placeholders/log1.png');
     this.load.image('chat', '/phaser-resources/images/placeholders/log2.png');
@@ -737,13 +739,17 @@ loadLevel() {
   
   this.generateDungeon(); // Generate new dungeon
  
-
-
-  // Clear previous level entities INCLUDING OLD STAIRS
-  this.tiles.clear(true, true);
-  this.entities.forEach(e => e.destroy());
-  this.entities = [];
-
+// Clear previous level entities INCLUDING OLD STAIRS
+this.tiles.clear(true, true);
+this.entities.forEach(e => {
+    if (e && typeof e.destroy === 'function') {
+        e.destroy();
+    } else {
+        console.warn("Tried to destroy an entity without a destroy method:", e);
+    }
+});
+this.entities = [];
+  
  // Destroy old stairs explicitly (only if they have sprites)
 if (this.stairs.down && this.stairs.down.sprite) {
   this.stairs.down.sprite.destroy();
