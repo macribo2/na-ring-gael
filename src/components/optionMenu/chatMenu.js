@@ -37,7 +37,7 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.htmlContainer.style.left = "50%";
       this.htmlContainer.style.transform = "translate(-50%, -50%)";
       this.htmlContainer.style.zIndex = "9999"; // Above Phaser canvas
-      this.htmlContainer.style.display = "none";
+      this.htmlContainer.style.display = "block";
       this.htmlContainer.style.height = "100%"; 
       this.htmlContainer.style.width = "100%"; 
 
@@ -51,28 +51,43 @@ class ChatMenu extends Phaser.GameObjects.Container {
     }
   
   }
+  // In your ChatMenu class, add these methods:
 
-  showChat() {
-    if (this.background) {
-      this.background.setVisible(true).setAlpha(1);
-    }
-    this.setVisible(false);
-
+show() {
+  // Show the ChatMenu
+  this.setVisible(true);
   
+  // Show the HTML container
+  if (this.htmlContainer) {
+    this.htmlContainer.style.display = "block";
   }
-
-  hideChat() {
-    this.setVisible(false);
-    if (this.background) {
-      this.background.setAlpha(0);
-    }
-
-    // Hide the HTML container
-    if (this.htmlContainer) {
-      this.htmlContainer.style.display = "none";
-      ReactDOM.unmountComponentAtNode(this.htmlContainer);
-    }
+  
+  // Fade in the background if it exists
+  if (this.background) {
+    this.background.setAlpha(0);
+    this.scene.tweens.add({
+      targets: this.background,
+      alpha: 1,
+      duration: 200
+    });
   }
+}
+
+hide() {
+  // Hide the ChatMenu
+  this.setVisible(false);
+  
+  // Hide the HTML container
+  if (this.htmlContainer) {
+    this.htmlContainer.style.display = "none";
+  }
+  
+  // Fade out the background if needed
+  if (this.background) {
+    this.background.setAlpha(0);
+  }
+}
+
 }
 
 export default ChatMenu;

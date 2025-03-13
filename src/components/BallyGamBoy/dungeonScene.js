@@ -238,8 +238,6 @@ closeOptionMenu() {
 
  // if (this.actionMenuActive) return; // Don't open this menu if the ActionMenu is active
  this.optionMenu.hideMenu();
-// this.optionMenu.setVisible(false)
-this.optionMenu.spokesContainer.removeAll(true);
 
 
 }
