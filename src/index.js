@@ -28,6 +28,7 @@ import GenericLocation from './components/GenericLocations/generic-locations';
 import {Rings4} from './components/Rings/Rings4';
 import {Rings5} from './components/Rings/Rings5';
 import {fenianBranches} from './components/Rings/fenianBranches';
+import Easca from './components/easca/easca2';
 
                
 const ChessLikeWrapper = () => {
@@ -58,6 +59,14 @@ const ChessLikeWrapper = () => {
     <>
       <PlayerProvider>
         <Switch>
+        <Route path="/easca" render={() => (
+            <>
+              <Easca />
+              {shouldRefresh && <Easca />}
+            </>
+
+          )}
+           />
         <Route path="/pucachase0" render={() => (
             <>
               <PucaChase0 />

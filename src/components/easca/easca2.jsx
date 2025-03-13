@@ -383,9 +383,7 @@ handleSend = () => {
 
     return (
       <>
-        <div className="bg-container">
-          <img src={consoleBg} alt="stone frame" id="console-bg" />
-        </div>
+     
         <textarea
   ref={this.textareaRef} // Assign the ref to the textarea
   spellCheck={false}
@@ -449,6 +447,10 @@ handleSend = () => {
             ))}
           </div>
         )}
+     
+     {/* <div className="bg-container">
+          <img src={consoleBg} alt="stone frame" id="console-bg" />
+        </div> */}
       </>
     );
   }

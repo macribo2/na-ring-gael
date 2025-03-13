@@ -1,379 +1,104 @@
-
-
-
-
+/* easca.css - Ink Sketch Style */
 @font-face {
-	font-family: aonchlo;
-	src: url(../../fonts/aonchlo.ttf);
+    font-family: 'aonchlo';
+    src: url('../../fonts/aonchlo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+  
+/* Base Keyboard Container */
+body .hg-theme-default {background: transparent !important;
+width: 72% !important;
+left: 0 !important;
+padding: 1.5% !important;
+position: fixed;
+top: 16%;
+}
+  
+  /* Individual Keys */
+  body .hg-theme-default .hg-button {
+	background: rgba(123, 90, 70, 0.15) !important; /* Faint ink wash */
+	border: 2px solid rgba(94, 72, 52, 0.4) !important; /* Ink line */
+	border-radius: 12px !important; /* Rounded edges */
+	color: rgba(60, 45, 30, 0.85) !important; /* Dark ink color */
+	font-family: 'aonchlo';
+	font-size: 2rem !important;
+	text-align: center !important;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: 
+	  0 2px 4px rgba(0, 0, 0, 0.05),
+	  inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+	transition: all 0.15s ease-out;
+	margin: 0.25rem !important;
+	min-width: 3.5rem !important;
+	height: 4rem !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
   }
   
-@font-face {
-	font-family: info;
-	src: url(../../fonts/INFO56_0.ttf);
+  /* Key Press Effect */
+  body .hg-button:active {
+	background: rgba(123, 90, 70, 0.25) !important;
+	transform: translateY(1px) scale(0.98) !important;
+	box-shadow: 
+	  0 1px 2px rgba(0, 0, 0, 0.05),
+	  inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
   }
   
-/* *{
-	background-color:black;} */
-	.button-group{
-		margin:0 !important;
-		align-content: center;
-	}
-	
-	@font-face { 
-		font-family: 'Urchlo Romhanach'; src: url('../../fonts/urchlo.ttf'); 
-	} 
-
-	#hero-says{
-
-		
-		font-size: 1.4em;
-		color: black;
-		position: fixed;
-		/* border: 5px solid green; */
-		width: 80%;
-		left: 10%;
-		top: 5%;
-		height:45%;
-		font-family: "Verdana", cursive, sans-serif;
-	
-	}
-	.btn{
-
-		display: block;
-		width: 100%;
-		/* margin:2px; */
-		border-radius:10px;
-padding-top:1%;
-padding-bottom:1%;		
-			margin:2px !important;
-	font-size: 1.5em !important;
-	background-color: rgb(69, 51, 72) !important;
-	color: goldenrod !important;
-border:1px solid black !important;	  
-		
-	}
-	
-.btn-right {
-	font-size: 1.7rem;
-
-  /* border:3px solid#c469db9c; */
-  /* padding-right:8px !important;  */
-  /* border:2px solid #c469db */
-
-  /* color: rgb(255, 227, 255); */
-
-}
-
-
-	#keyboard-container, #caps-keyboard-container, #fada-mode,#new-buttons{
-pointer-events: all;
-		
-	}
-	/* #fada-mode{display:none;} */
-	#e-line, #f-line , #a-line, #c-line, #shift-line{
-		/* border:2px solid orange; */
-		width:100%;
-		display:flex;
-	}
-	
-	#shift-line{
-		bottom:4%;
-		transform: scale(0.7);
-	}
-
-	#backspace{
-		
-		left:10px;
-		width:50px;
-	}
-	
-	.z-line{
-		
-		margin-left:2% !important;
-	}
-	
-	
-	
-	#j-line{
-		z-index: 910000;
-		/* border:4px solid blue; */
-display: flex;
-justify-content: flex-end;
-position: relative;
-width:400px;
-top: 60%;
-
-		
-	}
-	
-	
-
-	.btn-left-logo{
-		/* background-color:#c469db; */
-	
-		/* color: rgb(255, 227, 255); */
-		/* border:3px solid orange; */
-		/* padding-left:8px !important;  */
-		-webkit-animation: bounce 2.2s ease-out forwards;
-		-moz-animation: bounce 1600ms ease-out forwards;
-		-o-animation: bounce 1600ms ease-out forwards;
-		animation: bounce 2.2s ease-out forwards;
-	 
-	}
-	#keyboard-container{
-
-		position:fixed;
-		display:inline-block;
-		align-content: center;
-		text-align: center;
-		height:50%;
-		left:0;
-		top:67%;
-		width:100%;
-		z-index: 3500;
-	}
-	
-	
-
-	.hidden{display: none !important;}
-
-
-#exit-easca{
-	color:rgb(122, 33, 74)
-}
-
-/* developing an algorithm generator? */
-
-.hg-theme-default{
-    background-color: black;
-    border-radius: 5px;
-    box-sizing: border-box;
-    overflow: hidden;
-    /* padding: 5px; */
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-    top: 61%;
-    position: fixed;
-	z-index: 9000;
-
-}
-
- .hg-button, .hg-layout-easca.hg-rows,
-.hg-theme-default,.hg-standardBtn{	
-	background-color: rgba(4, 4, 4,0) !important;
-
-}
-.hg-button, .hg-button.hg-button {
-	background-color: rgb(52, 12, 89) !important;
-	color: aliceblue !important;
+  /* Special Characters */
+  body .hg-button[data-skbtn^="{"] {
+	font-size: 1.8rem !important;
+	color: rgba(80, 60, 45, 0.9) !important;
   }
-  .hg-button span {
-    color: aliceblue !important;
-}
-.react-simple-keyboard{
-	top: 42%;
-	left: 2.5%;
-	width: 95% !important;
-
-}
-
-.easca-input{
-    top: 8%;
-    position: fixed;
-    z-index: 99999;
-    width: 96%;
-    height: 33%;
-    left: 4%;
-    text-align: left;
-    font-size: 2em;
-    background-color: rgba(0,0,0,0);
-    font-family: info;
-	color:greenyellow
-
-}
-
-
-
-
-.bg-container{
-
-	align-content: center;
-	justify-content: center;
-	position: fixed;
-	height: 100%;
-	width: 100%;
+  
+  /* Spacebar */
+  body .hg-button[data-skbtn="{space}"] {
+	min-width: 45% !important;
+	border-style: dashed !important;
+  }
+  
+  /* Text Input Field */
+  .easca-input {
+	position:fixed;
 	top:0;
 	left:0;
-	display: grid;
-	position: fixed;
-	z-index: 999;
-	pointer-events: auto;
-}
-
-#console-bg{
-	background-size: contain;
-
-	pointer-events: none;
-	z-index: 15;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 110%;
-	max-width: 100%; 
-	max-height: 100%; 
 	width:100%;
-}
-
-
+	color: rgba(70, 50, 35, 0.9) !important;
+	font-size: 2.2rem !important;
+	letter-spacing: -0.5px;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	background: transparent !important;
+	padding:2%;
+  }
   
-	.hg-button, .hg-standardBtn{
-		
-		font-size: 1.5em;
+  /* Options Menu */
+  .options-menu button {
+	background: rgba(245, 235, 220, 0.95) !important;
+	border: 2px solid rgba(94, 72, 52, 0.4) !important;
+	border-radius: 8px !important;
+	font-size: 1.8rem !important;
+	padding: 0.5rem 1rem !important;
+  }
+  
+  /* Mobile Optimization */
+  @media (max-width: 768px) {
+	body .hg-theme-default .hg-button {
+	  font-size: 1.6rem !important;
+	  height: 3.5rem !important;
+	  min-width: 3rem !important;
+	  border-radius: 10px !important;
+	}
 	
-	}
-
-	.react-simple-keyboard .hg-theme-default .hg-button {
-		color: red !important; /* Change this to your desired text color */
-	  }
-
-	  .long-press-options {
-		position: absolute;
-		background: white;
-		border: 1px solid #ccc;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-		display: flex;
-		flex-direction: column;
-	  }
-	  
-
-
-
-	  .options-menu {
-		position: absolute; /* Position it absolutely for better control */
-		left: 50px; /* Adjust based on your layout */
-		background-color: rgba(255, 255, 255, 0.9);
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		padding: 10px;
-		z-index: 9999; /* Ensure it appears above other elements */
-
-		
-	  }
-	  
-	  .options-menu button {
-		margin: 5px;
-	  }
-	  .options-menu {
-		display: flex;
-		justify-content: center; /* Center the buttons horizontally */
-		position: absolute; /* Position it absolutely */
-		top: 50%; /* Adjust this as needed */
-		left: 35%; /* Centering the menu */
-		z-index: 9900; /* Make sure it appears above other elements */
-		height:50px;
-		background-color: rgba(0,0,0,0);
-		border: none;
-	  }
-	  
-	  .options-menu button {
-		background-color: rgb(156, 6, 194); /* Dark blue background */
-		color: rgb(255, 240, 255); /* Pale text color */
-		border: none; /* Remove default border */
-		border-radius: 5px; /* Optional: add rounded corners */
-		padding: 10px 15px; /* Adjust padding for button size */
-		margin: 0 5px; /* Space between buttons */
-		cursor: pointer; /* Pointer cursor on hover */
-		transition: background-color 0.3s; /* Smooth transition for hover effect */
-	height: 40px;
-	width:60px;  
-	}
-	  
-	  .options-menu button:hover {
-		background-color: lightblue; /* Optional: change color on hover */
-	  }
-	  
-
-	  /* easca.css */
-
-.button-animation {
-	animation: bright-fade 0.5s ease forwards;
-  }
-  
-  @keyframes bright-fade {
-	0% {
-	  filter: brightness(1);
-	}
-	50% {
-	  filter: brightness(1.5); /* Brighten the button */
-	}
-	100% {
-	  filter: brightness(1); /* Fade back to original */
+	.easca-input {
+	  font-size: 1.8rem !important;
 	}
   }
-  
 
-  .options-menu {
-	transition: opacity 0.5s ease-out;
+  #console-bg{
+	display:none;
   }
-  
-  .options-menu.fade-out {
-	opacity: 0;
-  }
-  .easca-input {
-	cursor: text; /* Ensures the cursor changes to text (I-beam) over the input */
-  }
-  
-  .easca-input::placeholder {
-	/* Custom styling for the placeholder cursor */
-	color: grey;
-  }
-  
-  .easca-input:focus {
-	border-color: #4A90E2; /* Custom border when focused */
-	outline: none;
-	caret-color: lime; /* Change the color of the caret (blinking cursor) */
-  }
-	
-  .easca-input {
-	caret-shape:block;
-	caret-color: lime; /* Customize the color of the caret (blinking cursor) */
-	font-family: monospace; /* Optional: Set font to make the cursor stand out */
-  }
-  .simple-keyboard .hg-button.pressed {
-	transition: border 0.3s ease;
-  }
-  
-  .simple-keyboard .hg-button.pressed {
-	border: 3px solid rgb(251, 255, 28);
-  }
-	
-  .hg-button {
-	/* Your existing button styles */
-	flex: 1 !important; /* Default button width */
-  }
-  .hg-button[data-skbtn="{space}"] {
-	flex: 2 !important; /* Make the space button twice as wide */
-  }
-/* Easca-specific Flashing Key Style */
-@keyframes flash {
-	0% {
-	  opacity: 1;
-	}
-	50% {
-	  opacity: 0.5;
-	}
-	100% {
-	  opacity: 1;
-	}
-  }
-  
-  /* Class to apply flashing to ls key */
-  .flash-ls {
-	animation: flash 1s infinite;  /* Flashes every second */
+  .bg-container{
+	display: none;;
   }

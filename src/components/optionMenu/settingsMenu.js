@@ -11,7 +11,7 @@ class SettingsMenu extends Phaser.GameObjects.Container {
         scene.cameras.main.centerX, 
         scene.cameras.main.centerY, 
         'settings'
-      ).setDepth(10000).setScrollFactor(0);
+      ).setDepth(1000).setScrollFactor(0);
 
       const zoomLevel = scene.cameras.main.zoom;
 
@@ -23,7 +23,7 @@ class SettingsMenu extends Phaser.GameObjects.Container {
         padding: { x: 10, y: 5 }
       })
       .setInteractive()
-      .setDepth(10000)
+      .setDepth(2000)
       .setOrigin(0, 0).setAlpha(1).setScrollFactor(0)
       .setScale(1 / zoomLevel)
       .on('pointerdown', () => {
@@ -38,6 +38,8 @@ class SettingsMenu extends Phaser.GameObjects.Container {
 
       // Ensure correct label on start
       if (scene.scale.isFullscreen) {
+        this.fullscreenButton.setText('Gnáthscáileán'); // Make sure it starts correctly
+      } else {
         this.fullscreenButton.setText('Lánscálán');
       }
     }
@@ -57,13 +59,23 @@ class SettingsMenu extends Phaser.GameObjects.Container {
     if (this.background) {
       this.background.setVisible(true).setAlpha(1);
     }
+
+    // Make sure the fullscreen button is visible and reset its alpha to 1 (fully visible)
+    this.fullscreenButton.setVisible(true).setAlpha(1);
+
+    // Ensure correct fullscreen button state when returning to settings
+    if (this.scene.scale.isFullscreen) {
+      this.fullscreenButton.setText('Gnáthscáileán');
+    } else {
+      this.fullscreenButton.setText('Lánscálán');
+    }
   }
 
   // Method to hide settings menu
   hideSettings() {
     this.setVisible(false);
     this.background.setAlpha(0);
-    this.fullscreenButton.setAlpha(0)
+    this.fullscreenButton.setAlpha(0); // Ensure fullscreen button is hidden when hiding the settings menu
   }
 }
 

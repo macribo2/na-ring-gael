@@ -15,16 +15,13 @@ class ChatMenu extends Phaser.GameObjects.Container {
         .setScrollFactor(0).setAlpha(0);
     }
 
+    // this.add([this.background]);
+
     // Initially hidden
     this.setVisible(false);
 
-    // Create an HTML container for Easca but don't render yet
+    // Create an HTML container for Easca
     this.createHtmlContainer(scene);
-
-    // Make sure the container is initially hidden
-    if (this.htmlContainer) {
-      this.htmlContainer.style.display = "none";
-    }
 
     scene.add.existing(this);
   }
@@ -40,66 +37,40 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.htmlContainer.style.left = "50%";
       this.htmlContainer.style.transform = "translate(-50%, -50%)";
       this.htmlContainer.style.zIndex = "9999"; // Above Phaser canvas
-      this.htmlContainer.style.display = "none"; // Initially hidden
+      this.htmlContainer.style.display = "none";
       this.htmlContainer.style.height = "100%"; 
       this.htmlContainer.style.width = "100%"; 
 
       document.body.appendChild(this.htmlContainer);
     }
+    try {
+      ReactDOM.render(<Easca />, this.htmlContainer);
+      console.log("Easca rendered");
+    } catch (e) {
+      console.error("Error rendering Easca:", e);
+    }
+  
   }
 
   showChat() {
-    this.setVisible(true); // Make the container visible
     if (this.background) {
       this.background.setVisible(true).setAlpha(1);
     }
-    
-    // Show and render Easca with fade-in effect
-    if (this.htmlContainer) {
-      // Make container visible but transparent
-      this.htmlContainer.style.display = "block";
-      this.htmlContainer.style.opacity = "0";
-      
-      // Render Easca
-      try {
-        ReactDOM.render(<Easca />, this.htmlContainer);
-        console.log("Easca shown");
-        
-        // Fade in effect
-        let opacity = 0;
-        const fadeInterval = setInterval(() => {
-          opacity += 0.05;
-          this.htmlContainer.style.opacity = opacity.toString();
-          
-          if (opacity >= 1) {
-            clearInterval(fadeInterval);
-          }
-        }, 20);
-      } catch (e) {
-        console.error("Error showing Easca:", e);
-      }
-    }
+    this.setVisible(false);
+
+  
   }
 
   hideChat() {
+    this.setVisible(false);
     if (this.background) {
       this.background.setAlpha(0);
     }
-    this.setVisible(false);
 
-    // Fade out and hide the HTML container
+    // Hide the HTML container
     if (this.htmlContainer) {
-      let opacity = parseFloat(this.htmlContainer.style.opacity) || 1;
-      const fadeInterval = setInterval(() => {
-        opacity -= 0.05;
-        this.htmlContainer.style.opacity = opacity.toString();
-        
-        if (opacity <= 0) {
-          clearInterval(fadeInterval);
-          this.htmlContainer.style.display = "none";
-          ReactDOM.unmountComponentAtNode(this.htmlContainer);
-        }
-      }, 20);
+      this.htmlContainer.style.display = "none";
+      ReactDOM.unmountComponentAtNode(this.htmlContainer);
     }
   }
 }

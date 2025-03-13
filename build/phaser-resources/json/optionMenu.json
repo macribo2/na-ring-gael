@@ -2,7 +2,7 @@
   "optionsMenu": {
     "options": [
       {"optionGa": "Trealamh", "optionEn": "equipment"},
-      {"optionGa": "Carachtéir", "optionEn": "character"},
+      {"optionGa": " ", "optionEn": "character"},
       {"optionGa": "Logleabhair", "optionEn": "logbook"},
       {"optionGa": "Cainnte", "optionEn": "speech"},
       {"optionGa": "Roghachlár", "optionEn": "options menu"}
