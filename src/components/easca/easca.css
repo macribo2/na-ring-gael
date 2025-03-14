@@ -18,11 +18,11 @@ top: 16%;
   
   /* Individual Keys */
   body .hg-theme-default .hg-button {
-	background: rgba(123, 90, 70, 0.15) !important; /* Faint ink wash */
+	font-family: 'aonchlo', sans-serif !important;
+	background: rgba(21, 19, 17, 0.15) !important; /* Faint ink wash */
 	border: 2px solid rgba(94, 72, 52, 0.4) !important; /* Ink line */
 	border-radius: 12px !important; /* Rounded edges */
 	color: rgba(60, 45, 30, 0.85) !important; /* Dark ink color */
-	font-family: 'aonchlo';
 	font-size: 2rem !important;
 	text-align: center !important;
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);

@@ -3,7 +3,7 @@ import './easca.css';
 import consoleBg from '../../images/mapFrame2.png';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
-
+import '../../fonts/aonchlo.ttf';
 export default class Easca extends React.Component {
   constructor() {
     super();
@@ -31,6 +31,7 @@ export default class Easca extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('showEasca', this.handleShowEasca);
@@ -58,16 +59,18 @@ export default class Easca extends React.Component {
 
     }
   }
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
     window.removeEventListener('showEasca', this.handleShowEasca);
+    window.removeEventListener('touchstart', this.handleTouchStart);
+    window.removeEventListener('touchend', this.handleTouchEnd);
+  
+    if (this.hideOptionsTimer) {
+      clearTimeout(this.hideOptionsTimer);
+    }
   }
-
-  handleShowEasca = () => {
-    this.setState({ showEasca: true });
-  };
+  
 
   handleKeyDown = (e) => {
     // Mark the key as being held down for key events
@@ -103,21 +106,16 @@ handleTouchEnd = (button) => {
     clearTimeout(this.holdTimer);
     this.holdTimer = null;
 
-    this.setState(prevState => ({
-      input: prevState.input + button
-    }));
+    if (!this.state.showOptions) {
+      this.setState((prevState) => ({
+        input: prevState.input + button
+      }));
+    }
   }
   this.keyHeld[button] = false;
 };
-  
 
-  onTouchEnd = (button) => {
-    // Call the touch end handler for touch devices
-    if (this.isTouchDevice()) {
-      this.handleTouchEnd(button);
-    }
-  };
-  
+
   // Utility function to detect if the user is on a touch device
   isTouchDevice = () => {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -146,8 +144,11 @@ handleTouchEnd = (button) => {
   
 
   
-  onTouchEnd = () => {
-    alert();
+  onTouchEnd = (button) => {
+    // Call the touch end handler for touch devices
+    if (this.isTouchDevice()) {
+      this.handleTouchEnd(button);
+    }
     // Clear the hold timer when touch ends (button is released before 1 second)
     if (this.holdTimer) {
       clearTimeout(this.holdTimer);
@@ -173,6 +174,7 @@ handleOptionClick = (option) => {
   };
   
   showOptionsMenu = (button) => {
+    if (!this._isMounted) return;
     let options = [];
   
     switch (button) {
@@ -242,15 +244,7 @@ handleOptionClick = (option) => {
     }
   };
   
-  // Ensure the timer is cleared when the component unmounts to prevent memory leaks
-  componentWillUnmount() {
-    if (this.hideOptionsTimer) {
-      clearTimeout(this.hideOptionsTimer);
-    }
-    window.removeEventListener('keydown', this.handleKeyDown);
-    window.removeEventListener('keyup', this.handleKeyUp);
-    window.removeEventListener('showEasca', this.handleShowEasca);
-  }
+
   
 
   handleShift = () => {
@@ -405,6 +399,13 @@ handleSend = () => {
           onTouchEnd={this.onTouchEnd}  // Make sure this handles touch end
           layoutName={this.state.layoutName}
           className="easca-2"
+          buttonTheme={[
+            {
+              class: "hg-button",
+              buttons: ".*", // Apply to all buttons
+              style: "font-family: 'aonchlo', sans-serif;"
+            }
+          ]}
           layout={{
             easca: [
               "e r t u i o p {backspace}",

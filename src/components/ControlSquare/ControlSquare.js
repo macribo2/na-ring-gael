@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import TranslationManager from '../translationManager/translationManager'
- class ControlSquare extends Phaser.GameObjects.Container {
+class ControlSquare extends Phaser.GameObjects.Container {
  
   // Getter method to check actionMenuActive
   getActionMenuActive() {
@@ -11,10 +11,11 @@ import TranslationManager from '../translationManager/translationManager'
   setActionMenuActive(actionMenuActive) {
     this._actionMenuActive = actionMenuActive;
   }
- 
+  
   constructor(scene, x, y,clearPathCallback,openOptionMenu,closeOptionMenu,actionMenuActive, nextMenuFunc, prevMenuFunc) {
     super(scene, x, y);
     scene.add.existing(this);
+    let isMiddleButtonPressed = false;
     this.openOptionMenu = openOptionMenu;
     this.closeOptionMenu = closeOptionMenu;
     this.clearPathCallback = clearPathCallback; 
@@ -26,9 +27,14 @@ import TranslationManager from '../translationManager/translationManager'
    
     const middleButton = scene.add.sprite(x, y, 'middleButtonDark')
       .setOrigin(0.5, 0.5).setDepth(9999);
-    // Create the directional buttons (left, right, up, down) and the middle button
+      this.scene.events.on('resetMiddleButton', () => {
+        console.log("Force resetting middle button state");
+        setButtonLit(middleButton, 'middleButton'); // Reset texture
+        middleButton.setAlpha(1); // Ensure proper visibility
+        middleButton.setFrame(0); // Ensure it resets if using a sprite atlas
+      });
     const buttonSize = 40; // Size of each button
-
+ 
     const upButton = scene.add.sprite(x, y - 60, 'upButtonDark').setInteractive(); // Up button above the middle
     const downButton = scene.add.sprite(x, y + 60, 'downButtonDark').setInteractive(); // Down button below the middle
     const leftButton = scene.add.sprite(x - 60, y, 'leftButtonDark').setInteractive(); // Left button to the left of the middle
@@ -211,6 +217,8 @@ this.overlay = scene.add.rectangle(0, 0, scene.cameras.main.width, scene.cameras
   //   this.overlay.destroy();
   //   this.overlay = null;
   // }
+
+
 };
 
 
@@ -222,7 +230,10 @@ middleButton.setScrollFactor(0);
 
 middleButton.removeAllListeners('pointerdown'); // Prevent duplicates
 // Notify PlayerEntity when the OptionMenu is opened or closed
-middleButton.on('pointerdown', () => {
+middleButton.on('pointerdown', (pointer) => {
+  // Set the flag to indicate middle button is pressed
+  isMiddleButtonPressed = true;
+  
   console.log("actionMenuActive:", this.getActionMenuActive());
 
   if (this.isOptionMenuOpen) {
@@ -246,6 +257,13 @@ middleButton.on('pointerdown', () => {
     }
   }
 
+  // Block easca2 interactions
+  if (isMiddleButtonPressed) {
+    console.log('Middle button pressed, blocking easca2 interaction.');
+    // Optionally, add logic here to block or stop easca2 if needed.
+  }
+
+  // Your middle button handling logic continues
   setButtonLit(middleButton, 'middleButtonLit');
   toggleOverlay();
 
@@ -254,6 +272,10 @@ middleButton.on('pointerdown', () => {
   }
 });
 
+// Reset the flag when the pointer is released or when the action is completed
+middleButton.on('pointerup', () => {
+  isMiddleButtonPressed = false;
+});
 
 }
 
