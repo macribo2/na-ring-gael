@@ -1,6 +1,6 @@
 import { RedCent } from './entities';
 
-export default function populateDungeon(dungeon) {
+export default function populateDungeon(dungeon, inventoryMenu) {
     if (!dungeon || !dungeon.rooms) {
         console.error("populateDungeon: Dungeon or rooms list is missing!");
         return;
@@ -17,7 +17,7 @@ export default function populateDungeon(dungeon) {
 
     const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
     let TILE_SIZE = 32;
-    
+
     // Calculate center coordinates from room boundaries
     const centerX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
     const centerY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
@@ -45,22 +45,46 @@ export default function populateDungeon(dungeon) {
 
     if (player) {
         dungeon.physics.add.overlap(
-            player.sprite,        
-            redCent.sprite,       
-            () => {               
+            player.sprite,
+            redCent.sprite,
+            () => {
                 if (!redCent.pickedUp) {  // ✅ Prevent multiple pickups
                     redCent.pickedUp = true;
                     console.log("Before pickup:", player.inventory.items);
+
+                    // Pickup logic
                     redCent.pickup(player);
+
+                    // Add RedCent to the character's inventory in localStorage
+                    let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+                    if (!characterSheet.inventory) {
+                        characterSheet.inventory = []; // Initialize if it doesn't exist
+                    }
+
+                    // Only store necessary properties, like name and type
+                    const redCentData = {
+                        name: redCent.name, // Add relevant properties
+                        type: redCent.type,
+                        texture:redCent.texture,
+                        value: redCent.value, // Example property, add others as needed
+                    };
+
+                    characterSheet.inventory.push(redCentData); // Push the object with basic properties
+                    localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+
                     console.log("After pickup:", player.inventory.items);
-                    
+
                     // Optional: Remove Red Cent after pickup
                     redCent.sprite.destroy();
+
+                    // Update the inventory UI
+                    if (inventoryMenu) {
+                        inventoryMenu.updateInventory();
+                    }
                 }
             },
             null,
             dungeon
         );
     }
-    
 }

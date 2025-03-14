@@ -45,7 +45,7 @@ export class Item extends GameEntity {
     if (!this.pickedUp) {  // ✅ Prevent multiple pickups
         this.pickedUp = true;
         super.pickup(player);  // ✅ Only call the parent method once
-        console.log(`${player.name} picked up a Red Cent.`);
+        console.log(`${player.name} picked up something.`);
     }
 }
 
@@ -223,7 +223,7 @@ export class RedCent extends Item {
     
     // Add visual representation for the Red Cent
     this.sprite = this.scene.add.sprite(x, y, 'redCent').setDepth(90);
-    
+    this.texture = 'redCent';
     // Enable physics for the sprite
     this.scene.physics.world.enable(this.sprite);
     this.sprite.body.setCollideWorldBounds(true);  // Optional: prevents the Red Cent from going out of bounds

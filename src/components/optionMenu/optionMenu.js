@@ -222,6 +222,11 @@ class OptionMenu extends Phaser.GameObjects.Container {
     }
   
     // Show the selected menu
+    // If it's the inventory menu, call updateInventory to refresh the UI
+    if (menu.key === 'inventory') {
+      menu.instance.updateInventory();
+    }
+  
     // If it's the chat menu, use its special show method
     if (menu.key === 'chat' && typeof menu.instance.show === 'function') {
       menu.instance.show();
@@ -238,6 +243,7 @@ class OptionMenu extends Phaser.GameObjects.Container {
       });
     }
   }
+  
 }
 
 export default OptionMenu;

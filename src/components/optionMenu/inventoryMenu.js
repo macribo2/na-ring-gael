@@ -49,27 +49,49 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     scene.add.existing(this);
   }
 
-  // Update inventory display
-  updateInventory() {
-    this.itemIcons.forEach(icon => icon.destroy());
-    this.itemIcons = [];
-    
-    this.inventory.items.forEach((item, index) => {
-      if (index < this.slots.length) {
-        let x = this.slots[index].x;
-        let y = this.slots[index].y;
-        let icon = this.scene.add.image(x, y, item.texture)
-          .setScale(0.9) // Slightly smaller than slot
-          .setScrollFactor(0);
-        this.itemIcons.push(icon);
-        this.add(icon);
-      }
-    });
-  }
+// Inside updateInventory method, handle first empty slot properly
+updateInventory() {
+  // Fetch the current inventory from localStorage (or the passed characterSheet)
+  let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+  this.inventory = characterSheet.inventory || [];  // Use the inventory data
 
-  showInventory() {
-    this.setVisible(true);
-  }
+  // Remove any previous icons
+  this.itemIcons.forEach(icon => icon.destroy());
+  this.itemIcons = [];
+
+  // Log the inventory items
+  console.log("Updating inventory. Current items:", this.inventory);
+
+  // Populate slots with item icons
+  this.inventory.forEach((item, index) => {
+    if (index < this.slots.length) {
+      let x = this.slots[index].x;
+      let y = this.slots[index].y;
+
+      // Log the current item and its texture
+      console.log(`Slot ${index}: Adding item -`, item);
+      console.log(`Slot ${index}: Item texture -`, item.texture);
+
+      // Create an icon for each item using its texture (or 'imageKey')
+      let icon = this.scene.add.image(x, y, item.texture)  // Use item.texture for icon
+        .setScale(0.9)  // Scale it to fit the slot
+        .setScrollFactor(0);
+
+      this.itemIcons.push(icon);
+      this.add(icon);
+    } else {
+      // Log if there are too many items for the available slots
+      console.log(`Slot ${index} has no available space for an item.`);
+    }
+  });
+}
+
+
+// Make sure inventory is visible and updated
+showInventory() {
+  this.updateInventory(); // Update inventory first
+  this.setVisible(true);
+}
 
   hideInventory() {
     this.setVisible(false);

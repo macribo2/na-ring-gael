@@ -820,7 +820,10 @@ this.ChampionSelect1.destroy(); // Then destroy it.
 
 if(this.currentStep === 5 ){
   let characterSheet = JSON.parse(localStorage.getItem('characterSheet'));
-
+ // Add the inventory array if it doesn't already exist
+ if (!characterSheet.hasOwnProperty('inventory')) {
+  characterSheet.inventory = [];  // Initialize an empty inventory
+}
   // Update the name and branch variables
   this.nameGa = characterSheet.nameGa;
   this.branchGa = characterSheet.branchGa;
