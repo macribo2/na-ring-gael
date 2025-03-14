@@ -20,7 +20,6 @@ top: 16%;
   body .hg-theme-default .hg-button {
 	font-family: 'aonchlo', sans-serif !important;
 	background: rgba(21, 19, 17, 0.15) !important; /* Faint ink wash */
-	border: 2px solid rgba(94, 72, 52, 0.4) !important; /* Ink line */
 	border-radius: 12px !important; /* Rounded edges */
 	color: rgba(60, 45, 30, 0.85) !important; /* Dark ink color */
 	font-size: 2rem !important;
@@ -101,4 +100,15 @@ top: 16%;
   }
   .bg-container{
 	display: none;;
+  }
+
+  * {
+	font-family: "aonchlo", sans-serif !important; /* Use !important to override defaults */
+  }
+  .options-menu{
+	position:fixed;
+	z-index: 90000;
+	top:10%;
+	left:10%;
+	border:10px solid rgb(255, 156, 255);	
   }

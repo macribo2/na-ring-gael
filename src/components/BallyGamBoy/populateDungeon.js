@@ -66,7 +66,8 @@ export default function populateDungeon(dungeon, inventoryMenu) {
                         name: redCent.name, // Add relevant properties
                         type: redCent.type,
                         texture:redCent.texture,
-                        value: redCent.value, // Example property, add others as needed
+                        descriptionGa: redCent.descriptionGa, // Example property, add others as needed
+                        descriptionEn: redCent.descriptionEn, // Example property, add others as needed
                     };
 
                     characterSheet.inventory.push(redCentData); // Push the object with basic properties

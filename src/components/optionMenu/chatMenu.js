@@ -12,7 +12,7 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.background = scene.add
         .image(scene.cameras.main.centerX, scene.cameras.main.centerY, "chat")
         .setDepth(6000)
-        .setScrollFactor(0).setAlpha(0);
+        .setScrollFactor(0).setAlpha(0).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);;;
     }
 
     // this.add([this.background]);
@@ -40,11 +40,12 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.htmlContainer.style.display = "block";
       this.htmlContainer.style.height = "100%"; 
       this.htmlContainer.style.width = "100%"; 
+      this.htmlContainer.style.fontFamily = "aonchlo"; 
 
       document.body.appendChild(this.htmlContainer);
     }
     try {
-      ReactDOM.render(<Easca />, this.htmlContainer);
+      ReactDOM.render(<Easca  />, this.htmlContainer);
       console.log("Easca rendered");
     } catch (e) {
       console.error("Error rendering Easca:", e);
@@ -64,7 +65,7 @@ show() {
   
   // Fade in the background if it exists
   if (this.background) {
-    this.background.setAlpha(0);
+    this.background.setAlpha(0)
     this.scene.tweens.add({
       targets: this.background,
       alpha: 1,

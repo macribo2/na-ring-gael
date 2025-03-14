@@ -9,14 +9,13 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         scene.cameras.main.centerX, 
         scene.cameras.main.centerY, 
         'quest'
-      ).setDepth(1000).setScrollFactor(0);
+      ).setDepth(1000).setScrollFactor(0).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);
     } else {
     }
     
 
-    // Adding the background and text to the container
-
-    // Initially, we don't want it visible
+  
+   // Initially, we don't want it visible
     this.setVisible(false);
 
  
@@ -33,8 +32,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   showQuest() {
     this.setVisible(true);
     if (this.background) {
-      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
-    }
+      this.background.setVisible(true).setAlpha(1) }
   }
 
   // Method to hide the inventory menu

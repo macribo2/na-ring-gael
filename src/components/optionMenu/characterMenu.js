@@ -13,7 +13,7 @@ class CharacterMenu extends Phaser.GameObjects.Container {
       scene.cameras.main.centerX, 
       scene.cameras.main.centerY, 
       'character'
-    ).setDepth(1000).setScrollFactor(0);
+    ).setDepth(1000).setScrollFactor(0).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);;
   } else {
   }
 
@@ -37,11 +37,11 @@ class CharacterMenu extends Phaser.GameObjects.Container {
          const zoomLevel = this.scene.cameras.main.zoom;
          
          const characterSheetText = scene.add.text(
-          scene.scale.width * 0.2, 
-          scene.scale.height * 0.2, 
+          scene.scale.width * 0.05, 
+          scene.scale.height * 0.1, 
           characterSheetString, 
           {
-            fontSize: '46px', // Adjust size to fit more text
+            fontSize: '32px', // Adjust size to fit more text
             fill: '#2a3439',
             fontFamily: 'aonchlo',
             wordWrap: { width:800 }
@@ -68,7 +68,7 @@ class CharacterMenu extends Phaser.GameObjects.Container {
   showCharacter() {
     this.setVisible(true);
     if (this.background) {
-      this.background.setVisible(true).setAlpha(1);  // Ensure the background is also visible
+      this.background.setVisible(true).setAlpha(1)
     }
   }
 

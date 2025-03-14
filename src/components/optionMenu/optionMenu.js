@@ -49,8 +49,7 @@ class OptionMenu extends Phaser.GameObjects.Container {
     this.menuOpen = true;
     this.previousZoom = this.scene.cameras.main.zoom;
 
-    // Set zoom to 1.5 for menus to look correct
-    this.scene.cameras.main.setZoom(1.5);
+    this.scene.cameras.main.setZoom(1);
     this.updateControlSquareScale();
 
     // Create temporary background directly in the scene with a lower depth

@@ -14,8 +14,7 @@ class SettingsMenu extends Phaser.GameObjects.Container {
         scene.cameras.main.centerX, 
         scene.cameras.main.centerY, 
         'settings'
-      ).setScrollFactor(0)
-        .setAlpha(1);
+      ).setScrollFactor(0).setAlpha(1).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);;
 
       this.add(this.background);
     }

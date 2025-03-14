@@ -10,7 +10,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         scene.cameras.main.centerX, 
         scene.cameras.main.centerY, 
         'other'
-      ).setDepth(6000).setScrollFactor(0);
+      ).setDepth(6000).setScrollFactor(0).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);;;
     } else {
     }
 
@@ -26,7 +26,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
   // Method to show the inventory menu
   showOther() {
-    this.setVisible(true).setAlpha(1);
+    this.setVisible(true).setAlpha(1)
   }
 
   // Method to hide the inventory menu

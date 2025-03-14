@@ -224,6 +224,8 @@ export class RedCent extends Item {
     // Add visual representation for the Red Cent
     this.sprite = this.scene.add.sprite(x, y, 'redCent').setDepth(90);
     this.texture = 'redCent';
+    this.descriptionGa = 'Pingin rua: \nCruit ar an aghaidh, cuachóg ar cúl. Pingin ádhmharach, b\'feidir.';
+    this.descriptionEn = 'Red cent: \nHarp on the face, a sailor\'s knot / plait / young cuckoo on the back. A lucky penny, perhaps.';
     // Enable physics for the sprite
     this.scene.physics.world.enable(this.sprite);
     this.sprite.body.setCollideWorldBounds(true);  // Optional: prevents the Red Cent from going out of bounds
