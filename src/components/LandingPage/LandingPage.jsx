@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
+import middleC from '../../images/middle-c.gif';
 import style from './LandingPage.css';
 import BallyGamboy from '../BallyGamBoy/BallyGamBoy-with-rot'
 const LandingPage = () => {
@@ -85,7 +86,8 @@ useEffect(() => {
         : document.webkitExitFullscreen(); // Safari
       exitPromise.then(() => setFullscreen(false));
     }
-  
+   // Play the sound
+ 
     // Fade out the title text
     const title = document.querySelector('.title-text');
     if (title) {
@@ -146,9 +148,9 @@ useEffect(() => {
 <div className='touch-prompt'></div>
 <div className='touch-prompt'></div>
                    
-            <image 
+            <img
               className="start-fullscreen-button"
-              src="../../images/middle-c.png"  // Add source for the button image
+              src={middleC}  // Add source for the button image
               alt="Start Fullscreen"
               onClick={toggleFullscreenAndStart}
             />

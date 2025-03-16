@@ -17,6 +17,8 @@ this.background2 = null; // Declare background2 here
     const radius = 450;
     this.numSpokes = 300; // Total number of spokes
     this.currentAngle = 0;
+    this.flairPlayed = false;
+    
     this.champions = [
  {spriteKey:'001.png' ,gender:"", nameGa: 'Tassach',  nameEn: 'idle; inactive'}
 ,{spriteKey:'002.png' ,gender:"", nameGa: 'Ádhamhnán', nameEn: 'the timorous one'}
@@ -357,16 +359,17 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     
     // Add text for the name
     this.nameTextGa = scene.add.text(scene.scale.width * 0.5, scene.scale.height * 0.5, 'test', {
-      font: '64px dum1',
+      font: '64px aonchlo',
       fill: 'LavenderBlush',
-    }).setOrigin(0.5).setAlpha(0).setDepth(30);;
+    }).setOrigin(0.5).setAlpha(0).setDepth(900);;
        // Add text for the name
      this.nameTextEn =scene.add.text(scene.scale.width * 0.2, scene.scale.height * 0.8, '', {
-      font: '32px dum1',
+      font: '32px Anaphora',
       fill: 'plum',
+        stroke: '#000000', // Black stroke color
+        strokeThickness: 8, 
       wordWrap: { width: 600 },
     }).setAlpha(0).setDepth(35).setVisible(true);
-    
     
  // Set up the event listener
 EventEmitter.on('stepChanged', (newStep) => {
@@ -385,7 +388,7 @@ EventEmitter.on('stepChanged', (newStep) => {
 
     // Handle negative indices (due to modulo behavior in JavaScript)
     this.currentChampionIndex = championIndex < 0 ? championIndex + numChampions : championIndex;
-
+    this.spokeCounter =0
     // Assign the displayed champion
     this.displayedChampion = this.champions[this.currentChampionIndex];
 
@@ -529,7 +532,10 @@ EventEmitter.on('stepChanged', (newStep) => {
     // Make the image visible
     this.championDiscovered = true;
     this.championImage.setAlpha(1);
-
+    if (this.scene.flair && !this.flairPlayed) {
+      this.scene.flair.play();
+      this.flairPlayed = true
+  }
     // Emit a custom event to notify other scenes
     EventEmitter.emit('championDiscovered');
     
@@ -719,41 +725,40 @@ this.scene.time.delayedCall(0, () => {
 });
   }
   
-
   highlightSpokes() {
     if (!this.scene) {
       console.error("Scene is undefined. Ensure the method is called after initialization.");
       return;
     }
-  
+    
     // Ensure spokes is initialized
     if (!this.spokes) {
       this.spokes = this.scene.add.graphics();
     }
-  
+    
     const centerX = 100;
     const centerY = 100;
     const radius = 450;
     const angleStep = (2 * Math.PI) / this.numSpokes;
     var sensorX = this.sensor && this.sensor.x !== undefined ? this.sensor.x : 0;
     var sensorY = this.sensor && this.sensor.y !== undefined ? this.sensor.y : 0;
-  
+    
     let sensorAngle = Math.atan2(sensorY - centerY, sensorX - centerX);
     sensorAngle = Phaser.Math.Angle.Wrap(sensorAngle - this.currentAngle);
-  
+    
     const highlightingRange = Math.PI / (this.numSpokes * 2);
     let sensorTouched = false;
     let highlightedSpokeIndex = -1;
-  
+    
     this.spokes.clear();
-  
+    
     for (let i = 0; i < this.numSpokes; i++) {
       const rotatedAngle = i * angleStep;
       let angleDifference = Phaser.Math.Angle.Wrap(sensorAngle - rotatedAngle);
-  
+      
       const endX = Math.cos(rotatedAngle) * radius;
       const endY = Math.sin(rotatedAngle) * radius;
-  
+      
       if (Math.abs(angleDifference) < highlightingRange) {
         sensorTouched = true;
         this.spokes.lineStyle(3, 0x003300, 1);
@@ -761,68 +766,119 @@ this.scene.time.delayedCall(0, () => {
       } else {
         this.spokes.lineStyle(1, 0xffffff, 0.3);
       }
-  
+      
       this.spokes.beginPath();
       this.spokes.moveTo(0, 0);
       this.spokes.lineTo(endX, endY);
       this.spokes.strokePath();
     }
-  
+    
     if (sensorTouched && this.sensor) {
       this.sensor.setFillStyle(0x000000);
       this.scene.time.delayedCall(50, () => {
         if (this.sensor) this.sensor.setFillStyle(0x003300);
       });
     }
-  
+    
+    // Initialize tracking variables if they don't exist
+    if (this.lastHighlightedIndex === undefined) {
+      this.lastHighlightedIndex = -1;
+    }
+    
+    if (this.currentCharacterIndex === undefined) {
+      this.currentCharacterIndex = 0;
+    }
+    
+    // Only update when a spoke is touched
     if (sensorTouched && highlightedSpokeIndex !== -1) {
-      const displayedChampion = this.champions[highlightedSpokeIndex % this.champions.length];
-  
-      this.nameTextGa.setText(displayedChampion.nameGa);
-      this.nameTextEn.setText(displayedChampion.nameEn);
-  
-      this.displayedChampion = {
-        nameGa: displayedChampion.nameGa,
-        nameEn: displayedChampion.nameEn,
-        gender: displayedChampion.gender,
-        spriteKey: displayedChampion.spriteKey,
-      };
-      let characterSheet = {}
-   characterSheet.nameGa = displayedChampion.nameGa;
-   characterSheet.nameEn = displayedChampion.nameEn;
-   characterSheet.gender = displayedChampion.gender;
-   characterSheet.spriteKey = displayedChampion.spriteKey;
-      characterSheet.strength= 10;
-      characterSheet.health= 10;
+      // If this is our first highlight, just set the index
+      if (this.lastHighlightedIndex === -1) {
+        this.lastHighlightedIndex = highlightedSpokeIndex;
+        this.updateCharacterDisplay(this.currentCharacterIndex);
+        return;
+      }
       
-// Save characterSheet to local storage
-localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-
-// Log the updated characterSheet for debugging
-console.log("Updated characterSheet and saved to local storage:", characterSheet);
-
-      const textureExists = this.scene.textures.exists('championSprites');
-      if (textureExists) {
-        const spriteKey = `${displayedChampion.spriteKey}`;
-        if (spriteKey) {
-          this.championImage
-            .setTexture('championSprites', spriteKey)
-            .setVisible(true)
-            .setInteractive()
-            .on('pointerdown', () => {
-              this.selectChampion(this.displayedChampion.nameGa);
-           
-            });
-        } else {
-          this.championImage.setVisible(false);
-        }
+      // Calculate spoke movement direction and distance
+      let indexDiff = highlightedSpokeIndex - this.lastHighlightedIndex;
+      
+      // Handle wraparound cases
+      if (indexDiff > this.numSpokes / 2) {
+        indexDiff = indexDiff - this.numSpokes; // Wrapped clockwise
+      } else if (indexDiff < -this.numSpokes / 2) {
+        indexDiff = indexDiff + this.numSpokes; // Wrapped counter-clockwise
+      }
+      
+      // Accumulate movement
+      if (!this.spokeMovementAccumulator) {
+        this.spokeMovementAccumulator = 0;
+      }
+      
+      this.spokeMovementAccumulator += indexDiff;
+      
+      // If accumulated enough movement (positive or negative), change character
+      if (this.spokeMovementAccumulator >= 16) {
+        // Move forward in the character list
+        this.currentCharacterIndex = (this.currentCharacterIndex + 1) % this.champions.length;
+        this.spokeMovementAccumulator = 0;
+        this.updateCharacterDisplay(this.currentCharacterIndex);
+      } else if (this.spokeMovementAccumulator <= -16) {
+        // Move backward in the character list
+        this.currentCharacterIndex = (this.currentCharacterIndex - 1 + this.champions.length) % this.champions.length;
+        this.spokeMovementAccumulator = 0;
+        this.updateCharacterDisplay(this.currentCharacterIndex);
+      }
+      
+      // Update last highlighted index
+      this.lastHighlightedIndex = highlightedSpokeIndex;
+    }
+  }
+  
+  // Extract character display logic into a separate method
+  updateCharacterDisplay(characterIndex) {
+    const displayedChampion = this.champions[characterIndex];
+    
+    this.nameTextGa.setText(displayedChampion.nameGa);
+    this.nameTextEn.setText(displayedChampion.nameEn);
+    
+    this.displayedChampion = {
+      nameGa: displayedChampion.nameGa,
+      nameEn: displayedChampion.nameEn,
+      gender: displayedChampion.gender,
+      spriteKey: displayedChampion.spriteKey,
+    };
+    
+    let characterSheet = {};
+    characterSheet.nameGa = displayedChampion.nameGa;
+    characterSheet.nameEn = displayedChampion.nameEn;
+    characterSheet.gender = displayedChampion.gender;
+    characterSheet.spriteKey = displayedChampion.spriteKey;
+    characterSheet.strength = 10;
+    characterSheet.health = 10;
+    
+    // Save characterSheet to local storage
+    localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+    
+    // Log the updated characterSheet for debugging
+    console.log("Updated characterSheet and saved to local storage:", characterSheet);
+    
+    const textureExists = this.scene.textures.exists('championSprites');
+    if (textureExists) {
+      const spriteKey = `${displayedChampion.spriteKey}`;
+      if (spriteKey) {
+        this.championImage
+          .setTexture('championSprites', spriteKey)
+          .setVisible(true)
+          .setInteractive()
+          .on('pointerdown', () => {
+            this.selectChampion(this.displayedChampion.nameGa);
+          });
       } else {
-        console.warn("Texture 'championSprites' does not exist.");
         this.championImage.setVisible(false);
       }
+    } else {
+      console.warn("Texture 'championSprites' does not exist.");
+      this.championImage.setVisible(false);
     }
-  
-
   }
   
 

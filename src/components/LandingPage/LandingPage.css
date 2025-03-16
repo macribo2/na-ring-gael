@@ -5,7 +5,7 @@
   height: 70px;
   border-radius: 50%;
   border: 1px solid #418c6724;
-  animation: ripple 13s infinite ease-out;
+  animation: ripple 8s infinite ease-out;
   opacity: 0;
   animation-delay: 12s;
 
@@ -60,18 +60,19 @@ canvas{
   z-index: 5105 !important;
   align-items: center;
 }
-
 .start-fullscreen-button {
   width: 61px;
   height: 61px;
   background-image: url('../../images/middle-c.png');
   background-repeat: no-repeat;
   background-color: transparent;
-  animation: spin 32s linear infinite;
+  animation: spin 32s linear infinite, fadeIn 2s ease-in forwards;
   transition: opacity 0.5s ease;
   scale: 1.2;
   transform-origin: center; /* Ensures the spin happens around the center */
 }
+
+
 
 .start-fullscreen-button:active {
   transform: scale(0.95);
@@ -139,13 +140,7 @@ html, body, #phaser-container, canvas {
   height: 200px!important;
 }
 
-.touch-prompt:nth-child(4) {
-  animation-delay: 26.5s;
-  animation-direction: reverse;
-  border: 1px solid #e9ee8ab0 !important;
-  width: 670px !important;
-  height: 670px!important;
-}
+
 /* Force button above all Phaser elements */
 .start-button-container {
   position: relative;

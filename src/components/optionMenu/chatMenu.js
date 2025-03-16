@@ -12,10 +12,10 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.background = scene.add
         .image(scene.cameras.main.centerX, scene.cameras.main.centerY, "chat")
         .setDepth(6000)
-        .setScrollFactor(0).setAlpha(0).setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);;;
+        .setScrollFactor(0)
+        .setAlpha(0)
+        .setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);
     }
-
-    // this.add([this.background]);
 
     // Initially hidden
     this.setVisible(false);
@@ -24,6 +24,23 @@ class ChatMenu extends Phaser.GameObjects.Container {
     this.createHtmlContainer(scene);
 
     scene.add.existing(this);
+  }
+
+  // This method is equivalent to `useEffect` for class components
+  componentDidMount() {
+    // Focus on the input element
+    const inputElement = document.getElementById("easca-2");
+    if (inputElement) {
+      inputElement.focus();
+    }
+
+    // Trigger reflow to force the container to display properly after mount
+    const eascaContainer = document.getElementById("easca-2");
+    if (eascaContainer) {
+      eascaContainer.style.display = "none";
+      void eascaContainer.offsetHeight; // Forces reflow
+      eascaContainer.style.display = "block";
+    }
   }
 
   createHtmlContainer(scene) {
@@ -38,57 +55,54 @@ class ChatMenu extends Phaser.GameObjects.Container {
       this.htmlContainer.style.transform = "translate(-50%, -50%)";
       this.htmlContainer.style.zIndex = "9999"; // Above Phaser canvas
       this.htmlContainer.style.display = "block";
-      this.htmlContainer.style.height = "100%"; 
-      this.htmlContainer.style.width = "100%"; 
-      this.htmlContainer.style.fontFamily = "aonchlo"; 
+      this.htmlContainer.style.height = "100%";
+      this.htmlContainer.style.width = "100%";
+      this.htmlContainer.style.fontFamily = "aonchlo";
 
       document.body.appendChild(this.htmlContainer);
     }
     try {
-      ReactDOM.render(<Easca  />, this.htmlContainer);
+      ReactDOM.render(<Easca />, this.htmlContainer);
       console.log("Easca rendered");
     } catch (e) {
       console.error("Error rendering Easca:", e);
     }
-  
   }
-  // In your ChatMenu class, add these methods:
 
-show() {
-  // Show the ChatMenu
-  this.setVisible(true);
-  
-  // Show the HTML container
-  if (this.htmlContainer) {
-    this.htmlContainer.style.display = "block";
-  }
-  
-  // Fade in the background if it exists
-  if (this.background) {
-    this.background.setAlpha(0)
-    this.scene.tweens.add({
-      targets: this.background,
-      alpha: 1,
-      duration: 200
-    });
-  }
-}
+  show() {
+    // Show the ChatMenu
+    this.setVisible(true);
 
-hide() {
-  // Hide the ChatMenu
-  this.setVisible(false);
-  
-  // Hide the HTML container
-  if (this.htmlContainer) {
-    this.htmlContainer.style.display = "none";
-  }
-  
-  // Fade out the background if needed
-  if (this.background) {
-    this.background.setAlpha(0);
-  }
-}
+    // Show the HTML container
+    if (this.htmlContainer) {
+      this.htmlContainer.style.display = "block";
+    }
 
+    // Fade in the background if it exists
+    if (this.background) {
+      this.background.setAlpha(0);
+      this.scene.tweens.add({
+        targets: this.background,
+        alpha: 1,
+        duration: 200,
+      });
+    }
+  }
+
+  hide() {
+    // Hide the ChatMenu
+    this.setVisible(false);
+
+    // Hide the HTML container
+    if (this.htmlContainer) {
+      this.htmlContainer.style.display = "none";
+    }
+
+    // Fade out the background if needed
+    if (this.background) {
+      this.background.setAlpha(0);
+    }
+  }
 }
 
 export default ChatMenu;

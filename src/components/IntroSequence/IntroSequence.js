@@ -12,6 +12,7 @@ class IntroSequence extends Phaser.Scene {
   constructor() {
     
     super({ key: 'IntroSequence' });
+  
     this.bandDiscovered = false;
   this.championDiscovered = false; // Flag to track discovery
 this.isRaining = false;
@@ -19,13 +20,13 @@ this.isRaining = false;
   this.hasFaded = false;
     this.characterSheet = {};
     this.textsGa = [
-        'Síos, Síos, níos faide síos...',
-        'Síos i pluais gan éag... \n"Cé atá tagtha go ríocht na préimhe?"',
-        '                    "Is mise..."',
-        '"Ba fhínín mé, fadó..."',
+        'Síos, Síos, \nníos faide síos...',
+        'Síos i pluais gan éag... \nCé atá tagtha \ngo ríocht na préimhe?',
+        '            Is mise...',
+        'Ba fhínín mé, fadó...',
         ' ',
         " ",
-        '\nIs cuimhin liom an bháisteach...',
+        '\nIs cuimhin liom \nan bháisteach...',
         ' ',
 
         
@@ -46,6 +47,7 @@ this.isRaining = false;
   }
 
   preload() {
+    this.load.audio('flair','phaser-resources/audio/flair.mp3');
     this.load.image('player-frame', 'phaser-resources/images/ciorcal-glass.png');
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game
@@ -132,6 +134,12 @@ this.isRaining = false;
     }
 
   create() {
+    this.flair = this.sound.add('flair', { loop: true, volume: 0.5 });
+
+
+
+    // this.sound.add('flair', { loop: true }).play();
+
     this.rippleManager = new RippleManager(this);
     
  // Create playerFrame, initially hidden (alpha 0)
@@ -234,6 +242,7 @@ this.isRaining = false;
       if (this.currentStep === 1 && !slowingDown) {
         slowingDown = true;
         this.swapAndSlow(); // Call the method to swap and slow down
+
       }
     }
   });
@@ -278,15 +287,17 @@ this.tweens.add({
 });
     // Create text object for narrative
     this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
-      font: '40px dum1',
+      font: '40px aonchlo',
       fill: 'LavenderBlush',
       wordWrap: { width:this.scale.width*0.8 },
     }).setDepth(10).setDepth(44);
 
 
-    this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.5, '', {
-        font: '32px dum1',
+    this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.7, '', {
+        font: '32px Anaphora',
         fill: 'plum',
+        stroke: '#000000', // Black stroke color
+        strokeThickness: 4, 
         wordWrap: { width: this.scale.width * 0.8},
       }).setVisible(true).setDepth(45).setAlpha(0);
   
@@ -710,11 +721,14 @@ update() {
         Math.sin(this.time.now * fairylight.frequencyY + fairylight.sineOffset) * fairylight.verticalRange;
 });
 
+if(this.currentStep === 0){
+ 
+
+}
 // Check for step and fade out the particles
 if (this.currentStep === 1) {
   // Reduce lifespan and fade out particles
   if (!this.particles) {
-    console.warn("Particles not initialized");
     return;
   }
 
@@ -757,7 +771,6 @@ this.ChampionSelect1.destroy(); // Then destroy it.
     console.log('Texture exists?', this.textures.exists('championSprites'));
   }
 
-  console.log('Current step:', this.currentStep);
   if (this.currentStep === 3 && !this.hasFaded) {
   
     this.ChampionSelect1.fadeInBackground2();
@@ -813,6 +826,20 @@ this.ChampionSelect1.destroy(); // Then destroy it.
 
     // Now you can safely access textures in the scene context
     console.log('Texture exists?', this.textures.exists('championSprites'));
+   
+      if (this.flair && this.flair.isPlaying) {
+        // Create a tween to fade out the volume
+        this.tweens.add({
+            targets: this.flair,
+            volume: 0,
+            duration: 15000, // Duration of the fade-out in milliseconds
+            onComplete: () => {
+                // Stop the sound after the fade-out completes
+                this.flair.stop();
+            }
+        });
+    
+    }
   }
   
 
@@ -830,8 +857,8 @@ if(this.currentStep === 5 ){
   this.branchEn = characterSheet.branchEn;
 setTimeout(()=>{
   // Dynamically update the text at the required step
-  this.textsGa[5] = `\n\nInis do Géaga faoi ${this.nameGa} dhíl.`;
-  this.textsEn[5] = `Tell Géaga about\n faithful ${this.nameGa}.`;
+  this.textsGa[5] = `\n\nInis do na sídh faoi ${this.nameGa} dhíl.`;
+  this.textsEn[5] = `Tell the hidden ones about\n faithful ${this.nameGa}.`;
 
 
 },1000)
@@ -843,6 +870,15 @@ setTimeout(()=>{
   this.textObjectEn.setDepth(135)
   this.textObjectGa.y = this.scale.height * 0.01;
   this.ChampionSelect2.fadeInBackground2();
+    if (this.flare2 && this.flare2.isPlaying) {
+        // Decrease the volume by a small amount
+        this.flare2.setVolume(this.flare2.volume - 0.01);
+
+        // Stop the audio when the volume reaches zero
+        if (this.flare2.volume <= 0) {
+            this.flare2.stop();
+        }
+    }
   
 }
 if (this.currentStep === 6) {

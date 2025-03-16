@@ -17,7 +17,8 @@ class PucaChase0 extends Phaser.Scene {
       'lasmuigh, bhí sé ina stealladh báistí.',
       'Deabhal fothain a bhí sa phluais',  
       'Mo bhrat? Ar snámh.\nMo chathéide? báite.',
-      'Ní fada go mbéadh an phluais\nfaoi uisce... ach foighne!','Diúltaím mo charbad féin a bhrú. Ceap magaidh!\nFanfaidh mé anseo go dtí go bhfeicim-',
+      'Ní fada go mbéadh an phluais\nfaoi uisce... ach foighne!',
+      'Diúltaím mo charbad féin \na bhrú. Ceap magaidh! Fanfaidh mé \ngo dtí go bhfeicim-',
       'Deis! Ach go tobann - ',
     ];
     this.textsEn = [
@@ -25,7 +26,7 @@ class PucaChase0 extends Phaser.Scene {
       'Devil the shelter was in the cave.',
       'My cloak? swimming\nMy armour? Drowned.',
       'Not long before the cave would be \nflooded... but patience!',
-      'I refuse to push my own chariot - \na laughing stock!\nI\'ll stay here until I see-',
+      'I refuse to push my own chariot - \na laughing stock!\nI\'ll wait until I see-',
       'A chance! But suddenly - ',
       
     ];
@@ -184,7 +185,7 @@ console.log(this.textures.exists('pookacave')); // Should return true if loaded
 
 
     this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.6, '', {
-        font: '32px dum1',
+        font: '32px Anaphora',
         fill: 'plum',
         wordWrap: { width: this.scale.width * 0.8},
         stroke: '#000000', // Stroke color (black)

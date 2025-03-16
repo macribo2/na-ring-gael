@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './easca.css';
 import consoleBg from '../../images/mapFrame2.png';
 import Keyboard from 'react-simple-keyboard';
@@ -44,7 +45,6 @@ export default class Easca extends React.Component {
   
         window.addEventListener('touchstart', (e) => console.log('Touch started', e));
         window.addEventListener('touchend', (e) => console.log('Touch ended', e));
-      
       }
 
   componentDidUpdate(prevProps, prevState) {
@@ -391,7 +391,7 @@ handleSend = () => {
 />
 
 
-        <Keyboard
+        <Keyboard id= "easca-2"
           display={this.state.display}
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
