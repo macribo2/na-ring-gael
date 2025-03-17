@@ -25,7 +25,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     let startY = scene.cameras.main.centerY * 0.35; // Adjust position
     this.slotSize = 48;
     this.rows = 2;
-    this.cols = 6;
+    this.cols = 8;
     this.slots = [];
 
     this.selectedSlotIndex = null; // To track the currently selected slot
@@ -49,32 +49,6 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         this.slots.push(slot);
         this.add(slot);
       }
-    }
-
-    // Equipped items section
-    this.equippedSlots = [];
-    let equippedStartX = scene.cameras.main.centerX * 1.2;
-    let equippedStartY = scene.cameras.main.centerY * 0.35;
-    let equippedSlotLabels = ["Head", "Body", "Weapon", "Shield"];
-
-    for (let i = 0; i < 4; i++) {
-      let x = equippedStartX;
-      let y = equippedStartY + i * this.slotSize;
-
-      let equippedSlot = scene.add.rectangle(x, y, this.slotSize - 4, this.slotSize - 4, darkTea)
-        .setStrokeStyle(2, lightTea)
-        .setAlpha(0.8)
-        .setScrollFactor(0)
-        .setInteractive();
-
-      let label = scene.add.text(x + 30, y - 10, equippedSlotLabels[i], {
-        font: "20px Aonchlo",
-        fill: "#2a3439"
-      }).setOrigin(0, 0).setScrollFactor(0);
-
-      this.equippedSlots.push({ slot: equippedSlot, label: label });
-      this.add(equippedSlot);
-      this.add(label);
     }
 
     this.itemIcons = [];
@@ -126,6 +100,32 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     // Remove any previous icons
     this.itemIcons.forEach(icon => icon.destroy());
     this.itemIcons = [];
+
+    // Log the inventory items
+    console.log("Updating inventory. Current items:", this.inventory);
+
+    // Populate slots with item icons
+    this.inventory.forEach((item, index) => {
+      if (index < this.slots.length) {
+        let x = this.slots[index].x;
+        let y = this.slots[index].y;
+
+        // Log the current item and its texture
+        console.log(`Slot ${index}: Adding item -`, item);
+        console.log(`Slot ${index}: Item texture -`, item.texture);
+
+        // Create an icon for each item using its texture (or 'imageKey')
+        let icon = this.scene.add.image(x, y, item.texture)  // Use item.texture for icon
+          .setScale(0.9)  // Scale it to fit the slot
+          .setScrollFactor(0);
+
+        this.itemIcons.push(icon);
+        this.add(icon);
+      } else {
+        // Log if there are too many items for the available slots
+        console.log(`Slot ${index} has no available space for an item.`);
+      }
+    });
   }
 
   // Make sure inventory is visible and updated
