@@ -21,7 +21,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     let lightTea = Phaser.Display.Color.GetColor(210, 180, 140);
     let darkTea = Phaser.Display.Color.GetColor(139, 101, 69);
 
-    let startX = scene.cameras.main.centerX * 1; // Centering grid
+    let startX = scene.cameras.main.centerX * 0.7; // Centering grid
     let startY = scene.cameras.main.centerY * 0.35; // Adjust position
     this.slotSize = 48;
     this.rows = 2;
@@ -57,7 +57,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   
     // Create a placeholder text element for the description
     this.descriptionText = scene.add.text( scene.cameras.main.centerX * 0.1,
-      (scene.cameras.main.worldView.y + scene.cameras.main.height / scene.cameras.main.zoom) * 0.4, // Adjusted for zoom
+      (scene.cameras.main.worldView.y + scene.cameras.main.height / scene.cameras.main.zoom) * 0.35, // Adjusted for zoom
       
       "", {
       font: "32px Aonchlo",
@@ -109,37 +109,273 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   
   
   
-  
-  
-  
-  
+  // Add action buttons (Use, Drop, Throw) in top-right quadrant with fixed width
+  let buttonStartX = scene.cameras.main.centerX * 1.5;
+  let buttonStartY = scene.cameras.main.centerY * 0.3;
+  let buttonWidth = 120;
+  let buttonHeight = 40;
+  let buttonLabels = ["úsáid", "síos", "raid"];
+  this.actionButtons = [];
+  this.actionButtonTexts = []; // Store button texts separately
+
+  buttonLabels.forEach((label, index) => {
+    let button = scene.add.rectangle(buttonStartX, buttonStartY + index * 50, buttonWidth, buttonHeight, 0xD2B48C)
+      .setStrokeStyle(2, 0x8B6545)
+      .setScrollFactor(0)
+      .setAlpha(0.2)
+      .setInteractive();
+
+    let buttonText = scene.add.text(buttonStartX, buttonStartY + index * 50, label, {
+      font: "24px Aonchlo",
+      fill: "#2a3439"
+    }).setOrigin(0.5, 0.5).setScrollFactor(0).setAlpha(0.2);
+
+    button.disableInteractive(); // Disable interaction initially
+
+    // Add button handlers based on index
+    button.on('pointerdown', () => {
+      // Only perform action if an item is selected
+      if (this.selectedSlotIndex !== null && this.inventory[this.selectedSlotIndex]) {
+        const selectedItem = this.inventory[this.selectedSlotIndex];
+        
+        switch(index) {
+          case 0: // úsáid (Use)
+            this.useItem(selectedItem);
+            break;
+          case 1: // síos (Drop)
+            this.dropItem(selectedItem);
+            break;
+          case 2: // raid (Throw)
+            this.throwItem(selectedItem);
+            break;
+        }
+      }
+    });
+
+    this.actionButtons.push(button);
+    this.actionButtonTexts.push(buttonText); // Store reference to text
+    this.add(button);
+    this.add(buttonText);
+  });
   }
 
-  // Method to highlight a slot
-  highlightSlot(slot, index) {
-    // If a slot was previously selected, reset its style
-    if (this.selectedSlotIndex !== null) {
-      this.slots[this.selectedSlotIndex].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140)); // Reset to default
-    }
-
-    // Update the selected slot index
-    this.selectedSlotIndex = index;
-
-    // Highlight the clicked slot with a different border color (e.g., red)
-    slot.setStrokeStyle(4, Phaser.Display.Color.GetColor(55, 55, 60)); // Change border color to red
-
-    // Update the description text based on the selected item
-    let selectedItem = this.inventory[index];
-    if (selectedItem && selectedItem.name) {
-      // If the slot is not empty, display a "Lorem ipsum" or the item description
-      this.descriptionText.setText(`${selectedItem.descriptionGa}`);
+  // Action methods for the buttons
+  useItem(item) {
+    console.log("Using item:", item.name);
+    
+    // Handle different item types
+    if (item.type === "consumable") {
+      // Handle consumable items (potions, food, etc)
+      this.handleConsumable(item);
+    } else if (item.type === "equipment") {
+      // Handle equipment (weapons, armor, etc)
+      this.equipItem(item);
+    } else if (item.type === "key") {
+      // Handle key items which may trigger events
+      this.scene.events.emit('useKeyItem', item);
     } else {
-      // If the slot is empty, clear the description text
+      // Generic use case
+      this.scene.events.emit('useItem', item);
+    }
+    
+    // Emit an event that the scene can listen for
+    this.scene.events.emit('itemUsed', item, this.selectedSlotIndex);
+  }
+  
+  dropItem(item) {
+    console.log("Dropping item:", item.name);
+    
+    // Get the current index of the selected item
+    const index = this.selectedSlotIndex;
+    
+    // Remove the item from the inventory array
+    if (index !== null && index >= 0 && index < this.inventory.length) {
+      // Remove the item from inventory array
+      this.inventory.splice(index, 1);
+      
+      // Update the character sheet in localStorage
+      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+      characterSheet.inventory = this.inventory;
+      localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+      // Un-highlight the selected slot
+      if (this.slots[index]) {
+        this.slots[index].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+      }
+      
+      // Reset selection
+      this.selectedSlotIndex = null;
+      
+      // Update the inventory visually
+      this.updateInventory();
+      
+      // Clear description
       this.descriptionText.setText("");
+      
+      // Disable action buttons
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(0.2).disableInteractive();
+        this.actionButtonTexts[i].setAlpha(0.2);
+      });
+      
+      // Emit event for the scene to handle the dropped item in the world
+      this.scene.events.emit('itemDropped', item, index);
+    }
+  }
+  throwItem(item) {
+    console.log("Throwing item:", item.name);
+    
+    // Check if item is throwable
+    if (item.throwable) {
+      // Handle throwable item
+      this.scene.events.emit('throwItem', item, this.selectedSlotIndex);
+      
+      // Check if throwable is consumable (like a potion that breaks)
+      if (item.consumedOnThrow) {
+        this.removeItemFromInventory(this.selectedSlotIndex);
+      }
+    } else {
+      // For non-throwable items, perhaps show a message
+      console.log("This item cannot be thrown");
+      this.scene.events.emit('cannotThrowItem', item);
     }
   }
   
-
+  // Helper functions for the action methods
+  handleConsumable(item) {
+    // Apply item effects (health, mana, etc)
+    if (item.effects) {
+      for (const effect of item.effects) {
+        if (effect.type === "heal") {
+          this.scene.events.emit('healPlayer', effect.value);
+        } else if (effect.type === "buff") {
+          this.scene.events.emit('buffPlayer', effect.stat, effect.value, effect.duration);
+        }
+        // Add more effect types as needed
+      }
+    }
+    
+    // Remove the consumed item
+    this.removeItemFromInventory(this.selectedSlotIndex);
+  }
+  
+  equipItem(item) {
+    // Determine which equipment slot to use
+    let slotIndex = -1;
+    if (item.slot === "head") slotIndex = 0;
+    else if (item.slot === "weapon") slotIndex = 1;
+    else if (item.slot === "shield") slotIndex = 2;
+    else if (item.slot === "body") slotIndex = 3;
+    
+    if (slotIndex >= 0) {
+      // First check if something is already equipped in that slot
+      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+      const equipped = characterSheet.equipped || [];
+      
+      if (equipped[slotIndex]) {
+        // Unequip current item and add back to inventory
+        this.inventory.push(equipped[slotIndex]);
+      }
+      
+      // Equip the new item
+      equipped[slotIndex] = item;
+      
+      // Remove item from inventory
+      this.removeItemFromInventory(this.selectedSlotIndex);
+      
+      // Update character sheet
+      characterSheet.equipped = equipped;
+      localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+      // Update equipped slots visually
+      this.updateEquippedSlots();
+      
+      // Emit equipment change event
+      this.scene.events.emit('equipmentChanged', item, slotIndex);
+    }
+  }
+  
+  removeItemFromInventory(index) {
+    if (index !== null && index >= 0 && index < this.inventory.length) {
+      // Remove the item from inventory array
+      this.inventory.splice(index, 0, 1);
+      
+      // Update the character sheet in localStorage
+      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+      characterSheet.inventory = this.inventory;
+      localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+      // Reset selection
+      this.selectedSlotIndex = null;
+      
+      // Update the inventory visually
+      this.updateInventory();
+      
+      // Clear description
+      this.descriptionText.setText("");
+      
+      // Disable action buttons
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(0.2).disableInteractive();
+        this.actionButtonTexts[i].setAlpha(0.2);
+      });
+    }
+  }
+  
+  updateEquippedSlots() {
+    // Get equipped items from character sheet
+    const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+    const equipped = characterSheet.equipped || [];
+    
+    // Clear existing equipped item icons
+// Clear existing equipped item icons
+if (this.equippedItemIcons) {
+  this.equippedItemIcons.forEach(icon => icon.destroy());
+}
+    this.equippedItemIcons = [];
+    
+    // Add icons for equipped items
+    equipped.forEach((item, index) => {
+      if (item) {
+        const slot = this.equippedSlots[index].slot;
+        let icon = this.scene.add.image(slot.x, slot.y, item.texture)
+          .setScale(0.9)
+          .setScrollFactor(0);
+        
+        this.equippedItemIcons.push(icon);
+        this.add(icon);
+      }
+    });
+  }
+  
+  highlightSlot(slot, index) {
+    // Reset previously selected slot
+    if (this.selectedSlotIndex !== null) {
+      this.slots[this.selectedSlotIndex].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+    }
+  
+    this.selectedSlotIndex = index;
+    slot.setStrokeStyle(4, Phaser.Display.Color.GetColor(55, 55, 60));
+  
+    const selectedItem = this.inventory[index];  // Access inventory item
+  
+    if (selectedItem && selectedItem.name) { // Ensure the item exists
+      this.descriptionText.setText(selectedItem.descriptionGa);
+  
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(1).setInteractive();
+        this.actionButtonTexts[i].setAlpha(1); // Make text visible
+      });
+    } else {
+      this.descriptionText.setText("");
+  
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(0.5).disableInteractive();
+        this.actionButtonTexts[i].setAlpha(0.5); // Make text faded too
+      });
+    }
+  }
+  
   updateInventory() {
     // Fetch the current inventory from localStorage (or the passed characterSheet)
     let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
@@ -170,10 +406,15 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         this.itemIcons.push(icon);
         this.add(icon);
       } else {
-        // Log if there are too many items for the available slots
+        // Log if there are too many items
+
+// Log if there are too many items for the available slots
         console.log(`Slot ${index} has no available space for an item.`);
       }
     });
+    
+    // Also update the equipped slots when updating inventory
+    this.updateEquippedSlots();
   }
 
   // Make sure inventory is visible and updated
@@ -184,6 +425,65 @@ class InventoryMenu extends Phaser.GameObjects.Container {
 
   hideInventory() {
     this.setVisible(false);
+    
+    // Reset selection when hiding inventory
+    if (this.selectedSlotIndex !== null) {
+      this.slots[this.selectedSlotIndex].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+      this.selectedSlotIndex = null;
+    }
+    
+    // Clear description
+    this.descriptionText.setText("");
+    
+    // Disable all action buttons
+    this.actionButtons.forEach((button, i) => {
+      button.setAlpha(0.2).disableInteractive();
+      this.actionButtonTexts[i].setAlpha(0.2);
+    });
+  }
+  
+  // Method to handle button hover effects
+  setupButtonHoverEffects() {
+    this.actionButtons.forEach((button, index) => {
+      button.on('pointerover', () => {
+        if (button.input.enabled) {
+          button.setAlpha(1.2);
+          this.actionButtonTexts[index].setAlpha(1.2);
+        }
+      });
+      
+      button.on('pointerout', () => {
+        if (button.input.enabled) {
+          button.setAlpha(1);
+          this.actionButtonTexts[index].setAlpha(1);
+        }
+      });
+    });
+  }
+  
+  // Method to register global event handlers related to inventory
+  registerEvents() {
+    // Listen for item pickup events
+    this.scene.events.on('itemPickedUp', (item) => {
+      // Add item to inventory
+      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+      const inventory = characterSheet.inventory || [];
+      
+      // Check if inventory is full
+      if (inventory.length < this.rows * this.cols) {
+        inventory.push(item);
+        characterSheet.inventory = inventory;
+        localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+        
+        // Update inventory display if it's currently visible
+        if (this.visible) {
+          this.updateInventory();
+        }
+      } else {
+        // Inventory is full - emit an event
+        this.scene.events.emit('inventoryFull', item);
+      }
+    });
   }
 }
 
