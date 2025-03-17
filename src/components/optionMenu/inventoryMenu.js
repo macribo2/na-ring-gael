@@ -21,11 +21,11 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     let lightTea = Phaser.Display.Color.GetColor(210, 180, 140);
     let darkTea = Phaser.Display.Color.GetColor(139, 101, 69);
 
-    let startX = scene.cameras.main.centerX * 0.2; // Centering grid
+    let startX = scene.cameras.main.centerX * 1; // Centering grid
     let startY = scene.cameras.main.centerY * 0.35; // Adjust position
     this.slotSize = 48;
     this.rows = 2;
-    this.cols = 8;
+    this.cols = 5;
     this.slots = [];
 
     this.selectedSlotIndex = null; // To track the currently selected slot
@@ -66,6 +66,53 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     }).setOrigin(0,0).setScrollFactor(0).setDepth(9000); // Center and prevent scrolling
 
     this.add(this.descriptionText);
+  
+  
+  
+  
+    // Equipped items section in a diamond shape
+    this.equippedSlots = [];
+    let centerX = scene.cameras.main.centerX * 0.3
+    let centerY = scene.cameras.main.centerY * 0.5;
+    let equippedSlotLabels = ["", "", "", " "];
+    let positions = [
+      { x: centerX, y: centerY - this.slotSize }, // Top (Head)
+      { x: centerX - this.slotSize, y: centerY }, // Left (Weapon)
+      { x: centerX + this.slotSize, y: centerY }, // Right (Shield)
+      { x: centerX, y: centerY + this.slotSize }  // Bottom (Body)
+    ];
+
+    for (let i = 0; i < 4; i++) {
+      let { x, y } = positions[i];
+
+      let equippedSlot = scene.add.rectangle(x, y, this.slotSize - 4, this.slotSize - 4, darkTea)
+        .setStrokeStyle(2, lightTea)
+        .setAlpha(0.8)
+        .setScrollFactor(0)
+        .setInteractive();
+
+      let label = scene.add.text(x, y - 20, equippedSlotLabels[i], {
+        font: "20px Aonchlo",
+        fill: "#2a3439"
+      }).setOrigin(0.5, 0.5).setScrollFactor(0);
+
+      this.equippedSlots.push({ slot: equippedSlot, label: label });
+      this.add(equippedSlot);
+      this.add(label);
+    }
+
+    this.itemIcons = [];
+    this.setVisible(false);
+    scene.add.existing(this);
+  
+  
+  
+  
+  
+  
+  
+  
+  
   }
 
   // Method to highlight a slot
@@ -91,6 +138,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
       this.descriptionText.setText("");
     }
   }
+  
 
   updateInventory() {
     // Fetch the current inventory from localStorage (or the passed characterSheet)
