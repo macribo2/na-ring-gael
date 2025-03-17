@@ -356,8 +356,6 @@ setTimeout(() => {
     this.load.json('menuContent', 'phaser-resources/json/actionMenuContent.json');
     this.load.json('optionContent', 'phaser-resources/json/optionMenu.json');
     this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
-    this.load.atlas('championSpritesWithKit', 'phaser-resources/images/champions-with-kit.png', 'phaser-resources/json/champions0.json');
-    this.load.atlas('championSpritesNoKit', 'phaser-resources/images/champions-no-kit.png', 'phaser-resources/json/champions0.json');
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
   
     this.load.image('bg1','/phaser-resources/images/bg2.png')
@@ -1397,10 +1395,10 @@ createPlayer(characterSheet) {
   this.player = new PlayerEntity(this, x, y);
 
   // Create Phaser sprite linked to player entity
-  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSpritesNoKit', 'player_idle_0').setOrigin(0.5, 0.9);
+  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0').setOrigin(0.5, 0.9);
 
   // Store grid position and initialize flags
-  this.player.gridX = x;   
+  this.player.gridX = x;
   this.player.gridY = y;
   this.player.previousGridX = x;
   this.player.previousGridY = y;
@@ -1422,7 +1420,7 @@ createPlayer(characterSheet) {
 
   // Update player sprite based on character sheet if provided
   if (characterSheet.spriteKey) {
-    this.player.sprite.setTexture('championSpritesNoKit', characterSheet.spriteKey);
+    this.player.sprite.setTexture('championSprites', characterSheet.spriteKey);
   } else {
     console.warn("No spriteKey found to update player texture.");
   }

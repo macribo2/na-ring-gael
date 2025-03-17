@@ -1,5 +1,5 @@
 import { Inventory } from "./inventory";
-
+import Phaser from "phaser";
 export class GameEntity {
   static ENTITY_TYPES = {
     PLAYER: 'player',
@@ -253,5 +253,46 @@ export class RedCent extends Item {
     player.removeFromInventory(this);  // Remove the Red Cent from the player's inventory
     console.log(`${player.name} dropped the Red Cent.`);
   }
+
+
+
+  
 }
 
+// entities/DroppedItem.js
+export class DroppedItem {
+  constructor(scene, x, y, itemData) {
+    this.scene = scene;
+    this.name = itemData.name;
+    this.texture = itemData.texture;
+    // Copy all properties from itemData
+    Object.assign(this, itemData);
+
+    // Create sprite relative to dungeon's tile grid
+    const TILE_SIZE = 32;
+    this.sprite = scene.physics.add.sprite(
+      x * TILE_SIZE + TILE_SIZE/2,  // Convert grid position to pixels
+      y * TILE_SIZE + TILE_SIZE/2, 
+      this.texture
+    ).setScale(0.75);
+
+    // Add to physics world
+    scene.physics.world.enable(this.sprite);
+    this.sprite.body.setCollideWorldBounds(true).setImmovable(true);
+
+    // Add to dungeon's entity system
+    if (typeof scene.addEntity === 'function') {
+      scene.addEntity(this);
+    } else {
+      scene.add.existing(this.sprite);
+    }
+
+    // Add random offset
+    this.sprite.x += Phaser.Math.Between(-10, 10);
+    this.sprite.y += Phaser.Math.Between(-10, 10);
+  }
+
+  pickup(player) {
+    // Your existing pickup logic
+  }
+}

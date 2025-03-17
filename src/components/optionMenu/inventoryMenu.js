@@ -57,7 +57,7 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   
     // Create a placeholder text element for the description
     this.descriptionText = scene.add.text( scene.cameras.main.centerX * 0.1,
-      (scene.cameras.main.worldView.y + scene.cameras.main.height / scene.cameras.main.zoom) * 0.35, // Adjusted for zoom
+      (scene.cameras.main.worldView.y + scene.cameras.main.height / scene.cameras.main.zoom) * 0.45, // Adjusted for zoom
       
       "", {
       font: "32px Aonchlo",
@@ -218,7 +218,46 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         this.actionButtonTexts[i].setAlpha(0.2);
       });
       
-      // Emit event for the scene to handle the dropped item in the world
+      // Get player's current position from the scene
+      const player = this.scene.player || this.scene.registry.get('player');
+      if (player) {
+        // Create the dropped item sprite at player's position
+        const droppedItem = this.scene.physics.add.sprite(
+          player.x, 
+          player.y, 
+          item.texture
+        ).setScale(0.75);
+        
+        // Add the item data to the sprite for later retrieval
+        droppedItem.itemData = { ...item };
+        
+        // Optional: Add a small random offset so items don't stack perfectly
+        droppedItem.x += Phaser.Math.Between(-10, 10);
+        droppedItem.y += Phaser.Math.Between(-10, 10);
+        
+        // Optional: Add a small bounce effect
+        this.scene.tweens.add({
+          targets: droppedItem,
+          y: droppedItem.y - 10,
+          duration: 100,
+          yoyo: true,
+          ease: 'Quad.easeOut'
+        });
+        
+        // Add to the items group if it exists
+        if (this.scene.itemsGroup) {
+          this.scene.itemsGroup.add(droppedItem);
+        }
+        
+        // Add collision with the player to pick up the item
+        this.scene.physics.add.overlap(player, droppedItem, (player, item) => {
+          // Handle pickup logic here
+          this.scene.events.emit('itemPickedUp', item.itemData);
+          item.destroy();
+        });
+      }
+      
+      // Still emit the event for any other listeners
       this.scene.events.emit('itemDropped', item, index);
     }
   }
