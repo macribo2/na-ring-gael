@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { RedCent,DroppedItem } from "../BallyGamBoy/entities";
 
 class InventoryMenu extends Phaser.GameObjects.Container {
   constructor(scene, inventory) {
@@ -181,86 +182,70 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     // Emit an event that the scene can listen for
     this.scene.events.emit('itemUsed', item, this.selectedSlotIndex);
   }
-  
   dropItem(item) {
     console.log("Dropping item:", item.name);
-    
+  
     // Get the current index of the selected item
     const index = this.selectedSlotIndex;
-    
-    // Remove the item from the inventory array
+  
     if (index !== null && index >= 0 && index < this.inventory.length) {
-      // Remove the item from inventory array
-      this.inventory.splice(index, 1);
-      
-      // Update the character sheet in localStorage
-      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
-      characterSheet.inventory = this.inventory;
-      localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-      
-      // Un-highlight the selected slot
-      if (this.slots[index]) {
-        this.slots[index].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
-      }
-      
-      // Reset selection
-      this.selectedSlotIndex = null;
-      
-      // Update the inventory visually
-      this.updateInventory();
-      
-      // Clear description
-      this.descriptionText.setText("");
-      
-      // Disable action buttons
-      this.actionButtons.forEach((button, i) => {
-        button.setAlpha(0.2).disableInteractive();
-        this.actionButtonTexts[i].setAlpha(0.2);
-      });
-      
-      // Get player's current position from the scene
-      const player = this.scene.player || this.scene.registry.get('player');
-      if (player) {
-        // Create the dropped item sprite at player's position
-        const droppedItem = this.scene.physics.add.sprite(
-          player.x, 
-          player.y, 
-          item.texture
-        ).setScale(0.75);
+        // Remove the item from the inventory array
+        const droppedItem = this.inventory[index];
+        this.inventory.splice(index, 1);
         
-        // Add the item data to the sprite for later retrieval
-        droppedItem.itemData = { ...item };
+        // Update localStorage and UI as before...
         
-        // Optional: Add a small random offset so items don't stack perfectly
-        droppedItem.x += Phaser.Math.Between(-10, 10);
-        droppedItem.y += Phaser.Math.Between(-10, 10);
-        
-        // Optional: Add a small bounce effect
-        this.scene.tweens.add({
-          targets: droppedItem,
-          y: droppedItem.y - 10,
-          duration: 100,
-          yoyo: true,
-          ease: 'Quad.easeOut'
-        });
-        
-        // Add to the items group if it exists
-        if (this.scene.itemsGroup) {
-          this.scene.itemsGroup.add(droppedItem);
+        // Get player's current position from the scene
+        const player = this.scene.player || this.scene.registry.get('player');
+        if (player) {
+            try {
+                // Get the current active scene
+                const gameScene = this.scene.scene.get('DungeonScene') || this.scene;
+                
+                // Debug player position
+                console.log("Player position:", player.x, player.y);
+                
+                // Get the actual player sprite position
+                // Sometimes the player object might have separate x,y properties from its sprite
+                const playerX = player.sprite ? player.sprite.x : player.x;
+                const playerY = player.sprite ? player.sprite.y : player.y;
+                
+                console.log("Actual player sprite position:", playerX, playerY);
+                
+                // Create sprite at player's exact position
+                const droppedSprite = gameScene.physics.add.sprite(
+                    playerX,  // Use exact player X position
+                    playerY + 32, // Drop just below player
+                    'redCent'
+                )
+                .setDepth(9900)
+                .setScale(1);
+                
+                console.log("Created dropped sprite at:", playerX, playerY + 32);
+                
+                // Add collision with player for pickup
+                const playerSprite = player.sprite || player;
+                gameScene.physics.add.overlap(
+                    playerSprite, 
+                    droppedSprite, 
+                    () => {
+                        console.log("Item picked up!");
+                        droppedSprite.destroy();
+                        // Re-add to inventory
+                        player.inventory = player.inventory || [];
+                        player.inventory.push(droppedItem);
+                    }
+                );
+            } catch (error) {
+                console.error('Error dropping item:', error, error.stack);
+            }
         }
-        
-        // Add collision with the player to pick up the item
-        this.scene.physics.add.overlap(player, droppedItem, (player, item) => {
-          // Handle pickup logic here
-          this.scene.events.emit('itemPickedUp', item.itemData);
-          item.destroy();
-        });
-      }
-      
-      // Still emit the event for any other listeners
-      this.scene.events.emit('itemDropped', item, index);
+  
+        // Emit the event for any other listeners
+        this.scene.events.emit('itemDropped', item, index);
     }
-  }
+}
+
   throwItem(item) {
     console.log("Throwing item:", item.name);
     

@@ -1,5 +1,28 @@
 import { Inventory } from "./inventory";
 import Phaser from "phaser";
+
+
+// Item Registry - Add this before other classes
+export class ItemRegistry {
+  static itemClasses = {
+    'Red Cent': RedCent,
+    // Add other items as you create them:
+    // 'Health Potion': HealthPotion,
+  };
+
+  static registerItemClass(name, itemClass) {
+    this.itemClasses[name] = itemClass;
+  }
+
+  static createItem(scene, x, y, itemName) {
+    const ItemClass = this.itemClasses[itemName] || Item;
+    return new ItemClass(scene, x, y);
+  }
+}
+
+
+
+
 export class GameEntity {
   static ENTITY_TYPES = {
     PLAYER: 'player',
@@ -212,87 +235,78 @@ export class PlayerEntity extends GameEntity {
     }
   }
 }
-
 export class RedCent extends Item {
   constructor(scene, x, y) {
-    // Proper parameter order now matches parent class
-    super(scene, x, y, 
-      "Red Cent", 
-      "A worthless red cent. But it's worth something!"
-    );
+    super(scene, x, y, "Red Cent", "A worthless red cent. But it's worth something!");
+    
+    if (!scene) {
+      console.error("Scene is undefined. Cannot add sprite.");
+      return;
+    }
+    
+    this.scene = scene; // Ensure it's correctly assigned
     
     // Add visual representation for the Red Cent
     this.sprite = this.scene.add.sprite(x, y, 'redCent').setDepth(90);
     this.texture = 'redCent';
     this.descriptionGa = 'Pingin rua: \nCruit ar an aghaidh, cuachóg ar cúl. Pingin ádhmharach, b\'feidir.';
     this.descriptionEn = 'Red cent: \nHarp on the face, a sailor\'s knot / plait / young cuckoo on the back. A lucky penny, perhaps.';
+    
     // Enable physics for the sprite
     this.scene.physics.world.enable(this.sprite);
-    this.sprite.body.setCollideWorldBounds(true);  // Optional: prevents the Red Cent from going out of bounds
-    this.sprite.body.setImmovable(true);  // Optional: makes the Red Cent immovable
-
-    // Set additional properties for the Red Cent if needed (e.g., interactions)
+    this.sprite.body.setCollideWorldBounds(true);
+    this.sprite.body.setImmovable(true);
   }
 
-  // Override the pickup method to add the Red Cent to the player's inventory
   pickup(player) {
     super.pickup(player);
-    player.addToInventory(this);  // Add the Red Cent to the player's inventory
+    player.addToInventory(this);
     console.log(`${player.name} picked up a Red Cent.`);
   }
 
-  // Override the use method for when the Red Cent is used
   use(player) {
     super.use(player);
     console.log(`${player.name} used a Red Cent. Nothing special happens.`);
   }
 
-  // Override the drop method for dropping the Red Cent
   drop(player) {
     super.drop(player);
-    player.removeFromInventory(this);  // Remove the Red Cent from the player's inventory
+    player.removeFromInventory(this);
     console.log(`${player.name} dropped the Red Cent.`);
+
+    // Make sure the Red Cent is dropped properly onto the game map
+    // Here, we are assuming the scene has been set correctly
+    const droppedItem = new RedCent(this.scene, player.x, player.y + 32); // Drop slightly below the player
+
+    // If necessary, you can add further logic to check collision, visibility, or other actions
+
+    // Example: Add the dropped item to the world (or make it visible in the scene)
+    this.scene.add.existing(droppedItem.sprite);
+
+    // Enable collision with the player to pick up the dropped item
+    this.scene.physics.add.overlap(player.sprite, droppedItem.sprite, (player, item) => {
+      // Handle pickup logic here
+      this.scene.events.emit('itemPickedUp', item);
+      item.sprite.destroy();  // Destroy the dropped item after pickup
+    });
   }
-
-
-
-  
 }
 
-// entities/DroppedItem.js
-export class DroppedItem {
-  constructor(scene, x, y, itemData) {
-    this.scene = scene;
-    this.name = itemData.name;
-    this.texture = itemData.texture;
-    // Copy all properties from itemData
-    Object.assign(this, itemData);
 
-    // Create sprite relative to dungeon's tile grid
-    const TILE_SIZE = 32;
-    this.sprite = scene.physics.add.sprite(
-      x * TILE_SIZE + TILE_SIZE/2,  // Convert grid position to pixels
-      y * TILE_SIZE + TILE_SIZE/2, 
-      this.texture
-    ).setScale(0.75);
-
-    // Add to physics world
-    scene.physics.world.enable(this.sprite);
-    this.sprite.body.setCollideWorldBounds(true).setImmovable(true);
-
-    // Add to dungeon's entity system
-    if (typeof scene.addEntity === 'function') {
-      scene.addEntity(this);
-    } else {
-      scene.add.existing(this.sprite);
+export class DroppedItem extends GameEntity {
+  constructor(scene, x, y, itemInstance) { // Changed parameter to itemInstance
+      super(scene, x, y, GameEntity.ENTITY_TYPES.ITEM);
+      this.itemInstance = itemInstance;
+      
+      const TILE_SIZE = 32;
+      this.sprite = scene.physics.add.sprite(
+          x * TILE_SIZE + TILE_SIZE/2,
+          y * TILE_SIZE + TILE_SIZE/2, 
+          itemInstance.texture
+      ).setDepth(9900);
+      
+      // Link sprite to the actual item instance
+      this.sprite.entityParent = this.itemInstance;
+      
     }
-
-    // Add random offset
-    this.sprite.x += Phaser.Math.Between(-10, 10);
-    this.sprite.y += Phaser.Math.Between(-10, 10);
-  }
-
-  pickup(player) {
-    // Your existing pickup logic
-  }
 }
