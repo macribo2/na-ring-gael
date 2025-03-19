@@ -193,7 +193,30 @@ class InventoryMenu extends Phaser.GameObjects.Container {
         const droppedItem = this.inventory[index];
         this.inventory.splice(index, 1);
         
-        // Update localStorage and UI as before...
+        // Update the character sheet in localStorage
+        const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+        characterSheet.inventory = this.inventory;
+        localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+  
+        // Un-highlight the selected slot
+        if (this.slots[index]) {
+            this.slots[index].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+        }
+  
+        // Reset selection
+        this.selectedSlotIndex = null;
+  
+        // Update the inventory visually
+        this.updateInventory();
+  
+        // Clear description
+        this.descriptionText.setText("");
+  
+        // Disable action buttons
+        this.actionButtons.forEach((button, i) => {
+            button.setAlpha(0.2).disableInteractive();
+            this.actionButtonTexts[i].setAlpha(0.2);
+        });
         
         // Get player's current position from the scene
         const player = this.scene.player || this.scene.registry.get('player');
@@ -206,7 +229,6 @@ class InventoryMenu extends Phaser.GameObjects.Container {
                 console.log("Player position:", player.x, player.y);
                 
                 // Get the actual player sprite position
-                // Sometimes the player object might have separate x,y properties from its sprite
                 const playerX = player.sprite ? player.sprite.x : player.x;
                 const playerY = player.sprite ? player.sprite.y : player.y;
                 
@@ -231,11 +253,38 @@ class InventoryMenu extends Phaser.GameObjects.Container {
                     () => {
                         console.log("Item picked up!");
                         droppedSprite.destroy();
-                        // Re-add to inventory
-                        player.inventory = player.inventory || [];
-                        player.inventory.push(droppedItem);
+                        
+                        // Add item back to character sheet in localStorage
+                        let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+                        if (!characterSheet.inventory) {
+                            characterSheet.inventory = [];
+                        }
+                        
+                        // Create a simplified version of the item to store
+                        const itemData = {
+                            name: droppedItem.name,
+                            type: droppedItem.type,
+                            texture: droppedItem.texture,
+                            descriptionGa: droppedItem.descriptionGa,
+                            descriptionEn: droppedItem.descriptionEn
+                        };
+                        
+                        // Add to localStorage inventory
+                        characterSheet.inventory.push(itemData);
+                        localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+                        
+                        console.log("Item added back to inventory in localStorage");
+                        
+                        // Update the inventory UI if needed
+                        if (this.updateInventory && typeof this.updateInventory === 'function') {
+                            this.updateInventory();
+                        }
+                        
+                        // Emit an event for other listeners
+                        gameScene.events.emit('itemPickedUp', droppedItem);
                     }
                 );
+                
             } catch (error) {
                 console.error('Error dropping item:', error, error.stack);
             }
