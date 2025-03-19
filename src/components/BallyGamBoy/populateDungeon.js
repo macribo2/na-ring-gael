@@ -1,101 +1,114 @@
-import { RedCent } from './entities';
+import { Item, RedCent, Armour } from './entities';  // Import the base Item class and specific items
+
+// Helper function to generate a random item (e.g., RedCent, etc.)
+function generateRandomItem(scene, x, y) {
+  const itemTypes = [RedCent];  // Add more item types here as you create them
+  const randomItemClass = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+  return new randomItemClass(scene, x, y);  // Create a random item at the given coordinates
+}
 
 export default function populateDungeon(dungeon, inventoryMenu) {
-    // Ensure dungeon and physics are properly initialized
-    if (!dungeon || !dungeon.physics) {
-        console.error("Dungeon scene or physics system is not initialized.");
-        return;
-    }
+  // Ensure dungeon and physics are properly initialized
+  if (!dungeon || !dungeon.physics) {
+    console.error("Dungeon scene or physics system is not initialized.");
+    return;
+  }
 
-    // Ensure the dungeon has rooms
-    if (!dungeon.rooms) {
-        console.error("populateDungeon: Dungeon or rooms list is missing!");
-        return;
-    }
+  // Ensure the dungeon has rooms
+  if (!dungeon.rooms) {
+    console.error("populateDungeon: Dungeon or rooms list is missing!");
+    return;
+  }
 
-    const rooms = dungeon.rooms;
+  const rooms = dungeon.rooms;
 
-    // Ensure there are rooms in the dungeon
-    if (rooms.length === 0) {
-        console.error("populateDungeon: No rooms found in the dungeon!");
-        return;
-    }
+  // Ensure there are rooms in the dungeon
+  if (rooms.length === 0) {
+    console.error("populateDungeon: No rooms found in the dungeon!");
+    return;
+  }
 
-    console.log(`populateDungeon: Found ${rooms.length} rooms.`);
+  console.log(`populateDungeon: Found ${rooms.length} rooms.`);
 
-    // Pick a random room from the dungeon
-    const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
-    let TILE_SIZE = 32;
+  let TILE_SIZE = 32;
 
-    // Calculate the center coordinates of the room
-    const centerX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
-    const centerY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
+  // Guarantee that an Armour item is placed in a random room
+  const armourRoom = rooms[Math.floor(Math.random() * rooms.length)];
+  const armourX = Math.floor((armourRoom._x1 + armourRoom._x2) / 2);
+  const armourY = Math.floor((armourRoom._y1 + armourRoom._y2) / 2);
+  const armourPixelX = armourX * TILE_SIZE + TILE_SIZE / 2;
+  const armourPixelY = armourY * TILE_SIZE + TILE_SIZE / 2;
 
-    const pixelX = centerX * TILE_SIZE + TILE_SIZE / 2;
-    const pixelY = centerY * TILE_SIZE + TILE_SIZE / 2;
+  const armour = new Armour(dungeon, armourPixelX, armourPixelY);
+  if (typeof dungeon.addEntity === 'function') {
+    dungeon.addEntity(armour);
+  } else {
+    dungeon.add.existing(armour);
+  }
+  console.log(`populateDungeon: Placed Armour at (${armourX}, ${armourY})`);
 
-    // Create a RedCent item at the calculated position
-    const redCent = new RedCent(dungeon, pixelX, pixelY);
+  // Pick another random room for a general item
+  const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+  const centerX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
+  const centerY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
+  const pixelX = centerX * TILE_SIZE + TILE_SIZE / 2;
+  const pixelY = centerY * TILE_SIZE + TILE_SIZE / 2;
 
-    // Add the Red Cent to the dungeon or entity group
-    if (typeof dungeon.addEntity === 'function') {
-        dungeon.addEntity(redCent);
-    } else {
-        dungeon.add.existing(redCent);
-    }
-    console.log(`populateDungeon: Placed Red Cent at (${centerX}, ${centerY})`);
+  // Create a random item (RedCent, etc.) at the calculated position
+  const item = generateRandomItem(dungeon, pixelX, pixelY);
+  if (typeof dungeon.addEntity === 'function') {
+    dungeon.addEntity(item);
+  } else {
+    dungeon.add.existing(item);
+  }
+  console.log(`populateDungeon: Placed ${item.name} at (${centerX}, ${centerY})`);
 
-    // Ensure the RedCent has a physics body enabled
-    dungeon.physics.world.enable(redCent.sprite);
-    redCent.sprite.body.setCollideWorldBounds(true); // Prevent RedCent from going out of bounds
-    redCent.sprite.body.setImmovable(true); // Make RedCent immovable
+  // Handle collision detection with the player
+  const player = dungeon.player;  // Assuming you have a player object in the dungeon
+  if (player) {
+    dungeon.physics.add.overlap(
+      player.sprite,
+      [item.sprite, armour.sprite],
+      (playerSprite, pickedItem) => {
+        const gameItem = pickedItem === item.sprite ? item : armour;
+        if (!gameItem.pickedUp) {
+          gameItem.pickedUp = true;
+          console.log("Before pickup:", player.inventory.items);
 
-    // Handle collision detection with the player
-    const player = dungeon.player;  // Assuming you have a player object in the dungeon
+          // Pickup logic
+          gameItem.pickup(player);
 
-    if (player) {
-        dungeon.physics.add.overlap(
-            player.sprite,
-            redCent.sprite,
-            () => {
-                if (!redCent.pickedUp) {  // Prevent multiple pickups
-                    redCent.pickedUp = true;
-                    console.log("Before pickup:", player.inventory.items);
+          // Add the item to the character's inventory in localStorage
+          let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+          if (!characterSheet.inventory) {
+            characterSheet.inventory = []; // Initialize inventory if it doesn't exist
+          }
 
-                    // Pickup logic
-                    redCent.pickup(player);
+          // Only store necessary properties, like name, type, and texture
+          const itemData = {
+            name: gameItem.name,
+            type: gameItem.type,
+            texture: gameItem.name,
+            descriptionGa: gameItem.descriptionGa,
+            descriptionEn: gameItem.descriptionEn,
+          };
 
-                    // Add RedCent to the character's inventory in localStorage
-                    let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
-                    if (!characterSheet.inventory) {
-                        characterSheet.inventory = []; // Initialize inventory if it doesn't exist
-                    }
+          characterSheet.inventory.push(itemData);
+          localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
 
-                    // Only store necessary properties, like name and type
-                    const redCentData = {
-                        name: redCent.name, // Add relevant properties
-                        type: redCent.type,
-                        texture: redCent.texture,
-                        descriptionGa: redCent.descriptionGa, // Add other relevant properties as needed
-                        descriptionEn: redCent.descriptionEn, // Add other relevant properties as needed
-                    };
+          console.log("After pickup:", player.inventory.items);
 
-                    characterSheet.inventory.push(redCentData); // Add the RedCent to the inventory
-                    localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+          // Remove item after pickup
+          gameItem.sprite.destroy();
 
-                    console.log("After pickup:", player.inventory.items);
-
-                    // Optional: Remove Red Cent after pickup
-                    redCent.sprite.destroy();
-
-                    // Update the inventory UI
-                    if (inventoryMenu) {
-                        inventoryMenu.updateInventory();
-                    }
-                }
-            },
-            null,
-            dungeon
-        );
-    }
+          // Update the inventory UI
+          if (inventoryMenu) {
+            inventoryMenu.updateInventory();
+          }
+        }
+      },
+      null,
+      dungeon
+    );
+  }
 }

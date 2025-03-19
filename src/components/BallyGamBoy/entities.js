@@ -1,28 +1,8 @@
+
 import { Inventory } from "./inventory";
 import Phaser from "phaser";
 
-
-// Item Registry - Add this before other classes
-export class ItemRegistry {
-  static itemClasses = {
-    'Red Cent': RedCent,
-    // Add other items as you create them:
-    // 'Health Potion': HealthPotion,
-  };
-
-  static registerItemClass(name, itemClass) {
-    this.itemClasses[name] = itemClass;
-  }
-
-  static createItem(scene, x, y, itemName) {
-    const ItemClass = this.itemClasses[itemName] || Item;
-    return new ItemClass(scene, x, y);
-  }
-}
-
-
-
-
+// GameEntity class remains the same
 export class GameEntity {
   static ENTITY_TYPES = {
     PLAYER: 'player',
@@ -30,7 +10,6 @@ export class GameEntity {
     ITEM: 'item'
   };
 
-  // Scene MUST be first parameter
   constructor(scene, x, y, type) {
     this.scene = scene; // Store scene reference
     this.x = x;
@@ -39,7 +18,6 @@ export class GameEntity {
     this.energy = 0;
     this.speed = 10;
   }
-
 
   getSpeed() {
     return this.speed;
@@ -58,33 +36,105 @@ export class GameEntity {
 }
 
 export class Item extends GameEntity {
-  // Now properly receives scene first
-  constructor(scene, x, y, name, description, type = GameEntity.ENTITY_TYPES.ITEM) {
-    super(scene, x, y, type); // Pass scene to parent
+  constructor(scene, x, y, name,type, descriptionGa, descriptionEn) {
+    super(scene, x, y, GameEntity.ENTITY_TYPES.ITEM);
     this.name = name;
-    this.description = description;
+    this.texture = name; // Add this line to set the texture property
+    this.descriptionGa = descriptionGa;
+    this.descriptionEn = descriptionEn;
+    this.type = type;
+
+    // Use the name as the texture key
+    this.sprite = scene.add.sprite(x, y, name).setDepth(90);
+
+    // Enable physics
+    scene.physics.world.enable(this.sprite);
+    this.sprite.body.setCollideWorldBounds(true);
+    this.sprite.body.setImmovable(true);
   }
+
   pickup(player) {
-    if (!this.pickedUp) {  // ✅ Prevent multiple pickups
-        this.pickedUp = true;
-        super.pickup(player);  // ✅ Only call the parent method once
-        console.log(`${player.name} picked up something.`);
+    if (!this.pickedUp) {
+      this.pickedUp = true;
+      player.addToInventory(this);
+      console.log(`${player.name} picked up ${this.name}.`);
     }
-}
+  }
 
-  // Override the use method for when the Red Cent is used
   use(player) {
-    super.use(player);
-    console.log(`${player.name} used a Red Cent. Nothing special happens.`);
+    console.log(`${player.name} used ${this.name}. Nothing special happens.`);
   }
 
-  // Override the drop method for dropping the Red Cent
   drop(player) {
-    super.drop(player);
-    player.removeFromInventory(this);  // Remove the Red Cent from the player's inventory
-    console.log(`${player.name} dropped the Red Cent.`);
+    player.removeFromInventory(this);
+    console.log(`${player.name} dropped the ${this.name}.`);
+
+    // Dropping the item back into the world
+    const droppedItem = new DroppedItem(this.scene, player.x, player.y + 32, this);
+    this.scene.add.existing(droppedItem.sprite);
   }
 }
+
+// RedCent class, now simplified
+export class RedCent extends Item {
+  constructor(scene, x, y) {
+    super(
+      scene,
+      x,
+      y,
+      "redCent",
+      "equip-left",
+      "Cruit ar taobh amhain, cuachóg ar an taobh eile. Pingin ádhmharach.",
+      "Harp on one side, a braided knot or young cuckoo on the back. Lucky penny."
+    );
+  }
+}
+
+export class Armour extends Item {
+  constructor(scene, x, y) {
+    super(
+      scene,
+      x,
+      y,
+      "armour",
+      "equip-body",
+      "Cathéide",
+      "Battle garment"
+    );
+  }
+
+  use(player) {
+    super.use(player);  // Call the default use behavior
+    console.log(`${player.name} used battle garment. It's shiny and valuable!`);
+  }
+}
+
+// DroppedItem class to handle dropped items in the world
+export class DroppedItem extends GameEntity {
+  constructor(scene, x, y, itemInstance) {
+    super(scene, x, y, GameEntity.ENTITY_TYPES.ITEM);
+    this.itemInstance = itemInstance;
+    
+    const TILE_SIZE = 32;
+    this.sprite = scene.physics.add.sprite(
+        x * TILE_SIZE + TILE_SIZE / 2,
+        y * TILE_SIZE + TILE_SIZE / 2, 
+        itemInstance.name
+    ).setDepth(19);
+    
+    // Link sprite to the actual item instance
+    this.sprite.entityParent = this.itemInstance;
+
+    // Handle pickup logic if player overlaps with the dropped item
+    scene.physics.add.overlap(scene.player.sprite, this.sprite, () => {
+      if (!itemInstance.pickedUp) {
+        itemInstance.pickup(scene.player);
+        this.sprite.destroy();  // Remove the dropped item
+      }
+    });
+  }
+}
+
 export class PlayerEntity extends GameEntity {
   constructor(scene, x, y) {
     super(scene, x, y, GameEntity.ENTITY_TYPES.PLAYER);
@@ -234,79 +284,4 @@ export class PlayerEntity extends GameEntity {
       this.sprite.setPosition(this.x, this.y);
     }
   }
-}
-export class RedCent extends Item {
-  constructor(scene, x, y) {
-    super(scene, x, y, "Red Cent", "A worthless red cent. But it's worth something!");
-    
-    if (!scene) {
-      console.error("Scene is undefined. Cannot add sprite.");
-      return;
-    }
-    
-    this.scene = scene; // Ensure it's correctly assigned
-    
-    // Add visual representation for the Red Cent
-    this.sprite = this.scene.add.sprite(x, y, 'redCent').setDepth(90);
-    this.texture = 'redCent';
-    this.descriptionGa = 'Pingin rua: \nCruit ar an aghaidh, cuachóg ar cúl. Pingin ádhmharach, b\'feidir.';
-    this.descriptionEn = 'Red cent: \nHarp on the face, a sailor\'s knot / plait / young cuckoo on the back. A lucky penny, perhaps.';
-    
-    // Enable physics for the sprite
-    this.scene.physics.world.enable(this.sprite);
-    this.sprite.body.setCollideWorldBounds(true);
-    this.sprite.body.setImmovable(true);
-  }
-
-  pickup(player) {
-    super.pickup(player);
-    player.addToInventory(this);
-    console.log(`${player.name} picked up a Red Cent.`);
-  }
-
-  use(player) {
-    super.use(player);
-    console.log(`${player.name} used a Red Cent. Nothing special happens.`);
-  }
-
-  drop(player) {
-    super.drop(player);
-    player.removeFromInventory(this);
-    console.log(`${player.name} dropped the Red Cent.`);
-
-    // Make sure the Red Cent is dropped properly onto the game map
-    // Here, we are assuming the scene has been set correctly
-    const droppedItem = new RedCent(this.scene, player.x, player.y + 32); // Drop slightly below the player
-
-    // If necessary, you can add further logic to check collision, visibility, or other actions
-
-    // Example: Add the dropped item to the world (or make it visible in the scene)
-    this.scene.add.existing(droppedItem.sprite);
-
-    // Enable collision with the player to pick up the dropped item
-    this.scene.physics.add.overlap(player.sprite, droppedItem.sprite, (player, item) => {
-      // Handle pickup logic here
-      this.scene.events.emit('itemPickedUp', item);
-      item.sprite.destroy();  // Destroy the dropped item after pickup
-    });
-  }
-}
-
-
-export class DroppedItem extends GameEntity {
-  constructor(scene, x, y, itemInstance) { // Changed parameter to itemInstance
-      super(scene, x, y, GameEntity.ENTITY_TYPES.ITEM);
-      this.itemInstance = itemInstance;
-      
-      const TILE_SIZE = 32;
-      this.sprite = scene.physics.add.sprite(
-          x * TILE_SIZE + TILE_SIZE/2,
-          y * TILE_SIZE + TILE_SIZE/2, 
-          itemInstance.texture
-      ).setDepth(9900);
-      
-      // Link sprite to the actual item instance
-      this.sprite.entityParent = this.itemInstance;
-      
-    }
 }

@@ -328,6 +328,7 @@ setTimeout(() => {
     this.load.audio('coin', '/phaser-resources/audio/coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
     this.load.image('redCent', '/phaser-resources/images/items/redCent.png');
+    this.load.image('armour', '/phaser-resources/images/items/armour.png');
     this.load.image('character', '/phaser-resources/images/placeholders/log0.png');
     this.load.image('settings', '/phaser-resources/images/placeholders/log1.png');
     this.load.image('chat', '/phaser-resources/images/placeholders/log2.png');
@@ -355,6 +356,8 @@ setTimeout(() => {
   
     this.load.json('menuContent', 'phaser-resources/json/actionMenuContent.json');
     this.load.json('optionContent', 'phaser-resources/json/optionMenu.json');
+    this.load.atlas('championSpritesNoKit', 'phaser-resources/images/champions-no-kit.png', 'phaser-resources/json/champions0.json');
+    this.load.atlas('championSpritesWithKit', 'phaser-resources/images/champions-with-kit.png', 'phaser-resources/json/champions0.json');
     this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
     this.load.image('knotwork', 'phaser-resources/images/rotjs/pathfinding-knot.png');
   
@@ -1395,7 +1398,7 @@ createPlayer(characterSheet) {
   this.player = new PlayerEntity(this, x, y);
 
   // Create Phaser sprite linked to player entity
-  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSprites', 'player_idle_0').setOrigin(0.5, 0.9);
+  this.player.sprite = this.add.sprite(x * this.tileSize, y * this.tileSize, 'championSpritesNoKit', 'player_idle_0').setOrigin(0.5, 0.9);
 
   // Store grid position and initialize flags
   this.player.gridX = x;
@@ -1420,7 +1423,7 @@ createPlayer(characterSheet) {
 
   // Update player sprite based on character sheet if provided
   if (characterSheet.spriteKey) {
-    this.player.sprite.setTexture('championSprites', characterSheet.spriteKey);
+    this.player.sprite.setTexture('championSpritesNoKit', characterSheet.spriteKey);
   } else {
     console.warn("No spriteKey found to update player texture.");
   }

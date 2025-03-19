@@ -69,38 +69,37 @@ class InventoryMenu extends Phaser.GameObjects.Container {
     this.add(this.descriptionText);
   
   
-  
-  
-    // Equipped items section in a diamond shape
-    this.equippedSlots = [];
-    let centerX = scene.cameras.main.centerX * 0.3
-    let centerY = scene.cameras.main.centerY * 0.5;
-    let equippedSlotLabels = ["", "", "", " "];
-    let positions = [
-      { x: centerX, y: centerY - this.slotSize }, // Top (Head)
-      { x: centerX - this.slotSize, y: centerY }, // Left (Weapon)
-      { x: centerX + this.slotSize, y: centerY }, // Right (Shield)
-      { x: centerX, y: centerY + this.slotSize }  // Bottom (Body)
-    ];
+  // Equipped items section in a diamond shape
+this.equippedSlots = [];
+let centerX = scene.cameras.main.centerX * 0.3;
+let centerY = scene.cameras.main.centerY * 0.5;
+let equippedSlotLabels = ["", "", "", " ", ""]; // Added an extra label for the central slot
+let positions = [
+  { x: centerX, y: centerY - this.slotSize }, // Top (Head)
+  { x: centerX - this.slotSize, y: centerY }, // Left (Weapon)
+  { x: centerX + this.slotSize, y: centerY }, // Right (Shield)
+  { x: centerX, y: centerY + this.slotSize }, // Bottom (Body)
+  { x: centerX, y: centerY }  // Center (Main Item) - This is the new slot
+];
 
-    for (let i = 0; i < 4; i++) {
-      let { x, y } = positions[i];
+for (let i = 0; i < 5; i++) { // Loop through 5 instead of 4
+  let { x, y } = positions[i];
 
-      let equippedSlot = scene.add.rectangle(x, y, this.slotSize - 4, this.slotSize - 4, darkTea)
-        .setStrokeStyle(2, lightTea)
-        .setAlpha(0.8)
-        .setScrollFactor(0)
-        .setInteractive();
+  let equippedSlot = scene.add.rectangle(x, y, this.slotSize - 4, this.slotSize - 4, darkTea)
+    .setStrokeStyle(2, lightTea)
+    .setAlpha(0.8)
+    .setScrollFactor(0)
+    .setInteractive();
 
-      let label = scene.add.text(x, y - 20, equippedSlotLabels[i], {
-        font: "20px Aonchlo",
-        fill: "#2a3439"
-      }).setOrigin(0.5, 0.5).setScrollFactor(0);
+  let label = scene.add.text(x, y - 20, equippedSlotLabels[i], {
+    font: "20px Aonchlo",
+    fill: "#2a3439"
+  }).setOrigin(0.5, 0.5).setScrollFactor(0);
 
-      this.equippedSlots.push({ slot: equippedSlot, label: label });
-      this.add(equippedSlot);
-      this.add(label);
-    }
+  this.equippedSlots.push({ slot: equippedSlot, label: label });
+  this.add(equippedSlot);
+  this.add(label);
+}
 
     this.itemIcons = [];
     this.setVisible(false);
@@ -160,140 +159,275 @@ class InventoryMenu extends Phaser.GameObjects.Container {
   });
   }
 
-  // Action methods for the buttons
   useItem(item) {
     console.log("Using item:", item.name);
     
     // Handle different item types
     if (item.type === "consumable") {
-      // Handle consumable items (potions, food, etc)
-      this.handleConsumable(item);
-    } else if (item.type === "equipment") {
-      // Handle equipment (weapons, armor, etc)
-      this.equipItem(item);
+        // Handle consumable items (potions, food, etc)
+        this.handleConsumable(item);
+    } else if (item.type === "equip-body") {
+        // Equip armor to the central slot
+        this.equipArmor(item); // Equip armor
     } else if (item.type === "key") {
-      // Handle key items which may trigger events
-      this.scene.events.emit('useKeyItem', item);
+        // Handle key items which may trigger events
+        this.scene.events.emit('useKeyItem', item);
     } else {
-      // Generic use case
-      this.scene.events.emit('useItem', item);
+        // Generic use case
+        this.scene.events.emit('useItem', item);
     }
     
     // Emit an event that the scene can listen for
     this.scene.events.emit('itemUsed', item, this.selectedSlotIndex);
+}
+
+equipArmor(item) {
+  const player = this.scene.player || this.scene.registry.get('player');
+
+  if (!player) {
+      console.error("Player object not found!");
+      return;
   }
+
+  // Get the current index of the selected item
+  const index = this.selectedSlotIndex;
+
+  if (index !== null && index >= 0 && index < this.inventory.length) {
+      // Remove the item from the inventory array
+      const equippedItem = this.inventory[index];
+      this.inventory.splice(index, 1);
+      
+      // IMPORTANT: Find and destroy the item icon in the inventory slot
+      if (this.itemIcons && this.itemIcons[index]) {
+          this.itemIcons[index].destroy();
+          // Remove from the itemIcons array as well
+          this.itemIcons.splice(index, 1);
+      }
+
+      // Un-highlight the selected slot
+      if (this.slots[index]) {
+          this.slots[index].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+      }
+
+      // Reset selection
+      this.selectedSlotIndex = null;
+
+      // Clear description
+      if (this.descriptionText) {
+          this.descriptionText.setText("");
+      }
+
+      // Disable action buttons
+      if (this.actionButtons) {
+          this.actionButtons.forEach((button, i) => {
+              button.setAlpha(0.2).disableInteractive();
+              if (this.actionButtonTexts && this.actionButtonTexts[i]) {
+                  this.actionButtonTexts[i].setAlpha(0.2);
+              }
+          });
+      }
+
+      // Add the item to the central equipment slot (equippedSlots[4])
+      let centerSlot = this.equippedSlots[4];
+      centerSlot.slot.setFillStyle(0x8B6545);
+      
+      // Remove any previous graphic
+      if (centerSlot.itemGraphic) {
+          centerSlot.itemGraphic.destroy();
+      }
+
+      // Use the same approach as updateEquippedSlots
+      const textureKey = item.texture || item.name;
+      console.log("Using texture key for equipped item:", textureKey);
+      
+      // Create an image instead of a sprite
+      centerSlot.itemGraphic = this.scene.add.image(
+          centerSlot.slot.x, 
+          centerSlot.slot.y, 
+          textureKey
+      )
+      .setScale(0.9)
+      .setScrollFactor(0);
+      
+      // Add it to the container
+      this.add(centerSlot.itemGraphic);
+      
+      console.log("Successfully added item graphic with texture:", textureKey);
+      
+      // Update player stats or conditions
+      player.armor = item;
+      
+      // Update characterSheet in localStorage
+      const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+      
+      // Update inventory in localStorage
+      characterSheet.inventory = this.inventory;
+      
+      // Initialize equipped array if it doesn't exist
+      if (!characterSheet.equipped) {
+          characterSheet.equipped = [];
+      }
+      
+      // Set the armor in the central slot (index 4)
+      characterSheet.equipped[4] = item;
+      
+      // Save the updated character sheet
+      localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+      
+      // Rebuild the entire inventory display to ensure it's correct
+      this.rebuildInventoryDisplay();
+      
+      // Call updateEquippedSlots to show all equipped items
+      if (this.updateEquippedSlots && typeof this.updateEquippedSlots === 'function') {
+          this.updateEquippedSlots();
+      }
+      
+      // Emit the event for any other listeners
+      this.scene.events.emit('itemEquipped', item, 4);
+  }
+}
+
+// Add this helper method to completely rebuild the inventory display
+rebuildInventoryDisplay() {
+  // First, clear all existing item icons
+  if (this.itemIcons) {
+    this.itemIcons.forEach(icon => {
+      if (icon && icon.destroy) {
+        icon.destroy();
+      }
+    });
+  }
+  this.itemIcons = [];
+  
+  // Now rebuild the icons from the current inventory data
+  this.inventory.forEach((item, i) => {
+    if (item) {
+      const slot = this.slots[i];
+      const textureKey = item.texture || item.name;
+      
+      if (slot) {
+        const icon = this.scene.add.image(
+          slot.x, 
+          slot.y, 
+          textureKey
+        )
+        .setScale(0.9)
+        .setScrollFactor(0);
+        
+        this.itemIcons[i] = icon;
+        this.add(icon);
+      }
+    }
+  });
+  
+  console.log("Inventory display rebuilt with", this.itemIcons.length, "items");
+}
   dropItem(item) {
     console.log("Dropping item:", item.name);
-  
+
     // Get the current index of the selected item
     const index = this.selectedSlotIndex;
-  
+
     if (index !== null && index >= 0 && index < this.inventory.length) {
         // Remove the item from the inventory array
         const droppedItem = this.inventory[index];
         this.inventory.splice(index, 1);
-        
+
         // Update the character sheet in localStorage
         const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
         characterSheet.inventory = this.inventory;
         localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-  
+
         // Un-highlight the selected slot
         if (this.slots[index]) {
             this.slots[index].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
         }
-  
+
         // Reset selection
         this.selectedSlotIndex = null;
-  
+
         // Update the inventory visually
         this.updateInventory();
-  
+
         // Clear description
         this.descriptionText.setText("");
-  
+
         // Disable action buttons
         this.actionButtons.forEach((button, i) => {
             button.setAlpha(0.2).disableInteractive();
             this.actionButtonTexts[i].setAlpha(0.2);
         });
-        
+
         // Get player's current position from the scene
         const player = this.scene.player || this.scene.registry.get('player');
         if (player) {
             try {
-                // Get the current active scene
-                const gameScene = this.scene.scene.get('DungeonScene') || this.scene;
-                
-                // Debug player position
-                console.log("Player position:", player.x, player.y);
-                
                 // Get the actual player sprite position
                 const playerX = player.sprite ? player.sprite.x : player.x;
                 const playerY = player.sprite ? player.sprite.y : player.y;
-                
-                console.log("Actual player sprite position:", playerX, playerY);
-                
-                // Create sprite at player's exact position
-                const droppedSprite = gameScene.physics.add.sprite(
-                    playerX,  // Use exact player X position
-                    playerY + 32, // Drop just below player
+
+                console.log("Player position:", playerX, playerY);
+
+                // Create sprite at player's exact position (slightly below player)
+                const droppedSprite = this.scene.physics.add.sprite(
+                    playerX, 
+                    playerY + 12, // Drop just below player
                     'redCent'
-                )
-                .setDepth(9900)
-                .setScale(1);
-                
+                ).setDepth(9900).setScale(1);
+
                 console.log("Created dropped sprite at:", playerX, playerY + 32);
-                
+
                 // Add collision with player for pickup
                 const playerSprite = player.sprite || player;
-                gameScene.physics.add.overlap(
+                this.scene.physics.add.overlap(
                     playerSprite, 
                     droppedSprite, 
                     () => {
                         console.log("Item picked up!");
                         droppedSprite.destroy();
-                        
+
                         // Add item back to character sheet in localStorage
                         let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
                         if (!characterSheet.inventory) {
                             characterSheet.inventory = [];
                         }
-                        
+
                         // Create a simplified version of the item to store
                         const itemData = {
                             name: droppedItem.name,
                             type: droppedItem.type,
-                            texture: droppedItem.texture,
+                            texture: droppedItem.name,
                             descriptionGa: droppedItem.descriptionGa,
                             descriptionEn: droppedItem.descriptionEn
-                        };
-                        
+                       };
+
                         // Add to localStorage inventory
                         characterSheet.inventory.push(itemData);
                         localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-                        
+
                         console.log("Item added back to inventory in localStorage");
-                        
+
                         // Update the inventory UI if needed
                         if (this.updateInventory && typeof this.updateInventory === 'function') {
                             this.updateInventory();
                         }
-                        
+
                         // Emit an event for other listeners
-                        gameScene.events.emit('itemPickedUp', droppedItem);
+                        this.scene.events.emit('itemPickedUp', droppedItem);
                     }
                 );
-                
+
             } catch (error) {
                 console.error('Error dropping item:', error, error.stack);
             }
         }
-  
+
         // Emit the event for any other listeners
         this.scene.events.emit('itemDropped', item, index);
     }
-}
+    this.hideInventory()
+  
+  }
 
   throwItem(item) {
     console.log("Throwing item:", item.name);
@@ -411,7 +545,7 @@ if (this.equippedItemIcons) {
     equipped.forEach((item, index) => {
       if (item) {
         const slot = this.equippedSlots[index].slot;
-        let icon = this.scene.add.image(slot.x, slot.y, item.texture)
+        let icon = this.scene.add.image(slot.x, slot.y, item.name)
           .setScale(0.9)
           .setScrollFactor(0);
         
