@@ -107,7 +107,32 @@ for (let i = 0; i < 5; i++) { // Loop through 5 instead of 4
   
   
   
-  
+    this.selectedEquippedSlotIndex = null; // Track the selected equipped slot
+
+    for (let i = 0; i < 5; i++) {
+      let { x, y } = positions[i];
+    
+      let equippedSlot = scene.add.rectangle(x, y, this.slotSize - 4, this.slotSize - 4, darkTea)
+        .setStrokeStyle(2, lightTea)
+        .setAlpha(0.8)
+        .setScrollFactor(0)
+        .setInteractive();
+    
+      let label = scene.add.text(x, y - 20, equippedSlotLabels[i], {
+        font: "20px Aonchlo",
+        fill: "#2a3439"
+      }).setOrigin(0.5, 0.5).setScrollFactor(0);
+    
+      // Add click event for highlighting
+      equippedSlot.on('pointerdown', () => {
+        this.highlightEquippedSlot(i); // Pass index of clicked slot
+      });
+    
+      this.equippedSlots.push({ slot: equippedSlot, label: label });
+      this.add(equippedSlot);
+      this.add(label);
+    }
+    
   
   // Add action buttons (Use, Drop, Throw) in top-right quadrant with fixed width
   let buttonStartX = scene.cameras.main.centerX * 1.5;
@@ -131,6 +156,26 @@ for (let i = 0; i < 5; i++) { // Loop through 5 instead of 4
     }).setOrigin(0.5, 0.5).setScrollFactor(0).setAlpha(0.2);
 
     button.disableInteractive(); // Disable interaction initially
+// Add "Unequip" button below the other action buttons
+let unequipButtonY = buttonStartY  // Position below last button
+
+this.unequipButton = scene.add.rectangle(buttonStartX, unequipButtonY, buttonWidth, buttonHeight, 0xD2B48C)
+  .setStrokeStyle(2, 0x8B6545)
+  .setScrollFactor(0)
+  .setAlpha(0) // Initially low opacity
+  .setInteractive();
+
+this.unequipButtonText = scene.add.text(buttonStartX, unequipButtonY, "bain", {
+  font: "24px Aonchlo",
+  fill: "#2a3439"
+}).setOrigin(0.5, 0.5).setScrollFactor(0).setAlpha(0); // Initially faded
+
+// Disable interaction at start
+this.unequipButton.disableInteractive();
+
+// Add to menu container
+this.add(this.unequipButton);
+this.add(this.unequipButtonText);
 
     // Add button handlers based on index
     button.on('pointerdown', () => {
@@ -157,8 +202,213 @@ for (let i = 0; i < 5; i++) { // Loop through 5 instead of 4
     this.add(button);
     this.add(buttonText);
   });
-  }
 
+  this.unequipButton.on('pointerdown', () => {
+    if (this.selectedEquippedSlotIndex !== null) {
+      console.log(`Unequipped item from slot ${this.selectedEquippedSlotIndex}`);
+      this.unequipItem(this.selectedEquippedSlotIndex)
+      // (In future, add logic here to move the item back to inventory)
+    }
+  });
+  
+  }
+// Add this method to handle unequipping items
+unequipItem(slotIndex) {
+  if (slotIndex === null) return;
+  
+  // Get the character sheet
+  const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+  const equipped = characterSheet.equipped || [];
+  
+  // Get the item from the equipped slot
+  const itemToUnequip = equipped[slotIndex];
+  
+  if (!itemToUnequip) {
+    console.log("No item to unequip in slot", slotIndex);
+    return;
+  }
+  
+  console.log("Unequipping item:", itemToUnequip.name);
+  
+  // Remove the item from the equipped array
+  equipped[slotIndex] = null;
+  characterSheet.equipped = equipped;
+  
+  // Add the item to the inventory
+  if (!characterSheet.inventory) {
+    characterSheet.inventory = [];
+  }
+  characterSheet.inventory.push(itemToUnequip);
+  
+  // Save the updated character sheet
+  localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+  
+  // Update the local inventory array
+  this.inventory.push(itemToUnequip);
+  
+  // Remove the item graphic from the equipped slot
+  let equippedSlot = this.equippedSlots[slotIndex];
+  if (equippedSlot.itemGraphic) {
+    equippedSlot.itemGraphic.destroy();
+    equippedSlot.itemGraphic = null;
+  }
+  
+  // Reset the slot color
+  equippedSlot.slot.setFillStyle(0xD2B48C); // Reset to default color
+  equippedSlot.slot.setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+  
+  // Reset the selected equipped slot
+  this.selectedEquippedSlotIndex = null;
+  
+  // Update the UI
+  this.updateEquippedSlots();
+  this.rebuildInventoryDisplay();
+  
+  // Hide the unequip button
+  this.hideUnequipButton();
+  
+  // Clear the description text
+  if (this.descriptionText) {
+    this.descriptionText.setText("");
+  }
+  
+  // If this was armor, update the player's armor status
+  const player = this.scene.player || this.scene.registry.get('player');
+  if (player && slotIndex === 4) { // Assuming center slot (4) is for armor
+    player.armor = null;
+  }
+  
+  // Emit an event that the scene can listen for
+  this.scene.events.emit('itemUnequipped', itemToUnequip, slotIndex);
+}
+
+// Add this method to hide the unequip button
+hideUnequipButton() {
+  this.unequipButton.setAlpha(0).disableInteractive();
+  this.unequipButtonText.setAlpha(0);
+}
+
+// Modify the highlightEquippedSlot method to show the unequip button
+highlightEquippedSlot(index) {
+  // First, clear any existing selections
+  this.clearAllSelections();
+  
+  // Get the character sheet to check if an item is equipped in this slot
+  const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+  const equipped = characterSheet.equipped || [];
+  const item = equipped[index];
+  
+  // If there's an item in this slot
+  if (item) {
+    console.log(`Selected equipped item: ${item.name}`);
+    
+    // Highlight the selected equipped slot
+    this.equippedSlots[index].slot.setStrokeStyle(2, Phaser.Display.Color.GetColor(255, 215, 0)); // Gold color
+    
+    // Store the selected equipped slot index
+    this.selectedEquippedSlotIndex = index;
+    
+    // Show item description
+    if (this.descriptionText) {
+      this.descriptionText.setText(item.descriptionEn || item.name);
+    }
+    
+    // Show the unequip button
+    this.unequipButton.setAlpha(1).setInteractive();
+    this.unequipButtonText.setAlpha(1);
+  }
+}
+
+// Modify the clearAllSelections method to include handling the unequip button
+clearAllSelections() {
+  // Clear inventory selection
+  if (this.selectedSlotIndex !== null && this.slots && this.slots[this.selectedSlotIndex]) {
+    this.slots[this.selectedSlotIndex].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+  }
+  this.selectedSlotIndex = null;
+  
+  // Clear equipped slot selection
+  if (this.selectedEquippedSlotIndex !== null && this.equippedSlots && this.equippedSlots[this.selectedEquippedSlotIndex]) {
+    this.equippedSlots[this.selectedEquippedSlotIndex].slot.setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+  }
+  this.selectedEquippedSlotIndex = null;
+  
+  // Hide the unequip button
+  this.hideUnequipButton();}
+  highlightEquippedSlot(index) {
+    let lightTea = Phaser.Display.Color.GetColor(210, 180, 140);
+    let darkTea = Phaser.Display.Color.GetColor(139, 101, 69);
+  
+    // Reset previously selected equipped slot
+    if (this.selectedEquippedSlotIndex !== null) {
+      this.equippedSlots[this.selectedEquippedSlotIndex].slot.setFillStyle(darkTea);
+    }
+  
+    // Highlight new equipped slot
+    this.equippedSlots[index].slot.setFillStyle(lightTea);
+    this.selectedEquippedSlotIndex = index;
+  
+    // Show and enable Unequip button
+    this.unequipButton.setAlpha(1).setInteractive().setDepth(300);
+    this.unequipButtonText.setAlpha(1).setDepth(300);
+  
+    // Hide action buttons for inventory
+    this.actionButtons.forEach((button, i) => {
+      button.setAlpha(0.2).disableInteractive().setDepth(0);
+      this.actionButtonTexts[i].setAlpha(0.2).setDepth(0);
+    });
+  
+    // Clear any selected inventory slot
+    if (this.selectedSlotIndex !== null) {
+      this.slots[this.selectedSlotIndex].setStrokeStyle(2, lightTea);
+      this.selectedSlotIndex = null;
+    }
+  }
+  
+  highlightSlot(slot, index) {
+    let lightTea = Phaser.Display.Color.GetColor(210, 180, 140);
+    let darkGrey = Phaser.Display.Color.GetColor(55, 55, 60);
+  
+    // Reset previously selected inventory slot
+    if (this.selectedSlotIndex !== null) {
+      this.slots[this.selectedSlotIndex].setStrokeStyle(2, lightTea);
+    }
+  
+    this.selectedSlotIndex = index;
+    slot.setStrokeStyle(4, darkGrey);
+  
+    const selectedItem = this.inventory[index];
+  
+    if (selectedItem && selectedItem.name) {
+      // Show item description
+      this.descriptionText.setText(selectedItem.descriptionGa);
+  
+      // Show and enable action buttons
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(1).setInteractive().setDepth(300);
+        this.actionButtonTexts[i].setAlpha(1).setDepth(300);
+      });
+    } else {
+      this.descriptionText.setText("");
+  
+      // If slot is empty, disable action buttons
+      this.actionButtons.forEach((button, i) => {
+        button.setAlpha(0.5).disableInteractive().setDepth(0);
+        this.actionButtonTexts[i].setAlpha(0.5).setDepth(0);
+      });
+    }
+  
+    // Hide Unequip button (since an inventory slot is selected)
+    this.unequipButton.setAlpha(0).disableInteractive().setDepth(0);
+    this.unequipButtonText.setAlpha(0).setDepth(0);
+  
+    // Clear any selected equipped slot
+    if (this.selectedEquippedSlotIndex !== null) {
+      this.equippedSlots[this.selectedEquippedSlotIndex].slot.setFillStyle(lightTea);
+      this.selectedEquippedSlotIndex = null;
+    }
+  }
+  
   useItem(item) {
     console.log("Using item:", item.name);
     
@@ -425,7 +675,15 @@ rebuildInventoryDisplay() {
         // Emit the event for any other listeners
         this.scene.events.emit('itemDropped', item, index);
     }
-    this.hideInventory()
+    if (this.parentContainer && this.parentContainer.hideMenu) {
+      this.parentContainer.hideMenu();
+  
+      // Ensure ControlSquare knows the menu is closed
+      if (this.scene.controlSquare) {
+        this.scene.controlSquare.isOptionMenuOpen = false;
+        this.scene.events.emit('optionMenuState', false); // Notify other systems
+      }
+    }
   
   }
 
@@ -554,34 +812,7 @@ if (this.equippedItemIcons) {
       }
     });
   }
-  
-  highlightSlot(slot, index) {
-    // Reset previously selected slot
-    if (this.selectedSlotIndex !== null) {
-      this.slots[this.selectedSlotIndex].setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
-    }
-  
-    this.selectedSlotIndex = index;
-    slot.setStrokeStyle(4, Phaser.Display.Color.GetColor(55, 55, 60));
-  
-    const selectedItem = this.inventory[index];  // Access inventory item
-  
-    if (selectedItem && selectedItem.name) { // Ensure the item exists
-      this.descriptionText.setText(selectedItem.descriptionGa);
-  
-      this.actionButtons.forEach((button, i) => {
-        button.setAlpha(1).setInteractive();
-        this.actionButtonTexts[i].setAlpha(1); // Make text visible
-      });
-    } else {
-      this.descriptionText.setText("");
-  
-      this.actionButtons.forEach((button, i) => {
-        button.setAlpha(0.5).disableInteractive();
-        this.actionButtonTexts[i].setAlpha(0.5); // Make text faded too
-      });
-    }
-  }
+
   
   updateInventory() {
     // Fetch the current inventory from localStorage (or the passed characterSheet)
