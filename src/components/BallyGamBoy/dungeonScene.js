@@ -207,6 +207,63 @@ export default class DungeonScene extends Phaser.Scene {
   } 
     populateDungeon(this); // Call populateDungeon to add the Red Cent
 
+
+    this.events.on('itemEquipped', (item) => {
+      console.log("Received itemEquipped event with:", item);
+  
+      // Confirm the slot of the equipped item
+      console.log("Item slot:", item.slot);
+  
+      if (item.slot === "body" || item.slot === "armour") {
+          console.log("Calling updatePlayerSprite(true)");
+          this.updatePlayerSprite(true);  // Assuming 'armour' is valid
+      } else {
+          console.warn("Item slot does not match expected values:", item.slot);
+      }
+  });
+  
+  }  
+  updatePlayerSprite(isWearingArmor) {
+    if (!this.player || !this.player.sprite) {
+        console.error("Player sprite not found!");
+        return;
+    }
+
+    // Determine new texture and frame
+    const newAtlas = isWearingArmor ? 'championSpritesWithKit' : 'championSpritesNoKit';
+    const currentFrame = this.player.sprite.frame.name; // Keep the same animation frame
+
+    console.log("Updating player sprite:", newAtlas, currentFrame);
+
+    // Update the player's texture while keeping the same frame
+    this.player.sprite.setTexture(newAtlas, currentFrame);
+    this.events.on('itemEquipped', (item) => {
+      console.log("Received itemEquipped event with:", item);
+  
+      // Confirm the slot of the equipped item
+      console.log("Item slot:", item.slot);
+  
+      if (item.slot === "body" || item.slot === "armour") {
+          console.log("Calling updatePlayerSprite(true)");
+          this.updatePlayerSprite(true);  // When armor is equipped
+      } else {
+          console.warn("Item slot does not match expected values:", item.slot);
+      }
+  });
+  
+  // Add an event listener for unequipping
+  this.events.on('itemUnequipped', (slot) => {
+      console.log("Received itemUnequipped event, slot:", slot);
+  
+      // If the unequipped item was armor (body slot)
+      if (slot === "body") {
+          console.log("Calling updatePlayerSprite(false)");
+          this.updatePlayerSprite(false);  // When armor is unequipped
+      } else {
+          console.warn("Item slot does not match expected value for unequip:", slot);
+      }
+  });
+  
 }
 
 handlePreviousMenu() {

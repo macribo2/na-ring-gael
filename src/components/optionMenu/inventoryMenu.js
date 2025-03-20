@@ -205,81 +205,87 @@ this.add(this.unequipButtonText);
 
   this.unequipButton.on('pointerdown', () => {
     if (this.selectedEquippedSlotIndex !== null) {
-      console.log(`Unequipped item from slot ${this.selectedEquippedSlotIndex}`);
-      this.unequipItem(this.selectedEquippedSlotIndex)
-      // (In future, add logic here to move the item back to inventory)
+        console.log(`Unequipped item from slot ${this.selectedEquippedSlotIndex}`);
+        
+        // Unequip the item from the selected slot
+        this.unequipItem(this.selectedEquippedSlotIndex);
+
+        // If the item in the selected slot was armor (slot index 4), emit 'itemUnequipped'
+        if (this.selectedEquippedSlotIndex === 4) {
+            this.scene.events.emit('itemUnequipped', "body");
+        }
     }
-  });
+});
+
   
   }
-// Add this method to handle unequipping items
-unequipItem(slotIndex) {
-  if (slotIndex === null) return;
-  
-  // Get the character sheet
-  const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
-  const equipped = characterSheet.equipped || [];
-  
-  // Get the item from the equipped slot
-  const itemToUnequip = equipped[slotIndex];
-  
-  if (!itemToUnequip) {
-    console.log("No item to unequip in slot", slotIndex);
-    return;
-  }
-  
-  console.log("Unequipping item:", itemToUnequip.name);
-  
-  // Remove the item from the equipped array
-  equipped[slotIndex] = null;
-  characterSheet.equipped = equipped;
-  
-  // Add the item to the inventory
-  if (!characterSheet.inventory) {
-    characterSheet.inventory = [];
-  }
-  characterSheet.inventory.push(itemToUnequip);
-  
-  // Save the updated character sheet
-  localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-  
-  // Update the local inventory array
-  this.inventory.push(itemToUnequip);
-  
-  // Remove the item graphic from the equipped slot
-  let equippedSlot = this.equippedSlots[slotIndex];
-  if (equippedSlot.itemGraphic) {
-    equippedSlot.itemGraphic.destroy();
-    equippedSlot.itemGraphic = null;
-  }
-  
-  // Reset the slot color
-  equippedSlot.slot.setFillStyle(0xD2B48C); // Reset to default color
-  equippedSlot.slot.setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
-  
-  // Reset the selected equipped slot
-  this.selectedEquippedSlotIndex = null;
-  
-  // Update the UI
-  this.updateEquippedSlots();
-  this.rebuildInventoryDisplay();
-  
-  // Hide the unequip button
-  this.hideUnequipButton();
-  
-  // Clear the description text
-  if (this.descriptionText) {
-    this.descriptionText.setText("");
-  }
-  
-  // If this was armor, update the player's armor status
-  const player = this.scene.player || this.scene.registry.get('player');
-  if (player && slotIndex === 4) { // Assuming center slot (4) is for armor
-    player.armor = null;
-  }
-  
-  // Emit an event that the scene can listen for
-  this.scene.events.emit('itemUnequipped', itemToUnequip, slotIndex);
+  unequipItem(slotIndex) {
+    if (slotIndex === null) return;
+
+    // Get the character sheet
+    const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+    const equipped = characterSheet.equipped || [];
+
+    // Get the item from the equipped slot
+    const itemToUnequip = equipped[slotIndex];
+
+    if (!itemToUnequip) {
+        console.log("No item to unequip in slot", slotIndex);
+        return;
+    }
+
+    console.log("Unequipping item:", itemToUnequip.name);
+
+    // Remove the item from the equipped array
+    equipped[slotIndex] = null;
+    characterSheet.equipped = equipped;
+
+    // Add the item to the inventory
+    if (!characterSheet.inventory) {
+        characterSheet.inventory = [];
+    }
+    characterSheet.inventory.push(itemToUnequip);
+
+    // Save the updated character sheet
+    localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+
+    // Update the local inventory array
+    this.inventory.push(itemToUnequip);
+
+    // Remove the item graphic from the equipped slot
+    let equippedSlot = this.equippedSlots[slotIndex];
+    if (equippedSlot.itemGraphic) {
+        equippedSlot.itemGraphic.destroy();
+        equippedSlot.itemGraphic = null;
+    }
+
+    // Reset the slot color
+    equippedSlot.slot.setFillStyle(0xD2B48C); // Reset to default color
+    equippedSlot.slot.setStrokeStyle(2, Phaser.Display.Color.GetColor(210, 180, 140));
+
+    // Reset the selected equipped slot
+    this.selectedEquippedSlotIndex = null;
+
+    // Update the UI
+    this.updateEquippedSlots();
+    this.rebuildInventoryDisplay();
+
+    // Hide the unequip button
+    this.hideUnequipButton();
+
+    // Clear the description text
+    if (this.descriptionText) {
+        this.descriptionText.setText("");
+    }
+
+    // If this was armor, update the player's armor status
+    const player = this.scene.player || this.scene.registry.get('player');
+    if (player && slotIndex === 4) { // Assuming center slot (4) is for armor
+        player.armor = null;
+        
+        // Emit an event that the scene can listen for to update the player sprite
+        this.scene.events.emit('itemUnequipped', "body");  // You can use the same event name here
+    }
 }
 
 // Add this method to hide the unequip button
@@ -431,13 +437,21 @@ clearAllSelections() {
     this.scene.events.emit('itemUsed', item, this.selectedSlotIndex);
 }
 
+
 equipArmor(item) {
   const player = this.scene.player || this.scene.registry.get('player');
-
+  
   if (!player) {
       console.error("Player object not found!");
       return;
   }
+
+  // Ensure item has a valid slot, default to 'body' if not assigned
+  if (!item.slot) {
+      item.slot = "body";  // Ensure it's set to "body" or adjust accordingly
+  }
+
+  console.log("Using item slot:", item.slot);
 
   // Get the current index of the selected item
   const index = this.selectedSlotIndex;
@@ -447,7 +461,7 @@ equipArmor(item) {
       const equippedItem = this.inventory[index];
       this.inventory.splice(index, 1);
       
-      // IMPORTANT: Find and destroy the item icon in the inventory slot
+      // Find and destroy the item icon in the inventory slot
       if (this.itemIcons && this.itemIcons[index]) {
           this.itemIcons[index].destroy();
           // Remove from the itemIcons array as well
@@ -480,7 +494,7 @@ equipArmor(item) {
       // Add the item to the central equipment slot (equippedSlots[4])
       let centerSlot = this.equippedSlots[4];
       centerSlot.slot.setFillStyle(0x8B6545);
-      
+
       // Remove any previous graphic
       if (centerSlot.itemGraphic) {
           centerSlot.itemGraphic.destroy();
@@ -489,24 +503,25 @@ equipArmor(item) {
       // Use the same approach as updateEquippedSlots
       const textureKey = item.texture || item.name;
       console.log("Using texture key for equipped item:", textureKey);
-      
+
       // Create an image instead of a sprite
       centerSlot.itemGraphic = this.scene.add.image(
           centerSlot.slot.x, 
           centerSlot.slot.y, 
           textureKey
-      )
-      .setScale(0.9)
-      .setScrollFactor(0);
-      
+      ).setScale(0.9).setScrollFactor(0);
+
       // Add it to the container
       this.add(centerSlot.itemGraphic);
       
       console.log("Successfully added item graphic with texture:", textureKey);
-      
+
       // Update player stats or conditions
       player.armor = item;
-      
+
+      // Emit the event with the equipped item
+      this.scene.events.emit('itemEquipped', item);
+
       // Update characterSheet in localStorage
       const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
       
@@ -531,11 +546,9 @@ equipArmor(item) {
       if (this.updateEquippedSlots && typeof this.updateEquippedSlots === 'function') {
           this.updateEquippedSlots();
       }
-      
-      // Emit the event for any other listeners
-      this.scene.events.emit('itemEquipped', item, 4);
   }
 }
+
 
 // Add this helper method to completely rebuild the inventory display
 rebuildInventoryDisplay() {
@@ -622,7 +635,7 @@ rebuildInventoryDisplay() {
                 const droppedSprite = this.scene.physics.add.sprite(
                     playerX, 
                     playerY + 12, // Drop just below player
-                    'redCent'
+                    droppedItem.texture || 'redCent' 
                 ).setDepth(9900).setScale(1);
 
                 console.log("Created dropped sprite at:", playerX, playerY + 32);
@@ -730,8 +743,8 @@ rebuildInventoryDisplay() {
     if (item.slot === "head") slotIndex = 0;
     else if (item.slot === "weapon") slotIndex = 1;
     else if (item.slot === "shield") slotIndex = 2;
-    else if (item.slot === "body") slotIndex = 3;
-    
+    else if (item.slot === "body") slotIndex = 4;  // Correct slot for body
+
     if (slotIndex >= 0) {
       // First check if something is already equipped in that slot
       const characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
