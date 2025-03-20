@@ -30,12 +30,35 @@ export default function populateDungeon(dungeon, inventoryMenu) {
 
   console.log(`populateDungeon: Found ${rooms.length} rooms.`);
 
-  let TILE_SIZE = 32;
+  const TILE_SIZE = 32;
+  const MIN_DISTANCE = 3; // Minimum distance from player (in tiles)
 
-  // Guarantee that an Armour item is placed in a random room
-  const armourRoom = rooms[Math.floor(Math.random() * rooms.length)];
-  const armourX = Math.floor((armourRoom._x1 + armourRoom._x2) / 2);
-  const armourY = Math.floor((armourRoom._y1 + armourRoom._y2) / 2);
+  const player = dungeon.player;  // Assuming you have a player object in the dungeon
+  if (!player) {
+    console.error("Player object is missing!");
+    return;
+  }
+
+  // Helper function to calculate distance between two points (player and potential armour location)
+  function calculateDistance(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  }
+
+  // Ensure armour doesn't spawn too close to the player
+  let armourX, armourY, validLocation = false;
+  while (!validLocation) {
+    const armourRoom = rooms[Math.floor(Math.random() * rooms.length)];
+    armourX = Math.floor((armourRoom._x1 + armourRoom._x2) / 2);
+    armourY = Math.floor((armourRoom._y1 + armourRoom._y2) / 2);
+
+    // Calculate distance from player
+    const distance = calculateDistance(armourX, armourY, player.x, player.y);
+    if (distance > MIN_DISTANCE) {
+      validLocation = true;  // Armour is placed far enough from the player
+    }
+  }
+
+  // Convert room coordinates to pixel coordinates
   const armourPixelX = armourX * TILE_SIZE + TILE_SIZE / 2;
   const armourPixelY = armourY * TILE_SIZE + TILE_SIZE / 2;
 
@@ -47,7 +70,7 @@ export default function populateDungeon(dungeon, inventoryMenu) {
   }
   console.log(`populateDungeon: Placed Armour at (${armourX}, ${armourY})`);
 
-  // Pick another random room for a general item
+  // Pick another random room for a general item (e.g., RedCent)
   const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
   const centerX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
   const centerY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
@@ -64,7 +87,6 @@ export default function populateDungeon(dungeon, inventoryMenu) {
   console.log(`populateDungeon: Placed ${item.name} at (${centerX}, ${centerY})`);
 
   // Handle collision detection with the player
-  const player = dungeon.player;  // Assuming you have a player object in the dungeon
   if (player) {
     dungeon.physics.add.overlap(
       player.sprite,
