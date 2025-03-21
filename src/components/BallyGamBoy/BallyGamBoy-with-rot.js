@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import DungeonScene from './dungeonScene';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import PucaChase0 from '../pucaChase/pucaChase0';
+import ObjectiveScene from './objectiveScene';
 
 const BallyGamBoy = () => {
   const gameRef = useRef(null);
@@ -35,7 +36,7 @@ const BallyGamBoy = () => {
         powerPreference: 'high-performance',
       },
       // scene: [ PucaChase0,DungeonScene], // ✅ Add PucaChase0 first
-      scene: [ DungeonScene], // ✅ Add PucaChase0 first
+      scene: [ DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
       plugins: {
         scene: [
           {

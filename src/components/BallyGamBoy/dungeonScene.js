@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import ObjectiveScene from './objectiveScene.js';
 import { Map , Path} from 'rot-js';
 import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
@@ -131,9 +132,14 @@ export default class DungeonScene extends Phaser.Scene {
     this.input.addPointer(1); // For multi-touch
     
     
-    this.cameras.main.setZoom(2); // Initial zoom level
     
-    
+           // Set initial zoom level
+           this.cameras.main.setZoom(3.5);
+        
+
+           // Listen for the objectiveDismissed event
+           this.game.events.on('objectiveDismissed', this.zoomOutCamera, this);
+           this.game.events.on('arise',this.arise,this)
     
     this.pathGroup = this.add.group(); // Create a new group for path elements
     
@@ -298,11 +304,30 @@ closeOptionMenu() {
 
 
 }
+arise(){
+  this.tweens.add({
+    targets: this.player.sprite, // Apply animation to sprite
+    angle: 0, // Stand upright
+    duration: 400, // Faster animation
+    ease: 'Back.easeOut', // Springy effect
+   
+  });
+}
+zoomOutCamera() {
+  // Tween the camera zoom out to the usual level
+  this.tweens.add({
+      targets: this.cameras.main,
+      zoom: 2,
+      duration: 500,
+      ease: 'Cubic.easeOut'
+  });
+}
+
  playInitialAnimation() {
   if (!this.player || !this.player.sprite) {
     return;
   }
-
+  this.scene.launch('ObjectiveScene');
   // ⚡ STEP 2: Full-screen flash ⚡
   const flash = this.add.rectangle(0, 0, this.width, this.height, 0xFFFFFF)
       .setOrigin(0, 0)
@@ -341,42 +366,6 @@ closeOptionMenu() {
   });
 
   
-// Delay before springing up
-setTimeout(() => {
-  this.tweens.add({
-    targets: this.player.sprite, // Apply animation to sprite
-    angle: 0, // Stand upright
-    duration: 400, // Faster animation
-    ease: 'Back.easeOut', // Springy effect
-    onComplete: () => {
-      // Create the "Cá bhfuil mé?" text
-      const text = this.add.text(this.scale.width / 2, this.scale.height * 0.6, 'Cá bhfuil mé?', {
-        font: '16px aonchlo', // Make sure this font is loaded correctly
-        fill: 'lavenderBlush',
-        wordWrap: { width: this.scale.width * 0.8 },
-        align: 'center'
-      })
-      .setOrigin(0.5, 0.5)
-      .setAlpha(1)
-      .setDepth(1000) // Ensure it's on top of other elements
-      .setScrollFactor(0); // Keep text in place even if the camera moves
-
-      // Set timeout to fade out text after 2 seconds
-      setTimeout(() => {
-        this.tweens.add({
-          targets: text,
-          alpha: 0, // Fade out text
-          duration: 1000, // Fade duration
-          ease: 'Cubic.easeOut',
-          onComplete: () => {
-            // Destroy text after fade-out is complete
-            text.destroy();
-          }
-        });
-      }, 2000); // 2 seconds delay before starting fade-out
-    }
-  });
-}, 2000); // 2 seconds delay before the animation starts
 
 }
 
