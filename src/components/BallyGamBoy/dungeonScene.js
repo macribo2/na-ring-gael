@@ -52,7 +52,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.explored = null;
     this.stairConnections = new window.Map([]); // Track level stair links
     this.transitionDirection = null; // Track whether we're going "up" or "down"
-    
+    this.hasArisen = false;
   }
   init(data) {
     // Receive transition data from previous scene
@@ -62,7 +62,7 @@ export default class DungeonScene extends Phaser.Scene {
   create() {
     this.actionMenuActive = false; // Initially, the ActionMenu is not active
     this.particles = null; // Initialize particles as null
-
+    this.jump = this.sound.add('jump', { loop: false, volume: 1 });
     // Maintain a percentage-based position
     const screenWidth = this.scale.width;
     const screenHeight = this.scale.height;
@@ -228,7 +228,8 @@ export default class DungeonScene extends Phaser.Scene {
       }
   });
   
-  }  
+  
+}  
   updatePlayerSprite(isWearingArmor) {
     if (!this.player || !this.player.sprite) {
         console.error("Player sprite not found!");
@@ -305,13 +306,18 @@ closeOptionMenu() {
 
 }
 arise(){
+  if (this.hasArisen) return;
+  this.hasArisen = true;
   this.tweens.add({
     targets: this.player.sprite, // Apply animation to sprite
     angle: 0, // Stand upright
     duration: 400, // Faster animation
     ease: 'Back.easeOut', // Springy effect
-   
-  });
+});
+if (this.jump) {
+  this.jump.play();
+}
+
 }
 zoomOutCamera() {
   // Tween the camera zoom out to the usual level
@@ -321,9 +327,11 @@ zoomOutCamera() {
       duration: 500,
       ease: 'Cubic.easeOut'
   });
+
 }
 
  playInitialAnimation() {
+  
   if (!this.player || !this.player.sprite) {
     return;
   }
@@ -371,6 +379,7 @@ zoomOutCamera() {
 
 
   preload() {
+    this.load.audio('jump', '/phaser-resources/audio/jump.wav');
     this.load.audio('coin', '/phaser-resources/audio/coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
     this.load.image('redCent', '/phaser-resources/images/items/redCent.png');
@@ -839,6 +848,7 @@ this.stairs.up = null;
 
   // Reset camera
   this.cameras.main.startFollow(this.player.sprite);
+  
   this.cameras.main.setZoom(1);
 }
 
@@ -1462,6 +1472,7 @@ createPlayer(characterSheet) {
 
   // Set camera to follow the player
   this.cameras.main.startFollow(this.player.sprite);
+  this.cameras.main.setFollowOffset(0, 10);
 
   // Set render order and scale for the player sprite
   this.player.sprite.setDepth(100).setScale(0.75);
