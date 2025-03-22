@@ -12,14 +12,13 @@ class ObjectiveScene extends Phaser.Scene {
         this.textsGa = [
             'Cá bhfuil mé?',
             'Cá bhfuil mo bhrístí?',
-            'Ar sciobadh mo héide?',
+            'Céim a h-aon,\nmo héadaigh a fáil ar ais,\nin ainm Chroim',
         ];
 
         this.textsEn = [
             'Where am I?',
-            'Where are my breeches?',
-            'I\'ll find those cursed pookas',
-            'But first, my clothes ',
+            'Where are my britches?',
+            'Step one,\nmy clothes to recover,\nin Crom\'s name',
         ];
 
         this.isDismissing = false; // Add this line
@@ -185,7 +184,7 @@ class ObjectiveScene extends Phaser.Scene {
             if (this.currentStep < this.textsGa.length) {
                 this.showNextMessageWithTyping(this.textsGa[this.currentStep]);
             } else {
-                this.scene.start('MainGame');
+                this.dismissObjective()
             }
 
             this.time.delayedCall(this.cooldownDuration, () => {
@@ -217,7 +216,7 @@ class ObjectiveScene extends Phaser.Scene {
             if (this.currentStep < this.textsGa.length) {
                 this.showNextMessageWithTyping(this.textsGa[this.currentStep]);
             } else {
-                this.scene.start('MainGame');
+                this.dismissObjective()
             }
 
             this.time.delayedCall(this.cooldownDuration, () => {
@@ -403,7 +402,7 @@ class ObjectiveScene extends Phaser.Scene {
             this.game.events.emit('arise');
         }
 
-        if (this.currentStep === 2) {
+        if (this.currentStep === 3) {
             console.log('Current step is ≥ 2, isDismissing:', this.isDismissing);
             this.dismissObjective();
         }

@@ -75,40 +75,51 @@ class ControlSquare extends Phaser.GameObjects.Container {
       }
       setButtonLit(upButton, 'upButtonLit');
     });
-    
     downButton.on('pointerdown', () => {
-      if (this.isOptionMenuOpen) {
-        this.highlightNextItem(); // Navigate down in the menu
+      if (this.getActionMenuActive()) {
+        // Simply emit the confirm event without trying to access data you don't have
+        this.scene.events.emit('confirmAction');
+        console.log('Action confirmed');
       } else {
-        this.emit('control-action', 'down-down'); // Move player down
+        // Handle regular player movement if ActionMenu is not open
+        this.emit('control-action', 'down-down'); 
         if (this.clearPathCallback) {
-          this.clearPathCallback(); // Clear the path if needed
+          this.clearPathCallback();
         }
       }
       setButtonLit(downButton, 'downButtonLit');
     });
+
     
     leftButton.on('pointerdown', () => {
-      if (this.isOptionMenuOpen) {
-        this.switchToPreviousMenu(); // Switch to the previous menu
+      if (this.getActionMenuActive()) {
+        // Emit cycle action for decrementing choice and log the action
+        this.scene.events.emit('cycleAction', -1); // Move left (previous choice)
+        console.log('Cycle action: Previous choice');
       } else {
-        this.emit('control-action', 'left-down'); // Move player left
+        // Move player left when actionMenu is not open
+        this.emit('control-action', 'left-down');
         if (this.clearPathCallback) {
           this.clearPathCallback(); // Clear the path if needed
         }
       }
+    
       setButtonLit(leftButton, 'leftButtonLit');
     });
     
     rightButton.on('pointerdown', () => {
-      if (this.isOptionMenuOpen) {
-        this.switchToNextMenu(); // Switch to the next menu
+      if (this.getActionMenuActive()) {
+        // Emit cycle action for incrementing choice and log the action
+        this.scene.events.emit('cycleAction', 1); // Move right (next choice)
+        console.log('Cycle action: Next choice');
       } else {
-        this.emit('control-action', 'right-down'); // Move player right
+        // Move player right when actionMenu is not open
+        this.emit('control-action', 'right-down');
         if (this.clearPathCallback) {
           this.clearPathCallback(); // Clear the path if needed
         }
       }
+    
       setButtonLit(rightButton, 'rightButtonLit');
     });
     
@@ -276,6 +287,7 @@ middleButton.on('pointerdown', (pointer) => {
 middleButton.on('pointerup', () => {
   isMiddleButtonPressed = false;
 });
+
 
 }
 

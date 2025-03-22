@@ -8,6 +8,7 @@ class ActionMenu extends Phaser.GameObjects.Container {
     this.closeActionMenu = closeActionMenu; // Store function reference
     this.goDownStairs = goDownStairs; // Store function reference
     this.goUpStairs = goUpStairs; // Store function reference
+    this.scene.events.on('cycleAction', this.handleCycleAction, this);
 
 
     if (!scene.cache.json.exists('menuContent')) {
@@ -80,30 +81,16 @@ class ActionMenu extends Phaser.GameObjects.Container {
     
 
     // Load the base button graphic from the atlas (from JSON)
-    this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'default_button')
-    .setDepth(6001)
-    .setScrollFactor(0).setScale(0.75).setAlpha(1)
-    .setInteractive().on("pointerdown", () => {
-      if (this.choices[this.choiceCounter].action === 'goDownStairs') {
-        this.scene.goDownStairs()
-        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-    } else  if (this.choices[this.choiceCounter].action === 'goUpStairs') {
-      this.scene.goUpStairs()
-      this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-  }    
-    else if (this.choices[this.choiceCounter].action === 'cancel') {
-        this.scene.closeActionMenu(); // Closes the menu if they choose not to go down
-    }
-      ;})
+this.buttonBase = scene.add.sprite(scene.scale.width / 2, scene.scale.height / 2, 'default_button')
+.setDepth(6001)
+.setScrollFactor(0).setScale(0.75).setAlpha(1)
+.setInteractive().on("pointerdown", () => {
+    // Emit the confirmAction event to trigger selection confirmation
+    this.scene.events.emit('confirmAction', this.choiceCounter);
+});
+
         
-      
-    // this.buttonFrame = scene.add.image(scene.scale.width / 2, scene.scale.height / 2, '')
-    // .setDepth(602) // Ensure it's above the base
-    // .setScrollFactor(0)
-    // .setScale(1.5);
-    // this.titleHidden=false;
-    // this.choicesVisible=false;
-    // // Make sure both elements are properly grouped
+   
     this.buttonContainer = scene.add.container(0, 0, [this.buttonBase,]) //this.buttonFrame])
     .setDepth(600)
     .setVisible(false)
@@ -161,7 +148,117 @@ this.choiceTextEn = scene.add.text(scene.scale.width/2,scene.scale.height/2+30, 
     this.add([this.overlay, this.wheel, this.buttonBase, this.titleTextGa,this.choiceTextGa,this.titleTextEn, this.choiceTextEn]);
     this.scene.add.existing(this);
 
+ 
+    // this.scene.events.on('cycleAction', (direction) => this.handleCycleAction(direction), this);
+    this.scene.events.on('cycleAction', this.handleCycleAction.bind(this), this);
+    this.scene.events.on('confirmAction', () => {
+      // Use the internal choiceCounter that's maintained by the ActionMenu
+      this.confirmSelection(this.choiceCounter);
+    });
   }
+
+  confirmSelection(choiceIndex) {
+    console.log('Choices:', this.choices);  // Log the choices array
+    console.log('Choice Index:', choiceIndex);  // Log the index
+    
+    if (choiceIndex === undefined) {
+      console.error('Choice index is undefined');
+      return;
+    }
+    
+    const selectedChoice = this.choices[choiceIndex];  // Get the current choice
+    if (!selectedChoice) {
+      console.error('Selected choice is undefined for index', choiceIndex);
+      return;
+    }
+    
+    console.log('Selected choice:', selectedChoice);
+    
+    // Handle the action based on the string value
+    if (selectedChoice.action === 'goDownStairs') {
+      this.scene.goDownStairs();
+      this.scene.closeActionMenu(); // Close the menu if the player chooses to go down
+    } else if (selectedChoice.action === 'goUpStairs') {
+      this.scene.goUpStairs();
+      this.scene.closeActionMenu(); // Close the menu if the player chooses to go up
+    } else if (selectedChoice.action === 'cancel') {
+      this.scene.closeActionMenu(); // Close the menu if the player cancels
+    } else {
+      console.log('Unknown action:', selectedChoice.action);
+      this.scene.closeActionMenu(); // Close the menu anyway
+    }
+    
+    // You could also use a switch statement if you prefer:
+    /*
+    switch(selectedChoice.action) {
+      case 'goDownStairs':
+        this.scene.goDownStairs();
+        this.scene.closeActionMenu();
+        break;
+      case 'goUpStairs':
+        this.scene.goUpStairs();
+        this.scene.closeActionMenu();
+        break;
+      case 'cancel':
+        this.scene.closeActionMenu();
+        break;
+      default:
+        console.log('Unknown action:', selectedChoice.action);
+        this.scene.closeActionMenu();
+    }
+    */
+  }
+handleCycleAction(direction) {
+  const rotationStep = (Math.PI * 2) / this.numChoices;  // Calculate the rotation per choice
+  const rotationChange = direction * rotationStep; // The change in rotation based on direction
+  
+  // Update wheel rotation
+  const targetRotation = this.wheel.rotation + rotationChange;
+  
+  // Animate the wheel rotation
+  this.scene.tweens.add({
+    targets: this.wheel,
+    rotation: targetRotation,
+    duration: 150,  // Animation duration
+    ease: 'Sine.easeOut',
+    onUpdate: () => {
+      // Keep the spokes aligned with the wheel
+      this.spokesContainer.rotation = this.wheel.rotation;
+    },
+    onComplete: () => {
+      this.updateSelection(direction);  // Update selection after animation completes
+    }
+  });
+}
+
+updateSelection(direction) {
+  // Adjust the choiceCounter based on the direction of the wheel
+  if (direction === 1) {
+    // Move to next choice
+    this.choiceCounter = (this.choiceCounter + 1) % this.numChoices;
+  } else if (direction === -1) {
+    // Move to previous choice
+    this.choiceCounter = (this.choiceCounter - 1 + this.numChoices) % this.numChoices;
+  }
+
+  console.log('Current choiceCounter:', this.choiceCounter);  // Log to check the updated counter
+
+  // Update the displayed text based on the current choice
+  this.updateChoiceText();
+}
+
+updateChoiceText() {
+  // Set the text for the current choice based on the `choiceCounter`
+  const choice = this.choices[this.choiceCounter];
+  if (this.isEnglish) {
+    this.choiceTextEn.setText(choice.textEn);
+    this.titleTextEn.setText(choice.titleEn);
+  } else {
+    this.choiceTextGa.setText(choice.textGa);
+    this.titleTextGa.setText(choice.titleGa);
+  }
+}
+
   onToggleTranslation() {
     this.isEnglish = !this.isEnglish; // Toggle state
 
