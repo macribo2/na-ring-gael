@@ -69,6 +69,7 @@ export default class DungeonScene extends Phaser.Scene {
   
     const percentX = 0.45; // % from the left
     const percentY = 0.4; // % from the top
+    this.itemsGroup = this.add.group(); 
   
      this.controlSquare = new ControlSquare(
   this, 
@@ -630,38 +631,42 @@ canOpenActionMenu() {
   }
 
   setupLighting() {
- 
-   
-  
     this.lights.enable().setAmbientColor(0x222222);
-   
-   // Create separate layer for ALL wall types
-   this.wallLayer = this.add.layer();
-   this.tiles.children.each(tile => {
-     tile.setPipeline('Light2D');
-     
-     // Check if tile is any type of wall (including corridor edges)
-     if (tile.frame.name >= 100 && tile.frame.name <= 103) {
-       this.wallLayer.add(tile);
-       tile.setAlpha(1); // Ensure full visibility for walls
-     }
-   });
-     // Create light source
-     if (this.player) {
-       this.player.light = this.lights.addLight(
-         this.player.sprite.x,
-         this.player.sprite.y,
-         250,
-         0xffffff,
-         1.5
-       );
-     }
-   
-     // Enable lighting on all tiles
-     this.tiles.children.each(tile => {
-       tile.setPipeline('Light2D');
-     });
-   }
+
+    // Create separate layer for ALL wall types
+    this.wallLayer = this.add.layer();
+    this.tiles.children.each(tile => {
+        tile.setPipeline('Light2D');
+
+        // Check if tile is any type of wall (including corridor edges)
+        if (tile.frame.name >= 100 && tile.frame.name <= 103) {
+            this.wallLayer.add(tile);
+            tile.setAlpha(1); // Ensure full visibility for walls
+        }
+    });
+
+    // Enable lighting on all tiles
+    this.tiles.children.each(tile => {
+        tile.setPipeline('Light2D');
+    });
+
+    // Apply lighting to all items
+    this.itemsGroup.children.each(item => {
+        item.setPipeline('Light2D');
+    });
+
+    // Create light source for player
+    if (this.player) {
+        this.player.light = this.lights.addLight(
+            this.player.sprite.x,
+            this.player.sprite.y,
+            250,
+            0xffffff,
+            1.5
+        );
+    }
+}
+
 
    closeActionMenu() {
   

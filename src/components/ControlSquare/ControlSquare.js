@@ -109,20 +109,43 @@ class ControlSquare extends Phaser.GameObjects.Container {
     
     rightButton.on('pointerdown', () => {
       if (this.getActionMenuActive()) {
-        // Emit cycle action for incrementing choice and log the action
+        // If ActionMenu is open, cycle through choices
         this.scene.events.emit('cycleAction', 1); // Move right (next choice)
         console.log('Cycle action: Next choice');
+      } else if (this.isOptionMenuOpen) {
+        // If OptionMenu is open, switch to the next menu
+        this.switchToNextMenu();
       } else {
-        // Move player right when actionMenu is not open
+        // If no menu is open, move player right
         this.emit('control-action', 'right-down');
         if (this.clearPathCallback) {
           this.clearPathCallback(); // Clear the path if needed
         }
       }
     
+      // Set button to lit state
       setButtonLit(rightButton, 'rightButtonLit');
     });
+    leftButton.on('pointerdown', () => {
+      if (this.getActionMenuActive()) {
+        // If ActionMenu is open, cycle to the previous choice
+        this.scene.events.emit('cycleAction', -1);
+        console.log('Cycle action: Previous choice');
+      } else if (this.isOptionMenuOpen) {
+        // If OptionMenu is open, switch to the previous menu
+        this.switchToPreviousMenu();
+      } else {
+        // If no menu is open, move player left
+        this.emit('control-action', 'left-down');
+        if (this.clearPathCallback) {
+          this.clearPathCallback(); // Clear the path if needed
+        }
+      }
     
+      // Set button to lit state
+      setButtonLit(leftButton, 'leftButtonLit');
+    });
+        
 
     // When button is released (pointer up)
     middleButton.on('pointerup', () => {

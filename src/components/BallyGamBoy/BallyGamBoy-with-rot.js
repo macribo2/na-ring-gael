@@ -36,7 +36,7 @@ const BallyGamBoy = () => {
         powerPreference: 'high-performance',
       },
       // scene: [ PucaChase0,DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
-      scene: [ DungeonScene], // ✅ Add PucaChase0 first
+      scene: [ DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
       plugins: {
         scene: [
           {

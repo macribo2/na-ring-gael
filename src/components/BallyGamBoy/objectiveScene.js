@@ -11,14 +11,15 @@ class ObjectiveScene extends Phaser.Scene {
 
         this.textsGa = [
             'Cá bhfuil mé?',
-            'Cá bhfuil mo bhrístí?',
-            'Céim a h-aon,\nmo héadaigh a fáil ar ais,\nin ainm Chroim',
+            'Cá bhfuil mo héadaigh?',
+            'Céim a h-aon,\nmo héadaigh a fáil ar ais!',
+            
         ];
 
         this.textsEn = [
             'Where am I?',
             'Where are my britches?',
-            'Step one,\nmy clothes to recover,\nin Crom\'s name',
+            'Step one,\nmy clothes to get back!',
         ];
 
         this.isDismissing = false; // Add this line

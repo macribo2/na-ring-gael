@@ -17,6 +17,7 @@ export class GameEntity {
     this.type = type;
     this.energy = 0;
     this.speed = 10;
+
   }
 
   getSpeed() {
@@ -36,7 +37,7 @@ export class GameEntity {
 }
 
 export class Item extends GameEntity {
-  constructor(scene, x, y, name,type, descriptionGa, descriptionEn) {
+  constructor(scene, x, y, name, type, descriptionGa, descriptionEn) {
     super(scene, x, y, GameEntity.ENTITY_TYPES.ITEM);
     this.name = name;
     this.texture = name; // Add this line to set the texture property
@@ -46,6 +47,7 @@ export class Item extends GameEntity {
 
     // Use the name as the texture key
     this.sprite = scene.add.sprite(x, y, name).setDepth(90);
+    this.sprite.setPipeline('Light2D'); // ✅ Enable dynamic lighting on the sprite
 
     // Enable physics
     scene.physics.world.enable(this.sprite);
