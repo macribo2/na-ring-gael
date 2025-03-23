@@ -8,7 +8,7 @@ class ChampionSelect2 extends Phaser.GameObjects.Container {
     this.scene = scene;
     this.bandDiscovered = false; // Initially, the champion is not discovered
     this.hasInteracted = false; // Add this flag
-this.flair2Played = false;
+this.flairPlayed = false;
 
     const centerX = 100;
     const centerY = 100;

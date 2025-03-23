@@ -66,7 +66,7 @@ class PucaChase0 extends Phaser.Scene {
     });
    
     this.load.audio('thunder', 'phaser-resources/audio/thunder.wav');
-    this.load.audio('rainSound', 'phaser-resources/audio/rain.ogg'); 
+    this.load.audio('rainSound', 'phaser-resources/audio/rain.wav'); 
     
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
     // Load assets needed for the main game

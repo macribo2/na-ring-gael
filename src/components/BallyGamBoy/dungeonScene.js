@@ -63,6 +63,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.actionMenuActive = false; // Initially, the ActionMenu is not active
     this.particles = null; // Initialize particles as null
     this.jump = this.sound.add('jump', { loop: false, volume: 1 });
+
     // Maintain a percentage-based position
     const screenWidth = this.scale.width;
     const screenHeight = this.scale.height;
@@ -380,8 +381,8 @@ zoomOutCamera() {
 
 
   preload() {
-    this.load.audio('jump', '/phaser-resources/audio/jump.wav');
-    this.load.audio('coin', '/phaser-resources/audio/coin.wav');
+    this.load.audio('jump', '/phaser-resources/audio/text-message.ogg');
+    this.load.audio('pickup', '/phaser-resources/audio/Pickup_Coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
     this.load.image('redCent', '/phaser-resources/images/items/redCent.png');
     this.load.image('armour', '/phaser-resources/images/items/armour.png');

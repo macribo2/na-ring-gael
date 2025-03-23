@@ -8,18 +8,18 @@ class ObjectiveScene extends Phaser.Scene {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.timeoutIds = []; // Track timeout IDs
-
+        this.hasPlayedDescend = false;
         this.textsGa = [
             'Cá bhfuil mé?',
             'Cá bhfuil mo héadaigh?',
-            'Céim a h-aon,\nmo héadaigh a fáil ar ais!',
+            '',
             
         ];
 
         this.textsEn = [
             'Where am I?',
-            'Where are my britches?',
-            'Step one,\nmy clothes to get back!',
+            'Where are my clothes?',
+            '',
         ];
 
         this.isDismissing = false; // Add this line
@@ -28,6 +28,7 @@ class ObjectiveScene extends Phaser.Scene {
 
     preload() {
         // Load the frame image
+        this.load.audio('descend','/phaser-resources/audio/Snd_descend.ogg')
         this.load.image('frame', 'phaser-resources/images/mapFrame2.png');
         this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
         this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
@@ -39,6 +40,7 @@ class ObjectiveScene extends Phaser.Scene {
         this.load.image('leftButtonLit', '/phaser-resources/images/ui/pad-l-lit.png');
         this.load.image('rightButtonLit', '/phaser-resources/images/ui/pad-r-lit.png');
         this.load.image('middleButtonLit', '/phaser-resources/images/ui/middle-a.png');
+        this.load.image('level0', '/phaser-resources/images/titles/level0.png');
     }
 
     // Function to set button to lit texture
@@ -60,16 +62,18 @@ class ObjectiveScene extends Phaser.Scene {
         const lineColor = 0x4b474b;
         const lineThickness = 15;
 
+      
         // Top line
-        this.add.rectangle(0, 0, this.scale.width - 10, lineThickness, lineColor).setOrigin(0, 0).setDepth(900);
+        this.topLine =   this.add.rectangle(0, 0, this.scale.width - 10, lineThickness, lineColor).setOrigin(0, 0).setDepth(900);
 
         // Left line
-        this.add.rectangle(0, 0, lineThickness + 15, this.scale.height - 28, lineColor).setOrigin(0, 0).setDepth(900);
+        this.leftLine =     this.add.rectangle(0, 0, lineThickness + 15, this.scale.height - 28, lineColor).setOrigin(0, 0).setDepth(900);
 
         // Add the frame image
         this.frameImage = this.add.image(this.scale.width / 2, this.scale.height / 2, 'frame');
         this.frameImage.setOrigin(0.5); // Center the origin
         this.frameImage.setDisplaySize(this.scale.width, this.scale.height); // Adjust size to account for lines
+        
 
         this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.6, '', {
             font: '32px Anaphora',
@@ -366,7 +370,8 @@ class ObjectiveScene extends Phaser.Scene {
                 this.rightButton, 
                 this.middleButton,
                 this.topLine, // Assuming the line is saved as this.topLine
-                this.leftLine  // Assuming the line is saved as this.leftLine
+                this.leftLine,  // Assuming the line is saved as this.leftLine
+                this.levelTitle
             ],
             alpha: 0,
             duration: 1000,
@@ -380,7 +385,7 @@ class ObjectiveScene extends Phaser.Scene {
                 } else {
                     console.error('No event emitter found');
                 }
-    
+           
                 // Delay scene stop slightly
                 this.time.delayedCall(500, () => {
                     console.log('Stopping ObjectiveScene');
@@ -414,6 +419,34 @@ class ObjectiveScene extends Phaser.Scene {
         if (this.currentStep === 1) {
             this.game.events.emit('arise');
         }
+        if (this.currentStep === 2) {
+            if (!this.levelTitle) {
+                // Create the image if it doesn't exist
+                this.levelTitle = this.add.image(this.scale.width / 2, this.scale.height / 2, 'level0')
+                    .setOrigin(0.5)
+                    .setAlpha(0)
+                    .setDepth(100)
+                    .setScale(0.5); // Ensure it's above other elements
+            }
+        
+            // Ensure sound only plays once
+            if (!this.hasPlayedDescend) {
+                this.descend = this.sound.add('descend', { loop: false, volume: 1 });
+                this.descend.play();
+                this.hasPlayedDescend = true; // Set flag so it doesn't play again
+            }
+        
+            this.tweens.add({
+                targets: this.levelTitle,
+                alpha: 1, // Fade in to fully visible
+                duration: 3000, // 3 second fade-in
+                ease: 'Power2',
+                onComplete: () => {
+                    // Optional: Fade out after a delay
+                }
+            });
+        }
+        
 
         if (this.currentStep === 3) {
             console.log('Current step is ≥ 2, isDismissing:', this.isDismissing);

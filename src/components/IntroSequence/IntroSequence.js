@@ -870,13 +870,13 @@ setTimeout(()=>{
   this.textObjectEn.setDepth(135)
   this.textObjectGa.y = this.scale.height * 0.01;
   this.ChampionSelect2.fadeInBackground2();
-    if (this.flare2 && this.flare2.isPlaying) {
+    if (this.flair && this.flair.isPlaying) {
         // Decrease the volume by a small amount
-        this.flare2.setVolume(this.flare2.volume - 0.01);
+        this.flair.setVolume(this.flair.volume - 0.01);
 
         // Stop the audio when the volume reaches zero
-        if (this.flare2.volume <= 0) {
-            this.flare2.stop();
+        if (this.flair.volume <= 0) {
+            this.flair.stop();
         }
     }
   
