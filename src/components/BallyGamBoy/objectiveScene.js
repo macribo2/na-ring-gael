@@ -340,23 +340,34 @@ class ObjectiveScene extends Phaser.Scene {
 
     dismissObjective() {
         console.log('dismissObjective() was called');
-
+    
         // Clear timeouts
         if (this.timeoutIds && this.timeoutIds.length > 0) {
             this.timeoutIds.forEach(id => clearTimeout(id));
             this.timeoutIds = [];
         }
-
+    
         // Remove listeners
         if (this.rightButton) this.rightButton.removeAllListeners();
         if (this.leftButton) this.leftButton.removeAllListeners();
         if (this.upButton) this.upButton.removeAllListeners();
         if (this.downButton) this.downButton.removeAllListeners();
         if (this.middleButton) this.middleButton.removeAllListeners();
-
-        // Fade out the objective text
+    
+        // Fade out the objective text, frame, buttons, and lines
         this.tweens.add({
-            targets: [this.textObjectEn, this.textObjectGa, this.frameImage],
+            targets: [
+                this.textObjectEn, 
+                this.textObjectGa, 
+                this.frameImage,
+                this.upButton, 
+                this.downButton, 
+                this.leftButton, 
+                this.rightButton, 
+                this.middleButton,
+                this.topLine, // Assuming the line is saved as this.topLine
+                this.leftLine  // Assuming the line is saved as this.leftLine
+            ],
             alpha: 0,
             duration: 1000,
             ease: 'Cubic.easeOut',
@@ -369,6 +380,7 @@ class ObjectiveScene extends Phaser.Scene {
                 } else {
                     console.error('No event emitter found');
                 }
+    
                 // Delay scene stop slightly
                 this.time.delayedCall(500, () => {
                     console.log('Stopping ObjectiveScene');
@@ -377,7 +389,7 @@ class ObjectiveScene extends Phaser.Scene {
             }
         });
     }
-
+    
     // Add shutdown method to ensure cleanup
     shutdown() {
         // Clear all timeouts
