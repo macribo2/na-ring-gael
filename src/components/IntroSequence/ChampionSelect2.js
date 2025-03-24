@@ -298,7 +298,7 @@ mottoEn:'Coursed is the wild sea',
 
 
        notes:'',
-       mottoGa:'Am úagh gach dhóich dhíamaíní',
+       mottoGa:'Am úagh\n gach dhóich dhíamaíní',
 
 mottoEn:'I am the grave of every vain hope',
         branchGa:'Na Daoraí',
@@ -516,7 +516,7 @@ mottoEn:'Take all \nleave nothing',
        notes:'',
        mottoGa:'do-chlaoidhte',
 
-mottoEn:'indefatigable',
+mottoEn:'invincible',
         branchGa:'Na Gabhláin',
        branchEn:'The branches',
       },{
@@ -718,11 +718,14 @@ this.subtitleTextEn = scene.add.text(scene.scale.width * 0.55,scene.scale.height
     // Variables for tracking rotation and velocity
     this.rotationVelocity = 0;
     this.isDragging = false;
-    this.dampingFactor = 0.95;
-    this.minVelocity = 0.0001;
-    this.friction = 0.995;
-    this.dragSensitivity = 0.0005;
-    
+    // this.dampingFactor = 0.95;
+    // this.minVelocity = 0.0001;
+    // this.friction = 0.995;
+    // this.dragSensitivity = 0.0005;
+    this.dampingFactor = 0.98; // Increase to retain more velocity
+this.minVelocity = 0.00001; // Lower threshold for stopping
+this.friction = 0.999; // Less friction for longer spins
+this.dragSensitivity = 0.001; // Increase if you want stronger spins from dragging
     // Pointer events
     this.wheel.on('pointerdown', (pointer) => {this.startDrag(pointer)
         this.nameTextEn.setVisible(true);

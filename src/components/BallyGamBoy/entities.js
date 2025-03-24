@@ -86,8 +86,8 @@ export class RedCent extends Item {
       y,
       "redCent",
       "equip-left",
-      "Cruit ar taobh amhain, cuachóg ar an taobh eile. Pingin ádhmharach.",
-      "Harp on one side, a braided knot or young cuckoo on the back. Lucky penny."
+      "Pingin ádhmharach rua",
+      "A lucky red penny"
     );
   }
 }

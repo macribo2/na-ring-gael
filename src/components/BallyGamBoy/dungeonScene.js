@@ -722,7 +722,7 @@ canOpenActionMenu() {
   
     // Check if the armor quest is complete
     if (!characterSheet.quests || !characterSheet.quests.armorQuestComplete) {
-      this.scene.launch('NotificationScene');
+      this.scene.launch('NotificationScene', { messageType: 'noArmor' });
       console.log("You can't go down yet! Find your armor first.");
       return; // Stop player from descending
     }
@@ -769,7 +769,7 @@ canOpenActionMenu() {
   
     // Check if the armor quest is complete
     if (!characterSheet.quests || !characterSheet.quests.armorQuestComplete) {
-      this.scene.launch('NotificationScene');
+      this.scene.launch('NotificationScene', { messageType: 'noArmor' });
       console.log("You can't go up yet! Find your armor first.");
       return; // Stop player from ascending
     }

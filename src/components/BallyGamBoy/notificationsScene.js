@@ -9,21 +9,11 @@ class NotificationScene extends Phaser.Scene {
         this.height = window.innerHeight;
         this.timeoutIds = []; // Track timeout IDs
         this.hasPlayedDescend = false;
-        this.textsGa = [
-            'Ní rachfaidh mé gan mo héidaigh.',
-            '',
-            
-        ];
-
-        this.textsEn = [
-            'I won\'t go without my clothes',
-            '',
-        ];
-
+     
         this.isDismissing = false; // Add this line
         this.cooldownDuration = 500; // Add this line - adjust value as needed
     }
-
+    
     preload() {
         // Load the frame image
         this.load.image('frame', 'phaser-resources/images/mapFrame2.png');
@@ -53,11 +43,26 @@ class NotificationScene extends Phaser.Scene {
         }
     }
 
-    create() {
+    create(data) {
         // Add grey lines to simulate the frame's top and left walls
         const lineColor = 0x4b474b;
         const lineThickness = 15;
 
+        this.messageType = data.messageType || 'default';
+    
+        if (this.messageType === 'noArmor') {
+            this.textsGa = ['Ní rachfaidh mé gan mo héadaigh.'];
+            this.textsEn = ['I won\'t go without my clothes'];
+        } else if (this.messageType === 'armorFound') {
+            this.textsGa = ['Mo éide! Glan agus tirim. Cé a rinne seo?'];
+            this.textsEn = ['My armour! Clean and dry. Who did this?'];
+        }
+    
+        this.textObjectGa.setText('');
+        this.typingEffect.start(this.textsGa[0]).on('complete', () => {
+            this.textObjectEn.setText(this.textsEn[0]).setDepth(47);
+        });
+   
       
         // Top line
         this.topLine =   this.add.rectangle(0, 0, this.scale.width - 10, lineThickness, lineColor).setOrigin(0, 0).setDepth(900);
