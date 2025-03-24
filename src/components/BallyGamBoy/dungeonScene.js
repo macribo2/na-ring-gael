@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import ObjectiveScene from './objectiveScene.js';
+import NotificationScene from './notificationsScene.js';
 import { Map , Path} from 'rot-js';
 import { Scheduler, Engine, RNG, FOV } from 'rot-js';
 import ActionMenu from '../actionMenu/actionMenu'
@@ -356,14 +357,14 @@ zoomOutCamera() {
   // Start lying on their back (-90 degrees)
   this.player.sprite.setAngle(-90);
 
+
+
   // Add lightning effect (ensuring full screen coverage)
   const lightning = this.add.image(0, 0, 'lightning'); // Position at (0, 0)
   lightning.setOrigin(0, 0); // Set origin to top-left
   lightning.setDisplaySize(this.scale.width, this.scale.height); // Scale to cover full screen
   lightning.setDepth(9998); // Ensure lightning is rendered in front of the flash
-  lightning.setScrollFactor(0);
-
-  // Fade out both the lightning and darken background
+  lightning.setScrollFactor(0);  // Fade out both the lightning and darken background
   this.tweens.add({
     targets: [lightning],
     alpha: 0, // Fade them out to 0 alpha
@@ -713,81 +714,100 @@ canOpenActionMenu() {
       }
     });
   }
-goDownStairs() {
-  this.clearPath();
-
-  // Prevent multiple transitions
-  if (this.transitioning) {
-    return;
-  }
-  this.transitioning = true;
-  this.transitionDirection = 'down'; // Track direction
-
-  // Store the current level before transition for reference
-  const previousLevel = this.currentLevel;
-
-  // Fade out screen
-  this.cameras.main.fadeOut(500, 0, 0, 0);
-
-  this.cameras.main.once('camerafadeoutcomplete', async () => {
-    
-    // Increase level (descending)
-    this.currentLevel++;
-
-    // Reload or generate new level
-    await this.loadLevel(); 
-
-    // Ensure proper stair positions
-
-    // Update FOV for new position
-    if (this.updateFOV) {
-      this.updateFOV();
+  goDownStairs() {
+    this.clearPath();
+  
+    // Load characterSheet from localStorage
+    let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+  
+    // Check if the armor quest is complete
+    if (!characterSheet.quests || !characterSheet.quests.armorQuestComplete) {
+      this.scene.launch('NotificationScene');
+      console.log("You can't go down yet! Find your armor first.");
+      return; // Stop player from descending
     }
-
-    // Fade back in
-    this.cameras.main.fadeIn(500);
-
-    // Unlock the game loop after transition
-    this.transitioning = false;
-  });
-}
-
-goUpStairs() {
-  this.clearPath();
-
-  // Prevent multiple transitions
-  if (this.transitioning) {
-    return;
-  }
-  this.transitioning = true;
-  this.transitionDirection = 'up';  // Track the transition direction
-
-  // Store the current level
-  const previousLevel = this.currentLevel;
-
-  // Fade out screen
-  this.cameras.main.fadeOut(500, 0, 0, 0);
-
-  this.cameras.main.once('camerafadeoutcomplete', async () => {
-
-    // Decrease level (going up means we are going to a higher level)
-    this.currentLevel--;
-
-    // Reload or generate new level
-    await this.loadLevel();
-
-    // Update FOV for new position
-    if (this.updateFOV) {
-      this.updateFOV();
+  
+    // Prevent multiple transitions
+    if (this.transitioning) {
+      return;
     }
-
-    // Fade back in
-    this.cameras.main.fadeIn(500);
-
-    // Unlock the game loop after transition
-    this.transitioning = false;
-  });
-}
+    this.transitioning = true;
+    this.transitionDirection = 'down'; // Track direction
+  
+    // Store the current level before transition for reference
+    const previousLevel = this.currentLevel;
+  
+    // Fade out screen
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+  
+    this.cameras.main.once('camerafadeoutcomplete', async () => {
+      
+      // Increase level (descending)
+      this.currentLevel++;
+  
+      // Reload or generate new level
+      await this.loadLevel(); 
+  
+      // Update FOV for new position
+      if (this.updateFOV) {
+        this.updateFOV();
+      }
+  
+      // Fade back in
+      this.cameras.main.fadeIn(500);
+  
+      // Unlock the game loop after transition
+      this.transitioning = false;
+    });
+  }
+  
+  goUpStairs() {
+    this.clearPath();
+  
+    // Load characterSheet from localStorage
+    let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
+  
+    // Check if the armor quest is complete
+    if (!characterSheet.quests || !characterSheet.quests.armorQuestComplete) {
+      this.scene.launch('NotificationScene');
+      console.log("You can't go up yet! Find your armor first.");
+      return; // Stop player from ascending
+    }
+  
+    // Prevent multiple transitions
+    if (this.transitioning) {
+      return;
+    }
+    this.transitioning = true;
+    this.transitionDirection = 'up'; // Track direction
+  
+    // Store the current level
+    const previousLevel = this.currentLevel;
+  
+    // Fade out screen
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+  
+    this.cameras.main.once('camerafadeoutcomplete', async () => {
+  
+      // Decrease level (going up means we are going to a higher level)
+      this.currentLevel--;
+  
+      // Reload or generate new level
+      await this.loadLevel();
+  
+      // Update FOV for new position
+      if (this.updateFOV) {
+        this.updateFOV();
+      }
+  
+      // Fade back in
+      this.cameras.main.fadeIn(500);
+  
+      // Unlock the game loop after transition
+      this.transitioning = false;
+    });
+  }
+  
 addEntity(entity) {
   this.entities.push(entity);
   // If the entity is a sprite or visual object, you could add it to the scene

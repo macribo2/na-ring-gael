@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 
-class ObjectiveScene extends Phaser.Scene {
+class NotificationScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'ObjectiveScene' });
+        super({ key: 'NotificationScene' });
         this.currentStep = 0;
         this.objectiveDismissed = false;
         this.width = window.innerWidth;
@@ -10,15 +10,13 @@ class ObjectiveScene extends Phaser.Scene {
         this.timeoutIds = []; // Track timeout IDs
         this.hasPlayedDescend = false;
         this.textsGa = [
-            'Cá bhfuil mé?',
-            'Cá bhfuil mo héadaigh?',
+            'Ní gan mo chuid éidaigh.',
             '',
             
         ];
 
         this.textsEn = [
-            'Where am I?',
-            'Where are my clothes?',
+            'Not without my clothes',
             '',
         ];
 
@@ -28,7 +26,6 @@ class ObjectiveScene extends Phaser.Scene {
 
     preload() {
         // Load the frame image
-        this.load.audio('descend','/phaser-resources/audio/Snd_descend.ogg')
         this.load.image('frame', 'phaser-resources/images/mapFrame2.png');
         this.load.image('upButtonDark', '/phaser-resources/images/ui/pad-u.png');
         this.load.image('downButtonDark', '/phaser-resources/images/ui/pad-d.png');
@@ -40,7 +37,6 @@ class ObjectiveScene extends Phaser.Scene {
         this.load.image('leftButtonLit', '/phaser-resources/images/ui/pad-l-lit.png');
         this.load.image('rightButtonLit', '/phaser-resources/images/ui/pad-r-lit.png');
         this.load.image('middleButtonLit', '/phaser-resources/images/ui/middle-a.png');
-        this.load.image('level0', '/phaser-resources/images/titles/level0.png');
     }
 
     // Function to set button to lit texture
@@ -126,23 +122,11 @@ class ObjectiveScene extends Phaser.Scene {
         // Set up button event handlers
         this.setupButtonHandlers();
 
-        // Load characterSheet from localStorage or initialize a new one
-let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
 
-// Ensure quests object exists
-if (!characterSheet.quests) {
-    characterSheet.quests = {};
-}
 
-// Ensure armorQuestComplete is initialized
-if (characterSheet.quests.armorQuestComplete === undefined) {
-    characterSheet.quests.armorQuestComplete = false;
-}
+
 
 // Save back to localStorage
-localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-
-console.log("Initialized quests in characterSheet:", characterSheet);
 
     }
 
@@ -191,117 +175,23 @@ console.log("Initialized quests in characterSheet:", characterSheet);
         });
 
         this.rightButton.on('pointerdown', () => {
-            this.setButtonLit(this.rightButton, 'rightButtonLit');
+            this.dismissNotification();
 
-            const timeoutId = setTimeout(() => {
-                if (this.scene.isActive()) {
-                    this.resetButton(this.rightButton, 'rightButtonDark');
-                }
-            }, 1000);
-            this.timeoutIds.push(timeoutId);
-
-            if (this.isCooldownActive || this.currentStep >= 4) return; // Prevent input past step 5
-
-            this.isCooldownActive = true;
-            this.currentStep++;
-
-            if (this.currentStep < this.textsGa.length) {
-                this.showNextMessageWithTyping(this.textsGa[this.currentStep]);
-            } else {
-                this.dismissObjective()
-            }
-
-            this.time.delayedCall(this.cooldownDuration, () => {
-                this.isCooldownActive = false;
-            });
-
-            // 🛑 Disable button interaction when step >= 5
-            if (this.currentStep >= 4) {
-                this.rightButton.disableInteractive(); // Disable the button
-                console.log('Button disabled to prevent rapid presses.');
-            }
         });
 
         this.upButton.on('pointerdown', () => {
-            if (this.isCooldownActive) return;
-
-            this.setButtonLit(this.upButton, 'upButtonLit');
-
-            const timeoutId = setTimeout(() => {
-                if (this.scene.isActive()) {
-                    this.resetButton(this.upButton, 'upButtonDark');
-                }
-            }, 1000);
-            this.timeoutIds.push(timeoutId);
-
-            this.isCooldownActive = true;
-            this.currentStep++;
-
-            if (this.currentStep < this.textsGa.length) {
-                this.showNextMessageWithTyping(this.textsGa[this.currentStep]);
-            } else {
-                this.dismissObjective()
-            }
-
-            this.time.delayedCall(this.cooldownDuration, () => {
-                this.isCooldownActive = false;
-            });
-
-            // 🛑 Disable button interaction when step >= 5
-            if (this.currentStep >= 4) {
-                this.rightButton.disableInteractive(); // Disable the button
-                console.log('Button disabled to prevent rapid presses.');
-            }
+            this.dismissNotification();
+          
         });
 
         this.downButton.on('pointerdown', () => {
-            if (this.isCooldownActive) return;
-
-            this.setButtonLit(this.downButton, 'downButtonLit');
-
-            const timeoutId = setTimeout(() => {
-                if (this.scene.isActive()) {
-                    this.resetButton(this.downButton, 'downButtonDark');
-                }
-            }, 1000);
-            this.timeoutIds.push(timeoutId);
-
-            this.isCooldownActive = true;
-
-            if (this.currentStep > 0) {
-                this.showPreviousMessageWithDropDown();
-            } else {
-                console.log("Already at the first message");
-            }
-
-            this.time.delayedCall(this.cooldownDuration, () => {
-                this.isCooldownActive = false;
-            });
+            this.dismissNotification();
+           
         });
 
         this.leftButton.on('pointerdown', () => {
-            if (this.isCooldownActive) return;
-
-            this.setButtonLit(this.leftButton, 'leftButtonLit');
-
-            const timeoutId = setTimeout(() => {
-                if (this.scene.isActive()) {
-                    this.resetButton(this.leftButton, 'leftButtonDark');
-                }
-            }, 1000);
-            this.timeoutIds.push(timeoutId);
-
-            this.isCooldownActive = true;
-
-            if (this.currentStep > 0) {
-                this.showPreviousMessageWithDropDown();
-            } else {
-                console.log("Already at the first message");
-            }
-
-            this.time.delayedCall(this.cooldownDuration, () => {
-                this.isCooldownActive = false;
-            });
+            this.dismissNotification();
+           
         });
     }
 
@@ -326,43 +216,10 @@ console.log("Initialized quests in characterSheet:", characterSheet);
         });
     }
 
-    showPreviousMessageWithDropDown() {
-        // Animate the current text sliding up and fading out
-        this.tweens.add({
-            targets: this.textObjectGa,
-            y: this.textObjectGa.y + 100, // Move down by 100 pixels
-            alpha: 0, // Fade out
-            duration: 500, // Duration of the animation
-            ease: 'Quad.easeIn',
-            onComplete: () => {
-                // Once the animation is complete, reset the text object
-                this.textObjectGa.y -= 100; // Move back to the original position
-                this.textObjectGa.alpha = 1; // Reset alpha for the new text
-                this.textObjectGa.setText(''); // Clear the text
+ 
 
-                // Set the previous message as the current one and start showing it
-                this.currentStep--; // Move back to the previous step
-                if (this.currentStep >= 0) {
-                    // Slide the previous message down and fade it in
-                    this.tweens.add({
-                        targets: this.textObjectGa,
-                        y: this.textObjectGa.y, // Keep at the original position
-                        alpha: 1, // Fade in
-                        duration: 500, // Duration of the animation
-                        ease: 'Quad.easeOut',
-                        onComplete: () => {
-                            // Set the previous message text
-                            this.textObjectGa.setText(this.textsGa[this.currentStep]);
-                            this.textObjectEn.setText(this.textsEn[this.currentStep]);
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    dismissObjective() {
-        console.log('dismissObjective() was called');
+    dismissNotification() {
+        console.log('dismissNotification() was called');
     
         // Clear timeouts
         if (this.timeoutIds && this.timeoutIds.length > 0) {
@@ -390,7 +247,6 @@ console.log("Initialized quests in characterSheet:", characterSheet);
                 this.middleButton,
                 this.topLine, // Assuming the line is saved as this.topLine
                 this.leftLine,  // Assuming the line is saved as this.leftLine
-                this.levelTitle
             ],
             alpha: 0,
             duration: 1000,
@@ -407,8 +263,8 @@ console.log("Initialized quests in characterSheet:", characterSheet);
            
                 // Delay scene stop slightly
                 this.time.delayedCall(500, () => {
-                    console.log('Stopping ObjectiveScene');
-                    this.scene.stop('ObjectiveScene');
+                    console.log('Stopping NotificationScene');
+                    this.scene.stop('NotificationScene');
                 });
             }
         });
@@ -432,53 +288,18 @@ console.log("Initialized quests in characterSheet:", characterSheet);
 
     update() {
         if (this.currentStep === 0) {
-            // Logic for step 0
-        }
+           }
 
         if (this.currentStep === 1) {
-            this.game.events.emit('arise');
-        }
+           }
         if (this.currentStep === 2) {
-            if (!this.levelTitle) {
-                // Create the image if it doesn't exist
-                this.levelTitle = this.add.image(this.scale.width / 2, this.scale.height / 2, 'level0')
-                    .setOrigin(0.5)
-                    .setAlpha(0)
-                    .setDepth(100)
-                    .setScale(0.5); // Ensure it's above other elements
-            }
-        
-            // Ensure sound only plays once
-            if (!this.hasPlayedDescend) {
-                this.descend = this.sound.add('descend', { loop: false, volume: 1 });
-                this.descend.play();
-                this.hasPlayedDescend = true; // Set flag so it doesn't play again
-            }
-        
-            this.tweens.add({
-                targets: this.levelTitle,
-                alpha: 1, // Fade in to fully visible
-                duration: 3000, // 3 second fade-in
-                ease: 'Power2',
-                onComplete: () => {
-                    // Optional: Fade out after a delay
-                }
-            });
+          
         }
         
 
         if (this.currentStep === 3) {
-            console.log('Current step is ≥ 2, isDismissing:', this.isDismissing);
-            this.dismissObjective();
-        }
-
-        // Add a flag to ensure dismissObjective is called only once
-        if (this.currentStep >= 3 && !this.isDismissing) {
-            console.log('Calling dismissObjective()');
-            this.isDismissing = true; // Set flag to prevent multiple calls
-            this.dismissObjective();
         }
     }
 }
 
-export default ObjectiveScene;
+export default NotificationScene;

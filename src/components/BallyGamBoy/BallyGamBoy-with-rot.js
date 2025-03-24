@@ -4,6 +4,7 @@ import DungeonScene from './dungeonScene';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import PucaChase0 from '../pucaChase/pucaChase0';
 import ObjectiveScene from './objectiveScene';
+import NotificationScene from './notificationsScene';
 
 const BallyGamBoy = () => {
   const gameRef = useRef(null);
@@ -24,10 +25,7 @@ const BallyGamBoy = () => {
         width: '100%',
         height: '100%'
       },
-      // scale: {
-      //   mode: Phaser.Scale.FIT,
-      //   autoCenter: Phaser.Scale.CENTER_BOTH,
-      // },
+   
       render: {
         pixelArt: true,
         antialias: false,
@@ -35,8 +33,8 @@ const BallyGamBoy = () => {
         roundPixels: true,
         powerPreference: 'high-performance',
       },
-      // scene: [ PucaChase0,DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
-      scene: [ DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
+      scene: [ PucaChase0,DungeonScene,ObjectiveScene,NotificationScene], // ✅ Add PucaChase0 first
+      // scene: [ DungeonScene,ObjectiveScene], // ✅ Add PucaChase0 first
       plugins: {
         scene: [
           {

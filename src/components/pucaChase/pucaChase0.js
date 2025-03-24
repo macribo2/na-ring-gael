@@ -65,7 +65,7 @@ class PucaChase0 extends Phaser.Scene {
       frameHeight:644
     });
    
-    this.load.audio('thunder', 'phaser-resources/audio/thunder.wav');
+    this.load.audio('thunder', 'phaser-resources/audio/thunder.ogg');
     this.load.audio('rainSound', 'phaser-resources/audio/rain.wav'); 
     
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
@@ -146,14 +146,13 @@ if (this.anims.exists('pookacaveanim')) {
 } else {
  console.error("Animation 'pookacaveanim' is not found!");
 }this.pookacave.on('animationupdate', (anim, frame) => {
-  console.log(`Current frame: ${frame.index}`);
+  // console.log(`Current frame: ${frame.index}`);
 });
 if (this.anims.exists('pookacaveanim2')) {
   this.pookacave2.play('pookacaveanim2');
  } else {
   console.error("Animation 'pookacaveanim' is not found!");
  }this.pookacave2.on('animationupdate', (anim, frame) => {
-   console.log(`Current frame: ${frame.index}`);
  });
  
    // const texture2 = this.textures.get('pookacave').getSourceImage();
