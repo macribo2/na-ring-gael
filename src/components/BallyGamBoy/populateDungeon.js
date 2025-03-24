@@ -8,76 +8,64 @@ function generateRandomItem(scene, x, y) {
 }
 
 export default function populateDungeon(dungeon, inventoryMenu) {
-
-
-  // Ensure dungeon and physics are properly initialized
   if (!dungeon || !dungeon.physics) {
     console.error("Dungeon scene or physics system is not initialized.");
     return;
   }
 
-  // Ensure the dungeon has rooms
-  if (!dungeon.rooms) {
-    console.error("populateDungeon: Dungeon or rooms list is missing!");
-    return;
-  }
-
-  const rooms = dungeon.rooms;
-
-  // Ensure there are rooms in the dungeon
-  if (rooms.length === 0) {
+  if (!dungeon.rooms || dungeon.rooms.length === 0) {
     console.error("populateDungeon: No rooms found in the dungeon!");
     return;
   }
 
+  const rooms = dungeon.rooms;
   console.log(`populateDungeon: Found ${rooms.length} rooms.`);
 
   const TILE_SIZE = 32;
-  const MIN_DISTANCE = 3; // Minimum distance from player (in tiles)
+  const player = dungeon.player;
 
-  const player = dungeon.player;  // Assuming you have a player object in the dungeon
   if (!player) {
     console.error("Player object is missing!");
     return;
   }
 
-  // Helper function to calculate distance between two points (player and potential armour location)
-  function calculateDistance(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  }
+  // Always place armor in Room 4 (5th room) if it exists, otherwise use the last room
+  let armourRoom = rooms.length > 4 ? rooms[4] : rooms[rooms.length - 1];
+  console.log(`populateDungeon: Placing armor in ${rooms.length > 4 ? "Room 4" : "last available room"}.`);
 
-  // Ensure armour doesn't spawn too close to the player
-  let armourX, armourY, validLocation = false;
-  while (!validLocation) {
-    const armourRoom = rooms[Math.floor(Math.random() * rooms.length)];
-    armourX = Math.floor((armourRoom._x1 + armourRoom._x2) / 2);
-    armourY = Math.floor((armourRoom._y1 + armourRoom._y2) / 2);
+  // Find the true center of the room
+  let centreX = Math.floor((armourRoom._x1 + armourRoom._x2) / 2);
+  let centreY = Math.floor((armourRoom._y1 + armourRoom._y2) / 2);
 
-    // Calculate distance from player
-    const distance = calculateDistance(armourX, armourY, player.x, player.y);
-    if (distance > MIN_DISTANCE) {
-      validLocation = true;  // Armour is placed far enough from the player
+  // Ensure we pick a floor tile within the room
+  let validSpawn = false;
+  while (!validSpawn) {
+    if (dungeon.map[centreX][centreY] === 0) { // Assuming 0 is a floor tile
+      validSpawn = true;
+    } else {
+      centreY++; // Try the next tile down until a valid floor is found
     }
   }
 
-  // Convert room coordinates to pixel coordinates
-  const armourPixelX = armourX * TILE_SIZE + TILE_SIZE / 2;
-  const armourPixelY = armourY * TILE_SIZE + TILE_SIZE / 2;
+  // Convert tile coordinates to pixel coordinates
+  const armourPixelX = centreX * TILE_SIZE + TILE_SIZE / 2;
+  const armourPixelY = centreY * TILE_SIZE + TILE_SIZE / 2;
 
+  // Create and add the armor entity
   const armour = new Armour(dungeon, armourPixelX, armourPixelY);
   if (typeof dungeon.addEntity === 'function') {
     dungeon.addEntity(armour);
   } else {
     dungeon.add.existing(armour);
   }
-  console.log(`populateDungeon: Placed Armour at (${armourX}, ${armourY})`);
+  console.log(`populateDungeon: Placed Armour at (${centreX}, ${centreY})`);
 
   // Pick another random room for a general item (e.g., RedCent)
   const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
-  const centerX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
-  const centerY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
-  const pixelX = centerX * TILE_SIZE + TILE_SIZE / 2;
-  const pixelY = centerY * TILE_SIZE + TILE_SIZE / 2;
+  const itemX = Math.floor((randomRoom._x1 + randomRoom._x2) / 2);
+  const itemY = Math.floor((randomRoom._y1 + randomRoom._y2) / 2);
+  const pixelX = itemX * TILE_SIZE + TILE_SIZE / 2;
+  const pixelY = itemY * TILE_SIZE + TILE_SIZE / 2;
 
   // Create a random item (RedCent, etc.) at the calculated position
   const item = generateRandomItem(dungeon, pixelX, pixelY);
@@ -86,11 +74,9 @@ export default function populateDungeon(dungeon, inventoryMenu) {
   } else {
     dungeon.add.existing(item);
   }
-  console.log(`populateDungeon: Placed ${item.name} at (${centerX}, ${centerY})`);
+  console.log(`populateDungeon: Placed ${item.name} at (${itemX}, ${itemY})`);
 
-// Handle collision detection with the player
-// Handle collision detection with the player
-if (player) {
+  // Handle collision detection with the player
   dungeon.physics.add.overlap(
     player.sprite,
     [item.sprite, armour.sprite],
@@ -103,11 +89,9 @@ if (player) {
         // Pickup logic
         gameItem.pickup(player);
 
-        // Check if the 'pickup' sound is available in the sound manager
+        // Play pickup sound effect if available
         if (dungeon.sound.get('pickup')) {
           const pickup = dungeon.sound.add('pickup', { loop: false, volume: 1 });
-
-          // Play the pickup sound effect
           pickup.play();
         } else {
           console.warn('Pickup sound is not loaded yet.');
@@ -116,49 +100,52 @@ if (player) {
         // Add the item to the character's inventory in localStorage
         let characterSheet = JSON.parse(localStorage.getItem('characterSheet')) || {};
         if (!characterSheet.inventory) {
-          characterSheet.inventory = []; // Initialize inventory if it doesn't exist
+          characterSheet.inventory = [];
         }
 
-        // Only store necessary properties, like name, type, and texture
-        const itemData = {
+        // Store necessary item properties
+        characterSheet.inventory.push({
           name: gameItem.name,
           type: gameItem.type,
           texture: gameItem.name,
           descriptionGa: gameItem.descriptionGa,
           descriptionEn: gameItem.descriptionEn,
-        };
+        });
 
-        characterSheet.inventory.push(itemData);
         localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
-
         console.log("After pickup:", player.inventory.items);
 
-        // Now we tween the item to grow large and then fade out
-        gameItem.sprite.setAlpha(1);  // Ensure item is fully visible
+        // **Update quest state when armor is picked up**
+        if (gameItem instanceof Armour) {
+          if (!characterSheet.quests) {
+            characterSheet.quests = {};
+          }
+          characterSheet.quests.armorQuestComplete = true;
+          localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+          console.log("Quest updated: Armor picked up!");
+        }
 
-        // Grow and fade-out effect
+        // Tween effect to fade out item
+        gameItem.sprite.setAlpha(1);
         gameItem.sprite.scene.tweens.add({
           targets: gameItem.sprite,
-          scaleX: 25, // Make the item grow
-          scaleY: 25, // Make the item grow
-          alpha: 0, // Fade out
-          duration: 1000, // Duration for the effect
+          scaleX: 25,
+          scaleY: 25,
+          alpha: 0,
+          duration: 1000,
           ease: 'Power2',
           onComplete: () => {
-            // After the effect, remove the item from the scene
             gameItem.sprite.destroy();
           },
         });
 
-        // Show the item name using the custom font
-        const itemName = gameItem.name;
-        const itemText = dungeon.add.text(dungeon.scale.width * 0.05, dungeon.scale.height * 0.1, itemName, {
+        // Show item name briefly
+        const itemText = dungeon.add.text(dungeon.scale.width * 0.05, dungeon.scale.height * 0.1, gameItem.name, {
           font: '32px aonchlo',
           fill: 'LavenderBlush',
           wordWrap: { width: dungeon.scale.width * 0.8 },
         }).setDepth(44);
 
-        // Fade the text out after a short delay
         dungeon.time.delayedCall(1500, () => {
           itemText.setAlpha(0);
         });
@@ -172,6 +159,4 @@ if (player) {
     null,
     dungeon
   );
-}
-
 }

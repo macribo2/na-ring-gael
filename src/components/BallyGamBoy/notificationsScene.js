@@ -10,13 +10,13 @@ class NotificationScene extends Phaser.Scene {
         this.timeoutIds = []; // Track timeout IDs
         this.hasPlayedDescend = false;
         this.textsGa = [
-            'Ní gan mo chuid éidaigh.',
+            'Ní rachfaidh mé gan mo héidaigh.',
             '',
             
         ];
 
         this.textsEn = [
-            'Not without my clothes',
+            'I won\'t go without my clothes',
             '',
         ];
 
