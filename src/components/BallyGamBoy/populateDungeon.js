@@ -1,5 +1,5 @@
 import { Item, RedCent, Armour } from './entities';  // Import the base Item class and specific items
-
+import NotificationScene from './notificationsScene';
 // Helper function to generate a random item (e.g., RedCent, etc.)
 function generateRandomItem(scene, x, y) {
   const itemTypes = [RedCent];  // Add more item types here as you create them
@@ -195,8 +195,8 @@ export default function populateDungeon(dungeon, inventoryMenu) {
           }
           characterSheet.quests.armorQuestComplete = true;
           localStorage.setItem('characterSheet', JSON.stringify(characterSheet));
+          dungeon.scene.launch('NotificationScene', { messageType: 'armorFound' });
           console.log("Quest updated: Armor picked up!");
-          this.scene.launch('NotificationScene', { messageType: 'armorFound' });
 
         }
 
@@ -219,7 +219,7 @@ export default function populateDungeon(dungeon, inventoryMenu) {
           font: '32px aonchlo',
           fill: 'LavenderBlush',
           wordWrap: { width: dungeon.scale.width * 0.8 },
-        }).setDepth(44).setScrollFactor(0);
+        }).setDepth(44).setScrollFactor(0).setScale(1);
 
         dungeon.time.delayedCall(1500, () => {
           itemText.setAlpha(0);

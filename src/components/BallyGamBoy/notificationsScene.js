@@ -47,6 +47,23 @@ class NotificationScene extends Phaser.Scene {
         // Add grey lines to simulate the frame's top and left walls
         const lineColor = 0x4b474b;
         const lineThickness = 15;
+        this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.6, '', {
+            font: '32px Anaphora',
+            fill: 'plum',
+            wordWrap: { width: this.scale.width * 0.8 },
+            stroke: '#000000', // Stroke color (black)
+            strokeThickness: 4, // Thickness of the stroke
+        }).setVisible(true).setDepth(45).setAlpha(0);
+
+        this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
+            font: '32px aonchlo',
+            fill: 'LavenderBlush',
+            wordWrap: { width: this.scale.width * 0.8 },
+        }).setDepth(44);
+
+
+        this.textObjectGa.setText('');
+        this.textObjectEn.setText('');
 
         this.messageType = data.messageType || 'default';
     
@@ -57,8 +74,10 @@ class NotificationScene extends Phaser.Scene {
             this.textsGa = ['Mo éide! Glan agus tirim. Cé a rinne seo?'];
             this.textsEn = ['My armour! Clean and dry. Who did this?'];
         }
-    
-        this.textObjectGa.setText('');
+ // Initialize typing effect using rexTextTyping
+ this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
+    speed: 30, // Set the speed of typing
+});    
         this.typingEffect.start(this.textsGa[0]).on('complete', () => {
             this.textObjectEn.setText(this.textsEn[0]).setDepth(47);
         });
@@ -76,24 +95,8 @@ class NotificationScene extends Phaser.Scene {
         this.frameImage.setDisplaySize(this.scale.width, this.scale.height); // Adjust size to account for lines
         
 
-        this.textObjectEn = this.add.text(this.scale.width * 0.05, this.scale.height * 0.6, '', {
-            font: '32px Anaphora',
-            fill: 'plum',
-            wordWrap: { width: this.scale.width * 0.8 },
-            stroke: '#000000', // Stroke color (black)
-            strokeThickness: 4, // Thickness of the stroke
-        }).setVisible(true).setDepth(45).setAlpha(0);
-
-        this.textObjectGa = this.add.text(this.scale.width * 0.05, this.scale.height * 0.1, '', {
-            font: '32px aonchlo',
-            fill: 'LavenderBlush',
-            wordWrap: { width: this.scale.width * 0.8 },
-        }).setDepth(44);
-
-        // Initialize typing effect using rexTextTyping
-        this.typingEffect = this.rexTextTyping.add(this.textObjectGa, {
-            speed: 30, // Set the speed of typing
-        });
+   
+       
 
         // Start typing effect on the first text
         this.typingEffect.start(this.textsGa[this.currentStep]).on('complete', () => {

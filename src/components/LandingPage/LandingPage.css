@@ -57,7 +57,7 @@ canvas{
   width: 100% !important;
   display: grid;
   place-items: center; /* Centers content both horizontally and vertically */
-  z-index: 5105 !important;
+  z-index: 1105 !important;
   align-items: center;
 }
 .start-fullscreen-button {
@@ -144,7 +144,7 @@ html, body, #phaser-container, canvas {
 /* Force button above all Phaser elements */
 .start-button-container {
   position: relative;
-  z-index: 2147483647 !important; /* Max z-index value */
+  z-index: 2000 !important; /* Max z-index value */
   pointer-events: auto !important;
 }
 
@@ -157,4 +157,23 @@ html, body, #phaser-container, canvas {
 
 #phaser-container canvas {
   pointer-events: auto !important;
+}
+
+
+#portrait{
+
+  display: none;
+  
+}
+
+
+@media screen and (orientation: portrait) {
+  body {
+    transform: rotate(90deg);
+    transform-origin: center;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+    position: fixed;
+  }
 }

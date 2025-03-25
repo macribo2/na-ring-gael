@@ -226,60 +226,86 @@ export class PlayerEntity extends GameEntity {
     });
   }
 
-  // Move method with cooldown logic
-  move(dx, dy) {
-    if (this.isOptionMenuOpen) return; // Don't move if menu is open
+// Move method with cooldown logic
+// Move method with step sound
+move(dx, dy) {
+  if (this.isOptionMenuOpen) return; // Don't move if menu is open
 
-    const currentTime = this.scene.time.now;
+  const currentTime = this.scene.time.now;
 
-    // Only process movement if enough time has passed (based on cooldown)
-    if (currentTime - this.lastMoveTime >= this.moveCooldown) {
-      this.lastMoveTime = currentTime; // Update the last move time
+  if (currentTime - this.lastMoveTime >= this.moveCooldown) {
+    this.lastMoveTime = currentTime; // Update the last move time
 
-      const newGridX = this.gridX + dx;
-      const newGridY = this.gridY + dy;
+    const newGridX = this.gridX + dx;
+    const newGridY = this.gridY + dy;
 
-      // Ensure the scene and map exist before checking collisions
-      if (!this.scene || !this.scene.map) {
-        console.error("Scene or map is undefined.");
-        return;
+    if (!this.scene || !this.scene.map) {
+      console.error("Scene or map is undefined.");
+      return;
+    }
+
+    if (this.scene.map[newGridX] && this.scene.map[newGridX][newGridY] === 0) {
+      this.gridX = newGridX;
+      this.gridY = newGridY;
+
+      const newX = (this.gridX + 0.5) * 32;
+      const newY = (this.gridY + 0.5) * 32;
+
+      console.log(`Player moving to: (${newX}, ${newY})`);
+
+      if (dx < 0) {
+        this.sprite.setFlipX(true);
+      } else if (dx > 0) {
+        this.sprite.setFlipX(false);
       }
 
-      // Check if the new position is a wall or walkable
-      if (this.scene.map[newGridX] && this.scene.map[newGridX][newGridY] === 0) {
-        // Only update position if it's a walkable tile
-        this.gridX = newGridX;
-        this.gridY = newGridY;
+      // Play step sound with random pitch variation
+      const stepSound = this.scene.sound.add('step');
+      stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slightly vary pitch
+      stepSound.play();
 
-        const newX = (this.gridX + 0.5) * 32; // Center of tile
-        const newY = (this.gridY + 0.5) * 32; // Center of tile
+      // Smooth transition
+      this.scene.tweens.add({
+        targets: this.sprite,
+        x: newX,
+        y: newY,
+        duration: 150,
+        ease: 'Linear',
+        onComplete: () => {
+          this.x = newX;
+          this.y = newY;
+          this.pendingInput = false;
+          this.interactWithItems();
+        }
+      });
 
-        console.log(`Player moving to: (${newX}, ${newY})`);
-
-        // Smooth transition to the new position
+      // Bobbing & Swinging Effect (left/right only)
+      if (Math.abs(dx) > Math.abs(dy)) {
         this.scene.tweens.add({
           targets: this.sprite,
-          x: newX,
-          y: newY,
-          duration: 150, // Adjust duration for speed
-          ease: 'Linear', // Smooth movement
-          onComplete: () => {
-            this.x = newX;
-            this.y = newY;
-            this.pendingInput = false; // Allow next input after movement is complete
-
-            // After moving, check for interactions with items
-            this.interactWithItems();
-          }
+          y: this.sprite.y - 4,
+          duration: 75,
+          ease: 'Sine.easeInOut',
+          yoyo: true,
         });
-      } else {
-        console.log(`Blocked! Cannot move to (${newGridX}, ${newGridY})`);
-        this.pendingInput = false; // Allow input even if blocked
+
+        this.scene.tweens.add({
+          targets: this.sprite,
+          angle: dx > 0 ? 5 : -5,
+          duration: 75,
+          ease: 'Sine.easeInOut',
+          yoyo: true,
+        });
       }
     } else {
-      console.log("Move cooldown active. Wait before moving again.");
+      console.log(`Blocked! Cannot move to (${newGridX}, ${newGridY})`);
+      this.pendingInput = false;
     }
+  } else {
+    console.log("Move cooldown active. Wait before moving again.");
   }
+}
+
 
   updatePosition() {
     if (this.sprite) {

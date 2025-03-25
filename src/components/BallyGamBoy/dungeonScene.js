@@ -382,6 +382,7 @@ zoomOutCamera() {
 
 
   preload() {
+    this.load.audio('step', '/phaser-resources/audio/step.ogg');
     this.load.audio('jump', '/phaser-resources/audio/text-message.ogg');
     this.load.audio('pickup', '/phaser-resources/audio/Pickup_Coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
@@ -946,13 +947,18 @@ pathfindTo(targetX, targetY) {
   const playerTileX = Math.floor(this.player.sprite.x / this.tileSize);
   const playerTileY = Math.floor(this.player.sprite.y / this.tileSize);
 
-  // Create A* instance
-  const astar = new Path.AStar(
-    targetX,
-    targetY,
-    (x, y) => this.isWalkable(x, y),
-    { topology: 4 } // 4-direction movement
-  );
+// Create A* instance with explored tiles check
+const astar = new Path.AStar(
+  targetX,
+  targetY,
+  (x, y) => {
+    // Only allow movement to walkable and explored tiles
+    return this.isWalkable(x, y) && this.isExplored(x, y);
+  },
+  { topology: 4 } // 4-direction movement
+);
+
+
 
   // Compute path
   astar.compute(playerTileX, playerTileY, (x, y) => {
@@ -975,6 +981,25 @@ pathfindTo(targetX, targetY) {
   // Draw the path
   this.drawPath();
 }
+// The isExplored method checks if a tile has been explored
+isExplored(x, y) {
+  return this.explored && this.explored[x] && this.explored[x][y];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 movePlayerAlongPath() {
   this.clearPath(); // Clear the path once the player starts moving
 
@@ -984,52 +1009,71 @@ movePlayerAlongPath() {
   // Clear any ongoing path drawing
   this.pathGraphics.clear();
 
-  // Move the player step by step using tweens
-  const moveNext = () => {
-    if (this.currentPath.length === 0) return;
+// Move the player step by step using tweens
+const moveNext = () => {
+  if (this.currentPath.length === 0) return;
 
-    const nextTile = this.currentPath.shift(); // Get the next tile in the path
-    const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
-    const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
-    
-    // Save previous position before moving
-    this.player.previousGridX = this.player.gridX;
-    this.player.previousGridY = this.player.gridY;
-    
-    // Calculate direction to the next tile
-    const currentX = this.player.sprite.x;
-    const currentY = this.player.sprite.y;
-    
-    // Determine the primary direction of movement
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
-    
-    // Set facing direction based on the more significant axis of movement
-    if (Math.abs(dx) > Math.abs(dy)) {
-      this.player.facingDirection = { x: Math.sign(dx), y: 0 };
-    } else {
-      this.player.facingDirection = { x: 0, y: Math.sign(dy) };
-    }
+  const nextTile = this.currentPath.shift();
+  const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
+  const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
 
-    // Start tween to move the player to the next tile
-    this.tweens.add({
+  // Save previous position before moving
+  this.player.previousGridX = this.player.gridX;
+  this.player.previousGridY = this.player.gridY;
+
+  // Calculate movement direction
+  const dx = targetX - this.player.sprite.x;
+  const dy = targetY - this.player.sprite.y;
+
+  // Flip sprite for left/right movement
+  if (dx < 0) {
+      this.player.sprite.setFlipX(true);
+  } else if (dx > 0) {
+      this.player.sprite.setFlipX(false);
+  }
+
+  // Play step sound with random pitch variation
+  const stepSound = this.sound.add('step'); // Ensure 'step' is preloaded
+  stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slight pitch variation
+  stepSound.play();
+
+  // Move player along the path
+  this.tweens.add({
       targets: this.player.sprite,
       x: targetX,
       y: targetY,
-      duration: 200, // Duration of each move (in milliseconds)
-      ease: 'Linear', // Smooth linear transition
+      duration: 200,
+      ease: 'Linear',
       onComplete: () => {
-        // Update player's grid position
-        this.player.gridX = nextTile.x;
-        this.player.gridY = nextTile.y;
-        
-        // Call moveNext again if there are more steps in the path
-        if (this.currentPath.length > 0) {
-          moveNext();
-        }
+          this.player.gridX = nextTile.x;
+          this.player.gridY = nextTile.y;
+
+          if (this.currentPath.length > 0) {
+              moveNext();
+          }
       }
-    });
-  };
+  });
+
+  // Apply bobbing & swinging effect **only for left/right movement**
+  if (Math.abs(dx) > Math.abs(dy)) {
+      this.tweens.add({
+          targets: this.player.sprite,
+          y: this.player.sprite.y - 4, // Bob up slightly
+          duration: 100,
+          ease: 'Sine.easeInOut',
+          yoyo: true, // Bob back down
+      });
+
+      // Add a **swinging effect** to tilt the player forward and back
+      this.tweens.add({
+          targets: this.player.sprite,
+          angle: dx > 0 ? 5 : -5, // Tilt forward slightly in movement direction
+          duration: 100,
+          ease: 'Sine.easeInOut',
+          yoyo: true, // Swing back
+      });
+  }
+};
 
   moveNext();
 }
