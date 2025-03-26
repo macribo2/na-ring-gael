@@ -165,17 +165,22 @@ left:0px;
 	
 @media screen and (orientation:portrait) {
 
-	#portrait{
-	  display: block;
-	  top: 0;
-	  left: 0;
-	  height: 100%;
-	  width: 100%;
-	  z-index: 9999;
-	  position: fixed;
-	  background-size: contain;
-  
+	#portrait {
+		display: block;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		z-index: 9999;
+		position: fixed;
+		background-size: cover;  /* Ensure the image covers the full screen */
+		background-position: center;
+		background-repeat: no-repeat;
+		top: 26%;
+		left: 27%;
+		transform: rotate(-90deg);
 	}
+	  
 	.swd-quote-2{display:none;}
 }  
 

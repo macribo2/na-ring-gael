@@ -151,37 +151,84 @@ class ControlSquare extends Phaser.GameObjects.Container {
     middleButton.on('pointerup', () => {
       resetButton(middleButton, 'middleButtonLit');
     });
-    upButton.on('pointerup', () => {
-      resetButton(upButton, 'upButtonLit');
-    });
-    downButton.on('pointerup', () => {
-      resetButton(downButton, 'downButtonLit');
-    });
-    leftButton.on('pointerup', () => {
-      resetButton(leftButton, 'leftButtonLit');
-    });
-    rightButton.on('pointerup', () => {
-      resetButton(rightButton, 'rightButtonLit');
-    });
 
     // Handle pointer out (when the pointer is moved away from the button)
     middleButton.on('pointerout', () => {
       resetButton(middleButton, 'middleButtonDark');
     });
-    upButton.on('pointerout', () => {
-      resetButton(upButton, 'upButtonDark');
-    });
-    downButton.on('pointerout', () => {
-      resetButton(downButton, 'downButtonDark');
-    });
-    leftButton.on('pointerout', () => {
-      resetButton(leftButton, 'leftButtonDark');
-    });
-    rightButton.on('pointerout', () => {
-      resetButton(rightButton, 'rightButtonDark');
-    });
-    
-    // Control square functionality...
+ 
+  
+    const holdDelay = 300; // Initial delay before repeating (milliseconds)
+const repeatRate = 100; // Speed of repeated movement (milliseconds)
+let holdTimers = {}; // Store timers for each button
+
+const startRepeatingAction = (button, action) => {
+  if (holdTimers[action]) return; // Prevent duplicate timers
+
+  // First move immediately
+  this.emit('control-action', action);
+  if (this.clearPathCallback) this.clearPathCallback();
+
+  // Start a delay before continuous movement
+  holdTimers[action] = setTimeout(() => {
+    holdTimers[action] = setInterval(() => {
+      this.emit('control-action', action);
+      if (this.clearPathCallback) this.clearPathCallback();
+    }, repeatRate);
+  }, holdDelay);
+};
+
+const stopRepeatingAction = (action) => {
+  if (holdTimers[action]) {
+    clearTimeout(holdTimers[action]); // Clear initial delay
+    clearInterval(holdTimers[action]); // Stop repeated movement
+    delete holdTimers[action]; // Remove reference
+  }
+};
+
+// Up Button
+upButton.on('pointerdown', () => {
+  startRepeatingAction(upButton, 'up-down');
+  setButtonLit(upButton, 'upButtonLit');
+});
+upButton.on('pointerup', () => {
+  stopRepeatingAction('up-down');
+  resetButton(upButton, 'upButtonDark');
+});
+upButton.on('pointerout', () => stopRepeatingAction('up-down'));
+
+// Down Button
+downButton.on('pointerdown', () => {
+  startRepeatingAction(downButton, 'down-down');
+  setButtonLit(downButton, 'downButtonLit');
+});
+downButton.on('pointerup', () => {
+  stopRepeatingAction('down-down');
+  resetButton(downButton, 'downButtonDark');
+});
+downButton.on('pointerout', () => stopRepeatingAction('down-down'));
+
+// Left Button
+leftButton.on('pointerdown', () => {
+  startRepeatingAction(leftButton, 'left-down');
+  setButtonLit(leftButton, 'leftButtonLit');
+});
+leftButton.on('pointerup', () => {
+  stopRepeatingAction('left-down');
+  resetButton(leftButton, 'leftButtonDark');
+});
+leftButton.on('pointerout', () => stopRepeatingAction('left-down'));
+
+// Right Button
+rightButton.on('pointerdown', () => {
+  startRepeatingAction(rightButton, 'right-down');
+  setButtonLit(rightButton, 'rightButtonLit');
+});
+rightButton.on('pointerup', () => {
+  stopRepeatingAction('right-down');
+  resetButton(rightButton, 'rightButtonDark');
+});
+rightButton.on('pointerout', () => stopRepeatingAction('right-down'));
 
     // Initialize state for button press tracking
     let pressStartTime = 0;

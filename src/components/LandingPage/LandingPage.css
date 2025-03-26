@@ -166,6 +166,28 @@ html, body, #phaser-container, canvas {
   
 }
 
+#phaser-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: black; /* Prevent white edges when rotating */
+}
+
+@media screen and (orientation: portrait) {
+  #phaser-container {
+    transform: rotate(90deg);
+    transform-origin: center center;
+    width: 100vh;
+    height: 100vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+}
 
 @media screen and (orientation: portrait) {
   body {

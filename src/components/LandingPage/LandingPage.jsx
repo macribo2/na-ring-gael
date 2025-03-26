@@ -6,6 +6,7 @@ import MainGame from '../MainGame/MainGame';
 import IntroSequence from '../IntroSequence/IntroSequence';
 import RexTextTypingPlugin from 'phaser3-rex-plugins/plugins/texttyping-plugin.js';
 import middleC from '../../images/middle-c.gif';
+import portrait from '../../images/vert-mode3.png'
 import style from './LandingPage.css';
 import BallyGamboy from '../BallyGamBoy/BallyGamBoy-with-rot'
 const LandingPage = () => {
@@ -14,19 +15,21 @@ const LandingPage = () => {
   const appHistory = useHistory(); // React Router hook for navigation
   const [buttonVisible, setButtonVisible] = useState(true); // Track button visibility
 
-  // Phaser game initialization
   useEffect(() => {
-
+    const isPortrait = window.innerHeight > window.innerWidth;
+    const gameWidth = isPortrait ? window.innerHeight : window.innerWidth;
+    const gameHeight = isPortrait ? window.innerWidth : window.innerHeight;
+  
     const config = {
       type: Phaser.AUTO,
-      parent: 'phaser-container', // Attach the game canvas here
-      width: window.innerWidth, // Set width to match the window width
-      height: window.innerHeight, // Set height to match the window height
+      parent: 'phaser-container',
+      width: gameWidth, // Always make width the larger dimension
+      height: gameHeight, // Always make height the smaller dimension
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [ LandingPageScene, IntroSequence, MainGame], 
+      scene: [LandingPageScene, IntroSequence, MainGame],
       plugins: {
         scene: [
           {
@@ -36,20 +39,21 @@ const LandingPage = () => {
           },
         ],
       },
-      
     };
+  
     // Create the Phaser game instance
     const game = new Phaser.Game(config);
     gameRef.current = game;
-
+  
     // Cleanup Phaser instance on unmount
     return () => {
       if (gameRef.current) {
-        gameRef.current.destroy(true); // Cleanup Phaser instance on unmount
+        gameRef.current.destroy(true);
         gameRef.current = null;
       }
     };
   }, []);
+  
   useEffect(() => {
     // Simulating loading time
     setTimeout(() => {
@@ -161,6 +165,9 @@ useEffect(() => {
           </div>
             {/* Full Screen Mask */}
             
+    <img id="portrait" rel="preload" src={ portrait}></img>
+
+
     <div id="mask"></div>
         </>
       )}
