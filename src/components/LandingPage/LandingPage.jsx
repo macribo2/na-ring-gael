@@ -250,6 +250,22 @@ const LandingPageScene = {
    });
  
 
+    // Handle input on iOS
+    this.input.on('pointerdown', () => {
+      console.log("Screen tapped!");
+      this.scene.start('IntroSequence'); // Transition to the next scene
+  });
+
+  // Create a transparent touch overlay to ensure the game registers taps
+  const touchOverlay = this.add.rectangle(
+      this.scale.width / 2,
+      this.scale.height / 2,
+      this.scale.width,
+      this.scale.height,
+      0x000000,
+      0
+  );
+  touchOverlay.setInteractive();
 
   },
 

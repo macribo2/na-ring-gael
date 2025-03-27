@@ -48,6 +48,7 @@ this.isRaining = false;
 
   preload() {
     this.load.audio('flair','phaser-resources/audio/flair.mp3');
+    this.load.audio('step','phaser-resources/audio/step.ogg');
     this.load.image('player-frame', 'phaser-resources/images/ciorcal-glass.png');
     this.load.image('bg1', 'phaser-resources/images/bg1.png');
       // Load assets needed for the main game

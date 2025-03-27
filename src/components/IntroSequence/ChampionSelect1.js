@@ -356,12 +356,33 @@ this.wheel = scene.add.sprite(centerX,centerY, 'celt-ring').setOrigin(0.5, 0.5).
     
     // Add the square sensor
     this.sensor = scene.add.rectangle(400, 250, 2, 2, 0x003300);
-    
     // Add text for the name
-    this.nameTextGa = scene.add.text(scene.scale.width * 0.5, scene.scale.height * 0.5, 'test', {
-      font: '64px aonchlo',
-      fill: 'LavenderBlush',
-    }).setOrigin(0.5).setAlpha(0).setDepth(900);;
+// Add text for the name
+this.nameTextGa = scene.add.text(scene.scale.width * 0.5, scene.scale.height * 0.5, 'test', {
+  font: 'bold 64px aonchlo',
+  fill: 'LavenderBlush',
+  stroke: '#32004B',
+  strokeThickness: 6,
+}).setOrigin(0.5).setAlpha(0).setDepth(900);
+
+// Function to change text with fade effect
+this.fadeText = (newText) => {
+  this.scene.tweens.add({
+      targets: this.nameTextGa,
+      alpha: 0, // Fade out
+      duration: 100,
+      onComplete: () => {
+          this.nameTextGa.setText(newText); // Change text
+          this.scene.tweens.add({
+              targets: this.nameTextGa,
+              alpha: 1, // Fade in
+              duration: 100
+          });
+      }
+  });
+};
+
+
        // Add text for the name
      this.nameTextEn =scene.add.text(scene.scale.width * 0.2, scene.scale.height * 0.8, '', {
       font: '32px Anaphora',
@@ -518,10 +539,36 @@ EventEmitter.on('stepChanged', (newStep) => {
     // this.minVelocity = 0.0001;
     // this.friction = 0.995;
     // this.dragSensitivity = 0.0005;
-    this.dampingFactor = 0.98; // Increase to retain more velocity
-    this.minVelocity = 0.00001; // Lower threshold for stopping
-    this.friction = 0.999; // Less friction for longer spins
-    this.dragSensitivity = 0.001; // Increase if you want stronger spins from dragging
+   // Adjusted spinning parameters for longer spins after swipe
+this.dampingFactor = 0.98;      // Retain more velocity after swipe
+this.minVelocity = 0.00001;     // Lower threshold for stopping
+this.friction = 0.995;          // Reduced friction for a longer spin
+this.dragSensitivity = 0.001;   // Increase for stronger drag effect
+
+// Function to simulate the wheel spin after swipe
+this.spinWheel = (velocity) => {
+    // Apply drag based on the player's swipe velocity
+    this.wheelVelocity = velocity * this.dampingFactor;
+
+    // Create a spin loop that slows down based on friction
+    this.scene.time.addEvent({
+        delay: 20, // Update every 20ms (smooth transition)
+        loop: true,
+        callback: () => {
+            // Apply friction and decay velocity
+            this.wheelVelocity *= this.friction;
+
+            // Rotate the wheel based on velocity
+            this.wheel.angle += this.wheelVelocity;
+
+            // Stop spinning once the velocity is too low
+            if (Math.abs(this.wheelVelocity) < this.minVelocity) {
+                this.wheelVelocity = 0; // Stop the rotation
+            }
+        }
+    });
+};
+
     // Pointer events
     this.wheel.on('pointerdown', (pointer) => this.startDrag(pointer));
     this.wheel.on('pointermove', (pointer) => this.dragWheel(pointer));
@@ -529,6 +576,17 @@ EventEmitter.on('stepChanged', (newStep) => {
     
     // Update the wheel rotation in the game loop
     scene.events.on('update', this.updateWheel, this);
+
+    this.scene.tweens.add({
+      targets: this.wheel,
+      angle: 5,  // Slight, varied nudge
+      duration: 800,  // Faster, more natural movement
+      ease: 'Sine.easeInOut',  // Smooth start & stop
+      delay: 1500,  // 1-second delay before it starts
+      yoyo: true,  // Moves back to original position
+      repeat: 0 
+    });
+    
 
   }
   onChampionDiscovered() {
@@ -819,12 +877,12 @@ this.scene.time.delayedCall(0, () => {
       this.spokeMovementAccumulator += indexDiff;
       
       // If accumulated enough movement (positive or negative), change character
-      if (this.spokeMovementAccumulator >= 16) {
+      if (this.spokeMovementAccumulator >= 12) {
         // Move forward in the character list
         this.currentCharacterIndex = (this.currentCharacterIndex + 1) % this.champions.length;
         this.spokeMovementAccumulator = 0;
         this.updateCharacterDisplay(this.currentCharacterIndex);
-      } else if (this.spokeMovementAccumulator <= -16) {
+      } else if (this.spokeMovementAccumulator <= -12) {
         // Move backward in the character list
         this.currentCharacterIndex = (this.currentCharacterIndex - 1 + this.champions.length) % this.champions.length;
         this.spokeMovementAccumulator = 0;
@@ -840,7 +898,8 @@ this.scene.time.delayedCall(0, () => {
   updateCharacterDisplay(characterIndex) {
     const displayedChampion = this.champions[characterIndex];
     
-    this.nameTextGa.setText(displayedChampion.nameGa);
+    this.fadeText(displayedChampion.nameGa);
+
     this.nameTextEn.setText(displayedChampion.nameEn);
     
     this.displayedChampion = {
@@ -882,6 +941,8 @@ this.scene.time.delayedCall(0, () => {
       console.warn("Texture 'championSprites' does not exist.");
       this.championImage.setVisible(false);
     }
+  
+    this.scene.sound.play('step');
   }
   
 

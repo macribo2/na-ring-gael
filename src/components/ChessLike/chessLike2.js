@@ -146,7 +146,7 @@ enText.setAlpha(1);
     
 
   function preload() {
-    this.load.atlas('championSprites', 'phaser-resources/images/champions0.png', 'phaser-resources/json/champions0.json');
+    this.load.atlas('championSprites', 'phaser-resources/images/champions-with-kit.png', 'phaser-resources/json/champions0.json');
     
     this.load.image('tallBg', './phaser-resources/images/background-elements/tallBg0.png');
    
@@ -168,7 +168,7 @@ enText.setAlpha(1);
         this.load.image('heart', './phaser-resources/images/heart.png');
         this.load.image('pucaBlack', './phaser-resources/images/npcs/pooka0.png');
         this.load.image('pucaWhite', './phaser-resources/images/npcs/pooka1.png');
-        this.load.image('player', `./phaser-resources/images/champions/${champID}.png`);
+        this.load.image('player', `./phaser-resources/images/champions/31.png`);
     }
 
 
