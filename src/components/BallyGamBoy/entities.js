@@ -281,6 +281,7 @@ move(dx, dy) {
 
       // Bobbing & Swinging Effect (left/right only)
       if (Math.abs(dx) > Math.abs(dy)) {
+        // Bobbing effect for left/right movement
         this.scene.tweens.add({
           targets: this.sprite,
           y: this.sprite.y - 4,
@@ -289,12 +290,25 @@ move(dx, dy) {
           yoyo: true,
         });
 
+        // Swinging effect for left/right movement
         this.scene.tweens.add({
           targets: this.sprite,
           angle: dx > 0 ? 5 : -5,
           duration: 75,
           ease: 'Sine.easeInOut',
           yoyo: true,
+        });
+      }
+
+      // Apply sway effect for up/down movement (no bobbing)
+      if (Math.abs(dy) > Math.abs(dx)) {
+        // Swinging effect for up/down movement
+        this.scene.tweens.add({
+          targets: this.sprite,
+          angle: dy > 0 ? 5 : -5, // Tilt forward or backward in movement direction
+          duration: 75,
+          ease: 'Sine.easeInOut',
+          yoyo: true, // Swing back
         });
       }
     } else {
@@ -305,6 +319,7 @@ move(dx, dy) {
     console.log("Move cooldown active. Wait before moving again.");
   }
 }
+
 
 
   updatePosition() {

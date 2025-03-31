@@ -8,6 +8,8 @@ class ChampionSelect1 extends Phaser.GameObjects.Container {
     
     super(scene, x, y);
     this.championDiscovered = false; // Initially, the champion is not discovered
+    this.userInteracted = false;
+
     const centerX = 100;
     const centerY = 100;
     this.championImage = scene.add.image(centerX, centerY, 'championSprites').setVisible(false)
@@ -577,16 +579,36 @@ this.spinWheel = (velocity) => {
     // Update the wheel rotation in the game loop
     scene.events.on('update', this.updateWheel, this);
 
-    this.scene.tweens.add({
-      targets: this.wheel,
-      angle: 5,  // Slight, varied nudge
-      duration: 800,  // Faster, more natural movement
-      ease: 'Sine.easeInOut',  // Smooth start & stop
-      delay: 1500,  // 1-second delay before it starts
-      yoyo: true,  // Moves back to original position
-      repeat: 0 
-    });
+    // this.scene.tweens.add({
+    //   targets: this.wheel,
+    //   angle: 5,  // Slight, varied nudge
+    //   duration: 800,  // Faster, more natural movement
+    //   ease: 'Sine.easeInOut',  // Smooth start & stop
+    //   delay: 1500,  // 1-second delay before it starts
+    //   yoyo: true,  // Moves back to original position
+    //   repeat: 0 
+    // });
     
+// Function to change text with fade effect
+this.fadeText = (newText) => {
+  if (!this.userInteracted) return; // Prevents name from appearing too early
+  
+
+  this.scene.tweens.add({
+      targets: this.nameTextGa,
+      alpha: 0, // Fade out
+      duration: 100,
+      onComplete: () => {
+          this.nameTextGa.setText(newText); // Change text
+          this.scene.tweens.add({
+              targets: this.nameTextGa,
+              alpha: 1, // Fade in 
+              duration: 100
+          });
+      }
+  });
+};
+
 
   }
   onChampionDiscovered() {
@@ -692,11 +714,19 @@ updateColorShiftCircle(x, y, radius) {
   dragWheel(pointer) {
     if (this.isDragging) {
       
-      this.nameTextGa.setAlpha(1)
-      this.nameTextEn.setAlpha(1)
-      this.rainbowCircle.setAlpha(1)
-      this.championImage.setAlpha(1)
-       this.onChampionDiscovered();
+      // Mark that the user has interacted
+      this.userInteracted = true;
+
+      this.nameTextGa.setAlpha(1);
+      this.nameTextEn.setAlpha(1);
+      this.rainbowCircle.setAlpha(1);
+      this.championImage.setAlpha(1);
+      
+      // Only trigger discovery if user has interacted
+      if (this.userInteracted) {
+          this.onChampionDiscovered();
+      }
+
       const dy = pointer.y - this.startY;
       const deltaAngle = dy * this.dragSensitivity;
       this.currentAngle += deltaAngle;
@@ -708,7 +738,8 @@ updateColorShiftCircle(x, y, radius) {
       
       this.rotationVelocity = deltaAngle;
     }
-  }
+}
+
   fadeInBackground2=()=> {
     if (this.background2) {
         this.background2.setVisible(true);

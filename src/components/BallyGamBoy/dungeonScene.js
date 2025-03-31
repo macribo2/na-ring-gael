@@ -232,6 +232,7 @@ export default class DungeonScene extends Phaser.Scene {
   });
   
   
+
 }  
   updatePlayerSprite(isWearingArmor) {
     if (!this.player || !this.player.sprite) {
@@ -988,6 +989,30 @@ isExplored(x, y) {
 
 
 
+createTouchEffect(x, y) {
+  // Create a circle (can also use an image or sprite) to represent the touch effect
+  const touchEffect = this.add.graphics();
+  touchEffect.lineStyle(3, 0xffffff, 1);
+  touchEffect.fillStyle(0xffffff, 0.4); // Semi-transparent fill
+  touchEffect.fillCircle(x, y, 10); // Initial size of the circle
+
+  // Animate the touch effect to "pulse" outwards and fade away
+  this.tweens.add({
+    targets: touchEffect,
+    scaleX: 4,  // Increase the size to 4x
+    scaleY: 4,  // Increase the size to 4x
+    alpha: 0,   // Fade out the circle
+    duration: 500, // 500ms duration for the effect
+    ease: 'Sine.easeOut',
+    onComplete: () => {
+      // Clean up the effect after animation is complete
+      touchEffect.destroy();
+    }
+  });
+}
+
+
+
 
 
 
@@ -1009,72 +1034,84 @@ movePlayerAlongPath() {
   // Clear any ongoing path drawing
   this.pathGraphics.clear();
 
-// Move the player step by step using tweens
-const moveNext = () => {
-  if (this.currentPath.length === 0) return;
-
-  const nextTile = this.currentPath.shift();
-  const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
-  const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
-
-  // Save previous position before moving
-  this.player.previousGridX = this.player.gridX;
-  this.player.previousGridY = this.player.gridY;
-
-  // Calculate movement direction
-  const dx = targetX - this.player.sprite.x;
-  const dy = targetY - this.player.sprite.y;
-
-  // Flip sprite for left/right movement
-  if (dx < 0) {
-      this.player.sprite.setFlipX(true);
-  } else if (dx > 0) {
-      this.player.sprite.setFlipX(false);
-  }
-
-  // Play step sound with random pitch variation
-  const stepSound = this.sound.add('step'); // Ensure 'step' is preloaded
-  stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slight pitch variation
-  stepSound.play();
-
-  // Move player along the path
-  this.tweens.add({
-      targets: this.player.sprite,
-      x: targetX,
-      y: targetY,
-      duration: 200,
-      ease: 'Linear',
-      onComplete: () => {
-          this.player.gridX = nextTile.x;
-          this.player.gridY = nextTile.y;
-
-          if (this.currentPath.length > 0) {
-              moveNext();
-          }
-      }
-  });
-
-  // Apply bobbing & swinging effect **only for left/right movement**
-  if (Math.abs(dx) > Math.abs(dy)) {
-      this.tweens.add({
-          targets: this.player.sprite,
-          y: this.player.sprite.y - 4, // Bob up slightly
-          duration: 100,
-          ease: 'Sine.easeInOut',
-          yoyo: true, // Bob back down
-      });
-
-      // Add a **swinging effect** to tilt the player forward and back
-      this.tweens.add({
-          targets: this.player.sprite,
-          angle: dx > 0 ? 5 : -5, // Tilt forward slightly in movement direction
-          duration: 100,
-          ease: 'Sine.easeInOut',
-          yoyo: true, // Swing back
-      });
-  }
-};
-
+  const moveNext = () => {
+    if (this.currentPath.length === 0) return;
+  
+    const nextTile = this.currentPath.shift();
+    const targetX = nextTile.x * this.tileSize + this.tileSize / 2;
+    const targetY = nextTile.y * this.tileSize + this.tileSize / 2;
+  
+    // Save previous position before moving
+    this.player.previousGridX = this.player.gridX;
+    this.player.previousGridY = this.player.gridY;
+  
+    // Calculate movement direction
+    const dx = targetX - this.player.sprite.x;
+    const dy = targetY - this.player.sprite.y;
+  
+    // Flip sprite for left/right movement
+    if (dx < 0) {
+        this.player.sprite.setFlipX(true);
+    } else if (dx > 0) {
+        this.player.sprite.setFlipX(false);
+    }
+  
+    // Play step sound with random pitch variation
+    const stepSound = this.sound.add('step'); // Ensure 'step' is preloaded
+    stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slight pitch variation
+    stepSound.play();
+  
+    // Move player along the path
+    this.tweens.add({
+        targets: this.player.sprite,
+        x: targetX,
+        y: targetY,
+        duration: 200,
+        ease: 'Linear',
+        onComplete: () => {
+            this.player.gridX = nextTile.x;
+            this.player.gridY = nextTile.y;
+  
+            if (this.currentPath.length > 0) {
+                moveNext();
+            }
+        }
+    });
+  
+    // Apply bobbing & swinging effect **only for left/right movement**
+    if (Math.abs(dx) > Math.abs(dy)) {
+        // Bobbing effect for left/right movement
+        this.tweens.add({
+            targets: this.player.sprite,
+            y: this.player.sprite.y - 4, // Bob up slightly
+            duration: 100,
+            ease: 'Sine.easeInOut',
+            yoyo: true, // Bob back down
+        });
+  
+        // Swinging effect for left/right movement
+        this.tweens.add({
+            targets: this.player.sprite,
+            angle: dx > 0 ? 5 : -5, // Tilt forward slightly in movement direction
+            duration: 100,
+            ease: 'Sine.easeInOut',
+            yoyo: true, // Swing back
+        });
+    }
+    
+    // Apply sway effect for up/down movement
+    if (Math.abs(dy) > Math.abs(dx)) {
+        // Swinging effect for up/down movement (without bobbing)
+        this.tweens.add({
+            targets: this.player.sprite,
+            angle: dy > 0 ? 5 : -5, // Tilt slightly forward or backward in movement direction
+            duration: 100,
+            ease: 'Sine.easeInOut',
+            yoyo: true, // Swing back
+        });
+    }
+  };
+  
   moveNext();
 }
 isPathValid() {
