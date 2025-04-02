@@ -9,6 +9,7 @@ import { GameEntity, PlayerEntity } from './entities';
 import PhaserEntity from './phaserEntity'
 import ControlSquare from '../ControlSquare/ControlSquare';
 import populateDungeon from './populateDungeon'
+import { populateMonsters } from './monsters.js';
 export default class DungeonScene extends Phaser.Scene {
 
   constructor() {
@@ -54,6 +55,8 @@ export default class DungeonScene extends Phaser.Scene {
     this.stairConnections = new window.Map([]); // Track level stair links
     this.transitionDirection = null; // Track whether we're going "up" or "down"
     this.hasArisen = false;
+
+
   }
   init(data) {
     // Receive transition data from previous scene
@@ -161,6 +164,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.createPlayer(characterSheet); // Pass the characterSheet to the player creation function
     this.setupInput();
     this.engine.start();
+  
     
     const stairsDown = { type: 'stairs', direction: 'down' };
     const stairsUp = { type: 'stairs', direction: 'up' };
@@ -232,6 +236,9 @@ export default class DungeonScene extends Phaser.Scene {
   });
   
   
+
+  populateMonsters(this);
+
 
 }  
   updatePlayerSprite(isWearingArmor) {
@@ -387,6 +394,7 @@ zoomOutCamera() {
     this.load.audio('jump', '/phaser-resources/audio/text-message.ogg');
     this.load.audio('pickup', '/phaser-resources/audio/Pickup_Coin.wav');
     this.load.audio('menuClick','/phaser-resources/audio/MenuSelectionClick.wav')
+    this.load.image('lutin', '/phaser-resources/images/npcs/lutin.png');
     this.load.image('redCent', '/phaser-resources/images/items/redCent.png');
     this.load.image('armour', '/phaser-resources/images/items/armour.png');
     this.load.image('character', '/phaser-resources/images/placeholders/log0.png');
@@ -989,28 +997,6 @@ isExplored(x, y) {
 
 
 
-createTouchEffect(x, y) {
-  // Create a circle (can also use an image or sprite) to represent the touch effect
-  const touchEffect = this.add.graphics();
-  touchEffect.lineStyle(3, 0xffffff, 1);
-  touchEffect.fillStyle(0xffffff, 0.4); // Semi-transparent fill
-  touchEffect.fillCircle(x, y, 10); // Initial size of the circle
-
-  // Animate the touch effect to "pulse" outwards and fade away
-  this.tweens.add({
-    targets: touchEffect,
-    scaleX: 4,  // Increase the size to 4x
-    scaleY: 4,  // Increase the size to 4x
-    alpha: 0,   // Fade out the circle
-    duration: 500, // 500ms duration for the effect
-    ease: 'Sine.easeOut',
-    onComplete: () => {
-      // Clean up the effect after animation is complete
-      touchEffect.destroy();
-    }
-  });
-}
-
 
 
 
@@ -1243,49 +1229,45 @@ getTileFrame(tileValue, x, y) {
       }
     },
     1: { // Wall tiles
-      center: [91], // Center wall tiles
-      north: [101,102,103],  // North edge wall tiles
-      south: [91], // South edge wall tiles
-      west: [91], // West edge wall tiles
-      east: [91], // East edge wall tiles
+      center: [91],
+      north: [101,102,103],  
+      south: [91],
+      west: [91],
+      east: [91],
       corners: {
-        nw: 101, // North-West corner wall tile
-        ne: 101, // North-East corner wall tile
-        sw: 91, // South-West corner wall tile
-        se: 91  // South-East corner wall tile
+        nw: 101,
+        ne: 101,
+        sw: 91,
+        se: 91
       }
     },
     2: 6,
     3: 7
   };
 
-  // Handle non-floor tiles first (Walls)
+  // Walls
   if (tileValue === 1) {
-    // Check surrounding wall structure
     const isNorthEdge = y > 0 && this.map[x][y - 1] !== 1;
     const isSouthEdge = y < this.map[0].length - 1 && this.map[x][y + 1] !== 1;
     const isWestEdge = x > 0 && this.map[x - 1][y] !== 1;
     const isEastEdge = x < this.map.length - 1 && this.map[x + 1][y] !== 1;
 
-    // Check corners first
     if (isNorthEdge && isWestEdge) return variants[1].corners.nw;
     if (isNorthEdge && isEastEdge) return variants[1].corners.ne;
     if (isSouthEdge && isWestEdge) return variants[1].corners.sw;
     if (isSouthEdge && isEastEdge) return variants[1].corners.se;
 
-    // Check edges
     if (isNorthEdge) return Phaser.Math.RND.pick(variants[1].north);
     if (isSouthEdge) return Phaser.Math.RND.pick(variants[1].south);
     if (isWestEdge) return Phaser.Math.RND.pick(variants[1].west);
     if (isEastEdge) return Phaser.Math.RND.pick(variants[1].east);
 
-    // Default to center tile
     return Phaser.Math.RND.pick(variants[1].center);
   }
 
-  // Existing floor tile logic
+  // Floors
   const roomId = this.roomMap[x][y];
-  if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor
+  if (roomId === -1) return Phaser.Math.RND.pick(variants[0].center); // Corridor floor
 
   const room = this.rooms[roomId];
   const bounds = {
@@ -1295,13 +1277,24 @@ getTileFrame(tileValue, x, y) {
     bottom: room.getBottom()
   };
 
-  // Check if tile is on room edge
+  // Check if tile is an edge of a room
   const isNorthEdge = y === bounds.top;
   const isSouthEdge = y === bounds.bottom;
   const isWestEdge = x === bounds.left;
   const isEastEdge = x === bounds.right;
 
-  // Check corners first
+  // **Check if edge is next to a corridor** - If true, use center floor tile
+  const nextToCorridor =
+    (x > 0 && this.roomMap[x - 1][y] === -1) ||  // Left
+    (x < this.map.length - 1 && this.roomMap[x + 1][y] === -1) || // Right
+    (y > 0 && this.roomMap[x][y - 1] === -1) || // Above
+    (y < this.map[0].length - 1 && this.roomMap[x][y + 1] === -1); // Below
+
+  if (nextToCorridor) {
+    return Phaser.Math.RND.pick(variants[0].center); // Use a center tile to hide transition
+  }
+
+  // Otherwise, apply normal edge tiles
   if (isNorthEdge) {
     if (isWestEdge) return variants[0].corners.nw;
     if (isEastEdge) return variants[0].corners.ne;
@@ -1314,11 +1307,12 @@ getTileFrame(tileValue, x, y) {
     return Phaser.Math.RND.pick(variants[0].south);
   }
 
-  if (isWestEdge) return variants[0].west[0];
-  if (isEastEdge) return variants[0].east[0];
+  if (isWestEdge) return Phaser.Math.RND.pick(variants[0].west);
+  if (isEastEdge) return Phaser.Math.RND.pick(variants[0].east);
 
-  // Default to center tile
   return Phaser.Math.RND.pick(variants[0].center);
+
+
 }
 
   setupTouchInput() {
@@ -1576,7 +1570,6 @@ createPlayer(characterSheet) {
 
   // Add player to the turn scheduler
   this.scheduler.add(this.player, true);
-
   // Set camera to follow the player
   this.cameras.main.startFollow(this.player.sprite);
   this.cameras.main.setFollowOffset(0, 10);
@@ -1699,7 +1692,6 @@ generateDungeon(previousDownStairs) {
   }
 
 
- 
 }
 
 // Function to check if stairs already exist

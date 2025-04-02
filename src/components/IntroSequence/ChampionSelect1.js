@@ -579,15 +579,16 @@ this.spinWheel = (velocity) => {
     // Update the wheel rotation in the game loop
     scene.events.on('update', this.updateWheel, this);
 
-    // this.scene.tweens.add({
-    //   targets: this.wheel,
-    //   angle: 5,  // Slight, varied nudge
-    //   duration: 800,  // Faster, more natural movement
-    //   ease: 'Sine.easeInOut',  // Smooth start & stop
-    //   delay: 1500,  // 1-second delay before it starts
-    //   yoyo: true,  // Moves back to original position
-    //   repeat: 0 
-    // });
+    this.scene.tweens.add({
+      targets: this.wheel,
+      angle: 5,  // Slight, varied nudge
+      duration: 800,  // Faster, more natural movement
+      ease: 'Sine.easeInOut',  // Smooth start & stop
+      delay: 1500,  // 1-second delay before it starts
+      yoyo: true,  // Moves back to original position
+      repeat: 0 
+    });
+    
     
 // Function to change text with fade effect
 this.fadeText = (newText) => {
