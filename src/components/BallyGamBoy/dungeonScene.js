@@ -22,6 +22,7 @@ export default class DungeonScene extends Phaser.Scene {
         });
       }
     });
+    this.unlockInProgress = false;
     this.lastClickedTile = null;
     this.shouldDrawPath = true;  // Flag to control whether the path should be drawn
     this.hasPlayedInitialAnimation = localStorage.getItem('dungeonInitialAnimationPlayed');
@@ -39,6 +40,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.entities = [];
     this.scheduler = new Scheduler.Simple();
     this.engine = new Engine(this.scheduler);
+    
     this.tiles = null; // Explicit initialization
     this.minRooms = 5;          // Minimum number of rooms to generate
     this.maxAttempts = 50;      // Maximum attempts s
@@ -56,6 +58,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.transitionDirection = null; // Track whether we're going "up" or "down"
     this.hasArisen = false;
 
+    this.engineLocked = false;
 
   }
   init(data) {
@@ -164,7 +167,8 @@ export default class DungeonScene extends Phaser.Scene {
     this.createPlayer(characterSheet); // Pass the characterSheet to the player creation function
     this.setupInput();
     this.engine.start();
-  
+  console.log("Engine started!");
+
     
     const stairsDown = { type: 'stairs', direction: 'down' };
     const stairsUp = { type: 'stairs', direction: 'up' };
@@ -235,12 +239,56 @@ export default class DungeonScene extends Phaser.Scene {
       }
   });
   
-  
+
 
   populateMonsters(this);
+  console.log("Scheduler type:", this.scheduler);
 
-
+  console.log("Entities scheduled:");
+  console.log(this.scheduler.getTimeOf(this.player)); // Check if player is scheduled
+  console.log(this.scheduler.getTimeOf(this.lutin));  // Check if Lutin is scheduled
+  console.log(this.scheduler.next()); // See which entity is next
 }  
+
+
+
+processTurn() {
+  // Lock the engine to prevent multiple inputs
+  
+  this.engine.lock();
+  this.engineLocked = true;
+  
+  // Let the player take their turn
+  this.player.act().then(() => {
+      // Once the player acts, process enemy turns
+      this.processEnemies();
+  });
+}
+
+processEnemies() {
+// Loop through all enemies
+this.entities.forEach(entity => {
+    if (entity !== this.player && entity.act) {
+        entity.act();
+    }
+});
+
+// After enemies act, give control back to the player
+if (this.scene.engineLocked) {
+  this.scene.engine.unlock();
+  this.scene.engineLocked = false;
+} else {
+  console.warn("Engine already unlocked.");
+}
+
+}
+
+logSchedulerState() {
+  console.log("Scheduler state check:");
+  console.log("- Current actor:", this.engine._current ? "Present" : "None");
+  console.log("- Locked:", this.engine._lock);
+  console.log("- Action pending:", this.engine._lock && this.engine._current ? "Yes" : "No");
+}
   updatePlayerSprite(isWearingArmor) {
     if (!this.player || !this.player.sprite) {
         console.error("Player sprite not found!");
@@ -480,89 +528,60 @@ spawnDustMote() {
 }
 
 update(time, delta) {
-
-// Add these diagnostic logs at the start of the method
-
-if (this.dustMotes && this.dustMotes.length > 0) {
-  // ... existing dustMotes code ...
-}
-
-if (this.playerHasMoved()) {
-  this.controlSquare.setActionMenuActive(false);  // Reset the action menu active state
-}
-
-if (this.actionMenu) {
-  this.actionMenu.update();
-}
-
-if (this.optionMenu) {
-  try {
-    this.optionMenu.update();
-  } catch (error) {
-  }
-} else {
-}
-
-
-
+  // Handle dust motes
   if (this.dustMotes && this.dustMotes.length > 0) {
     this.dustMotes.forEach((dustMote, index) => {
-      // Fade in as the mote ascends
       if (dustMote.alpha < 1) {
-                dustMote.alpha += dustMote.fadeSpeed;  // Increase alpha to fade in
-              }
-              
-              // Update Y position to move upwards
-              dustMote.y -= dustMote.speedY * delta;  // Vertical drift upwards
-              
-              // Increase lifetime and fade out when it hits its max lifetime (around 4 seconds)
-              dustMote.lifetime += delta;
-              if (dustMote.lifetime > 4000) {  // After 4 seconds
-                this.dustMotes.splice(index, 1); // Remove it from the array
-                dustMote.destroy(); // Clean up the dust mote
-            }
-          });
-        }
+        dustMote.alpha += dustMote.fadeSpeed;
+      }
+
+      dustMote.y -= dustMote.speedY * delta;
+      dustMote.lifetime += delta;
+
+      if (dustMote.lifetime > 4000) {
+        this.dustMotes.splice(index, 1);
+        dustMote.destroy();
+      }
+    });
+  }
+
+  // Track player movement
   if (this.playerHasMoved()) {
+    this.controlSquare.setActionMenuActive(false);
     this.hasMoved = true;
-    // Update previous position after movement
     this.player.previousGridX = this.player.gridX;
     this.player.previousGridY = this.player.gridY;
   }
+
+  // Update menus
   if (this.actionMenu) {
     this.actionMenu.update();
   }
 
+  if (this.optionMenu) {
+    try {
+      this.optionMenu.update();
+    } catch (error) {
+      console.warn("Error updating OptionMenu:", error);
+    }
+  }
+
+  // Update light position & FOV
   if (this.player) {
-    // Smooth light movement
-    this.player.light.x = Phaser.Math.Linear(
-      this.player.light.x, 
-      this.player.sprite.x, 
-      0.2
-    );
-    this.player.light.y = Phaser.Math.Linear(
-      this.player.light.y, 
-      this.player.sprite.y, 
-      0.2
-    );
-    
-    // Update FOV more efficiently
+    this.player.light.x = Phaser.Math.Linear(this.player.light.x, this.player.sprite.x, 0.2);
+    this.player.light.y = Phaser.Math.Linear(this.player.light.y, this.player.sprite.y, 0.2);
+
     if (Date.now() - this.lastFOVUpdate > 100) {
       this.updateFOV();
       this.lastFOVUpdate = Date.now();
     }
   }
+
   this.handleStairInteraction();
 
 
-
-  if (this.optionMenu) {
-    // alert('Calling optionMenu update');
-
-    this.optionMenu.update();
-  }
-
 }
+
 
 
 
@@ -1540,6 +1559,7 @@ for (let x = 1; x < mapWidth - 1; x++) {
 }
 
 createPlayer(characterSheet) {
+  console.log("Player created and added to scheduler");
   const startRoom = this.dungeon.getRooms()[0];
 
   // Get random walkable position within the starting room
@@ -2009,6 +2029,7 @@ drawMap() {
         if (direction) {
     
           this.engine.lock();  // Locking the engine for movement
+          this.engineLocked = true;
           try {
             // Ensure this.player is an instance of PlayerEntity
             if (this.player && typeof this.player.move === 'function') {
@@ -2020,7 +2041,13 @@ drawMap() {
           } catch (error) {
             console.error("Player move failed", error);
           }
-          this.engine.unlock();  // Unlocking after movement
+          if (this.scene.engineLocked) {
+            this.scene.engine.unlock();
+            this.scene.engineLocked = false;
+          } else {
+            console.warn("Engine already unlocked.");
+          }
+          
         }
       });
     }

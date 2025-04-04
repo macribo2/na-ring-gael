@@ -136,7 +136,6 @@ export class DroppedItem extends GameEntity {
     });
   }
 }
-
 export class PlayerEntity extends GameEntity {
   constructor(scene, x, y) {
     super(scene, x, y, GameEntity.ENTITY_TYPES.PLAYER);
@@ -152,6 +151,9 @@ export class PlayerEntity extends GameEntity {
     this.pendingInput = false; // Prevent multiple inputs in the same frame
     this.name = "Tomás Tástál"
     this.inventory = new Inventory();  // Use the Inventory class for the player's inventory
+    
+    // New fields for ROT.js scheduler
+    this.currentResolve = null;
 
     // Menu state flag
     this.isOptionMenuOpen = false;
@@ -174,7 +176,7 @@ export class PlayerEntity extends GameEntity {
     } else {
         console.log("Inventory full. Cannot pick up item.");
     }
-}
+  }
 
   // Check for nearby items and interact with them
   interactWithItems() {
@@ -199,6 +201,55 @@ export class PlayerEntity extends GameEntity {
     }
   }
 
+  act() {
+    console.log("Player's turn!");
+    this.scene.awaitPlayerInput = true;
+  
+    // Enable controls here (allow the player to interact)
+    this.scene.input.keyboard.enabled = true;
+    this.scene.events.emit("playerTurnStarted"); // Custom event for other game logic if needed
+  
+    // Return a promise that resolves when the player's turn is done
+    return new Promise(resolve => {
+      this.currentResolve = resolve;  // When the player's action completes, call resolve
+    });
+  }
+  
+  
+  // Call this when player's move animation completes
+  handleActionComplete() {
+    console.log("Player's turn completed.");
+    
+    if (this.currentResolve) {
+      // Tell the scheduler we're done with our turn
+      this.currentResolve();
+      this.currentResolve = null;
+      this.scene.awaitPlayerInput = false;
+      
+      // For debugging
+      if (this.scene.debugScheduler) {
+        this.scene.debugScheduler();
+      }
+    }
+  }
+  // This method should be called after the player has made a move
+  // (from your input handler or move() method)
+  handleActionComplete() {
+    console.log("Player's turn completed.");
+    
+    if (this.currentResolve) {
+      this.currentResolve(); // Resolve the promise to tell the scheduler we're done
+      this.currentResolve = null;
+      this.scene.awaitPlayerInput = false;
+    }
+  }
+
+  waitForInput() {
+    return new Promise(resolve => {
+      this.inputResolver = resolve;
+    });
+  }
+
   resolveInput() {
     if (this.pendingInput || this.isOptionMenuOpen) {
       return; // Don't process if there's already a pending input or menu is open
@@ -211,120 +262,113 @@ export class PlayerEntity extends GameEntity {
     }
   }
 
-  act() {
-    return new Promise(resolve => {
-      this.waitForInput().then(() => {
-        this.energy -= 100;
-        resolve();
-      });
-    });
-  }
+  // Move method with cooldown logic and step sound
+  move(dx, dy) {
+    if (this.isOptionMenuOpen) return; // Don't move if menu is open
 
-  waitForInput() {
-    return new Promise(resolve => {
-      this.inputResolver = resolve;
-    });
-  }
+    const currentTime = this.scene.time.now;
 
-// Move method with cooldown logic
-// Move method with step sound
-move(dx, dy) {
-  if (this.isOptionMenuOpen) return; // Don't move if menu is open
+    if (currentTime - this.lastMoveTime >= this.moveCooldown) {
+      this.lastMoveTime = currentTime; // Update the last move time
 
-  const currentTime = this.scene.time.now;
+      const newGridX = this.gridX + dx;
+      const newGridY = this.gridY + dy;
 
-  if (currentTime - this.lastMoveTime >= this.moveCooldown) {
-    this.lastMoveTime = currentTime; // Update the last move time
-
-    const newGridX = this.gridX + dx;
-    const newGridY = this.gridY + dy;
-
-    if (!this.scene || !this.scene.map) {
-      console.error("Scene or map is undefined.");
-      return;
-    }
-
-    if (this.scene.map[newGridX] && this.scene.map[newGridX][newGridY] === 0) {
-      this.gridX = newGridX;
-      this.gridY = newGridY;
-
-      const newX = (this.gridX + 0.5) * 32;
-      const newY = (this.gridY + 0.5) * 32;
-
-      console.log(`Player moving to: (${newX}, ${newY})`);
-
-      if (dx < 0) {
-        this.sprite.setFlipX(true);
-      } else if (dx > 0) {
-        this.sprite.setFlipX(false);
+      if (!this.scene || !this.scene.map) {
+        console.error("Scene or map is undefined.");
+        return;
       }
 
-      // Play step sound with random pitch variation
-      const stepSound = this.scene.sound.add('step');
-      stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slightly vary pitch
-      stepSound.play();
+      if (this.scene.map[newGridX] && this.scene.map[newGridX][newGridY] === 0) {
+        this.gridX = newGridX;
+        this.gridY = newGridY;
 
-      // Smooth transition
-      this.scene.tweens.add({
-        targets: this.sprite,
-        x: newX,
-        y: newY,
-        duration: 150,
-        ease: 'Linear',
-        onComplete: () => {
-          this.x = newX;
-          this.y = newY;
-          this.pendingInput = false;
-          this.interactWithItems();
+        const newX = (this.gridX + 0.5) * 32;
+        const newY = (this.gridY + 0.5) * 32;
+
+        console.log(`Player moving to: (${newX}, ${newY})`);
+
+        if (dx < 0) {
+          this.sprite.setFlipX(true);
+        } else if (dx > 0) {
+          this.sprite.setFlipX(false);
         }
-      });
 
-      // Bobbing & Swinging Effect (left/right only)
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // Bobbing effect for left/right movement
+        // Play step sound with random pitch variation
+        const stepSound = this.scene.sound.add('step');
+        stepSound.setDetune(Phaser.Math.Between(-100, 100)); // Slightly vary pitch
+        stepSound.play();
+
+        // Smooth transition
         this.scene.tweens.add({
           targets: this.sprite,
-          y: this.sprite.y - 4,
-          duration: 75,
-          ease: 'Sine.easeInOut',
-          yoyo: true,
+          x: newX,
+          y: newY,
+          duration: 150,
+          ease: 'Linear',
+          onComplete: () => {
+            this.x = newX;
+            this.y = newY;
+            this.pendingInput = false;
+            this.interactWithItems();
+            console.log("Calling handleActionComplete to end player turn");
+
+            // Complete the player's turn after movement is done
+            this.handleActionComplete();
+          }
         });
 
-        // Swinging effect for left/right movement
-        this.scene.tweens.add({
-          targets: this.sprite,
-          angle: dx > 0 ? 5 : -5,
-          duration: 75,
-          ease: 'Sine.easeInOut',
-          yoyo: true,
-        });
-      }
+        // Bobbing & Swinging Effect (left/right only)
+        if (Math.abs(dx) > Math.abs(dy)) {
+          // Bobbing effect for left/right movement
+          this.scene.tweens.add({
+            targets: this.sprite,
+            y: this.sprite.y - 4,
+            duration: 75,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+          });
 
-      // Apply sway effect for up/down movement (no bobbing)
-      if (Math.abs(dy) > Math.abs(dx)) {
-        // Swinging effect for up/down movement
-        this.scene.tweens.add({
-          targets: this.sprite,
-          angle: dy > 0 ? 5 : -5, // Tilt forward or backward in movement direction
-          duration: 75,
-          ease: 'Sine.easeInOut',
-          yoyo: true, // Swing back
-        });
+          // Swinging effect for left/right movement
+          this.scene.tweens.add({
+            targets: this.sprite,
+            angle: dx > 0 ? 5 : -5,
+            duration: 75,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+          });
+        }
+
+        // Apply sway effect for up/down movement (no bobbing)
+        if (Math.abs(dy) > Math.abs(dx)) {
+          // Swinging effect for up/down movement
+          this.scene.tweens.add({
+            targets: this.sprite,
+            angle: dy > 0 ? 5 : -5, // Tilt forward or backward in movement direction
+            duration: 75,
+            ease: 'Sine.easeInOut',
+            yoyo: true, // Swing back
+          });
+        }
+      } else {
+        console.log(`Blocked! Cannot move to (${newGridX}, ${newGridY})`);
+        this.pendingInput = false;
       }
     } else {
-      console.log(`Blocked! Cannot move to (${newGridX}, ${newGridY})`);
-      this.pendingInput = false;
+      console.log("Move cooldown active. Wait before moving again.");
     }
-  } else {
-    console.log("Move cooldown active. Wait before moving again.");
   }
-}
-
-
 
   updatePosition() {
     if (this.sprite) {
       this.sprite.setPosition(this.x, this.y);
     }
   }
+  
+  // Remove this method as it's causing the double-unlock issue
+  // performAction(callback) {
+  //   console.log("Player's turn!");
+  //   this.scene.awaitPlayerInput = true; // Stop automatic progression
+  //   callback(); // This is causing the problem!
+  // }
 }
